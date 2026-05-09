@@ -2223,14 +2223,22 @@ function initApp() {
     if (fbMsg) fbMsg.textContent = '載入資料中...';
 
     // 並行讀取三種資料
+    // Firebase 陣列轉換（Firebase 會把陣列存成物件，需要轉回陣列）
+    function toArray(val) {
+      if (!val) return [];
+      if (Array.isArray(val)) return val.filter(function(x){ return x != null; });
+      if (typeof val === 'object') return Object.keys(val).sort(function(a,b){return a-b;}).map(function(k){ return val[k]; }).filter(function(x){ return x != null; });
+      return [];
+    }
+
     Promise.all([
       window._firebaseGet(window._firebaseRef('taxi/records')),
       window._firebaseGet(window._firebaseRef('taxi/maint')),
       window._firebaseGet(window._firebaseRef('taxi/parttime'))
     ]).then(function(snaps) {
-      _taxiRecs  = snaps[0].exists() ? snaps[0].val() : (JSON.parse(localStorage.getItem('taxi_records')||'[]'));
-      _maintRecs = snaps[1].exists() ? snaps[1].val() : (JSON.parse(localStorage.getItem('maint_records')||'[]'));
-      _ptRecs    = snaps[2].exists() ? snaps[2].val() : (JSON.parse(localStorage.getItem('parttime_recs')||'[]'));
+      _taxiRecs  = snaps[0].exists() ? toArray(snaps[0].val()) : (JSON.parse(localStorage.getItem('taxi_records')||'[]'));
+      _maintRecs = snaps[1].exists() ? toArray(snaps[1].val()) : (JSON.parse(localStorage.getItem('maint_records')||'[]'));
+      _ptRecs    = snaps[2].exists() ? toArray(snaps[2].val()) : (JSON.parse(localStorage.getItem('parttime_recs')||'[]'));
       // 若本地有資料但雲端沒有，自動上傳
       if (!snaps[0].exists() && _taxiRecs.length)  window._firebaseSet(window._firebaseRef('taxi/records'),  _taxiRecs);
       if (!snaps[1].exists() && _maintRecs.length) window._firebaseSet(window._firebaseRef('taxi/maint'),   _maintRecs);
