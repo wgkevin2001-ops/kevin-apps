@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>達標後每月配息試算</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #fdf8ed;
+  --bg2:     #faf3e0;
+  --card:    rgba(255,248,210,0.80);
+  --card2:   rgba(255,243,190,0.60);
+  --border:  rgba(200,160,40,0.18);
+  --border2: rgba(200,160,40,0.38);
+  --text:    #4a3700;
+  --muted:   #a07c20;
+  --muted2:  #c8a84b;
+  --accent:  #c08000;
+  --accent2: #e6a800;
+  --lime:    #7a9e00;
+  --mint:    #d4a017;
+  --teal:    #b07800;
+  --sky:     #e8c040;
+  --gold:    #d4860a;
+  --blue:    #6080c0;
+  --purple:  #9060b0;
+  --orange:  #c06010;
+  --yellow:  #e6b800;
+  --red:     #c04040;
+  --pink:    #c06090;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+html { font-size:17px; }
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Noto Sans TC',sans-serif;
+  min-height:100vh;
+  padding:32px 18px 80px;
+}
+body::before {
+  content:''; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 10% 0%,   rgba(220,180,40,0.10)  0%, transparent 65%),
+    radial-gradient(ellipse 50% 40% at 90% 95%,  rgba(240,200,60,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 40% 35% at 55% 50%,  rgba(200,160,20,0.08)   0%, transparent 70%);
+}
+.wrap { position:relative; z-index:1; max-width:920px; margin:0 auto; }
+
+/* HEADER */
+header { text-align:center; margin-bottom:36px; }
+header h1 {
+  font-family:'Syne',sans-serif; font-weight:800;
+  font-size:2.6rem; color:var(--accent);
+  letter-spacing:-0.01em; line-height:1.1;
+}
+header p { font-family:'DM Mono',monospace; font-size:0.82rem; color:var(--muted); margin-top:8px; letter-spacing:0.07em; }
+
+/* ACTION BAR */
+.action-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; gap:12px; flex-wrap:wrap; }
+.toggle-wrap { display:flex; }
+.toggle-btn {
+  padding:10px 24px; font-size:0.88rem; font-family:'DM Mono',monospace;
+  border:1px solid var(--border2); background:var(--card); color:var(--muted);
+  cursor:pointer; transition:all 0.2s; letter-spacing:0.05em;
+}
+.toggle-btn:first-child { border-radius:10px 0 0 10px; }
+.toggle-btn:last-child  { border-radius:0 10px 10px 0; border-left:none; }
+.toggle-btn.active { background:rgba(192,128,0,0.14); color:var(--accent); border-color:rgba(192,128,0,0.5); }
+
+.btn-group { display:flex; gap:8px; flex-wrap:wrap; }
+.btn-manage {
+  display:flex; align-items:center; gap:7px;
+  padding:10px 20px; font-size:0.88rem; font-family:'DM Mono',monospace;
+  border:1px solid var(--border2); background:var(--card);
+  color:var(--accent); border-radius:10px; cursor:pointer; transition:all 0.2s;
+  letter-spacing:0.04em; white-space:nowrap;
+}
+.btn-manage:hover { background:rgba(192,128,0,0.12); }
+.btn-excel {
+  display:flex; align-items:center; gap:7px;
+  padding:10px 20px; font-size:0.88rem; font-family:'DM Mono',monospace;
+  border:1px solid rgba(122,158,0,0.35); background:rgba(122,158,0,0.08);
+  color:var(--lime); border-radius:10px; cursor:pointer; transition:all 0.2s;
+  letter-spacing:0.04em; white-space:nowrap;
+}
+.btn-excel:hover { background:rgba(122,158,0,0.16); }
+.btn-save {
+  display:flex; align-items:center; gap:7px;
+  padding:10px 20px; font-size:0.88rem; font-family:'DM Mono',monospace;
+  border:1px solid rgba(192,128,0,0.40); background:rgba(192,128,0,0.10);
+  color:var(--accent); border-radius:10px; cursor:pointer; transition:all 0.2s;
+  letter-spacing:0.04em; white-space:nowrap;
+}
+.btn-save:hover { background:rgba(192,128,0,0.20); }
+
+/* SUMMARY */
+.summary { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:30px; }
+.sum-card {
+  background:var(--card); border:1px solid var(--border2); border-radius:14px;
+  padding:20px 16px; text-align:center; position:relative; overflow:hidden;
+}
+.sum-card::before { content:''; position:absolute; top:0;left:0;right:0; height:3px; }
+.sum-card.green::before { background:linear-gradient(90deg,var(--accent),var(--yellow)); }
+.sum-card.teal::before  { background:linear-gradient(90deg,var(--teal),var(--gold)); }
+.sum-card.gold::before  { background:linear-gradient(90deg,var(--gold),#e6b800); }
+.sum-label { font-size:0.72rem; color:var(--muted); letter-spacing:0.09em; text-transform:uppercase; margin-bottom:8px; font-family:'DM Mono',monospace; }
+.sum-value { font-family:'DM Mono',monospace; font-size:1.5rem; font-weight:500; line-height:1; }
+.sum-value.green { color:var(--accent); }
+.sum-value.teal  { color:var(--teal); }
+.sum-value.gold  { color:var(--gold); }
+.sum-sub { font-size:0.7rem; color:var(--muted); margin-top:6px; font-family:'DM Mono',monospace; }
+
+/* MONTHS */
+.months { display:flex; flex-direction:column; gap:10px; }
+.month-block {
+  background:var(--card); border:1px solid var(--border); border-radius:16px; overflow:hidden;
+}
+.month-block.active { border-color:var(--border2); }
+.month-block.top    { border-color:rgba(192,128,0,0.55); background:rgba(255,240,180,0.45); }
+
+.month-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 20px 14px; border-bottom:1px solid var(--border);
+}
+.month-left  { display:flex; align-items:center; gap:16px; }
+.month-num {
+  font-family:'Syne',sans-serif; font-weight:800;
+  font-size:2.8rem; color:var(--muted2); line-height:1; min-width:52px;
+}
+.month-block.active .month-num { color:var(--accent2); }
+.month-block.top    .month-num { color:var(--accent); }
+.month-name-zh { font-size:1.1rem; font-weight:700; color:var(--text); }
+.month-etf-count { font-size:0.76rem; color:var(--muted); margin-top:4px; font-family:'DM Mono',monospace; }
+.month-right { text-align:right; }
+.month-total { font-family:'DM Mono',monospace; font-size:1.45rem; font-weight:500; color:var(--text); }
+.month-block.top .month-total { color:var(--accent); }
+.month-total-sub { font-size:0.7rem; color:var(--muted); margin-top:3px; }
+.top-badge {
+  display:inline-block; background:linear-gradient(135deg,var(--accent),var(--yellow));
+  color:#fff8e0; font-size:0.62rem; font-weight:700;
+  padding:2px 9px; border-radius:20px; margin-left:8px; vertical-align:middle;
+}
+
+/* ETF ROWS */
+.etf-rows { padding:12px 20px 6px; }
+.no-income { padding:14px 20px 18px; font-size:0.85rem; color:var(--muted); font-family:'DM Mono',monospace; }
+.etf-row {
+  display:grid;
+  grid-template-columns:10px 72px 1fr auto auto;
+  align-items:center; gap:10px;
+  padding:8px 0; border-bottom:1px solid rgba(200,160,40,0.12);
+}
+.etf-row:last-child { border-bottom:none; }
+.etf-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; }
+.etf-row-id   { font-family:'DM Mono',monospace; font-size:0.86rem; color:var(--accent); }
+.etf-row-name { font-size:0.8rem; color:var(--muted); }
+.etf-row-detail { font-family:'DM Mono',monospace; font-size:0.76rem; color:var(--muted); text-align:right; }
+.etf-row-amount { font-family:'DM Mono',monospace; font-size:0.98rem; font-weight:500; text-align:right; min-width:80px; }
+
+.diff-badge {
+  font-family:'DM Mono',monospace; font-size:0.7rem;
+  padding:2px 8px; border-radius:10px; margin-left:8px;
+}
+.diff-up   { background:rgba(192,128,0,0.14); color:var(--accent); }
+.diff-down { background:rgba(192,64,64,0.14); color:var(--red); }
+.diff-same { background:rgba(0,0,0,0.05); color:var(--muted); }
+
+/* BAR */
+.income-bar-wrap { padding:8px 20px 14px; }
+.income-bar-bg { height:5px; background:rgba(200,160,40,0.12); border-radius:4px; overflow:hidden; }
+.income-bar-fill { height:100%; border-radius:4px; transition:width 1s cubic-bezier(.4,0,.2,1); }
+
+/* DOT COLORS */
+.c-green  { background:var(--accent); }
+.c-mint   { background:var(--mint); }
+.c-teal   { background:var(--teal); }
+.c-lime   { background:var(--lime); }
+.c-sky    { background:var(--sky); }
+.c-blue   { background:var(--blue); }
+.c-purple { background:var(--purple); }
+.c-orange { background:var(--orange); }
+.c-yellow { background:var(--yellow); }
+.c-gold   { background:var(--gold); }
+.c-pink   { background:var(--pink); }
+.t-green  { color:var(--accent); }
+.t-mint   { color:var(--mint); }
+.t-teal   { color:var(--teal); }
+.t-lime   { color:var(--lime); }
+.t-sky    { color:var(--sky); }
+.t-blue   { color:var(--blue); }
+.t-purple { color:var(--purple); }
+.t-orange { color:var(--orange); }
+.t-yellow { color:var(--yellow); }
+.t-gold   { color:var(--gold); }
+.t-pink   { color:var(--pink); }
+
+/* ===== MANAGE PANEL ===== */
+.manage-section {
+  background:var(--card); border:1px solid var(--border2); border-radius:16px;
+  margin-bottom:22px; overflow:hidden;
+}
+.manage-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 20px; border-bottom:1px solid var(--border);
+  cursor:pointer; user-select:none;
+}
+.manage-title { font-size:0.95rem; font-weight:700; color:var(--accent); }
+.manage-subtitle { font-size:0.73rem; color:var(--muted); font-family:'DM Mono',monospace; margin-left:10px; }
+.manage-chevron { color:var(--muted); transition:transform 0.2s; }
+.manage-chevron.open { transform:rotate(180deg); }
+.manage-body { display:none; padding:14px 18px 20px; }
+.manage-body.open { display:block; }
+
+/* TABS */
+.tab-bar { display:flex; gap:0; margin-bottom:16px; }
+.tab-btn {
+  padding:8px 20px; font-size:0.82rem; font-family:'DM Mono',monospace;
+  border:1px solid var(--border2); background:transparent; color:var(--muted);
+  cursor:pointer; transition:all 0.2s; letter-spacing:0.05em;
+}
+.tab-btn:first-child { border-radius:8px 0 0 8px; }
+.tab-btn:last-child  { border-radius:0 8px 8px 0; border-left:none; }
+.tab-btn.active { background:rgba(192,128,0,0.12); color:var(--accent); border-color:rgba(192,128,0,0.4); }
+
+/* --- TAB: 新增 ETF --- */
+.add-tab, .sell-tab, .edit-tab { display:none; }
+.add-tab.active, .sell-tab.active, .edit-tab.active { display:block; }
+
+/* EDIT LIST (持倉編輯) */
+.manage-list { display:flex; flex-direction:column; gap:8px; margin-bottom:6px; }
+.manage-col-label {
+  display:grid;
+  grid-template-columns:10px 78px minmax(100px,1fr) 86px 86px 86px 86px 120px;
+  gap:8px; padding:4px 10px 10px;
+  font-size:0.62rem; color:var(--muted); font-family:'DM Mono',monospace;
+  letter-spacing:0.07em; text-transform:uppercase;
+  border-bottom:1px solid var(--border); margin-bottom:4px;
+}
+.manage-row {
+  display:grid;
+  grid-template-columns:10px 78px minmax(100px,1fr) 86px 86px 86px 86px 120px;
+  align-items:center; gap:8px;
+  padding:10px 10px; background:rgba(255,245,200,0.55);
+  border:1px solid rgba(200,160,40,0.15); border-radius:10px;
+}
+.manage-dot-wrap { display:flex; align-items:center; }
+.mdot { width:10px; height:10px; border-radius:50%; }
+.manage-input {
+  background:rgba(255,252,230,0.80); border:1px solid rgba(200,160,40,0.25);
+  border-radius:6px; color:var(--text); font-family:'DM Mono',monospace;
+  font-size:0.82rem; padding:6px 9px; width:100%; outline:none; transition:border-color 0.2s;
+}
+.manage-input:focus { border-color:rgba(192,128,0,0.55); }
+.manage-input.id-input { color:var(--accent); }
+.manage-months-input {
+  background:rgba(255,252,230,0.80); border:1px solid rgba(200,160,40,0.25);
+  border-radius:6px; color:var(--orange); font-family:'DM Mono',monospace;
+  font-size:0.78rem; padding:6px 9px; width:100%; outline:none; transition:border-color 0.2s;
+}
+.manage-months-input:focus { border-color:rgba(192,128,0,0.55); }
+.manage-select {
+  background:rgba(255,252,230,0.80); border:1px solid rgba(200,160,40,0.25);
+  border-radius:6px; color:var(--text); font-family:'DM Mono',monospace;
+  font-size:0.8rem; padding:6px 5px; width:100%; outline:none; cursor:pointer;
+}
+
+/* SELL LIST */
+.sell-list { display:flex; flex-direction:column; gap:8px; }
+.sell-row {
+  display:grid;
+  grid-template-columns:10px 78px minmax(100px,1fr) 80px 80px auto;
+  align-items:center; gap:10px;
+  padding:12px 14px; background:rgba(255,245,200,0.55);
+  border:1px solid rgba(200,160,40,0.15); border-radius:10px;
+}
+.sell-info { font-size:0.78rem; color:var(--muted); font-family:'DM Mono',monospace; }
+.sell-qty  { font-family:'DM Mono',monospace; font-size:0.85rem; color:var(--text); }
+.btn-sell {
+  display:flex; align-items:center; gap:5px;
+  padding:6px 14px; font-size:0.78rem; font-family:'DM Mono',monospace;
+  border:1px solid rgba(248,113,113,0.3); background:rgba(248,113,113,0.08);
+  color:var(--red); border-radius:7px; cursor:pointer; transition:all 0.2s; white-space:nowrap;
+}
+.btn-sell:hover { background:rgba(248,113,113,0.2); }
+.sell-input {
+  background:rgba(255,252,230,0.80); border:1px solid rgba(200,160,40,0.25);
+  border-radius:6px; color:var(--text); font-family:'DM Mono',monospace;
+  font-size:0.82rem; padding:6px 9px; width:70px; outline:none; text-align:center;
+}
+.sell-input:focus { border-color:rgba(192,64,64,0.5); }
+
+/* ADD FORM */
+.add-form {
+  background:rgba(255,245,200,0.40); border:1px solid rgba(192,128,0,0.20);
+  border-radius:12px; padding:18px;
+}
+.add-form-grid {
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr));
+  gap:12px; margin-bottom:14px;
+}
+.add-field label { display:block; font-size:0.63rem; color:var(--muted);
+  font-family:'DM Mono',monospace; letter-spacing:0.07em; text-transform:uppercase; margin-bottom:5px; }
+.add-input {
+  background:rgba(255,252,230,0.90); border:1px solid rgba(200,160,40,0.25);
+  border-radius:6px; color:var(--text); font-family:'DM Mono',monospace;
+  font-size:0.82rem; padding:8px 10px; width:100%; outline:none; transition:border-color 0.2s;
+}
+.add-input:focus { border-color:rgba(192,128,0,0.55); }
+.add-hint { font-size:0.68rem; color:var(--muted); font-family:'DM Mono',monospace; margin-bottom:12px; }
+.add-row { display:grid; grid-template-columns:1fr auto; gap:10px; }
+.btn-confirm {
+  display:flex; align-items:center; gap:7px;
+  padding:9px 22px; font-size:0.85rem; font-family:'DM Mono',monospace;
+  border:1px solid rgba(192,128,0,0.4); background:rgba(192,128,0,0.10);
+  color:var(--accent); border-radius:9px; cursor:pointer; transition:all 0.2s; white-space:nowrap;
+}
+.btn-confirm:hover { background:rgba(192,128,0,0.20); }
+
+/* TOAST */
+.toast {
+  position:fixed; bottom:28px; left:50%; transform:translateX(-50%) translateY(20px);
+  background:rgba(255,248,210,0.97); border:1px solid rgba(192,128,0,0.45);
+  color:var(--accent); font-family:'DM Mono',monospace; font-size:0.82rem;
+  padding:10px 24px; border-radius:30px; z-index:999;
+  opacity:0; transition:all 0.3s; pointer-events:none;
+}
+.toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
+
+footer { text-align:center; margin-top:36px; font-size:0.7rem; color:var(--muted2); font-family:'DM Mono',monospace; line-height:1.9; }
+
+@media(max-width:640px){
+  html { font-size:16px; }
+  .summary { grid-template-columns:repeat(2,1fr); }
+  .summary .sum-card:last-child { grid-column:1/-1; }
+  .manage-row,.manage-col-label { grid-template-columns:10px 64px 1fr 70px 70px 70px 70px 100px; }
+  header h1 { font-size:2rem; }
+  .month-num { font-size:2.2rem; }
+  .month-total { font-size:1.2rem; }
+  .sell-row { grid-template-columns:10px 64px 1fr 70px 70px auto; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>達標後每月配息試算</h1>
+  <p>以目標張數計算・與現況對比</p>
+</header>
+
+<div class="action-bar">
+  <div class="toggle-wrap">
+    <button class="toggle-btn active" onclick="setMode('target')">🎯 目標張數</button>
+    <button class="toggle-btn" onclick="setMode('current')">📦 現有張數</button>
+  </div>
+  <div class="btn-group">
+    <button class="btn-manage" onclick="toggleManage()">⚙️ 管理持倉</button>
+    <button class="btn-save" onclick="saveData()">💾 儲存持倉</button>
+    <button class="btn-excel" onclick="exportExcel()">📊 匯出 Excel</button>
+  </div>
+</div>
+
+<!-- 管理面板 -->
+<div class="manage-section" id="manage-section" style="display:none;">
+  <div class="manage-header" onclick="toggleManageBody()">
+    <div style="display:flex;align-items:center;">
+      <span class="manage-title">ETF 持倉管理</span>
+      <span class="manage-subtitle" id="manage-count">— 檔</span>
+    </div>
+    <span class="manage-chevron open" id="manage-chevron">▼</span>
+  </div>
+  <div class="manage-body open" id="manage-body">
+    <div class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('edit')">✏️ 編輯持倉</button>
+      <button class="tab-btn" onclick="switchTab('sell')">📤 賣出移除</button>
+      <button class="tab-btn" onclick="switchTab('add')">＋ 新增 ETF</button>
+    </div>
+
+    <!-- TAB: 編輯持倉 -->
+    <div class="edit-tab active" id="tab-edit">
+      <div class="manage-list" id="manage-list"></div>
+    </div>
+
+    <!-- TAB: 賣出移除 -->
+    <div class="sell-tab" id="tab-sell">
+      <div class="sell-list" id="sell-list"></div>
+    </div>
+
+    <!-- TAB: 新增 ETF -->
+    <div class="add-tab" id="tab-add">
+      <div class="add-form">
+        <div class="add-form-grid">
+          <div class="add-field"><label>ETF 代號</label><input class="add-input" id="new-id" placeholder="e.g. 00878" maxlength="10"></div>
+          <div class="add-field"><label>名稱</label><input class="add-input" id="new-name" placeholder="e.g. 國泰永續高股息"></div>
+          <div class="add-field"><label>顏色標記</label>
+            <select class="add-input" id="new-color">
+              <option value="green">綠</option><option value="mint">薄荷</option>
+              <option value="teal">青</option><option value="lime">萊姆</option>
+              <option value="sky">天藍</option><option value="blue">藍</option>
+              <option value="purple">紫</option><option value="orange">橘</option>
+              <option value="yellow">黃</option><option value="gold">金</option><option value="pink">粉</option>
+            </select>
+          </div>
+          <div class="add-field"><label>現有張數</label><input class="add-input" id="new-held" type="number" min="0" placeholder="0"></div>
+          <div class="add-field"><label>目標張數</label><input class="add-input" id="new-target" type="number" min="0" placeholder="0"></div>
+          <div class="add-field"><label>每單位配息(元)</label><input class="add-input" id="new-divpu" type="number" min="0" step="0.001" placeholder="0.000"></div>
+          <div class="add-field"><label>配息頻率</label>
+            <select class="add-input" id="new-dist">
+              <option>月配</option><option>季配</option><option>半年配</option><option>年配</option><option>待定</option>
+            </select>
+          </div>
+        </div>
+        <div class="add-hint">配息月份（逗號分隔，如 3,6,9,12；月配自動填入 1–12；空白=無配息）</div>
+        <div class="add-row">
+          <input class="add-input" id="new-months" placeholder="e.g. 3,6,9,12  或留空">
+          <button class="btn-confirm" onclick="addETF()">確認新增</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 摘要 -->
+<div class="summary">
+  <div class="sum-card green">
+    <div class="sum-label">年度預估總收息</div>
+    <div class="sum-value green" id="s-annual">—</div>
+    <div class="sum-sub" id="s-annual-sub">—</div>
+  </div>
+  <div class="sum-card teal">
+    <div class="sum-label">月均收息</div>
+    <div class="sum-value teal" id="s-monthly">—</div>
+    <div class="sum-sub" id="s-monthly-sub">—</div>
+  </div>
+  <div class="sum-card gold">
+    <div class="sum-label">最高配息月</div>
+    <div class="sum-value gold" id="s-topmonth">—</div>
+    <div class="sum-sub" id="s-topval">—</div>
+  </div>
+</div>
+
+<div class="months" id="months"></div>
+
+<footer>
+  以最新公告配息金額計算，每張 = 1000 股。<br>
+  實際金額以投信公告為準，不構成投資建議。
+</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ===== 資料 ===== */
+let etfs = [
+  { id:'00878',  name:'國泰永續高股息',        color:'green',  held:48, target:60, divM:[2,5,8,11],                    divPu:0.42,  dist:'季配' },
+  { id:'00918',  name:'大華優利高填息30',       color:'teal',   held:6,  target:60, divM:[3,6,9,12],                    divPu:0.62,  dist:'季配' },
+  { id:'00981D', name:'主動中信非投等債',       color:'purple', held:18, target:60, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.07,  dist:'月配' },
+  { id:'00981B', name:'第一金美元優選非投等債', color:'blue',   held:19, target:60, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.072, dist:'月配' },
+  { id:'00400A', name:'主動國泰動能高息',       color:'orange', held:8,  target:60, divM:[7,8,9,10,11,12],              divPu:0.075, dist:'月配' },
+  { id:'00996A', name:'主動兆豐台灣豐收',       color:'mint',   held:9,  target:20, divM:[6,9,12],                      divPu:0.15,  dist:'季配' },
+  { id:'00999A', name:'主動野村台灣高息',       color:'yellow', held:5,  target:20, divM:[],                            divPu:0,     dist:'待定' },
+  { id:'00403A', name:'統一台股升級50',         color:'lime',   held:10, target:20, divM:[],                            divPu:0,     dist:'待定' },
+];
+const monthNames=['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+let currentMode='target', manageOpen=false, activeTab='edit';
+
+/* ===== TOAST ===== */
+function showToast(msg){ const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),2200); }
+
+/* ===== MANAGE ===== */
+function toggleManage(){
+  manageOpen=!manageOpen;
+  document.getElementById('manage-section').style.display=manageOpen?'block':'none';
+  if(manageOpen){ renderManage(); renderSell(); }
+}
+function toggleManageBody(){
+  document.getElementById('manage-body').classList.toggle('open');
+  document.getElementById('manage-chevron').classList.toggle('open');
+}
+function switchTab(tab){
+  activeTab=tab;
+  document.querySelectorAll('.tab-btn').forEach((b,i)=>{
+    b.classList.toggle('active',['edit','sell','add'][i]===tab);
+  });
+  document.getElementById('tab-edit').classList.toggle('active',tab==='edit');
+  document.getElementById('tab-sell').classList.toggle('active',tab==='sell');
+  document.getElementById('tab-add').classList.toggle('active',tab==='add');
+  if(tab==='edit') renderManage();
+  if(tab==='sell') renderSell();
+}
+
+/* ===== TAB: 編輯持倉 ===== */
+function renderManage(){
+  const list=document.getElementById('manage-list');
+  document.getElementById('manage-count').textContent=etfs.length+' 檔';
+  list.innerHTML=`<div class="manage-col-label"><span></span><span>代號</span><span>名稱</span><span>現有張</span><span>目標張</span><span>配息(元)</span><span>頻率</span><span>配息月份</span></div>`;
+  etfs.forEach((e,idx)=>{
+    const row=document.createElement('div');
+    row.className='manage-row';
+    row.innerHTML=`
+      <div class="manage-dot-wrap"><div class="mdot c-${e.color}"></div></div>
+      <input class="manage-input id-input" value="${e.id}" onchange="updateETF(${idx},'id',this.value)">
+      <input class="manage-input" value="${e.name}" onchange="updateETF(${idx},'name',this.value)">
+      <input class="manage-input" type="number" min="0" value="${e.held}" onchange="updateETF(${idx},'held',+this.value)" style="color:var(--orange)">
+      <input class="manage-input" type="number" min="0" value="${e.target}" onchange="updateETF(${idx},'target',+this.value)" style="color:var(--accent)">
+      <input class="manage-input" type="number" min="0" step="0.001" value="${e.divPu}" onchange="updateETF(${idx},'divPu',+this.value)" style="color:var(--gold)">
+      <select class="manage-select" onchange="updateETF(${idx},'dist',this.value)">${['月配','季配','半年配','年配','待定'].map(d=>`<option${d===e.dist?' selected':''}>${d}</option>`).join('')}</select>
+      <input class="manage-months-input" value="${e.divM.join(',')}" onchange="updateMonths(${idx},this.value)" placeholder="1,2,3...">`;
+    list.appendChild(row);
+  });
+}
+function updateETF(idx,field,value){ etfs[idx][field]=value; render(); saveData(); }
+function updateMonths(idx,val){ etfs[idx].divM=val.split(',').map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)&&n>=1&&n<=12); render(); saveData(); }
+
+/* ===== TAB: 賣出移除 ===== */
+function renderSell(){
+  const list=document.getElementById('sell-list');
+  list.innerHTML='';
+  if(etfs.length===0){ list.innerHTML='<div style="padding:16px;font-size:0.82rem;color:var(--muted);font-family:DM Mono,monospace;">目前無持倉</div>'; return; }
+  etfs.forEach((e,idx)=>{
+    const row=document.createElement('div');
+    row.className='sell-row';
+    const annual=e.divM.reduce((s,m)=>{ return s+Math.round(e.divPu*(currentMode==='target'?e.target:e.held)*1000); },0) / (e.divM.length||1) * e.divM.length;
+    row.innerHTML=`
+      <div class="manage-dot-wrap"><div class="mdot c-${e.color}"></div></div>
+      <div style="font-family:'DM Mono',monospace;font-size:0.84rem;color:var(--accent)">${e.id}</div>
+      <div>
+        <div style="font-size:0.85rem;font-weight:500">${e.name}</div>
+        <div class="sell-info">${e.dist}・現有 ${e.held} 張・目標 ${e.target} 張</div>
+      </div>
+      <div>
+        <div style="font-size:0.65rem;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:3px">減少持倉</div>
+        <input class="sell-input" type="number" min="0" id="sell-qty-${idx}" placeholder="張數" title="輸入賣出張數（0=全部移除）">
+      </div>
+      <div>
+        <div style="font-size:0.65rem;color:var(--muted);font-family:'DM Mono',monospace;margin-bottom:3px">對象</div>
+        <select class="manage-select" id="sell-target-${idx}" style="font-size:0.75rem;padding:6px 4px;">
+          <option value="held">現有</option>
+          <option value="target">目標</option>
+          <option value="both">兩者</option>
+          <option value="remove">完全移除</option>
+        </select>
+      </div>
+      <button class="btn-sell" onclick="sellETF(${idx})">確認賣出</button>`;
+    list.appendChild(row);
+  });
+}
+function sellETF(idx){
+  const targetSel=document.getElementById(`sell-target-${idx}`).value;
+  const qtyInput=parseInt(document.getElementById(`sell-qty-${idx}`).value)||0;
+  const e=etfs[idx];
+  if(targetSel==='remove'){
+    if(!confirm(`確定完全移除 ${e.id} ${e.name}？`)) return;
+    etfs.splice(idx,1);
+    showToast(`✓ 已移除 ${e.id}`);
+  } else {
+    if(qtyInput<=0){ showToast('請輸入賣出張數'); return; }
+    if(targetSel==='held'||targetSel==='both') etfs[idx].held=Math.max(0,e.held-qtyInput);
+    if(targetSel==='target'||targetSel==='both') etfs[idx].target=Math.max(0,e.target-qtyInput);
+    showToast(`✓ ${e.id} 已減少 ${qtyInput} 張`);
+  }
+  renderManage(); renderSell();
+  document.getElementById('manage-count').textContent=etfs.length+' 檔';
+  saveData();
+  render();
+}
+
+/* ===== TAB: 新增 ETF ===== */
+function addETF(){
+  const id=document.getElementById('new-id').value.trim();
+  const name=document.getElementById('new-name').value.trim();
+  const color=document.getElementById('new-color').value;
+  const held=parseInt(document.getElementById('new-held').value)||0;
+  const target=parseInt(document.getElementById('new-target').value)||0;
+  const divPu=parseFloat(document.getElementById('new-divpu').value)||0;
+  const dist=document.getElementById('new-dist').value;
+  const raw=document.getElementById('new-months').value.trim();
+  if(!id||!name){ showToast('請填入 ETF 代號與名稱'); return; }
+  let divM=[];
+  if(dist==='月配'&&!raw){ divM=[1,2,3,4,5,6,7,8,9,10,11,12]; }
+  else if(raw){ divM=raw.split(',').map(s=>parseInt(s.trim())).filter(n=>!isNaN(n)&&n>=1&&n<=12); }
+  etfs.push({id,name,color,held,target,divM,divPu,dist});
+  ['new-id','new-name','new-held','new-target','new-divpu','new-months'].forEach(k=>{ document.getElementById(k).value=''; });
+  document.getElementById('new-color').value='green';
+  document.getElementById('new-dist').value='月配';
+  document.getElementById('manage-count').textContent=etfs.length+' 檔';
+  showToast(`✓ 已新增 ${id} ${name}`);
+  saveData();
+  render();
+}
+
+/* ===== 試算邏輯 ===== */
+function calcMonthData(useTarget){
+  return Array.from({length:12},(_,i)=>{
+    const m=i+1; let total=0; const items=[];
+    etfs.forEach(e=>{ if(e.divM.includes(m)&&e.divPu>0){ const qty=useTarget?e.target:e.held; const amt=Math.round(e.divPu*qty*1000); total+=amt; items.push({...e,qty,amt}); } });
+    return {m,name:monthNames[i],total,items};
+  });
+}
+function setMode(mode){
+  currentMode=mode;
+  document.querySelectorAll('.toggle-btn').forEach((b,i)=>{ b.classList.toggle('active',(i===0&&mode==='target')||(i===1&&mode==='current')); });
+  render();
+}
+function render(){
+  const useTarget=currentMode==='target';
+  const data=calcMonthData(useTarget);
+  const dataOther=calcMonthData(!useTarget);
+  const maxTotal=Math.max(...data.map(d=>d.total),0);
+  const annualTotal=data.reduce((s,d)=>s+d.total,0);
+  const annualOther=dataOther.reduce((s,d)=>s+d.total,0);
+  const diff=annualTotal-annualOther;
+  const diffSign=diff>=0?'+':'';
+  const modeLabel=useTarget?'現況':'目標';
+  const topMonths=data.filter(d=>d.total===maxTotal&&maxTotal>0);
+
+  document.getElementById('s-annual').textContent=annualTotal.toLocaleString()+' 元';
+  document.getElementById('s-annual-sub').textContent=`較${modeLabel} ${diffSign}${diff.toLocaleString()} 元`;
+  document.getElementById('s-monthly').textContent=Math.round(annualTotal/12).toLocaleString()+' 元';
+  document.getElementById('s-monthly-sub').textContent=`月均較${modeLabel} ${diffSign}${Math.round(diff/12).toLocaleString()} 元`;
+  document.getElementById('s-topmonth').textContent=maxTotal>0?topMonths.map(d=>d.name).join('・'):'—';
+  document.getElementById('s-topval').textContent=maxTotal>0?maxTotal.toLocaleString()+' 元／月':'—';
+
+  const container=document.getElementById('months');
+  container.innerHTML='';
+  data.forEach((d,i)=>{
+    const dOther=dataOther[i];
+    const isTop=d.total===maxTotal&&maxTotal>0;
+    const isActive=d.total>0;
+    const pct=maxTotal>0?Math.round(d.total/maxTotal*100):0;
+    const mDiff=d.total-dOther.total;
+    const mDiffStr=mDiff>0?`+${mDiff.toLocaleString()}`:mDiff===0?'同':mDiff.toLocaleString();
+    const diffCls=mDiff>0?'diff-up':mDiff<0?'diff-down':'diff-same';
+    const block=document.createElement('div');
+    block.className='month-block'+(isTop?' top':isActive?' active':'');
+    const topBadge=isTop?'<span class="top-badge">最高</span>':'';
+    const etfCount=d.items.length>0?`${d.items.length} 檔 ETF 配息`:'本月無配息';
+    const totalStr=d.total>0?d.total.toLocaleString()+' 元':'無配息';
+    let rowsHtml='';
+    if(d.items.length===0){
+      rowsHtml=`<div class="no-income">── 本月無配息收入 ──</div>`;
+    } else {
+      rowsHtml=`<div class="etf-rows">`;
+      d.items.forEach(e=>{ rowsHtml+=`<div class="etf-row"><div class="etf-dot c-${e.color}"></div><div class="etf-row-id">${e.id}</div><div class="etf-row-name">${e.name}</div><div class="etf-row-detail">${e.qty}張 × ${e.divPu.toFixed(3)}元</div><div class="etf-row-amount t-${e.color}">${e.amt.toLocaleString()} 元</div></div>`; });
+      rowsHtml+=`</div><div class="income-bar-wrap"><div class="income-bar-bg"><div class="income-bar-fill" style="width:0%;background:${isTop?'linear-gradient(90deg,var(--accent),var(--yellow))':'rgba(192,128,0,0.30)'}" data-w="${pct}%"></div></div></div>`;
+    }
+    const diffBadge=`<span class="diff-badge ${diffCls}">${useTarget?'較現況':'較目標'} ${mDiffStr}</span>`;
+    block.innerHTML=`<div class="month-header"><div class="month-left"><div class="month-num">${String(d.m).padStart(2,'0')}</div><div><div class="month-name-zh">${d.name}${topBadge}</div><div class="month-etf-count">${etfCount}</div></div></div><div class="month-right"><div class="month-total">${totalStr}${d.total>0?diffBadge:''}</div><div class="month-total-sub">預估收息金額</div></div></div>${rowsHtml}`;
+    container.appendChild(block);
+  });
+  setTimeout(()=>{ document.querySelectorAll('[data-w]').forEach(el=>{ el.style.width=el.dataset.w; }); },100);
+}
+
+/* ===== EXCEL 匯出 ===== */
+function exportExcel(){
+  const useTarget=currentMode==='target';
+  const data=calcMonthData(true);
+  const dataCurrent=calcMonthData(false);
+
+  // 用純 CSV + BOM 方式輸出可被 Excel 開啟的 UTF-8 檔案
+  // 改用 SheetJS (xlsx) via CDN
+  const script=document.createElement('script');
+  script.src='https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js';
+  script.onload=()=>{ buildWorkbook(); };
+  if(window.XLSX){ buildWorkbook(); return; }
+  document.head.appendChild(script);
+}
+
+function buildWorkbook(){
+  const WB=XLSX.utils.book_new();
+
+  /* ── Sheet 1: 持倉清單 ── */
+  const holdRows=[['代號','名稱','顏色','現有張數','目標張數','每單位配息(元)','配息頻率','配息月份']];
+  etfs.forEach(e=>{ holdRows.push([e.id,e.name,e.color,e.held,e.target,e.divPu,e.dist,e.divM.join(',')]); });
+  const ws1=XLSX.utils.aoa_to_sheet(holdRows);
+  ws1['!cols']=[{wch:12},{wch:22},{wch:8},{wch:10},{wch:10},{wch:16},{wch:8},{wch:20}];
+  styleHeader(ws1, holdRows[0].length);
+  XLSX.utils.book_append_sheet(WB,ws1,'持倉清單');
+
+  /* ── Sheet 2: 月度收息（目標） ── */
+  const targetData=calcMonthData(true);
+  const tRows=[['月份','月份名稱','預估收息(元)','配息ETF數','年度佔比%']];
+  const tAnnual=targetData.reduce((s,d)=>s+d.total,0);
+  targetData.forEach(d=>{
+    tRows.push([d.m,d.name,d.total,d.items.length,tAnnual>0?+(d.total/tAnnual*100).toFixed(1):0]);
+  });
+  tRows.push(['','合計',tAnnual,'','100.0']);
+  const ws2=XLSX.utils.aoa_to_sheet(tRows);
+  ws2['!cols']=[{wch:6},{wch:10},{wch:14},{wch:12},{wch:12}];
+  styleHeader(ws2, tRows[0].length);
+  XLSX.utils.book_append_sheet(WB,ws2,'月度收息_目標');
+
+  /* ── Sheet 3: 月度收息（現有） ── */
+  const curData=calcMonthData(false);
+  const cRows=[['月份','月份名稱','預估收息(元)','配息ETF數','年度佔比%']];
+  const cAnnual=curData.reduce((s,d)=>s+d.total,0);
+  curData.forEach(d=>{
+    cRows.push([d.m,d.name,d.total,d.items.length,cAnnual>0?+(d.total/cAnnual*100).toFixed(1):0]);
+  });
+  cRows.push(['','合計',cAnnual,'','100.0']);
+  const ws3=XLSX.utils.aoa_to_sheet(cRows);
+  ws3['!cols']=[{wch:6},{wch:10},{wch:14},{wch:12},{wch:12}];
+  styleHeader(ws3, cRows[0].length);
+  XLSX.utils.book_append_sheet(WB,ws3,'月度收息_現有');
+
+  /* ── Sheet 4: 逐月明細（目標） ── */
+  const detailRows=[['月份','月份名稱','ETF代號','ETF名稱','持倉張數','每單位配息','預估收息(元)']];
+  targetData.forEach(d=>{
+    if(d.items.length===0){
+      detailRows.push([d.m,d.name,'—','本月無配息','','','']);
+    } else {
+      d.items.forEach(e=>{ detailRows.push([d.m,d.name,e.id,e.name,e.qty,e.divPu,e.amt]); });
+    }
+  });
+  const ws4=XLSX.utils.aoa_to_sheet(detailRows);
+  ws4['!cols']=[{wch:6},{wch:10},{wch:12},{wch:22},{wch:10},{wch:14},{wch:14}];
+  styleHeader(ws4, detailRows[0].length);
+  XLSX.utils.book_append_sheet(WB,ws4,'逐月明細_目標');
+
+  /* ── Sheet 5: 目標 vs 現有比較 ── */
+  const cmpRows=[['月份','月份名稱','目標收息(元)','現有收息(元)','差額(元)','成長率%']];
+  targetData.forEach((d,i)=>{
+    const cur=curData[i];
+    const diff=d.total-cur.total;
+    const pct=cur.total>0?+(diff/cur.total*100).toFixed(1):0;
+    cmpRows.push([d.m,d.name,d.total,cur.total,diff,pct]);
+  });
+  const tAnn2=targetData.reduce((s,d)=>s+d.total,0);
+  const cAnn2=curData.reduce((s,d)=>s+d.total,0);
+  cmpRows.push(['','年度合計',tAnn2,cAnn2,tAnn2-cAnn2,cAnn2>0?+((tAnn2-cAnn2)/cAnn2*100).toFixed(1):0]);
+  const ws5=XLSX.utils.aoa_to_sheet(cmpRows);
+  ws5['!cols']=[{wch:6},{wch:10},{wch:14},{wch:14},{wch:12},{wch:10}];
+  styleHeader(ws5, cmpRows[0].length);
+  XLSX.utils.book_append_sheet(WB,ws5,'目標vs現有比較');
+
+  XLSX.writeFile(WB,'配息試算_'+new Date().toISOString().slice(0,10)+'.xlsx');
+  showToast('✓ Excel 已下載');
+}
+
+function styleHeader(ws, cols){
+  for(let c=0;c<cols;c++){
+    const addr=XLSX.utils.encode_cell({r:0,c});
+    if(!ws[addr]) continue;
+    ws[addr].s={
+      font:{bold:true,color:{rgb:'FFFFFF'}},
+      fill:{patternType:'solid',fgColor:{rgb:'1A5C32'}},
+      alignment:{horizontal:'center'}
+    };
+  }
+}
+
+/* ===== 儲存 / 載入（Firebase 雲端版）===== */
+const STORAGE_KEY = 'etf-holding-data-v1';
+let _fbDb = null, _fbRef = null, _fbSet = null;
+
+function saveData(){
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(etfs));
+  } catch(e){}
+  if(_fbSet && _fbRef){
+    _fbSet(_fbRef('etf/holdings'), etfs)
+      .then(() => showToast('✓ 持倉已儲存至雲端'))
+      .catch(e => showToast('⚠ 雲端儲存失敗：' + e.message));
+  } else {
+    showToast('✓ 持倉已儲存（本機備份）');
+  }
+}
+
+</script>
+
+<!-- ══ Firebase 雲端同步 ══ -->
+<div id="fb-etf-loading" style="position:fixed;inset:0;z-index:999999;background:#fdf8ed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
+  <div style="font-size:48px">☁️</div>
+  <div style="font-size:17px;font-weight:700;color:#c08000">連接雲端資料庫中...</div>
+  <div style="font-size:13px;color:#aaa">載入存股資料，請稍候</div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDmkQFhE3N-oID3AM57FH08AvxRB-uPz1Q",
+  authDomain: "kevin-apps-3f0d8.firebaseapp.com",
+  databaseURL: "https://kevin-apps-3f0d8-default-rtdb.firebaseio.com",
+  projectId: "kevin-apps-3f0d8",
+  storageBucket: "kevin-apps-3f0d8.firebasestorage.app",
+  messagingSenderId: "218848020635",
+  appId: "1:218848020635:web:3d9758d7f5a4b9b2e29e3e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+_fbDb  = db;
+_fbRef = (path) => ref(db, path);
+_fbSet = set;
+
+function removeLoding(){
+  const el = document.getElementById('fb-etf-loading');
+  if(el) el.remove();
+}
+
+async function loadAndRender(){
+  try {
+    const snap = await get(ref(db, 'etf/holdings'));
+    if(snap.exists()){
+      const val = snap.val();
+      if(Array.isArray(val) && val.length > 0) etfs = val;
+    } else {
+      // 雲端沒資料 → 上傳本機備份
+      const local = localStorage.getItem('etf-holding-data-v1');
+      if(local){
+        try {
+          const parsed = JSON.parse(local);
+          if(Array.isArray(parsed) && parsed.length > 0){
+            etfs = parsed;
+            set(ref(db, 'etf/holdings'), etfs).catch(()=>{});
+          }
+        } catch(e){}
+      }
+    }
+  } catch(e){
+    // Firebase 失敗 → 本機降級
+    console.warn('Firebase 讀取失敗，使用本機資料:', e);
+    const local = localStorage.getItem('etf-holding-data-v1');
+    if(local){ try{ const p=JSON.parse(local); if(Array.isArray(p)&&p.length) etfs=p; }catch(e){} }
+  }
+  removeLoding();
+  render();
+}
+
+// 5秒逾時保護
+setTimeout(()=>{ removeLoding(); render(); }, 5000);
+
+loadAndRender();
+</script>
+</body>
+</html>

@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>2026 行事曆 × 健康管理</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --y:#B8760A;--y-light:rgba(184,118,10,.1);--y-mid:rgba(184,118,10,.25);
+  --gr:#1A8A3A;--rd:#CC2222;--bl:#1A6EA8;--pu:#7A4FA8;--or:#C07A1A;
+  --bg:#F5F0E8;--card:#FFFFFF;--mid:#F0EDE8;--bdr:rgba(180,140,60,.22);
+  --ink:#2A2A2A;--ink-mid:#555;--ink-light:#999;
+  --dept-ortho:#1a6fa8;--dept-ortho-bg:#e8f2fa;
+  --dept-psych:#7a4fa8;--dept-psych-bg:#f0eaf8;
+  --dept-endo:#1a8a5f;--dept-endo-bg:#e8f5ef;
+  --dept-neuro:#c05a1a;--dept-neuro-bg:#faeee8;
+  --dept-cardio:#c0392b;--dept-cardio-bg:#fdf0ef;
+  --dept-other:#4a6fa8;--dept-other-bg:#eef2fa;
+  --dept-rehab:#c07a1a;--dept-rehab-bg:#faf0e0;
+}
+body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft JhengHei','Noto Sans TC',sans-serif;min-height:100vh;font-size:16px}
+
+/* ── HEADER ── */
+.main-header{background:var(--y);color:#fff;padding:16px 15px 13px;overflow:hidden;position:relative}
+.main-header::before{content:'';position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.07)}
+.hrow1{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.htitles .sub{font-size:11px;opacity:.7;letter-spacing:.08em}
+.htitles .main{font-size:20px;font-weight:900;letter-spacing:.03em;margin-top:2px}
+.hdate{text-align:right;font-size:11px;opacity:.8}
+.hdate strong{display:block;font-size:16px;font-weight:900;opacity:1;margin-top:1px}
+.hstats{display:flex;gap:14px;flex-wrap:wrap}
+.hstat{display:flex;flex-direction:column;gap:1px}
+.hstat-num{font-size:22px;font-weight:900;line-height:1}
+.hstat-lbl{font-size:11px;opacity:.7;letter-spacing:.05em}
+.hstat-div{width:1px;background:rgba(255,255,255,.25);align-self:stretch}
+
+/* ── NAV ── */
+.nav-tabs{display:flex;gap:3px;background:#E8E0D0;padding:5px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{flex:0 0 auto;padding:9px 14px;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:#888;white-space:nowrap;transition:all .2s}
+.nav-tab.active{background:var(--y);color:#fff;box-shadow:0 2px 8px rgba(180,120,10,.35)}
+
+/* ── SECTIONS ── */
+.section{display:none}.section.active{display:block}
+.content{padding:14px 12px 72px}
+
+/* ── FOCUS ── */
+.focus-group{margin-bottom:16px}
+.focus-ghdr{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.focus-gtitle{font-size:12px;font-weight:900;letter-spacing:.08em;color:var(--y)}
+.focus-gline{flex:1;height:1px;background:var(--bdr)}
+.focus-item{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:10px 12px;margin-bottom:7px;display:flex;align-items:flex-start;gap:9px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.fdate{font-size:11px;font-weight:800;color:var(--y);min-width:54px;flex-shrink:0;padding-top:2px}
+.fbody{flex:1;min-width:0}
+.ftext{font-size:14px;font-weight:600;color:var(--ink);line-height:1.4}
+.fnote{font-size:11px;color:var(--ink-light);margin-top:2px}
+.fbadge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;white-space:nowrap}
+.fb-red{background:rgba(204,34,34,.12);color:#cc2222}
+.fb-warn{background:rgba(184,118,10,.12);color:#b8760a}
+.fb-ok{background:rgba(26,138,58,.12);color:#1a8a3a}
+.fb-info{background:rgba(26,110,168,.12);color:#1a6ea8}
+.fb-rep{background:rgba(122,79,168,.12);color:#7a4fa8}
+
+/* ── 工作排程狀態 ── */
+.focus-item.status-done{opacity:.45;background:#f7f7f7;border-color:rgba(0,0,0,.08)}
+.focus-item.status-done .ftext{text-decoration:line-through;color:#999}
+.focus-item.status-done .fdate{color:#aaa}
+.focus-item.status-doing{border-left:3px solid #1a6ea8;background:rgba(26,110,168,.04)}
+.focus-item.status-pending{}
+.status-btn{border:none;border-radius:14px;padding:3px 9px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0;transition:all .15s}
+.status-btn.done{background:rgba(26,138,58,.15);color:#1a8a3a}
+.status-btn.doing{background:rgba(26,110,168,.15);color:#1a6ea8}
+.status-btn.pending{background:rgba(180,180,180,.13);color:#888}
+.focus-sort-bar{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.focus-sort-btn{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink-mid);transition:all .15s}
+.focus-sort-btn.active{background:var(--y);color:#fff;border-color:var(--y)}
+.focus-stats{display:flex;gap:8px;font-size:12px;margin-bottom:4px;flex-wrap:wrap}
+.fstat-box{padding:4px 10px;border-radius:8px;font-weight:700}
+.fstat-done{background:rgba(26,138,58,.12);color:#1a8a3a}
+.fstat-doing{background:rgba(26,110,168,.12);color:#1a6ea8}
+.fstat-pending{background:rgba(180,180,180,.12);color:#888}
+/* ── focus 新增表單 / 移除按鈕 ── */
+.focus-del-btn{background:none;border:1px solid rgba(204,34,34,.25);color:#cc6666;border-radius:50%;width:22px;height:22px;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1;padding:0;transition:all .15s}
+.focus-del-btn:hover{background:rgba(204,34,34,.1);color:#cc2222;border-color:rgba(204,34,34,.5)}
+.focus-add-form{background:var(--card);border:1px solid var(--bdr);border-radius:13px;padding:12px 14px;margin-bottom:14px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.focus-add-title{font-size:13px;font-weight:900;color:var(--y);margin-bottom:9px}
+.focus-add-row{display:flex;gap:7px;margin-bottom:7px;align-items:center}
+.focus-add-row:last-child{margin-bottom:0}
+.focus-add-inp{background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:13px;padding:8px 10px;outline:none;transition:border-color .2s}
+.focus-add-inp:focus{border-color:var(--y)}
+.focus-add-sel{background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:13px;padding:8px 10px;outline:none;flex:1}
+.focus-add-btn{background:var(--y);color:#fff;border:none;border-radius:9px;padding:8px 16px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0}
+
+/* ── CALENDAR ── */
+.cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cal-nbtn{background:var(--card);border:1px solid var(--bdr);border-radius:8px;color:var(--ink);font-size:18px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cal-mlbl{font-size:16px;font-weight:900;color:var(--y)}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
+.cal-wd{text-align:center;font-size:11px;font-weight:700;color:var(--ink-light);padding:5px 0}
+.cal-day{min-height:50px;display:flex;flex-direction:column;align-items:center;padding:3px 1px 2px;border-radius:8px;cursor:pointer;position:relative;transition:background .15s;gap:1px}
+.cal-day:hover{background:var(--y-light)}
+.cal-day.today{background:rgba(184,118,10,.18);border:1.5px solid rgba(184,118,10,.5)}
+.cal-day.holiday{background:rgba(204,34,34,.06)}
+.dnum{font-size:13px;font-weight:700;color:var(--ink);line-height:1;margin-top:2px}
+.dnum.sun{color:#cc4444}.dnum.sat{color:#4466cc}
+.dhol{font-size:8px;color:#cc8888;text-align:center;line-height:1.2;max-width:100%;overflow:hidden}
+.ddots{display:flex;gap:2px;justify-content:center;flex-wrap:wrap;margin-top:1px}
+.dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+/* medical dot = green, event dot = gold */
+
+/* ── SYNC HIGHLIGHT ── */
+.cal-day.synced-highlight{box-shadow:0 0 0 2px var(--gr);background:rgba(26,138,58,.07)}
+
+/* ── MODAL ── */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;display:none;align-items:flex-end;justify-content:center;backdrop-filter:blur(2px)}
+.modal-overlay.open{display:flex}
+.modal{background:var(--card);border-radius:20px 20px 0 0;width:100%;max-width:480px;padding:18px 16px 38px;max-height:78vh;overflow-y:auto}
+.modal-handle{width:36px;height:4px;background:var(--bdr);border-radius:2px;margin:0 auto 12px}
+.modal-title{font-size:18px;font-weight:900;color:var(--ink);margin-bottom:2px}
+.modal-wd{font-size:13px;color:var(--ink-light);margin-bottom:12px}
+.mevent{background:var(--mid);border-radius:10px;padding:10px 12px;margin-bottom:7px;border-left:3px solid var(--bdr)}
+.mevent-time{font-size:11px;color:var(--ink-light);margin-bottom:2px;font-weight:600}
+.mevent-name{font-size:14px;font-weight:700;color:var(--ink);line-height:1.4}
+.mevent-note{font-size:12px;color:var(--ink-mid);margin-top:3px;line-height:1.5}
+.mevent-action{margin-top:6px}
+.mevent-action button{background:var(--bl);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.modal-close{margin-top:12px;width:100%;padding:12px;background:var(--mid);border:1px solid var(--bdr);border-radius:12px;color:var(--ink-mid);font-family:inherit;font-size:14px;cursor:pointer;font-weight:700}
+
+/* ── HEALTH CARDS ── */
+.month-section{margin-bottom:18px}
+.month-hdr{display:flex;align-items:center;gap:10px;margin-bottom:9px}
+.month-lbl{font-size:13px;font-weight:900;letter-spacing:.08em;color:var(--y)}
+.month-line{flex:1;height:1px;background:var(--bdr)}
+.month-cnt{font-size:13px;color:var(--ink-light);font-weight:600}
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px}
+.vcard{background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.vcard:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(0,0,0,.1)}
+.vcard.synced{border:2px solid var(--gr);box-shadow:0 0 0 2px rgba(26,138,58,.15)}
+.card-top{display:flex;border-bottom:1px solid var(--bdr)}
+.card-stripe{width:5px;flex-shrink:0}
+.card-head{padding:11px 12px;flex:1;display:flex;justify-content:space-between;align-items:flex-start}
+.cwd{font-size:11px;color:var(--ink-light);font-weight:600;margin-bottom:1px}
+.cdt{font-size:20px;font-weight:900;color:var(--ink)}
+.dept-badge{font-size:12px;font-weight:700;padding:4px 10px;border-radius:20px;white-space:nowrap}
+.card-body{padding:11px 14px 9px}
+.dept-name{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:4px}
+.card-meta{font-size:13px;color:var(--ink-mid);margin-bottom:2px;display:flex;align-items:center;gap:6px}
+.card-note{background:rgba(184,118,10,.07);border-top:1px solid rgba(184,118,10,.18);padding:8px 14px;font-size:12px;color:#7a5800;font-weight:600;line-height:1.5}
+.card-foot{background:var(--mid);border-top:1px solid var(--bdr);padding:9px 14px;display:flex;align-items:center;justify-content:space-between}
+.foot-lbl{font-size:12px;color:var(--ink-light);font-weight:700}
+.num-badge{font-size:22px;font-weight:900;color:var(--ink)}
+.time-badge{font-size:13px;font-weight:700;color:var(--gr);background:rgba(26,138,58,.12);padding:3px 9px;border-radius:6px}
+.go-cal-btn{font-size:12px;font-weight:700;color:var(--bl);background:rgba(26,110,168,.08);border:1px solid rgba(26,110,168,.2);border-radius:7px;padding:4px 10px;cursor:pointer;font-family:inherit}
+
+/* DEPT STRIPES / BADGES */
+.ortho{background:var(--dept-ortho)}.psych{background:var(--dept-psych)}.endo{background:var(--dept-endo)}.neuro{background:var(--dept-neuro)}.cardio{background:var(--dept-cardio)}.other{background:var(--dept-other)}.rehab{background:var(--dept-rehab)}
+.badge-ortho{background:var(--dept-ortho-bg);color:var(--dept-ortho)}.badge-psych{background:var(--dept-psych-bg);color:var(--dept-psych)}.badge-endo{background:var(--dept-endo-bg);color:var(--dept-endo)}.badge-neuro{background:var(--dept-neuro-bg);color:var(--dept-neuro)}.badge-cardio{background:var(--dept-cardio-bg);color:var(--dept-cardio)}.badge-other{background:var(--dept-other-bg);color:var(--dept-other)}.badge-rehab{background:var(--dept-rehab-bg);color:var(--dept-rehab)}
+
+/* ADD FORM */
+.add-form{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:14px}
+.add-form-title{font-size:14px;font-weight:900;color:var(--y);margin-bottom:10px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:7px;margin-bottom:10px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:12px;color:#777;font-weight:700}
+.form-input,.form-select{background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:14px;padding:9px 11px;outline:none;width:100%;transition:border-color .2s}
+.form-input:focus,.form-select:focus{border-color:var(--y)}
+.btn-add{background:var(--y);color:#fff;border:none;border-radius:10px;padding:11px 20px;font-size:14px;font-weight:900;cursor:pointer;font-family:inherit}
+.btn-danger{background:var(--rd);color:#fff;border:none;border-radius:7px;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+
+/* BP */
+.bp-panel{background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.bp-phdr{background:var(--rd);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:9px}
+.bp-ptitle{font-size:16px;font-weight:900}
+.bp-psub{font-size:12px;opacity:.8;margin-left:auto}
+.bp-pbody{padding:12px 14px}
+.bp-sumrow{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.bp-sumbox{flex:1;min-width:100px;background:var(--mid);border:1px solid var(--bdr);border-radius:11px;padding:10px;text-align:center}
+.bp-sumlbl{font-size:11px;color:#888;font-weight:700;margin-bottom:3px}
+.bp-sumval{font-size:22px;font-weight:900;color:var(--ink);line-height:1}
+.bp-sumunit{font-size:11px;color:#aaa;margin-top:2px}
+.bp-stbadge{display:inline-block;font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px;margin-top:5px}
+.bp-st.good{background:rgba(26,138,58,.12);color:var(--gr)}.bp-st.warning{background:rgba(212,128,26,.12);color:#d4801a}.bp-st.high{background:rgba(204,34,34,.12);color:var(--rd)}.bp-st.low{background:rgba(122,79,168,.12);color:var(--pu)}
+.bp-form{background:var(--mid);border:1px solid var(--bdr);border-radius:11px;padding:12px;margin-bottom:12px}
+.bp-ftitle{font-size:13px;font-weight:900;color:var(--y);margin-bottom:10px}
+.bp-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:7px;margin-bottom:10px}
+.bp-ig{display:flex;flex-direction:column;gap:3px}
+.bp-ilbl{font-size:12px;color:#666;font-weight:700}
+.bp-input{font-family:inherit;font-size:14px;font-weight:700;border:1px solid rgba(180,140,60,.3);border-radius:9px;padding:8px 10px;background:var(--card);color:var(--ink);width:100%;outline:none}
+.bp-input:focus{border-color:var(--rd)}
+.bp-btn{background:var(--rd);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit}
+.bp-twrap{overflow-x:auto}
+.bp-table{width:100%;border-collapse:collapse;font-size:13px}
+.bp-table thead th{text-align:left;font-size:12px;color:#888;font-weight:700;padding:0 9px 8px;border-bottom:2px solid var(--bdr)}
+.bp-table tbody tr{border-bottom:1px solid rgba(180,140,60,.1)}
+.bp-table tbody tr:hover{background:var(--mid)}
+.bp-table td{padding:10px 9px;vertical-align:middle}
+.bpmono{font-weight:800;font-size:14px}
+.bpst{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px}
+.bpdel{background:none;border:none;color:#ccc;cursor:pointer;font-size:15px;padding:3px 6px;border-radius:5px}
+.bpdel:hover{color:var(--rd)}
+.bpempty{text-align:center;padding:2rem;color:#aaa;font-size:14px}
+
+/* MED */
+.med-panel{background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;margin-bottom:14px}
+.med-phdr{background:var(--bl);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:9px}
+.med-ptitle{font-size:16px;font-weight:900}
+.med-pbody{padding:12px 14px}
+.med-form{background:var(--mid);border:1px solid var(--bdr);border-radius:11px;padding:12px;margin-bottom:12px}
+.med-btn{background:var(--bl);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit}
+.med-inputs{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:7px;margin-bottom:10px}
+.med-ig{display:flex;flex-direction:column;gap:3px}
+.med-ilbl{font-size:12px;color:#666;font-weight:700}
+.med-input{font-family:inherit;font-size:14px;border:1px solid rgba(180,140,60,.3);border-radius:9px;padding:8px 10px;background:var(--card);color:var(--ink);width:100%;outline:none}
+.med-input:focus{border-color:var(--bl)}
+.med-table{width:100%;border-collapse:collapse;font-size:13px}
+.med-table thead th{text-align:left;font-size:12px;color:#888;font-weight:700;padding:0 9px 8px;border-bottom:2px solid var(--bdr)}
+.med-table tbody tr{border-bottom:1px solid rgba(180,140,60,.1)}
+.med-table tbody tr:hover{background:var(--mid)}
+.med-table td{padding:10px 9px;vertical-align:middle}
+.med-active{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px}
+.med-active.on{background:rgba(26,138,58,.12);color:var(--gr)}.med-active.off{background:#f0f0f0;color:#aaa}
+.med-toggle{background:none;border:1px solid var(--bdr);color:var(--ink-mid);cursor:pointer;font-size:12px;font-weight:700;padding:4px 9px;border-radius:6px;margin-right:4px;font-family:inherit}
+.med-del{background:none;border:none;color:#ccc;cursor:pointer;font-size:15px;padding:3px 6px;border-radius:5px}
+.med-del:hover{color:var(--rd)}
+.med-empty{text-align:center;padding:2rem;color:#aaa;font-size:14px}
+
+/* LEGEND */
+.legend{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:12px;padding:8px 12px;background:var(--card);border:1px solid var(--bdr);border-radius:10px}
+.leg-item{display:flex;align-items:center;gap:4px;font-size:12px;color:var(--ink-mid)}
+.leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* sync note */
+.sync-note{font-size:12px;color:var(--gr);text-align:center;padding:6px;background:rgba(26,138,58,.07);border-radius:8px;margin-bottom:10px;font-weight:600}
+
+@media(max-width:600px){.cards-grid{grid-template-columns:1fr}}
+/* ── 信用卡對帳 ── */
+.cc-panel{background:var(--card);border:1px solid var(--bdr);border-radius:16px;overflow:hidden;margin-bottom:14px;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.cc-panel-hdr{padding:13px 16px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bdr)}
+.cc-panel-title{font-size:16px;font-weight:900;color:var(--ink)}
+.cc-sum-row{display:flex;gap:8px;padding:12px 16px;flex-wrap:wrap;border-bottom:1px solid var(--bdr)}
+.cc-sum-box{flex:1;min-width:85px;background:var(--mid);border-radius:10px;padding:9px 10px;text-align:center}
+.cc-sum-lbl{font-size:11px;color:var(--ink-light);font-weight:700;margin-bottom:3px}
+.cc-sum-val{font-size:18px;font-weight:900;color:var(--ink)}
+.cc-twrap{overflow-x:auto}
+.cc-table{width:100%;border-collapse:collapse;font-size:14px}
+.cc-table thead th{text-align:left;font-size:11px;font-weight:800;color:var(--ink-light);padding:8px 14px;border-bottom:2px solid var(--bdr);letter-spacing:.04em;white-space:nowrap}
+.cc-table tbody tr{border-bottom:1px solid rgba(180,140,60,.08);transition:background .15s}
+.cc-table tbody tr:hover{background:var(--mid)}
+.cc-table td{padding:11px 14px;vertical-align:middle}
+.cc-bank{font-size:15px;font-weight:800;color:var(--ink)}
+.cc-bank-sub{font-size:11px;color:var(--ink-light);margin-top:1px}
+.cc-amt{font-size:16px;font-weight:900;text-align:right}
+.cc-amt.zero{color:var(--gr)}.cc-amt.pos{color:var(--ink)}
+.cc-due{font-size:13px;font-weight:700;white-space:nowrap}
+.cc-auto{font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap}
+.cc-auto.yes{background:rgba(26,138,58,.12);color:var(--gr)}.cc-auto.no{background:rgba(184,118,10,.12);color:var(--y)}
+.cc-st{font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;white-space:nowrap}
+.cc-st.paid{background:rgba(26,138,58,.12);color:var(--gr)}.cc-st.pending{background:rgba(184,118,10,.12);color:var(--y)}.cc-st.overdue{background:rgba(204,34,34,.12);color:var(--rd)}.cc-st.zero{background:#f0f0f0;color:#aaa}
+.cc-del{background:none;border:none;color:#ccc;cursor:pointer;font-size:15px;padding:3px 8px;border-radius:5px}.cc-del:hover{color:var(--rd)}
+.cc-add-form{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:14px}
+.cc-add-title{font-size:14px;font-weight:900;color:var(--y);margin-bottom:10px}
+.cc-fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px;margin-bottom:10px}
+.cc-fgrp{display:flex;flex-direction:column;gap:4px}
+.cc-flbl{font-size:12px;color:#777;font-weight:700}
+.cc-fi,.cc-fs{background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:14px;padding:8px 11px;outline:none;width:100%}
+.cc-fi:focus,.cc-fs:focus{border-color:var(--y)}
+.cc-add-btn{background:var(--y);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:900;cursor:pointer;font-family:inherit}
+.cc-mnav{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.cc-mnbtn{background:var(--mid);border:1px solid var(--bdr);border-radius:8px;color:var(--ink);font-size:16px;width:34px;height:34px;cursor:pointer;font-weight:700}
+.cc-mlbl{font-size:15px;font-weight:900;color:var(--y);flex:1;text-align:center}
+.cc-total{background:linear-gradient(135deg,#1a1200,#2d1f00);color:#ffd060;padding:12px 16px;border-radius:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.cc-total-lbl{font-size:12px;font-weight:700;opacity:.8}
+.cc-total-amt{font-size:22px;font-weight:900}
+.cc-stripe-bar{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0}
+/* ── 年度開銷 ── */
+.exp-tab-bar{display:flex;gap:4px;flex-wrap:wrap;margin-bottom:14px}
+.exp-tab{background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink-mid);transition:all .15s;white-space:nowrap}
+.exp-tab.active{background:var(--y);color:#fff;border-color:var(--y)}
+.exp-summary-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px;margin-bottom:14px}
+.exp-sum-box{background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:10px 12px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.exp-sum-lbl{font-size:11px;color:var(--ink-light);font-weight:700;margin-bottom:3px}
+.exp-sum-val{font-size:19px;font-weight:900;color:var(--ink)}
+.exp-sum-sub{font-size:11px;color:var(--ink-light);margin-top:1px}
+.exp-panel{background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;margin-bottom:12px}
+.exp-panel-hdr{padding:11px 14px;background:var(--y);color:#fff;display:flex;align-items:center;justify-content:space-between}
+.exp-panel-title{font-size:14px;font-weight:900}
+.exp-panel-amt{font-size:15px;font-weight:900}
+.exp-table{width:100%;border-collapse:collapse;font-size:13px}
+.exp-table thead th{text-align:left;font-size:11px;color:#888;font-weight:800;padding:7px 12px;border-bottom:2px solid var(--bdr);white-space:nowrap;letter-spacing:.04em}
+.exp-table tbody tr{border-bottom:1px solid rgba(180,140,60,.08);transition:background .12s}
+.exp-table tbody tr:hover{background:var(--mid)}
+.exp-table td{padding:9px 12px;vertical-align:middle}
+.exp-cat-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(184,118,10,.1);color:#7a5800;white-space:nowrap}
+.exp-amt{font-size:14px;font-weight:900;text-align:right;white-space:nowrap}
+.exp-amt.zero{color:#ccc}
+.exp-note{font-size:11px;color:var(--ink-light)}
+.exp-add-form{background:var(--card);border:1px solid var(--bdr);border-radius:13px;padding:12px 14px;margin-bottom:12px}
+.exp-add-title{font-size:13px;font-weight:900;color:var(--y);margin-bottom:9px}
+.exp-add-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:7px;margin-bottom:9px}
+.exp-add-grp{display:flex;flex-direction:column;gap:3px}
+.exp-add-lbl{font-size:11px;color:#777;font-weight:700}
+.exp-add-inp,.exp-add-sel{background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:8px;color:var(--ink);font-family:inherit;font-size:13px;padding:7px 9px;outline:none;width:100%}
+.exp-add-inp:focus,.exp-add-sel:focus{border-color:var(--y)}
+.exp-add-btn{background:var(--y);color:#fff;border:none;border-radius:9px;padding:9px 18px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit}
+.exp-del{background:none;border:none;color:#ccc;cursor:pointer;font-size:14px;padding:3px 6px;border-radius:5px}
+.exp-del:hover{color:var(--rd)}
+.exp-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.exp-bar-lbl{font-size:12px;font-weight:700;color:var(--ink-mid);min-width:90px;flex-shrink:0}
+.exp-bar-track{flex:1;background:rgba(184,118,10,.1);border-radius:4px;height:8px;overflow:hidden}
+.exp-bar-fill{height:100%;border-radius:4px;background:var(--y);transition:width .4s}
+.exp-bar-amt{font-size:12px;font-weight:800;color:var(--ink);min-width:70px;text-align:right;flex-shrink:0}
+.exp-income-panel{background:linear-gradient(135deg,#1a3a1a,#1a4a1a);color:#fff;border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.exp-income-title{font-size:13px;font-weight:900;opacity:.8;margin-bottom:6px}
+.exp-income-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
+.exp-income-lbl{font-size:13px;font-weight:600;opacity:.9}
+.exp-income-val{font-size:16px;font-weight:900}
+.exp-balance-pos{color:#6ed888}
+.exp-balance-neg{color:#ff8080}
+.exp-cat-chip{border:none;border-radius:20px;padding:4px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;transition:all .15s;border:1.5px solid transparent}
+.exp-cat-chip.inactive{background:var(--mid);color:var(--ink-light);border-color:var(--bdr)}
+.exp-cat-chip.active{color:#fff;border-color:transparent}
+.exp-mnbtn{background:var(--mid);border:1px solid var(--bdr);border-radius:8px;color:var(--ink);font-size:16px;width:34px;height:34px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center}
+.exp-mlbl{font-size:15px;font-weight:900;color:var(--y);flex:1;text-align:center}
+</style>
+<body>
+
+<!-- HEADER -->
+<div class="main-header">
+  <div class="hrow1">
+    <div class="htitles">
+      <div class="sub">2026 · 中華民國115年 · 整合健康管理版</div>
+      <div class="main">🗓 2026 年度行事曆</div>
+    </div>
+    <div class="hdate"><strong id="hdr-today"></strong><span id="hdr-wd"></span></div>
+  </div>
+  <div class="hstats">
+    <div class="hstat"><span class="hstat-num" id="hstat-appt">—</span><span class="hstat-lbl">未來回診</span></div>
+    <div class="hstat-div"></div>
+    <div class="hstat"><span class="hstat-num" id="hstat-bp">—</span><span class="hstat-lbl">最近血壓</span></div>
+    <div class="hstat-div"></div>
+    <div class="hstat"><span class="hstat-num" id="hstat-med">—</span><span class="hstat-lbl">目前用藥</span></div>
+  </div>
+</div>
+
+<!-- NAV -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchSec('focus')">⭐ 本月重點</button>
+  <button class="nav-tab" onclick="switchSec('cal')">📅 月曆</button>
+  <button class="nav-tab" onclick="switchSec('appt')">🏥 看診記錄</button>
+  <button class="nav-tab" onclick="switchSec('bp')">❤️ 血壓</button>
+  <button class="nav-tab" onclick="switchSec('med')">💊 用藥</button>
+  <button class="nav-tab" onclick="switchSec('cc')">💳 信用卡對帳</button>
+  <button class="nav-tab" onclick="switchSec('exp')">📊 年度開銷</button>
+</div>
+
+<!-- ══ 本月重點 ══ -->
+<div id="sec-focus" class="section active"><div class="content">
+  <div class="focus-stats" id="focus-stats"></div>
+  <div class="focus-sort-bar">
+    <span style="font-size:12px;color:#888;font-weight:700">排序：</span>
+    <button class="focus-sort-btn active" id="sort-cat" onclick="setFocusSort('cat')">依類別</button>
+    <button class="focus-sort-btn" id="sort-date" onclick="setFocusSort('date')">依日期</button>
+    <button class="focus-sort-btn" id="sort-status" onclick="setFocusSort('status')">依狀態</button>
+  </div>
+  <div id="focus-content"></div>
+</div></div>
+
+<!-- ══ 本月重點原始資料（隱藏）══ -->
+<div id="sec-focus-UNUSED" style="display:none"><div class="content">
+  <div class="focus-group">
+    <div class="focus-ghdr"><div class="focus-gtitle">💰 財務重點</div><div class="focus-gline"></div></div>
+    <div class="focus-item"><div class="fdate">5/1</div><div class="fbody"><div class="ftext">💳 國泰世華 $18,628 自動扣款</div></div><span class="fbadge fb-ok">✅已扣</span></div>
+    <div class="focus-item"><div class="fdate">5/6</div><div class="fbody"><div class="ftext">🚗 中租車貸 自動扣款（國泰銀行）</div></div><span class="fbadge fb-warn">⏳待確認</span></div>
+    <div class="focus-item"><div class="fdate">5/8</div><div class="fbody"><div class="ftext">💳 中信信用卡 $12,619 自動扣款</div></div><span class="fbadge fb-warn">⏳待確認</span></div>
+    <div class="focus-item"><div class="fdate">5/12</div><div class="fbody"><div class="ftext">💳 玉山信用卡 $5,007（App/超商繳費）</div><div class="fnote">⚠️ 截止日</div></div><span class="fbadge fb-red">⚠️截止</span></div>
+    <div class="focus-item"><div class="fdate">5/6</div><div class="fbody"><div class="ftext">💳 聯邦 $31,406（出帳後繳費）</div></div><span class="fbadge fb-warn">⏳待繳</span></div>
+    <div class="focus-item"><div class="fdate">5/31</div><div class="fbody"><div class="ftext">📋 綜合所得稅申報截止 ＋ 🏠 房屋稅截止</div></div><span class="fbadge fb-red">⚠️截止</span></div>
+  </div>
+  <div class="focus-group">
+    <div class="focus-ghdr"><div class="focus-gtitle">🏥 醫療行程</div><div class="focus-gline"></div></div>
+    <div class="focus-item" onclick="goToAppt('2026-05-09')" style="cursor:pointer"><div class="fdate">5/9（六）</div><div class="fbody"><div class="ftext">🦴 亞東骨科 陳文質醫師 H116 #37</div></div><span class="fbadge fb-info">→月曆</span></div>
+    <div class="focus-item" onclick="goToAppt('2026-05-12')" style="cursor:pointer"><div class="fdate">5/12（二）</div><div class="fbody"><div class="ftext">🏥 大鈞復健 脖子牽引 08:00</div></div><span class="fbadge fb-info">→月曆</span></div>
+    <div class="focus-item" onclick="goToAppt('2026-05-16')" style="cursor:pointer"><div class="fdate">5/16（六）</div><div class="fbody"><div class="ftext">🧠 亞東精神科 林竺君醫師 A901 #10</div><div class="fnote">建議08:50到診</div></div><span class="fbadge fb-info">→月曆</span></div>
+    <div class="focus-item" onclick="goToAppt('2026-05-23')" style="cursor:pointer"><div class="fdate">5/23（六）</div><div class="fbody"><div class="ftext">🦴 亞東骨科 陳文質醫師 H116 #43</div></div><span class="fbadge fb-info">→月曆</span></div>
+    <div class="focus-item"><div class="fdate">每週二、六</div><div class="fbody"><div class="ftext">🏥 大鈞復健 脖子牽引 08:00–09:30</div></div><span class="fbadge fb-rep">🔄例行</span></div>
+  </div>
+  <div class="focus-group">
+    <div class="focus-ghdr"><div class="focus-gtitle">👧 孩子行程</div><div class="focus-gline"></div></div>
+    <div class="focus-item"><div class="fdate">5/5–5/7</div><div class="fbody"><div class="ftext">📚 德第二次段考</div></div><span class="fbadge fb-warn">⏳</span></div>
+    <div class="focus-item"><div class="fdate">5/11（一）</div><div class="fbody"><div class="ftext">🎶 管樂成果發表會 18:30</div><div class="fnote">新北市政府多功能集會堂 3F</div></div><span class="fbadge fb-warn">⏳重要</span></div>
+    <div class="focus-item"><div class="fdate">5/12起</div><div class="fbody"><div class="ftext">🎨 萱畢業美展（至5/20）09:00開幕</div></div><span class="fbadge fb-warn">⏳</span></div>
+  </div>
+  <div class="focus-group">
+    <div class="focus-ghdr"><div class="focus-gtitle">🎉 家庭活動</div><div class="focus-gline"></div></div>
+    <div class="focus-item"><div class="fdate">至6/14</div><div class="fbody"><div class="ftext">⛲ 碧潭水舞季（每晚18:30）</div></div><span class="fbadge fb-info">持續中</span></div>
+    <div class="focus-item"><div class="fdate">5/27</div><div class="fbody"><div class="ftext">👗 迪化街扮裝（萱）大稻埕遊客中心</div></div><span class="fbadge fb-warn">⏳</span></div>
+    <div class="focus-item"><div class="fdate">5/29–6/1</div><div class="fbody"><div class="ftext">🧸 世貿玩具展（已有票）</div></div><span class="fbadge fb-warn">⏳</span></div>
+  </div>
+  <div class="focus-group">
+    <div class="focus-ghdr"><div class="focus-gtitle">🔄 每週例行</div><div class="focus-gline"></div></div>
+    <div class="focus-item"><div class="fdate">每週一</div><div class="fbody"><div class="ftext">⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換</div></div><span class="fbadge fb-rep">🔄</span></div>
+    <div class="focus-item"><div class="fdate">每週三</div><div class="fbody"><div class="ftext">✅ 查違規 TDZ-0950（監理站）</div></div><span class="fbadge fb-rep">🔄</span></div>
+    <div class="focus-item"><div class="fdate">每日</div><div class="fbody"><div class="ftext">🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥（三餐）</div></div><span class="fbadge fb-rep">🔄</span></div>
+  </div>
+</div></div><!-- end hidden -->
+
+<!-- ══ 月曆 ══ -->
+<div id="sec-cal" class="section"><div class="content">
+  <div class="sync-note">🔗 綠色圓點＝看診日 · 點擊日期可查看看診詳情 · 點看診卡片可跳到月曆</div>
+  <div class="cal-nav">
+    <button class="cal-nbtn" onclick="changeMonth(-1)">‹</button>
+    <div class="cal-mlbl" id="cal-lbl"></div>
+    <button class="cal-nbtn" onclick="changeMonth(1)">›</button>
+  </div>
+  <div class="cal-grid" id="cal-grid"></div>
+</div></div>
+
+<!-- ══ 看診記錄 ══ -->
+<div id="sec-appt" class="section"><div class="content">
+  <div class="sync-note">🔗 點擊看診卡片可同步到月曆對應日期</div>
+  <div class="legend">
+    <span class="leg-item"><span class="leg-dot" style="background:var(--dept-ortho)"></span>骨科</span>
+    <span class="leg-item"><span class="leg-dot" style="background:var(--dept-psych)"></span>精神科</span>
+    <span class="leg-item"><span class="leg-dot" style="background:var(--dept-endo)"></span>新陳代謝</span>
+    <span class="leg-item"><span class="leg-dot" style="background:var(--dept-neuro)"></span>神經科</span>
+    <span class="leg-item"><span class="leg-dot" style="background:var(--dept-rehab)"></span>復健</span>
+    <span class="leg-item" style="margin-left:4px"><span class="leg-dot" style="background:var(--gr)"></span>已完成</span>
+  </div>
+  <div class="add-form">
+    <div class="add-form-title">＋ 新增回診預約</div>
+    <div class="form-grid">
+      <div class="form-group"><span class="form-label">日期</span><input type="date" class="form-input" id="appt-date"/></div>
+      <div class="form-group"><span class="form-label">科別</span>
+        <select class="form-select" id="appt-dept-type">
+          <option value="ortho">骨科部</option><option value="psych">精神暨心身醫學部</option>
+          <option value="endo">新陳代謝科</option><option value="neuro">神經醫學部</option>
+          <option value="cardio">心臟內科</option><option value="other">其他</option>
+          <option value="rehab">復健治療（診所）</option>
+        </select>
+      </div>
+      <div class="form-group"><span class="form-label">科別名稱（自訂）</span><input type="text" class="form-input" id="appt-dept-name" placeholder="骨科部"/></div>
+      <div class="form-group"><span class="form-label">醫師</span><input type="text" class="form-input" id="appt-doctor" placeholder="陳文質 醫師"/></div>
+      <div class="form-group"><span class="form-label">診間／時段</span><input type="text" class="form-input" id="appt-room" placeholder="H116 · 上午診"/></div>
+      <div class="form-group"><span class="form-label">建議時間</span><input type="time" class="form-input" id="appt-time"/></div>
+      <div class="form-group"><span class="form-label">就診號碼</span><input type="number" class="form-input" id="appt-number" placeholder="37"/></div>
+      <div class="form-group"><span class="form-label">備註</span><input type="text" class="form-input" id="appt-note" placeholder="膝關節評估"/></div>
+    </div>
+    <button class="btn-add" onclick="addAppt()">新增預約</button>
+  </div>
+  <div id="appt-list"></div>
+</div></div>
+
+<!-- ══ 血壓 ══ -->
+<div id="sec-bp" class="section"><div class="content">
+  <div class="bp-sumrow" id="bp-sumrow" style="display:none"></div>
+  <div class="bp-panel">
+    <div class="bp-phdr"><span style="font-size:20px">❤️</span><span class="bp-ptitle">血壓記錄</span><span class="bp-psub">點✕可刪除</span></div>
+    <div class="bp-pbody">
+      <div class="bp-form">
+        <div class="bp-ftitle">新增血壓量測</div>
+        <div class="bp-inputs">
+          <div class="bp-ig"><span class="bp-ilbl">日期</span><input type="date" class="bp-input" id="bp-date" style="font-size:13px;font-family:inherit"/></div>
+          <div class="bp-ig"><span class="bp-ilbl">時間</span><input type="time" class="bp-input" id="bp-time" style="font-size:13px;font-family:inherit"/></div>
+          <div class="bp-ig"><span class="bp-ilbl">收縮壓（高）</span><input type="number" class="bp-input" id="bp-sys" placeholder="120"/></div>
+          <div class="bp-ig"><span class="bp-ilbl">舒張壓（低）</span><input type="number" class="bp-input" id="bp-dia" placeholder="80"/></div>
+          <div class="bp-ig"><span class="bp-ilbl">脈搏 bpm</span><input type="number" class="bp-input" id="bp-pulse" placeholder="72"/></div>
+          <div class="bp-ig"><span class="bp-ilbl">備註</span><input type="text" class="bp-input" id="bp-note" placeholder="早晨空腹" style="font-family:inherit;font-size:13px"/></div>
+        </div>
+        <button class="bp-btn" onclick="addBP()">儲存記錄</button>
+      </div>
+      <div class="bp-twrap">
+        <table class="bp-table">
+          <thead><tr><th>日期／時間</th><th>血壓</th><th>脈搏</th><th>狀態</th><th>備註</th><th></th></tr></thead>
+          <tbody id="bp-tbody"></tbody>
+        </table>
+        <div id="bp-empty" class="bpempty" style="display:none">尚無血壓記錄。</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ══ 用藥 ══ -->
+<div id="sec-med" class="section"><div class="content">
+  <div class="med-panel">
+    <div class="med-phdr"><span style="font-size:20px">💊</span><span class="med-ptitle">用藥記錄</span></div>
+    <div class="med-pbody">
+      <div class="med-form">
+        <div class="bp-ftitle">新增用藥</div>
+        <div class="med-inputs">
+          <div class="med-ig"><span class="med-ilbl">藥品名稱</span><input type="text" class="med-input" id="med-name" placeholder="氨氯地平錠"/></div>
+          <div class="med-ig"><span class="med-ilbl">劑量</span><input type="text" class="med-input" id="med-dose" placeholder="5mg"/></div>
+          <div class="med-ig"><span class="med-ilbl">服用頻率</span><input type="text" class="med-input" id="med-freq" placeholder="每日一次、飯後"/></div>
+          <div class="med-ig"><span class="med-ilbl">開始日期</span><input type="date" class="med-input" id="med-start"/></div>
+          <div class="med-ig"><span class="med-ilbl">結束日期</span><input type="date" class="med-input" id="med-end"/></div>
+          <div class="med-ig"><span class="med-ilbl">備註</span><input type="text" class="med-input" id="med-note" placeholder="飯後服用"/></div>
+        </div>
+        <button class="med-btn" onclick="addMed()">新增用藥</button>
+      </div>
+      <div class="bp-twrap">
+        <table class="med-table">
+          <thead><tr><th>藥品名稱</th><th>劑量</th><th>頻率</th><th>開始</th><th>結束</th><th>狀態</th><th>備註</th><th></th></tr></thead>
+          <tbody id="med-tbody"></tbody>
+        </table>
+        <div id="med-empty" class="med-empty" style="display:none">尚無用藥記錄。</div>
+      </div>
+    </div>
+  </div>
+</div></div>
+
+<!-- ══ 信用卡對帳 ══ -->
+<div id="sec-cc" class="section"><div class="content">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+    <div class="sec-title" style="margin-bottom:0">💳 信用卡對帳（從圖片匯入）</div>
+    <button onclick="exportCCCSV()" style="background:var(--gr);color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">⬇️ 匯出CSV</button>
+  </div>
+
+  <!-- 新增卡片表單 -->
+  <div class="cc-add-form">
+    <div class="cc-add-title">＋ 新增信用卡</div>
+    <div class="cc-fg">
+      <div class="cc-fgrp"><span class="cc-flbl">銀行</span>
+        <select class="cc-fs" id="cc-bank">
+          <option value="cathay">國泰世華</option>
+          <option value="fubon">富邦銀行</option>
+          <option value="union">聯邦銀行</option>
+          <option value="taishin">台新銀行</option>
+          <option value="ctbc">中信銀行</option>
+          <option value="esun">玉山銀行</option>
+          <option value="other">其他</option>
+        </select>
+      </div>
+      <div class="cc-fgrp"><span class="cc-flbl">截止日（號）</span><input type="number" class="cc-fi" id="cc-day" placeholder="8" min="1" max="31"/></div>
+      <div class="cc-fgrp"><span class="cc-flbl">截止說明</span><input type="text" class="cc-fi" id="cc-cycle" placeholder="月初8號截止"/></div>
+      <div class="cc-fgrp"><span class="cc-flbl">自動扣款</span>
+        <select class="cc-fs" id="cc-auto">
+          <option value="0">手動繳費</option>
+          <option value="1">自動扣款</option>
+        </select>
+      </div>
+      <div class="cc-fgrp"><span class="cc-flbl">扣款說明</span><input type="text" class="cc-fi" id="cc-debit" placeholder="國泰自扣"/></div>
+    </div>
+    <button class="cc-add-btn" onclick="addCCCard()">新增</button>
+  </div>
+
+  <!-- 信用卡主體 -->
+  <div class="cc-panel">
+    <div id="cc-main"></div>
+  </div>
+
+  <!-- 使用說明 -->
+  <div style="background:var(--mid);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--ink-light);line-height:1.7">
+    💡 <strong>使用說明：</strong>輸入金額後按 Enter 儲存・點 ✅ 標記已繳・點 ↩️ 改回待繳・⬇️ 可匯出 CSV 到 Excel
+  </div>
+</div></div>
+
+<!-- ══ 年度開銷 ══ -->
+<div id="sec-exp" class="section"><div class="content">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+    <div style="font-size:16px;font-weight:900;color:var(--ink)">📊 2026 年度開銷記錄</div>
+    <button onclick="expExportCSV()" style="background:var(--gr);color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">⬇️ 匯出CSV</button>
+  </div>
+
+  <!-- 分頁：總覽 / 各月明細 -->
+  <div class="exp-tab-bar" id="exp-tab-bar">
+    <button class="exp-tab active" onclick="switchExpTab('overview')">📊 年度總覽</button>
+    <button class="exp-tab" onclick="switchExpTab('month')">📅 月度明細</button>
+    <button class="exp-tab" onclick="switchExpTab('add')">➕ 新增記錄</button>
+  </div>
+
+  <!-- 年度總覽 -->
+  <div id="exp-overview">
+    <div class="exp-summary-grid" id="exp-summary-grid"></div>
+    <div class="exp-income-panel" id="exp-income-panel"></div>
+    <div style="font-size:13px;font-weight:900;color:var(--y);margin-bottom:10px">▶ 各類別支出佔比</div>
+    <div id="exp-bars"></div>
+    <div class="exp-panel">
+      <div class="exp-panel-hdr"><span class="exp-panel-title">📋 全年明細</span><span class="exp-panel-amt" id="exp-all-total"></span></div>
+      <!-- 類別篩選 -->
+      <div style="padding:10px 12px;border-bottom:1px solid var(--bdr)">
+        <div style="font-size:11px;font-weight:800;color:var(--ink-light);margin-bottom:7px;letter-spacing:.05em">篩選類別</div>
+        <div id="exp-cat-filters" style="display:flex;gap:5px;flex-wrap:wrap"></div>
+      </div>
+      <div style="overflow-x:auto"><table class="exp-table">
+        <thead><tr><th>日期</th><th>類別</th><th>金額</th><th>付款方式</th><th>備註</th><th></th></tr></thead>
+        <tbody id="exp-all-tbody"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <!-- 月度明細 -->
+  <div id="exp-month" style="display:none">
+    <div class="exp-month-nav">
+      <button class="exp-mnbtn" onclick="expChangeMonth(-1)">‹</button>
+      <div class="exp-mlbl" id="exp-mlbl"></div>
+      <button class="exp-mnbtn" onclick="expChangeMonth(1)">›</button>
+    </div>
+    <div class="exp-summary-grid" id="exp-month-summary"></div>
+    <div class="exp-panel">
+      <div class="exp-panel-hdr"><span class="exp-panel-title" id="exp-month-title"></span><span class="exp-panel-amt" id="exp-month-total"></span></div>
+      <div style="overflow-x:auto"><table class="exp-table">
+        <thead><tr><th>日期</th><th>類別</th><th>金額</th><th>付款方式</th><th>備註</th><th></th></tr></thead>
+        <tbody id="exp-month-tbody"></tbody>
+      </table></div>
+    </div>
+  </div>
+
+  <!-- 新增記錄 -->
+  <div id="exp-add" style="display:none">
+    <div class="exp-add-form">
+      <div class="exp-add-title">➕ 新增開銷記錄</div>
+      <div class="exp-add-grid">
+        <div class="exp-add-grp"><span class="exp-add-lbl">日期</span><input type="date" class="exp-add-inp" id="exp-date"/></div>
+        <div class="exp-add-grp"><span class="exp-add-lbl">類別</span>
+          <select class="exp-add-sel" id="exp-cat">
+            <option value="🏠 居住">🏠 居住</option>
+            <option value="🍽️ 飲食">🍽️ 飲食</option>
+            <option value="🚗 交通">🚗 交通</option>
+            <option value="🏥 醫療健康">🏥 醫療健康</option>
+            <option value="👕 服飾">👕 服飾</option>
+            <option value="📚 教育">📚 教育</option>
+            <option value="🎮 娛樂">🎮 娛樂</option>
+            <option value="💻 3C/設備">💻 3C/設備</option>
+            <option value="👨‍👩‍👧 家庭">👨‍👩‍👧 家庭</option>
+            <option value="💰 其他">💰 其他</option>
+          </select>
+        </div>
+        <div class="exp-add-grp"><span class="exp-add-lbl">金額 (NT$)</span><input type="number" class="exp-add-inp" id="exp-amount" placeholder="0"/></div>
+        <div class="exp-add-grp"><span class="exp-add-lbl">付款方式</span><input type="text" class="exp-add-inp" id="exp-pay" placeholder="現金、信用卡…"/></div>
+        <div class="exp-add-grp" style="grid-column:1/-1"><span class="exp-add-lbl">備註</span><input type="text" class="exp-add-inp" id="exp-note-inp" placeholder="說明"/></div>
+      </div>
+      <button class="exp-add-btn" onclick="addExpRecord()">新增</button>
+    </div>
+
+    <div class="exp-add-form">
+      <div class="exp-add-title">💰 年度收入設定</div>
+      <div class="exp-add-grid">
+        <div class="exp-add-grp"><span class="exp-add-lbl">月份</span>
+          <select class="exp-add-sel" id="exp-inc-month">
+            <option value="0">全年固定</option>
+            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+            <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+            <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
+            <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+          </select>
+        </div>
+        <div class="exp-add-grp"><span class="exp-add-lbl">金額 (NT$)</span><input type="number" class="exp-add-inp" id="exp-inc-amount" placeholder="28000"/></div>
+        <div class="exp-add-grp"><span class="exp-add-lbl">來源</span><input type="text" class="exp-add-inp" id="exp-inc-src" placeholder="租金收入"/></div>
+      </div>
+      <button class="exp-add-btn" onclick="addIncRecord()">新增收入</button>
+    </div>
+  </div>
+
+</div></div>
+
+
+<div class="modal-overlay" id="mo" onclick="closeMo(event)">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title" id="mo-title"></div>
+    <div class="modal-wd" id="mo-wd"></div>
+    <div id="mo-events"></div>
+    <button class="modal-close" onclick="document.getElementById('mo').classList.remove('open')">關閉</button>
+  </div>
+</div>
+
+<script>
+// ═══ DATA ═══
+const INIT_APPTS = [{"id": 1, "date": "2026-05-09", "deptType": "ortho", "deptName": "骨科部", "doctor": "陳文質 醫師", "room": "診間 H116 · 上午診", "time": "", "number": 37, "note": "半年評估：膝關節玻尿酸注射。健保給付：Suplasyn 3-Shot（愛爾蘭，570元）。自費選項：Artz 1,482元 / HyLink 3,573元 / Durolane 6,273元 / Hyafelic Uno 16,473元。"}, {"id": 2, "date": "2026-05-16", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:50", "number": 10}, {"id": 3, "date": "2026-05-23", "deptType": "ortho", "deptName": "骨科部", "doctor": "陳文質 醫師", "room": "診間 H116 · 上午診", "time": "", "number": 43, "note": "膝關節評估"}, {"id": 4, "date": "2026-06-06", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:50", "number": 10}, {"id": 5, "date": "2026-06-06", "deptType": "endo", "deptName": "新陳代謝科", "doctor": "陳華芬 醫師", "room": "診間 G224 · 上午診", "time": "", "number": 3}, {"id": 6, "date": "2026-06-18", "deptType": "neuro", "deptName": "神經醫學部", "doctor": "李少白 醫師", "room": "診間 F203 · 上午診", "time": "", "number": 9}, {"id": 7, "date": "2026-07-04", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:30", "number": 1}, {"id": 8, "date": "2026-08-01", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:30", "number": 1}, {"id": 100, "date": "2026-05-12", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 101, "date": "2026-05-14", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 102, "date": "2026-05-19", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 103, "date": "2026-05-21", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 104, "date": "2026-05-26", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 105, "date": "2026-05-28", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 106, "date": "2026-06-02", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 107, "date": "2026-06-04", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 108, "date": "2026-06-09", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 109, "date": "2026-06-11", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 110, "date": "2026-06-16", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 111, "date": "2026-06-18", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 112, "date": "2026-06-23", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 113, "date": "2026-06-25", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 114, "date": "2026-06-30", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 115, "date": "2026-07-02", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 116, "date": "2026-07-07", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 117, "date": "2026-07-09", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 118, "date": "2026-07-14", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 119, "date": "2026-07-16", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 120, "date": "2026-07-21", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 121, "date": "2026-07-23", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 122, "date": "2026-07-28", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 123, "date": "2026-07-30", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}];
+
+const HOLIDAYS = {
+  "2026-01-01":"元旦","2026-02-14":"除夕","2026-02-15":"春節","2026-02-16":"春節",
+  "2026-02-17":"春節","2026-02-18":"春節","2026-02-19":"春節","2026-02-20":"春節補假",
+  "2026-02-21":"春節","2026-02-22":"春節","2026-02-27":"和平紀念日補假",
+  "2026-02-28":"和平紀念日","2026-03-01":"和平紀念日",
+  "2026-04-03":"兒童節補假","2026-04-04":"兒童節","2026-04-05":"清明節","2026-04-06":"清明節補假",
+  "2026-05-01":"勞動節","2026-05-02":"勞動節","2026-05-03":"勞動節",
+  "2026-06-19":"端午節","2026-06-20":"端午節","2026-06-21":"端午節",
+  "2026-09-25":"中秋節","2026-09-26":"中秋節","2026-09-27":"中秋節","2026-09-28":"教師節",
+  "2026-10-09":"國慶補假","2026-10-10":"國慶日","2026-10-11":"國慶日",
+  "2026-10-24":"台灣光復","2026-10-25":"台灣光復","2026-10-26":"台灣光復補假",
+  "2026-12-25":"行憲紀念日","2026-12-26":"行憲紀念日","2026-12-27":"行憲紀念日"
+};
+
+const CAL_EVT = {
+  "2026-05-01":["🟡勞動節","💳國泰$18,628自扣"],
+  "2026-05-04":["⛽中油Pay","🥛鮮奶","🎵管樂"],
+  "2026-05-05":["📚德段考"],"2026-05-06":["🚗車貸自扣"],
+  "2026-05-08":["💳中信$12,619自扣"],"2026-05-11":["🎶管樂成果發表18:30"],
+  "2026-05-12":["🎨萱畢業美展開幕"],"2026-05-27":["👗迪化街扮裝"],
+  "2026-05-29":["🧸世貿玩具展"],"2026-05-31":["📋所得稅截止","🏠房屋稅截止"],
+  "2026-06-06":["🚗車貸自扣"],"2026-06-19":["🐉端午節"],
+};
+
+const DEPT = {
+  ortho:{label:"骨科部",s:"ortho",b:"badge-ortho",n:"骨科部"},
+  psych:{label:"精神暨心身",s:"psych",b:"badge-psych",n:"精神暨心身醫學部"},
+  endo:{label:"新陳代謝科",s:"endo",b:"badge-endo",n:"新陳代謝科"},
+  neuro:{label:"神經醫學部",s:"neuro",b:"badge-neuro",n:"神經醫學部"},
+  cardio:{label:"心臟內科",s:"cardio",b:"badge-cardio",n:"心臟內科"},
+  other:{label:"其他",s:"other",b:"badge-other",n:"其他科別"},
+  rehab:{label:"復健治療",s:"rehab",b:"badge-rehab",n:"復健治療"},
+};
+
+const WDS=["週日","週一","週二","週三","週四","週五","週六"];
+const WDS_S=["日","一","二","三","四","五","六"];
+const MONTHS=["","一月","二月","三月","四月","五月","六月","七月","八月","九月","十月","十一月","十二月"];
+
+function today(){return new Date().toISOString().slice(0,10);}
+function nowTime(){return new Date().toTimeString().slice(0,5);}
+function weekday(ds){return WDS[new Date(ds+"T00:00:00").getDay()];}
+function fmt(ds){if(!ds)return"";const p=ds.split("-");return p[1]+"/"+p[2];}
+function dkey(y,m,d){return`${y}-${String(m+1).padStart(2,"0")}-${String(d).padStart(2,"0")}`;}
+
+// ═══ HEADER ═══
+(function(){
+  const n=new Date();
+  document.getElementById("hdr-today").textContent=`${n.getFullYear()}/${String(n.getMonth()+1).padStart(2,"0")}/${String(n.getDate()).padStart(2,"0")}`;
+  document.getElementById("hdr-wd").textContent=WDS[n.getDay()];
+})();
+
+// ═══ SECTION SWITCH ═══
+function switchSec(id){
+  document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+  document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
+  document.getElementById("sec-"+id).classList.add("active");
+  const idx={focus:0,cal:1,appt:2,bp:3,med:4,cc:5,exp:6}[id];
+  document.querySelectorAll(".nav-tab")[idx]?.classList.add("active");
+  if(id==="cal")renderCal();
+  if(id==="appt")renderAppts();
+  if(id==="focus")renderFocus();
+  if(id==="exp")renderExp();
+}
+
+// ═══ SYNC: 看診→月曆 ═══
+let curYear=2026,curMonth=4; // 0-indexed
+
+function goToAppt(dateStr){
+  // dateStr = "2026-05-09"
+  const parts=dateStr.split("-");
+  curYear=+parts[0]; curMonth=+parts[1]-1;
+  switchSec("cal");
+  setTimeout(()=>{
+    // highlight the day and open modal
+    renderCal();
+    setTimeout(()=>{
+      const d=+parts[2];
+      showDay(dateStr,d,true);
+      // scroll cal day into view
+      const cells=document.querySelectorAll(".cal-day");
+      const firstDay=new Date(curYear,curMonth,1).getDay();
+      const idx=firstDay+d-1+7; // +7 for weekday headers
+      cells[d-1+firstDay]?.scrollIntoView({behavior:"smooth",block:"center"});
+    },100);
+  },50);
+}
+
+// ═══ CALENDAR ═══
+function changeMonth(delta){
+  curMonth+=delta;
+  if(curMonth>11){curMonth=0;curYear++;}
+  if(curMonth<0){curMonth=11;curYear--;}
+  renderCal();
+}
+
+function renderCal(){
+  document.getElementById("cal-lbl").textContent=`${curYear}年 ${MONTHS[curMonth+1]}`;
+  const now=new Date();
+  const todayKey=dkey(now.getFullYear(),now.getMonth(),now.getDate());
+  const firstDay=new Date(curYear,curMonth,1).getDay();
+  const dim=new Date(curYear,curMonth+1,0).getDate();
+
+  // build medical date lookup from current appointments
+  const medDates={};
+  appointments.forEach(a=>{
+    if(!medDates[a.date])medDates[a.date]=[];
+    medDates[a.date].push(a);
+  });
+
+  let html=WDS_S.map((w,i)=>`<div class="cal-wd" style="${i===0?"color:#cc4444":i===6?"color:#4466cc":""}">${w}</div>`).join("");
+  for(let i=0;i<firstDay;i++) html+="<div></div>";
+  for(let d=1;d<=dim;d++){
+    const key=dkey(curYear,curMonth,d);
+    const dow=new Date(curYear,curMonth,d).getDay();
+    const isSun=dow===0,isSat=dow===6;
+    const isToday=key===todayKey;
+    const hol=HOLIDAYS[key];
+    const evts=CAL_EVT[key]||[];
+    const meds=medDates[key]||[];
+    let cls="cal-day"+(isToday?" today":"")+(hol?" holiday":"");
+    const numCls="dnum"+(isSun?" sun":isSat?" sat":"");
+
+    // dots: gold for events, green for medical
+    const dots=[
+      ...evts.slice(0,2).map(()=>`<div class="dot" style="background:#b8760a"></div>`),
+      ...meds.slice(0,2).map(()=>`<div class="dot" style="background:#1a8a3a"></div>`)
+    ].slice(0,4).join("");
+
+    html+=`<div class="${cls}" onclick="showDay('${key}',${d})">
+      <div class="${numCls}">${d}</div>
+      ${hol?`<div class="dhol">${hol.slice(0,4)}</div>`:""}
+      <div class="ddots">${dots}</div>
+    </div>`;
+  }
+  document.getElementById("cal-grid").innerHTML=html;
+}
+
+function showDay(key,d,fromSync){
+  document.getElementById("mo-title").textContent=`${curYear}年 ${MONTHS[curMonth+1]} ${d}日`;
+  document.getElementById("mo-wd").textContent=weekday(key);
+
+  const evts=CAL_EVT[key]||[];
+  const meds=appointments.filter(a=>a.date===key);
+  const hol=HOLIDAYS[key];
+  let html="";
+  if(hol) html+=`<div class="mevent" style="border-left-color:#cc2222"><div class="mevent-name">🎌 ${hol}</div></div>`;
+  evts.forEach(e=>html+=`<div class="mevent"><div class="mevent-name">${e}</div></div>`);
+  meds.forEach(a=>{
+    const meta=DEPT[a.deptType]||DEPT.other;
+    const isPast=a.date<today();
+    html+=`<div class="mevent" style="border-left:3px solid var(--dept-${a.deptType});${isPast?"opacity:.6":""}">
+      <div class="mevent-time">${a.time||"上午"} · ${a.room}</div>
+      <div class="mevent-name">🏥 ${a.deptName}</div>
+      <div class="mevent-name" style="font-size:13px;font-weight:600;color:#555">👨‍⚕️ ${a.doctor}${a.number?` · #${a.number}`:""}</div>
+      ${a.note?`<div class="mevent-note">📋 ${a.note}</div>`:""}
+    </div>`;
+  });
+  if(!html) html=`<div style="text-align:center;color:#aaa;padding:20px">今日無行程</div>`;
+  document.getElementById("mo-events").innerHTML=html;
+  document.getElementById("mo").classList.add("open");
+}
+
+function closeMo(e){if(e.target===document.getElementById("mo"))document.getElementById("mo").classList.remove("open");}
+
+// ═══ APPOINTMENTS ═══
+let appointments=INIT_APPTS; // 由 Firebase 載入後覆蓋
+function saveAppts(){
+  if(window._fbSet)window._fbSet(window._fbRef('calendar/appts'),appointments).catch(()=>{});
+  localStorage.setItem("appts",JSON.stringify(appointments));
+}
+
+function addAppt(){
+  const date=document.getElementById("appt-date").value;
+  if(!date){alert("請選擇日期");return;}
+  const dt=document.getElementById("appt-dept-type").value;
+  const meta=DEPT[dt];
+  const custom=document.getElementById("appt-dept-name").value.trim();
+  appointments.push({id:Date.now(),date,deptType:dt,deptName:custom||meta.n,
+    doctor:document.getElementById("appt-doctor").value.trim(),
+    room:document.getElementById("appt-room").value.trim(),
+    time:document.getElementById("appt-time").value,
+    number:+document.getElementById("appt-number").value||0,
+    note:document.getElementById("appt-note").value.trim()});
+  saveAppts();renderAppts();
+  ["appt-date","appt-dept-name","appt-doctor","appt-room","appt-time","appt-number","appt-note"].forEach(id=>document.getElementById(id).value="");
+}
+
+function deleteAppt(id){
+  if(!confirm("確定要刪除此預約？"))return;
+  appointments=appointments.filter(a=>a.id!==id);
+  saveAppts();renderAppts();
+}
+
+function renderAppts(){
+  const sorted=[...appointments].sort((a,b)=>a.date.localeCompare(b.date));
+  const todayStr=today();
+  document.getElementById("hstat-appt").textContent=sorted.filter(a=>a.date>=todayStr).length||"—";
+
+  const groups={};
+  sorted.forEach(a=>{const ym=a.date.slice(0,7);if(!groups[ym])groups[ym]=[];groups[ym].push(a);});
+
+  let html="";
+  for(const[ym,list] of Object.entries(groups)){
+    const[y,m]=ym.split("-");
+    html+=`<div class="month-section">
+      <div class="month-hdr">
+        <span class="month-lbl">${y}年 ${MONTHS[+m]}</span>
+        <span class="month-line"></span>
+        <span class="month-cnt">${list.length}筆</span>
+      </div>
+      <div class="cards-grid">`;
+    list.forEach(a=>{
+      const meta=DEPT[a.deptType]||DEPT.other;
+      const isPast=a.date<todayStr;
+      html+=`<div class="vcard${isPast?" ":""}${isPast?"":"synced"}" onclick="goToAppt('${a.date}')" title="點擊查看月曆" style="${isPast?"opacity:.55":""}">
+        <div class="card-top">
+          <div class="card-stripe ${meta.s}"></div>
+          <div class="card-head">
+            <div><div class="cwd">${weekday(a.date)}</div><div class="cdt">${fmt(a.date)}</div></div>
+            <span class="dept-badge ${meta.b}">${meta.label}</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="dept-name">${a.deptName}</div>
+          <div class="card-meta">👨‍⚕️ ${a.doctor||"—"}</div>
+          ${a.room?`<div class="card-meta">📍 ${a.room}</div>`:""}
+        </div>
+        ${a.note?`<div class="card-note">📋 ${a.note}</div>`:""}
+        <div class="card-foot">
+          <span class="foot-lbl">就診號碼</span>
+          <div style="display:flex;align-items:center;gap:8px">
+            ${a.number?`<span class="num-badge">${a.number}</span>`:`<span style="color:#aaa;font-size:13px">復健</span>`}
+            ${a.time?`<span class="time-badge">${a.time}</span>`:""}
+            <button class="btn-danger" onclick="event.stopPropagation();deleteAppt(${a.id})">刪除</button>
+          </div>
+        </div>
+      </div>`;
+    });
+    html+="</div></div>";
+  }
+  document.getElementById("appt-list").innerHTML=html||`<div style="text-align:center;padding:2rem;color:#aaa">尚無看診記錄。</div>`;
+}
+
+// ═══ BLOOD PRESSURE ═══
+let bpList=[
+  {id:1,date:"2026-05-01",time:"08:30",sys:128,dia:82,pulse:72,note:"早晨空腹測量"},
+  {id:2,date:"2026-05-03",time:"20:00",sys:135,dia:88,pulse:76,note:"晚餐後1小時"},
+]; // 由 Firebase 載入後覆蓋
+function saveBP(){
+  if(window._fbSet)window._fbSet(window._fbRef('calendar/bp'),bpList).catch(()=>{});
+  localStorage.setItem("bp",JSON.stringify(bpList));
+}
+function getBPSt(s,d){
+  if(s>=180||d>=120)return{l:"高血壓危象",c:"high"};if(s>=140||d>=90)return{l:"高血壓",c:"high"};
+  if(s>=130||d>=80)return{l:"偏高",c:"warning"};if(s>=120)return{l:"正常偏高",c:"warning"};
+  if(s<90||d<60)return{l:"偏低",c:"low"};return{l:"正常",c:"good"};
+}
+function addBP(){
+  const s=+document.getElementById("bp-sys").value,d=+document.getElementById("bp-dia").value;
+  if(!s||!d){alert("請輸入血壓數值");return;}
+  bpList.unshift({id:Date.now(),date:document.getElementById("bp-date").value||today(),time:document.getElementById("bp-time").value||nowTime(),sys:s,dia:d,pulse:+document.getElementById("bp-pulse").value||0,note:document.getElementById("bp-note").value});
+  saveBP();renderBP();["bp-sys","bp-dia","bp-pulse","bp-note"].forEach(id=>document.getElementById(id).value="");
+}
+function deleteBP(id){if(!confirm("確定刪除？"))return;bpList=bpList.filter(b=>b.id!==id);saveBP();renderBP();}
+function renderBP(){
+  const sorted=[...bpList].sort((a,b)=>(b.date+b.time).localeCompare(a.date+a.time));
+  const tbody=document.getElementById("bp-tbody"),empty=document.getElementById("bp-empty"),sumrow=document.getElementById("bp-sumrow");
+  if(!sorted.length){tbody.innerHTML="";empty.style.display="";sumrow.style.display="none";document.getElementById("hstat-bp").textContent="—";return;}
+  empty.style.display="none";
+  const lat=sorted[0];const lst=getBPSt(lat.sys,lat.dia);
+  sumrow.style.display="flex";
+  sumrow.innerHTML=`<div class="bp-sumbox"><div class="bp-sumlbl">最近血壓</div><div class="bp-sumval">${lat.sys}/${lat.dia}</div><div class="bp-sumunit">mmHg</div><span class="bp-stbadge bp-st ${lst.c}">${lst.l}</span></div>${lat.pulse?`<div class="bp-sumbox"><div class="bp-sumlbl">脈搏</div><div class="bp-sumval">${lat.pulse}</div><div class="bp-sumunit">bpm</div></div>`:""}<div class="bp-sumbox"><div class="bp-sumlbl">記錄筆數</div><div class="bp-sumval">${bpList.length}</div><div class="bp-sumunit">筆</div></div>`;
+  document.getElementById("hstat-bp").textContent=`${lat.sys}/${lat.dia}`;
+  tbody.innerHTML=sorted.map(b=>{const st=getBPSt(b.sys,b.dia);return`<tr><td><span class="bpmono">${b.date}</span><br><span style="font-size:11px;color:#aaa">${b.time}</span></td><td><span class="bpmono">${b.sys}/${b.dia}</span></td><td><span class="bpmono">${b.pulse||"—"}</span></td><td><span class="bpst ${st.c}">${st.l}</span></td><td style="font-size:12px;color:#666">${b.note||""}</td><td><button class="bpdel" onclick="deleteBP(${b.id})">✕</button></td></tr>`;}).join("");
+}
+
+// ═══ MEDICATIONS ═══
+let meds=[
+  {id:1,name:"老德燕中藥",dose:"—",freq:"三餐飯後",start:"2026-04-18",end:"",note:"飯後服用",active:true},
+  {id:2,name:"精神科藥物",dose:"—",freq:"睡前服用",start:"2026-01-01",end:"",note:"睡前服用",active:true},
+  {id:3,name:"神經內科藥物",dose:"—",freq:"睡前服用",start:"2026-01-01",end:"",note:"睡前服用",active:true},
+]; // 由 Firebase 載入後覆蓋
+function saveMeds(){
+  if(window._fbSet)window._fbSet(window._fbRef('calendar/meds'),meds).catch(()=>{});
+  localStorage.setItem("meds",JSON.stringify(meds));
+}
+function addMed(){
+  const name=document.getElementById("med-name").value.trim();
+  if(!name){alert("請輸入藥品名稱");return;}
+  meds.unshift({id:Date.now(),name,dose:document.getElementById("med-dose").value.trim(),freq:document.getElementById("med-freq").value.trim(),start:document.getElementById("med-start").value||today(),end:document.getElementById("med-end").value,note:document.getElementById("med-note").value.trim(),active:true});
+  saveMeds();renderMeds();["med-name","med-dose","med-freq","med-start","med-end","med-note"].forEach(id=>document.getElementById(id).value="");
+}
+function toggleMed(id){const m=meds.find(x=>x.id===id);if(m)m.active=!m.active;saveMeds();renderMeds();}
+function deleteMed(id){if(!confirm("確定刪除？"))return;meds=meds.filter(m=>m.id!==id);saveMeds();renderMeds();}
+function renderMeds(){
+  const active=meds.filter(m=>m.active).length;
+  document.getElementById("hstat-med").textContent=active||(meds.length?"0":"—");
+  const empty=document.getElementById("med-empty");
+  if(!meds.length){document.getElementById("med-tbody").innerHTML="";empty.style.display="";return;}
+  empty.style.display="none";
+  document.getElementById("med-tbody").innerHTML=meds.map(m=>`<tr><td style="font-weight:800">${m.name}</td><td style="font-size:13px">${m.dose||"—"}</td><td style="font-size:13px;color:#666">${m.freq||"—"}</td><td style="font-size:12px">${m.start}</td><td style="font-size:12px">${m.end||"—"}</td><td><span class="med-active ${m.active?"on":"off"}">${m.active?"服用中":"已停用"}</span></td><td style="font-size:13px;color:#666">${m.note||""}</td><td><button class="med-toggle" onclick="toggleMed(${m.id})">${m.active?"停用":"啟用"}</button><button class="med-del" onclick="deleteMed(${m.id})">✕</button></td></tr>`).join("");
+}
+
+// ═══ EXPORT / IMPORT ═══
+
+// 匯出 JSON（完整備份）
+function exportJSON(){
+  const data={
+    version:"2026-v1",
+    exportedAt:new Date().toISOString(),
+    appointments,
+    bpList,
+    meds
+  };
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=`健康備份_${today()}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// 匯出 CSV — 看診記錄
+function exportApptCSV(){
+  const header=["日期","星期","科別","科別名稱","醫師","診間","就診號碼","建議時間","備註"];
+  const rows=appointments.map(a=>[
+    a.date, weekday(a.date), a.deptType, a.deptName||"",
+    a.doctor||"", a.room||"", a.number||"", a.time||"", (a.note||"").replace(/,/g,"，")
+  ]);
+  downloadCSV([header,...rows],"看診記錄_"+today()+".csv");
+}
+
+// 匯出 CSV — 血壓記錄
+function exportBPCSV(){
+  const header=["日期","時間","收縮壓(高)","舒張壓(低)","脈搏","狀態","備註"];
+  const rows=bpList.map(b=>{
+    const st=getBPSt(b.sys,b.dia);
+    return[b.date,b.time,b.sys,b.dia,b.pulse||"",st.l,b.note||""];
+  });
+  downloadCSV([header,...rows],"血壓記錄_"+today()+".csv");
+}
+
+// 匯出 CSV — 用藥記錄
+function exportMedCSV(){
+  const header=["藥品名稱","劑量","服用頻率","開始日期","結束日期","狀態","備註"];
+  const rows=meds.map(m=>[
+    m.name, m.dose||"", m.freq||"", m.start||"", m.end||"",
+    m.active?"服用中":"已停用", m.note||""
+  ]);
+  downloadCSV([header,...rows],"用藥記錄_"+today()+".csv");
+}
+
+function downloadCSV(rows,filename){
+  const bom="\uFEFF"; // UTF-8 BOM for Excel
+  const csv=bom+rows.map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(",")).join("\n");
+  const blob=new Blob([csv],{type:"text/csv;charset=utf-8;"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);
+  a.download=filename;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+// 匯入 JSON
+function importJSON(){
+  const input=document.createElement("input");
+  input.type="file"; input.accept=".json";
+  input.onchange=e=>{
+    const file=e.target.files[0];
+    if(!file)return;
+    const reader=new FileReader();
+    reader.onload=ev=>{
+      try{
+        const data=JSON.parse(ev.target.result);
+        if(!data.version||!data.appointments){
+          alert("❌ 格式不符，請選擇正確的備份檔案。");return;
+        }
+        if(!confirm(`確定要匯入備份？\n匯出時間：${data.exportedAt||"不明"}\n看診記錄：${data.appointments.length}筆\n血壓記錄：${data.bpList?.length||0}筆\n用藥記錄：${data.meds?.length||0}筆\n\n⚠️ 將覆蓋目前的所有資料！`))return;
+        appointments=data.appointments||[];
+        bpList=data.bpList||[];
+        meds=data.meds||[];
+        saveAppts(); saveBP(); saveMeds();
+        renderAppts(); renderBP(); renderMeds();
+        alert("✅ 匯入成功！");
+      }catch(err){
+        alert("❌ 匯入失敗："+err.message);
+      }
+    };
+    reader.readAsText(file,"utf-8");
+  };
+  input.click();
+}
+
+// 顯示/隱藏備份面板
+function toggleBackupPanel(){
+  const p=document.getElementById("backup-panel");
+  p.style.display=p.style.display==="none"?"flex":"none";
+}
+
+// ═══ CREDIT CARD 信用卡對帳 ═══
+const CC_BANKS = {
+  cathay:   {name:'國泰世華', color:'#1565C0', bg:'#e8f2fa'},
+  fubon:    {name:'富邦銀行', color:'#E65000', bg:'#faeee8'},
+  union:    {name:'聯邦銀行', color:'#C030A0', bg:'#f8e8f8'},
+  taishin:  {name:'台新銀行', color:'#CC2222', bg:'#faeaea'},
+  ctbc:     {name:'中信銀行', color:'#1A6EA8', bg:'#e8f2fa'},
+  esun:     {name:'玉山銀行', color:'#1A8A3A', bg:'#e8f5ef'},
+  other:    {name:'其他',     color:'#888',    bg:'#f5f5f5'},
+};
+
+// 從圖片讀取的初始信用卡資料
+const INIT_CC = [
+  {id:1, bank:'cathay', cycle:'月初1號截止',  dueDay:1,  autoDebit:true,  debitBank:'國泰自扣', note:''},
+  {id:2, bank:'fubon',  cycle:'月中18號截止', dueDay:18, autoDebit:true,  debitBank:'自動扣款', note:'5/18自動扣款'},
+  {id:3, bank:'union',  cycle:'月中21號截止', dueDay:21, autoDebit:true,  debitBank:'自動扣款', note:''},
+  {id:4, bank:'taishin',cycle:'月初8號截止',  dueDay:8,  autoDebit:true,  debitBank:'自動扣款', note:''},
+  {id:5, bank:'ctbc',   cycle:'月初8號截止',  dueDay:8,  autoDebit:true,  debitBank:'自動扣款', note:''},
+  {id:6, bank:'esun',   cycle:'月中12號截止', dueDay:12, autoDebit:true,  debitBank:'國泰自扣', note:''},
+];
+
+let ccData = INIT_CC; // 由 Firebase 載入後覆蓋
+let ccRecords = [
+  {id:Date.now()+1, cardId:3, year:2026, month:4, amount:15776, status:'pending', note:'聯邦4月'},
+  {id:Date.now()+2, cardId:5, year:2026, month:5, amount:12619, status:'pending', note:'中信5月'},
+  {id:Date.now()+3, cardId:6, year:2026, month:5, amount:5007,  status:'pending', note:'玉山5月'},
+  {id:Date.now()+4, cardId:1, year:2026, month:4, amount:18628, status:'paid',    note:'國泰4月'},
+]; // 由 Firebase 載入後覆蓋
+let ccYear=(new Date()).getFullYear(), ccMonth=(new Date()).getMonth()+1;
+
+function saveCCData(){
+  if(window._fbSet)window._fbSet(window._fbRef('calendar/cc_data'),ccData).catch(()=>{});
+  localStorage.setItem('cc_data',JSON.stringify(ccData));
+}
+function saveCCRecords(){
+  if(window._fbSet)window._fbSet(window._fbRef('calendar/cc_records'),ccRecords).catch(()=>{});
+  localStorage.setItem('cc_records',JSON.stringify(ccRecords));
+}
+
+function ccFmt(n){return n===0?'$0':'NT$'+n.toLocaleString();}
+
+function getCCStatus(rec){
+  const now=new Date();
+  const due=new Date(rec.year,rec.month-1,ccData.find(c=>c.id===rec.cardId)?.dueDay||1);
+  if(rec.amount===0)return{cls:'zero',label:'無帳單'};
+  if(rec.status==='paid')return{cls:'paid',label:'✅ 已繳'};
+  if(now>due)return{cls:'overdue',label:'⚠️ 逾期'};
+  return{cls:'pending',label:'⏳ 待繳'};
+}
+
+function renderCC(){
+  const totalPending=ccRecords.filter(r=>r.year===ccYear&&r.month===ccMonth&&r.status==='pending'&&r.amount>0).reduce((s,r)=>s+r.amount,0);
+  const totalPaid=ccRecords.filter(r=>r.year===ccYear&&r.month===ccMonth&&r.status==='paid').reduce((s,r)=>s+r.amount,0);
+  const totalAll=ccRecords.filter(r=>r.year===ccYear&&r.month===ccMonth).reduce((s,r)=>s+r.amount,0);
+
+  let html=`
+  <div class="cc-mnav">
+    <button class="cc-mnbtn" onclick="ccChangeMonth(-1)">‹</button>
+    <div class="cc-mlbl">${ccYear}年 ${ccMonth}月</div>
+    <button class="cc-mnbtn" onclick="ccChangeMonth(1)">›</button>
+  </div>
+  <div class="cc-total">
+    <span class="cc-total-lbl">本月信用卡總計</span>
+    <span class="cc-total-amt">${ccFmt(totalAll)}</span>
+  </div>
+  <div class="cc-sum-row">
+    <div class="cc-sum-box"><div class="cc-sum-lbl">待繳</div><div class="cc-sum-val" style="color:var(--y)">${ccFmt(totalPending)}</div></div>
+    <div class="cc-sum-box"><div class="cc-sum-lbl">已繳</div><div class="cc-sum-val" style="color:var(--gr)">${ccFmt(totalPaid)}</div></div>
+    <div class="cc-sum-box"><div class="cc-sum-lbl">卡片數</div><div class="cc-sum-val">${ccData.length}</div></div>
+  </div>
+  <div class="cc-twrap">
+  <table class="cc-table">
+    <thead><tr>
+      <th>銀行／信用卡</th><th>本月金額</th><th>截止日</th><th>繳費方式</th><th>輸入金額</th><th>繳費狀態</th>
+    </tr></thead>
+    <tbody>`;
+
+  ccData.forEach(card=>{
+    const bank=CC_BANKS[card.bank]||CC_BANKS.other;
+    const rec=ccRecords.find(r=>r.cardId===card.id&&r.year===ccYear&&r.month===ccMonth);
+    const amount=rec?rec.amount:0;
+    const isPaid=rec?.status==='paid';
+    const isAuto=card.autoDebit;
+
+    // 狀態
+    let stLabel,stCls;
+    if(amount===0){stLabel='未記錄';stCls='zero';}
+    else if(isPaid){stLabel='✅ 已繳';stCls='paid';}
+    else{
+      const now=new Date();
+      const due=new Date(ccYear,ccMonth-1,card.dueDay);
+      stLabel=now>due?'⚠️ 逾期':'⏳ 待繳';
+      stCls=now>due?'overdue':'pending';
+    }
+
+    const rowBg=isAuto?'rgba(26,138,58,.04)':'#fff';
+    const rowBorder=isPaid?'border-left:3px solid #1a8a3a':'border-left:3px solid transparent';
+
+    html+=`<tr style="background:${rowBg};${rowBorder};border-bottom:1px solid rgba(180,140,60,.1)">
+      <td style="padding:12px 14px">
+        <div style="display:flex;align-items:center;gap:9px">
+          <div style="width:5px;min-height:40px;border-radius:3px;flex-shrink:0;background:${bank.color}"></div>
+          <div>
+            <div style="font-size:15px;font-weight:800;color:var(--ink)">${bank.name}</div>
+            <div style="font-size:11px;color:var(--ink-light);margin-top:1px">${card.cycle}</div>
+          </div>
+        </div>
+      </td>
+      <td style="padding:12px 14px">
+        <div style="font-size:16px;font-weight:900;color:${amount===0?'#aaa':isPaid?'var(--gr)':'var(--ink)'}">${amount===0?'—':'NT$'+amount.toLocaleString()}</div>
+      </td>
+      <td style="padding:12px 14px">
+        <div style="font-size:13px;font-weight:800">${ccMonth}/${card.dueDay}</div>
+      </td>
+      <td style="padding:12px 14px">
+        <button onclick="toggleAutoDebit(${card.id})"
+          style="border:none;border-radius:20px;padding:7px 13px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;
+          ${isAuto
+            ?'background:rgba(26,138,58,.15);color:#1a8a3a;outline:1.5px solid rgba(26,138,58,.3);'
+            :'background:rgba(184,118,10,.12);color:#b8760a;outline:1.5px solid rgba(184,118,10,.3);'
+          }">
+          ${isAuto?'🔄 自動':'✋ 手動'}
+        </button>
+      </td>
+      <td style="padding:12px 14px">
+        <!-- 金額輸入 -->
+        <input type="number" placeholder="金額"
+          style="width:88px;font-size:13px;padding:5px 8px;border:1px solid rgba(180,140,60,.3);border-radius:8px;background:var(--mid);color:var(--ink);font-family:inherit;outline:none"
+          onchange="updateCCAmount(${card.id},this.value)"
+          value="${amount||''}"/>
+      </td>
+      <td style="padding:12px 14px">
+        <!-- 已繳/未繳切換按鈕 — 永遠顯示 -->
+        <button onclick="toggleCCPaidById(${card.id})"
+          style="border:none;border-radius:20px;padding:7px 14px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;min-width:72px;
+          ${isPaid
+            ?'background:rgba(26,138,58,.15);color:#1a8a3a;outline:1.5px solid rgba(26,138,58,.3);'
+            :'background:rgba(180,180,180,.15);color:#888;outline:1.5px solid rgba(180,180,180,.3);'
+          }">
+          ${isPaid?'✅ 已繳':'○ 未繳'}
+        </button>
+      </td>
+    </tr>`;
+  });
+    html+=`</tbody></table></div>`;
+  document.getElementById('cc-main').innerHTML=html;
+}
+
+function ccChangeMonth(d){
+  ccMonth+=d;
+  if(ccMonth>12){ccMonth=1;ccYear++;}
+  if(ccMonth<1){ccMonth=12;ccYear--;}
+  renderCC();
+}
+
+function updateCCAmount(cardId,val){
+  const amount=+val||0;
+  let rec=ccRecords.find(r=>r.cardId===cardId&&r.year===ccYear&&r.month===ccMonth);
+  if(rec){rec.amount=amount;}
+  else{ccRecords.push({id:Date.now(),cardId,year:ccYear,month:ccMonth,amount,status:'pending',note:''});}
+  saveCCRecords();renderCC();
+}
+
+function toggleAutoDebit(cardId){
+  const card=ccData.find(c=>c.id===cardId);
+  if(!card) return;
+  card.autoDebit=!card.autoDebit;
+  card.debitBank=card.autoDebit?'自動扣款':'';
+  saveCCData();
+  renderCC();
+}
+
+// 用 cardId 切換，永遠有效（不需先有記錄）
+function toggleCCPaidById(cardId){
+  let rec=ccRecords.find(r=>r.cardId===cardId&&r.year===ccYear&&r.month===ccMonth);
+  if(!rec){
+    rec={id:Date.now(),cardId,year:ccYear,month:ccMonth,amount:0,status:'paid',note:''};
+    ccRecords.push(rec);
+  } else {
+    rec.status=rec.status==='paid'?'pending':'paid';
+  }
+  saveCCRecords(); renderCC();
+}
+
+function toggleCCPaid(recId){
+  const rec=ccRecords.find(r=>r.id===recId);
+  if(rec){rec.status=rec.status==='paid'?'pending':'paid';}
+  saveCCRecords(); renderCC();
+}
+
+function exportCCCSV(){
+  const header=['月份','銀行','金額','截止日','自動扣款','狀態','備註'];
+  const rows=ccRecords.map(r=>{
+    const card=ccData.find(c=>c.id===r.cardId);
+    const bank=CC_BANKS[card?.bank||'other'];
+    const st=getCCStatus(r);
+    return[`${r.year}/${r.month}`,bank.name,r.amount,`${r.month}/${card?.dueDay||'?'}`,card?.autoDebit?'是':'否',st.label,r.note||''];
+  });
+  const bom='\uFEFF';
+  const csv=bom+[header,...rows].map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  a.download=`信用卡對帳_${new Date().toISOString().slice(0,10)}.csv`;
+  a.click();
+}
+
+// ═══ 本月重點 工作排程 ═══
+const FOCUS_ITEMS_INIT = [
+  // 財務重點
+  {id:'f01', cat:'💰 財務重點', catKey:'finance', sortDate:'05/01', text:'💳 國泰世華 $18,628 自動扣款',        note:'',                    badge:'fb-ok',  badgeText:'✅已扣',   initStatus:'done'},
+  {id:'f02', cat:'💰 財務重點', catKey:'finance', sortDate:'05/06', text:'🚗 中租車貸 自動扣款（國泰銀行）',   note:'',                    badge:'fb-warn',badgeText:'⏳待確認',initStatus:'pending'},
+  {id:'f03', cat:'💰 財務重點', catKey:'finance', sortDate:'05/08', text:'💳 中信信用卡 $12,619 自動扣款',    note:'',                    badge:'fb-warn',badgeText:'⏳待確認',initStatus:'pending'},
+  {id:'f04', cat:'💰 財務重點', catKey:'finance', sortDate:'05/12', text:'💳 玉山信用卡 $5,007（App/超商繳費）',note:'⚠️ 截止日',           badge:'fb-red', badgeText:'⚠️截止',  initStatus:'pending'},
+  {id:'f05', cat:'💰 財務重點', catKey:'finance', sortDate:'05/06', text:'💳 聯邦 $31,406（出帳後繳費）',     note:'',                    badge:'fb-warn',badgeText:'⏳待繳',  initStatus:'pending'},
+  {id:'f06', cat:'💰 財務重點', catKey:'finance', sortDate:'05/31', text:'📋 綜合所得稅申報截止 ＋ 🏠 房屋稅截止',note:'',              badge:'fb-red', badgeText:'⚠️截止',  initStatus:'pending'},
+  // 醫療行程
+  {id:'f10', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/09', text:'🦴 亞東骨科 陳文質醫師 H116 #37',  note:'',                    badge:'fb-info',badgeText:'→月曆',   initStatus:'done', apptDate:'2026-05-09'},
+  {id:'f11', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/12', text:'🏥 大鈞復健 脖子牽引 08:00',        note:'',                    badge:'fb-info',badgeText:'→月曆',   initStatus:'pending', apptDate:'2026-05-12'},
+  {id:'f12', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/16', text:'🧠 亞東精神科 林竺君醫師 A901 #10', note:'建議08:50到診',        badge:'fb-info',badgeText:'→月曆',   initStatus:'pending', apptDate:'2026-05-16'},
+  {id:'f13', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/23', text:'🦴 亞東骨科 陳文質醫師 H116 #43',  note:'',                    badge:'fb-info',badgeText:'→月曆',   initStatus:'pending', apptDate:'2026-05-23'},
+  {id:'f14', cat:'🏥 醫療行程', catKey:'medical', sortDate:'00/00', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週二、六',            badge:'fb-rep', badgeText:'🔄例行',  initStatus:'doing'},
+  // 孩子行程
+  {id:'f20', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/05', text:'📚 德第二次段考',                   note:'5/5–5/7',             badge:'fb-warn',badgeText:'⏳',      initStatus:'done'},
+  {id:'f21', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/11', text:'🎶 管樂成果發表會 18:30',           note:'新北市政府多功能集會堂 3F',badge:'fb-warn',badgeText:'⏳重要',initStatus:'done'},
+  {id:'f22', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/12', text:'🎨 萱畢業美展（至5/20）09:00開幕',  note:'5/12起',              badge:'fb-warn',badgeText:'⏳',      initStatus:'doing'},
+  // 家庭活動
+  {id:'f30', cat:'🎉 家庭活動', catKey:'family',  sortDate:'00/00', text:'⛲ 碧潭水舞季（每晚18:30）',         note:'至6/14',              badge:'fb-info',badgeText:'持續中',  initStatus:'doing'},
+  {id:'f31', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/27', text:'👗 迪化街扮裝（萱）大稻埕遊客中心', note:'',                    badge:'fb-warn',badgeText:'⏳',      initStatus:'pending'},
+  {id:'f32', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/29', text:'🧸 世貿玩具展（已有票）',           note:'5/29–6/1',            badge:'fb-warn',badgeText:'⏳',      initStatus:'pending'},
+  // 每週例行
+  {id:'f40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'f41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/03', text:'✅ 查違規 TDZ-0950（監理站）',   note:'每週三', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'f42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車',                    note:'每日',   badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'f43', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🪿 十金鵝',                    note:'每日',   badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'f44', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'💊 老德燕中藥（三餐）',          note:'每日',   badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+];
+
+// ── 自訂新增項目（Firebase 同步）──
+let focusCustomItems = []; // 由 Firebase 載入後覆蓋
+function saveFocusCustom(){
+  if(window._fbSet)window._fbSet(window._fbRef('calendar/focus_custom'),focusCustomItems).catch(()=>{});
+  localStorage.setItem('focus_custom', JSON.stringify(focusCustomItems));
+}
+
+// 全部 items = INIT + custom（custom 不含已刪除）
+function allFocusItems(){
+  return [...FOCUS_ITEMS_INIT, ...focusCustomItems];
+}
+
+// status: 'done' | 'doing' | 'pending'
+let focusStatus = {}; // 由 Firebase 載入後覆蓋
+let focusSortMode = 'cat'; // 'cat' | 'date' | 'status'
+
+// Initialize default statuses for built-in items
+FOCUS_ITEMS_INIT.forEach(it=>{
+  if(!(it.id in focusStatus)) focusStatus[it.id] = it.initStatus;
+});
+
+function saveFocusStatus(){
+  if(window._fbSet)window._fbSet(window._fbRef('calendar/focus_status'),focusStatus).catch(()=>{});
+  localStorage.setItem('focus_status', JSON.stringify(focusStatus));
+}
+
+function cycleFocusStatus(id){
+  const cur = focusStatus[id]||'pending';
+  const next = cur==='pending'?'doing': cur==='doing'?'done':'pending';
+  focusStatus[id]=next;
+  saveFocusStatus();
+  renderFocus();
+}
+
+function deleteFocusItem(id){
+  // can only delete custom items
+  focusCustomItems = focusCustomItems.filter(it=>it.id!==id);
+  saveFocusCustom();
+  delete focusStatus[id];
+  saveFocusStatus();
+  renderFocus();
+}
+
+function addFocusItem(){
+  const text = document.getElementById('fi-text').value.trim();
+  if(!text){ document.getElementById('fi-text').focus(); return; }
+  const catKey = document.getElementById('fi-cat').value;
+  const CAT_LABELS = {finance:'💰 財務重點',medical:'🏥 醫療行程',kids:'👧 孩子行程',family:'🎉 家庭活動',routine:'🔄 每週例行',custom:'📌 其他事項'};
+  const dateVal = document.getElementById('fi-date').value.trim() || '';
+  const note    = document.getElementById('fi-note').value.trim();
+  // sortDate: convert "5/15" → "05/15", or "00/00" for routine
+  let sortDate = '00/00';
+  if(dateVal){
+    const m = dateVal.match(/^(\d{1,2})\/(\d{1,2})$/);
+    if(m) sortDate = m[1].padStart(2,'0')+'/'+m[2].padStart(2,'0');
+    else sortDate = dateVal.slice(0,5);
+  }
+  const id = 'cu'+ Date.now();
+  const newItem = {id, cat: CAT_LABELS[catKey]||'📌 其他事項', catKey, sortDate, text, note, badge:'fb-warn', badgeText:'⏳', initStatus:'pending', isCustom:true};
+  focusCustomItems.push(newItem);
+  saveFocusCustom();
+  focusStatus[id] = 'pending';
+  saveFocusStatus();
+  // clear form
+  document.getElementById('fi-text').value='';
+  document.getElementById('fi-date').value='';
+  document.getElementById('fi-note').value='';
+  renderFocus();
+}
+
+function setFocusSort(mode){
+  focusSortMode=mode;
+  document.querySelectorAll('.focus-sort-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('sort-'+mode)?.classList.add('active');
+  renderFocus();
+}
+
+function renderFocus(){
+  const STATUS_LABEL = {done:'✅ 已完成', doing:'🔵 進行中', pending:'○ 待辦'};
+  const items_all = allFocusItems();
+
+  // count stats
+  let cntDone=0,cntDoing=0,cntPending=0;
+  items_all.forEach(it=>{
+    const s=focusStatus[it.id]||'pending';
+    if(s==='done')cntDone++;else if(s==='doing')cntDoing++;else cntPending++;
+  });
+  document.getElementById('focus-stats').innerHTML=
+    `<span class="fstat-box fstat-done">✅ 已完成 ${cntDone}</span>`+
+    `<span class="fstat-box fstat-doing">🔵 進行中 ${cntDoing}</span>`+
+    `<span class="fstat-box fstat-pending">○ 待辦 ${cntPending}</span>`;
+
+  let items = items_all.map(it=>({...it, status: focusStatus[it.id]||'pending'}));
+  const CAT_ORDER=['finance','medical','kids','family','routine','custom'];
+
+  function groupByCat(list){
+    const groups={};
+    list.forEach(it=>{ if(!groups[it.cat])groups[it.cat]=[]; groups[it.cat].push(it); });
+    return groups;
+  }
+  function renderGroups(groups){
+    let h='';
+    for(const[cat,list] of Object.entries(groups)){
+      h+=`<div class="focus-group"><div class="focus-ghdr"><div class="focus-gtitle">${cat}</div><div class="focus-gline"></div></div>`;
+      list.forEach(it=> h+=renderFocusItem(it));
+      h+=`</div>`;
+    }
+    return h;
+  }
+
+  let html='';
+  if(focusSortMode==='status'){
+    const statusGroups={doing:[],pending:[],done:[]};
+    items.forEach(it=>statusGroups[it.status].push(it));
+    for(const s of ['doing','pending','done']){
+      if(!statusGroups[s].length) continue;
+      html+=`<div class="focus-group"><div class="focus-ghdr"><div class="focus-gtitle">${STATUS_LABEL[s]}</div><div class="focus-gline"></div></div>`;
+      statusGroups[s].sort((a,b)=>CAT_ORDER.indexOf(a.catKey)-CAT_ORDER.indexOf(b.catKey)||a.sortDate.localeCompare(b.sortDate));
+      statusGroups[s].forEach(it=> html+=renderFocusItem(it));
+      html+=`</div>`;
+    }
+  } else {
+    items.sort((a,b)=>{
+      const ci=CAT_ORDER.indexOf(a.catKey)-CAT_ORDER.indexOf(b.catKey);
+      if(ci!==0)return ci;
+      return a.sortDate.localeCompare(b.sortDate);
+    });
+    html = renderGroups(groupByCat(items));
+  }
+
+  // Add form at top of focus-content
+  const addForm = `<div class="focus-add-form" id="focus-add-form">
+    <div class="focus-add-title">＋ 新增工作重點</div>
+    <div class="focus-add-row">
+      <select class="focus-add-sel" id="fi-cat">
+        <option value="finance">💰 財務重點</option>
+        <option value="medical">🏥 醫療行程</option>
+        <option value="kids">👧 孩子行程</option>
+        <option value="family">🎉 家庭活動</option>
+        <option value="routine">🔄 每週例行</option>
+        <option value="custom">📌 其他事項</option>
+      </select>
+      <input class="focus-add-inp" id="fi-date" placeholder="日期 如 5/15" style="width:100px"/>
+    </div>
+    <div class="focus-add-row">
+      <input class="focus-add-inp" id="fi-text" placeholder="事項內容（必填）" style="flex:1"/>
+    </div>
+    <div class="focus-add-row">
+      <input class="focus-add-inp" id="fi-note" placeholder="備註（選填）" style="flex:1"/>
+      <button class="focus-add-btn" onclick="addFocusItem()">新增</button>
+    </div>
+  </div>`;
+
+  document.getElementById('focus-content').innerHTML = addForm + html;
+}
+
+function renderFocusItem(it){
+  const s=it.status;
+  const statusLabel={done:'✅ 完成',doing:'🔵 進行中',pending:'○ 待辦'}[s];
+  const btnCls={done:'done',doing:'doing',pending:'pending'}[s];
+  const itemCls='focus-item status-'+s;
+  const clickHandler=it.apptDate?`onclick="goToAppt('${it.apptDate}')" style="cursor:pointer"`:'';
+  // show date label: if sortDate starts '00' use note, else strip leading 0 from month
+  const dateLbl = it.sortDate.startsWith('00')?(it.note||'例行'):it.sortDate.replace(/^0(\d)\//,'$1/');
+  // delete button only for custom items
+  const delBtn = it.isCustom
+    ? `<button class="focus-del-btn" title="移除" onclick="event.stopPropagation();deleteFocusItem('${it.id}')">✕</button>`
+    : '';
+  return `<div class="${itemCls}" ${clickHandler}>
+    <div class="fdate">${dateLbl}</div>
+    <div class="fbody">
+      <div class="ftext">${it.text}</div>
+      ${it.note&&!it.sortDate.startsWith('00')?`<div class="fnote">${it.note}</div>`:''}
+    </div>
+    <div style="display:flex;align-items:center;gap:5px;flex-shrink:0">
+      <button class="status-btn ${btnCls}" onclick="event.stopPropagation();cycleFocusStatus('${it.id}')">${statusLabel}</button>
+      ${delBtn}
+    </div>
+  </div>`;
+}
+
+// 初始化 focus
+renderFocus();
+
+// ═══ 年度開銷記錄 ═══
+const EXP_CATS = ['🏠 居住','🍽️ 飲食','🚗 交通','🏥 醫療健康','👕 服飾','📚 教育','🎮 娛樂','💻 3C/設備','👨‍👩‍👧 家庭','💰 其他'];
+const CAT_COLORS = {'🏠 居住':'#1a6ea8','🍽️ 飲食':'#c05a1a','🚗 交通':'#1a8a3a','🏥 醫療健康':'#cc2222','👕 服飾':'#7a4fa8','📚 教育':'#1a8a5f','🎮 娛樂':'#c07a1a','💻 3C/設備':'#4a6fa8','👨‍👩‍👧 家庭':'#b8760a','💰 其他':'#555'};
+
+// Seed data from xlsx (Jan–May known, rest pre-filled recurring)
+const EXP_SEED = [
+  // 一月
+  {id:'s001',date:'2026-01-01',cat:'🏠 居住',amt:1533,pay:'台電',note:'台電電費'},
+  {id:'s002',date:'2026-01-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  {id:'s003',date:'2026-01-08',cat:'💰 其他',amt:9689,pay:'銀行自動扣款',note:'中信信用卡卡費'},
+  {id:'s004',date:'2026-01-01',cat:'💰 其他',amt:16061,pay:'國泰信用卡',note:'國泰信用卡卡費'},
+  {id:'s005',date:'2026-01-01',cat:'💰 其他',amt:12328,pay:'台新信用卡',note:'台新信用卡卡費'},
+  {id:'s006',date:'2026-01-01',cat:'💰 其他',amt:4221,pay:'聯邦信用卡',note:'聯邦信用卡卡費'},
+  {id:'s007',date:'2026-01-01',cat:'💰 其他',amt:26310,pay:'',note:'計程車公會（呈）年費＋團保＋勞健保'},
+  {id:'s008',date:'2026-01-01',cat:'💰 其他',amt:11025,pay:'',note:'汽電工會（貝）年費＋勞健保'},
+  // 二月
+  {id:'s010',date:'2026-02-01',cat:'👨‍👩‍👧 家庭',amt:50000,pay:'',note:'老婆生活費'},
+  {id:'s011',date:'2026-02-01',cat:'💰 其他',amt:10199,pay:'玉山信用卡',note:'玉山卡費'},
+  {id:'s012',date:'2026-02-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  {id:'s013',date:'2026-02-09',cat:'💰 其他',amt:10539,pay:'銀行自動扣款',note:'中信信用卡卡費'},
+  {id:'s014',date:'2026-02-01',cat:'💰 其他',amt:12343,pay:'國泰信用卡',note:'國泰信用卡卡費'},
+  {id:'s015',date:'2026-02-01',cat:'💰 其他',amt:44885,pay:'聯邦信用卡',note:'聯邦信用卡卡費'},
+  // 三月
+  {id:'s020',date:'2026-03-01',cat:'👨‍👩‍👧 家庭',amt:50000,pay:'',note:'老婆生活費'},
+  {id:'s021',date:'2026-03-01',cat:'💰 其他',amt:7349,pay:'玉山信用卡',note:'玉山卡費'},
+  {id:'s022',date:'2026-03-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  {id:'s023',date:'2026-03-09',cat:'💰 其他',amt:6419,pay:'銀行自動扣款',note:'中信信用卡卡費'},
+  {id:'s024',date:'2026-03-01',cat:'💰 其他',amt:25851,pay:'國泰信用卡',note:'國泰信用卡卡費'},
+  {id:'s025',date:'2026-03-01',cat:'💰 其他',amt:27173,pay:'聯邦信用卡',note:'聯邦信用卡卡費'},
+  {id:'s026',date:'2026-03-01',cat:'🏠 居住',amt:1505,pay:'台電',note:'台電電費'},
+  // 四月
+  {id:'s030',date:'2026-04-22',cat:'👨‍👩‍👧 家庭',amt:2200,pay:'',note:'兒子四月份費用（兒子領用）'},
+  {id:'s031',date:'2026-04-08',cat:'💰 其他',amt:16844,pay:'銀行自動扣款',note:'中信信用卡卡費'},
+  {id:'s032',date:'2026-04-01',cat:'💰 其他',amt:8218,pay:'玉山信用卡',note:'玉山卡費'},
+  {id:'s033',date:'2026-04-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  {id:'s034',date:'2026-04-22',cat:'🚗 交通',amt:11000,pay:'',note:'TDZ-0950 維修前擋玻璃'},
+  {id:'s035',date:'2026-04-01',cat:'💰 其他',amt:18628,pay:'國泰信用卡',note:'國泰信用卡卡費'},
+  {id:'s036',date:'2026-04-01',cat:'💰 其他',amt:17393,pay:'聯邦信用卡',note:'聯邦信用卡卡費'},
+  {id:'s037',date:'2026-04-22',cat:'💰 其他',amt:15338,pay:'台新信用卡',note:'遠雄人壽保險（王睿萱/年繳）'},
+  {id:'s038',date:'2026-04-01',cat:'💰 其他',amt:14550,pay:'',note:'計程車公會（呈）勞健保'},
+  {id:'s039',date:'2026-04-01',cat:'💰 其他',amt:8985,pay:'',note:'汽電工會（貝）勞健保'},
+  // 五月
+  {id:'s040',date:'2026-05-01',cat:'👨‍👩‍👧 家庭',amt:50000,pay:'',note:'老婆生活費'},
+  {id:'s041',date:'2026-05-01',cat:'💰 其他',amt:18628,pay:'國泰信用卡',note:'國泰信用卡卡費（自扣）'},
+  {id:'s042',date:'2026-05-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  {id:'s043',date:'2026-05-08',cat:'💰 其他',amt:12619,pay:'銀行自動扣款',note:'中信信用卡卡費'},
+  {id:'s044',date:'2026-05-12',cat:'💰 其他',amt:5007,pay:'玉山信用卡',note:'玉山卡費'},
+  {id:'s045',date:'2026-05-01',cat:'💻 3C/設備',amt:7450,pay:'',note:'訂閱服務'},
+  {id:'s046',date:'2026-05-04',cat:'🚗 交通',amt:2000,pay:'',note:'停車費'},
+  // 六月（例行）
+  {id:'s050',date:'2026-06-01',cat:'👨‍👩‍👧 家庭',amt:50000,pay:'',note:'老婆生活費'},
+  {id:'s051',date:'2026-06-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  {id:'s052',date:'2026-06-04',cat:'🚗 交通',amt:2000,pay:'',note:'停車費'},
+  // 七月
+  {id:'s060',date:'2026-07-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  {id:'s061',date:'2026-07-01',cat:'💰 其他',amt:23535,pay:'',note:'工會費（呈＋貝）'},
+  // 八月
+  {id:'s070',date:'2026-08-01',cat:'👨‍👩‍👧 家庭',amt:50000,pay:'',note:'老婆生活費'},
+  {id:'s071',date:'2026-08-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  // 九月
+  {id:'s080',date:'2026-09-01',cat:'👨‍👩‍👧 家庭',amt:50000,pay:'',note:'老婆生活費'},
+  {id:'s081',date:'2026-09-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  // 十月
+  {id:'s090',date:'2026-10-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  // 十一月
+  {id:'s100',date:'2026-11-01',cat:'👨‍👩‍👧 家庭',amt:50000,pay:'',note:'老婆生活費'},
+  {id:'s101',date:'2026-11-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  {id:'s102',date:'2026-11-01',cat:'💰 其他',amt:14550,pay:'',note:'計程車公會（呈）勞健保'},
+  {id:'s103',date:'2026-11-01',cat:'💰 其他',amt:8985,pay:'',note:'汽電工會（貝）勞健保'},
+  {id:'s104',date:'2026-11-01',cat:'💰 其他',amt:23535,pay:'',note:'工會費（呈＋貝）'},
+  // 十二月
+  {id:'s110',date:'2026-12-01',cat:'👨‍👩‍👧 家庭',amt:50000,pay:'',note:'老婆生活費'},
+  {id:'s111',date:'2026-12-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+];
+
+const INC_SEED = [
+  ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'i'+m,month:m,year:2026,amt:28000,src:'🏠 租金收入'}))
+];
+
+let expRecords = EXP_SEED; // 由 Firebase 載入後覆蓋
+let incRecords = INC_SEED; // 由 Firebase 載入後覆蓋
+let expViewTab = 'overview';
+let expCurMonth = new Date().getMonth()+1;
+let expFilterCat = 'all';
+
+function saveExpRecords(){
+  if(window._fbSet)window._fbSet(window._fbRef('calendar/exp_records'),expRecords).catch(()=>{});
+  localStorage.setItem('exp_records', JSON.stringify(expRecords));
+}
+function saveIncRecords(){
+  if(window._fbSet)window._fbSet(window._fbRef('calendar/inc_records'),incRecords).catch(()=>{});
+  localStorage.setItem('inc_records', JSON.stringify(incRecords));
+}
+
+function expFmt(n){ return n===0?'—':'NT$'+Math.round(n).toLocaleString(); }
+
+function switchExpTab(tab){
+  expViewTab=tab;
+  document.querySelectorAll('.exp-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.exp-tab')[['overview','month','add'].indexOf(tab)]?.classList.add('active');
+  document.getElementById('exp-overview').style.display = tab==='overview'?'block':'none';
+  document.getElementById('exp-month').style.display    = tab==='month'?'block':'none';
+  document.getElementById('exp-add').style.display      = tab==='add'?'block':'none';
+  if(tab==='overview') renderExpOverview();
+  if(tab==='month') renderExpMonth();
+}
+
+function expChangeMonth(d){
+  expCurMonth+=d;
+  if(expCurMonth>12)expCurMonth=1;
+  if(expCurMonth<1)expCurMonth=12;
+  renderExpMonth();
+}
+
+function addExpRecord(){
+  const date=document.getElementById('exp-date').value||today();
+  const amt=+document.getElementById('exp-amount').value||0;
+  if(!amt){alert('請輸入金額');return;}
+  expRecords.push({id:'u'+Date.now(),date,cat:document.getElementById('exp-cat').value,amt,pay:document.getElementById('exp-pay').value.trim(),note:document.getElementById('exp-note-inp').value.trim()});
+  saveExpRecords();
+  ['exp-amount','exp-pay','exp-note-inp'].forEach(id=>document.getElementById(id).value='');
+  renderExp();
+}
+
+function addIncRecord(){
+  const month=+document.getElementById('exp-inc-month').value;
+  const amt=+document.getElementById('exp-inc-amount').value||0;
+  if(!amt){alert('請輸入金額');return;}
+  const src=document.getElementById('exp-inc-src').value.trim()||'收入';
+  if(month===0){
+    for(let m=1;m<=12;m++) incRecords.push({id:'i'+Date.now()+m,month:m,year:2026,amt,src});
+  } else {
+    incRecords.push({id:'i'+Date.now(),month,year:2026,amt,src});
+  }
+  saveIncRecords();
+  ['exp-inc-amount','exp-inc-src'].forEach(id=>document.getElementById(id).value='');
+  renderExp();
+}
+
+function deleteExpRecord(id){
+  expRecords=expRecords.filter(r=>r.id!==id);
+  saveExpRecords(); renderExp();
+}
+
+function renderExpRow(r){
+  return `<tr>
+    <td style="font-size:12px;color:var(--ink-mid);white-space:nowrap">${r.date.slice(5).replace('-','/')}</td>
+    <td><span class="exp-cat-badge" style="background:${CAT_COLORS[r.cat]||'#888'}22;color:${CAT_COLORS[r.cat]||'#555'}">${r.cat}</span></td>
+    <td class="exp-amt ${r.amt===0?'zero':''}" style="color:${r.amt>0?'var(--ink)':'#ccc'}">${expFmt(r.amt)}</td>
+    <td style="font-size:12px;color:var(--ink-mid)">${r.pay||'—'}</td>
+    <td class="exp-note">${r.note||''}</td>
+    <td><button class="exp-del" onclick="deleteExpRecord('${r.id}')">✕</button></td>
+  </tr>`;
+}
+
+function setExpCatFilter(cat){
+  expFilterCat = cat;
+  renderExpOverview();
+}
+
+function renderExpOverview(){
+  const recs = expRecords;
+  const totalExp = recs.reduce((s,r)=>s+r.amt,0);
+  const totalInc = incRecords.reduce((s,r)=>s+r.amt,0);
+  const balance = totalInc - totalExp;
+  const now = new Date();
+  const curM = now.getMonth()+1;
+  const monthExp = recs.filter(r=>+r.date.slice(5,7)===curM).reduce((s,r)=>s+r.amt,0);
+
+  document.getElementById('exp-summary-grid').innerHTML=`
+    <div class="exp-sum-box"><div class="exp-sum-lbl">年度總支出</div><div class="exp-sum-val" style="color:var(--rd);font-size:16px">${expFmt(totalExp)}</div></div>
+    <div class="exp-sum-box"><div class="exp-sum-lbl">年度總收入</div><div class="exp-sum-val" style="color:var(--gr);font-size:16px">${expFmt(totalInc)}</div></div>
+    <div class="exp-sum-box"><div class="exp-sum-lbl">年度結餘</div><div class="exp-sum-val" style="color:${balance>=0?'var(--gr)':'var(--rd)'};font-size:16px">${expFmt(Math.abs(balance))}<span style="font-size:11px">${balance>=0?' ▲':' ▼'}</span></div></div>
+    <div class="exp-sum-box"><div class="exp-sum-lbl">本月支出</div><div class="exp-sum-val" style="font-size:16px">${expFmt(monthExp)}</div><div class="exp-sum-sub">${curM}月</div></div>`;
+
+  document.getElementById('exp-income-panel').innerHTML=`
+    <div class="exp-income-title">💰 收支概況</div>
+    <div class="exp-income-row"><span class="exp-income-lbl">年度總收入</span><span class="exp-income-val">NT$${totalInc.toLocaleString()}</span></div>
+    <div class="exp-income-row"><span class="exp-income-lbl">年度總支出</span><span class="exp-income-val">NT$${totalExp.toLocaleString()}</span></div>
+    <div style="height:1px;background:rgba(255,255,255,.2);margin:6px 0"></div>
+    <div class="exp-income-row"><span class="exp-income-lbl" style="font-weight:900">年度結餘</span><span class="exp-income-val ${balance>=0?'exp-balance-pos':'exp-balance-neg'}">${balance>=0?'+':''}NT$${balance.toLocaleString()}</span></div>`;
+
+  // category bars
+  const catTotals={};
+  EXP_CATS.forEach(c=>catTotals[c]=0);
+  recs.forEach(r=>{if(catTotals[r.cat]!==undefined)catTotals[r.cat]+=r.amt;});
+  const maxAmt = Math.max(...Object.values(catTotals),1);
+  let barsHtml='';
+  EXP_CATS.forEach(cat=>{
+    const amt=catTotals[cat];
+    if(amt===0)return;
+    const pct=Math.round(amt/maxAmt*100);
+    const color=CAT_COLORS[cat]||'var(--y)';
+    const isActive = expFilterCat===cat;
+    barsHtml+=`<div class="exp-bar-row" onclick="setExpCatFilter('${isActive?'all':cat}')" style="cursor:pointer;${isActive?'background:rgba(184,118,10,.07);border-radius:8px;margin-left:-4px;padding-left:4px':''}">
+      <div class="exp-bar-lbl" style="${isActive?'color:var(--ink);font-weight:900':''}">${cat}</div>
+      <div class="exp-bar-track"><div class="exp-bar-fill" style="width:${pct}%;background:${color};opacity:${isActive?1:.7}"></div></div>
+      <div class="exp-bar-amt">${expFmt(amt)}</div>
+    </div>`;
+  });
+  document.getElementById('exp-bars').innerHTML=barsHtml;
+
+  // ── category filter chips ──
+  const activeCats = EXP_CATS.filter(c=>catTotals[c]>0);
+  let chipsHtml = `<button class="exp-cat-chip ${expFilterCat==='all'?'active':'inactive'}"
+    style="${expFilterCat==='all'?'background:var(--y);':'background:var(--mid)'}"
+    onclick="setExpCatFilter('all')">全部 (${recs.length})</button>`;
+  activeCats.forEach(cat=>{
+    const cnt = recs.filter(r=>r.cat===cat).length;
+    const color = CAT_COLORS[cat]||'#888';
+    const isActive = expFilterCat===cat;
+    chipsHtml+=`<button class="exp-cat-chip ${isActive?'active':'inactive'}"
+      style="${isActive?`background:${color};`:`color:${color};border-color:${color}44;background:${color}11;`}"
+      onclick="setExpCatFilter('${isActive?'all':cat}')">${cat} (${cnt})</button>`;
+  });
+  document.getElementById('exp-cat-filters').innerHTML = chipsHtml;
+
+  // ── filtered table ──
+  const filtered = expFilterCat==='all' ? recs : recs.filter(r=>r.cat===expFilterCat);
+  const filteredTotal = filtered.reduce((s,r)=>s+r.amt,0);
+  const sorted=[...filtered].sort((a,b)=>b.date.localeCompare(a.date));
+  // update header amount to show filtered total (with label if filtered)
+  document.getElementById('exp-all-total').textContent =
+    expFilterCat==='all' ? expFmt(totalExp) : `${expFmt(filteredTotal)} / ${expFmt(totalExp)}`;
+  document.getElementById('exp-all-tbody').innerHTML=sorted.map(r=>renderExpRow(r)).join('')
+    || `<tr><td colspan="6" style="text-align:center;padding:20px;color:#aaa">${expFilterCat==='all'?'尚無記錄':'此類別無記錄'}</td></tr>`;
+}
+
+function renderExpMonth(){
+  const m=expCurMonth;
+  document.getElementById('exp-mlbl').textContent=`2026年 ${m}月`;
+  document.getElementById('exp-month-title').textContent=`${m}月 開銷明細`;
+  const recs=expRecords.filter(r=>+r.date.slice(5,7)===m);
+  const total=recs.reduce((s,r)=>s+r.amt,0);
+  const incTotal=incRecords.filter(r=>r.month===m).reduce((s,r)=>s+r.amt,0);
+  const balance=incTotal-total;
+  document.getElementById('exp-month-total').textContent=expFmt(total);
+  document.getElementById('exp-month-summary').innerHTML=`
+    <div class="exp-sum-box"><div class="exp-sum-lbl">本月支出</div><div class="exp-sum-val" style="color:var(--rd)">${expFmt(total)}</div></div>
+    <div class="exp-sum-box"><div class="exp-sum-lbl">本月收入</div><div class="exp-sum-val" style="color:var(--gr)">${expFmt(incTotal)}</div></div>
+    <div class="exp-sum-box"><div class="exp-sum-lbl">本月結餘</div><div class="exp-sum-val" style="color:${balance>=0?'var(--gr)':'var(--rd)'}">${balance>=0?'+':''}${expFmt(Math.abs(balance))}</div></div>
+    <div class="exp-sum-box"><div class="exp-sum-lbl">筆數</div><div class="exp-sum-val">${recs.length}</div><div class="exp-sum-sub">筆</div></div>`;
+  const sorted=[...recs].sort((a,b)=>a.date.localeCompare(b.date));
+  document.getElementById('exp-month-tbody').innerHTML=sorted.map(r=>renderExpRow(r)).join('')||'<tr><td colspan="6" style="text-align:center;padding:20px;color:#aaa">本月尚無記錄</td></tr>';
+}
+
+function renderExp(){
+  if(expViewTab==='overview') renderExpOverview();
+  else if(expViewTab==='month') renderExpMonth();
+}
+
+function expExportCSV(){
+  const header=['日期','類別','金額','付款方式','備註'];
+  const rows=expRecords.sort((a,b)=>a.date.localeCompare(b.date)).map(r=>[r.date,r.cat,r.amt,r.pay||'',r.note||'']);
+  const bom='\uFEFF';
+  const csv=bom+[header,...rows].map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8;'}));
+  a.download=`年度開銷_${today()}.csv`;
+  a.click();
+}
+
+// 初始化（頁面載入時不自動渲染，切換到該頁籤時才渲染）
+
+// ═══ 初始化 renderCC() ═══
+renderCC();
+
+</script>
+
+<!-- 備份浮動按鈕 -->
+<style>
+.fab-wrap{position:fixed;bottom:20px;right:16px;z-index:300;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.fab{width:50px;height:50px;border-radius:50%;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 3px 12px rgba(0,0,0,.2);transition:transform .15s}
+.fab:hover{transform:scale(1.1)}
+.fab-main{background:var(--y);color:#fff}
+#backup-panel{display:none;flex-direction:column;gap:6px;background:#fff;border:1px solid var(--bdr);border-radius:14px;padding:12px;box-shadow:0 4px 20px rgba(0,0,0,.15);min-width:200px}
+.bp-title{font-size:12px;font-weight:900;color:var(--y);letter-spacing:.06em;margin-bottom:2px}
+.bp-divider{height:1px;background:var(--bdr);margin:4px 0}
+.bp-btn-row{display:flex;gap:6px}
+.bpbtn{flex:1;padding:8px 0;border:1px solid var(--bdr);border-radius:8px;background:#fff;font-family:inherit;font-size:12px;font-weight:700;cursor:pointer;color:var(--ink-mid);transition:all .15s;text-align:center}
+.bpbtn:hover{background:var(--mid);color:var(--ink)}
+function addCCCard(){
+  const bank=document.getElementById('cc-bank').value;
+  const day=+document.getElementById('cc-day').value;
+  if(!day){alert('請輸入截止日');return;}
+  ccData.push({
+    id:Date.now(),bank,dueDay:day,
+    cycle:document.getElementById('cc-cycle').value||`月${day<=10?'初':'中'}${day}號截止`,
+    autoDebit:document.getElementById('cc-auto').value==='1',
+    debitBank:document.getElementById('cc-debit').value.trim(),note:''
+  });
+  saveCCData();renderCC();
+  ['cc-day','cc-cycle','cc-debit'].forEach(id=>document.getElementById(id).value='');
+}
+
+.bpbtn.export:hover{background:rgba(26,138,58,.08)}
+.bpbtn.import{border-color:var(--bl);color:var(--bl)}
+.bpbtn.import:hover{background:rgba(26,110,168,.08)}
+.bpbtn.full{border-color:var(--y);color:var(--y);width:100%}
+.bpbtn.full:hover{background:var(--y-light)}
+</style>
+
+<div class="fab-wrap">
+  <div id="backup-panel">
+    <div class="bp-title">📦 資料備份 / 還原</div>
+    <div class="bp-divider"></div>
+
+    <div class="bp-title" style="color:#555;font-size:11px">匯出 CSV（可用 Excel 開啟）</div>
+    <div class="bp-btn-row">
+      <button class="bpbtn export" onclick="exportApptCSV()">🏥 看診</button>
+      <button class="bpbtn export" onclick="exportBPCSV()">❤️ 血壓</button>
+      <button class="bpbtn export" onclick="exportMedCSV()">💊 用藥</button>
+      <button class="bpbtn export" onclick="exportCCCSV()">💳 信用卡</button>
+    </div>
+
+    <div class="bp-divider"></div>
+    <div class="bp-title" style="color:#555;font-size:11px">完整備份 JSON（可匯入還原）</div>
+    <button class="bpbtn full export" onclick="exportJSON()">⬇️ 匯出完整備份 .json</button>
+    <button class="bpbtn full import" onclick="importJSON()">⬆️ 匯入備份還原 .json</button>
+  </div>
+  <button class="fab fab-main" onclick="toggleBackupPanel()" title="備份/還原">💾</button>
+</div>
+
+<!-- ══ Firebase 雲端同步啟動 ══ -->
+<div id="fb-cal-loading" style="position:fixed;inset:0;z-index:999999;background:#F5F0E8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
+  <div style="font-size:48px">☁️</div>
+  <div style="font-size:16px;font-weight:700;color:#B8760A">連接雲端資料庫中...</div>
+  <div id="fb-cal-msg" style="font-size:13px;color:#aaa">請稍候</div>
+</div>
+
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDmkQFhE3N-oID3AM57FH08AvxRB-uPz1Q",
+  authDomain: "kevin-apps-3f0d8.firebaseapp.com",
+  databaseURL: "https://kevin-apps-3f0d8-default-rtdb.firebaseio.com",
+  projectId: "kevin-apps-3f0d8",
+  storageBucket: "kevin-apps-3f0d8.firebasestorage.app",
+  messagingSenderId: "218848020635",
+  appId: "1:218848020635:web:3d9758d7f5a4b9b2e29e3e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+window._fbRef = (path) => ref(db, path);
+window._fbSet = set;
+
+const KEYS = ['appts','bp','meds','cc_data','cc_records','focus_custom','focus_status','exp_records','inc_records'];
+
+// 對應 JS 變數的 setter
+const SETTERS = {
+  appts:         v => { appointments   = Array.isArray(v)?v:Object.values(v||{}); },
+  bp:            v => { bpList         = Array.isArray(v)?v:Object.values(v||{}); },
+  meds:          v => { meds           = Array.isArray(v)?v:Object.values(v||{}); },
+  cc_data:       v => { ccData         = Array.isArray(v)?v:Object.values(v||{}); },
+  cc_records:    v => { ccRecords      = Array.isArray(v)?v:Object.values(v||{}); },
+  focus_custom:  v => { focusCustomItems = Array.isArray(v)?v:Object.values(v||{}); },
+  focus_status:  v => { if(v&&typeof v==='object') Object.assign(focusStatus, v); },
+  exp_records:   v => { expRecords     = Array.isArray(v)?v:Object.values(v||{}); },
+  inc_records:   v => { incRecords     = Array.isArray(v)?v:Object.values(v||{}); },
+};
+
+const LOCAL_DEFAULTS = {
+  appts: 'appts', bp: 'bp', meds: 'meds',
+  cc_data: 'cc_data', cc_records: 'cc_records',
+  focus_custom: 'focus_custom', focus_status: 'focus_status',
+  exp_records: 'exp_records', inc_records: 'inc_records'
+};
+
+async function loadAll() {
+  const fbMsg = document.getElementById('fb-cal-msg');
+  try {
+    const snaps = await Promise.all(KEYS.map(k => get(ref(db, 'calendar/' + k))));
+    KEYS.forEach((k, i) => {
+      const snap = snaps[i];
+      if (snap.exists()) {
+        SETTERS[k](snap.val());
+      } else {
+        // 雲端沒有 → 從 localStorage 讀取並上傳
+        const local = localStorage.getItem(LOCAL_DEFAULTS[k]);
+        if (local) {
+          try {
+            const parsed = JSON.parse(local);
+            SETTERS[k](parsed);
+            set(ref(db, 'calendar/' + k), parsed).catch(()=>{});
+          } catch(e){}
+        }
+      }
+    });
+    if(fbMsg) fbMsg.textContent = '✅ 雲端資料載入完成';
+  } catch(e) {
+    console.warn('Firebase 載入失敗，使用本地資料:', e);
+    if(fbMsg) fbMsg.textContent = '⚠️ 離線模式';
+    KEYS.forEach(k => {
+      const local = localStorage.getItem(LOCAL_DEFAULTS[k]);
+      if(local) { try { SETTERS[k](JSON.parse(local)); } catch(e){} }
+    });
+  }
+  // 確保 focusStatus 有預設值
+  FOCUS_ITEMS_INIT.forEach(it => { if(!(it.id in focusStatus)) focusStatus[it.id]=it.initStatus; });
+  // 移除載入畫面，初始化 UI
+  const loading = document.getElementById('fb-cal-loading');
+  if(loading) loading.remove();
+  renderAppts(); renderBP(); renderMeds(); renderCC();
+  renderFocus(); renderExpOverview(); renderExpMonth(); renderIncTable();
+}
+
+// 5秒逾時保護
+setTimeout(() => {
+  const loading = document.getElementById('fb-cal-loading');
+  if(loading) {
+    loading.remove();
+    FOCUS_ITEMS_INIT.forEach(it => { if(!(it.id in focusStatus)) focusStatus[it.id]=it.initStatus; });
+    renderAppts(); renderBP(); renderMeds(); renderCC();
+    renderFocus(); renderExpOverview(); renderExpMonth(); renderIncTable();
+  }
+}, 5000);
+
+loadAll();
+</script>
+
+</body>
+</html>

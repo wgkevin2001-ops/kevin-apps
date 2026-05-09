@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kevin 工作事務</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #B8760A;
+  --gold2: #E6A800;
+  --bg: #F5F0E8;
+  --card: #FFFFFF;
+  --text: #2A2A2A;
+  --muted: #888;
+  --border: rgba(184,118,10,0.22);
+  --shadow: rgba(184,118,10,0.15);
+  --red: #CC2222;
+  --green: #1A8A3A;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  font-family: 'Noto Sans TC', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 24px 18px 48px;
+  position: relative;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 10%, rgba(184,118,10,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 90%, rgba(230,168,0,0.07) 0%, transparent 55%);
+}
+
+/* ── LOGIN ── */
+#login-screen {
+  width: 100%; max-width: 400px;
+  display: flex; flex-direction: column; align-items: center;
+  animation: fadeUp 0.6s ease both;
+  margin: auto;
+  padding: 20px 0;
+}
+.logo-ring {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 36px; box-shadow: 0 8px 32px var(--shadow);
+  margin-bottom: 20px; position: relative;
+}
+.logo-ring::after {
+  content: ''; position: absolute; inset: -4px; border-radius: 50%;
+  border: 2px solid rgba(184,118,10,0.2);
+  animation: pulse 2.5s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%,100%{transform:scale(1);opacity:.8} 50%{transform:scale(1.08);opacity:.3}
+}
+.login-title { font-size: 26px; font-weight: 900; color: var(--gold); text-align: center; margin-bottom: 6px; }
+.login-sub { font-size: 14px; color: var(--muted); font-family: 'DM Mono', monospace; text-align: center; margin-bottom: 36px; }
+
+.login-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 20px;
+  padding: 32px 28px; width: 100%; box-shadow: 0 8px 40px var(--shadow);
+  display: flex; flex-direction: column; gap: 16px;
+}
+.login-card h2 { font-size: 18px; font-weight: 700; text-align: center; margin-bottom: 2px; }
+
+.field-label { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; letter-spacing: .05em; }
+.input-wrap { position: relative; }
+.input-wrap input {
+  width: 100%; padding: 14px 46px 14px 16px;
+  background: #F7F3EC; border: 1.5px solid var(--border); border-radius: 12px;
+  font-family: 'Noto Sans TC', sans-serif; font-size: 16px; color: var(--text);
+  outline: none; transition: border-color .2s, box-shadow .2s;
+}
+.input-wrap input:focus {
+  border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,118,10,.12); background: #fff;
+}
+.input-wrap input.shake { animation: shake .35s ease; border-color: var(--red); box-shadow: 0 0 0 3px rgba(204,34,34,.1); }
+.eye-btn {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer; font-size: 18px; color: var(--muted);
+  padding: 4px; -webkit-tap-highlight-color: transparent;
+}
+
+.login-btn {
+  width: 100%; padding: 15px;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #fff; border: none; border-radius: 12px;
+  font-family: 'Noto Sans TC', sans-serif; font-size: 17px; font-weight: 900;
+  cursor: pointer; box-shadow: 0 4px 16px var(--shadow);
+  transition: all .2s; letter-spacing: .06em; -webkit-tap-highlight-color: transparent;
+}
+.login-btn:hover { opacity: .9; transform: translateY(-1px); }
+.login-btn:active { transform: scale(.98); opacity: .85; }
+
+.err-msg { font-size: 13px; color: var(--red); font-weight: 700; text-align: center; min-height: 18px; display: none; }
+.err-msg.on { display: block; }
+
+.warn-strip {
+  background: #FFF3E0; border: 1px solid rgba(204,120,0,.3); border-radius: 10px;
+  padding: 10px 14px; font-size: 12px; color: #B05000; font-weight: 600;
+  text-align: center; display: none;
+}
+.warn-strip.on { display: block; }
+.login-note { font-size: 12px; color: #ccc; text-align: center; line-height: 1.6; font-family: 'DM Mono', monospace; }
+
+/* ── LOCK ── */
+#lock-screen {
+  display: none; width: 100%; max-width: 400px;
+  flex-direction: column; align-items: center;
+  animation: fadeUp .4s ease both;
+}
+.lock-box {
+  background: var(--card); border: 1.5px solid rgba(204,34,34,.3); border-radius: 20px;
+  padding: 36px 28px; width: 100%; text-align: center;
+  box-shadow: 0 8px 40px rgba(204,34,34,.1);
+}
+.lock-icon { font-size: 52px; margin-bottom: 14px; }
+.lock-title { font-size: 22px; font-weight: 900; color: var(--red); margin-bottom: 8px; }
+.lock-msg { font-size: 14px; color: var(--muted); line-height: 1.7; }
+.lock-cd { font-size: 52px; font-weight: 900; color: var(--red); margin: 18px 0 6px; font-family: 'DM Mono', monospace; }
+.unlock-btn {
+  margin-top: 18px; padding: 13px 32px;
+  background: var(--gold); color: #fff; border: none; border-radius: 11px;
+  font-family: 'Noto Sans TC', sans-serif; font-size: 15px; font-weight: 700;
+  cursor: pointer; display: none;
+}
+
+/* ── PORTAL ── */
+#portal-screen {
+  width: 100%; max-width: 480px;
+  display: none; flex-direction: column; align-items: center;
+  animation: fadeUp .5s ease both;
+  padding-bottom: 24px;
+}
+.portal-header { text-align: center; margin-bottom: 28px; }
+.user-avatar {
+  width: 68px; height: 68px; border-radius: 50%;
+  border: 3px solid var(--gold); margin: 0 auto 12px;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; box-shadow: 0 4px 16px var(--shadow);
+}
+.portal-greeting { font-size: 22px; font-weight: 900; color: var(--gold); }
+.portal-clock { font-size: 13px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 4px; }
+.section-lbl {
+  font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--muted);
+  font-family: 'DM Mono', monospace; margin-bottom: 12px;
+  align-self: flex-start; width: 100%; text-transform: uppercase;
+}
+.app-cards { width: 100%; display: flex; flex-direction: column; gap: 13px; margin-bottom: 24px; }
+.app-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 18px;
+  padding: 20px 22px; display: flex; align-items: center; gap: 16px;
+  text-decoration: none; color: inherit; transition: all .22s;
+  box-shadow: 0 2px 12px rgba(0,0,0,.05); position: relative; overflow: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+.app-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; background: var(--accent, var(--gold)); border-radius: 4px 0 0 4px;
+}
+.app-card:hover { box-shadow: 0 6px 24px var(--shadow); transform: translateY(-2px); border-color: rgba(184,118,10,.4); }
+.app-card:active { transform: scale(.98); }
+.app-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
+.app-info { flex: 1; }
+.app-name { font-size: 17px; font-weight: 900; margin-bottom: 4px; }
+.app-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.app-arrow { font-size: 20px; color: #ddd; flex-shrink: 0; transition: transform .2s; }
+.app-card:hover .app-arrow { transform: translateX(4px); color: var(--gold); }
+
+.logout-btn {
+  background: none; border: 1px solid var(--border); border-radius: 10px;
+  padding: 10px 28px; font-family: 'Noto Sans TC', sans-serif; font-size: 14px;
+  color: var(--muted); cursor: pointer; transition: all .2s;
+}
+.logout-btn:hover { color: var(--red); border-color: var(--red); background: rgba(204,34,34,.04); }
+.footer-note { margin-top: 22px; font-size: 11px; color: #ccc; font-family: 'DM Mono', monospace; text-align: center; }
+
+/* ── WEATHER ── */
+.weather-wrap{width:100%;margin-bottom:20px}
+.weather-card{background:linear-gradient(135deg,#1565C0,#0D47A1);border-radius:18px;padding:16px 18px;color:#fff;box-shadow:0 4px 20px rgba(21,101,192,.35);position:relative;overflow:hidden}
+.weather-card::before{content:'';position:absolute;right:-30px;top:-30px;width:140px;height:140px;border-radius:50%;background:rgba(255,255,255,.06)}
+.weather-card::after{content:'';position:absolute;right:60px;bottom:-40px;width:100px;height:100px;border-radius:50%;background:rgba(255,255,255,.04)}
+.wc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.wc-loc{font-size:12px;opacity:.8;font-family:'DM Mono',monospace;letter-spacing:.04em}
+.wc-refresh{background:rgba(255,255,255,.15);border:none;border-radius:8px;color:#fff;font-size:13px;padding:3px 9px;cursor:pointer;font-family:inherit}
+.wc-main{display:flex;align-items:center;gap:14px;margin-bottom:12px}
+.wc-icon{font-size:46px;line-height:1;position:relative;z-index:1}
+.wc-temp{font-size:38px;font-weight:900;line-height:1}
+.wc-desc{font-size:13px;opacity:.85;font-weight:600;margin-top:3px}
+.wc-time{font-size:11px;opacity:.6;margin-top:2px;font-family:'DM Mono',monospace}
+.wc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;position:relative;z-index:1}
+.wc-item{background:rgba(255,255,255,.12);border-radius:10px;padding:7px 6px;text-align:center}
+.wc-val{font-size:14px;font-weight:800}
+.wc-lbl{font-size:10px;opacity:.7;margin-top:1px;letter-spacing:.03em}
+.wc-loading{text-align:center;padding:16px;opacity:.8;font-size:14px}
+.wc-err{text-align:center;padding:12px;font-size:13px;opacity:.75}
+
+/* ── 雲端狀態指示 ── */
+.cloud-badge {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 11px; padding: 3px 10px; border-radius: 20px;
+  font-family: 'DM Mono', monospace; margin-top: 8px;
+}
+.cloud-badge.ok  { background: rgba(26,138,58,.12); color: #1A8A3A; }
+.cloud-badge.err { background: rgba(204,34,34,.10); color: #CC2222; }
+.cloud-badge.ing { background: rgba(184,118,10,.10); color: #B8760A; }
+
+@keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+@media(max-width:420px){ .login-card{padding:24px 18px} .login-title{font-size:22px} }
+</style>
+</head>
+<body>
+
+<!-- ── 登入畫面 ── -->
+<div id="login-screen">
+  <div class="logo-ring">🚖</div>
+  <div class="login-title">Kevin 工作事務</div>
+  <div class="login-sub">KEVIN'S WORKSPACE PORTAL</div>
+
+  <div class="login-card">
+    <h2>🔐 請輸入密碼</h2>
+
+    <div>
+      <div class="field-label">密碼</div>
+      <div class="input-wrap">
+        <input type="password" id="pw-input" placeholder="請輸入登入密碼"
+          onkeydown="if(event.key==='Enter')doLogin()"
+          oninput="clearErr()">
+        <button class="eye-btn" id="eye-btn" onclick="toggleEye()" tabindex="-1">👁️</button>
+      </div>
+    </div>
+
+    <div class="err-msg" id="err-msg"></div>
+    <div class="warn-strip" id="warn-strip"></div>
+
+    <button class="login-btn" onclick="doLogin()">登　入</button>
+    <div class="login-note">錯誤 5 次將鎖定 30 秒</div>
+
+    <!-- 雲端連線狀態 -->
+    <div style="text-align:center">
+      <span class="cloud-badge ing" id="cloud-badge">⏳ 連接雲端中...</span>
+    </div>
+  </div>
+
+  <div class="footer-note" style="margin-top:20px">僅限授權使用 · 資料儲存於 Firebase 雲端</div>
+</div>
+
+<!-- ── 鎖定畫面 ── -->
+<div id="lock-screen">
+  <div class="lock-box">
+    <div class="lock-icon">🔒</div>
+    <div class="lock-title">帳號已暫時鎖定</div>
+    <div class="lock-msg">密碼連續錯誤次數過多<br>請等待倒數結束後再試</div>
+    <div class="lock-cd" id="lock-cd">30</div>
+    <div class="lock-msg">秒後解鎖</div>
+    <button class="unlock-btn" id="unlock-btn" onclick="unlockNow()">✅ 立即解鎖</button>
+  </div>
+</div>
+
+<!-- ── 入口畫面 ── -->
+<div id="portal-screen">
+  <div class="portal-header">
+    <div class="user-avatar">🚖</div>
+    <div class="portal-greeting">Kevin，歡迎回來！</div>
+    <div class="portal-clock" id="portal-clock"></div>
+  </div>
+
+  <!-- 天氣卡片 -->
+  <div class="weather-wrap">
+    <div class="weather-card" id="wc">
+      <div class="wc-loading" id="wc-loading">⏳ 取得天氣資料中...</div>
+      <div id="wc-body" style="display:none">
+        <div class="wc-top">
+          <div class="wc-loc">📍 新北市板橋區</div>
+          <button class="wc-refresh" onclick="fetchWeather()">🔄 更新</button>
+        </div>
+        <div class="wc-main">
+          <div class="wc-icon" id="wc-icon">🌤️</div>
+          <div>
+            <div class="wc-temp"><span id="wc-temp">—</span>°C</div>
+            <div class="wc-desc" id="wc-desc">—</div>
+            <div class="wc-time" id="wc-time"></div>
+          </div>
+        </div>
+        <div class="wc-grid">
+          <div class="wc-item"><div class="wc-val" id="wc-feels">—°</div><div class="wc-lbl">體感溫度</div></div>
+          <div class="wc-item"><div class="wc-val" id="wc-humid">—%</div><div class="wc-lbl">相對濕度</div></div>
+          <div class="wc-item"><div class="wc-val" id="wc-wind">—</div><div class="wc-lbl">風速 m/s</div></div>
+          <div class="wc-item"><div class="wc-val" id="wc-rain">—%</div><div class="wc-lbl">降雨機率</div></div>
+          <div class="wc-item"><div class="wc-val" id="wc-uv">—</div><div class="wc-lbl">紫外線指數</div></div>
+          <div class="wc-item"><div class="wc-val" id="wc-vis">—km</div><div class="wc-lbl">能見度</div></div>
+        </div>
+      </div>
+      <div class="wc-err" id="wc-err" style="display:none">⚠️ 無法取得天氣，請確認網路連線</div>
+    </div>
+  </div>
+
+  <div class="section-lbl">我的工具</div>
+
+  <div class="app-cards">
+    <a class="app-card" href="計程車營收彙總.html" style="--accent:#B8760A">
+      <div class="app-icon" style="background:linear-gradient(135deg,#FFF3DC,#FFE0A0)">🚖</div>
+      <div class="app-info">
+        <div class="app-name">計程車營收彙總</div>
+        <div class="app-desc">每日記帳・月度分析・平台收入</div>
+      </div>
+      <div class="app-arrow">›</div>
+    </a>
+
+    <a class="app-card" href="2026存股計劃.html" style="--accent:#1A8A3A">
+      <div class="app-icon" style="background:linear-gradient(135deg,#DCF5E4,#B0E8C0)">📈</div>
+      <div class="app-info">
+        <div class="app-name">2026 存股計劃</div>
+        <div class="app-desc">每月配息試算・持股追蹤・目標規劃</div>
+      </div>
+      <div class="app-arrow">›</div>
+    </a>
+
+    <a class="app-card" href="2026行事曆.html" style="--accent:#1A6EA8">
+      <div class="app-icon" style="background:linear-gradient(135deg,#DCE8FF,#B0C8F0)">📅</div>
+      <div class="app-info">
+        <div class="app-name">2026 行事曆與健康管理</div>
+        <div class="app-desc">行程管理・看診記錄・血壓用藥・匯出 Excel</div>
+      </div>
+      <div class="app-arrow">›</div>
+    </a>
+  </div>
+
+  <button class="logout-btn" onclick="logout()">🔓 登出</button>
+  <div class="footer-note">Kevin 工作事務 · ☁️ 資料儲存於 Firebase 雲端</div>
+</div>
+
+
+<!-- ══════════════════════════════════════════
+     Firebase SDK（使用 CDN，不需 npm）
+     ══════════════════════════════════════════ -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, get, set, onValue }
+  from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+// ═══════════════════════════════════════
+//  ★ Firebase 設定
+// ═══════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyDmkQFhE3N-oID3AM57FH08AvxRB-uPz1Q",
+  authDomain: "kevin-apps-3f0d8.firebaseapp.com",
+  databaseURL: "https://kevin-apps-3f0d8-default-rtdb.firebaseio.com",
+  projectId: "kevin-apps-3f0d8",
+  storageBucket: "kevin-apps-3f0d8.firebasestorage.app",
+  messagingSenderId: "218848020635",
+  appId: "1:218848020635:web:3d9758d7f5a4b9b2e29e3e"
+};
+
+// ═══════════════════════════════════════
+//  ★ 登入密碼設定（在這裡修改）
+// ═══════════════════════════════════════
+const PASSWORDS = ['55688taxi'];
+const MAX_TRIES = 5;
+const LOCK_SECS = 30;
+
+// ── Firebase 初始化 ──
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+const loginRef = ref(db, 'login_guard'); // Firebase 路徑：login_guard
+
+// ── 雲端狀態badge ──
+function setBadge(state, msg) {
+  var b = document.getElementById('cloud-badge');
+  if (!b) return;
+  b.className = 'cloud-badge ' + state;
+  b.textContent = msg;
+}
+
+// ── 從 Firebase 讀取登入守衛資料 ──
+var fbData = { fails: 0, lockUntil: 0 }; // 本地快取
+var fbReady = false;
+
+get(loginRef).then(snap => {
+  if (snap.exists()) fbData = snap.val();
+  fbReady = true;
+  setBadge('ok', '☁️ 雲端已連線');
+  init();
+}).catch(() => {
+  // Firebase 無法連線時，降級為本地模式
+  fbReady = true;
+  setBadge('err', '⚠️ 離線模式（資料不同步）');
+  init();
+});
+
+// ── 寫入 Firebase ──
+function fbSave() {
+  set(loginRef, fbData).catch(() => {});
+}
+
+// ── 內部變數 ──
+var S_KEY = 'fp_session';
+var timer = null;
+
+// ── 初始化 ──
+function init() {
+  tickClock(); setInterval(tickClock, 1000);
+
+  // 讀取鎖定狀態（優先 Firebase，其次 sessionStorage）
+  var lockUntil = fbData.lockUntil || 0;
+  if (lockUntil > Date.now()) {
+    startLock(Math.ceil((lockUntil - Date.now()) / 1000)); return;
+  }
+  try { if (sessionStorage.getItem(S_KEY) === 'ok') { showPortal(); return; } } catch(e) {}
+  showLogin();
+}
+
+// ── 時鐘 ──
+function tickClock() {
+  var d = new Date(), wd = ['日','一','二','三','四','五','六'];
+  var s = d.getFullYear()+'年'+(d.getMonth()+1)+'月'+d.getDate()+'日'
+        +' ('+wd[d.getDay()]+') '
+        +p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds());
+  var el = document.getElementById('portal-clock');
+  if (el) el.textContent = s;
+}
+function p(n) { return n < 10 ? '0'+n : n; }
+
+// ── 登入 ──
+window.doLogin = function() {
+  var val = document.getElementById('pw-input').value;
+  if (!val) { showErr('請輸入密碼'); return; }
+
+  if (PASSWORDS.indexOf(val) !== -1) {
+    // ✅ 成功：清除失敗紀錄
+    fbData = { fails: 0, lockUntil: 0 };
+    fbSave();
+    try { sessionStorage.setItem(S_KEY, 'ok'); } catch(e) {}
+    showPortal();
+  } else {
+    // ❌ 失敗
+    fbData.fails = (fbData.fails || 0) + 1;
+    var inp = document.getElementById('pw-input');
+    inp.value = '';
+    inp.classList.add('shake');
+    setTimeout(() => inp.classList.remove('shake'), 400);
+
+    var remain = MAX_TRIES - fbData.fails;
+    if (remain <= 0) {
+      fbData.lockUntil = Date.now() + LOCK_SECS * 1000;
+      fbData.fails = 0;
+      fbSave();
+      startLock(LOCK_SECS);
+    } else {
+      fbSave();
+      showErr('❌ 密碼錯誤');
+      if (remain <= 2) {
+        var w = document.getElementById('warn-strip');
+        w.textContent = '⚠️ 還有 '+remain+' 次機會，超過將鎖定 '+LOCK_SECS+' 秒';
+        w.classList.add('on');
+      }
+    }
+  }
+};
+
+window.showErr = function(msg) {
+  var e = document.getElementById('err-msg'); e.textContent = msg; e.classList.add('on');
+};
+window.clearErr = function() {
+  document.getElementById('err-msg').classList.remove('on');
+};
+window.toggleEye = function() {
+  var inp = document.getElementById('pw-input');
+  var btn = document.getElementById('eye-btn');
+  inp.type = inp.type === 'password' ? 'text' : 'password';
+  btn.textContent = inp.type === 'password' ? '👁️' : '🙈';
+};
+
+// ── 鎖定 ──
+function startLock(secs) {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('portal-screen').style.display = 'none';
+  var ls = document.getElementById('lock-screen');
+  ls.style.display = 'flex';
+  var cd = document.getElementById('lock-cd');
+  var ub = document.getElementById('unlock-btn');
+  cd.textContent = secs; ub.style.display = 'none';
+  if (timer) clearInterval(timer);
+  var left = secs;
+  timer = setInterval(() => {
+    left--;
+    cd.textContent = left;
+    if (left <= 0) { clearInterval(timer); ub.style.display = 'inline-block'; cd.textContent = '0'; }
+  }, 1000);
+}
+
+window.unlockNow = function() {
+  fbData = { fails: 0, lockUntil: 0 };
+  fbSave();
+  if (timer) clearInterval(timer);
+  showLogin();
+};
+
+// ── 畫面切換 ──
+function showLogin() {
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('portal-screen').style.display = 'none';
+  document.getElementById('lock-screen').style.display = 'none';
+  setTimeout(() => document.getElementById('pw-input').focus(), 300);
+}
+function showPortal() {
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('lock-screen').style.display = 'none';
+  document.getElementById('portal-screen').style.display = 'flex';
+  fetchWeather();
+}
+
+window.logout = function() {
+  try { sessionStorage.removeItem(S_KEY); } catch(e) {}
+  document.getElementById('pw-input').value = '';
+  document.getElementById('err-msg').classList.remove('on');
+  document.getElementById('warn-strip').classList.remove('on');
+  showLogin();
+};
+
+// ── 天氣 ──
+var WX_URL = 'https://api.open-meteo.com/v1/forecast'
+  + '?latitude=24.9982&longitude=121.4617'
+  + '&current=temperature_2m,relative_humidity_2m,apparent_temperature,'
+  + 'weather_code,wind_speed_10m,visibility,uv_index'
+  + '&hourly=precipitation_probability'
+  + '&timezone=Asia%2FTaipei&forecast_days=1';
+
+var WX_ICONS = {
+  0:'☀️',1:'🌤️',2:'⛅',3:'☁️',
+  45:'🌫️',48:'🌫️',
+  51:'🌦️',53:'🌦️',55:'🌧️',
+  61:'🌧️',63:'🌧️',65:'🌨️',
+  71:'❄️',73:'❄️',75:'❄️',77:'🌨️',
+  80:'🌦️',81:'🌧️',82:'⛈️',
+  85:'🌨️',86:'🌨️',
+  95:'⛈️',96:'⛈️',99:'⛈️'
+};
+var WX_DESC = {
+  0:'晴天',1:'大致晴朗',2:'部分多雲',3:'陰天',
+  45:'霧',48:'霧淞',
+  51:'毛毛雨（輕）',53:'毛毛雨',55:'毛毛雨（重）',
+  61:'小雨',63:'中雨',65:'大雨',
+  71:'小雪',73:'中雪',75:'大雪',77:'雪粒',
+  80:'短暫陣雨',81:'陣雨',82:'大陣雨',
+  85:'陣雪',86:'大陣雪',
+  95:'雷陣雨',96:'雷陣雨夾冰雹',99:'強雷陣雨'
+};
+
+window.fetchWeather = function() {
+  document.getElementById('wc-loading').style.display = '';
+  document.getElementById('wc-body').style.display = 'none';
+  document.getElementById('wc-err').style.display = 'none';
+
+  fetch(WX_URL)
+    .then(r => r.json())
+    .then(d => {
+      var c = d.current;
+      var code = c.weather_code;
+      var now = new Date();
+      var hr = now.getHours();
+      var rainPct = d.hourly && d.hourly.precipitation_probability
+        ? (d.hourly.precipitation_probability[hr] || 0) : 0;
+
+      document.getElementById('wc-icon').textContent = WX_ICONS[code] || '🌡️';
+      document.getElementById('wc-temp').textContent = Math.round(c.temperature_2m);
+      document.getElementById('wc-desc').textContent = WX_DESC[code] || '—';
+      document.getElementById('wc-time').textContent = '更新：' + now.getHours() + ':' + (now.getMinutes()<10?'0':'')+now.getMinutes();
+      document.getElementById('wc-feels').textContent = Math.round(c.apparent_temperature) + '°';
+      document.getElementById('wc-humid').textContent = c.relative_humidity_2m + '%';
+      document.getElementById('wc-wind').textContent = c.wind_speed_10m.toFixed(1);
+      document.getElementById('wc-rain').textContent = rainPct + '%';
+      document.getElementById('wc-uv').textContent = c.uv_index !== undefined ? c.uv_index.toFixed(1) : '—';
+      document.getElementById('wc-vis').textContent = c.visibility !== undefined ? (c.visibility/1000).toFixed(0)+'km' : '—';
+
+      document.getElementById('wc-loading').style.display = 'none';
+      document.getElementById('wc-body').style.display = '';
+    })
+    .catch(() => {
+      document.getElementById('wc-loading').style.display = 'none';
+      document.getElementById('wc-err').style.display = '';
+    });
+};
+
+</script>
+
+</body>
+</html>
