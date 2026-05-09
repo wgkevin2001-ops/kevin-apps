@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>資料備份工具</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --gold: #B8760A;
+  --gold2: #E6A800;
+  --bg: #F5F0E8;
+  --card: #FFFFFF;
+  --text: #2A2A2A;
+  --muted: #888;
+  --border: rgba(184,118,10,0.22);
+  --shadow: rgba(184,118,10,0.15);
+  --red: #CC2222;
+  --green: #1A8A3A;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  background: var(--bg);
+  font-family: 'Noto Sans TC', sans-serif;
+  color: var(--text);
+  min-height: 100vh;
+  padding: 24px 18px 60px;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 15% 10%, rgba(184,118,10,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 90%, rgba(230,168,0,0.07) 0%, transparent 55%);
+}
+
+.container { max-width: 480px; margin: 0 auto; position: relative; }
+
+.header { text-align: center; margin-bottom: 28px; }
+.logo {
+  width: 72px; height: 72px; border-radius: 50%;
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 32px; margin: 0 auto 16px;
+  box-shadow: 0 8px 32px var(--shadow);
+}
+.header h1 { font-size: 24px; font-weight: 900; color: var(--gold); }
+.header p { font-size: 13px; color: var(--muted); margin-top: 6px; font-family: 'DM Mono', monospace; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 24px 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 20px var(--shadow);
+}
+.card-title {
+  font-size: 16px; font-weight: 900; margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-desc { font-size: 13px; color: var(--muted); line-height: 1.6; margin-bottom: 16px; }
+
+.btn {
+  width: 100%; padding: 15px;
+  border: none; border-radius: 12px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 16px; font-weight: 900;
+  cursor: pointer; transition: all .2s;
+  -webkit-tap-highlight-color: transparent;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+}
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  color: #fff; box-shadow: 0 4px 16px var(--shadow);
+}
+.btn-gold:active { transform: scale(.97); opacity: .9; }
+.btn-green {
+  background: linear-gradient(135deg, #1A8A3A, #22AA50);
+  color: #fff; box-shadow: 0 4px 16px rgba(26,138,58,0.3);
+}
+.btn-green:active { transform: scale(.97); opacity: .9; }
+.btn-outline {
+  background: none; border: 1.5px solid var(--border);
+  color: var(--muted); margin-top: 10px;
+}
+.btn-outline:active { background: rgba(184,118,10,0.05); }
+
+.status-box {
+  border-radius: 12px; padding: 14px 16px;
+  font-size: 13px; font-weight: 700; line-height: 1.6;
+  margin-top: 14px; display: none;
+}
+.status-box.ok { background: #E8F5E9; color: #1A8A3A; border: 1px solid rgba(26,138,58,0.25); display: block; }
+.status-box.err { background: #FFEBEE; color: var(--red); border: 1px solid rgba(204,34,34,0.25); display: block; }
+.status-box.info { background: #FFF8E1; color: #8A6000; border: 1px solid rgba(184,118,10,0.25); display: block; }
+
+.data-list { margin-top: 14px; display: none; }
+.data-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 10px 14px; border-radius: 10px;
+  background: #F7F3EC; margin-bottom: 6px;
+  border: 1px solid var(--border);
+}
+.data-key { font-size: 13px; font-weight: 700; color: var(--text); font-family: 'DM Mono', monospace; }
+.data-count { font-size: 12px; color: var(--green); font-weight: 700; }
+.data-empty { font-size: 12px; color: #ccc; }
+
+.file-input-wrap { position: relative; }
+.file-input-wrap input[type=file] {
+  position: absolute; inset: 0; opacity: 0; cursor: pointer; width: 100%; height: 100%;
+}
+.file-label {
+  width: 100%; padding: 15px;
+  border: 2px dashed var(--border); border-radius: 12px;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 15px; font-weight: 700; color: var(--muted);
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  transition: all .2s; cursor: pointer;
+}
+.file-label.has-file { border-color: var(--gold); color: var(--gold); background: rgba(184,118,10,0.04); }
+
+.divider { height: 1px; background: var(--border); margin: 14px 0; }
+
+.back-link {
+  display: block; text-align: center; margin-top: 24px;
+  font-size: 14px; color: var(--muted); text-decoration: none;
+  font-family: 'DM Mono', monospace;
+}
+.back-link:hover { color: var(--gold); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.container { animation: fadeUp .5s ease both; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <div class="logo">🔧</div>
+    <h1>資料備份 / 還原</h1>
+    <p>kevin-apps backup tool v1.0</p>
+  </div>
+
+  <!-- 匯出區 -->
+  <div class="card">
+    <div class="card-title">📤 匯出資料</div>
+    <div class="card-desc">掃描目前瀏覽器的所有本地資料，並下載成 JSON 備份檔。</div>
+    <button class="btn btn-gold" onclick="doExport()">🔍 掃描並下載備份檔</button>
+    <div id="export-status" class="status-box"></div>
+    <div id="data-list" class="data-list"></div>
+  </div>
+
+  <!-- 匯入區 -->
+  <div class="card">
+    <div class="card-title">📥 匯入資料</div>
+    <div class="card-desc">選擇之前下載的 kevin_backup.json，將資料還原到此瀏覽器。</div>
+    <div class="file-input-wrap">
+      <div class="file-label" id="file-label">📁 選擇 kevin_backup.json</div>
+      <input type="file" accept=".json" onchange="onFileSelected(this)">
+    </div>
+    <div id="import-status" class="status-box"></div>
+    <button class="btn btn-green" id="import-btn" onclick="doImport()" style="display:none;margin-top:12px">
+      ✅ 確認匯入資料
+    </button>
+  </div>
+
+  <a href="index.html" class="back-link">← 返回主頁</a>
+</div>
+
+<script>
+var ALL_KEYS = [
+  'taxi_records',
+  'maint_records',
+  'parttime_recs',
+  'etf-holding-data-v1',
+  'appts',
+  'bp',
+  'meds',
+  'cc_data',
+  'cc_records',
+  'focus_custom',
+  'focus_status',
+  'exp_records',
+  'inc_records'
+];
+
+var KEY_LABELS = {
+  'taxi_records':        '計程車營收記錄',
+  'maint_records':       '維修保養記錄',
+  'parttime_recs':       '兼職收入記錄',
+  'etf-holding-data-v1': '存股 ETF 持股',
+  'appts':               '行事曆約診',
+  'bp':                  '血壓記錄',
+  'meds':                '用藥記錄',
+  'cc_data':             '信用卡資料',
+  'cc_records':          '信用卡消費記錄',
+  'focus_custom':        '待辦自訂項目',
+  'focus_status':        '待辦狀態',
+  'exp_records':         '支出記錄',
+  'inc_records':         '收入記錄'
+};
+
+var pendingData = null;
+
+function doExport() {
+  var out = {};
+  ALL_KEYS.forEach(function(k) {
+    try {
+      var v = localStorage.getItem(k);
+      if (v) out[k] = JSON.parse(v);
+    } catch(e) {}
+  });
+
+  var statusEl = document.getElementById('export-status');
+  var listEl = document.getElementById('data-list');
+
+  if (Object.keys(out).length === 0) {
+    statusEl.className = 'status-box err';
+    statusEl.textContent = '❌ 找不到任何資料。請確認你用的是原本記錄資料的瀏覽器。';
+    listEl.style.display = 'none';
+    return;
+  }
+
+  // 顯示找到的資料
+  listEl.innerHTML = '';
+  listEl.style.display = 'block';
+  ALL_KEYS.forEach(function(k) {
+    if (!out[k]) return;
+    var count = Array.isArray(out[k]) ? out[k].length + ' 筆' : '有資料';
+    var item = document.createElement('div');
+    item.className = 'data-item';
+    item.innerHTML = '<span class="data-key">' + (KEY_LABELS[k]||k) + '</span>'
+                   + '<span class="data-count">✓ ' + count + '</span>';
+    listEl.appendChild(item);
+  });
+
+  // 下載 JSON
+  var json = JSON.stringify(out, null, 2);
+  var blob = new Blob([json], {type: 'application/json'});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'kevin_backup_' + new Date().toISOString().slice(0,10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  statusEl.className = 'status-box ok';
+  statusEl.textContent = '✅ 備份成功！找到 ' + Object.keys(out).length + ' 種資料，已下載到手機。';
+}
+
+var fileData = null;
+
+function onFileSelected(input) {
+  var file = input.files[0];
+  if (!file) return;
+  var label = document.getElementById('file-label');
+  label.textContent = '📄 ' + file.name;
+  label.classList.add('has-file');
+
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    try {
+      fileData = JSON.parse(e.target.result);
+      var keys = Object.keys(fileData);
+      var statusEl = document.getElementById('import-status');
+      statusEl.className = 'status-box info';
+      statusEl.textContent = '📋 找到 ' + keys.length + ' 種資料：' + keys.map(function(k){ return KEY_LABELS[k]||k; }).join('、');
+      document.getElementById('import-btn').style.display = 'flex';
+    } catch(e) {
+      document.getElementById('import-status').className = 'status-box err';
+      document.getElementById('import-status').textContent = '❌ 檔案格式錯誤，請選擇正確的備份檔。';
+    }
+  };
+  reader.readAsText(file);
+}
+
+function doImport() {
+  if (!fileData) return;
+  var count = 0;
+  Object.keys(fileData).forEach(function(k) {
+    try {
+      localStorage.setItem(k, JSON.stringify(fileData[k]));
+      count++;
+    } catch(e) {}
+  });
+  var statusEl = document.getElementById('import-status');
+  statusEl.className = 'status-box ok';
+  statusEl.textContent = '✅ 還原成功！已匯入 ' + count + ' 種資料。請返回主頁查看。';
+  document.getElementById('import-btn').style.display = 'none';
+}
+</script>
+</body>
+</html>
