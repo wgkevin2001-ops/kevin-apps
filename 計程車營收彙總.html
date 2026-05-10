@@ -2019,9 +2019,22 @@ function checkPw() {
   var inEl  = document.getElementById('pw-input');
   if (val === CORRECT) {
     try { sessionStorage.setItem(PW_KEY, '1'); } catch(e){}
-    document.getElementById('pw-overlay').style.display = 'none';
-    document.getElementById('main-wrap').style.display  = 'block';
-    initApp();
+    if (_fbReady) {
+      // Firebase 已就緒，直接顯示並渲染資料
+      document.getElementById('pw-overlay').style.display = 'none';
+      document.getElementById('main-wrap').style.display  = 'block';
+      initApp();
+      renderHistory();
+      renderAnnual();
+    } else {
+      // Firebase 還在載入，先隱藏密碼畫面，等 startApp() 完成後自動顯示
+      document.getElementById('pw-overlay').style.display = 'none';
+      var waitEl = document.createElement('div');
+      waitEl.id = 'pw-wait';
+      waitEl.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#F5F0E8;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px';
+      waitEl.innerHTML = '<div style="font-size:42px">☁️</div><div style="font-size:16px;font-weight:700;color:#B8760A">載入雲端資料中...</div>';
+      document.body.appendChild(waitEl);
+    }
   } else {
     inEl.classList.add('err');
     errEl.textContent = '❌ 密碼錯誤，請再試一次';
@@ -2268,12 +2281,17 @@ function initApp() {
     _fbReady = true;
     var loadEl = document.getElementById('fb-loading');
     if (loadEl) loadEl.remove();
+    var waitEl = document.getElementById('pw-wait');
+    if (waitEl) waitEl.remove();
     var unlocked = false;
     try { unlocked = sessionStorage.getItem(PW_KEY) === '1'; } catch(e){}
     if (unlocked) {
       document.getElementById('pw-overlay').style.display = 'none';
       document.getElementById('main-wrap').style.display  = 'block';
       initApp();
+      // Firebase 資料已就緒，重新渲染所有列表
+      renderHistory();
+      renderAnnual();
     } else {
       setTimeout(function(){ var el = document.getElementById('pw-input'); if(el) el.focus(); }, 100);
     }
