@@ -18,6 +18,7 @@
   --dept-cardio:#c0392b;--dept-cardio-bg:#fdf0ef;
   --dept-other:#4a6fa8;--dept-other-bg:#eef2fa;
   --dept-rehab:#c07a1a;--dept-rehab-bg:#faf0e0;
+  --dept-tcm:#2e7d5a;--dept-tcm-bg:#e6f5ee;
 }
 body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft JhengHei','Noto Sans TC',sans-serif;min-height:100vh;font-size:16px}
 
@@ -147,6 +148,14 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .dept-name{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:4px}
 .card-meta{font-size:13px;color:var(--ink-mid);margin-bottom:2px;display:flex;align-items:center;gap:6px}
 .card-note{background:rgba(184,118,10,.07);border-top:1px solid rgba(184,118,10,.18);padding:8px 14px;font-size:12px;color:#7a5800;font-weight:600;line-height:1.5}
+.card-outcome{border-top:1px solid rgba(26,138,58,.18);padding:8px 14px;background:rgba(26,138,58,.04)}
+.outcome-lbl{font-size:11px;font-weight:800;color:var(--gr);margin-bottom:4px;letter-spacing:.04em}
+.outcome-text{font-size:13px;color:var(--ink);line-height:1.5;word-break:break-all}
+.outcome-inp{background:var(--mid);border:1px solid rgba(26,138,58,.3);border-radius:8px;color:var(--ink);font-family:inherit;font-size:13px;padding:6px 9px;outline:none;width:100%;transition:border-color .2s;resize:vertical;min-height:50px}
+.outcome-inp:focus{border-color:var(--gr)}
+.outcome-actions{display:flex;gap:6px;margin-top:5px}
+.outcome-save{background:var(--gr);color:#fff;border:none;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
+.outcome-edit{background:rgba(26,138,58,.1);color:var(--gr);border:1px solid rgba(26,138,58,.3);border-radius:7px;padding:5px 12px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
 .card-foot{background:var(--mid);border-top:1px solid var(--bdr);padding:9px 14px;display:flex;align-items:center;justify-content:space-between}
 .foot-lbl{font-size:12px;color:var(--ink-light);font-weight:700}
 .num-badge{font-size:22px;font-weight:900;color:var(--ink)}
@@ -154,8 +163,8 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .go-cal-btn{font-size:12px;font-weight:700;color:var(--bl);background:rgba(26,110,168,.08);border:1px solid rgba(26,110,168,.2);border-radius:7px;padding:4px 10px;cursor:pointer;font-family:inherit}
 
 /* DEPT STRIPES / BADGES */
-.ortho{background:var(--dept-ortho)}.psych{background:var(--dept-psych)}.endo{background:var(--dept-endo)}.neuro{background:var(--dept-neuro)}.cardio{background:var(--dept-cardio)}.other{background:var(--dept-other)}.rehab{background:var(--dept-rehab)}
-.badge-ortho{background:var(--dept-ortho-bg);color:var(--dept-ortho)}.badge-psych{background:var(--dept-psych-bg);color:var(--dept-psych)}.badge-endo{background:var(--dept-endo-bg);color:var(--dept-endo)}.badge-neuro{background:var(--dept-neuro-bg);color:var(--dept-neuro)}.badge-cardio{background:var(--dept-cardio-bg);color:var(--dept-cardio)}.badge-other{background:var(--dept-other-bg);color:var(--dept-other)}.badge-rehab{background:var(--dept-rehab-bg);color:var(--dept-rehab)}
+.ortho{background:var(--dept-ortho)}.psych{background:var(--dept-psych)}.endo{background:var(--dept-endo)}.neuro{background:var(--dept-neuro)}.cardio{background:var(--dept-cardio)}.other{background:var(--dept-other)}.rehab{background:var(--dept-rehab)}.tcm{background:var(--dept-tcm)}
+.badge-ortho{background:var(--dept-ortho-bg);color:var(--dept-ortho)}.badge-psych{background:var(--dept-psych-bg);color:var(--dept-psych)}.badge-endo{background:var(--dept-endo-bg);color:var(--dept-endo)}.badge-neuro{background:var(--dept-neuro-bg);color:var(--dept-neuro)}.badge-cardio{background:var(--dept-cardio-bg);color:var(--dept-cardio)}.badge-other{background:var(--dept-other-bg);color:var(--dept-other)}.badge-rehab{background:var(--dept-rehab-bg);color:var(--dept-rehab)}.badge-tcm{background:var(--dept-tcm-bg);color:var(--dept-tcm)}
 
 /* ADD FORM */
 .add-form{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:14px}
@@ -425,6 +434,7 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
     <span class="leg-item"><span class="leg-dot" style="background:var(--dept-endo)"></span>新陳代謝</span>
     <span class="leg-item"><span class="leg-dot" style="background:var(--dept-neuro)"></span>神經科</span>
     <span class="leg-item"><span class="leg-dot" style="background:var(--dept-rehab)"></span>復健</span>
+    <span class="leg-item"><span class="leg-dot" style="background:var(--dept-tcm)"></span>中醫</span>
     <span class="leg-item" style="margin-left:4px"><span class="leg-dot" style="background:var(--gr)"></span>已完成</span>
   </div>
   <div class="add-form">
@@ -435,8 +445,8 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
         <select class="form-select" id="appt-dept-type">
           <option value="ortho">骨科部</option><option value="psych">精神暨心身醫學部</option>
           <option value="endo">新陳代謝科</option><option value="neuro">神經醫學部</option>
-          <option value="cardio">心臟內科</option><option value="other">其他</option>
-          <option value="rehab">復健治療（診所）</option>
+          <option value="cardio">心臟內科</option><option value="rehab">復健治療（診所）</option>
+          <option value="tcm">中醫診所</option><option value="other">其他</option>
         </select>
       </div>
       <div class="form-group"><span class="form-label">科別名稱（自訂）</span><input type="text" class="form-input" id="appt-dept-name" placeholder="骨科部"/></div>
@@ -445,6 +455,7 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
       <div class="form-group"><span class="form-label">建議時間</span><input type="time" class="form-input" id="appt-time"/></div>
       <div class="form-group"><span class="form-label">就診號碼</span><input type="number" class="form-input" id="appt-number" placeholder="37"/></div>
       <div class="form-group"><span class="form-label">備註</span><input type="text" class="form-input" id="appt-note" placeholder="膝關節評估"/></div>
+      <div class="form-group" style="grid-column:1/-1"><span class="form-label">看診結果</span><textarea class="form-input" id="appt-outcome" placeholder="看診後填寫：處置內容、處方、醫師說明…" style="resize:vertical;min-height:55px;font-family:inherit"></textarea></div>
     </div>
     <button class="btn-add" onclick="addAppt()">新增預約</button>
   </div>
@@ -666,7 +677,22 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 
 <script>
 // ═══ DATA ═══
-const INIT_APPTS = [{"id": 1, "date": "2026-05-09", "deptType": "ortho", "deptName": "骨科部", "doctor": "陳文質 醫師", "room": "診間 H116 · 上午診", "time": "", "number": 37, "note": "半年評估：膝關節玻尿酸注射。健保給付：Suplasyn 3-Shot（愛爾蘭，570元）。自費選項：Artz 1,482元 / HyLink 3,573元 / Durolane 6,273元 / Hyafelic Uno 16,473元。"}, {"id": 2, "date": "2026-05-16", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:50", "number": 10}, {"id": 3, "date": "2026-05-23", "deptType": "ortho", "deptName": "骨科部", "doctor": "陳文質 醫師", "room": "診間 H116 · 上午診", "time": "", "number": 43, "note": "膝關節評估"}, {"id": 4, "date": "2026-06-06", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:50", "number": 10}, {"id": 5, "date": "2026-06-06", "deptType": "endo", "deptName": "新陳代謝科", "doctor": "陳華芬 醫師", "room": "診間 G224 · 上午診", "time": "", "number": 3}, {"id": 6, "date": "2026-06-18", "deptType": "neuro", "deptName": "神經醫學部", "doctor": "李少白 醫師", "room": "診間 F203 · 上午診", "time": "", "number": 9}, {"id": 7, "date": "2026-07-04", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:30", "number": 1}, {"id": 8, "date": "2026-08-01", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:30", "number": 1}, {"id": 100, "date": "2026-05-12", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 101, "date": "2026-05-14", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 102, "date": "2026-05-19", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 103, "date": "2026-05-21", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 104, "date": "2026-05-26", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 105, "date": "2026-05-28", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 106, "date": "2026-06-02", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 107, "date": "2026-06-04", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 108, "date": "2026-06-09", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 109, "date": "2026-06-11", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 110, "date": "2026-06-16", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 111, "date": "2026-06-18", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 112, "date": "2026-06-23", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 113, "date": "2026-06-25", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 114, "date": "2026-06-30", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 115, "date": "2026-07-02", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 116, "date": "2026-07-07", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 117, "date": "2026-07-09", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 118, "date": "2026-07-14", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 119, "date": "2026-07-16", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 120, "date": "2026-07-21", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 121, "date": "2026-07-23", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 122, "date": "2026-07-28", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 123, "date": "2026-07-30", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}];
+const TCM_DATES = (()=>{
+  // 老德燕每週一、三、五 三餐回診取藥（以每週一為代表）2026-05 ~ 2026-12
+  const dates=[];
+  let id=200;
+  const start=new Date("2026-05-09");
+  const end=new Date("2026-12-31");
+  for(let d=new Date(start);d<=end;d.setDate(d.getDate()+1)){
+    const dow=d.getDay(); // 1=Mon 3=Wed 5=Fri
+    if(dow===1||dow===3||dow===5){
+      dates.push({id:id++,date:d.toISOString().slice(0,10),deptType:"tcm",deptName:"老德燕中醫診所",doctor:"老德燕 中醫師",room:"新店老德燕診所",time:"11:00",number:0,note:"三餐中藥取藥"});
+    }
+  }
+  return dates;
+})();
+
+const INIT_APPTS = [{"id": 1, "date": "2026-05-09", "deptType": "ortho", "deptName": "骨科部", "doctor": "陳文質 醫師", "room": "診間 H116 · 上午診", "time": "", "number": 37, "note": "半年評估：膝關節玻尿酸注射。健保給付：Suplasyn 3-Shot（愛爾蘭，570元）。自費選項：Artz 1,482元 / HyLink 3,573元 / Durolane 6,273元 / Hyafelic Uno 16,473元。"}, {"id": 2, "date": "2026-05-16", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:50", "number": 10}, {"id": 3, "date": "2026-05-23", "deptType": "ortho", "deptName": "骨科部", "doctor": "陳文質 醫師", "room": "診間 H116 · 上午診", "time": "", "number": 43, "note": "膝關節評估"}, {"id": 4, "date": "2026-06-06", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:50", "number": 10}, {"id": 5, "date": "2026-06-06", "deptType": "endo", "deptName": "新陳代謝科", "doctor": "陳華芬 醫師", "room": "診間 G224 · 上午診", "time": "", "number": 3}, {"id": 6, "date": "2026-06-18", "deptType": "neuro", "deptName": "神經醫學部", "doctor": "李少白 醫師", "room": "診間 F203 · 上午診", "time": "", "number": 9}, {"id": 7, "date": "2026-07-04", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:30", "number": 1}, {"id": 8, "date": "2026-08-01", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:30", "number": 1}, {"id": 100, "date": "2026-05-12", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 101, "date": "2026-05-14", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 102, "date": "2026-05-19", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 103, "date": "2026-05-21", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 104, "date": "2026-05-26", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 105, "date": "2026-05-28", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 106, "date": "2026-06-02", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 107, "date": "2026-06-04", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 108, "date": "2026-06-09", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 109, "date": "2026-06-11", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 110, "date": "2026-06-16", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 111, "date": "2026-06-18", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 112, "date": "2026-06-23", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 113, "date": "2026-06-25", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 114, "date": "2026-06-30", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 115, "date": "2026-07-02", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 116, "date": "2026-07-07", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 117, "date": "2026-07-09", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 118, "date": "2026-07-14", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 119, "date": "2026-07-16", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 120, "date": "2026-07-21", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 121, "date": "2026-07-23", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 122, "date": "2026-07-28", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 123, "date": "2026-07-30", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, ...TCM_DATES];
 
 const HOLIDAYS = {
   "2026-01-01":"元旦","2026-02-14":"除夕","2026-02-15":"春節","2026-02-16":"春節",
@@ -700,6 +726,7 @@ const DEPT = {
   cardio:{label:"心臟內科",s:"cardio",b:"badge-cardio",n:"心臟內科"},
   other:{label:"其他",s:"other",b:"badge-other",n:"其他科別"},
   rehab:{label:"復健治療",s:"rehab",b:"badge-rehab",n:"復健治療"},
+  tcm:{label:"中醫",s:"tcm",b:"badge-tcm",n:"中醫診所"},
 };
 
 const WDS=["週日","週一","週二","週三","週四","週五","週六"];
@@ -833,11 +860,8 @@ function showDay(key,d,fromSync){
 function closeMo(e){if(e.target===document.getElementById("mo"))document.getElementById("mo").classList.remove("open");}
 
 // ═══ APPOINTMENTS ═══
-let appointments=INIT_APPTS; // 由 Firebase 載入後覆蓋
-function saveAppts(){
-  if(window._fbSet)window._fbSet(window._fbRef('calendar/appts'),appointments).catch(()=>{});
-  localStorage.setItem("appts",JSON.stringify(appointments));
-}
+let appointments=JSON.parse(localStorage.getItem("appts")||"null")||INIT_APPTS;
+function saveAppts(){localStorage.setItem("appts",JSON.stringify(appointments));}
 
 function addAppt(){
   const date=document.getElementById("appt-date").value;
@@ -850,15 +874,33 @@ function addAppt(){
     room:document.getElementById("appt-room").value.trim(),
     time:document.getElementById("appt-time").value,
     number:+document.getElementById("appt-number").value||0,
-    note:document.getElementById("appt-note").value.trim()});
+    note:document.getElementById("appt-note").value.trim(),
+    outcome:document.getElementById("appt-outcome").value.trim()});
   saveAppts();renderAppts();
-  ["appt-date","appt-dept-name","appt-doctor","appt-room","appt-time","appt-number","appt-note"].forEach(id=>document.getElementById(id).value="");
+  ["appt-date","appt-dept-name","appt-doctor","appt-room","appt-time","appt-number","appt-note","appt-outcome"].forEach(id=>document.getElementById(id).value="");
 }
 
 function deleteAppt(id){
   if(!confirm("確定要刪除此預約？"))return;
   appointments=appointments.filter(a=>a.id!==id);
   saveAppts();renderAppts();
+}
+
+function saveOutcome(id){
+  const val=document.getElementById("outcome-inp-"+id).value.trim();
+  const a=appointments.find(x=>x.id===id);
+  if(a){a.outcome=val;saveAppts();}
+  renderAppts();
+}
+
+function editOutcome(id){
+  // swap display → edit mode within the card
+  const disp=document.getElementById("outcome-disp-"+id);
+  const edit=document.getElementById("outcome-edit-"+id);
+  if(disp) disp.style.display="none";
+  if(edit) edit.style.display="block";
+  const inp=document.getElementById("outcome-inp-"+id);
+  if(inp){inp.focus();inp.setSelectionRange(inp.value.length,inp.value.length);}
 }
 
 function renderAppts(){
@@ -896,6 +938,23 @@ function renderAppts(){
           ${a.room?`<div class="card-meta">📍 ${a.room}</div>`:""}
         </div>
         ${a.note?`<div class="card-note">📋 ${a.note}</div>`:""}
+        <div class="card-outcome" onclick="event.stopPropagation()">
+          <div class="outcome-lbl">🩺 看診結果</div>
+          <!-- display mode -->
+          <div id="outcome-disp-${a.id}" ${a.outcome?"":"style='display:none'"}>
+            <div class="outcome-text">${(a.outcome||"").replace(/\n/g,"<br>")}</div>
+            <div class="outcome-actions">
+              <button class="outcome-edit" onclick="editOutcome(${a.id})">✏️ 編輯</button>
+            </div>
+          </div>
+          <!-- edit mode (shown when no outcome yet, or after clicking 編輯) -->
+          <div id="outcome-edit-${a.id}" ${a.outcome?"style='display:none'":""}>
+            <textarea class="outcome-inp" id="outcome-inp-${a.id}" placeholder="記錄看診結果：處置內容、處方、醫師說明、下次注意事項…" onclick="event.stopPropagation()">${a.outcome||""}</textarea>
+            <div class="outcome-actions">
+              <button class="outcome-save" onclick="saveOutcome(${a.id})">💾 儲存</button>
+            </div>
+          </div>
+        </div>
         <div class="card-foot">
           <span class="foot-lbl">就診號碼</span>
           <div style="display:flex;align-items:center;gap:8px">
@@ -912,14 +971,11 @@ function renderAppts(){
 }
 
 // ═══ BLOOD PRESSURE ═══
-let bpList=[
+let bpList=JSON.parse(localStorage.getItem("bp")||"null")||[
   {id:1,date:"2026-05-01",time:"08:30",sys:128,dia:82,pulse:72,note:"早晨空腹測量"},
   {id:2,date:"2026-05-03",time:"20:00",sys:135,dia:88,pulse:76,note:"晚餐後1小時"},
-]; // 由 Firebase 載入後覆蓋
-function saveBP(){
-  if(window._fbSet)window._fbSet(window._fbRef('calendar/bp'),bpList).catch(()=>{});
-  localStorage.setItem("bp",JSON.stringify(bpList));
-}
+];
+function saveBP(){localStorage.setItem("bp",JSON.stringify(bpList));}
 function getBPSt(s,d){
   if(s>=180||d>=120)return{l:"高血壓危象",c:"high"};if(s>=140||d>=90)return{l:"高血壓",c:"high"};
   if(s>=130||d>=80)return{l:"偏高",c:"warning"};if(s>=120)return{l:"正常偏高",c:"warning"};
@@ -945,15 +1001,12 @@ function renderBP(){
 }
 
 // ═══ MEDICATIONS ═══
-let meds=[
+let meds=JSON.parse(localStorage.getItem("meds")||"null")||[
   {id:1,name:"老德燕中藥",dose:"—",freq:"三餐飯後",start:"2026-04-18",end:"",note:"飯後服用",active:true},
   {id:2,name:"精神科藥物",dose:"—",freq:"睡前服用",start:"2026-01-01",end:"",note:"睡前服用",active:true},
   {id:3,name:"神經內科藥物",dose:"—",freq:"睡前服用",start:"2026-01-01",end:"",note:"睡前服用",active:true},
-]; // 由 Firebase 載入後覆蓋
-function saveMeds(){
-  if(window._fbSet)window._fbSet(window._fbRef('calendar/meds'),meds).catch(()=>{});
-  localStorage.setItem("meds",JSON.stringify(meds));
-}
+];
+function saveMeds(){localStorage.setItem("meds",JSON.stringify(meds));}
 function addMed(){
   const name=document.getElementById("med-name").value.trim();
   if(!name){alert("請輸入藥品名稱");return;}
@@ -1088,23 +1141,17 @@ const INIT_CC = [
   {id:6, bank:'esun',   cycle:'月中12號截止', dueDay:12, autoDebit:true,  debitBank:'國泰自扣', note:''},
 ];
 
-let ccData = INIT_CC; // 由 Firebase 載入後覆蓋
-let ccRecords = [
+let ccData = JSON.parse(localStorage.getItem('cc_data')||'null') || INIT_CC;
+let ccRecords = JSON.parse(localStorage.getItem('cc_records')||'null') || [
   {id:Date.now()+1, cardId:3, year:2026, month:4, amount:15776, status:'pending', note:'聯邦4月'},
   {id:Date.now()+2, cardId:5, year:2026, month:5, amount:12619, status:'pending', note:'中信5月'},
   {id:Date.now()+3, cardId:6, year:2026, month:5, amount:5007,  status:'pending', note:'玉山5月'},
   {id:Date.now()+4, cardId:1, year:2026, month:4, amount:18628, status:'paid',    note:'國泰4月'},
-]; // 由 Firebase 載入後覆蓋
+];
 let ccYear=(new Date()).getFullYear(), ccMonth=(new Date()).getMonth()+1;
 
-function saveCCData(){
-  if(window._fbSet)window._fbSet(window._fbRef('calendar/cc_data'),ccData).catch(()=>{});
-  localStorage.setItem('cc_data',JSON.stringify(ccData));
-}
-function saveCCRecords(){
-  if(window._fbSet)window._fbSet(window._fbRef('calendar/cc_records'),ccRecords).catch(()=>{});
-  localStorage.setItem('cc_records',JSON.stringify(ccRecords));
-}
+function saveCCData(){localStorage.setItem('cc_data',JSON.stringify(ccData));}
+function saveCCRecords(){localStorage.setItem('cc_records',JSON.stringify(ccRecords));}
 
 function ccFmt(n){return n===0?'$0':'NT$'+n.toLocaleString();}
 
@@ -1283,33 +1330,36 @@ const FOCUS_ITEMS_INIT = [
   {id:'f05', cat:'💰 財務重點', catKey:'finance', sortDate:'05/06', text:'💳 聯邦 $31,406（出帳後繳費）',     note:'',                    badge:'fb-warn',badgeText:'⏳待繳',  initStatus:'pending'},
   {id:'f06', cat:'💰 財務重點', catKey:'finance', sortDate:'05/31', text:'📋 綜合所得稅申報截止 ＋ 🏠 房屋稅截止',note:'',              badge:'fb-red', badgeText:'⚠️截止',  initStatus:'pending'},
   // 醫療行程
-  {id:'f10', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/09', text:'🦴 亞東骨科 陳文質醫師 H116 #37',  note:'',                    badge:'fb-info',badgeText:'→月曆',   initStatus:'done', apptDate:'2026-05-09'},
-  {id:'f11', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/12', text:'🏥 大鈞復健 脖子牽引 08:00',        note:'',                    badge:'fb-info',badgeText:'→月曆',   initStatus:'pending', apptDate:'2026-05-12'},
-  {id:'f12', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/16', text:'🧠 亞東精神科 林竺君醫師 A901 #10', note:'建議08:50到診',        badge:'fb-info',badgeText:'→月曆',   initStatus:'pending', apptDate:'2026-05-16'},
-  {id:'f13', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/23', text:'🦴 亞東骨科 陳文質醫師 H116 #43',  note:'',                    badge:'fb-info',badgeText:'→月曆',   initStatus:'pending', apptDate:'2026-05-23'},
-  {id:'f14', cat:'🏥 醫療行程', catKey:'medical', sortDate:'00/00', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週二、六',            badge:'fb-rep', badgeText:'🔄例行',  initStatus:'doing'},
+  {id:'f10', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/09', text:'🦴 亞東骨科 陳文質醫師 H116 #37',  note:'',               badge:'fb-info',badgeText:'→月曆',initStatus:'done', apptDate:'2026-05-09'},
+  {id:'f12', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/16', text:'🧠 亞東精神科 林竺君醫師 A901 #10', note:'建議08:50到診',  badge:'fb-info',badgeText:'→月曆',initStatus:'pending', apptDate:'2026-05-16'},
+  {id:'f13', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/23', text:'🦴 亞東骨科 陳文質醫師 H116 #43',  note:'',               badge:'fb-info',badgeText:'→月曆',initStatus:'pending', apptDate:'2026-05-23'},
   // 孩子行程
-  {id:'f20', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/05', text:'📚 德第二次段考',                   note:'5/5–5/7',             badge:'fb-warn',badgeText:'⏳',      initStatus:'done'},
+  {id:'f20', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/05', text:'📚 德第二次段考',                   note:'5/5–5/7（5/6下午停課）',    badge:'fb-warn',badgeText:'⏳',      initStatus:'done'},
   {id:'f21', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/11', text:'🎶 管樂成果發表會 18:30',           note:'新北市政府多功能集會堂 3F',badge:'fb-warn',badgeText:'⏳重要',initStatus:'done'},
   {id:'f22', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/12', text:'🎨 萱畢業美展（至5/20）09:00開幕',  note:'5/12起',              badge:'fb-warn',badgeText:'⏳',      initStatus:'doing'},
   // 家庭活動
   {id:'f30', cat:'🎉 家庭活動', catKey:'family',  sortDate:'00/00', text:'⛲ 碧潭水舞季（每晚18:30）',         note:'至6/14',              badge:'fb-info',badgeText:'持續中',  initStatus:'doing'},
+  {id:'f33', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/02', text:'🍽️ 母親節聚餐 金世界',              note:'$1,100/人',           badge:'fb-warn',badgeText:'⏳',      initStatus:'done'},
+  {id:'f34', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/02', text:'🛒 新店 IKEA',                      note:'',                    badge:'fb-warn',badgeText:'⏳',      initStatus:'done'},
+  {id:'f35', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/03', text:'🏺 鶯歌',                           note:'',                    badge:'fb-warn',badgeText:'⏳',      initStatus:'done'},
   {id:'f31', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/27', text:'👗 迪化街扮裝（萱）大稻埕遊客中心', note:'',                    badge:'fb-warn',badgeText:'⏳',      initStatus:'pending'},
   {id:'f32', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/29', text:'🧸 世貿玩具展（已有票）',           note:'5/29–6/1',            badge:'fb-warn',badgeText:'⏳',      initStatus:'pending'},
+  // 財務補充
+  {id:'f07', cat:'💰 財務重點', catKey:'finance', sortDate:'05/01', text:'👨‍🎓 阿德生活費 NT$4,000',            note:'每月初確認',          badge:'fb-warn',badgeText:'⏳待確認',initStatus:'pending'},
+  {id:'f08', cat:'💰 財務重點', catKey:'finance', sortDate:'05/04', text:'🇿🇦 南非幣定存到期 → 續存',         note:'每月4日確認',         badge:'fb-warn',badgeText:'⏳',      initStatus:'pending'},
+  {id:'f09', cat:'💰 財務重點', catKey:'finance', sortDate:'05/05', text:'💹 00999A 主動野村臺灣高息 掟牌',    note:'目標20張，已申購10張',badge:'fb-info',badgeText:'📈投資',  initStatus:'done'},
   // 每週例行
   {id:'f40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
   {id:'f41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/03', text:'✅ 查違規 TDZ-0950（監理站）',   note:'每週三', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'f14', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週二、六（一週2次）', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
   {id:'f42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車',                    note:'每日',   badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
   {id:'f43', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🪿 十金鵝',                    note:'每日',   badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
   {id:'f44', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'💊 老德燕中藥（三餐）',          note:'每日',   badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
 ];
 
-// ── 自訂新增項目（Firebase 同步）──
-let focusCustomItems = []; // 由 Firebase 載入後覆蓋
-function saveFocusCustom(){
-  if(window._fbSet)window._fbSet(window._fbRef('calendar/focus_custom'),focusCustomItems).catch(()=>{});
-  localStorage.setItem('focus_custom', JSON.stringify(focusCustomItems));
-}
+// ── 自訂新增項目（存 localStorage）──
+let focusCustomItems = JSON.parse(localStorage.getItem('focus_custom')||'[]');
+function saveFocusCustom(){ localStorage.setItem('focus_custom', JSON.stringify(focusCustomItems)); }
 
 // 全部 items = INIT + custom（custom 不含已刪除）
 function allFocusItems(){
@@ -1317,7 +1367,7 @@ function allFocusItems(){
 }
 
 // status: 'done' | 'doing' | 'pending'
-let focusStatus = {}; // 由 Firebase 載入後覆蓋
+let focusStatus = JSON.parse(localStorage.getItem('focus_status')||'null') || {};
 let focusSortMode = 'cat'; // 'cat' | 'date' | 'status'
 
 // Initialize default statuses for built-in items
@@ -1325,10 +1375,7 @@ FOCUS_ITEMS_INIT.forEach(it=>{
   if(!(it.id in focusStatus)) focusStatus[it.id] = it.initStatus;
 });
 
-function saveFocusStatus(){
-  if(window._fbSet)window._fbSet(window._fbRef('calendar/focus_status'),focusStatus).catch(()=>{});
-  localStorage.setItem('focus_status', JSON.stringify(focusStatus));
-}
+function saveFocusStatus(){ localStorage.setItem('focus_status', JSON.stringify(focusStatus)); }
 
 function cycleFocusStatus(id){
   const cur = focusStatus[id]||'pending';
@@ -1567,20 +1614,14 @@ const INC_SEED = [
   ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'i'+m,month:m,year:2026,amt:28000,src:'🏠 租金收入'}))
 ];
 
-let expRecords = EXP_SEED; // 由 Firebase 載入後覆蓋
-let incRecords = INC_SEED; // 由 Firebase 載入後覆蓋
+let expRecords = JSON.parse(localStorage.getItem('exp_records')||'null') || EXP_SEED;
+let incRecords = JSON.parse(localStorage.getItem('inc_records')||'null') || INC_SEED;
 let expViewTab = 'overview';
 let expCurMonth = new Date().getMonth()+1;
-let expFilterCat = 'all';
+let expFilterCat = 'all'; // 'all' or one of EXP_CATS
 
-function saveExpRecords(){
-  if(window._fbSet)window._fbSet(window._fbRef('calendar/exp_records'),expRecords).catch(()=>{});
-  localStorage.setItem('exp_records', JSON.stringify(expRecords));
-}
-function saveIncRecords(){
-  if(window._fbSet)window._fbSet(window._fbRef('calendar/inc_records'),incRecords).catch(()=>{});
-  localStorage.setItem('inc_records', JSON.stringify(incRecords));
-}
+function saveExpRecords(){ localStorage.setItem('exp_records', JSON.stringify(expRecords)); }
+function saveIncRecords(){ localStorage.setItem('inc_records', JSON.stringify(incRecords)); }
 
 function expFmt(n){ return n===0?'—':'NT$'+Math.round(n).toLocaleString(); }
 
@@ -1810,106 +1851,6 @@ function addCCCard(){
   </div>
   <button class="fab fab-main" onclick="toggleBackupPanel()" title="備份/還原">💾</button>
 </div>
-
-<!-- ══ Firebase 雲端同步啟動 ══ -->
-<div id="fb-cal-loading" style="position:fixed;inset:0;z-index:999999;background:#F5F0E8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
-  <div style="font-size:48px">☁️</div>
-  <div style="font-size:16px;font-weight:700;color:#B8760A">連接雲端資料庫中...</div>
-  <div id="fb-cal-msg" style="font-size:13px;color:#aaa">請稍候</div>
-</div>
-
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
-
-const firebaseConfig = {
-  apiKey: "AIzaSyDmkQFhE3N-oID3AM57FH08AvxRB-uPz1Q",
-  authDomain: "kevin-apps-3f0d8.firebaseapp.com",
-  databaseURL: "https://kevin-apps-3f0d8-default-rtdb.firebaseio.com",
-  projectId: "kevin-apps-3f0d8",
-  storageBucket: "kevin-apps-3f0d8.firebasestorage.app",
-  messagingSenderId: "218848020635",
-  appId: "1:218848020635:web:3d9758d7f5a4b9b2e29e3e"
-};
-
-const app = initializeApp(firebaseConfig);
-const db  = getDatabase(app);
-window._fbRef = (path) => ref(db, path);
-window._fbSet = set;
-
-const KEYS = ['appts','bp','meds','cc_data','cc_records','focus_custom','focus_status','exp_records','inc_records'];
-
-// 對應 JS 變數的 setter
-const SETTERS = {
-  appts:         v => { appointments   = Array.isArray(v)?v:Object.values(v||{}); },
-  bp:            v => { bpList         = Array.isArray(v)?v:Object.values(v||{}); },
-  meds:          v => { meds           = Array.isArray(v)?v:Object.values(v||{}); },
-  cc_data:       v => { ccData         = Array.isArray(v)?v:Object.values(v||{}); },
-  cc_records:    v => { ccRecords      = Array.isArray(v)?v:Object.values(v||{}); },
-  focus_custom:  v => { focusCustomItems = Array.isArray(v)?v:Object.values(v||{}); },
-  focus_status:  v => { if(v&&typeof v==='object') Object.assign(focusStatus, v); },
-  exp_records:   v => { expRecords     = Array.isArray(v)?v:Object.values(v||{}); },
-  inc_records:   v => { incRecords     = Array.isArray(v)?v:Object.values(v||{}); },
-};
-
-const LOCAL_DEFAULTS = {
-  appts: 'appts', bp: 'bp', meds: 'meds',
-  cc_data: 'cc_data', cc_records: 'cc_records',
-  focus_custom: 'focus_custom', focus_status: 'focus_status',
-  exp_records: 'exp_records', inc_records: 'inc_records'
-};
-
-async function loadAll() {
-  const fbMsg = document.getElementById('fb-cal-msg');
-  try {
-    const snaps = await Promise.all(KEYS.map(k => get(ref(db, 'calendar/' + k))));
-    KEYS.forEach((k, i) => {
-      const snap = snaps[i];
-      if (snap.exists()) {
-        SETTERS[k](snap.val());
-      } else {
-        // 雲端沒有 → 從 localStorage 讀取並上傳
-        const local = localStorage.getItem(LOCAL_DEFAULTS[k]);
-        if (local) {
-          try {
-            const parsed = JSON.parse(local);
-            SETTERS[k](parsed);
-            set(ref(db, 'calendar/' + k), parsed).catch(()=>{});
-          } catch(e){}
-        }
-      }
-    });
-    if(fbMsg) fbMsg.textContent = '✅ 雲端資料載入完成';
-  } catch(e) {
-    console.warn('Firebase 載入失敗，使用本地資料:', e);
-    if(fbMsg) fbMsg.textContent = '⚠️ 離線模式';
-    KEYS.forEach(k => {
-      const local = localStorage.getItem(LOCAL_DEFAULTS[k]);
-      if(local) { try { SETTERS[k](JSON.parse(local)); } catch(e){} }
-    });
-  }
-  // 確保 focusStatus 有預設值
-  FOCUS_ITEMS_INIT.forEach(it => { if(!(it.id in focusStatus)) focusStatus[it.id]=it.initStatus; });
-  // 移除載入畫面，初始化 UI
-  const loading = document.getElementById('fb-cal-loading');
-  if(loading) loading.remove();
-  renderAppts(); renderBP(); renderMeds(); renderCC();
-  renderFocus(); renderExpOverview(); renderExpMonth(); renderIncTable();
-}
-
-// 5秒逾時保護
-setTimeout(() => {
-  const loading = document.getElementById('fb-cal-loading');
-  if(loading) {
-    loading.remove();
-    FOCUS_ITEMS_INIT.forEach(it => { if(!(it.id in focusStatus)) focusStatus[it.id]=it.initStatus; });
-    renderAppts(); renderBP(); renderMeds(); renderCC();
-    renderFocus(); renderExpOverview(); renderExpMonth(); renderIncTable();
-  }
-}, 5000);
-
-loadAll();
-</script>
 
 </body>
 </html>
