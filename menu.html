@@ -55,31 +55,39 @@
     letter-spacing: -0.01em;
   }
 
-  /* Dropdown selector */
-  .recipe-selector {
-    margin: 28px 16px 0;
-    display: flex;
-    justify-content: center;
+  /* Menu buttons */
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    max-width: 500px;
+    margin: 24px auto 0;
+    padding: 0 16px;
   }
-  .recipe-select {
-    width: 100%;
-    max-width: 400px;
-    padding: 14px 20px;
+  .menu-btn {
+    padding: 12px 8px;
     font-family: 'Noto Serif TC', serif;
-    font-size: 15px;
+    font-size: 13px;
     font-weight: 600;
     color: var(--deep);
     background: var(--cream);
-    border: 2px solid var(--border);
+    border: 1.5px solid var(--border);
     border-radius: 2px;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23c8790a' stroke-width='2' fill='none'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 16px center;
     cursor: pointer;
+    text-align: center;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
   }
-  .recipe-select:focus { outline: none; border-color: var(--amber); }
+  .menu-btn .btn-icon { font-size: 20px; }
+  .menu-btn:hover { background: #fff3e0; border-color: var(--amber); }
+  .menu-btn.active {
+    background: var(--amber);
+    color: white;
+    border-color: var(--amber);
+  }
 
   /* Panels */
   .panel { display: none; animation: fadeIn 0.35s ease both; }
@@ -285,16 +293,28 @@
   <h1>配方手冊</h1>
 </div>
 
-<div class="recipe-selector">
-  <select class="recipe-select">
-    <option value="0">🫙 蒜蓉醬油膏</option>
-    <option value="1">🥒 涼拌小菜</option>
-    <option value="2">🌶️ 鵝油辣椒</option>
-    <option value="3">🍲 鹹湯</option>
-    <option value="4">🫕 鵝腸</option>
-    <option value="5">🍳 鵝肉炒飯</option>
-    <option value="6">🥩 蔥爆牛肉</option>
-  </select>
+<div style="max-width:500px; margin: 28px auto 0; padding: 0 16px;">
+
+  <div style="font-size:11px; letter-spacing:0.25em; color:var(--amber); text-transform:uppercase; margin-bottom:10px; padding-left:2px;">🍽 秘製食譜</div>
+  <div class="menu-grid" style="margin:0 0 24px 0;">
+    <button class="menu-btn active" onclick="showTab(0)"><span class="btn-icon">🫙</span>蒜蓉醬油膏</button>
+    <button class="menu-btn" onclick="showTab(1)"><span class="btn-icon">🥒</span>涼拌小菜</button>
+    <button class="menu-btn" onclick="showTab(2)"><span class="btn-icon">🌶️</span>鵝油辣椒</button>
+    <button class="menu-btn" onclick="showTab(3)"><span class="btn-icon">🍲</span>鹹湯</button>
+    <button class="menu-btn" onclick="showTab(4)"><span class="btn-icon">🫕</span>鵝腸</button>
+    <button class="menu-btn" onclick="showTab(5)"><span class="btn-icon">🍳</span>鵝肉炒飯</button>
+    <button class="menu-btn" onclick="showTab(6)"><span class="btn-icon">🥩</span>蔥爆牛肉</button>
+    <button class="menu-btn" onclick="showTab(8)"><span class="btn-icon">🪣</span>泡鵝</button>
+    <button class="menu-btn" onclick="showTab(9)"><span class="btn-icon">🫚</span>三杯鵝舌</button>
+    <button class="menu-btn" onclick="showTab(10)"><span class="btn-icon">🫕</span>煮鵝</button>
+  </div>
+
+  <div style="border-top: 1px solid var(--border); margin-bottom:14px;"></div>
+  <div style="font-size:11px; letter-spacing:0.25em; color:var(--amber); text-transform:uppercase; margin-bottom:10px; padding-left:2px;">🛵 營運資訊</div>
+  <div class="menu-grid" style="margin:0 0 32px 0; grid-template-columns:1fr;">
+    <button class="menu-btn" onclick="showTab(7)"><span class="btn-icon">🛵</span>外送平台 & 點餐系統</button>
+  </div>
+
 </div>
 
 <!-- Panel 1 -->
@@ -531,15 +551,238 @@
   </div>
 </div>
 
+<!-- Panel 8: 外送平台比較 -->
+<div class="panel" id="panel-7">
+  <div class="page-wrap">
+    <div class="recipe-header">
+      <div class="header-label">外送平台店家資訊</div>
+      <h2>Uber Eats<br>vs 熊貓</h2>
+      <p class="subtitle">Delivery Platform Comparison — 2025/2026</p>
+    </div>
+
+    <div class="divider"><span class="divider-icon">🛵</span></div>
+
+    <!-- Uber Eats -->
+    <p class="section-title">🫙 Uber Eats</p>
+    <div class="ingredients-grid">
+      <div class="ingredient-card">
+        <div class="ingredient-name">訂單抽成</div>
+        <div class="ingredient-amount" style="font-size:20px">約 35<span class="ingredient-unit">%</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">獨家合作抽成</div>
+        <div class="ingredient-amount" style="font-size:20px">32–34<span class="ingredient-unit">%</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">月租/平台費</div>
+        <div class="ingredient-amount" style="font-size:16px">依合約<span class="ingredient-unit">洽業務</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">出單機台</div>
+        <div class="ingredient-amount" style="font-size:16px">平板<span class="ingredient-unit">平台提供</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">上架費</div>
+        <div class="ingredient-amount" style="font-size:16px">無<span class="ingredient-unit">固定公告</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">廣告費</div>
+        <div class="ingredient-amount" style="font-size:16px">另計<span class="ingredient-unit">可選購</span></div>
+      </div>
+    </div>
+
+    <div class="note-box" style="margin-bottom:32px">
+      <strong>Uber Eats 重點</strong>
+      抽成約 35%，費率相對固定透明。獨家合作可降 1–3%。平台費、機台費需與業務洽談，無公開固定金額。參與全站行銷活動每筆訂單另加收 10元（未稅）活動成本。台灣市佔約 60%，客單價較高，北部用戶比例略高。
+    </div>
+
+    <div class="divider"><span class="divider-icon">🐼</span></div>
+
+    <!-- Foodpanda -->
+    <p class="section-title">🐼 Foodpanda（熊貓）</p>
+    <div class="ingredients-grid">
+      <div class="ingredient-card">
+        <div class="ingredient-name">訂單抽成</div>
+        <div class="ingredient-amount" style="font-size:20px">35–38<span class="ingredient-unit">%</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">獨家合作抽成</div>
+        <div class="ingredient-amount" style="font-size:20px">32–37<span class="ingredient-unit">%</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">平台服務費</div>
+        <div class="ingredient-amount" style="font-size:20px">300<span class="ingredient-unit">元/雙週</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">月費換算</div>
+        <div class="ingredient-amount" style="font-size:20px">600<span class="ingredient-unit">元/月</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">出單機台</div>
+        <div class="ingredient-amount" style="font-size:16px">平板<span class="ingredient-unit">平台提供</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">菜單定價</div>
+        <div class="ingredient-amount" style="font-size:16px">需與<span class="ingredient-unit">店內同價</span></div>
+      </div>
+    </div>
+
+    <div class="note-box" style="margin-bottom:32px">
+      <strong>Foodpanda 重點</strong>
+      平台服務費 $300／雙週（約每月 $600），直接從款項中扣除。抽成 35–38%，獨家合作可談至 32–37%。菜單價格需與店內相同，無法調高補貼抽成損失。台灣市佔約 67.7%（2024年），單量較多，適合非雙北地區店家。
+    </div>
+
+    <div class="divider"><span class="divider-icon">📊</span></div>
+    <p class="section-title">綜合比較</p>
+
+    <div class="info-bar" style="flex-direction:column; gap:12px; align-items:flex-start; padding:20px 24px;">
+      <div style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+        <span class="info-label">整體實際成本（含月費+抽成）</span>
+        <span class="info-value" style="font-size:18px">40%+</span>
+      </div>
+      <div style="font-size:12px; opacity:0.7; line-height:1.6;">資策會2024年調查：Foodpanda & Uber Eats 實際成本可能吃掉營收 40% 以上</div>
+    </div>
+
+    <div class="note-box">
+      <strong>店家建議</strong>
+      兩平台費用均需與業務洽談，建議同時申請兩平台以擴大曝光。獨家合作雖抽成較低，但失去另一平台客群。2026年起「外送專法」上路，平台須清楚揭露所有費用，店家可依法要求透明報價。機台（平板）通常由平台提供，惟細節請向各平台業務確認。
+    </div>
+
+    <div style="margin-top:24px; text-align:center;">
+      <a href="https://merchants.ubereats.com" target="_blank" style="display:inline-block; background:var(--deep); color:white; padding:12px 24px; font-family:'Noto Serif TC',serif; font-size:13px; text-decoration:none; margin:6px;">Uber Eats 店家申請 →</a>
+      <a href="https://www.foodpanda.com.tw/vendor/signup" target="_blank" style="display:inline-block; background:var(--amber); color:white; padding:12px 24px; font-family:'Noto Serif TC',serif; font-size:13px; text-decoration:none; margin:6px;">Foodpanda 店家申請 →</a>
+    </div>
+
+    <div class="divider" style="margin-top:40px"><span class="divider-icon">🖥️</span></div>
+    <p class="section-title">點餐系統</p>
+
+    <div class="ingredients-grid">
+      <div class="ingredient-card">
+        <div class="ingredient-name">系統名稱</div>
+        <div class="ingredient-amount" style="font-size:18px">快一點</div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">英文名</div>
+        <div class="ingredient-amount" style="font-size:18px">QuickClick</div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">月繳費用</div>
+        <div class="ingredient-amount">999<span class="ingredient-unit">元/月</span></div>
+      </div>
+      <div class="ingredient-card">
+        <div class="ingredient-name">出單紙</div>
+        <div class="ingredient-amount" style="font-size:18px">蝦皮<span class="ingredient-unit">自行購買</span></div>
+      </div>
+    </div>
+
+    <div class="note-box">
+      <strong>快一點 重點說明</strong>
+      智慧餐飲點餐系統，標榜「開店經營好簡單」。月繳 $999 元，出單紙需自行至蝦皮購買。如有問題可掃描機台上 QR Code 聯繫客服。
+    </div>
+
+    <footer>— 資料來源：資策會MIC、Ocard、NextKitchen 2025/2026 —</footer>
+  </div>
+</div>
+
+<!-- Panel 9: 泡鵝 -->
+<div class="panel" id="panel-8">
+  <div class="page-wrap">
+    <div class="recipe-header">
+      <div class="header-label">醃漬配方</div>
+      <h2>泡鵝</h2>
+      <p class="subtitle">Marinated Goose — House Recipe</p>
+    </div>
+    <div class="divider"><span class="divider-icon">🪣</span></div>
+    <p class="section-title">食材配方</p>
+    <div class="ingredients-grid">
+      <div class="ingredient-card"><div class="ingredient-name">過濾水</div><div class="ingredient-amount">一盆</div></div>
+      <div class="ingredient-card"><div class="ingredient-name">鹽</div><div class="ingredient-amount">2.5<span class="ingredient-unit">包</span></div></div>
+      <div class="ingredient-card"><div class="ingredient-name">海味</div><div class="ingredient-amount">400<span class="ingredient-unit">g</span></div></div>
+      <div class="ingredient-card"><div class="ingredient-name">冰糖</div><div class="ingredient-amount">400<span class="ingredient-unit">g</span></div></div>
+      <div class="ingredient-card"><div class="ingredient-name">米酒</div><div class="ingredient-amount">300<span class="ingredient-unit">g</span></div></div>
+    </div>
+    <div class="divider"><span class="divider-icon">🔥</span></div>
+    <p class="section-title">製作步驟</p>
+    <div class="step"><div class="step-num">1</div><div class="step-text">準備一盆<strong>過濾水</strong>，加入<strong>鹽 2.5包</strong>、<strong>海味 400g</strong>、<strong>冰糖 400g</strong>、<strong>米酒 300g</strong>。</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text">充分攪拌至鹽與冰糖完全溶解，確認調味均勻。</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text">將鵝放入醃漬水中，確保完全浸泡，冷藏靜置入味。</div></div>
+    <div class="note-box"><strong>廚師小叮嚀</strong>過濾水可避免水中雜質影響風味。冰糖與海味能帶出甘甜鮮味，浸泡時間越長越入味，建議冷藏保存。</div>
+    <footer>— 秘製配方 · 請妥善保存 —</footer>
+  </div>
+</div>
+
+<!-- Panel 10: 三杯鵝舌 -->
+<div class="panel" id="panel-9">
+  <div class="page-wrap">
+    <div class="recipe-header">
+      <div class="header-label">熱炒配方</div>
+      <h2>三杯鵝舌</h2>
+      <p class="subtitle">Three-Cup Goose Tongue — House Recipe</p>
+    </div>
+    <div class="divider"><span class="divider-icon">🫚</span></div>
+    <p class="section-title">食材配方</p>
+    <div class="ingredients-grid">
+      <div class="ingredient-card"><div class="ingredient-name">老薑</div><div class="ingredient-amount">5–6<span class="ingredient-unit">片</span></div></div>
+      <div class="ingredient-card"><div class="ingredient-name">鵝油</div><div class="ingredient-amount">2<span class="ingredient-unit">湯匙</span></div></div>
+      <div class="ingredient-card"><div class="ingredient-name">鵝舌</div><div class="ingredient-amount">適量</div></div>
+      <div class="ingredient-card"><div class="ingredient-name">醬油膏</div><div class="ingredient-amount">1<span class="ingredient-unit">湯匙</span></div></div>
+      <div class="ingredient-card"><div class="ingredient-name">醬油</div><div class="ingredient-amount">1<span class="ingredient-unit">湯匙</span></div></div>
+      <div class="ingredient-card"><div class="ingredient-name">糖</div><div class="ingredient-amount">1<span class="ingredient-unit">茶匙</span></div></div>
+      <div class="ingredient-card"><div class="ingredient-name">藥酒</div><div class="ingredient-amount">2<span class="ingredient-unit">圈</span></div></div>
+    </div>
+    <div class="divider"><span class="divider-icon">🔥</span></div>
+    <p class="section-title">製作步驟</p>
+    <div class="step"><div class="step-num">1</div><div class="step-text">熱鍋加入<strong>鵝油 2湯匙</strong>，放入<strong>老薑 5–6片</strong>，以中小火爆香至薑片邊緣微焦出香氣。</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text">放入<strong>鵝舌</strong>，大火翻炒至表面上色。</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text">加入<strong>醬油膏 1湯匙</strong>、<strong>醬油 1湯匙</strong>、<strong>糖 1茶匙</strong>，翻炒均勻讓醬汁裹覆鵝舌。</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-text">沿鍋緣淋入<strong>藥酒 2圈</strong>嗆鍋，大火翻炒收汁至醬汁濃稠即可起鍋。</div></div>
+    <div class="note-box"><strong>廚師小叮嚀</strong>老薑爆香是三杯料理的靈魂，不可省略。藥酒嗆鍋後大火收汁，讓醬汁緊緊附著在鵝舌上，色澤亮麗、香氣十足。可依喜好加入九層塔增添香氣。</div>
+    <footer>— 秘製配方 · 請妥善保存 —</footer>
+  </div>
+</div>
+
+<!-- Panel 11: 煮鵝 -->
+<div class="panel" id="panel-10">
+  <div class="page-wrap">
+    <div class="recipe-header">
+      <div class="header-label">烹煮流程</div>
+      <h2>煮鵝</h2>
+      <p class="subtitle">Boiled Goose — House Recipe</p>
+    </div>
+    <div class="divider"><span class="divider-icon">🫕</span></div>
+    <p class="section-title">食材配方</p>
+    <div class="ingredients-grid">
+      <div class="ingredient-card"><div class="ingredient-name">生水</div><div class="ingredient-amount">大桶<span class="ingredient-unit">滿</span></div></div>
+      <div class="ingredient-card"><div class="ingredient-name">鵝</div><div class="ingredient-amount">6–7<span class="ingredient-unit">支</span></div></div>
+    </div>
+    <div class="info-bar">
+      <span class="info-label">總烹煮時間</span>
+      <span class="info-value">35 min + 悶30 min</span>
+    </div>
+    <div class="divider"><span class="divider-icon">🔥</span></div>
+    <p class="section-title">製作步驟</p>
+    <div class="step"><div class="step-num">1</div><div class="step-text"><strong>大桶</strong>加入<strong>生水</strong>，開<strong>大火</strong>煮至滾沸。</div></div>
+    <div class="step"><div class="step-num">2</div><div class="step-text">放入<strong>鵝 6–7支</strong>，翻動至水再次滾沸。</div></div>
+    <div class="step"><div class="step-num">3</div><div class="step-text">保持大火滾煮 <strong>5分鐘</strong>。</div></div>
+    <div class="step"><div class="step-num">4</div><div class="step-text">轉<strong>小火</strong>，加蓋<strong>悶 30分鐘</strong>。</div></div>
+    <div class="step"><div class="step-num">5</div><div class="step-text">起鍋後立即放入<strong>泡鵝水</strong>中浸泡 <strong>30分鐘</strong>，讓鵝肉充分吸收醬汁風味。</div></div>
+    <div class="note-box"><strong>廚師小叮嚀</strong>大火滾5分鐘能鎖住肉汁，轉小火悶煮保持鵝肉嫩度。起鍋後立即泡入泡鵝水，熱脹冷縮能讓鵝皮更緊實、入味更快。</div>
+    <footer>— 秘製配方 · 請妥善保存 —</footer>
+  </div>
+</div>
+
 <script>
   function showTab(index) {
     index = parseInt(index);
+    document.querySelectorAll('.menu-btn').forEach((btn, i) => {
+      btn.classList.toggle('active', i === index);
+    });
     document.querySelectorAll('.panel').forEach((panel, i) => {
       panel.classList.toggle('active', i === index);
     });
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
-  document.querySelector('.recipe-select').addEventListener('change', function() {
+  document.querySelector('.recipe-select') && document.querySelector('.recipe-select').addEventListener('change', function() {
     showTab(this.value);
   });
 </script>
