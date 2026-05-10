@@ -1301,7 +1301,7 @@ var _dbRef      = null;
 function getRecs()      { return _taxiRecs.slice(); }
 function saveRecs(r) {
   _taxiRecs = r;
-  if (_db) _dbRef('taxi/records').set(r).catch(function(){});
+  if (_db && window._firebaseSet) window._firebaseSet(window._firebaseRef('taxi/records'), r).catch(function(e){console.warn('fb save err',e);});
   localStorage.setItem('taxi_records', JSON.stringify(r)); // 保留本地備份
 }
 
@@ -1309,7 +1309,7 @@ function saveRecs(r) {
 function getPtRecs()         { return _ptRecs.slice(); }
 function savePtRecs(recs) {
   _ptRecs = recs;
-  if (_db) _dbRef('taxi/parttime').set(recs).catch(function(){});
+  if (_db && window._firebaseSet) window._firebaseSet(window._firebaseRef('taxi/parttime'), recs).catch(function(e){console.warn('fb save err',e);});
   localStorage.setItem('parttime_recs', JSON.stringify(recs));
 }
 
@@ -1822,7 +1822,7 @@ var MAINT_ITEMS = [
 function getMaintRecs()    { return _maintRecs.slice(); }
 function saveMaintRecs(r) {
   _maintRecs = r;
-  if (_db) _dbRef('taxi/maint').set(r).catch(function(){});
+  if (_db && window._firebaseSet) window._firebaseSet(window._firebaseRef('taxi/maint'), r).catch(function(e){console.warn('fb save err',e);});
   localStorage.setItem('maint_records', JSON.stringify(r));
 }
 
