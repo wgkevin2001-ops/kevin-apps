@@ -224,6 +224,7 @@ select option{background:#F5F0E8}
   <button class="tab" onclick="go('query')">🔍 查詢</button>
   <button class="tab" onclick="go('maint')">🔧 保養</button>
   <button class="tab" onclick="go('parttime')">💼 兼職</button>
+  <button class="tab" onclick="go('claude')">📸 匯入</button>
 </div>
 
 <!-- ══ 每日輸入 ══ -->
@@ -2312,6 +2313,107 @@ function toggleMonth(el){
     arrow.innerText='▶';
   }
 }
+
+// ══ Claude 照片匯入 ══
+var _claudeParsed = [];
+
+function switchCTab(tab) {
+  ['guide','prompt','import'].forEach(function(t){
+    var btn = document.getElementById('ctab-' + t);
+    var pane = document.getElementById('cpane-' + t);
+    if (btn) {
+      btn.style.background = t === tab ? 'var(--bl)' : 'transparent';
+      btn.style.color = t === tab ? '#fff' : '#999';
+    }
+    if (pane) pane.style.display = t === tab ? 'block' : 'none';
+  });
+}
+
+function copyCPrompt() {
+  var text = document.getElementById('claude-prompt-box').innerText;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(function(){
+      toast('✅ 指令已複製！貼到 Claude 對話框');
+    });
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; document.body.appendChild(ta);
+    ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta);
+    toast('✅ 指令已複製！');
+  }
+}
+
+function claudeParseJSON() {
+  var raw = document.getElementById('claude-json-input').value.trim();
+  if (!raw) { toast('⚠️ 請先貼入 JSON'); return; }
+  raw = raw.replace(/```json/g,'').replace(/```/g,'').trim();
+  try {
+    var data = JSON.parse(raw);
+    if (!Array.isArray(data) || data.length === 0) throw new Error('需要陣列格式');
+    _claudeParsed = data;
+
+    var tbody = document.getElementById('claude-table-body');
+    var totalInc = 0, totalNet = 0;
+    tbody.innerHTML = data.map(function(r){
+      var uber=Number(r.uber)||0, t55688=Number(r.t55688)||0, metro=Number(r.metro)||0;
+      var lingo=Number(r.lingo)||0, bolt=Number(r.bolt)||0, meter=Number(r.meter)||0, other=Number(r.other)||0;
+      var fuel=Number(r.fuel)||0, park=Number(r.park)||150;
+      var inc=uber+t55688+metro+lingo+bolt+meter+other;
+      var net=inc-fuel-park;
+      totalInc+=inc; totalNet+=net;
+      var netColor = net>=0 ? 'var(--gr)' : 'var(--rd)';
+      return '<tr style="border-bottom:1px solid var(--mid)">' +
+        '<td style="padding:7px 8px;white-space:nowrap;font-weight:700">' + r.date + '</td>' +
+        '<td style="padding:7px 8px;text-align:right">' + (uber||'—') + '</td>' +
+        '<td style="padding:7px 8px;text-align:right">' + (t55688||'—') + '</td>' +
+        '<td style="padding:7px 8px;text-align:right">' + (metro||'—') + '</td>' +
+        '<td style="padding:7px 8px;text-align:right">' + (lingo||'—') + '</td>' +
+        '<td style="padding:7px 8px;text-align:right;color:var(--rd)">' + (fuel?fuel:'—') + '</td>' +
+        '<td style="padding:7px 8px;text-align:right">' + park + '</td>' +
+        '<td style="padding:7px 8px;text-align:right;font-weight:900;color:' + netColor + '">' + net.toLocaleString('zh-TW') + '</td>' +
+      '</tr>';
+    }).join('');
+
+    document.getElementById('claude-summary').textContent = '共 ' + data.length + ' 天　總收入 NT$ ' + totalInc.toLocaleString('zh-TW') + '　預估淨利 NT$ ' + totalNet.toLocaleString('zh-TW');
+    document.getElementById('claude-preview-card').style.display = 'block';
+    document.getElementById('claude-export-btns').style.display = 'block';
+    document.getElementById('claude-success').style.display = 'none';
+    toast('✅ 解析成功，共 ' + data.length + ' 筆');
+  } catch(e) {
+    toast('❌ JSON 格式錯誤：' + e.message);
+  }
+}
+
+function claudeExportExcel() {
+  if (!_claudeParsed.length) { toast('⚠️ 沒有資料'); return; }
+  function doEx() {
+    var headers = ['日期','車錶','Uber','Bolt車隊','55688','大都會','Line Go','熊貓','Uber Eats','其他','總收入','油費','停車費','手續費','其他支出','總支出','淨利','備註'];
+    var rows = [headers];
+    _claudeParsed.forEach(function(r){
+      var uber=Number(r.uber)||0, t55688=Number(r.t55688)||0, metro=Number(r.metro)||0;
+      var lingo=Number(r.lingo)||0, bolt=Number(r.bolt)||0, meter=Number(r.meter)||0, other=Number(r.other)||0;
+      var fuel=Number(r.fuel)||0, park=Number(r.park)||150;
+      var inc=meter+uber+bolt+t55688+metro+lingo+other;
+      var exp=fuel+park;
+      rows.push([r.date, meter, uber, bolt, t55688, metro, lingo, 0, 0, other, inc, fuel, park, 0, 0, exp, inc-exp, r.note||'Claude照片匯入']);
+    });
+    var wb = XLSX.utils.book_new();
+    var ws = XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols'] = [{wch:12},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:8},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:8},{wch:20}];
+    XLSX.utils.book_append_sheet(wb, ws, '每日記錄');
+    var today2 = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, '計程車收入_' + today2 + '.xlsx');
+    document.getElementById('claude-success').style.display = 'block';
+    toast('✅ Excel 下載成功！');
+  }
+  if (window.XLSX) { doEx(); return; }
+  var s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  s.onload = doEx;
+  document.head.appendChild(s);
+}
+
 </script>
 
 </body>
