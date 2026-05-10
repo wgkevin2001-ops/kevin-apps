@@ -427,6 +427,16 @@ select option{background:#F5F0E8}
 <!-- ══ 審驗 ══ -->
 <div class="pane" id="pane-inspect">
 
+  <!-- 匯出按鈕列 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+    <button onclick="inspectExportExcel()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 10px;background:var(--gr);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(26,138,58,.3);-webkit-tap-highlight-color:transparent">
+      <span style="font-size:20px">📊</span><span>匯出 Excel</span>
+    </button>
+    <button onclick="inspectExportPDF()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 10px;background:var(--rd);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(204,34,34,.3);-webkit-tap-highlight-color:transparent">
+      <span style="font-size:20px">📄</span><span>匯出 PDF</span>
+    </button>
+  </div>
+
   <div style="background:var(--card);border:1px solid rgba(180,140,60,.25);border-radius:12px;margin-bottom:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)">
     <button onclick="toggleSub('ins-expire')" style="width:100%;padding:15px 16px;background:var(--card);border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:inherit;-webkit-tap-highlight-color:transparent">
       <span style="font-size:15px;font-weight:700;color:var(--rd)">⏰ 審驗到期倒數</span>
@@ -485,6 +495,16 @@ select option{background:#F5F0E8}
 
 <!-- ══ 查詢 ══ -->
 <div class="pane" id="pane-query">
+
+  <!-- 匯出按鈕列 -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+    <button onclick="queryExportExcel()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 10px;background:var(--gr);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(26,138,58,.3);-webkit-tap-highlight-color:transparent">
+      <span style="font-size:20px">📊</span><span>匯出 Excel</span>
+    </button>
+    <button onclick="queryExportPDF()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 10px;background:var(--rd);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(204,34,34,.3);-webkit-tap-highlight-color:transparent">
+      <span style="font-size:20px">📄</span><span>匯出 PDF</span>
+    </button>
+  </div>
 
   <div style="background:var(--card);border:1px solid rgba(180,140,60,.25);border-radius:12px;margin-bottom:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)">
     <button onclick="toggleSub('sub-insure')" style="width:100%;padding:15px 16px;background:var(--card);border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:inherit;-webkit-tap-highlight-color:transparent">
@@ -2550,6 +2570,226 @@ function claudeExportExcel() {
   }
   if (window.XLSX) { doEx(); return; }
   var s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; s.onload=doEx; document.head.appendChild(s);
+}
+
+
+// ── 審驗匯出 Excel ──
+function inspectExportExcel() {
+  function doEx() {
+    var now = new Date(); now.setHours(0,0,0,0);
+    var headers = ['項目','到期日','頻率','距到期(天)','狀態','應備文件','備註','辦理地點'];
+    var rows = [headers];
+    INSPS.forEach(function(ins) {
+      var exp = new Date(ins.exp + 'T00:00:00');
+      var diff = Math.round((exp - now) / 86400000);
+      var status = diff <= 0 ? '已過期' : diff <= 30 ? '⚠️ 緊急' : diff <= 60 ? '⚠️ 注意' : '✅ 正常';
+      rows.push([ins.name, ins.exp, ins.freq, diff, status, ins.docs.join('、'), ins.note, ins.loc]);
+    });
+    var wb = XLSX.utils.book_new();
+    var ws = XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols'] = [{wch:20},{wch:12},{wch:10},{wch:12},{wch:8},{wch:30},{wch:35},{wch:25}];
+    // 凍結首列
+    ws['!freeze'] = {xSplit:0, ySplit:1};
+    XLSX.utils.book_append_sheet(wb, ws, '審驗到期總覽');
+    var d = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, '審驗資料_TDZ-0950_' + d + '.xlsx');
+    toast('✅ Excel 已下載！');
+  }
+  if (window.XLSX) { doEx(); return; }
+  var s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  s.onload = doEx; document.head.appendChild(s);
+}
+
+// ── 審驗匯出 PDF（列印版）──
+function inspectExportPDF() {
+  var now = new Date(); now.setHours(0,0,0,0);
+  var rows = INSPS.map(function(ins) {
+    var exp = new Date(ins.exp + 'T00:00:00');
+    var diff = Math.round((exp - now) / 86400000);
+    var color = diff <= 0 ? '#CC2222' : diff <= 30 ? '#B8760A' : diff <= 60 ? '#B8760A' : '#1A8A3A';
+    var label = diff <= 0 ? '已過期 '+Math.abs(diff)+' 天' : diff+' 天後到期';
+    var bg = diff <= 0 ? '#FFF0F0' : diff <= 60 ? '#FFFBF0' : '#F0FFF4';
+    return '<tr style="background:'+bg+'">' +
+      '<td style="padding:10px 12px;font-weight:700;font-size:14px">'+ins.name+'</td>' +
+      '<td style="padding:10px 12px;text-align:center;font-size:13px">'+ins.exp+'</td>' +
+      '<td style="padding:10px 12px;text-align:center;font-size:13px">'+ins.freq+'</td>' +
+      '<td style="padding:10px 12px;text-align:center;font-weight:900;color:'+color+';font-size:14px">'+label+'</td>' +
+      '<td style="padding:10px 12px;font-size:12px;color:#555">'+ins.docs.join('<br>')+'</td>' +
+      '<td style="padding:10px 12px;font-size:12px;color:#777">'+ins.note+'</td>' +
+    '</tr>';
+  }).join('');
+
+  var printWin = window.open('', '_blank');
+  printWin.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8">'+
+    '<title>審驗資料 TDZ-0950</title>'+
+    '<style>'+
+      'body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;padding:20px;color:#2A2A2A;font-size:14px}'+
+      'h2{color:#1A6EA8;margin-bottom:4px}'+
+      '.sub{color:#888;font-size:12px;margin-bottom:20px}'+
+      'table{width:100%;border-collapse:collapse;font-size:13px}'+
+      'th{background:#1A6EA8;color:#fff;padding:10px 12px;text-align:left;font-size:13px}'+
+      'td{border-bottom:1px solid #E8E0D0;vertical-align:top}'+
+      '.footer{margin-top:16px;font-size:11px;color:#aaa;text-align:right}'+
+      '@media print{button{display:none}}'+
+    '</style></head><body>'+
+    '<h2>🚕 TDZ-0950 審驗資料總覽</h2>'+
+    '<div class="sub">列印日期：'+new Date().toLocaleDateString('zh-TW')+'</div>'+
+    '<button onclick="window.print()" style="margin-bottom:16px;padding:10px 20px;background:#1A6EA8;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">🖨️ 列印 / 儲存 PDF</button>'+
+    '<table><thead><tr>'+
+      '<th>項目</th><th>到期日</th><th>頻率</th><th>距到期</th><th>應備文件</th><th>備註</th>'+
+    '</tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<div class="footer">由計程車營收彙總系統產生</div>'+
+    '</body></html>');
+  printWin.document.close();
+  toast('✅ PDF 預覽已開啟，請選擇「儲存為 PDF」');
+}
+
+
+// ── 查詢頁匯出 Excel ──
+function queryExportExcel() {
+  function doEx() {
+    var wb = XLSX.utils.book_new();
+
+    // 工作表1：工會繳費
+    var fee = [
+      ['工會繳費總覽（計程車公會呈＋汽電工會貝）','','',''],
+      ['','','',''],
+      ['計程車公會（呈）','','',''],
+      ['期別','金額（元）','說明',''],
+      ['1月','26,310','含年費、團保、勞健保',''],
+      ['4月','14,550','勞健保季繳',''],
+      ['7月','14,550','勞健保季繳',''],
+      ['11月','14,550','勞健保季繳',''],
+      ['','','',''],
+      ['汽電工會（貝）','','',''],
+      ['期別','金額（元）','說明',''],
+      ['1月','11,025','含年費、勞健保',''],
+      ['4月','8,985','勞健保季繳',''],
+      ['7月','8,985','勞健保季繳',''],
+      ['11月','8,985','勞健保季繳',''],
+      ['','','',''],
+      ['家庭合計（呈＋貝）','','',''],
+      ['期別','呈','貝','合計'],
+      ['1月','26,310','11,025','37,335'],
+      ['4月','14,550','8,985','23,535'],
+      ['7月','14,550','8,985','23,535'],
+      ['11月','14,550','8,985','23,535'],
+      ['全年總計','','','107,940'],
+    ];
+    var ws1 = XLSX.utils.aoa_to_sheet(fee);
+    ws1['!cols'] = [{wch:20},{wch:12},{wch:30},{wch:10}];
+    XLSX.utils.book_append_sheet(wb, ws1, '工會繳費');
+
+    // 工作表2：廠商聯絡
+    var vendors = [
+      ['廠商／車隊聯絡資訊','','',''],
+      ['名稱','電話','地址/網址','備註'],
+      ['煌舜汽車維修中心（王嘉綺）','0917-665-925 / 02-8275-1229','新北市板橋區板城路89-3號','產物保險特約店・理賠接待'],
+      ['55688 台灣大車隊','02-2516-0966 / 直撥55688','台北市中山區長安東路2段162號2樓','台灣第一大車隊'],
+      ['Uber 大慶大車隊','02-2301-4567','台北市中正區和平西路二段21之1號1樓','Uber合作車隊'],
+      ['台北大都會車隊','直撥55178 / 02-4499-178轉7','24小時全天候','全台服務'],
+      ['裕豐萬大幸福車隊','LINE/Facebook','台北市萬華區萬大路33號','在地40年・週一至週五09-18時'],
+    ];
+    var ws2 = XLSX.utils.aoa_to_sheet(vendors);
+    ws2['!cols'] = [{wch:25},{wch:25},{wch:35},{wch:25}];
+    XLSX.utils.book_append_sheet(wb, ws2, '廠商聯絡');
+
+    // 工作表3：保單保障
+    var insurance = [
+      ['工會保單保障內容','','',''],
+      ['保單','項目','本人','眷屬/備註'],
+      ['保單一 團體福利意外保險（100元/月）','特定意外身故（含搭機）','300萬',''],
+      ['','特定意外身故（陸海/火災地震）','200萬',''],
+      ['','一般意外身故','100萬',''],
+      ['','一般意外失能','5～100萬','依等級'],
+      ['','住院日額（年最高120日）','1,000元/日',''],
+      ['','加護病房（年最高14日）','2,000元/日',''],
+      ['','意外醫療實支實付','10,000元',''],
+      ['保單二 專屬團保A計畫（本人300元/月）','疾病身故','15萬','—'],
+      ['','意外身故','100萬','60萬'],
+      ['','疾病住院（年最高90日）','500元/日','500元/日'],
+      ['','傷害醫療實支實付','10,000','10,000'],
+      ['保單三 互助保險（計畫一）','意外身故','12萬',''],
+      ['','疾病/意外住院（最長365日）','300元/日',''],
+      ['','加護病房（最長45日）','600元/日',''],
+    ];
+    var ws3 = XLSX.utils.aoa_to_sheet(insurance);
+    ws3['!cols'] = [{wch:30},{wch:28},{wch:12},{wch:20}];
+    XLSX.utils.book_append_sheet(wb, ws3, '保單保障');
+
+    var d = new Date().toISOString().split('T')[0];
+    XLSX.writeFile(wb, '查詢資料_TDZ-0950_' + d + '.xlsx');
+    toast('✅ Excel 已下載！含3個工作表');
+  }
+  if (window.XLSX) { doEx(); return; }
+  var s = document.createElement('script');
+  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  s.onload = doEx; document.head.appendChild(s);
+}
+
+// ── 查詢頁匯出 PDF ──
+function queryExportPDF() {
+  var printWin = window.open('', '_blank');
+  printWin.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8">'+
+    '<title>查詢資料 TDZ-0950</title>'+
+    '<style>'+
+      'body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;padding:24px;color:#2A2A2A;font-size:13px;max-width:900px;margin:0 auto}'+
+      'h2{color:#1A6EA8;margin-bottom:4px;font-size:18px}'+
+      'h3{color:#B8760A;font-size:15px;margin:18px 0 8px;border-bottom:2px solid #E8E0D0;padding-bottom:6px}'+
+      'h4{font-size:13px;color:#555;margin:10px 0 5px}'+
+      '.sub{color:#888;font-size:11px;margin-bottom:20px}'+
+      'table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:12px}'+
+      'th{background:#1A6EA8;color:#fff;padding:8px 10px;text-align:left}'+
+      'td{border-bottom:1px solid #E8E0D0;padding:7px 10px;vertical-align:top}'+
+      'tr:nth-child(even) td{background:#F8F5F0}'+
+      '.section{background:#FFF8ED;border:1px solid #E8D0A0;border-radius:8px;padding:12px;margin-bottom:12px}'+
+      '.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;margin-left:6px}'+
+      '.footer{margin-top:20px;font-size:10px;color:#aaa;text-align:right;border-top:1px solid #E8E0D0;padding-top:8px}'+
+      '@media print{button{display:none}.no-break{page-break-inside:avoid}}'+
+    '</style></head><body>'+
+    '<h2>🚕 TDZ-0950 查詢資料總覽</h2>'+
+    '<div class="sub">列印日期：'+new Date().toLocaleDateString('zh-TW')+'</div>'+
+    '<button onclick="window.print()" style="margin-bottom:20px;padding:10px 20px;background:#1A6EA8;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">🖨️ 列印 / 儲存 PDF</button>'+
+
+    '<h3>💰 工會繳費週期</h3>'+
+    '<table><thead><tr><th>期別</th><th>計程車公會（呈）</th><th>汽電工會（貝）</th><th>家庭合計</th></tr></thead>'+
+    '<tbody>'+
+    '<tr><td>1月（含年費/團保）</td><td>26,310 元</td><td>11,025 元</td><td><b>37,335 元</b></td></tr>'+
+    '<tr><td>4月</td><td>14,550 元</td><td>8,985 元</td><td><b>23,535 元</b></td></tr>'+
+    '<tr><td>7月</td><td>14,550 元</td><td>8,985 元</td><td><b>23,535 元</b></td></tr>'+
+    '<tr><td>11月</td><td>14,550 元</td><td>8,985 元</td><td><b>23,535 元</b></td></tr>'+
+    '<tr style="background:#FFF8ED"><td><b>全年總計</b></td><td>69,960 元</td><td>37,980 元</td><td><b style="color:#B8760A;font-size:14px">107,940 元</b></td></tr>'+
+    '</tbody></table>'+
+
+    '<h3>🛡️ 工會保單保障</h3>'+
+    '<table><thead><tr><th>保單</th><th>項目</th><th>本人</th><th>眷屬</th></tr></thead>'+
+    '<tbody>'+
+    '<tr><td rowspan="5">保單一<br><span style="font-size:11px;color:#888">100元/月</span></td><td>特定意外身故（含搭機）</td><td>300萬</td><td>—</td></tr>'+
+    '<tr><td>一般意外身故</td><td>100萬</td><td>—</td></tr>'+
+    '<tr><td>住院日額（年最高120日）</td><td>1,000元/日</td><td>—</td></tr>'+
+    '<tr><td>加護病房（年最高14日）</td><td>2,000元/日</td><td>—</td></tr>'+
+    '<tr><td>意外醫療實支實付</td><td>10,000元</td><td>—</td></tr>'+
+    '<tr><td rowspan="4">保單二<br><span style="font-size:11px;color:#888">本人300元/月</span></td><td>意外身故</td><td>100萬</td><td>60萬</td></tr>'+
+    '<tr><td>疾病身故</td><td>15萬</td><td>—</td></tr>'+
+    '<tr><td>疾病住院（年最高90日）</td><td>500元/日</td><td>500元/日</td></tr>'+
+    '<tr><td>傷害醫療實支實付</td><td>10,000元</td><td>10,000元</td></tr>'+
+    '</tbody></table>'+
+
+    '<h3>🔧 廠商聯絡資訊</h3>'+
+    '<table><thead><tr><th>廠商</th><th>電話</th><th>地址</th></tr></thead>'+
+    '<tbody>'+
+    '<tr><td><b>煌舜汽車維修中心</b><br><span style="font-size:11px;color:#888">理賠接待：王嘉綺</span></td><td>0917-665-925<br>02-8275-1229</td><td>新北市板橋區板城路89-3號</td></tr>'+
+    '<tr><td><b>55688 台灣大車隊</b></td><td>02-2516-0966<br>直撥 55688</td><td>台北市中山區長安東路2段162號2樓</td></tr>'+
+    '<tr><td><b>Uber 大慶大車隊</b></td><td>02-2301-4567</td><td>台北市中正區和平西路二段21之1號1樓</td></tr>'+
+    '<tr><td><b>台北大都會車隊</b></td><td>直撥 55178<br>02-4499-178 轉7</td><td>24小時全天候服務</td></tr>'+
+    '<tr><td><b>裕豐萬大幸福車隊</b></td><td>LINE / Facebook</td><td>台北市萬華區萬大路33號<br>週一至週五 09:00–18:00</td></tr>'+
+    '</tbody></table>'+
+
+    '<div class="footer">由計程車營收彙總系統產生 · TDZ-0950</div>'+
+    '</body></html>');
+  printWin.document.close();
+  toast('✅ PDF 預覽已開啟，請選擇「儲存為 PDF」');
 }
 
 </script>
