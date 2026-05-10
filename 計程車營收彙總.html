@@ -1247,66 +1247,72 @@ select option{background:#F5F0E8}
   <span style="color:#fff;font-size:13px;font-weight:700;margin-right:10px">📥 下載 HTML 檔案</span>
   <button onclick="dlHTML()" style="background:#fff;color:var(--y);border:none;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:900;cursor:pointer;-webkit-tap-highlight-color:transparent">⬇ 下載</button>
   <button onclick="document.getElementById('dl-bar').style.display='none'" style="background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer;margin-left:8px;-webkit-tap-highlight-color:transparent">✕</button>
+</div>
 
 <!-- ══ Claude 照片匯入 ══ -->
 <div class="pane" id="pane-claude">
 
-  <div class="card t-bl" style="margin-bottom:12px">
-    <div style="text-align:center;padding:6px 0 10px">
-      <div style="font-size:36px;margin-bottom:6px">📸→📊</div>
-      <div style="font-size:16px;font-weight:900;color:var(--bl)">Claude 照片辨識匯入</div>
-      <div style="font-size:12px;color:#888;margin-top:4px">截圖→Claude辨識→Excel→匯入</div>
+  <!-- 頂部標題列 -->
+  <div style="display:flex;align-items:center;gap:12px;background:var(--bl);border-radius:14px;padding:14px 16px;margin-bottom:14px">
+    <div style="font-size:32px;line-height:1">📸</div>
+    <div>
+      <div style="font-size:16px;font-weight:900;color:#fff">Claude 照片匯入</div>
+      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:2px">截圖 → 辨識 → 一鍵匯入</div>
     </div>
   </div>
 
   <!-- 子頁籤 -->
-  <div style="display:flex;gap:5px;margin-bottom:14px;background:#E8E0D0;border-radius:11px;padding:4px">
-    <button id="ctab-guide" onclick="switchCTab('guide')" style="flex:1;padding:9px 6px;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--bl);color:#fff;-webkit-tap-highlight-color:transparent">📖 教學</button>
-    <button id="ctab-prompt" onclick="switchCTab('prompt')" style="flex:1;padding:9px 6px;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:#999;-webkit-tap-highlight-color:transparent">📋 指令</button>
-    <button id="ctab-import" onclick="switchCTab('import')" style="flex:1;padding:9px 6px;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:#999;-webkit-tap-highlight-color:transparent">📥 匯入</button>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:16px">
+    <button id="ctab-guide" onclick="switchCTab('guide')" style="padding:12px 6px;border:2px solid var(--bl);border-radius:11px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--bl);color:#fff;-webkit-tap-highlight-color:transparent;line-height:1.3">📖<br>教學</button>
+    <button id="ctab-prompt" onclick="switchCTab('prompt')" style="padding:12px 6px;border:2px solid var(--bdr);border-radius:11px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--card);color:#888;-webkit-tap-highlight-color:transparent;line-height:1.3">📋<br>指令</button>
+    <button id="ctab-import" onclick="switchCTab('import')" style="padding:12px 6px;border:2px solid var(--bdr);border-radius:11px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--card);color:#888;-webkit-tap-highlight-color:transparent;line-height:1.3">📥<br>匯入</button>
   </div>
 
   <!-- 教學 -->
   <div id="cpane-guide">
     <div class="card">
-      <div class="slbl">🚀 三步驟完成匯入</div>
-      <div style="display:flex;flex-direction:column">
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--mid)">
-          <div style="min-width:28px;height:28px;border-radius:50%;background:var(--bl);color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
-          <div><div style="font-size:14px;font-weight:700;margin-bottom:3px">截圖各平台收入頁面</div>
-          <div style="font-size:12px;color:#666;line-height:1.7">Uber・台灣大55688・大都會・LINE GO<br>每張需包含：<b style="color:var(--y)">日期、金額</b></div></div>
+      <div class="slbl">🚀 操作流程</div>
+      <div style="display:flex;flex-direction:column;gap:0">
+
+        <div style="display:flex;gap:0;align-items:stretch;padding:14px 0;border-bottom:1px solid var(--mid)">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:14px">
+            <div style="width:34px;height:34px;border-radius:50%;background:var(--bl);color:#fff;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
+            <div style="flex:1;width:2px;background:rgba(26,110,168,.2);margin:4px 0"></div>
+          </div>
+          <div style="flex:1;padding-bottom:4px">
+            <div style="font-size:15px;font-weight:700;margin-bottom:5px">截各平台收入截圖</div>
+            <div style="display:flex;flex-wrap:wrap;gap:5px">
+              <span style="background:#000;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">Uber</span>
+              <span style="background:#FFD700;color:#000;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">台灣大</span>
+              <span style="background:#003F8A;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">大都會</span>
+              <span style="background:#00C300;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">LINE GO</span>
+            </div>
+          </div>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid var(--mid)">
-          <div style="min-width:28px;height:28px;border-radius:50%;background:var(--bl);color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
-          <div><div style="font-size:14px;font-weight:700;margin-bottom:3px">傳截圖給 Claude + 貼上指令</div>
-          <div style="font-size:12px;color:#666;line-height:1.7">到「📋 指令」頁複製標準指令，連同截圖傳給 claude.ai</div></div>
+
+        <div style="display:flex;gap:0;align-items:stretch;padding:14px 0;border-bottom:1px solid var(--mid)">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:14px">
+            <div style="width:34px;height:34px;border-radius:50%;background:var(--bl);color:#fff;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
+            <div style="flex:1;width:2px;background:rgba(26,110,168,.2);margin:4px 0"></div>
+          </div>
+          <div style="flex:1;padding-bottom:4px">
+            <div style="font-size:15px;font-weight:700;margin-bottom:5px">複製指令 → 傳給 Claude</div>
+            <div style="font-size:13px;color:#666;line-height:1.6">到「📋 指令」頁複製指令，連同所有截圖一起傳給 claude.ai</div>
+            <button onclick="switchCTab('prompt')" style="margin-top:8px;padding:8px 16px;background:rgba(26,110,168,.1);border:1px solid rgba(26,110,168,.3);border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;color:var(--bl);cursor:pointer;-webkit-tap-highlight-color:transparent">前往複製指令 →</button>
+          </div>
         </div>
-        <div style="display:flex;gap:12px;align-items:flex-start;padding:12px 0">
-          <div style="min-width:28px;height:28px;border-radius:50%;background:var(--bl);color:#fff;font-size:13px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
-          <div><div style="font-size:14px;font-weight:700;margin-bottom:3px">貼 JSON → 產生 Excel → 匯入</div>
-          <div style="font-size:12px;color:#666;line-height:1.7">到「📥 匯入」頁貼上 Claude 回覆 JSON，按「產生 Excel」，再到「📋 記錄」匯入</div></div>
+
+        <div style="display:flex;gap:0;align-items:flex-start;padding:14px 0">
+          <div style="display:flex;flex-direction:column;align-items:center;margin-right:14px">
+            <div style="width:34px;height:34px;border-radius:50%;background:var(--gr);color:#fff;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
+          </div>
+          <div style="flex:1">
+            <div style="font-size:15px;font-weight:700;margin-bottom:5px">貼上 JSON → 匯入</div>
+            <div style="font-size:13px;color:#666;line-height:1.6">把 Claude 回覆的 JSON 貼到「📥 匯入」頁，產生 Excel 後到記錄頁匯入</div>
+            <button onclick="switchCTab('import')" style="margin-top:8px;padding:8px 16px;background:rgba(26,138,58,.1);border:1px solid rgba(26,138,58,.3);border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;color:var(--gr);cursor:pointer;-webkit-tap-highlight-color:transparent">前往貼上匯入 →</button>
+          </div>
         </div>
-      </div>
-    </div>
-    <div class="card">
-      <div class="slbl">📱 各平台截哪個頁面</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <div style="background:var(--mid);border-radius:9px;padding:12px;border-left:3px solid #222">
-          <div style="font-size:13px;font-weight:700;margin-bottom:3px">🚗 Uber — 行程費用</div>
-          <div style="font-size:12px;color:#666;line-height:1.7">Uber Driver → 底部「行程費用」→ 選週 → 截每天日期明細頁</div>
-        </div>
-        <div style="background:var(--mid);border-radius:9px;padding:12px;border-left:3px solid #FFB800">
-          <div style="font-size:13px;font-weight:700;margin-bottom:3px">🟡 台灣大 55688 — 營業資料</div>
-          <div style="font-size:12px;color:#666;line-height:1.7">台灣大 App → 管理 → 營業資料 → 日模式 → 截每日清單</div>
-        </div>
-        <div style="background:var(--mid);border-radius:9px;padding:12px;border-left:3px solid #003F8A">
-          <div style="font-size:13px;font-weight:700;margin-bottom:3px">🔵 大都會 — 週收入</div>
-          <div style="font-size:12px;color:#666;line-height:1.7">大都會 App → 管理 → 收入查詢 → 週視圖</div>
-        </div>
-        <div style="background:var(--mid);border-radius:9px;padding:12px;border-left:3px solid #00C300">
-          <div style="font-size:13px;font-weight:700;margin-bottom:3px">🟢 LINE GO — 歷史紀錄</div>
-          <div style="font-size:12px;color:#666;line-height:1.7">LINE GO → 歷史紀錄 → 行程紀錄 → 截每日總計</div>
-        </div>
+
       </div>
     </div>
   </div>
@@ -1315,10 +1321,10 @@ select option{background:#F5F0E8}
   <div id="cpane-prompt" style="display:none">
     <div class="card">
       <div class="slbl">📋 Claude 辨識指令</div>
-      <div style="background:#FFF8ED;border:1px solid rgba(184,118,10,.25);border-radius:9px;padding:10px 12px;font-size:12px;color:#666;line-height:1.8;margin-bottom:12px">
-        複製以下指令，連同截圖一起傳給 <b style="color:var(--y)">claude.ai</b>，Claude 會整理成可匯入格式。
+      <div style="background:#FFF8ED;border:1px solid rgba(184,118,10,.2);border-radius:10px;padding:12px;font-size:13px;color:#666;line-height:1.7;margin-bottom:14px">
+        📌 上傳截圖到 claude.ai，再貼上這段指令
       </div>
-      <div id="claude-prompt-box" style="background:var(--mid);border:1px solid var(--bdr);border-radius:10px;padding:12px;font-size:11px;color:#2A2A2A;line-height:1.8;white-space:pre-wrap;font-family:monospace;word-break:break-all;margin-bottom:10px">請辨識以上所有截圖中的計程車收入資料，整理成以下 JSON 格式回覆：
+      <div id="claude-prompt-box" style="background:var(--mid);border:1px solid var(--bdr);border-radius:10px;padding:13px;font-size:11.5px;color:#2A2A2A;line-height:1.9;white-space:pre-wrap;font-family:monospace;word-break:break-all;margin-bottom:12px;max-height:260px;overflow-y:auto">請辨識以上所有截圖中的計程車收入資料，整理成以下 JSON 格式回覆：
 
 [
   {
@@ -1343,50 +1349,43 @@ select option{background:#F5F0E8}
 - park 停車費預設 150
 - 同一天多張截圖請合併成一筆
 - 只回覆 JSON，不要其他說明文字</div>
-      <button class="btn bl" onclick="copyCPrompt()">📋 複製指令</button>
+      <button class="btn bl" onclick="copyCPrompt()" style="font-size:17px;padding:16px">📋 一鍵複製指令</button>
+      <div style="text-align:center;font-size:12px;color:#aaa;margin-top:8px">複製後到 claude.ai 貼上，並上傳截圖</div>
     </div>
   </div>
 
   <!-- 匯入 -->
   <div id="cpane-import" style="display:none">
+
+    <!-- 貼上區 -->
     <div class="card">
-      <div class="slbl">📥 貼入 Claude 回覆的 JSON</div>
-      <div class="field">
-        <label>貼上 JSON 資料</label>
-        <textarea id="claude-json-input" style="height:150px;font-size:12px;font-family:monospace;resize:vertical;background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:9px;color:#2A2A2A;padding:11px 13px;width:100%;outline:none" placeholder='貼上 Claude 回覆的 JSON：
-[{"date":"2026-05-07","uber":913,"t55688":3129,...}]'></textarea>
-      </div>
-      <button class="btn bl sm" onclick="claudeParseJSON()">🔍 解析預覽</button>
+      <div class="slbl">📥 貼入 JSON</div>
+      <div style="font-size:13px;color:#888;margin-bottom:10px">把 Claude 回覆的 JSON 貼到下方</div>
+      <textarea id="claude-json-input" style="width:100%;height:130px;font-size:12px;font-family:monospace;resize:none;background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:10px;color:#2A2A2A;padding:12px;outline:none;display:block;-webkit-appearance:none" placeholder='[{"date":"2026-05-07","uber":913,...}]'></textarea>
+      <button class="btn bl" onclick="claudeParseJSON()" style="margin-top:10px;font-size:16px;padding:15px">🔍 解析預覽</button>
     </div>
-    <div class="card" id="claude-preview-card" style="display:none">
-      <div class="slbl">📊 資料預覽</div>
-      <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
-        <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:580px">
-          <thead><tr style="background:var(--bl);color:#fff">
-            <th style="padding:8px;text-align:left">日期</th>
-            <th style="padding:8px;text-align:right">Uber</th>
-            <th style="padding:8px;text-align:right">台灣大</th>
-            <th style="padding:8px;text-align:right">大都會</th>
-            <th style="padding:8px;text-align:right">LINGO</th>
-            <th style="padding:8px;text-align:right">油費</th>
-            <th style="padding:8px;text-align:right">停車</th>
-            <th style="padding:8px;text-align:right">淨利</th>
-          </tr></thead>
-          <tbody id="claude-table-body"></tbody>
-        </table>
-      </div>
-      <div id="claude-summary" style="margin-top:10px;padding:10px;background:rgba(26,138,58,.08);border:1px solid rgba(26,138,58,.2);border-radius:8px;font-size:12px;color:#555;font-weight:700"></div>
+
+    <!-- 預覽卡片（手機版改成卡片列表）-->
+    <div id="claude-preview-card" style="display:none">
+      <div style="font-size:13px;font-weight:700;color:#888;margin:4px 0 8px;letter-spacing:.05em">📊 資料預覽</div>
+      <div id="claude-card-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px"></div>
+      <div id="claude-summary" style="padding:12px 14px;background:rgba(26,138,58,.08);border:1px solid rgba(26,138,58,.2);border-radius:10px;font-size:13px;color:#2A2A2A;font-weight:700;line-height:1.8"></div>
     </div>
-    <div id="claude-export-btns" style="display:none">
-      <button class="btn gr" onclick="claudeExportExcel()">📊 產生 Excel 並下載</button>
-      <div style="text-align:center;font-size:12px;color:#aaa;margin-bottom:8px">下載後 → 「📋 記錄」頁 → 📥 匯入 Excel</div>
+
+    <!-- 匯出按鈕 -->
+    <div id="claude-export-btns" style="display:none;margin-top:12px">
+      <button class="btn gr" onclick="claudeExportExcel()" style="font-size:17px;padding:16px">📊 產生 Excel 並下載</button>
+      <div style="text-align:center;font-size:12px;color:#aaa;margin-top:6px;margin-bottom:4px">下載後 → 「📋 記錄」頁 → 📥 匯入 Excel</div>
     </div>
-    <div id="claude-success" style="display:none;background:rgba(26,138,58,.08);border:1px solid rgba(26,138,58,.2);border-radius:10px;padding:16px;text-align:center;margin-bottom:12px">
-      <div style="font-size:32px;margin-bottom:8px">✅</div>
-      <div style="font-size:15px;font-weight:900;color:var(--gr);margin-bottom:4px">Excel 已下載！</div>
-      <div style="font-size:12px;color:#666">到「📋 記錄」頁 → 📥 匯入 Excel → 選擇剛下載的檔案</div>
-      <button class="btn sm" style="margin-top:12px;background:var(--gr);color:#fff" onclick="go('history')">前往記錄頁匯入 →</button>
+
+    <!-- 成功 -->
+    <div id="claude-success" style="display:none;background:rgba(26,138,58,.08);border:1px solid rgba(26,138,58,.2);border-radius:12px;padding:20px;text-align:center;margin-top:12px">
+      <div style="font-size:40px;margin-bottom:10px">✅</div>
+      <div style="font-size:17px;font-weight:900;color:var(--gr);margin-bottom:6px">Excel 已下載！</div>
+      <div style="font-size:13px;color:#666;margin-bottom:14px">前往「📋 記錄」頁<br>點「📥 匯入 Excel」選擇剛下載的檔案</div>
+      <button class="btn" style="background:var(--gr);color:#fff;font-size:16px;padding:14px" onclick="go('history')">前往記錄頁匯入 →</button>
     </div>
+
   </div>
 
 </div>
@@ -2464,7 +2463,11 @@ function switchCTab(tab) {
   ['guide','prompt','import'].forEach(function(t){
     var btn = document.getElementById('ctab-' + t);
     var pane = document.getElementById('cpane-' + t);
-    if (btn) { btn.style.background = t===tab ? 'var(--bl)' : 'transparent'; btn.style.color = t===tab ? '#fff' : '#999'; }
+    if (btn) {
+      btn.style.background = t===tab ? 'var(--bl)' : 'var(--card)';
+      btn.style.color = t===tab ? '#fff' : '#888';
+      btn.style.borderColor = t===tab ? 'var(--bl)' : 'var(--bdr)';
+    }
     if (pane) pane.style.display = t===tab ? 'block' : 'none';
   });
 }
@@ -2481,31 +2484,47 @@ function claudeParseJSON() {
     var data = JSON.parse(raw);
     if (!Array.isArray(data)||data.length===0) throw new Error('需要陣列格式');
     _claudeParsed = data;
-    var tbody = document.getElementById('claude-table-body');
+    var list = document.getElementById('claude-card-list');
     var totalInc=0, totalNet=0;
-    tbody.innerHTML = data.map(function(r){
+    // 手機版卡片列表（每天一張卡）
+    list.innerHTML = data.map(function(r){
       var uber=Number(r.uber)||0, t55688=Number(r.t55688)||0, metro=Number(r.metro)||0;
       var lingo=Number(r.lingo)||0, bolt=Number(r.bolt)||0, meter=Number(r.meter)||0, other=Number(r.other)||0;
       var fuel=Number(r.fuel)||0, park=Number(r.park)||150;
       var inc=uber+t55688+metro+lingo+bolt+meter+other; var net=inc-fuel-park;
       totalInc+=inc; totalNet+=net;
       var nc=net>=0?'var(--gr)':'var(--rd)';
-      return '<tr style="border-bottom:1px solid var(--mid)">' +
-        '<td style="padding:7px 8px;white-space:nowrap;font-weight:700">'+r.date+'</td>' +
-        '<td style="padding:7px 8px;text-align:right">'+(uber||'—')+'</td>' +
-        '<td style="padding:7px 8px;text-align:right">'+(t55688||'—')+'</td>' +
-        '<td style="padding:7px 8px;text-align:right">'+(metro||'—')+'</td>' +
-        '<td style="padding:7px 8px;text-align:right">'+(lingo||'—')+'</td>' +
-        '<td style="padding:7px 8px;text-align:right;color:var(--rd)">'+(fuel?fuel:'—')+'</td>' +
-        '<td style="padding:7px 8px;text-align:right">'+park+'</td>' +
-        '<td style="padding:7px 8px;text-align:right;font-weight:900;color:'+nc+'">'+net.toLocaleString('zh-TW')+'</td>' +
-      '</tr>';
+      var nbg=net>=0?'rgba(26,138,58,.07)':'rgba(204,34,34,.07)';
+      var platforms=[];
+      if(uber)   platforms.push('<span style="background:#000;color:#fff;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">Uber '+uber.toLocaleString('zh-TW')+'</span>');
+      if(t55688) platforms.push('<span style="background:#FFD700;color:#000;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">台灣大 '+t55688.toLocaleString('zh-TW')+'</span>');
+      if(metro)  platforms.push('<span style="background:#003F8A;color:#fff;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">大都會 '+metro.toLocaleString('zh-TW')+'</span>');
+      if(lingo)  platforms.push('<span style="background:#00C300;color:#fff;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">LINE GO '+lingo.toLocaleString('zh-TW')+'</span>');
+      if(bolt)   platforms.push('<span style="background:#34D186;color:#000;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">Bolt '+bolt.toLocaleString('zh-TW')+'</span>');
+      if(meter)  platforms.push('<span style="background:#888;color:#fff;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">車錶 '+meter.toLocaleString('zh-TW')+'</span>');
+      return '<div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:13px 14px;box-shadow:0 1px 4px rgba(0,0,0,.05)">' +
+        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">' +
+          '<div style="font-size:15px;font-weight:900;color:#2A2A2A">'+r.date+'</div>' +
+          '<div style="background:'+nbg+';border-radius:8px;padding:4px 12px;font-size:16px;font-weight:900;color:'+nc+'">NT$ '+net.toLocaleString('zh-TW')+'</div>' +
+        '</div>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px">'+(platforms.length?platforms.join(''):'<span style="font-size:12px;color:#aaa">無收入記錄</span>')+'</div>' +
+        '<div style="display:flex;gap:8px;font-size:12px;color:#888;border-top:1px solid var(--mid);padding-top:8px">' +
+          '<span>總收入 <b style="color:#2A2A2A">'+inc.toLocaleString('zh-TW')+'</b></span>' +
+          '<span style="color:var(--mid)">|</span>' +
+          (fuel?'<span style="color:var(--rd)">油 '+fuel+'</span><span style="color:var(--mid)">|</span>':'') +
+          '<span>停車 '+park+'</span>' +
+        '</div>' +
+      '</div>';
     }).join('');
-    document.getElementById('claude-summary').textContent = '共 '+data.length+' 天　總收入 NT$ '+totalInc.toLocaleString('zh-TW')+'　預估淨利 NT$ '+totalNet.toLocaleString('zh-TW');
+    var days=data.length;
+    document.getElementById('claude-summary').innerHTML =
+      '📅 共 <b>'+days+'</b> 天&emsp;' +
+      '💰 總收入 <b style="color:var(--gr)">NT$ '+totalInc.toLocaleString('zh-TW')+'</b><br>' +
+      '📊 預估淨利 <b style="color:'+(totalNet>=0?'var(--gr)':'var(--rd)')+'">NT$ '+totalNet.toLocaleString('zh-TW')+'</b>';
     document.getElementById('claude-preview-card').style.display='block';
     document.getElementById('claude-export-btns').style.display='block';
     document.getElementById('claude-success').style.display='none';
-    toast('✅ 解析成功，共 '+data.length+' 筆');
+    toast('✅ 解析成功，共 '+days+' 筆');
   } catch(e) { toast('❌ JSON 格式錯誤：'+e.message); }
 }
 function claudeExportExcel() {
