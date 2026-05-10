@@ -712,7 +712,7 @@ const CAL_EVT = {
   "2026-05-01":["🟡勞動節","💳國泰$18,628自扣"],
   "2026-05-04":["⛽中油Pay","🥛鮮奶","🎵管樂"],
   "2026-05-05":["📚德段考"],"2026-05-06":["🚗車貸自扣"],
-  "2026-05-08":["💳中信$12,619自扣"],"2026-05-11":["🎶管樂成果發表18:30"],
+  "2026-05-08":["💳中信$12,619自扣"],"2026-05-11":["🎶管樂成果發表18:30","🏠房屋稅繳費×4筆 NT$14,554"],
   "2026-05-12":["🎨萱畢業美展開幕"],"2026-05-27":["👗迪化街扮裝"],
   "2026-05-29":["🧸世貿玩具展"],"2026-05-31":["📋所得稅截止","🏠房屋稅截止"],
   "2026-06-06":["🚗車貸自扣"],"2026-06-19":["🐉端午節"],
@@ -1138,7 +1138,7 @@ const INIT_CC = [
   {id:3, bank:'union',  cycle:'月中21號截止', dueDay:21, autoDebit:true,  debitBank:'自動扣款', note:''},
   {id:4, bank:'taishin',cycle:'月初8號截止',  dueDay:8,  autoDebit:true,  debitBank:'自動扣款', note:''},
   {id:5, bank:'ctbc',   cycle:'月初8號截止',  dueDay:8,  autoDebit:true,  debitBank:'自動扣款', note:''},
-  {id:6, bank:'esun',   cycle:'月中12號截止', dueDay:12, autoDebit:true,  debitBank:'國泰自扣', note:''},
+  {id:6, bank:'esun',   cycle:'月中12號截止', dueDay:12, autoDebit:true,  debitBank:'國泰自扣', note:'已改國泰帳戶自動扣款'},
 ];
 
 let ccData = JSON.parse(localStorage.getItem('cc_data')||'null') || INIT_CC;
@@ -1326,9 +1326,9 @@ const FOCUS_ITEMS_INIT = [
   {id:'f01', cat:'💰 財務重點', catKey:'finance', sortDate:'05/01', text:'💳 國泰世華 $18,628 自動扣款',        note:'',                    badge:'fb-ok',  badgeText:'✅已扣',   initStatus:'done'},
   {id:'f02', cat:'💰 財務重點', catKey:'finance', sortDate:'05/06', text:'🚗 中租車貸 自動扣款（國泰銀行）',   note:'',                    badge:'fb-warn',badgeText:'⏳待確認',initStatus:'pending'},
   {id:'f03', cat:'💰 財務重點', catKey:'finance', sortDate:'05/08', text:'💳 中信信用卡 $12,619 自動扣款',    note:'',                    badge:'fb-warn',badgeText:'⏳待確認',initStatus:'pending'},
-  {id:'f04', cat:'💰 財務重點', catKey:'finance', sortDate:'05/12', text:'💳 玉山信用卡 $5,007（App/超商繳費）',note:'⚠️ 截止日',           badge:'fb-red', badgeText:'⚠️截止',  initStatus:'pending'},
+  {id:'f04', cat:'💰 財務重點', catKey:'finance', sortDate:'05/12', text:'💳 玉山信用卡 $5,007（國泰帳戶自動扣款）',note:'已改設自動扣款，截止日5/12',badge:'fb-ok', badgeText:'🔄自動',  initStatus:'doing'},
   {id:'f05', cat:'💰 財務重點', catKey:'finance', sortDate:'05/06', text:'💳 聯邦 $31,406（出帳後繳費）',     note:'',                    badge:'fb-warn',badgeText:'⏳待繳',  initStatus:'pending'},
-  {id:'f06', cat:'💰 財務重點', catKey:'finance', sortDate:'05/31', text:'📋 綜合所得稅申報截止 ＋ 🏠 房屋稅截止',note:'',              badge:'fb-red', badgeText:'⚠️截止',  initStatus:'pending'},
+  {id:'f06', cat:'💰 財務重點', catKey:'finance', sortDate:'05/31', text:'📋 綜合所得稅申報截止 ＋ 🏠 房屋稅截止',note:'🏠 房屋稅已繳 5/11 共$14,554（玉山卡9117）',              badge:'fb-ok', badgeText:'🏠部分✅',  initStatus:'doing'},
   // 醫療行程
   {id:'f10', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/09', text:'🦴 亞東骨科 陳文質醫師 H116 #37',  note:'',               badge:'fb-info',badgeText:'→月曆',initStatus:'done', apptDate:'2026-05-09'},
   {id:'f12', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/16', text:'🧠 亞東精神科 林竺君醫師 A901 #10', note:'建議08:50到診',  badge:'fb-info',badgeText:'→月曆',initStatus:'pending', apptDate:'2026-05-16'},
@@ -1581,9 +1581,14 @@ const EXP_SEED = [
   {id:'s041',date:'2026-05-01',cat:'💰 其他',amt:18628,pay:'國泰信用卡',note:'國泰信用卡卡費（自扣）'},
   {id:'s042',date:'2026-05-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
   {id:'s043',date:'2026-05-08',cat:'💰 其他',amt:12619,pay:'銀行自動扣款',note:'中信信用卡卡費'},
-  {id:'s044',date:'2026-05-12',cat:'💰 其他',amt:5007,pay:'玉山信用卡',note:'玉山卡費'},
+  {id:'s044',date:'2026-05-12',cat:'💰 其他',amt:5007,pay:'國泰帳戶自動扣款',note:'玉山卡費（已改自動扣款）'},
   {id:'s045',date:'2026-05-01',cat:'💻 3C/設備',amt:7450,pay:'',note:'訂閱服務'},
   {id:'s046',date:'2026-05-04',cat:'🚗 交通',amt:2000,pay:'',note:'停車費'},
+  // 五月 房屋稅（行動繳稅 2026/05/11）
+  {id:'s047',date:'2026-05-11',cat:'🏠 居住',amt:4128,pay:'玉山Unicard愛金卡9117',note:'房屋稅 行動繳稅 序號9487126423'},
+  {id:'s048',date:'2026-05-11',cat:'🏠 居住',amt:4028,pay:'玉山Unicard愛金卡9117',note:'房屋稅 行動繳稅 序號9487126448'},
+  {id:'s049',date:'2026-05-11',cat:'🏠 居住',amt:1814,pay:'玉山Unicard愛金卡9117',note:'房屋稅 行動繳稅 序號9487126457'},
+  {id:'s049b',date:'2026-05-11',cat:'🏠 居住',amt:4584,pay:'玉山Unicard愛金卡9117',note:'房屋稅 行動繳稅 序號9487126487'},
   // 六月（例行）
   {id:'s050',date:'2026-06-01',cat:'👨‍👩‍👧 家庭',amt:50000,pay:'',note:'老婆生活費'},
   {id:'s051',date:'2026-06-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
