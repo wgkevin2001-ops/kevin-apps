@@ -224,7 +224,6 @@ select option{background:#F5F0E8}
   <button class="tab" onclick="go('query')">🔍 查詢</button>
   <button class="tab" onclick="go('maint')">🔧 保養</button>
   <button class="tab" onclick="go('parttime')">💼 兼職</button>
-  <button class="tab" onclick="go('claude')">📸 匯入</button>
 </div>
 
 <!-- ══ 每日輸入 ══ -->
@@ -427,16 +426,6 @@ select option{background:#F5F0E8}
 <!-- ══ 審驗 ══ -->
 <div class="pane" id="pane-inspect">
 
-  <!-- 匯出按鈕列 -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-    <button onclick="inspectExportExcel()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 10px;background:var(--gr);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(26,138,58,.3);-webkit-tap-highlight-color:transparent">
-      <span style="font-size:20px">📊</span><span>匯出 Excel</span>
-    </button>
-    <button onclick="inspectExportPDF()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 10px;background:var(--rd);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(204,34,34,.3);-webkit-tap-highlight-color:transparent">
-      <span style="font-size:20px">📄</span><span>匯出 PDF</span>
-    </button>
-  </div>
-
   <div style="background:var(--card);border:1px solid rgba(180,140,60,.25);border-radius:12px;margin-bottom:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)">
     <button onclick="toggleSub('ins-expire')" style="width:100%;padding:15px 16px;background:var(--card);border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:inherit;-webkit-tap-highlight-color:transparent">
       <span style="font-size:15px;font-weight:700;color:var(--rd)">⏰ 審驗到期倒數</span>
@@ -497,12 +486,12 @@ select option{background:#F5F0E8}
 <div class="pane" id="pane-query">
 
   <!-- 匯出按鈕列 -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-    <button onclick="queryExportExcel()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 10px;background:var(--gr);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(26,138,58,.3);-webkit-tap-highlight-color:transparent">
-      <span style="font-size:20px">📊</span><span>匯出 Excel</span>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+    <button onclick="exportQueryExcel()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:#1A8A3A;color:#fff;border:none;border-radius:11px;font-family:inherit;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(26,138,58,.3);-webkit-tap-highlight-color:transparent">
+      <span style="font-size:22px">📊</span> 匯出 Excel
     </button>
-    <button onclick="queryExportPDF()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 10px;background:var(--rd);color:#fff;border:none;border-radius:12px;font-family:inherit;font-size:14px;font-weight:900;cursor:pointer;box-shadow:0 3px 10px rgba(204,34,34,.3);-webkit-tap-highlight-color:transparent">
-      <span style="font-size:20px">📄</span><span>匯出 PDF</span>
+    <button onclick="exportQueryPDF()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:#CC2222;color:#fff;border:none;border-radius:11px;font-family:inherit;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(204,34,34,.3);-webkit-tap-highlight-color:transparent">
+      <span style="font-size:22px">📄</span> 匯出 PDF
     </button>
   </div>
 
@@ -1269,149 +1258,6 @@ select option{background:#F5F0E8}
   <button onclick="document.getElementById('dl-bar').style.display='none'" style="background:rgba(255,255,255,.2);color:#fff;border:none;border-radius:8px;padding:8px 12px;font-size:13px;font-weight:700;cursor:pointer;margin-left:8px;-webkit-tap-highlight-color:transparent">✕</button>
 </div>
 
-<!-- ══ Claude 照片匯入 ══ -->
-<div class="pane" id="pane-claude">
-
-  <!-- 頂部標題列 -->
-  <div style="display:flex;align-items:center;gap:12px;background:var(--bl);border-radius:14px;padding:14px 16px;margin-bottom:14px">
-    <div style="font-size:32px;line-height:1">📸</div>
-    <div>
-      <div style="font-size:16px;font-weight:900;color:#fff">Claude 照片匯入</div>
-      <div style="font-size:12px;color:rgba(255,255,255,.7);margin-top:2px">截圖 → 辨識 → 一鍵匯入</div>
-    </div>
-  </div>
-
-  <!-- 子頁籤 -->
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:16px">
-    <button id="ctab-guide" onclick="switchCTab('guide')" style="padding:12px 6px;border:2px solid var(--bl);border-radius:11px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--bl);color:#fff;-webkit-tap-highlight-color:transparent;line-height:1.3">📖<br>教學</button>
-    <button id="ctab-prompt" onclick="switchCTab('prompt')" style="padding:12px 6px;border:2px solid var(--bdr);border-radius:11px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--card);color:#888;-webkit-tap-highlight-color:transparent;line-height:1.3">📋<br>指令</button>
-    <button id="ctab-import" onclick="switchCTab('import')" style="padding:12px 6px;border:2px solid var(--bdr);border-radius:11px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:var(--card);color:#888;-webkit-tap-highlight-color:transparent;line-height:1.3">📥<br>匯入</button>
-  </div>
-
-  <!-- 教學 -->
-  <div id="cpane-guide">
-    <div class="card">
-      <div class="slbl">🚀 操作流程</div>
-      <div style="display:flex;flex-direction:column;gap:0">
-
-        <div style="display:flex;gap:0;align-items:stretch;padding:14px 0;border-bottom:1px solid var(--mid)">
-          <div style="display:flex;flex-direction:column;align-items:center;margin-right:14px">
-            <div style="width:34px;height:34px;border-radius:50%;background:var(--bl);color:#fff;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">1</div>
-            <div style="flex:1;width:2px;background:rgba(26,110,168,.2);margin:4px 0"></div>
-          </div>
-          <div style="flex:1;padding-bottom:4px">
-            <div style="font-size:15px;font-weight:700;margin-bottom:5px">截各平台收入截圖</div>
-            <div style="display:flex;flex-wrap:wrap;gap:5px">
-              <span style="background:#000;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">Uber</span>
-              <span style="background:#FFD700;color:#000;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">台灣大</span>
-              <span style="background:#003F8A;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">大都會</span>
-              <span style="background:#00C300;color:#fff;border-radius:6px;padding:3px 8px;font-size:11px;font-weight:700">LINE GO</span>
-            </div>
-          </div>
-        </div>
-
-        <div style="display:flex;gap:0;align-items:stretch;padding:14px 0;border-bottom:1px solid var(--mid)">
-          <div style="display:flex;flex-direction:column;align-items:center;margin-right:14px">
-            <div style="width:34px;height:34px;border-radius:50%;background:var(--bl);color:#fff;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">2</div>
-            <div style="flex:1;width:2px;background:rgba(26,110,168,.2);margin:4px 0"></div>
-          </div>
-          <div style="flex:1;padding-bottom:4px">
-            <div style="font-size:15px;font-weight:700;margin-bottom:5px">複製指令 → 傳給 Claude</div>
-            <div style="font-size:13px;color:#666;line-height:1.6">到「📋 指令」頁複製指令，連同所有截圖一起傳給 claude.ai</div>
-            <button onclick="switchCTab('prompt')" style="margin-top:8px;padding:8px 16px;background:rgba(26,110,168,.1);border:1px solid rgba(26,110,168,.3);border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;color:var(--bl);cursor:pointer;-webkit-tap-highlight-color:transparent">前往複製指令 →</button>
-          </div>
-        </div>
-
-        <div style="display:flex;gap:0;align-items:flex-start;padding:14px 0">
-          <div style="display:flex;flex-direction:column;align-items:center;margin-right:14px">
-            <div style="width:34px;height:34px;border-radius:50%;background:var(--gr);color:#fff;font-size:15px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0">3</div>
-          </div>
-          <div style="flex:1">
-            <div style="font-size:15px;font-weight:700;margin-bottom:5px">貼上 JSON → 匯入</div>
-            <div style="font-size:13px;color:#666;line-height:1.6">把 Claude 回覆的 JSON 貼到「📥 匯入」頁，產生 Excel 後到記錄頁匯入</div>
-            <button onclick="switchCTab('import')" style="margin-top:8px;padding:8px 16px;background:rgba(26,138,58,.1);border:1px solid rgba(26,138,58,.3);border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;color:var(--gr);cursor:pointer;-webkit-tap-highlight-color:transparent">前往貼上匯入 →</button>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-  <!-- 指令 -->
-  <div id="cpane-prompt" style="display:none">
-    <div class="card">
-      <div class="slbl">📋 Claude 辨識指令</div>
-      <div style="background:#FFF8ED;border:1px solid rgba(184,118,10,.2);border-radius:10px;padding:12px;font-size:13px;color:#666;line-height:1.7;margin-bottom:14px">
-        📌 上傳截圖到 claude.ai，再貼上這段指令
-      </div>
-      <div id="claude-prompt-box" style="background:var(--mid);border:1px solid var(--bdr);border-radius:10px;padding:13px;font-size:11.5px;color:#2A2A2A;line-height:1.9;white-space:pre-wrap;font-family:monospace;word-break:break-all;margin-bottom:12px;max-height:260px;overflow-y:auto">請辨識以上所有截圖中的計程車收入資料，整理成以下 JSON 格式回覆：
-
-[
-  {
-    "date": "2026-05-07",
-    "uber": 913,
-    "t55688": 3129,
-    "metro": 485,
-    "lingo": 0,
-    "bolt": 0,
-    "meter": 0,
-    "other": 0,
-    "fuel": 0,
-    "park": 150,
-    "note": "來源：截圖辨識"
-  }
-]
-
-規則：
-- date 格式 YYYY-MM-DD
-- uber/t55688/metro/lingo/bolt 填各平台當日收入（沒有填 0）
-- fuel 油費（有加油截圖才填，否則填 0）
-- park 停車費預設 150
-- 同一天多張截圖請合併成一筆
-- 只回覆 JSON，不要其他說明文字</div>
-      <button class="btn bl" onclick="copyCPrompt()" style="font-size:17px;padding:16px">📋 一鍵複製指令</button>
-      <div style="text-align:center;font-size:12px;color:#aaa;margin-top:8px">複製後到 claude.ai 貼上，並上傳截圖</div>
-    </div>
-  </div>
-
-  <!-- 匯入 -->
-  <div id="cpane-import" style="display:none">
-
-    <!-- 貼上區 -->
-    <div class="card">
-      <div class="slbl">📥 貼入 JSON</div>
-      <div style="font-size:13px;color:#888;margin-bottom:10px">把 Claude 回覆的 JSON 貼到下方</div>
-      <textarea id="claude-json-input" style="width:100%;height:130px;font-size:12px;font-family:monospace;resize:none;background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:10px;color:#2A2A2A;padding:12px;outline:none;display:block;-webkit-appearance:none" placeholder='[{"date":"2026-05-07","uber":913,...}]'></textarea>
-      <button class="btn bl" onclick="claudeParseJSON()" style="margin-top:10px;font-size:16px;padding:15px">🔍 解析預覽</button>
-    </div>
-
-    <!-- 預覽卡片（手機版改成卡片列表）-->
-    <div id="claude-preview-card" style="display:none">
-      <div style="font-size:13px;font-weight:700;color:#888;margin:4px 0 8px;letter-spacing:.05em">📊 資料預覽</div>
-      <div id="claude-card-list" style="display:flex;flex-direction:column;gap:8px;margin-bottom:10px"></div>
-      <div id="claude-summary" style="padding:12px 14px;background:rgba(26,138,58,.08);border:1px solid rgba(26,138,58,.2);border-radius:10px;font-size:13px;color:#2A2A2A;font-weight:700;line-height:1.8"></div>
-    </div>
-
-    <!-- 匯出按鈕 -->
-    <div id="claude-export-btns" style="display:none;margin-top:12px">
-      <button class="btn gr" onclick="claudeExportExcel()" style="font-size:17px;padding:16px">📊 產生 Excel 並下載</button>
-      <div style="text-align:center;font-size:12px;color:#aaa;margin-top:6px;margin-bottom:4px">下載後 → 「📋 記錄」頁 → 📥 匯入 Excel</div>
-    </div>
-
-    <!-- 成功 -->
-    <div id="claude-success" style="display:none;background:rgba(26,138,58,.08);border:1px solid rgba(26,138,58,.2);border-radius:12px;padding:20px;text-align:center;margin-top:12px">
-      <div style="font-size:40px;margin-bottom:10px">✅</div>
-      <div style="font-size:17px;font-weight:900;color:var(--gr);margin-bottom:6px">Excel 已下載！</div>
-      <div style="font-size:13px;color:#666;margin-bottom:14px">前往「📋 記錄」頁<br>點「📥 匯入 Excel」選擇剛下載的檔案</div>
-      <button class="btn" style="background:var(--gr);color:#fff;font-size:16px;padding:14px" onclick="go('history')">前往記錄頁匯入 →</button>
-    </div>
-
-  </div>
-
-</div>
-
-</div>
-
 </div><!-- /main-wrap -->
 
 <div class="toast" id="toast"></div>
@@ -1848,6 +1694,407 @@ function exportJSON() {
   a.download = '計程車備份_' + today.toISOString().split('T')[0] + '.json'; a.click();
   toast('✅ JSON 已下載！');
 }
+// ── 查詢頁籤匯出 Excel ──
+function exportQueryExcel() {
+  var script = document.createElement('script');
+  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
+  script.onload = function() {
+    var wb = XLSX.utils.book_new();
+
+    // Sheet1：工會保單保障內容
+    var s1 = [
+      ['工會保單保障內容'],[''],
+      ['保單一｜團體福利意外保險（100元/月）'],
+      ['類別','項目','保障金額'],
+      ['身故失能','特定意外身故（含搭機）','300萬'],
+      ['身故失能','特定意外身故（陸海/火災地震）','200萬'],
+      ['身故失能','一般意外身故','100萬'],
+      ['身故失能','一般意外失能（依等級）','5～100萬'],
+      ['身故失能','重大燒燙傷（依等級）','15～100萬'],
+      ['意外醫療','住院日額（年最高120日）','1,000元/日'],
+      ['意外醫療','加護病房（年最高14日）','2,000元/日'],
+      ['意外醫療','意外醫療實支實付','10,000元'],
+      ['意外醫療','意外手術','2萬元'],
+      [''],
+      ['保單二｜專屬團保 A 計畫（本人300/眷屬200元/月）'],
+      ['險種','本人','配偶/子女'],
+      ['① 疾病身故（定期）','15萬','—'],
+      ['② 罹患重大疾病','2萬','2萬'],
+      ['③ 意外身故（傷害）','100萬','60萬'],
+      ['④ 疾病住院（年最高90日）','500元/日','500元/日'],
+      ['⑤ 傷害醫療實支實付','10,000','10,000'],
+      ['⑥ 意外住院（年最高90日）','500元/日','500元/日'],
+      ['⑦ 癌症住院（年最高90日）','500元/日','500元/日'],
+      ['手術治療金（非原位癌）','7,500','7,500'],
+      [''],
+      ['保單三｜互助保險福利專案（每年繳）'],
+      ['承辦：興華保險經紀人（友聯產險）｜(02)2331-8288'],
+      ['計畫','項目','保障'],
+      ['計畫一（一般會員）','癌症身故（等待60天）','1萬元'],
+      ['計畫一（一般會員）','意外身故','12萬元'],
+      ['計畫一（一般會員）','疾病/意外住院（最長365日）','300元/日'],
+      ['計畫一（一般會員）','加護病房（最長45日）','600元/日'],
+      ['計畫二（曾罹重大疾病）','意外身故','15萬元'],
+      ['計畫二（曾罹重大疾病）','意外住院（最長90日）','500元/日'],
+      ['計畫二（曾罹重大疾病）','加護/燒燙傷（最長45日）','1,500元/日'],
+      ['計畫二（曾罹重大疾病）','骨折未住院（最高1.5萬）','按程度給付'],
+    ];
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s1), '工會保單');
+
+    // Sheet2：工會繳費週期
+    var s2 = [
+      ['工會繳費週期與明細'],[''],
+      ['計程車公會勞健保（呈）'],
+      ['期別','總計'],
+      ['1月費總計（含年費/團保）','26,310元'],
+      ['4月總計','14,550元'],
+      ['7月份總計','14,550元'],
+      ['11月份總計','14,550元'],
+      [''],
+      ['明細項目','金額','說明'],
+      ['會費（整年一次，僅1月繳）','2,160元','僅1月'],
+      ['團保一：呈貝（300元/人）','7,200元','整年一次，僅1月'],
+      ['團保三：呈貝（100元/人）','2,400元','整年一次，僅1月'],
+      ['勞保費（29,500）','6,315元','每季（1/4/7/11月）'],
+      ['健保費－呈','2,745元','每季'],
+      ['健保費－德','2,745元','每季'],
+      ['健保費－宣','2,745元','每季'],
+      [''],
+      ['汽電工會勞健保（貝）'],
+      ['期別','總計'],
+      ['1月費總計','11,025元'],
+      ['4月總計','8,985元'],
+      ['7月份總計','8,985元'],
+      ['11月份總計','8,985元'],
+      [''],
+      ['明細項目','金額','說明'],
+      ['會費（整年一次，僅1月繳）','2,040元','僅1月'],
+      ['勞保費（29,500）','6,240元','每季'],
+      ['健保費','2,745元','每季'],
+      [''],
+      ['家庭合計（呈＋貝）'],
+      ['1月總計（含年費/團保）','37,335元',''],
+      ['4月總計','23,535元',''],
+      ['7月份總計','23,535元',''],
+      ['11月份總計','23,535元',''],
+      ['全年總計','107,940元',''],
+    ];
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s2), '工會繳費');
+
+    // Sheet3：廠商聯絡資訊
+    var s3 = [
+      ['廠商聯絡資訊'],[''],
+      ['廠商','煌舜汽車維修中心'],
+      ['服務項目','鈑金烤漆・底盤・冷氣・產險理賠'],
+      ['特約','產物保險特約店'],
+      ['理賠接待','王嘉綺'],
+      ['手機','0917-665-925'],
+      ['公司電話','02-8275-1229'],
+      ['地址','220 新北市板橋區板城路 89-3 號'],
+    ];
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s3), '廠商資訊');
+
+    // Sheet4：計程車常見違規罰款
+    var s4 = [
+      ['計程車常見違規罰款'],
+      ['依最新《道路交通管理處罰條例》（115年最新版）'],
+      ['一年累積12點→吊扣駕照2個月；累積6點→強制講習'],[''],
+      ['計程車司機專屬違規'],
+      ['違規項目','罰鍰（元）','備註'],
+      ['未辦執業登記即執業','1,500–3,600','再違規吊照'],
+      ['未按時辦理執業登記年度查驗','1,200','逾6月廢止登記'],
+      ['執業登記證未放指定插座或遮蔽','1,500','—'],
+      ['拒載乘客（無正當理由）','1,500–3,000','記點1'],
+      ['繞路詐財','3,000–6,000','吊照'],
+      ['計費表不用或以非合法計費表','3,000–6,000','吊照'],
+      ['計程車錶逾期未驗','15,000–75,000','⚠️ 高額'],
+      [''],
+      ['一般常見違規（司機也適用）'],
+      ['違規項目','罰鍰（元）','記點'],
+      ['闖紅燈','1,800–5,400','記點3'],
+      ['未禮讓行人（行穿線）','2,400–6,000','記點3'],
+      ['違規停車','600–2,400','依地點'],
+      ['超速（未達20km/h）','1,200–2,400','記點1'],
+      ['超速（20–40km/h）','1,800–3,600','記點1'],
+      ['超速（40km/h以上）','6,000–36,000','記點3'],
+      ['行駛中使用手機','3,000–6,000','記點3'],
+      ['未繫安全帶','1,500–3,000','記點1'],
+      ['強行超車或不依序行駛','600–1,800','記點1'],
+      ['違規迴轉','600–1,200','記點1'],
+      [''],
+      ['酒駕（零容忍）'],
+      ['血液酒精濃度 0.15–0.25 mg/L','15,000–90,000','吊照+記點'],
+      ['血液酒精濃度 0.25 mg/L 以上','90,000','吊照+刑責'],
+      [''],
+      ['違規記點重要提醒'],
+      ['記點期限：1年內累積計算'],
+      ['累積6點 → 強制自費參加道路安全講習'],
+      ['累積12點 → 吊扣駕照2個月'],
+      ['自費講習可抵點：每年最多2次，每次抵1點'],
+      ['逕行舉發（未當場取締）不記點'],
+    ];
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s4), '違規罰款');
+
+    // Sheet5：道路救援
+    var s5 = [
+      ['道路救援'],
+      ['事故現場先撥 110（警察）或 119（救護）'],
+      ['國道高速公路故障 → 先撥保險公司申告，再由拖吊公司處理'],
+      ['車牌：TDZ-0950｜車身號碼：2ZRX706989'],[''],
+      ['你的保單道路救援（優先撥打）'],
+      ['保險公司','新安東京海上（第三責任險）'],
+      ['保險期間','115/05/03–116/05/03'],
+      ['客服/道路救援','0800-050-119（免費，24H）'],
+      ['限制','每事故限1次，同天限1次，台灣本島適用'],
+      [''],
+      ['保險公司','富邦產物保險（強制責任險）'],
+      ['保險期間','115/04/25–116/04/25'],
+      ['理賠/道路救援','0800-009-888（免費，24H）'],
+      [''],
+      ['道路救援業者'],
+      ['業者','電話','備註'],
+      ['全鋒道路救援','0800-013-013（按1拖吊）','富邦指定業者'],
+      ['全鋒客服','0800-010-010','24H'],
+      ['行遍天下道路救援','0800-071-111','富邦指定業者，24H'],
+      [''],
+      ['緊急聯絡電話'],
+      ['警察報案','110',''],
+      ['救護車','119',''],
+      ['國道救援','1968',''],
+      ['台電停電','0800-066-666',''],
+      [''],
+      ['注意事項'],
+      ['車內載客時，保險業者不提供免費道路救援（僅限空車）'],
+      ['使用前先打保險公司申告，不得自行叫拖吊後再請求退費'],
+      ['同一天同一服務項目限1次，超過自付費用'],
+      ['國道：先電保險公司申告 → 記下申告編號 → 再讓高公局拖吊'],
+    ];
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s5), '道路救援');
+
+    // Sheet6：第三責任險
+    var s6 = [
+      ['第三責任險保單資料'],[''],
+      ['保險公司','新安東京海上產物保險'],
+      ['保單號碼','17000 第15V9005830號'],
+      ['被保險人','青宮交通（王介呈）'],
+      ['要保人','王介呈'],
+      ['保險期間','115/05/03 → 116/05/03'],
+      ['車牌號碼','TDZ-0950'],
+      ['車種','15 計程車'],
+      ['廠牌車型','國瑞 09116100'],
+      ['引擎/車身號碼','2ZRX706989'],
+      ['排氣量','1798 CC'],
+      ['製造年份','西元 2020 年'],
+      ['乘載數','5.0 人'],
+      [''],
+      ['承保內容'],
+      ['險種','保險金額','自負額','保費'],
+    ];
+    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s6), '第三責任險');
+
+    XLSX.writeFile(wb, '計程車查詢資料_' + new Date().toISOString().split('T')[0] + '.xlsx');
+    toast('✅ Excel 已匯出！共 6 個工作表');
+  };
+  document.head.appendChild(script);
+}
+
+// ── 查詢頁籤匯出 PDF ──
+function exportQueryPDF() {
+  var printWin = window.open('', '_blank');
+  if (!printWin) { toast('⚠️ 請允許彈出視窗後重試'); return; }
+
+  var html = '<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8">' +
+  '<title>計程車查詢資料</title>' +
+  '<style>' +
+  'body{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;font-size:12px;color:#2A2A2A;margin:0;padding:20px;background:#fff}' +
+  'h1{font-size:18px;font-weight:900;color:#B8760A;border-bottom:2px solid #B8760A;padding-bottom:8px;margin-bottom:16px}' +
+  'h2{font-size:14px;font-weight:900;color:#B8760A;margin:16px 0 8px;padding:6px 10px;background:#FFF8ED;border-left:3px solid #B8760A;border-radius:0 4px 4px 0}' +
+  'h3{font-size:12px;font-weight:700;color:#444;margin:10px 0 5px}' +
+  'table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:11px}' +
+  'th{background:#F0EDE8;font-weight:700;padding:5px 8px;border:1px solid #ddd;text-align:left}' +
+  'td{padding:4px 8px;border:1px solid #eee;vertical-align:top}' +
+  'tr:nth-child(even) td{background:#FAFAF8}' +
+  '.red{color:#CC2222;font-weight:700}.blue{color:#1A6EA8;font-weight:700}.green{color:#1A8A3A;font-weight:700}.gold{color:#B8760A;font-weight:700}' +
+  '.note{background:#FFF8ED;border:1px solid rgba(180,120,10,.25);border-radius:4px;padding:8px 10px;font-size:11px;color:#666;margin:8px 0;line-height:1.8}' +
+  '.sect{page-break-inside:avoid}' +
+  '@media print{body{padding:10px}h1{font-size:15px}h2{font-size:12px}}' +
+  '</style></head><body>' +
+  '<h1>🚕 計程車查詢資料彙整</h1>' +
+  '<div style="font-size:10px;color:#aaa;margin-bottom:16px">匯出日期：' + new Date().toLocaleDateString('zh-TW') + '｜TDZ-0950</div>' +
+
+  // 工會保單
+  '<div class="sect"><h2>🏥 工會保單保障內容</h2>' +
+  '<h3>保單一｜團體福利意外保險（100元/月）— 方案3.3-24，意外事故適用</h3>' +
+  '<table><tr><th>類別</th><th>項目</th><th>保障金額</th></tr>' +
+  '<tr><td>身故失能</td><td>特定意外身故（含搭機）</td><td class="red">300萬</td></tr>' +
+  '<tr><td>身故失能</td><td>特定意外身故（陸海/火災地震）</td><td class="red">200萬</td></tr>' +
+  '<tr><td>身故失能</td><td>一般意外身故</td><td class="red">100萬</td></tr>' +
+  '<tr><td>身故失能</td><td>一般意外失能（依等級）</td><td>5～100萬</td></tr>' +
+  '<tr><td>身故失能</td><td>重大燒燙傷（依等級）</td><td>15～100萬</td></tr>' +
+  '<tr><td>意外醫療</td><td>住院日額（年最高120日）</td><td>1,000元/日</td></tr>' +
+  '<tr><td>意外醫療</td><td>加護病房（年最高14日）</td><td>2,000元/日</td></tr>' +
+  '<tr><td>意外醫療</td><td>意外醫療實支實付</td><td>10,000元</td></tr>' +
+  '<tr><td>意外醫療</td><td>意外手術</td><td>2萬元</td></tr>' +
+  '</table>' +
+
+  '<h3>保單二｜專屬團保 A 計畫（本人300/眷屬200元/月）— 生效112.03.01</h3>' +
+  '<table><tr><th>險種</th><th>本人</th><th>配偶/子女</th></tr>' +
+  '<tr><td>① 疾病身故（定期）</td><td class="blue">15萬</td><td style="color:#aaa">—</td></tr>' +
+  '<tr><td>② 罹患重大疾病</td><td class="blue">2萬</td><td>2萬</td></tr>' +
+  '<tr><td>③ 意外身故（傷害）</td><td class="blue">100萬</td><td>60萬</td></tr>' +
+  '<tr><td>④ 疾病住院（年最高90日）</td><td class="blue">500元/日</td><td>500元/日</td></tr>' +
+  '<tr><td>⑤ 傷害醫療實支實付</td><td class="blue">10,000</td><td>10,000</td></tr>' +
+  '<tr><td>⑥ 意外住院（年最高90日）</td><td class="blue">500元/日</td><td>500元/日</td></tr>' +
+  '<tr><td>⑦ 癌症住院（年最高90日）</td><td class="blue">500元/日</td><td>500元/日</td></tr>' +
+  '<tr><td>手術治療金（非原位癌）</td><td class="blue">7,500</td><td>7,500</td></tr>' +
+  '</table>' +
+
+  '<h3>保單三｜互助保險福利專案（每年繳）— 承辦：興華保險經紀人 (02)2331-8288</h3>' +
+  '<table><tr><th>計畫</th><th>項目</th><th>保障</th></tr>' +
+  '<tr><td rowspan="4">計畫一<br>一般會員</td><td>癌症身故（等待60天）</td><td>1萬元</td></tr>' +
+  '<tr><td>意外身故</td><td>12萬元</td></tr>' +
+  '<tr><td>疾病/意外住院（最長365日）</td><td>300元/日</td></tr>' +
+  '<tr><td>加護病房（最長45日）</td><td>600元/日</td></tr>' +
+  '<tr><td rowspan="4">計畫二<br>曾罹重大疾病</td><td>意外身故</td><td>15萬元</td></tr>' +
+  '<tr><td>意外住院（最長90日）</td><td>500元/日</td></tr>' +
+  '<tr><td>加護/燒燙傷（最長45日）</td><td>1,500元/日</td></tr>' +
+  '<tr><td>骨折未住院（最高1.5萬）</td><td>按程度給付</td></tr>' +
+  '</table></div>' +
+
+  // 工會繳費
+  '<div class="sect"><h2>💰 工會繳費週期與明細</h2>' +
+  '<h3>🚕 計程車公會勞健保（呈）</h3>' +
+  '<table><tr><th>期別</th><th>總計</th></tr>' +
+  '<tr><td>1月費總計（含年費/團保）</td><td class="blue">26,310元</td></tr>' +
+  '<tr><td>4月總計</td><td class="blue">14,550元</td></tr>' +
+  '<tr><td>7月份總計</td><td class="blue">14,550元</td></tr>' +
+  '<tr><td>11月份總計</td><td class="blue">14,550元</td></tr>' +
+  '</table>' +
+  '<table><tr><th>明細項目</th><th>金額</th><th>說明</th></tr>' +
+  '<tr style="background:#FFF8ED"><td>會費（整年一次，僅1月繳）</td><td>2,160元</td><td>僅1月</td></tr>' +
+  '<tr style="background:#FFF8ED"><td>團保一：呈貝（300元/人）</td><td>7,200元</td><td>整年一次，僅1月</td></tr>' +
+  '<tr style="background:#FFF8ED"><td>團保三：呈貝（100元/人）</td><td>2,400元</td><td>整年一次，僅1月</td></tr>' +
+  '<tr><td>勞保費（29,500）</td><td class="blue">6,315元</td><td>每季（1/4/7/11月）</td></tr>' +
+  '<tr><td>健保費－呈</td><td class="green">2,745元</td><td>每季</td></tr>' +
+  '<tr><td>健保費－德</td><td class="green">2,745元</td><td>每季</td></tr>' +
+  '<tr><td>健保費－宣</td><td class="green">2,745元</td><td>每季</td></tr>' +
+  '</table>' +
+  '<h3>👩 汽電工會勞健保（貝）</h3>' +
+  '<table><tr><th>期別</th><th>總計</th></tr>' +
+  '<tr><td>1月費總計</td><td style="color:#E07090;font-weight:700">11,025元</td></tr>' +
+  '<tr><td>4月總計</td><td style="color:#E07090;font-weight:700">8,985元</td></tr>' +
+  '<tr><td>7月份總計</td><td style="color:#E07090;font-weight:700">8,985元</td></tr>' +
+  '<tr><td>11月份總計</td><td style="color:#E07090;font-weight:700">8,985元</td></tr>' +
+  '</table>' +
+  '<table><tr><th>明細項目</th><th>金額</th><th>說明</th></tr>' +
+  '<tr style="background:#FFF8ED"><td>會費（整年一次，僅1月繳）</td><td>2,040元</td><td>僅1月</td></tr>' +
+  '<tr><td>勞保費（29,500）</td><td class="blue">6,240元</td><td>每季</td></tr>' +
+  '<tr><td>健保費</td><td class="green">2,745元</td><td>每季</td></tr>' +
+  '</table>' +
+  '<h3>📊 家庭合計（呈＋貝）</h3>' +
+  '<table><tr><th>期別</th><th>總計</th></tr>' +
+  '<tr><td>1月總計（含年費/團保）</td><td class="gold">37,335元</td></tr>' +
+  '<tr><td>4月總計</td><td class="gold">23,535元</td></tr>' +
+  '<tr><td>7月份總計</td><td class="gold">23,535元</td></tr>' +
+  '<tr><td>11月份總計</td><td class="gold">23,535元</td></tr>' +
+  '<tr><td><b>全年總計</b></td><td class="gold" style="font-size:13px;font-weight:900">107,940元</td></tr>' +
+  '</table></div>' +
+
+  // 廠商資訊
+  '<div class="sect"><h2>🔧 廠商聯絡資訊</h2>' +
+  '<table><tr><th>廠商</th><th>煌舜汽車維修中心</th></tr>' +
+  '<tr><td>服務項目</td><td>鈑金烤漆・底盤・冷氣・產險理賠</td></tr>' +
+  '<tr><td>特約</td><td>產物保險特約店</td></tr>' +
+  '<tr><td>理賠接待</td><td><b>王嘉綺</b></td></tr>' +
+  '<tr><td>手機</td><td>0917-665-925</td></tr>' +
+  '<tr><td>公司電話</td><td>02-8275-1229</td></tr>' +
+  '<tr><td>地址</td><td>220 新北市板橋區板城路 89-3 號</td></tr>' +
+  '</table></div>' +
+
+  // 違規罰款
+  '<div class="sect"><h2>⚠️ 計程車常見違規罰款</h2>' +
+  '<div class="note">⚠️ 依最新《道路交通管理處罰條例》（115年最新版）<br>📌 有未結清罰鍰 → 無法辦理審驗<br>📌 一年累積12點→吊扣駕照2個月｜累積6點→強制參加講習</div>' +
+  '<h3>🚕 計程車司機專屬違規</h3>' +
+  '<table><tr><th>違規項目</th><th>罰鍰（元）</th><th>備註</th></tr>' +
+  '<tr><td>未辦執業登記即執業</td><td class="red">1,500–3,600</td><td>再違規吊照</td></tr>' +
+  '<tr><td>未按時辦理執業登記年度查驗</td><td class="red">1,200</td><td>逾6月廢止登記</td></tr>' +
+  '<tr><td>執業登記證未放指定插座或遮蔽</td><td class="red">1,500</td><td>—</td></tr>' +
+  '<tr><td>拒載乘客（無正當理由）</td><td class="red">1,500–3,000</td><td>記點1</td></tr>' +
+  '<tr><td>繞路詐財</td><td class="red">3,000–6,000</td><td>吊照</td></tr>' +
+  '<tr><td>計費表不用或以非合法計費表</td><td class="red">3,000–6,000</td><td>吊照</td></tr>' +
+  '<tr><td>計程車錶逾期未驗</td><td class="red" style="background:rgba(204,34,34,.08)">15,000–75,000</td><td class="red">⚠️ 高額</td></tr>' +
+  '</table>' +
+  '<h3>🚗 一般常見違規</h3>' +
+  '<table><tr><th>違規項目</th><th>罰鍰（元）</th><th>記點</th></tr>' +
+  '<tr><td>闖紅燈</td><td class="red">1,800–5,400</td><td>記點3</td></tr>' +
+  '<tr><td>未禮讓行人（行穿線）</td><td class="red">2,400–6,000</td><td>記點3</td></tr>' +
+  '<tr><td>違規停車</td><td class="red">600–2,400</td><td>依地點</td></tr>' +
+  '<tr><td>超速（未達20km/h）</td><td class="red">1,200–2,400</td><td>記點1</td></tr>' +
+  '<tr><td>超速（20–40km/h）</td><td class="red">1,800–3,600</td><td>記點1</td></tr>' +
+  '<tr><td>超速（40km/h以上）</td><td class="red" style="background:rgba(204,34,34,.08)">6,000–36,000</td><td class="red">記點3</td></tr>' +
+  '<tr><td>行駛中使用手機</td><td class="red">3,000–6,000</td><td>記點3</td></tr>' +
+  '<tr><td>未繫安全帶</td><td class="red">1,500–3,000</td><td>記點1</td></tr>' +
+  '<tr><td>強行超車或不依序行駛</td><td class="red">600–1,800</td><td>記點1</td></tr>' +
+  '<tr><td>違規迴轉</td><td class="red">600–1,200</td><td>記點1</td></tr>' +
+  '</table>' +
+  '<h3>🍺 酒駕（零容忍）</h3>' +
+  '<table><tr><th>違規項目</th><th>罰鍰（元）</th><th>備註</th></tr>' +
+  '<tr style="background:rgba(204,34,34,.06)"><td>血液酒精濃度 0.15–0.25 mg/L</td><td class="red">15,000–90,000</td><td>吊照+記點</td></tr>' +
+  '<tr style="background:rgba(204,34,34,.1)"><td>血液酒精濃度 0.25 mg/L 以上</td><td class="red">90,000</td><td>吊照+刑責</td></tr>' +
+  '</table>' +
+  '<div class="note">📊 違規記點重要提醒<br>• 記點期限：1年內累積計算<br>• 累積6點 → 強制自費參加道路安全講習<br>• 累積12點 → 吊扣駕照2個月<br>• 自費講習可抵點：每年最多2次，每次抵1點<br>• 逕行舉發（未當場取締）不記點</div></div>' +
+
+  // 道路救援
+  '<div class="sect"><h2>🆘 道路救援</h2>' +
+  '<div class="note" style="border-color:rgba(204,34,34,.3);background:#FFF3F3">🚨 <b>事故現場先撥 110（警察）或 119（救護）</b><br>⚠️ 國道高速公路故障 → 先撥保險公司申告，再由拖吊公司處理<br>📌 TDZ-0950｜車身號碼：2ZRX706989</div>' +
+  '<h3>🛡️ 你的保單道路救援（優先撥打）</h3>' +
+  '<table><tr><th>保險公司</th><th>電話</th><th>說明</th></tr>' +
+  '<tr><td><b>新安東京海上</b><br><span style="color:#888;font-size:10px">第三責任險 115/05/03–116/05/03</span></td><td class="blue">0800-050-119</td><td>24H 免費｜每事故限1次</td></tr>' +
+  '<tr><td><b>富邦產物保險</b><br><span style="color:#888;font-size:10px">強制責任險 115/04/25–116/04/25</span></td><td class="red">0800-009-888</td><td>24H 免費</td></tr>' +
+  '</table>' +
+  '<h3>🔧 道路救援業者（自費或保險指定）</h3>' +
+  '<table><tr><th>業者</th><th>電話</th><th>備註</th></tr>' +
+  '<tr><td>全鋒道路救援</td><td>0800-013-013（按1拖吊）</td><td>富邦指定</td></tr>' +
+  '<tr><td>全鋒客服</td><td>0800-010-010</td><td>24H</td></tr>' +
+  '<tr><td>行遍天下道路救援</td><td>0800-071-111</td><td>富邦指定，24H</td></tr>' +
+  '</table>' +
+  '<h3>🚨 緊急聯絡電話</h3>' +
+  '<table><tr><th>用途</th><th>電話</th></tr>' +
+  '<tr><td>警察報案</td><td><b>110</b></td></tr>' +
+  '<tr><td>救護車</td><td><b>119</b></td></tr>' +
+  '<tr><td>國道救援</td><td><b>1968</b></td></tr>' +
+  '<tr><td>台電停電</td><td>0800-066-666</td></tr>' +
+  '</table>' +
+  '<div class="note">⚠️ 注意事項<br>• 車內載客時，保險業者不提供免費道路救援（僅限空車）<br>• 使用前先打保險公司申告，不得自行叫拖吊後再請求退費<br>• 同一天同一服務項目限1次，超過自付費用<br>• 國道：先電保險公司申告 → 記下申告編號 → 再讓高公局拖吊</div></div>' +
+
+  // 第三責任險
+  '<div class="sect"><h2>📄 第三責任險</h2>' +
+  '<table><tr><th>項目</th><th>內容</th></tr>' +
+  '<tr><td>保險公司</td><td>新安東京海上產物保險</td></tr>' +
+  '<tr><td>保單號碼</td><td>17000 第15V9005830號</td></tr>' +
+  '<tr><td>被保險人</td><td>青宮交通（王介呈）</td></tr>' +
+  '<tr><td>要保人</td><td>王介呈</td></tr>' +
+  '<tr><td>保險期間</td><td class="red">115/05/03 → 116/05/03</td></tr>' +
+  '<tr><td>車牌號碼</td><td class="gold">TDZ-0950</td></tr>' +
+  '<tr><td>車種</td><td>15 計程車</td></tr>' +
+  '<tr><td>廠牌車型</td><td>國瑞 09116100</td></tr>' +
+  '<tr><td>引擎/車身號碼</td><td>2ZRX706989</td></tr>' +
+  '<tr><td>排氣量</td><td>1798 CC</td></tr>' +
+  '<tr><td>製造年份</td><td>西元 2020 年</td></tr>' +
+  '<tr><td>乘載數</td><td>5.0 人</td></tr>' +
+  '</table>' +
+  '<div style="margin-top:8px;font-size:11px;color:#aaa">客服：0800-050-119（新安東京海上，24H）</div>' +
+  '</div>' +
+
+  '<div style="margin-top:20px;border-top:1px solid #eee;padding-top:10px;font-size:10px;color:#aaa;text-align:center">計程車營收彙總表 · TDZ-0950 · 匯出日期：' + new Date().toLocaleDateString('zh-TW') + '</div>' +
+  '<script>window.onload=function(){window.print();}<\/script>' +
+  '</body></html>';
+
+  printWin.document.write(html);
+  printWin.document.close();
+  toast('✅ PDF 預覽已開啟，請選擇「另存為 PDF」');
+}
+
 function doImportJSON() {
   var txt = document.getElementById('import-box').querySelector('textarea').value.trim();
   if (!txt) { toast('⚠️ 請先貼上 JSON'); return; }
@@ -2476,322 +2723,6 @@ function toggleMonth(el){
     arrow.innerText='▶';
   }
 }
-
-// ══ Claude 照片匯入 ══
-var _claudeParsed = [];
-function switchCTab(tab) {
-  ['guide','prompt','import'].forEach(function(t){
-    var btn = document.getElementById('ctab-' + t);
-    var pane = document.getElementById('cpane-' + t);
-    if (btn) {
-      btn.style.background = t===tab ? 'var(--bl)' : 'var(--card)';
-      btn.style.color = t===tab ? '#fff' : '#888';
-      btn.style.borderColor = t===tab ? 'var(--bl)' : 'var(--bdr)';
-    }
-    if (pane) pane.style.display = t===tab ? 'block' : 'none';
-  });
-}
-function copyCPrompt() {
-  var text = document.getElementById('claude-prompt-box').innerText;
-  if (navigator.clipboard) { navigator.clipboard.writeText(text).then(function(){ toast('✅ 指令已複製！貼到 Claude 對話框'); }); }
-  else { var ta=document.createElement('textarea'); ta.value=text; document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta); toast('✅ 指令已複製！'); }
-}
-function claudeParseJSON() {
-  var raw = document.getElementById('claude-json-input').value.trim();
-  if (!raw) { toast('⚠️ 請先貼入 JSON'); return; }
-  raw = raw.replace(/```json/g,'').replace(/```/g,'').trim();
-  try {
-    var data = JSON.parse(raw);
-    if (!Array.isArray(data)||data.length===0) throw new Error('需要陣列格式');
-    _claudeParsed = data;
-    var list = document.getElementById('claude-card-list');
-    var totalInc=0, totalNet=0;
-    // 手機版卡片列表（每天一張卡）
-    list.innerHTML = data.map(function(r){
-      var uber=Number(r.uber)||0, t55688=Number(r.t55688)||0, metro=Number(r.metro)||0;
-      var lingo=Number(r.lingo)||0, bolt=Number(r.bolt)||0, meter=Number(r.meter)||0, other=Number(r.other)||0;
-      var fuel=Number(r.fuel)||0, park=Number(r.park)||150;
-      var inc=uber+t55688+metro+lingo+bolt+meter+other; var net=inc-fuel-park;
-      totalInc+=inc; totalNet+=net;
-      var nc=net>=0?'var(--gr)':'var(--rd)';
-      var nbg=net>=0?'rgba(26,138,58,.07)':'rgba(204,34,34,.07)';
-      var platforms=[];
-      if(uber)   platforms.push('<span style="background:#000;color:#fff;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">Uber '+uber.toLocaleString('zh-TW')+'</span>');
-      if(t55688) platforms.push('<span style="background:#FFD700;color:#000;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">台灣大 '+t55688.toLocaleString('zh-TW')+'</span>');
-      if(metro)  platforms.push('<span style="background:#003F8A;color:#fff;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">大都會 '+metro.toLocaleString('zh-TW')+'</span>');
-      if(lingo)  platforms.push('<span style="background:#00C300;color:#fff;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">LINE GO '+lingo.toLocaleString('zh-TW')+'</span>');
-      if(bolt)   platforms.push('<span style="background:#34D186;color:#000;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">Bolt '+bolt.toLocaleString('zh-TW')+'</span>');
-      if(meter)  platforms.push('<span style="background:#888;color:#fff;border-radius:5px;padding:2px 7px;font-size:11px;font-weight:700">車錶 '+meter.toLocaleString('zh-TW')+'</span>');
-      return '<div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:13px 14px;box-shadow:0 1px 4px rgba(0,0,0,.05)">' +
-        '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:9px">' +
-          '<div style="font-size:15px;font-weight:900;color:#2A2A2A">'+r.date+'</div>' +
-          '<div style="background:'+nbg+';border-radius:8px;padding:4px 12px;font-size:16px;font-weight:900;color:'+nc+'">NT$ '+net.toLocaleString('zh-TW')+'</div>' +
-        '</div>' +
-        '<div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:9px">'+(platforms.length?platforms.join(''):'<span style="font-size:12px;color:#aaa">無收入記錄</span>')+'</div>' +
-        '<div style="display:flex;gap:8px;font-size:12px;color:#888;border-top:1px solid var(--mid);padding-top:8px">' +
-          '<span>總收入 <b style="color:#2A2A2A">'+inc.toLocaleString('zh-TW')+'</b></span>' +
-          '<span style="color:var(--mid)">|</span>' +
-          (fuel?'<span style="color:var(--rd)">油 '+fuel+'</span><span style="color:var(--mid)">|</span>':'') +
-          '<span>停車 '+park+'</span>' +
-        '</div>' +
-      '</div>';
-    }).join('');
-    var days=data.length;
-    document.getElementById('claude-summary').innerHTML =
-      '📅 共 <b>'+days+'</b> 天&emsp;' +
-      '💰 總收入 <b style="color:var(--gr)">NT$ '+totalInc.toLocaleString('zh-TW')+'</b><br>' +
-      '📊 預估淨利 <b style="color:'+(totalNet>=0?'var(--gr)':'var(--rd)')+'">NT$ '+totalNet.toLocaleString('zh-TW')+'</b>';
-    document.getElementById('claude-preview-card').style.display='block';
-    document.getElementById('claude-export-btns').style.display='block';
-    document.getElementById('claude-success').style.display='none';
-    toast('✅ 解析成功，共 '+days+' 筆');
-  } catch(e) { toast('❌ JSON 格式錯誤：'+e.message); }
-}
-function claudeExportExcel() {
-  if (!_claudeParsed.length) { toast('⚠️ 沒有資料'); return; }
-  function doEx() {
-    var headers=['日期','車錶','Uber','Bolt車隊','55688','大都會','Line Go','熊貓','Uber Eats','其他','總收入','油費','停車費','手續費','其他支出','總支出','淨利','備註'];
-    var rows=[headers];
-    _claudeParsed.forEach(function(r){
-      var uber=Number(r.uber)||0, t55688=Number(r.t55688)||0, metro=Number(r.metro)||0;
-      var lingo=Number(r.lingo)||0, bolt=Number(r.bolt)||0, meter=Number(r.meter)||0, other=Number(r.other)||0;
-      var fuel=Number(r.fuel)||0, park=Number(r.park)||150;
-      var inc=meter+uber+bolt+t55688+metro+lingo+other; var exp=fuel+park;
-      rows.push([r.date,meter,uber,bolt,t55688,metro,lingo,0,0,other,inc,fuel,park,0,0,exp,inc-exp,r.note||'Claude照片匯入']);
-    });
-    var wb=XLSX.utils.book_new();
-    var ws=XLSX.utils.aoa_to_sheet(rows);
-    ws['!cols']=[{wch:12},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:8},{wch:7},{wch:7},{wch:7},{wch:7},{wch:7},{wch:8},{wch:20}];
-    XLSX.utils.book_append_sheet(wb,ws,'每日記錄');
-    var d=new Date().toISOString().split('T')[0];
-    XLSX.writeFile(wb,'計程車收入_'+d+'.xlsx');
-    document.getElementById('claude-success').style.display='block';
-    toast('✅ Excel 下載成功！');
-  }
-  if (window.XLSX) { doEx(); return; }
-  var s=document.createElement('script'); s.src='https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js'; s.onload=doEx; document.head.appendChild(s);
-}
-
-
-// ── 審驗匯出 Excel ──
-function inspectExportExcel() {
-  function doEx() {
-    var now = new Date(); now.setHours(0,0,0,0);
-    var headers = ['項目','到期日','頻率','距到期(天)','狀態','應備文件','備註','辦理地點'];
-    var rows = [headers];
-    INSPS.forEach(function(ins) {
-      var exp = new Date(ins.exp + 'T00:00:00');
-      var diff = Math.round((exp - now) / 86400000);
-      var status = diff <= 0 ? '已過期' : diff <= 30 ? '⚠️ 緊急' : diff <= 60 ? '⚠️ 注意' : '✅ 正常';
-      rows.push([ins.name, ins.exp, ins.freq, diff, status, ins.docs.join('、'), ins.note, ins.loc]);
-    });
-    var wb = XLSX.utils.book_new();
-    var ws = XLSX.utils.aoa_to_sheet(rows);
-    ws['!cols'] = [{wch:20},{wch:12},{wch:10},{wch:12},{wch:8},{wch:30},{wch:35},{wch:25}];
-    // 凍結首列
-    ws['!freeze'] = {xSplit:0, ySplit:1};
-    XLSX.utils.book_append_sheet(wb, ws, '審驗到期總覽');
-    var d = new Date().toISOString().split('T')[0];
-    XLSX.writeFile(wb, '審驗資料_TDZ-0950_' + d + '.xlsx');
-    toast('✅ Excel 已下載！');
-  }
-  if (window.XLSX) { doEx(); return; }
-  var s = document.createElement('script');
-  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
-  s.onload = doEx; document.head.appendChild(s);
-}
-
-// ── 審驗匯出 PDF（列印版）──
-function inspectExportPDF() {
-  var now = new Date(); now.setHours(0,0,0,0);
-  var rows = INSPS.map(function(ins) {
-    var exp = new Date(ins.exp + 'T00:00:00');
-    var diff = Math.round((exp - now) / 86400000);
-    var color = diff <= 0 ? '#CC2222' : diff <= 30 ? '#B8760A' : diff <= 60 ? '#B8760A' : '#1A8A3A';
-    var label = diff <= 0 ? '已過期 '+Math.abs(diff)+' 天' : diff+' 天後到期';
-    var bg = diff <= 0 ? '#FFF0F0' : diff <= 60 ? '#FFFBF0' : '#F0FFF4';
-    return '<tr style="background:'+bg+'">' +
-      '<td style="padding:10px 12px;font-weight:700;font-size:14px">'+ins.name+'</td>' +
-      '<td style="padding:10px 12px;text-align:center;font-size:13px">'+ins.exp+'</td>' +
-      '<td style="padding:10px 12px;text-align:center;font-size:13px">'+ins.freq+'</td>' +
-      '<td style="padding:10px 12px;text-align:center;font-weight:900;color:'+color+';font-size:14px">'+label+'</td>' +
-      '<td style="padding:10px 12px;font-size:12px;color:#555">'+ins.docs.join('<br>')+'</td>' +
-      '<td style="padding:10px 12px;font-size:12px;color:#777">'+ins.note+'</td>' +
-    '</tr>';
-  }).join('');
-
-  var printWin = window.open('', '_blank');
-  printWin.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8">'+
-    '<title>審驗資料 TDZ-0950</title>'+
-    '<style>'+
-      'body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;padding:20px;color:#2A2A2A;font-size:14px}'+
-      'h2{color:#1A6EA8;margin-bottom:4px}'+
-      '.sub{color:#888;font-size:12px;margin-bottom:20px}'+
-      'table{width:100%;border-collapse:collapse;font-size:13px}'+
-      'th{background:#1A6EA8;color:#fff;padding:10px 12px;text-align:left;font-size:13px}'+
-      'td{border-bottom:1px solid #E8E0D0;vertical-align:top}'+
-      '.footer{margin-top:16px;font-size:11px;color:#aaa;text-align:right}'+
-      '@media print{button{display:none}}'+
-    '</style></head><body>'+
-    '<h2>🚕 TDZ-0950 審驗資料總覽</h2>'+
-    '<div class="sub">列印日期：'+new Date().toLocaleDateString('zh-TW')+'</div>'+
-    '<button onclick="window.print()" style="margin-bottom:16px;padding:10px 20px;background:#1A6EA8;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">🖨️ 列印 / 儲存 PDF</button>'+
-    '<table><thead><tr>'+
-      '<th>項目</th><th>到期日</th><th>頻率</th><th>距到期</th><th>應備文件</th><th>備註</th>'+
-    '</tr></thead><tbody>'+rows+'</tbody></table>'+
-    '<div class="footer">由計程車營收彙總系統產生</div>'+
-    '</body></html>');
-  printWin.document.close();
-  toast('✅ PDF 預覽已開啟，請選擇「儲存為 PDF」');
-}
-
-
-// ── 查詢頁匯出 Excel ──
-function queryExportExcel() {
-  function doEx() {
-    var wb = XLSX.utils.book_new();
-
-    // 工作表1：工會繳費
-    var fee = [
-      ['工會繳費總覽（計程車公會呈＋汽電工會貝）','','',''],
-      ['','','',''],
-      ['計程車公會（呈）','','',''],
-      ['期別','金額（元）','說明',''],
-      ['1月','26,310','含年費、團保、勞健保',''],
-      ['4月','14,550','勞健保季繳',''],
-      ['7月','14,550','勞健保季繳',''],
-      ['11月','14,550','勞健保季繳',''],
-      ['','','',''],
-      ['汽電工會（貝）','','',''],
-      ['期別','金額（元）','說明',''],
-      ['1月','11,025','含年費、勞健保',''],
-      ['4月','8,985','勞健保季繳',''],
-      ['7月','8,985','勞健保季繳',''],
-      ['11月','8,985','勞健保季繳',''],
-      ['','','',''],
-      ['家庭合計（呈＋貝）','','',''],
-      ['期別','呈','貝','合計'],
-      ['1月','26,310','11,025','37,335'],
-      ['4月','14,550','8,985','23,535'],
-      ['7月','14,550','8,985','23,535'],
-      ['11月','14,550','8,985','23,535'],
-      ['全年總計','','','107,940'],
-    ];
-    var ws1 = XLSX.utils.aoa_to_sheet(fee);
-    ws1['!cols'] = [{wch:20},{wch:12},{wch:30},{wch:10}];
-    XLSX.utils.book_append_sheet(wb, ws1, '工會繳費');
-
-    // 工作表2：廠商聯絡
-    var vendors = [
-      ['廠商／車隊聯絡資訊','','',''],
-      ['名稱','電話','地址/網址','備註'],
-      ['煌舜汽車維修中心（王嘉綺）','0917-665-925 / 02-8275-1229','新北市板橋區板城路89-3號','產物保險特約店・理賠接待'],
-      ['55688 台灣大車隊','02-2516-0966 / 直撥55688','台北市中山區長安東路2段162號2樓','台灣第一大車隊'],
-      ['Uber 大慶大車隊','02-2301-4567','台北市中正區和平西路二段21之1號1樓','Uber合作車隊'],
-      ['台北大都會車隊','直撥55178 / 02-4499-178轉7','24小時全天候','全台服務'],
-      ['裕豐萬大幸福車隊','LINE/Facebook','台北市萬華區萬大路33號','在地40年・週一至週五09-18時'],
-    ];
-    var ws2 = XLSX.utils.aoa_to_sheet(vendors);
-    ws2['!cols'] = [{wch:25},{wch:25},{wch:35},{wch:25}];
-    XLSX.utils.book_append_sheet(wb, ws2, '廠商聯絡');
-
-    // 工作表3：保單保障
-    var insurance = [
-      ['工會保單保障內容','','',''],
-      ['保單','項目','本人','眷屬/備註'],
-      ['保單一 團體福利意外保險（100元/月）','特定意外身故（含搭機）','300萬',''],
-      ['','特定意外身故（陸海/火災地震）','200萬',''],
-      ['','一般意外身故','100萬',''],
-      ['','一般意外失能','5～100萬','依等級'],
-      ['','住院日額（年最高120日）','1,000元/日',''],
-      ['','加護病房（年最高14日）','2,000元/日',''],
-      ['','意外醫療實支實付','10,000元',''],
-      ['保單二 專屬團保A計畫（本人300元/月）','疾病身故','15萬','—'],
-      ['','意外身故','100萬','60萬'],
-      ['','疾病住院（年最高90日）','500元/日','500元/日'],
-      ['','傷害醫療實支實付','10,000','10,000'],
-      ['保單三 互助保險（計畫一）','意外身故','12萬',''],
-      ['','疾病/意外住院（最長365日）','300元/日',''],
-      ['','加護病房（最長45日）','600元/日',''],
-    ];
-    var ws3 = XLSX.utils.aoa_to_sheet(insurance);
-    ws3['!cols'] = [{wch:30},{wch:28},{wch:12},{wch:20}];
-    XLSX.utils.book_append_sheet(wb, ws3, '保單保障');
-
-    var d = new Date().toISOString().split('T')[0];
-    XLSX.writeFile(wb, '查詢資料_TDZ-0950_' + d + '.xlsx');
-    toast('✅ Excel 已下載！含3個工作表');
-  }
-  if (window.XLSX) { doEx(); return; }
-  var s = document.createElement('script');
-  s.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
-  s.onload = doEx; document.head.appendChild(s);
-}
-
-// ── 查詢頁匯出 PDF ──
-function queryExportPDF() {
-  var printWin = window.open('', '_blank');
-  printWin.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8">'+
-    '<title>查詢資料 TDZ-0950</title>'+
-    '<style>'+
-      'body{font-family:"PingFang TC","Microsoft JhengHei",sans-serif;padding:24px;color:#2A2A2A;font-size:13px;max-width:900px;margin:0 auto}'+
-      'h2{color:#1A6EA8;margin-bottom:4px;font-size:18px}'+
-      'h3{color:#B8760A;font-size:15px;margin:18px 0 8px;border-bottom:2px solid #E8E0D0;padding-bottom:6px}'+
-      'h4{font-size:13px;color:#555;margin:10px 0 5px}'+
-      '.sub{color:#888;font-size:11px;margin-bottom:20px}'+
-      'table{width:100%;border-collapse:collapse;margin-bottom:14px;font-size:12px}'+
-      'th{background:#1A6EA8;color:#fff;padding:8px 10px;text-align:left}'+
-      'td{border-bottom:1px solid #E8E0D0;padding:7px 10px;vertical-align:top}'+
-      'tr:nth-child(even) td{background:#F8F5F0}'+
-      '.section{background:#FFF8ED;border:1px solid #E8D0A0;border-radius:8px;padding:12px;margin-bottom:12px}'+
-      '.badge{display:inline-block;padding:2px 8px;border-radius:4px;font-size:10px;font-weight:700;margin-left:6px}'+
-      '.footer{margin-top:20px;font-size:10px;color:#aaa;text-align:right;border-top:1px solid #E8E0D0;padding-top:8px}'+
-      '@media print{button{display:none}.no-break{page-break-inside:avoid}}'+
-    '</style></head><body>'+
-    '<h2>🚕 TDZ-0950 查詢資料總覽</h2>'+
-    '<div class="sub">列印日期：'+new Date().toLocaleDateString('zh-TW')+'</div>'+
-    '<button onclick="window.print()" style="margin-bottom:20px;padding:10px 20px;background:#1A6EA8;color:#fff;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer">🖨️ 列印 / 儲存 PDF</button>'+
-
-    '<h3>💰 工會繳費週期</h3>'+
-    '<table><thead><tr><th>期別</th><th>計程車公會（呈）</th><th>汽電工會（貝）</th><th>家庭合計</th></tr></thead>'+
-    '<tbody>'+
-    '<tr><td>1月（含年費/團保）</td><td>26,310 元</td><td>11,025 元</td><td><b>37,335 元</b></td></tr>'+
-    '<tr><td>4月</td><td>14,550 元</td><td>8,985 元</td><td><b>23,535 元</b></td></tr>'+
-    '<tr><td>7月</td><td>14,550 元</td><td>8,985 元</td><td><b>23,535 元</b></td></tr>'+
-    '<tr><td>11月</td><td>14,550 元</td><td>8,985 元</td><td><b>23,535 元</b></td></tr>'+
-    '<tr style="background:#FFF8ED"><td><b>全年總計</b></td><td>69,960 元</td><td>37,980 元</td><td><b style="color:#B8760A;font-size:14px">107,940 元</b></td></tr>'+
-    '</tbody></table>'+
-
-    '<h3>🛡️ 工會保單保障</h3>'+
-    '<table><thead><tr><th>保單</th><th>項目</th><th>本人</th><th>眷屬</th></tr></thead>'+
-    '<tbody>'+
-    '<tr><td rowspan="5">保單一<br><span style="font-size:11px;color:#888">100元/月</span></td><td>特定意外身故（含搭機）</td><td>300萬</td><td>—</td></tr>'+
-    '<tr><td>一般意外身故</td><td>100萬</td><td>—</td></tr>'+
-    '<tr><td>住院日額（年最高120日）</td><td>1,000元/日</td><td>—</td></tr>'+
-    '<tr><td>加護病房（年最高14日）</td><td>2,000元/日</td><td>—</td></tr>'+
-    '<tr><td>意外醫療實支實付</td><td>10,000元</td><td>—</td></tr>'+
-    '<tr><td rowspan="4">保單二<br><span style="font-size:11px;color:#888">本人300元/月</span></td><td>意外身故</td><td>100萬</td><td>60萬</td></tr>'+
-    '<tr><td>疾病身故</td><td>15萬</td><td>—</td></tr>'+
-    '<tr><td>疾病住院（年最高90日）</td><td>500元/日</td><td>500元/日</td></tr>'+
-    '<tr><td>傷害醫療實支實付</td><td>10,000元</td><td>10,000元</td></tr>'+
-    '</tbody></table>'+
-
-    '<h3>🔧 廠商聯絡資訊</h3>'+
-    '<table><thead><tr><th>廠商</th><th>電話</th><th>地址</th></tr></thead>'+
-    '<tbody>'+
-    '<tr><td><b>煌舜汽車維修中心</b><br><span style="font-size:11px;color:#888">理賠接待：王嘉綺</span></td><td>0917-665-925<br>02-8275-1229</td><td>新北市板橋區板城路89-3號</td></tr>'+
-    '<tr><td><b>55688 台灣大車隊</b></td><td>02-2516-0966<br>直撥 55688</td><td>台北市中山區長安東路2段162號2樓</td></tr>'+
-    '<tr><td><b>Uber 大慶大車隊</b></td><td>02-2301-4567</td><td>台北市中正區和平西路二段21之1號1樓</td></tr>'+
-    '<tr><td><b>台北大都會車隊</b></td><td>直撥 55178<br>02-4499-178 轉7</td><td>24小時全天候服務</td></tr>'+
-    '<tr><td><b>裕豐萬大幸福車隊</b></td><td>LINE / Facebook</td><td>台北市萬華區萬大路33號<br>週一至週五 09:00–18:00</td></tr>'+
-    '</tbody></table>'+
-
-    '<div class="footer">由計程車營收彙總系統產生 · TDZ-0950</div>'+
-    '</body></html>');
-  printWin.document.close();
-  toast('✅ PDF 預覽已開啟，請選擇「儲存為 PDF」');
-}
-
 </script>
 
 </body>
