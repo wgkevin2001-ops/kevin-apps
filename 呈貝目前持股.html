@@ -1700,6 +1700,12 @@
     const priceCell = tr.querySelector('.live-price');
     if (priceCell) priceCell.textContent = fmt(price);
 
+    // avg cell（第3個 td，index=2）— 同步顯示均價
+    const tds = tr.querySelectorAll('td');
+    if (tds[2] && tds[2].classList.contains('price-cell') && !tds[2].classList.contains('live-price')) {
+      tds[2].textContent = avg % 1 === 0 ? avg.toFixed(0) : avg;
+    }
+
     // pnl cell
     const pnlCell = tr.querySelector('.live-pnl');
     if (pnlCell) {
