@@ -1720,68 +1720,55 @@
     tr.dataset.pnl = isPos ? 'pos' : 'neg';
   }
 
-  async function fetchTWSE(codes) {
-    // 上市股票：TWSE
-    const stockCodes = codes.filter(c => c && c !== '—');
-    if (!stockCodes.length) return {};
-    const query = stockCodes.map(c => 'TSE_' + c + '.tw').join('|');
+  // ETF & 股票代號對照（台股加 .TW 或 .TWO 後綴）
+  const TW_SUFFIX = {
+    // ETF 上市 .TW
+    '00631L':'00631L.TW','00830':'00830.TW','00861':'00861.TW','00876':'00876.TW',
+    '00878':'00878.TW','00910':'00910.TW','00918':'00918.TW','00941':'00941.TW',
+    '00687B':'00687B.TW',
+    // ETF 上櫃 .TWO
+    '00882':'00882.TWO','00956A':'00956A.TWO','00981B':'00981B.TWO','00981D':'00981D.TWO',
+    '00754B':'00754B.TWO','00996A':'00996A.TWO','00400A':'00400A.TWO','00999A':'00999A.TWO',
+    // 個股上市 .TW
+    '6415':'6415.TW','2313':'2313.TW','2449':'2449.TW','2324':'2324.TW',
+    '2542':'2542.TW','3289':'3289.TW','6187':'6187.TW',
+  };
+
+  async function fetchYahooPrice(codes) {
+    const filtered = codes.filter(c => c && c !== '—' && TW_SUFFIX[c]);
+    if (!filtered.length) return {};
+    const symbols = filtered.map(c => TW_SUFFIX[c]).join(',');
+    const url = `https://query1.finance.yahoo.com/v8/finance/spark?symbols=${encodeURIComponent(symbols)}&range=1d&interval=5m`;
     try {
-      const res = await fetch('https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=' + query + '&json=1&delay=0');
+      const res  = await fetch(url);
       const json = await res.json();
-      const map = {};
-      (json.msgArray || []).forEach(item => {
-        const code = item.c;
-        const price = parseFloat(item.z !== '-' ? item.z : item.y); // z=現價, y=昨收
-        if (!isNaN(price)) map[code] = price;
+      const map  = {};
+      const spark = json?.spark?.result || [];
+      spark.forEach(item => {
+        const sym   = item.symbol; // e.g. "00878.TW"
+        const code  = sym.replace(/\.(TW|TWO)$/, '');
+        const closes = item?.response?.[0]?.indicators?.quote?.[0]?.close || [];
+        // 取最後一個有效收盤價
+        const price = [...closes].reverse().find(p => p != null);
+        if (price != null) map[code] = price;
       });
       return map;
     } catch(e) { return {}; }
   }
-
-  async function fetchOTC(codes) {
-    // 上櫃/ETF：櫃買中心
-    const stockCodes = codes.filter(c => c && c !== '—');
-    if (!stockCodes.length) return {};
-    const query = stockCodes.map(c => 'OTC_' + c + '.tw').join('|');
-    try {
-      const res = await fetch('https://mis.twse.com.tw/stock/api/getStockInfo.jsp?ex_ch=' + query + '&json=1&delay=0');
-      const json = await res.json();
-      const map = {};
-      (json.msgArray || []).forEach(item => {
-        const code = item.c;
-        const price = parseFloat(item.z !== '-' ? item.z : item.y);
-        if (!isNaN(price)) map[code] = price;
-      });
-      return map;
-    } catch(e) { return {}; }
-  }
-
-  // ETF & 上市代號（4碼數字或 00xxx 系列）vs 上市個股
-  const ETF_CODES = new Set(['00631L','00830','00861','00876','00910','00941',
-    '00878','00996A','00400A','00918','00999A','00981B','00981D',
-    '00882','00956A','00687B','00754B']);
-  const LISTED   = new Set(['6415','2313','2449','2324','2542','3289','6187']); // 上市個股
 
   async function fetchAllPrices() {
     const allRows = document.querySelectorAll('tr[data-code]');
-    const etfCodes     = [...new Set([...allRows].map(r => r.dataset.code).filter(c => ETF_CODES.has(c)))];
-    const listedCodes  = [...new Set([...allRows].map(r => r.dataset.code).filter(c => LISTED.has(c)))];
+    const codes = [...new Set([...allRows].map(r => r.dataset.code).filter(c => c && c !== '—' && TW_SUFFIX[c]))];
 
-    // fetch both market & OTC (TWSE API handles both via TSE_ / OTC_ prefix)
-    const [etfMap, listedMap] = await Promise.all([
-      fetchOTC(etfCodes),
-      fetchTWSE(listedCodes)
-    ]);
-    const priceMap = { ...etfMap, ...listedMap };
+    const priceMap = await fetchYahooPrice(codes);
 
     allRows.forEach(tr => {
       const code = tr.dataset.code;
-      if (code && code !== '—' && priceMap[code] !== undefined) {
+      if (code && priceMap[code] !== undefined) {
         applyPrice(tr, priceMap[code]);
       }
     });
 
-    // update footer timestamp
     const now = new Date();
     document.querySelector('.footer').textContent =
       '股價自動更新 ' + now.toLocaleDateString('zh-TW') + ' ' +
