@@ -1720,60 +1720,50 @@
     tr.dataset.pnl = isPos ? 'pos' : 'neg';
   }
 
-  // ETF & 股票代號對照（台股加 .TW 或 .TWO 後綴）
+  // 台股代號對照（上市.TW / 上櫃.TWO）
   const TW_SUFFIX = {
-    // ETF 上市 .TW
     '00631L':'00631L.TW','00830':'00830.TW','00861':'00861.TW','00876':'00876.TW',
     '00878':'00878.TW','00910':'00910.TW','00918':'00918.TW','00941':'00941.TW',
     '00687B':'00687B.TW',
-    // ETF 上櫃 .TWO
     '00882':'00882.TWO','00956A':'00956A.TWO','00981B':'00981B.TWO','00981D':'00981D.TWO',
     '00754B':'00754B.TWO','00996A':'00996A.TWO','00400A':'00400A.TWO','00999A':'00999A.TWO',
-    // 個股上市 .TW
     '6415':'6415.TW','2313':'2313.TW','2449':'2449.TW','2324':'2324.TW',
     '2542':'2542.TW','3289':'3289.TW','6187':'6187.TW',
   };
 
-  async function fetchYahooPrice(codes) {
-    const filtered = codes.filter(c => c && c !== '—' && TW_SUFFIX[c]);
-    if (!filtered.length) return {};
-    const symbols = filtered.map(c => TW_SUFFIX[c]).join(',');
-    const url = `https://query1.finance.yahoo.com/v8/finance/spark?symbols=${encodeURIComponent(symbols)}&range=1d&interval=5m`;
-    try {
-      const res  = await fetch(url);
-      const json = await res.json();
-      const map  = {};
-      const spark = json?.spark?.result || [];
-      spark.forEach(item => {
-        const sym   = item.symbol; // e.g. "00878.TW"
-        const code  = sym.replace(/\.(TW|TWO)$/, '');
-        const closes = item?.response?.[0]?.indicators?.quote?.[0]?.close || [];
-        // 取最後一個有效收盤價
-        const price = [...closes].reverse().find(p => p != null);
-        if (price != null) map[code] = price;
-      });
-      return map;
-    } catch(e) { return {}; }
-  }
+  // Google Apps Script Proxy（自架，無 CORS 限制）
+  const GAS_URL = 'https://script.google.com/macros/s/AKfycbxsF2cTN5cwVzYoxQ4yxYU0ALvvDJx0rPExaygl8Qy0Elkxdaa2FWP0xKYDii5mBlL6nw/exec';
 
   async function fetchAllPrices() {
     const allRows = document.querySelectorAll('tr[data-code]');
-    const codes = [...new Set([...allRows].map(r => r.dataset.code).filter(c => c && c !== '—' && TW_SUFFIX[c]))];
+    const codes = [...new Set(
+      [...allRows].map(r => r.dataset.code).filter(c => c && c !== '—' && TW_SUFFIX[c])
+    )];
+    if (!codes.length) return;
 
-    const priceMap = await fetchYahooPrice(codes);
+    try {
+      const res  = await fetch(`${GAS_URL}?codes=${codes.join(',')}`, { signal: AbortSignal.timeout(15000) });
+      const map  = await res.json();
 
-    allRows.forEach(tr => {
-      const code = tr.dataset.code;
-      if (code && priceMap[code] !== undefined) {
-        applyPrice(tr, priceMap[code]);
-      }
-    });
+      let updated = 0;
+      allRows.forEach(tr => {
+        const code = tr.dataset.code;
+        if (code && map[code] != null) {
+          applyPrice(tr, map[code]);
+          updated++;
+        }
+      });
 
-    const now = new Date();
-    document.querySelector('.footer').textContent =
-      '股價自動更新 ' + now.toLocaleDateString('zh-TW') + ' ' +
-      now.toLocaleTimeString('zh-TW', {hour:'2-digit', minute:'2-digit'}) +
-      '　·　所有數據僅供參考';
+      const now = new Date();
+      document.querySelector('.footer').textContent =
+        `✅ 已更新 ${updated} 檔股價　` +
+        now.toLocaleDateString('zh-TW') + ' ' +
+        now.toLocaleTimeString('zh-TW', {hour:'2-digit', minute:'2-digit'}) +
+        '　·　所有數據僅供參考';
+    } catch(e) {
+      console.warn('股價更新失敗:', e);
+      document.querySelector('.footer').textContent = '⚠ 股價更新失敗，請稍後重試　·　所有數據僅供參考';
+    }
   }
 
   // 載入時執行，之後每 60 秒刷新
