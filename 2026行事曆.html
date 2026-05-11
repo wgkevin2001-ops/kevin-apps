@@ -1616,7 +1616,33 @@ const EXP_SEED = [
 ];
 
 const INC_SEED = [
-  ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'i'+m,month:m,year:2026,amt:28000,src:'🏠 租金收入'}))
+  ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'i'+m,month:m,year:2026,amt:28000,src:'🏠 租金收入'})),
+  // ── 呈的股票配息（估算）──
+  // 00878 國泰永續高股息：季配，發放月為 3、6、9、12 月（除息 2、5、8、11）
+  {id:'div878q1',month:3, year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q1配息'},
+  {id:'div878q2',month:6, year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q2配息'},
+  {id:'div878q3',month:9, year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q3配息'},
+  {id:'div878q4',month:12,year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q4配息'},
+  // 00918 大華優利高填息30：季配，發放月為 4、7、10、12 月（除息 3、6、9、12）
+  {id:'div918q1',month:4, year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q1配息'},
+  {id:'div918q2',month:7, year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q2配息'},
+  {id:'div918q3',month:10,year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q3配息'},
+  {id:'div918q4',month:12,year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q4配息'},
+  // 00981B 第一金優選非投債：月配息，每股約0.062元 × 19,000股 ≈ 1,178元/月
+  ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'div981B_'+m,month:m,year:2026,amt:1178,src:'📈 00981B 第一金優選非投債 月配息'})),
+  // 00981D 主動中信非投等債：月配息，每股約0.070元 × 19,000股 ≈ 1,330元/月
+  ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'div981D_'+m,month:m,year:2026,amt:1330,src:'📈 00981D 主動中信非投等債 月配息'})),
+  // 00830 國泰費城半導體：年配，除息1月，發放2月，9元/股 × 60股 = 540元
+  {id:'div830y1',month:2,year:2026,amt:540,src:'📈 00830 國泰費城半導體 年配息'},
+  // 00910 第一金太空衛星：年配，約1~2月除息，每股約3.5元 × 90股 ≈ 315元
+  {id:'div910y1',month:2,year:2026,amt:315,src:'📈 00910 第一金太空衛星 年配息'},
+  // 個股年配（7月為台股配息旺季高峰，8月發放）
+  {id:'div6415y',month:8,year:2026,amt:340, src:'📈 6415 矽力*-KY 年配息（約34元/股×10股）'},
+  {id:'div2313y',month:8,year:2026,amt:55,  src:'📈 2313 華通 年配息（約2.5元/股×22股）'},
+  {id:'div2449y',month:8,year:2026,amt:820, src:'📈 2449 京元電子 年配息（約3.5元/股×235股）'},
+  {id:'div2324y',month:8,year:2026,amt:625, src:'📈 2324 仁寶 年配息（約2.5元/股×250股）'},
+  {id:'div3289y',month:8,year:2026,amt:6,   src:'📈 3289 宜特 年配息（約1元/股×6股）'},
+  {id:'div6187y',month:8,year:2026,amt:45,  src:'📈 6187 萬潤 年配息（約9元/股×5股）'},
 ];
 
 let expRecords = JSON.parse(localStorage.getItem('exp_records')||'null') || EXP_SEED;
@@ -1698,23 +1724,60 @@ function renderExpOverview(){
   const recs = expRecords;
   const totalExp = recs.reduce((s,r)=>s+r.amt,0);
   const totalInc = incRecords.reduce((s,r)=>s+r.amt,0);
+  const divInc   = incRecords.filter(r=>r.src&&r.src.includes('配息')).reduce((s,r)=>s+r.amt,0);
+  const salaryInc= totalInc - divInc;
   const balance = totalInc - totalExp;
   const now = new Date();
   const curM = now.getMonth()+1;
   const monthExp = recs.filter(r=>+r.date.slice(5,7)===curM).reduce((s,r)=>s+r.amt,0);
+  const monthInc = incRecords.filter(r=>r.month===curM).reduce((s,r)=>s+r.amt,0);
+  const monthDiv = incRecords.filter(r=>r.month===curM&&r.src&&r.src.includes('配息')).reduce((s,r)=>s+r.amt,0);
 
   document.getElementById('exp-summary-grid').innerHTML=`
     <div class="exp-sum-box"><div class="exp-sum-lbl">年度總支出</div><div class="exp-sum-val" style="color:var(--rd);font-size:16px">${expFmt(totalExp)}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">年度總收入</div><div class="exp-sum-val" style="color:var(--gr);font-size:16px">${expFmt(totalInc)}</div></div>
+    <div class="exp-sum-box"><div class="exp-sum-lbl">股票配息收入</div><div class="exp-sum-val" style="color:#1a6ea8;font-size:16px">${expFmt(divInc)}</div><div class="exp-sum-sub">呈年度估算</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">年度結餘</div><div class="exp-sum-val" style="color:${balance>=0?'var(--gr)':'var(--rd)'};font-size:16px">${expFmt(Math.abs(balance))}<span style="font-size:11px">${balance>=0?' ▲':' ▼'}</span></div></div>
-    <div class="exp-sum-box"><div class="exp-sum-lbl">本月支出</div><div class="exp-sum-val" style="font-size:16px">${expFmt(monthExp)}</div><div class="exp-sum-sub">${curM}月</div></div>`;
+    <div class="exp-sum-box"><div class="exp-sum-lbl">本月支出</div><div class="exp-sum-val" style="font-size:16px">${expFmt(monthExp)}</div><div class="exp-sum-sub">${curM}月</div></div>
+    <div class="exp-sum-box"><div class="exp-sum-lbl">本月配息</div><div class="exp-sum-val" style="color:#1a6ea8;font-size:16px">${monthDiv>0?expFmt(monthDiv):'—'}</div><div class="exp-sum-sub">${curM}月${monthDiv>0?'入帳':'無配息'}</div></div>`;
+
+  // build per-month dividend detail rows
+  const divMonths=[3,4,6,7,9,10,12];
+  const divRows = [1,2,3,4,5,6,7,8,9,10,11,12].map(m=>{
+    const mDivs = incRecords.filter(r=>r.month===m&&r.src&&r.src.includes('配息'));
+    if(!mDivs.length) return '';
+    return mDivs.map(r=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:12px">
+        <span style="opacity:.85">${m}月 ${r.src.replace('📈 ','')}</span>
+        <span style="font-weight:900;color:#6ed888">+NT$${r.amt.toLocaleString()}</span>
+      </div>`).join('');
+  }).join('');
 
   document.getElementById('exp-income-panel').innerHTML=`
     <div class="exp-income-title">💰 收支概況</div>
-    <div class="exp-income-row"><span class="exp-income-lbl">年度總收入</span><span class="exp-income-val">NT$${totalInc.toLocaleString()}</span></div>
+    <div class="exp-income-row"><span class="exp-income-lbl">🏠 租金等固定收入</span><span class="exp-income-val">NT$${salaryInc.toLocaleString()}</span></div>
+    <div class="exp-income-row"><span class="exp-income-lbl">📈 呈股票配息（估算）</span><span class="exp-income-val" style="color:#6ed888">NT$${divInc.toLocaleString()}</span></div>
+    <div style="height:1px;background:rgba(255,255,255,.2);margin:4px 0 6px"></div>
+    <div class="exp-income-row"><span class="exp-income-lbl" style="font-weight:900">年度總收入</span><span class="exp-income-val">NT$${totalInc.toLocaleString()}</span></div>
     <div class="exp-income-row"><span class="exp-income-lbl">年度總支出</span><span class="exp-income-val">NT$${totalExp.toLocaleString()}</span></div>
     <div style="height:1px;background:rgba(255,255,255,.2);margin:6px 0"></div>
-    <div class="exp-income-row"><span class="exp-income-lbl" style="font-weight:900">年度結餘</span><span class="exp-income-val ${balance>=0?'exp-balance-pos':'exp-balance-neg'}">${balance>=0?'+':''}NT$${balance.toLocaleString()}</span></div>`;
+    <div class="exp-income-row"><span class="exp-income-lbl" style="font-weight:900">年度結餘</span><span class="exp-income-val ${balance>=0?'exp-balance-pos':'exp-balance-neg'}">${balance>=0?'+':''}NT$${balance.toLocaleString()}</span></div>
+    <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.15)">
+      <div style="font-size:11px;font-weight:900;opacity:.7;letter-spacing:.08em;margin-bottom:6px;text-transform:uppercase">📅 配息月份明細</div>
+      ${divRows}
+      <div style="font-size:11px;opacity:.55;margin-top:8px;line-height:1.6">
+        ※ 以最近一次配息估算：<br>
+        　00878（$0.66元/股×48,000股）= 季配 $31,680元<br>
+        　00918（$0.62元/股×6,000股）= 季配 $3,720元<br>
+        　00981B（$0.062元/股×19,000股）= 月配 $1,178元<br>
+        　00981D（$0.070元/股×19,000股）= 月配 $1,330元<br>
+        　00830（$9元/股×60股）= 年配 $540元（2月發放）<br>
+        　00910（約$3.5元/股×90股）= 年配 $315元<br>
+        　個股（6415、2313、2449、2324等）= 年配 約$1,891元（8月旺季）<br>
+        ※ 00631L、00941、00861、00876 設計上不配息<br>
+        ※ 00996A、00400A、00999A 為新上市ETF，首次配息待公告
+      </div>
+    </div>`;
 
   // category bars
   const catTotals={};
@@ -1769,11 +1832,13 @@ function renderExpMonth(){
   const recs=expRecords.filter(r=>+r.date.slice(5,7)===m);
   const total=recs.reduce((s,r)=>s+r.amt,0);
   const incTotal=incRecords.filter(r=>r.month===m).reduce((s,r)=>s+r.amt,0);
+  const divTotal=incRecords.filter(r=>r.month===m&&r.src&&r.src.includes('配息')).reduce((s,r)=>s+r.amt,0);
   const balance=incTotal-total;
   document.getElementById('exp-month-total').textContent=expFmt(total);
   document.getElementById('exp-month-summary').innerHTML=`
     <div class="exp-sum-box"><div class="exp-sum-lbl">本月支出</div><div class="exp-sum-val" style="color:var(--rd)">${expFmt(total)}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">本月收入</div><div class="exp-sum-val" style="color:var(--gr)">${expFmt(incTotal)}</div></div>
+    <div class="exp-sum-box"><div class="exp-sum-lbl">股票配息</div><div class="exp-sum-val" style="color:#1a6ea8">${divTotal>0?expFmt(divTotal):'—'}</div><div class="exp-sum-sub">${divTotal>0?'本月入帳':'本月無配息'}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">本月結餘</div><div class="exp-sum-val" style="color:${balance>=0?'var(--gr)':'var(--rd)'}">${balance>=0?'+':''}${expFmt(Math.abs(balance))}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">筆數</div><div class="exp-sum-val">${recs.length}</div><div class="exp-sum-sub">筆</div></div>`;
   const sorted=[...recs].sort((a,b)=>a.date.localeCompare(b.date));
@@ -1853,9 +1918,155 @@ function addCCCard(){
     <div class="bp-title" style="color:#555;font-size:11px">完整備份 JSON（可匯入還原）</div>
     <button class="bpbtn full export" onclick="exportJSON()">⬇️ 匯出完整備份 .json</button>
     <button class="bpbtn full import" onclick="importJSON()">⬆️ 匯入備份還原 .json</button>
+
+    <div class="bp-divider"></div>
+    <div class="bp-title" style="color:#1a6ea8;font-size:11px">☁️ Firebase 雲端同步</div>
+    <button class="bpbtn full" style="border-color:#1a6ea8;color:#1a6ea8;" onclick="fbCalSave()">☁️ 儲存所有資料至雲端</button>
+    <div style="font-size:10px;color:#aaa;text-align:center;margin-top:4px;font-family:inherit">開啟頁面時自動從雲端載入</div>
   </div>
   <button class="fab fab-main" onclick="toggleBackupPanel()" title="備份/還原">💾</button>
 </div>
+
+<!-- ══ Firebase 雲端同步 ══ -->
+<div id="fb-cal-loading" style="position:fixed;inset:0;z-index:999999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
+  <div style="font-size:48px">☁️</div>
+  <div style="font-size:17px;font-weight:700;color:var(--y)">連接雲端資料庫中...</div>
+  <div style="font-size:13px;color:#aaa">載入行事曆資料，請稍候</div>
+</div>
+
+<script type="module">
+import { initializeApp }              from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import { getDatabase, ref, get, set } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyDmkQFhE3N-oID3AM57FH08AvxRB-uPz1Q",
+  authDomain:        "kevin-apps-3f0d8.firebaseapp.com",
+  databaseURL:       "https://kevin-apps-3f0d8-default-rtdb.firebaseio.com",
+  projectId:         "kevin-apps-3f0d8",
+  storageBucket:     "kevin-apps-3f0d8.firebasestorage.app",
+  messagingSenderId: "218848020635",
+  appId:             "1:218848020635:web:3d9758d7f5a4b9b2e29e3e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+
+function removeLoading() {
+  const el = document.getElementById('fb-cal-loading');
+  if (el) el.remove();
+}
+
+function showFbToast(msg, ok = true) {
+  let t = document.getElementById('fb-cal-toast');
+  if (!t) {
+    t = document.createElement('div');
+    t.id = 'fb-cal-toast';
+    Object.assign(t.style, {
+      position:'fixed', bottom:'80px', left:'50%',
+      transform:'translateX(-50%) translateY(20px)',
+      padding:'10px 20px', borderRadius:'8px',
+      fontSize:'13px', fontWeight:'700', fontFamily:'inherit',
+      opacity:'0', transition:'all .3s', zIndex:'600',
+      pointerEvents:'none', whiteSpace:'nowrap'
+    });
+    document.body.appendChild(t);
+  }
+  t.textContent = msg;
+  t.style.background = ok ? '#1a4a1a' : '#8a1a1a';
+  t.style.color = '#fff';
+  t.style.opacity = '1';
+  t.style.transform = 'translateX(-50%) translateY(0)';
+  setTimeout(() => { t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(20px)'; }, 2500);
+}
+
+// ── 收集所有 localStorage 資料 ──
+function collectAllData() {
+  return {
+    version:      '2026-cal-v1',
+    savedAt:      new Date().toISOString(),
+    appts:        JSON.parse(localStorage.getItem('appts') || 'null'),
+    bp:           JSON.parse(localStorage.getItem('bp') || 'null'),
+    meds:         JSON.parse(localStorage.getItem('meds') || 'null'),
+    cc_data:      JSON.parse(localStorage.getItem('cc_data') || 'null'),
+    cc_records:   JSON.parse(localStorage.getItem('cc_records') || 'null'),
+    exp_records:  JSON.parse(localStorage.getItem('exp_records') || 'null'),
+    inc_records:  JSON.parse(localStorage.getItem('inc_records') || 'null'),
+    focus_custom: JSON.parse(localStorage.getItem('focus_custom') || '[]'),
+    focus_status: JSON.parse(localStorage.getItem('focus_status') || 'null'),
+  };
+}
+
+// ── 把 Firebase 資料寫回 localStorage 並重新渲染 ──
+function applyAllData(data) {
+  if (!data) return;
+  const keys = ['appts','bp','meds','cc_data','cc_records','exp_records','inc_records','focus_custom','focus_status'];
+  keys.forEach(k => {
+    if (data[k] !== undefined && data[k] !== null) {
+      localStorage.setItem(k, JSON.stringify(data[k]));
+    }
+  });
+
+  // 重新載入各模組資料
+  if (data.appts)        { appointments = data.appts; }
+  if (data.bp)           { bpList = data.bp; }
+  if (data.meds)         { meds = data.meds; }
+  if (data.cc_data)      { ccData = data.cc_data; }
+  if (data.cc_records)   { ccRecords = data.cc_records; }
+  if (data.exp_records)  { expRecords = data.exp_records; }
+  if (data.inc_records)  { incRecords = data.inc_records; }
+  if (data.focus_custom) { focusCustomItems = data.focus_custom; }
+  if (data.focus_status) { focusStatus = data.focus_status; }
+
+  // 重新渲染
+  try { renderAppts(); } catch(e){}
+  try { renderBP();    } catch(e){}
+  try { renderMeds();  } catch(e){}
+  try { renderCC();    } catch(e){}
+  try { renderExp();   } catch(e){}
+  try { renderFocus(); } catch(e){}
+}
+
+// ── 儲存到 Firebase（公開給按鈕呼叫）──
+window.fbCalSave = async function() {
+  try {
+    const data = collectAllData();
+    await set(ref(db, 'calendar/all'), data);
+    showFbToast('☁️ 已同步至雲端');
+  } catch(e) {
+    showFbToast('⚠ 同步失敗：' + e.message, false);
+  }
+};
+
+// ── 從 Firebase 載入 ──
+async function loadFromFirebase() {
+  try {
+    const snap = await get(ref(db, 'calendar/all'));
+    if (snap.exists()) {
+      const data = snap.val();
+      applyAllData(data);
+      showFbToast('☁️ 已載入雲端資料（' + (data.savedAt ? data.savedAt.slice(0,10) : '—') + '）');
+    } else {
+      // 雲端無資料 → 上傳本機現有資料
+      const local = collectAllData();
+      const hasData = local.appts || local.bp || local.meds;
+      if (hasData) {
+        await set(ref(db, 'calendar/all'), local).catch(() => {});
+        showFbToast('☁️ 本機資料已上傳至雲端');
+      }
+    }
+  } catch(e) {
+    console.warn('Firebase 讀取失敗，使用本機資料:', e);
+    showFbToast('⚠ 雲端載入失敗，使用本機資料', false);
+  } finally {
+    removeLoading();
+  }
+}
+
+// 5 秒超時保護
+setTimeout(removeLoading, 5000);
+
+loadFromFirebase();
+</script>
 
 </body>
 </html>
