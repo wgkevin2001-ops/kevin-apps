@@ -13,9 +13,12 @@ body{background:#F5F0E8;color:#2A2A2A;font-family:'PingFang TC','Microsoft Jheng
 #pw-overlay{
   position:fixed;inset:0;z-index:99999;
   background:#F5F0E8;
-  display:flex;align-items:center;justify-content:center;
+  display:flex;align-items:center;justify-content:flex-start;
   flex-direction:column;
-  padding:24px;
+  padding:24px 24px 40px;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+  padding-top:max(24px, env(safe-area-inset-top));
 }
 #pw-box{
   background:#fff;border:1px solid rgba(180,140,60,.3);border-radius:20px;
@@ -204,6 +207,141 @@ select option{background:#F5F0E8}
       onkeydown="if(event.key==='Enter')checkPw()">
     <button id="pw-btn" onclick="checkPw()">解 鎖</button>
     <div id="pw-err"></div>
+  </div>
+
+  <!-- 全國加油站優惠資訊 -->
+  <div id="npc-promo" style="
+    width:100%;max-width:360px;margin-top:16px;
+    background:#fff;border:1px solid rgba(180,140,60,.3);border-radius:20px;
+    padding:18px 18px 14px;
+    box-shadow:0 8px 32px rgba(180,120,10,.12);
+    text-align:left;
+  ">
+    <!-- 標題 -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+      <div style="background:#1A4FA0;color:#fff;font-size:11px;font-weight:900;padding:3px 8px;border-radius:6px;letter-spacing:.05em">NPC 全國</div>
+      <div style="font-size:14px;font-weight:900;color:#1A4FA0;letter-spacing:.03em">計程車司機專屬優惠</div>
+    </div>
+
+    <!-- 登記補貼 -->
+    <div style="background:linear-gradient(135deg,#E8F4FF,#D0E8FF);border:1px solid #9BC3F0;border-radius:12px;padding:12px 14px;margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:#1A4FA0;letter-spacing:.1em;margin-bottom:6px">📋 登記資格 5/13 – 8/31</div>
+      <div style="display:flex;align-items:baseline;gap:6px">
+        <span style="font-size:13px;color:#555;font-weight:600">全國登記政府補貼最高</span>
+        <span style="font-size:28px;font-weight:900;color:#CC2222;line-height:1">6,000</span>
+        <span style="font-size:15px;font-weight:700;color:#CC2222">元</span>
+      </div>
+      <div style="font-size:11px;color:#888;margin-top:4px">＋加碼禮：23吋直傘乙支</div>
+    </div>
+
+    <!-- 加油回饋 -->
+    <div style="background:linear-gradient(135deg,#FFF8E8,#FFEEC0);border:1px solid #E0B840;border-radius:12px;padding:12px 14px;margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:#B8760A;letter-spacing:.1em;margin-bottom:6px">⛽ 開始使用 5/20 – 12/31</div>
+      <div style="display:flex;align-items:baseline;gap:4px">
+        <span style="font-size:13px;color:#555;font-weight:600">週三汽油回饋最高</span>
+        <span style="font-size:32px;font-weight:900;color:#CC2222;line-height:1">7.9</span>
+        <span style="font-size:15px;font-weight:700;color:#CC2222">元/公升</span>
+      </div>
+    </div>
+
+    <!-- 優惠拆解 -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
+      <div style="background:#F5F0E8;border-radius:10px;padding:10px 12px;text-align:center">
+        <div style="font-size:10px;color:#888;font-weight:600;margin-bottom:4px">政府補貼降</div>
+        <div style="font-size:22px;font-weight:900;color:#CC2222">5 元</div>
+        <div style="font-size:10px;color:#aaa">汽油每公升</div>
+      </div>
+      <div style="background:#F5F0E8;border-radius:10px;padding:10px 12px;text-align:center">
+        <div style="font-size:10px;color:#888;font-weight:600;margin-bottom:4px">全國另降</div>
+        <div style="font-size:22px;font-weight:900;color:#1A8A3A">2 元</div>
+        <div style="font-size:10px;color:#aaa">汽油每公升</div>
+      </div>
+    </div>
+
+    <!-- 附加優惠 -->
+    <div style="background:#F5F0E8;border-radius:10px;padding:10px 12px;display:flex;gap:6px;flex-wrap:wrap;align-items:center">
+      <div style="font-size:11px;color:#555;display:flex;align-items:center;gap:4px">
+        <span style="background:#B8760A;color:#fff;font-size:9px;font-weight:900;padding:1px 5px;border-radius:3px">贈</span>衛生紙
+      </div>
+      <span style="color:#ddd">│</span>
+      <div style="font-size:11px;color:#555">週三加25L <span style="color:#CC2222;font-weight:700">折15元</span></div>
+      <span style="color:#ddd">│</span>
+      <div style="font-size:11px;color:#555">機器洗車 <span style="color:#CC2222;font-weight:700">40元起</span></div>
+    </div>
+
+    <div style="font-size:10px;color:#bbb;text-align:center;margin-top:10px">持全國計程車卡．天天現金加滿200元以上享全國降2元</div>
+  </div>
+
+  <!-- 台灣大車隊 5月份任務活動 -->
+  <div id="t55688-promo" style="
+    width:100%;max-width:360px;margin-top:14px;
+    background:#fff;border:1px solid rgba(26,79,160,.25);border-radius:20px;
+    padding:18px 18px 14px;
+    box-shadow:0 8px 32px rgba(26,79,160,.1);
+    text-align:left;
+  ">
+    <!-- 標題 -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+      <div style="background:#E8001D;color:#fff;font-size:11px;font-weight:900;padding:3px 8px;border-radius:6px;letter-spacing:.05em">55688</div>
+      <div style="font-size:14px;font-weight:900;color:#1A1A1A;letter-spacing:.02em">台灣大車隊 5月份任務活動</div>
+    </div>
+    <div style="font-size:11px;color:#999;font-style:italic;margin-bottom:12px;margin-top:-8px">你衝刺我回饋，獎金賺不完</div>
+
+    <!-- 趟次獎勵辦法 -->
+    <div style="font-size:11px;font-weight:700;color:#E8001D;letter-spacing:.1em;margin-bottom:8px">📋 趟次獎勵辦法</div>
+
+    <!-- 獎勵1 -->
+    <div style="background:#FFF5F5;border:1px solid #FFCCCC;border-radius:12px;padding:11px 13px;margin-bottom:8px">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+        <div style="background:#E8001D;color:#fff;font-size:10px;font-weight:900;padding:2px 7px;border-radius:4px;white-space:nowrap">獎勵 1</div>
+        <span style="font-size:15px;font-weight:900;color:#E8001D">1,460 愛車保養券</span>
+      </div>
+      <div style="font-size:11px;color:#888;margin-bottom:5px">（前往55688保修廠預約兌換）</div>
+      <div style="font-size:13px;color:#333;line-height:1.7">
+        早晨／晚間，指定加碼時段<br>
+        分別累積趟次，<span style="color:#E8001D;font-weight:700">滿50趟即領！</span>
+      </div>
+      <div style="font-size:11px;color:#888;margin-top:5px">⏰ 早尖峰：07:00–08:59　晚尖峰：17:00–18:59</div>
+    </div>
+
+    <!-- 獎勵2 -->
+    <div style="background:#FFF5F5;border:1px solid #FFCCCC;border-radius:12px;padding:11px 13px;margin-bottom:10px">
+      <div style="display:flex;align-items:center;gap:7px;margin-bottom:5px">
+        <div style="background:#E8001D;color:#fff;font-size:10px;font-weight:900;padding:2px 7px;border-radius:4px;white-space:nowrap">獎勵 2</div>
+        <span style="font-size:15px;font-weight:900;color:#E8001D">現金 1,540 元</span>
+      </div>
+      <div style="font-size:13px;color:#333;line-height:1.7">
+        晚間時段，加碼衝刺<br>
+        累積趟次，<span style="color:#E8001D;font-weight:700">滿70趟即可立即領現金！</span>
+      </div>
+    </div>
+
+    <!-- 保修券好禮 -->
+    <div style="font-size:11px;font-weight:700;color:#1A4FA0;letter-spacing:.1em;margin-bottom:8px">🎁 保修券好禮說明</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px">
+      <div style="background:#F0F5FF;border:1px solid #C0D4F5;border-radius:9px;padding:9px 8px;text-align:center">
+        <div style="font-size:9px;color:#1A4FA0;font-weight:700;margin-bottom:3px">好禮 1</div>
+        <div style="font-size:12px;font-weight:700;color:#E8001D">1,460</div>
+        <div style="font-size:9px;color:#555;line-height:1.4">定保優惠<br>含機油芯+免工資</div>
+      </div>
+      <div style="background:#F0F5FF;border:1px solid #C0D4F5;border-radius:9px;padding:9px 8px;text-align:center">
+        <div style="font-size:9px;color:#1A4FA0;font-weight:700;margin-bottom:3px">好禮 2</div>
+        <div style="font-size:12px;font-weight:700;color:#E8001D">$500</div>
+        <div style="font-size:9px;color:#555;line-height:1.4">固特異輪胎<br>優惠折抵</div>
+      </div>
+      <div style="background:#F0F5FF;border:1px solid #C0D4F5;border-radius:9px;padding:9px 8px;text-align:center">
+        <div style="font-size:9px;color:#1A4FA0;font-weight:700;margin-bottom:3px">好禮 3</div>
+        <div style="font-size:12px;font-weight:700;color:#1A4FA0">QR</div>
+        <div style="font-size:9px;color:#555;line-height:1.4">全台保修<br>可轉送親友</div>
+      </div>
+    </div>
+
+    <!-- 注意事項 -->
+    <div style="background:#F5F5F5;border-radius:9px;padding:9px 11px;font-size:10px;color:#888;line-height:1.7">
+      📱 保修券次月15日從<strong style="color:#333">司機APP</strong>發QR Code<br>
+      🗓️ 使用期限至 <strong style="color:#E8001D">2026/6/30</strong>，限用1次，逾期失效<br>
+      ❌ 恕不得兌換現金及找零
+    </div>
   </div>
 </div>
 
@@ -484,16 +622,6 @@ select option{background:#F5F0E8}
 
 <!-- ══ 查詢 ══ -->
 <div class="pane" id="pane-query">
-
-  <!-- 匯出按鈕列 -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
-    <button onclick="exportQueryExcel()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:#1A8A3A;color:#fff;border:none;border-radius:11px;font-family:inherit;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(26,138,58,.3);-webkit-tap-highlight-color:transparent">
-      <span style="font-size:22px">📊</span> 匯出 Excel
-    </button>
-    <button onclick="exportQueryPDF()" style="display:flex;align-items:center;justify-content:center;gap:8px;padding:15px;background:#CC2222;color:#fff;border:none;border-radius:11px;font-family:inherit;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 3px 12px rgba(204,34,34,.3);-webkit-tap-highlight-color:transparent">
-      <span style="font-size:22px">📄</span> 匯出 PDF
-    </button>
-  </div>
 
   <div style="background:var(--card);border:1px solid rgba(180,140,60,.25);border-radius:12px;margin-bottom:8px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)">
     <button onclick="toggleSub('sub-insure')" style="width:100%;padding:15px 16px;background:var(--card);border:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-family:inherit;-webkit-tap-highlight-color:transparent">
@@ -1694,407 +1822,6 @@ function exportJSON() {
   a.download = '計程車備份_' + today.toISOString().split('T')[0] + '.json'; a.click();
   toast('✅ JSON 已下載！');
 }
-// ── 查詢頁籤匯出 Excel ──
-function exportQueryExcel() {
-  var script = document.createElement('script');
-  script.src = 'https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js';
-  script.onload = function() {
-    var wb = XLSX.utils.book_new();
-
-    // Sheet1：工會保單保障內容
-    var s1 = [
-      ['工會保單保障內容'],[''],
-      ['保單一｜團體福利意外保險（100元/月）'],
-      ['類別','項目','保障金額'],
-      ['身故失能','特定意外身故（含搭機）','300萬'],
-      ['身故失能','特定意外身故（陸海/火災地震）','200萬'],
-      ['身故失能','一般意外身故','100萬'],
-      ['身故失能','一般意外失能（依等級）','5～100萬'],
-      ['身故失能','重大燒燙傷（依等級）','15～100萬'],
-      ['意外醫療','住院日額（年最高120日）','1,000元/日'],
-      ['意外醫療','加護病房（年最高14日）','2,000元/日'],
-      ['意外醫療','意外醫療實支實付','10,000元'],
-      ['意外醫療','意外手術','2萬元'],
-      [''],
-      ['保單二｜專屬團保 A 計畫（本人300/眷屬200元/月）'],
-      ['險種','本人','配偶/子女'],
-      ['① 疾病身故（定期）','15萬','—'],
-      ['② 罹患重大疾病','2萬','2萬'],
-      ['③ 意外身故（傷害）','100萬','60萬'],
-      ['④ 疾病住院（年最高90日）','500元/日','500元/日'],
-      ['⑤ 傷害醫療實支實付','10,000','10,000'],
-      ['⑥ 意外住院（年最高90日）','500元/日','500元/日'],
-      ['⑦ 癌症住院（年最高90日）','500元/日','500元/日'],
-      ['手術治療金（非原位癌）','7,500','7,500'],
-      [''],
-      ['保單三｜互助保險福利專案（每年繳）'],
-      ['承辦：興華保險經紀人（友聯產險）｜(02)2331-8288'],
-      ['計畫','項目','保障'],
-      ['計畫一（一般會員）','癌症身故（等待60天）','1萬元'],
-      ['計畫一（一般會員）','意外身故','12萬元'],
-      ['計畫一（一般會員）','疾病/意外住院（最長365日）','300元/日'],
-      ['計畫一（一般會員）','加護病房（最長45日）','600元/日'],
-      ['計畫二（曾罹重大疾病）','意外身故','15萬元'],
-      ['計畫二（曾罹重大疾病）','意外住院（最長90日）','500元/日'],
-      ['計畫二（曾罹重大疾病）','加護/燒燙傷（最長45日）','1,500元/日'],
-      ['計畫二（曾罹重大疾病）','骨折未住院（最高1.5萬）','按程度給付'],
-    ];
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s1), '工會保單');
-
-    // Sheet2：工會繳費週期
-    var s2 = [
-      ['工會繳費週期與明細'],[''],
-      ['計程車公會勞健保（呈）'],
-      ['期別','總計'],
-      ['1月費總計（含年費/團保）','26,310元'],
-      ['4月總計','14,550元'],
-      ['7月份總計','14,550元'],
-      ['11月份總計','14,550元'],
-      [''],
-      ['明細項目','金額','說明'],
-      ['會費（整年一次，僅1月繳）','2,160元','僅1月'],
-      ['團保一：呈貝（300元/人）','7,200元','整年一次，僅1月'],
-      ['團保三：呈貝（100元/人）','2,400元','整年一次，僅1月'],
-      ['勞保費（29,500）','6,315元','每季（1/4/7/11月）'],
-      ['健保費－呈','2,745元','每季'],
-      ['健保費－德','2,745元','每季'],
-      ['健保費－宣','2,745元','每季'],
-      [''],
-      ['汽電工會勞健保（貝）'],
-      ['期別','總計'],
-      ['1月費總計','11,025元'],
-      ['4月總計','8,985元'],
-      ['7月份總計','8,985元'],
-      ['11月份總計','8,985元'],
-      [''],
-      ['明細項目','金額','說明'],
-      ['會費（整年一次，僅1月繳）','2,040元','僅1月'],
-      ['勞保費（29,500）','6,240元','每季'],
-      ['健保費','2,745元','每季'],
-      [''],
-      ['家庭合計（呈＋貝）'],
-      ['1月總計（含年費/團保）','37,335元',''],
-      ['4月總計','23,535元',''],
-      ['7月份總計','23,535元',''],
-      ['11月份總計','23,535元',''],
-      ['全年總計','107,940元',''],
-    ];
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s2), '工會繳費');
-
-    // Sheet3：廠商聯絡資訊
-    var s3 = [
-      ['廠商聯絡資訊'],[''],
-      ['廠商','煌舜汽車維修中心'],
-      ['服務項目','鈑金烤漆・底盤・冷氣・產險理賠'],
-      ['特約','產物保險特約店'],
-      ['理賠接待','王嘉綺'],
-      ['手機','0917-665-925'],
-      ['公司電話','02-8275-1229'],
-      ['地址','220 新北市板橋區板城路 89-3 號'],
-    ];
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s3), '廠商資訊');
-
-    // Sheet4：計程車常見違規罰款
-    var s4 = [
-      ['計程車常見違規罰款'],
-      ['依最新《道路交通管理處罰條例》（115年最新版）'],
-      ['一年累積12點→吊扣駕照2個月；累積6點→強制講習'],[''],
-      ['計程車司機專屬違規'],
-      ['違規項目','罰鍰（元）','備註'],
-      ['未辦執業登記即執業','1,500–3,600','再違規吊照'],
-      ['未按時辦理執業登記年度查驗','1,200','逾6月廢止登記'],
-      ['執業登記證未放指定插座或遮蔽','1,500','—'],
-      ['拒載乘客（無正當理由）','1,500–3,000','記點1'],
-      ['繞路詐財','3,000–6,000','吊照'],
-      ['計費表不用或以非合法計費表','3,000–6,000','吊照'],
-      ['計程車錶逾期未驗','15,000–75,000','⚠️ 高額'],
-      [''],
-      ['一般常見違規（司機也適用）'],
-      ['違規項目','罰鍰（元）','記點'],
-      ['闖紅燈','1,800–5,400','記點3'],
-      ['未禮讓行人（行穿線）','2,400–6,000','記點3'],
-      ['違規停車','600–2,400','依地點'],
-      ['超速（未達20km/h）','1,200–2,400','記點1'],
-      ['超速（20–40km/h）','1,800–3,600','記點1'],
-      ['超速（40km/h以上）','6,000–36,000','記點3'],
-      ['行駛中使用手機','3,000–6,000','記點3'],
-      ['未繫安全帶','1,500–3,000','記點1'],
-      ['強行超車或不依序行駛','600–1,800','記點1'],
-      ['違規迴轉','600–1,200','記點1'],
-      [''],
-      ['酒駕（零容忍）'],
-      ['血液酒精濃度 0.15–0.25 mg/L','15,000–90,000','吊照+記點'],
-      ['血液酒精濃度 0.25 mg/L 以上','90,000','吊照+刑責'],
-      [''],
-      ['違規記點重要提醒'],
-      ['記點期限：1年內累積計算'],
-      ['累積6點 → 強制自費參加道路安全講習'],
-      ['累積12點 → 吊扣駕照2個月'],
-      ['自費講習可抵點：每年最多2次，每次抵1點'],
-      ['逕行舉發（未當場取締）不記點'],
-    ];
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s4), '違規罰款');
-
-    // Sheet5：道路救援
-    var s5 = [
-      ['道路救援'],
-      ['事故現場先撥 110（警察）或 119（救護）'],
-      ['國道高速公路故障 → 先撥保險公司申告，再由拖吊公司處理'],
-      ['車牌：TDZ-0950｜車身號碼：2ZRX706989'],[''],
-      ['你的保單道路救援（優先撥打）'],
-      ['保險公司','新安東京海上（第三責任險）'],
-      ['保險期間','115/05/03–116/05/03'],
-      ['客服/道路救援','0800-050-119（免費，24H）'],
-      ['限制','每事故限1次，同天限1次，台灣本島適用'],
-      [''],
-      ['保險公司','富邦產物保險（強制責任險）'],
-      ['保險期間','115/04/25–116/04/25'],
-      ['理賠/道路救援','0800-009-888（免費，24H）'],
-      [''],
-      ['道路救援業者'],
-      ['業者','電話','備註'],
-      ['全鋒道路救援','0800-013-013（按1拖吊）','富邦指定業者'],
-      ['全鋒客服','0800-010-010','24H'],
-      ['行遍天下道路救援','0800-071-111','富邦指定業者，24H'],
-      [''],
-      ['緊急聯絡電話'],
-      ['警察報案','110',''],
-      ['救護車','119',''],
-      ['國道救援','1968',''],
-      ['台電停電','0800-066-666',''],
-      [''],
-      ['注意事項'],
-      ['車內載客時，保險業者不提供免費道路救援（僅限空車）'],
-      ['使用前先打保險公司申告，不得自行叫拖吊後再請求退費'],
-      ['同一天同一服務項目限1次，超過自付費用'],
-      ['國道：先電保險公司申告 → 記下申告編號 → 再讓高公局拖吊'],
-    ];
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s5), '道路救援');
-
-    // Sheet6：第三責任險
-    var s6 = [
-      ['第三責任險保單資料'],[''],
-      ['保險公司','新安東京海上產物保險'],
-      ['保單號碼','17000 第15V9005830號'],
-      ['被保險人','青宮交通（王介呈）'],
-      ['要保人','王介呈'],
-      ['保險期間','115/05/03 → 116/05/03'],
-      ['車牌號碼','TDZ-0950'],
-      ['車種','15 計程車'],
-      ['廠牌車型','國瑞 09116100'],
-      ['引擎/車身號碼','2ZRX706989'],
-      ['排氣量','1798 CC'],
-      ['製造年份','西元 2020 年'],
-      ['乘載數','5.0 人'],
-      [''],
-      ['承保內容'],
-      ['險種','保險金額','自負額','保費'],
-    ];
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(s6), '第三責任險');
-
-    XLSX.writeFile(wb, '計程車查詢資料_' + new Date().toISOString().split('T')[0] + '.xlsx');
-    toast('✅ Excel 已匯出！共 6 個工作表');
-  };
-  document.head.appendChild(script);
-}
-
-// ── 查詢頁籤匯出 PDF ──
-function exportQueryPDF() {
-  var printWin = window.open('', '_blank');
-  if (!printWin) { toast('⚠️ 請允許彈出視窗後重試'); return; }
-
-  var html = '<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8">' +
-  '<title>計程車查詢資料</title>' +
-  '<style>' +
-  'body{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;font-size:12px;color:#2A2A2A;margin:0;padding:20px;background:#fff}' +
-  'h1{font-size:18px;font-weight:900;color:#B8760A;border-bottom:2px solid #B8760A;padding-bottom:8px;margin-bottom:16px}' +
-  'h2{font-size:14px;font-weight:900;color:#B8760A;margin:16px 0 8px;padding:6px 10px;background:#FFF8ED;border-left:3px solid #B8760A;border-radius:0 4px 4px 0}' +
-  'h3{font-size:12px;font-weight:700;color:#444;margin:10px 0 5px}' +
-  'table{width:100%;border-collapse:collapse;margin-bottom:12px;font-size:11px}' +
-  'th{background:#F0EDE8;font-weight:700;padding:5px 8px;border:1px solid #ddd;text-align:left}' +
-  'td{padding:4px 8px;border:1px solid #eee;vertical-align:top}' +
-  'tr:nth-child(even) td{background:#FAFAF8}' +
-  '.red{color:#CC2222;font-weight:700}.blue{color:#1A6EA8;font-weight:700}.green{color:#1A8A3A;font-weight:700}.gold{color:#B8760A;font-weight:700}' +
-  '.note{background:#FFF8ED;border:1px solid rgba(180,120,10,.25);border-radius:4px;padding:8px 10px;font-size:11px;color:#666;margin:8px 0;line-height:1.8}' +
-  '.sect{page-break-inside:avoid}' +
-  '@media print{body{padding:10px}h1{font-size:15px}h2{font-size:12px}}' +
-  '</style></head><body>' +
-  '<h1>🚕 計程車查詢資料彙整</h1>' +
-  '<div style="font-size:10px;color:#aaa;margin-bottom:16px">匯出日期：' + new Date().toLocaleDateString('zh-TW') + '｜TDZ-0950</div>' +
-
-  // 工會保單
-  '<div class="sect"><h2>🏥 工會保單保障內容</h2>' +
-  '<h3>保單一｜團體福利意外保險（100元/月）— 方案3.3-24，意外事故適用</h3>' +
-  '<table><tr><th>類別</th><th>項目</th><th>保障金額</th></tr>' +
-  '<tr><td>身故失能</td><td>特定意外身故（含搭機）</td><td class="red">300萬</td></tr>' +
-  '<tr><td>身故失能</td><td>特定意外身故（陸海/火災地震）</td><td class="red">200萬</td></tr>' +
-  '<tr><td>身故失能</td><td>一般意外身故</td><td class="red">100萬</td></tr>' +
-  '<tr><td>身故失能</td><td>一般意外失能（依等級）</td><td>5～100萬</td></tr>' +
-  '<tr><td>身故失能</td><td>重大燒燙傷（依等級）</td><td>15～100萬</td></tr>' +
-  '<tr><td>意外醫療</td><td>住院日額（年最高120日）</td><td>1,000元/日</td></tr>' +
-  '<tr><td>意外醫療</td><td>加護病房（年最高14日）</td><td>2,000元/日</td></tr>' +
-  '<tr><td>意外醫療</td><td>意外醫療實支實付</td><td>10,000元</td></tr>' +
-  '<tr><td>意外醫療</td><td>意外手術</td><td>2萬元</td></tr>' +
-  '</table>' +
-
-  '<h3>保單二｜專屬團保 A 計畫（本人300/眷屬200元/月）— 生效112.03.01</h3>' +
-  '<table><tr><th>險種</th><th>本人</th><th>配偶/子女</th></tr>' +
-  '<tr><td>① 疾病身故（定期）</td><td class="blue">15萬</td><td style="color:#aaa">—</td></tr>' +
-  '<tr><td>② 罹患重大疾病</td><td class="blue">2萬</td><td>2萬</td></tr>' +
-  '<tr><td>③ 意外身故（傷害）</td><td class="blue">100萬</td><td>60萬</td></tr>' +
-  '<tr><td>④ 疾病住院（年最高90日）</td><td class="blue">500元/日</td><td>500元/日</td></tr>' +
-  '<tr><td>⑤ 傷害醫療實支實付</td><td class="blue">10,000</td><td>10,000</td></tr>' +
-  '<tr><td>⑥ 意外住院（年最高90日）</td><td class="blue">500元/日</td><td>500元/日</td></tr>' +
-  '<tr><td>⑦ 癌症住院（年最高90日）</td><td class="blue">500元/日</td><td>500元/日</td></tr>' +
-  '<tr><td>手術治療金（非原位癌）</td><td class="blue">7,500</td><td>7,500</td></tr>' +
-  '</table>' +
-
-  '<h3>保單三｜互助保險福利專案（每年繳）— 承辦：興華保險經紀人 (02)2331-8288</h3>' +
-  '<table><tr><th>計畫</th><th>項目</th><th>保障</th></tr>' +
-  '<tr><td rowspan="4">計畫一<br>一般會員</td><td>癌症身故（等待60天）</td><td>1萬元</td></tr>' +
-  '<tr><td>意外身故</td><td>12萬元</td></tr>' +
-  '<tr><td>疾病/意外住院（最長365日）</td><td>300元/日</td></tr>' +
-  '<tr><td>加護病房（最長45日）</td><td>600元/日</td></tr>' +
-  '<tr><td rowspan="4">計畫二<br>曾罹重大疾病</td><td>意外身故</td><td>15萬元</td></tr>' +
-  '<tr><td>意外住院（最長90日）</td><td>500元/日</td></tr>' +
-  '<tr><td>加護/燒燙傷（最長45日）</td><td>1,500元/日</td></tr>' +
-  '<tr><td>骨折未住院（最高1.5萬）</td><td>按程度給付</td></tr>' +
-  '</table></div>' +
-
-  // 工會繳費
-  '<div class="sect"><h2>💰 工會繳費週期與明細</h2>' +
-  '<h3>🚕 計程車公會勞健保（呈）</h3>' +
-  '<table><tr><th>期別</th><th>總計</th></tr>' +
-  '<tr><td>1月費總計（含年費/團保）</td><td class="blue">26,310元</td></tr>' +
-  '<tr><td>4月總計</td><td class="blue">14,550元</td></tr>' +
-  '<tr><td>7月份總計</td><td class="blue">14,550元</td></tr>' +
-  '<tr><td>11月份總計</td><td class="blue">14,550元</td></tr>' +
-  '</table>' +
-  '<table><tr><th>明細項目</th><th>金額</th><th>說明</th></tr>' +
-  '<tr style="background:#FFF8ED"><td>會費（整年一次，僅1月繳）</td><td>2,160元</td><td>僅1月</td></tr>' +
-  '<tr style="background:#FFF8ED"><td>團保一：呈貝（300元/人）</td><td>7,200元</td><td>整年一次，僅1月</td></tr>' +
-  '<tr style="background:#FFF8ED"><td>團保三：呈貝（100元/人）</td><td>2,400元</td><td>整年一次，僅1月</td></tr>' +
-  '<tr><td>勞保費（29,500）</td><td class="blue">6,315元</td><td>每季（1/4/7/11月）</td></tr>' +
-  '<tr><td>健保費－呈</td><td class="green">2,745元</td><td>每季</td></tr>' +
-  '<tr><td>健保費－德</td><td class="green">2,745元</td><td>每季</td></tr>' +
-  '<tr><td>健保費－宣</td><td class="green">2,745元</td><td>每季</td></tr>' +
-  '</table>' +
-  '<h3>👩 汽電工會勞健保（貝）</h3>' +
-  '<table><tr><th>期別</th><th>總計</th></tr>' +
-  '<tr><td>1月費總計</td><td style="color:#E07090;font-weight:700">11,025元</td></tr>' +
-  '<tr><td>4月總計</td><td style="color:#E07090;font-weight:700">8,985元</td></tr>' +
-  '<tr><td>7月份總計</td><td style="color:#E07090;font-weight:700">8,985元</td></tr>' +
-  '<tr><td>11月份總計</td><td style="color:#E07090;font-weight:700">8,985元</td></tr>' +
-  '</table>' +
-  '<table><tr><th>明細項目</th><th>金額</th><th>說明</th></tr>' +
-  '<tr style="background:#FFF8ED"><td>會費（整年一次，僅1月繳）</td><td>2,040元</td><td>僅1月</td></tr>' +
-  '<tr><td>勞保費（29,500）</td><td class="blue">6,240元</td><td>每季</td></tr>' +
-  '<tr><td>健保費</td><td class="green">2,745元</td><td>每季</td></tr>' +
-  '</table>' +
-  '<h3>📊 家庭合計（呈＋貝）</h3>' +
-  '<table><tr><th>期別</th><th>總計</th></tr>' +
-  '<tr><td>1月總計（含年費/團保）</td><td class="gold">37,335元</td></tr>' +
-  '<tr><td>4月總計</td><td class="gold">23,535元</td></tr>' +
-  '<tr><td>7月份總計</td><td class="gold">23,535元</td></tr>' +
-  '<tr><td>11月份總計</td><td class="gold">23,535元</td></tr>' +
-  '<tr><td><b>全年總計</b></td><td class="gold" style="font-size:13px;font-weight:900">107,940元</td></tr>' +
-  '</table></div>' +
-
-  // 廠商資訊
-  '<div class="sect"><h2>🔧 廠商聯絡資訊</h2>' +
-  '<table><tr><th>廠商</th><th>煌舜汽車維修中心</th></tr>' +
-  '<tr><td>服務項目</td><td>鈑金烤漆・底盤・冷氣・產險理賠</td></tr>' +
-  '<tr><td>特約</td><td>產物保險特約店</td></tr>' +
-  '<tr><td>理賠接待</td><td><b>王嘉綺</b></td></tr>' +
-  '<tr><td>手機</td><td>0917-665-925</td></tr>' +
-  '<tr><td>公司電話</td><td>02-8275-1229</td></tr>' +
-  '<tr><td>地址</td><td>220 新北市板橋區板城路 89-3 號</td></tr>' +
-  '</table></div>' +
-
-  // 違規罰款
-  '<div class="sect"><h2>⚠️ 計程車常見違規罰款</h2>' +
-  '<div class="note">⚠️ 依最新《道路交通管理處罰條例》（115年最新版）<br>📌 有未結清罰鍰 → 無法辦理審驗<br>📌 一年累積12點→吊扣駕照2個月｜累積6點→強制參加講習</div>' +
-  '<h3>🚕 計程車司機專屬違規</h3>' +
-  '<table><tr><th>違規項目</th><th>罰鍰（元）</th><th>備註</th></tr>' +
-  '<tr><td>未辦執業登記即執業</td><td class="red">1,500–3,600</td><td>再違規吊照</td></tr>' +
-  '<tr><td>未按時辦理執業登記年度查驗</td><td class="red">1,200</td><td>逾6月廢止登記</td></tr>' +
-  '<tr><td>執業登記證未放指定插座或遮蔽</td><td class="red">1,500</td><td>—</td></tr>' +
-  '<tr><td>拒載乘客（無正當理由）</td><td class="red">1,500–3,000</td><td>記點1</td></tr>' +
-  '<tr><td>繞路詐財</td><td class="red">3,000–6,000</td><td>吊照</td></tr>' +
-  '<tr><td>計費表不用或以非合法計費表</td><td class="red">3,000–6,000</td><td>吊照</td></tr>' +
-  '<tr><td>計程車錶逾期未驗</td><td class="red" style="background:rgba(204,34,34,.08)">15,000–75,000</td><td class="red">⚠️ 高額</td></tr>' +
-  '</table>' +
-  '<h3>🚗 一般常見違規</h3>' +
-  '<table><tr><th>違規項目</th><th>罰鍰（元）</th><th>記點</th></tr>' +
-  '<tr><td>闖紅燈</td><td class="red">1,800–5,400</td><td>記點3</td></tr>' +
-  '<tr><td>未禮讓行人（行穿線）</td><td class="red">2,400–6,000</td><td>記點3</td></tr>' +
-  '<tr><td>違規停車</td><td class="red">600–2,400</td><td>依地點</td></tr>' +
-  '<tr><td>超速（未達20km/h）</td><td class="red">1,200–2,400</td><td>記點1</td></tr>' +
-  '<tr><td>超速（20–40km/h）</td><td class="red">1,800–3,600</td><td>記點1</td></tr>' +
-  '<tr><td>超速（40km/h以上）</td><td class="red" style="background:rgba(204,34,34,.08)">6,000–36,000</td><td class="red">記點3</td></tr>' +
-  '<tr><td>行駛中使用手機</td><td class="red">3,000–6,000</td><td>記點3</td></tr>' +
-  '<tr><td>未繫安全帶</td><td class="red">1,500–3,000</td><td>記點1</td></tr>' +
-  '<tr><td>強行超車或不依序行駛</td><td class="red">600–1,800</td><td>記點1</td></tr>' +
-  '<tr><td>違規迴轉</td><td class="red">600–1,200</td><td>記點1</td></tr>' +
-  '</table>' +
-  '<h3>🍺 酒駕（零容忍）</h3>' +
-  '<table><tr><th>違規項目</th><th>罰鍰（元）</th><th>備註</th></tr>' +
-  '<tr style="background:rgba(204,34,34,.06)"><td>血液酒精濃度 0.15–0.25 mg/L</td><td class="red">15,000–90,000</td><td>吊照+記點</td></tr>' +
-  '<tr style="background:rgba(204,34,34,.1)"><td>血液酒精濃度 0.25 mg/L 以上</td><td class="red">90,000</td><td>吊照+刑責</td></tr>' +
-  '</table>' +
-  '<div class="note">📊 違規記點重要提醒<br>• 記點期限：1年內累積計算<br>• 累積6點 → 強制自費參加道路安全講習<br>• 累積12點 → 吊扣駕照2個月<br>• 自費講習可抵點：每年最多2次，每次抵1點<br>• 逕行舉發（未當場取締）不記點</div></div>' +
-
-  // 道路救援
-  '<div class="sect"><h2>🆘 道路救援</h2>' +
-  '<div class="note" style="border-color:rgba(204,34,34,.3);background:#FFF3F3">🚨 <b>事故現場先撥 110（警察）或 119（救護）</b><br>⚠️ 國道高速公路故障 → 先撥保險公司申告，再由拖吊公司處理<br>📌 TDZ-0950｜車身號碼：2ZRX706989</div>' +
-  '<h3>🛡️ 你的保單道路救援（優先撥打）</h3>' +
-  '<table><tr><th>保險公司</th><th>電話</th><th>說明</th></tr>' +
-  '<tr><td><b>新安東京海上</b><br><span style="color:#888;font-size:10px">第三責任險 115/05/03–116/05/03</span></td><td class="blue">0800-050-119</td><td>24H 免費｜每事故限1次</td></tr>' +
-  '<tr><td><b>富邦產物保險</b><br><span style="color:#888;font-size:10px">強制責任險 115/04/25–116/04/25</span></td><td class="red">0800-009-888</td><td>24H 免費</td></tr>' +
-  '</table>' +
-  '<h3>🔧 道路救援業者（自費或保險指定）</h3>' +
-  '<table><tr><th>業者</th><th>電話</th><th>備註</th></tr>' +
-  '<tr><td>全鋒道路救援</td><td>0800-013-013（按1拖吊）</td><td>富邦指定</td></tr>' +
-  '<tr><td>全鋒客服</td><td>0800-010-010</td><td>24H</td></tr>' +
-  '<tr><td>行遍天下道路救援</td><td>0800-071-111</td><td>富邦指定，24H</td></tr>' +
-  '</table>' +
-  '<h3>🚨 緊急聯絡電話</h3>' +
-  '<table><tr><th>用途</th><th>電話</th></tr>' +
-  '<tr><td>警察報案</td><td><b>110</b></td></tr>' +
-  '<tr><td>救護車</td><td><b>119</b></td></tr>' +
-  '<tr><td>國道救援</td><td><b>1968</b></td></tr>' +
-  '<tr><td>台電停電</td><td>0800-066-666</td></tr>' +
-  '</table>' +
-  '<div class="note">⚠️ 注意事項<br>• 車內載客時，保險業者不提供免費道路救援（僅限空車）<br>• 使用前先打保險公司申告，不得自行叫拖吊後再請求退費<br>• 同一天同一服務項目限1次，超過自付費用<br>• 國道：先電保險公司申告 → 記下申告編號 → 再讓高公局拖吊</div></div>' +
-
-  // 第三責任險
-  '<div class="sect"><h2>📄 第三責任險</h2>' +
-  '<table><tr><th>項目</th><th>內容</th></tr>' +
-  '<tr><td>保險公司</td><td>新安東京海上產物保險</td></tr>' +
-  '<tr><td>保單號碼</td><td>17000 第15V9005830號</td></tr>' +
-  '<tr><td>被保險人</td><td>青宮交通（王介呈）</td></tr>' +
-  '<tr><td>要保人</td><td>王介呈</td></tr>' +
-  '<tr><td>保險期間</td><td class="red">115/05/03 → 116/05/03</td></tr>' +
-  '<tr><td>車牌號碼</td><td class="gold">TDZ-0950</td></tr>' +
-  '<tr><td>車種</td><td>15 計程車</td></tr>' +
-  '<tr><td>廠牌車型</td><td>國瑞 09116100</td></tr>' +
-  '<tr><td>引擎/車身號碼</td><td>2ZRX706989</td></tr>' +
-  '<tr><td>排氣量</td><td>1798 CC</td></tr>' +
-  '<tr><td>製造年份</td><td>西元 2020 年</td></tr>' +
-  '<tr><td>乘載數</td><td>5.0 人</td></tr>' +
-  '</table>' +
-  '<div style="margin-top:8px;font-size:11px;color:#aaa">客服：0800-050-119（新安東京海上，24H）</div>' +
-  '</div>' +
-
-  '<div style="margin-top:20px;border-top:1px solid #eee;padding-top:10px;font-size:10px;color:#aaa;text-align:center">計程車營收彙總表 · TDZ-0950 · 匯出日期：' + new Date().toLocaleDateString('zh-TW') + '</div>' +
-  '<script>window.onload=function(){window.print();}<\/script>' +
-  '</body></html>';
-
-  printWin.document.write(html);
-  printWin.document.close();
-  toast('✅ PDF 預覽已開啟，請選擇「另存為 PDF」');
-}
-
 function doImportJSON() {
   var txt = document.getElementById('import-box').querySelector('textarea').value.trim();
   if (!txt) { toast('⚠️ 請先貼上 JSON'); return; }
