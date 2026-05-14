@@ -1197,6 +1197,50 @@
     .plan-toast { position:fixed; bottom:80px; left:50%; transform:translateX(-50%) translateY(20px); background:var(--espresso); color:#fff; padding:10px 20px; border-radius:8px; font-size:13px; font-weight:700; opacity:0; transition:all .3s; z-index:500; pointer-events:none; white-space:nowrap; }
     .plan-toast.show { opacity:1; transform:translateX(-50%) translateY(0); }
     .plan-footer { max-width:680px; margin:20px auto 0; font-family:'DM Mono',monospace; font-size:10.5px; color:var(--warm-tan); text-align:center; line-height:1.7; }
+
+    /* ── 尚需資金試算 ── */
+    .fund-section { max-width:680px; margin:0 auto 22px; }
+    .fund-section-title { font-size:13px; font-weight:900; color:var(--espresso); margin-bottom:10px; display:flex; align-items:center; gap:8px; }
+    .fund-sum-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin-bottom:14px; }
+    .fund-sum-card { background:var(--card-bg); border:1px solid var(--warm-tan); border-radius:10px; padding:12px 10px; text-align:center; }
+    .fund-sum-lbl { font-family:'DM Mono',monospace; font-size:9.5px; font-weight:700; color:var(--sienna); letter-spacing:.06em; margin-bottom:5px; }
+    .fund-sum-val { font-size:16px; font-weight:900; color:var(--espresso); }
+    .fund-sum-val.accent { color:var(--gold); }
+    .fund-sum-val.green  { color:var(--profit); }
+    .fund-sum-sub { font-family:'DM Mono',monospace; font-size:9px; color:var(--warm-tan); margin-top:2px; }
+    .fund-table-wrap { background:var(--card-bg); border:1px solid var(--warm-tan); border-radius:10px; overflow:hidden; }
+    .fund-table { width:100%; border-collapse:collapse; font-size:12px; table-layout:fixed; }
+    .fund-table colgroup col:nth-child(1) { width:29%; }
+    .fund-table colgroup col:nth-child(2) { width:9%; }
+    .fund-table colgroup col:nth-child(3) { width:9%; }
+    .fund-table colgroup col:nth-child(4) { width:9%; }
+    .fund-table colgroup col:nth-child(5) { width:13%; }
+    .fund-table colgroup col:nth-child(6) { width:17%; }
+    .fund-table colgroup col:nth-child(7) { width:14%; }
+    .fund-table thead th { padding:9px 8px; text-align:right; font-family:'DM Mono',monospace; font-size:10px; font-weight:700; color:var(--sienna); background:var(--parchment); border-bottom:1px solid var(--warm-tan); }
+    .fund-table thead th:first-child { text-align:left; padding-left:14px; }
+    .fund-table tbody tr { border-bottom:1px solid rgba(168,200,232,.15); transition:background .15s; }
+    .fund-table tbody tr:last-child { border-bottom:none; }
+    .fund-table tbody tr:hover { background:rgba(245,237,224,.5); }
+    .fund-table tbody td { padding:9px 8px; text-align:right; color:var(--espresso); }
+    .fund-table tbody td:first-child { text-align:left; padding-left:14px; }
+    .fund-name { font-weight:700; font-size:12px; color:var(--espresso); }
+    .fund-code { font-family:'DM Mono',monospace; font-size:10px; color:var(--sienna); margin-top:1px; }
+    .fund-diff-pos { color:#c06010; font-weight:700; }
+    .fund-diff-done { color:var(--profit); font-weight:700; }
+    .fund-amount { font-family:'DM Mono',monospace; font-weight:700; color:var(--espresso); }
+    .fund-amount.done { color:var(--warm-tan); }
+    .fund-price-inp { width:62px; text-align:right; font-size:11px; font-family:'DM Mono',monospace; font-weight:700; padding:3px 5px; border:1px solid var(--warm-tan); border-radius:5px; background:var(--parchment); color:var(--espresso); outline:none; }
+    .fund-price-inp:focus { border-color:var(--sienna); }
+    .fund-bar-wrap { display:flex; align-items:center; gap:5px; justify-content:flex-end; }
+    .fund-bar-bg { flex:1; height:5px; background:rgba(168,200,232,.2); border-radius:3px; overflow:hidden; max-width:50px; }
+    .fund-bar-fill { height:100%; border-radius:3px; transition:width .4s ease; }
+    .fund-pct { font-family:'DM Mono',monospace; font-size:10px; color:var(--sienna); min-width:28px; text-align:right; }
+    .fund-note { font-family:'DM Mono',monospace; font-size:10px; color:var(--warm-tan); text-align:center; padding:10px 14px; line-height:1.7; border-top:1px solid rgba(168,200,232,.15); }
+    @media(max-width:600px) {
+      .fund-sum-grid { grid-template-columns:repeat(2,1fr); }
+      .fund-table { font-size:11px; }
+    }
     @media(max-width:600px) {
       .plan-summary { grid-template-columns:repeat(3,1fr); gap:6px; }
       .plan-sum-val { font-size:14px; }
@@ -1286,6 +1330,26 @@
       <div class="plan-sum-lbl">最高配息月</div>
       <div class="plan-sum-val gold" id="plan-s-topmonth">—</div>
       <div class="plan-sum-sub" id="plan-s-topval">—</div>
+    </div>
+  </div>
+
+  <!-- ── 尚需資金試算 ── -->
+  <div class="fund-section" id="fund-section">
+    <div class="fund-section-title">💰 距目標尚需資金試算</div>
+    <div class="fund-sum-grid" id="fund-sum-grid"></div>
+    <div class="fund-table-wrap">
+      <table class="fund-table">
+        <colgroup><col><col><col><col><col><col><col></colgroup>
+        <thead>
+          <tr>
+            <th style="text-align:left">ETF</th>
+            <th>現有</th><th>目標</th><th>差距</th>
+            <th>現價(元)</th><th>尚需資金</th><th>進度</th>
+          </tr>
+        </thead>
+        <tbody id="fund-table-body"></tbody>
+      </table>
+      <div class="fund-note">現價可直接修改即時重算 ・ 尚需資金 = 差距張數 × 現價 × 1,000 股 ・ 股價參考 2026/05/14</div>
     </div>
   </div>
 
@@ -1903,12 +1967,12 @@
   let planEtfs = [
     { id:'00878',  name:'國泰永續高股息',        color:'green',  held:48, target:60, divM:[2,5,8,11],                    divPu:0.66,  dist:'季配' },
     { id:'00918',  name:'大華優利高填息30',       color:'teal',   held:6,  target:60, divM:[3,6,9,12],                    divPu:0.62,  dist:'季配' },
-    { id:'00981D', name:'主動中信非投等債',       color:'purple', held:19, target:60, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, dist:'月配' },
-    { id:'00981B', name:'第一金優選非投債',       color:'blue',   held:19, target:60, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.062, dist:'月配' },
+    { id:'00981D', name:'主動中信非投等債',       color:'purple', held:15, target:75, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, dist:'月配' },
+    { id:'00981B', name:'第一金優選非投債',       color:'blue',   held:15, target:75, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.062, dist:'月配' },
     { id:'00400A', name:'主動國泰動能高息',       color:'orange', held:8,  target:60, divM:[],                            divPu:0.075, dist:'月配' },
     { id:'00996A', name:'主動兆豐台灣豐收',       color:'mint',   held:9,  target:20, divM:[],                            divPu:0.15,  dist:'季配' },
     { id:'00999A', name:'主動野村台灣高息',       color:'yellow', held:5,  target:20, divM:[],                            divPu:0,     dist:'待定' },
-    { id:'00403A', name:'統一台股升級50',         color:'lime',   held:10, target:20, divM:[],                            divPu:0,     dist:'待定' },
+    { id:'00403A', name:'主動統一升級50',         color:'lime',   held:10, target:20, divM:[],                            divPu:0,     dist:'待定' },
   ];
   let planMode = 'target';
   let planManageOpen = false;
@@ -2177,6 +2241,7 @@
     setTimeout(() => {
       document.querySelectorAll('[data-w]').forEach(el => { el.style.width = el.dataset.w; });
     }, 100);
+    fundRender();
   }
 
   function planExportExcel() {
@@ -2216,6 +2281,101 @@
 
   // 初始化存股計畫
   planLoadData();
+
+  /* ── 尚需資金試算 ── */
+  const FUND_PRICES = {
+    '00878': 28.12, '00918': 30.50, '00981D': 10.33,
+    '00981B': 9.19, '00400A': 12.10, '00996A': 10.80,
+    '00999A': 10.00, '00403A': 10.80
+  };
+  const FUND_COLORS = {
+    'green':'#2a6b3a','teal':'#1a7ea8','purple':'#7a4fa8','blue':'#4a7fa8',
+    'orange':'#c06010','mint':'#b07800','yellow':'#c8a000','lime':'#7a9e00'
+  };
+
+  function fundFmtW(n) {
+    if (n >= 10000000) return (n/10000).toFixed(0) + ' 萬';
+    if (n >= 1000000) return (n/10000).toFixed(1) + ' 萬';
+    if (n >= 10000) return (n/10000).toFixed(2) + ' 萬';
+    return Math.round(n).toLocaleString('zh-TW') + ' 元';
+  }
+
+  function fundRender() {
+    const tbody = document.getElementById('fund-table-body');
+    const sumGrid = document.getElementById('fund-sum-grid');
+    if (!tbody || !sumGrid) return;
+    tbody.innerHTML = '';
+    let totalNeeded = 0, doneCount = 0;
+    const etfList = planEtfs;
+
+    etfList.forEach((e, idx) => {
+      const price = FUND_PRICES[e.id] !== undefined ? FUND_PRICES[e.id] : 10;
+      if (FUND_PRICES[e.id] === undefined) FUND_PRICES[e.id] = price;
+      const diff = Math.max(0, e.target - e.held);
+      const needed = diff * price * 1000;
+      totalNeeded += needed;
+      const pct = Math.min(100, Math.round(e.held / e.target * 100));
+      if (diff === 0) doneCount++;
+      const barColor = FUND_COLORS[e.color] || '#4a7fa8';
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>
+          <div class="fund-name">${e.name}</div>
+          <div class="fund-code">${e.id}</div>
+        </td>
+        <td style="font-family:'DM Mono',monospace">${e.held}</td>
+        <td style="font-family:'DM Mono',monospace">${e.target}</td>
+        <td class="${diff > 0 ? 'fund-diff-pos' : 'fund-diff-done'}">${diff > 0 ? '+' + diff : '✓'}</td>
+        <td>
+          <input class="fund-price-inp" type="number" step="0.01" min="0"
+            value="${price.toFixed(2)}"
+            data-idx="${idx}"
+            onchange="FUND_PRICES['${e.id}']=+this.value; fundRender();">
+        </td>
+        <td class="fund-amount ${diff === 0 ? 'done' : ''}">${diff > 0 ? fundFmtW(needed) : '—'}</td>
+        <td>
+          <div class="fund-bar-wrap">
+            <div class="fund-bar-bg">
+              <div class="fund-bar-fill" style="width:${pct}%; background:${barColor};"></div>
+            </div>
+            <span class="fund-pct">${pct}%</span>
+          </div>
+        </td>`;
+      tbody.appendChild(tr);
+    });
+
+    const totalTarget = etfList.reduce((s,e)=>s+e.target,0);
+    const totalHeld   = etfList.reduce((s,e)=>s+Math.min(e.held,e.target),0);
+    const overallPct  = Math.round(totalHeld/totalTarget*100);
+    const maxGap = etfList.slice().sort((a,b)=>{
+      const pa = FUND_PRICES[a.id]||10, pb = FUND_PRICES[b.id]||10;
+      return (Math.max(0,b.target-b.held)*pb) - (Math.max(0,a.target-a.held)*pa);
+    })[0];
+    const maxGapAmt = Math.max(0,maxGap.target-maxGap.held)*(FUND_PRICES[maxGap.id]||10)*1000;
+
+    sumGrid.innerHTML = `
+      <div class="fund-sum-card">
+        <div class="fund-sum-lbl">尚需總資金</div>
+        <div class="fund-sum-val accent">${fundFmtW(totalNeeded)}</div>
+        <div class="fund-sum-sub">${Math.round(totalNeeded).toLocaleString('zh-TW')} 元</div>
+      </div>
+      <div class="fund-sum-card">
+        <div class="fund-sum-lbl">整體完成度</div>
+        <div class="fund-sum-val green">${overallPct}%</div>
+        <div class="fund-sum-sub">${totalHeld} / ${totalTarget} 張</div>
+      </div>
+      <div class="fund-sum-card">
+        <div class="fund-sum-lbl">已達標檔數</div>
+        <div class="fund-sum-val">${doneCount} / ${etfList.length}</div>
+        <div class="fund-sum-sub">檔</div>
+      </div>
+      <div class="fund-sum-card">
+        <div class="fund-sum-lbl">最大缺口</div>
+        <div class="fund-sum-val" style="font-size:13px;">${maxGap.name.length>7?maxGap.name.slice(0,7)+'…':maxGap.name}</div>
+        <div class="fund-sum-sub">${fundFmtW(maxGapAmt)}</div>
+      </div>`;
+  }
 
   /* ── TAB SWITCH ── */
   function switchTab(who) {
