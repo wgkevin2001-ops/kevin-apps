@@ -108,13 +108,13 @@
   }
   .tab-btn {
     flex: 1;
-    padding: 11px 20px;
+    padding: 8px 12px;
     border: none;
     background: transparent;
     cursor: pointer;
     font-family: 'Noto Sans TC', sans-serif;
     font-weight: 700;
-    font-size: 18px;
+    font-size: 13px;
     color: var(--sienna);
     letter-spacing: 0.04em;
     transition: background 0.2s, color 0.2s;
@@ -123,7 +123,7 @@
   .tab-btn .tab-sub {
     display: block;
     font-family: 'DM Mono', monospace;
-    font-size: 11px;
+    font-size: 8px;
     font-weight: 700;
     letter-spacing: 0.1em;
     color: var(--warm-tan);
@@ -474,16 +474,21 @@
   /* ── EXPORT TOOLBAR ── */
   .export-bar {
     display: flex;
-    justify-content: flex-end;
-    gap: 8px;
+    flex-direction: column;
+    gap: 5px;
     max-width: 680px;
     margin: 0 auto 18px;
+  }
+  .export-row {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
   }
   .export-btn {
     display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 8px 16px;
+    gap: 4px;
+    padding: 7px 12px;
     border-radius: 8px;
     border: 1.5px solid rgba(200,168,130,0.5);
     background: rgba(252,242,228,0.80);
@@ -491,11 +496,12 @@
     -webkit-backdrop-filter: blur(8px);
     color: var(--espresso);
     font-family: 'DM Mono', monospace;
-    font-size: 12px;
+    font-size: 11px;
     font-weight: 700;
     cursor: pointer;
     letter-spacing: .04em;
     transition: background .15s, transform .15s, box-shadow .15s;
+    white-space: nowrap;
   }
   .export-btn:hover {
     background: var(--parchment);
@@ -620,8 +626,67 @@
     font-size: 15px; font-weight: 700; color: var(--ink); outline: none;
   }
   .em-section-select:focus { border-color: var(--gold); }
+
+  /* ── 截圖辨識 Modal ── */
+  #ocr-modal-overlay {
+    position:fixed;inset:0;z-index:900;
+    background:rgba(13,33,55,.55);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;padding:16px;
+  }
+  #ocr-modal-overlay.on{display:flex;}
+  #ocr-modal-box{
+    background:var(--card-bg);border-radius:16px;width:100%;max-width:460px;
+    box-shadow:0 12px 48px rgba(13,33,55,.35);overflow:hidden;
+    animation:fadeUp .25s ease both;display:flex;flex-direction:column;max-height:92vh;
+  }
+  #ocr-drop-zone{
+    border:2px dashed var(--warm-tan);border-radius:10px;padding:28px 16px;
+    text-align:center;cursor:pointer;transition:border-color .2s,background .2s;
+    position:relative;background:var(--parchment);
+  }
+  #ocr-drop-zone.dragover{border-color:var(--gold);background:rgba(196,98,45,.06);}
+  #ocr-drop-zone input[type=file]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+  #ocr-preview{width:100%;max-height:160px;object-fit:contain;border-radius:8px;margin-top:10px;display:none;}
+  #ocr-result-list{display:flex;flex-direction:column;gap:8px;}
+  .ocr-item{background:var(--parchment);border:1.5px solid var(--warm-tan);border-radius:10px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;}
+  .ocr-item-header{display:flex;align-items:center;justify-content:space-between;}
+  .ocr-item-code{font-family:'DM Mono',monospace;font-size:15px;font-weight:900;color:var(--espresso);}
+  .ocr-item-name{font-size:12px;color:var(--sienna);font-weight:700;margin-top:1px;}
+  .ocr-item-fields{display:grid;grid-template-columns:1fr 1fr;gap:6px 10px;margin-top:4px;}
+  .ocr-item-field{display:flex;flex-direction:column;gap:2px;}
+  .ocr-item-field label{font-size:10px;font-family:'DM Mono',monospace;font-weight:700;color:var(--sienna);letter-spacing:.04em;}
+  .ocr-item-field input{width:100%;padding:7px 10px;background:#fff;border:1.5px solid var(--warm-tan);border-radius:6px;font-size:14px;font-weight:700;color:var(--ink);font-family:'DM Mono',monospace;outline:none;}
+  .ocr-item-field input:focus{border-color:var(--gold);}
+  .ocr-item-type{font-size:10px;font-family:'DM Mono',monospace;font-weight:700;padding:2px 8px;border-radius:4px;background:rgba(196,98,45,.12);color:var(--gold);}
+  .ocr-item-del{background:none;border:none;cursor:pointer;font-size:16px;color:var(--loss);padding:2px 4px;}
+  .ocr-apply-btn{width:100%;padding:13px;background:var(--espresso);color:#fff;border:none;border-radius:10px;font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:900;cursor:pointer;transition:opacity .2s;margin-top:4px;}
+  .ocr-apply-btn:hover{opacity:.85;}
+  .ocr-apply-btn:disabled{opacity:.4;cursor:not-allowed;}
+  #ocr-status{font-size:12px;color:var(--sienna);font-family:'DM Mono',monospace;text-align:center;min-height:18px;}
+  .ocr-scroll-body{overflow-y:auto;padding:16px 20px;display:flex;flex-direction:column;gap:14px;flex:1;}
+
+  /* ── 寄送報表 Modal ── */
+  #email-modal-overlay{
+    position:fixed;inset:0;z-index:900;
+    background:rgba(13,33,55,.55);backdrop-filter:blur(4px);
+    display:none;align-items:center;justify-content:center;padding:16px;
+  }
+  #email-modal-overlay.on{display:flex;}
+  #email-modal-box{background:var(--card-bg);border-radius:16px;width:100%;max-width:420px;box-shadow:0 12px 48px rgba(13,33,55,.35);overflow:hidden;animation:fadeUp .25s ease both;}
+  .email-option{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:8px;border:1.5px solid var(--warm-tan);background:var(--parchment);cursor:pointer;transition:border-color .2s,background .2s;user-select:none;}
+  .email-option input[type=checkbox]{width:17px;height:17px;accent-color:var(--gold);flex-shrink:0;}
+  .email-option-label{font-size:13px;font-weight:700;color:var(--espresso);}
+  .email-option-sub{font-size:10px;font-family:'DM Mono',monospace;color:var(--sienna);margin-top:2px;}
+  .email-option:has(input:checked){border-color:var(--gold);background:rgba(196,98,45,.08);}
+  #email-status{font-size:12px;font-family:'DM Mono',monospace;text-align:center;min-height:20px;color:var(--sienna);}
+  .email-send-btn{width:100%;padding:13px;background:var(--espresso);color:#fff;border:none;border-radius:10px;font-family:'Noto Sans TC',sans-serif;font-size:15px;font-weight:900;cursor:pointer;transition:opacity .2s;}
+  .email-send-btn:hover{opacity:.85;}
+  .email-send-btn:disabled{opacity:.4;cursor:not-allowed;}
+  .email-divider{display:flex;align-items:center;gap:10px;font-size:10px;font-family:'DM Mono',monospace;color:var(--warm-tan);font-weight:700;}
+  .email-divider::before,.email-divider::after{content:'';flex:1;height:1px;background:var(--warm-tan);}
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js" defer></script>
 </head>
 
 <header class="page-header">
@@ -765,27 +830,33 @@
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th onclick="sortTable(this)" data-col="0" data-type="name">代號</th><th onclick="sortTable(this)" data-col="1" data-type="num">持股數</th><th onclick="sortTable(this)" data-col="2" data-type="num">損益（USD）</th><th onclick="sortTable(this)" data-col="3" data-type="num">報酬率</th><th onclick="sortTable(this)" data-col="4" data-type="num">最新價（USD）</th><th style="text-align:center;width:80px">操作</th></tr></thead>
+        <thead><tr><th onclick="sortTable(this)" data-col="0" data-type="name">代號</th><th onclick="sortTable(this)" data-col="1" data-type="num">持股數</th><th onclick="sortTable(this)" data-col="2" data-type="num">均價（USD）</th><th onclick="sortTable(this)" data-col="3" data-type="num">現價（USD）</th><th onclick="sortTable(this)" data-col="4" data-type="num">損益（USD）</th><th onclick="sortTable(this)" data-col="5" data-type="num">報酬率</th><th style="text-align:center;width:80px">操作</th></tr></thead>
         <tbody data-section="美股（口袋存股）">
-          <tr data-pnl="pos" data-us-code="AAPL"  data-us-shares="0.1877" data-us-pnl="+212"  data-us-rate="+13.76%" data-us-price="294.01"><td><div class="stock-name">AAPL</div></td><td class="shares">0.1877</td><td class="profit-cell">+212</td><td><span class="profit-rate pos">+13.76%</span></td><td class="price-cell">294.01</td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="AMAT"  data-us-shares="0.123"  data-us-pnl="+104"  data-us-rate="+6.79%"  data-us-price="420.83"><td><div class="stock-name">AMAT</div></td><td class="shares">0.123</td><td class="profit-cell">+104</td><td><span class="profit-rate pos">+6.79%</span></td><td class="price-cell">420.83</td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="FLY"   data-us-shares="6.8843" data-us-pnl="+646"  data-us-rate="+8.25%"  data-us-price="38.79"><td><div class="stock-name">FLY</div></td><td class="shares">6.8843</td><td class="profit-cell">+646</td><td><span class="profit-rate pos">+8.25%</span></td><td class="price-cell">38.79</td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="GEV"   data-us-shares="0.0921" data-us-pnl="+20"   data-us-rate="+0.66%"  data-us-price="1,059"><td><div class="stock-name">GEV</div></td><td class="shares">0.0921</td><td class="profit-cell">+20</td><td><span class="profit-rate pos">+0.66%</span></td><td class="price-cell">1,059</td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="LIN"   data-us-shares="0.1972" data-us-pnl="+77"   data-us-rate="+2.52%"  data-us-price="504.13"><td><div class="stock-name">LIN</div></td><td class="shares">0.1972</td><td class="profit-cell">+77</td><td><span class="profit-rate pos">+2.52%</span></td><td class="price-cell">504.13</td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="LITE"  data-us-shares="0.2239" data-us-pnl="+746"  data-us-rate="+12.13%" data-us-price="971"><td><div class="stock-name">LITE</div></td><td class="shares">0.2239</td><td class="profit-cell">+746</td><td><span class="profit-rate pos">+12.13%</span></td><td class="price-cell">971</td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="LRCX"  data-us-shares="0.3667" data-us-pnl="+208"  data-us-rate="+6.76%"  data-us-price="282.5"><td><div class="stock-name">LRCX</div></td><td class="shares">0.3667</td><td class="profit-cell">+208</td><td><span class="profit-rate pos">+6.76%</span></td><td class="price-cell">282.5</td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="NVDA"  data-us-shares="0.4864" data-us-pnl="+294"  data-us-rate="+9.56%"  data-us-price="218.54"><td><div class="stock-name">NVDA</div></td><td class="shares">0.4864</td><td class="profit-cell">+294</td><td><span class="profit-rate pos">+9.56%</span></td><td class="price-cell">218.54</td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="SATL"  data-us-shares="55"     data-us-pnl="+847"  data-us-rate="+7.11%"  data-us-price="7.31"><td><div class="stock-name">SATL</div></td><td class="shares">55</td><td class="profit-cell">+847</td><td><span class="profit-rate pos">+7.11%</span></td><td class="price-cell">7.31</td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="TSM"   data-us-shares="0.264"  data-us-pnl="+209"  data-us-rate="+6.80%"  data-us-price="392.46"><td><div class="stock-name">TSM</div></td><td class="shares">0.264</td><td class="profit-cell">+209</td><td><span class="profit-rate pos">+6.80%</span></td><td class="price-cell">392.46</td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="AAPL"  data-us-shares="0.1877" data-us-avg="" data-us-pnl="+212"  data-us-rate="+13.76%" data-us-price="294.01"><td><div class="stock-name">AAPL</div></td><td class="shares">0.1877</td><td class="price-cell us-avg">—</td><td class="price-cell">294.01</td><td class="profit-cell">+212</td><td><span class="profit-rate pos">+13.76%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="AMAT"  data-us-shares="0.123"  data-us-avg="" data-us-pnl="+104"  data-us-rate="+6.79%"  data-us-price="420.83"><td><div class="stock-name">AMAT</div></td><td class="shares">0.123</td><td class="price-cell us-avg">—</td><td class="price-cell">420.83</td><td class="profit-cell">+104</td><td><span class="profit-rate pos">+6.79%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="FLY"   data-us-shares="6.8843" data-us-avg="" data-us-pnl="+646"  data-us-rate="+8.25%"  data-us-price="38.79"><td><div class="stock-name">FLY</div></td><td class="shares">6.8843</td><td class="price-cell us-avg">—</td><td class="price-cell">38.79</td><td class="profit-cell">+646</td><td><span class="profit-rate pos">+8.25%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="GEV"   data-us-shares="0.0921" data-us-avg="" data-us-pnl="+20"   data-us-rate="+0.66%"  data-us-price="1,059"><td><div class="stock-name">GEV</div></td><td class="shares">0.0921</td><td class="price-cell us-avg">—</td><td class="price-cell">1,059</td><td class="profit-cell">+20</td><td><span class="profit-rate pos">+0.66%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="LIN"   data-us-shares="0.1972" data-us-avg="" data-us-pnl="+77"   data-us-rate="+2.52%"  data-us-price="504.13"><td><div class="stock-name">LIN</div></td><td class="shares">0.1972</td><td class="price-cell us-avg">—</td><td class="price-cell">504.13</td><td class="profit-cell">+77</td><td><span class="profit-rate pos">+2.52%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="LITE"  data-us-shares="0.2239" data-us-avg="" data-us-pnl="+746"  data-us-rate="+12.13%" data-us-price="971"><td><div class="stock-name">LITE</div></td><td class="shares">0.2239</td><td class="price-cell us-avg">—</td><td class="price-cell">971</td><td class="profit-cell">+746</td><td><span class="profit-rate pos">+12.13%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="LRCX"  data-us-shares="0.3667" data-us-avg="" data-us-pnl="+208"  data-us-rate="+6.76%"  data-us-price="282.5"><td><div class="stock-name">LRCX</div></td><td class="shares">0.3667</td><td class="price-cell us-avg">—</td><td class="price-cell">282.5</td><td class="profit-cell">+208</td><td><span class="profit-rate pos">+6.76%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="NVDA"  data-us-shares="0.4864" data-us-avg="" data-us-pnl="+294"  data-us-rate="+9.56%"  data-us-price="218.54"><td><div class="stock-name">NVDA</div></td><td class="shares">0.4864</td><td class="price-cell us-avg">—</td><td class="price-cell">218.54</td><td class="profit-cell">+294</td><td><span class="profit-rate pos">+9.56%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="SATL"  data-us-shares="55"     data-us-avg="" data-us-pnl="+847"  data-us-rate="+7.11%"  data-us-price="7.31"><td><div class="stock-name">SATL</div></td><td class="shares">55</td><td class="price-cell us-avg">—</td><td class="price-cell">7.31</td><td class="profit-cell">+847</td><td><span class="profit-rate pos">+7.11%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="TSM"   data-us-shares="0.264"  data-us-avg="" data-us-pnl="+209"  data-us-rate="+6.80%"  data-us-price="392.46"><td><div class="stock-name">TSM</div></td><td class="shares">0.264</td><td class="price-cell us-avg">—</td><td class="price-cell">392.46</td><td class="profit-cell">+209</td><td><span class="profit-rate pos">+6.80%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
   </div>
   <div class="export-bar">
-    <button class="export-btn excel" onclick="exportExcel('cheng')">📊 匯出 Excel</button>
-    <button class="export-btn pdf"   onclick="exportPDF('cheng')">🖨️ 轉存 PDF</button>
-    <button class="export-btn" style="border-color:#4A7FA8;color:#4A7FA8;" onclick="openDivModal()">💰 配息月曆</button>
-    <button class="export-btn" style="border-color:#2a7a4a;color:#2a7a4a;" onclick="fbSaveHoldings()">☁️ 同步雲端</button>
+    <div class="export-row">
+      <button class="export-btn" style="border-color:#6A5ACD;color:#6A5ACD;" onclick="openOcrModal()">📷 截圖辨識</button>
+      <button class="export-btn excel" onclick="exportExcel('cheng')">📊 匯出 Excel</button>
+      <button class="export-btn pdf"   onclick="exportPDF('cheng')">🖨️ 轉存 PDF</button>
+    </div>
+    <div class="export-row">
+      <button class="export-btn" style="border-color:#C0392B;color:#C0392B;" onclick="openEmailModal('cheng')">✉️ 寄送報表</button>
+      <button class="export-btn" style="border-color:#4A7FA8;color:#4A7FA8;" onclick="openDivModal()">💰 配息月曆</button>
+      <button class="export-btn" style="border-color:#2a7a4a;color:#2a7a4a;" onclick="fbSaveHoldings()">☁️ 同步雲端</button>
+    </div>
   </div>
 
 </div><!-- /panel-cheng -->
@@ -939,9 +1010,14 @@
     </div>
   </div>
   <div class="export-bar">
-    <button class="export-btn excel" onclick="exportExcel('niu')">📊 匯出 Excel</button>
-    <button class="export-btn pdf"   onclick="exportPDF('niu')">🖨️ 轉存 PDF</button>
-    <button class="export-btn" style="border-color:#2a7a4a;color:#2a7a4a;" onclick="fbSaveHoldings()">☁️ 同步雲端</button>
+    <div class="export-row">
+      <button class="export-btn excel" onclick="exportExcel('niu')">📊 匯出 Excel</button>
+      <button class="export-btn pdf"   onclick="exportPDF('niu')">🖨️ 轉存 PDF</button>
+    </div>
+    <div class="export-row">
+      <button class="export-btn" style="border-color:#C0392B;color:#C0392B;" onclick="openEmailModal('niu')">✉️ 寄送報表</button>
+      <button class="export-btn" style="border-color:#2a7a4a;color:#2a7a4a;" onclick="fbSaveHoldings()">☁️ 同步雲端</button>
+    </div>
   </div>
 
 </div><!-- /panel-niu -->
@@ -1147,8 +1223,10 @@
   </div>
 
   <div class="export-bar">
-    <button class="export-btn excel" onclick="planExportExcel()">📊 匯出 Excel</button>
-    <button class="export-btn pdf" onclick="exportPDF('plan')">🖨️ 轉存 PDF</button>
+    <div class="export-row">
+      <button class="export-btn excel" onclick="planExportExcel()">📊 匯出 Excel</button>
+      <button class="export-btn pdf" onclick="exportPDF('plan')">🖨️ 轉存 PDF</button>
+    </div>
   </div>
 </div><!-- /panel-plan -->
 
@@ -2609,6 +2687,7 @@
     document.getElementById('us-em-code').readOnly = false;
     document.getElementById('us-em-code').style.opacity = '1';
     document.getElementById('us-em-shares').value  = '';
+    document.getElementById('us-em-avg').value     = '';
     document.getElementById('us-em-price').value   = '';
     document.getElementById('us-em-pnl').value     = '';
     document.getElementById('us-em-rate').value    = '';
@@ -2625,6 +2704,7 @@
     document.getElementById('us-em-code').readOnly = true;
     document.getElementById('us-em-code').style.opacity = '.55';
     document.getElementById('us-em-shares').value  = tr.dataset.usShares || '';
+    document.getElementById('us-em-avg').value     = (tr.dataset.usAvg   || '').replace(/,/g, '');
     document.getElementById('us-em-price').value   = (tr.dataset.usPrice || '').replace(/,/g, '');
     document.getElementById('us-em-pnl').value     = tr.dataset.usPnl   || '';
     document.getElementById('us-em-rate').value    = tr.dataset.usRate  || '';
@@ -2638,24 +2718,27 @@
     _usEditTr = null;
   };
 
-  function buildUsTr(code, shares, pnl, rate, price) {
-    var isPos = String(pnl).indexOf('-') === -1;
-    var pnlClass  = isPos ? 'profit-cell' : 'loss-cell';
-    var rateClass = isPos ? 'profit-rate pos' : 'profit-rate neg';
-    var pnlStr  = pnl  || '—';
-    var rateStr = rate || '—';
+  function buildUsTr(code, shares, avg, price, pnl, rate) {
+    var isPos    = String(pnl).indexOf('-') === -1;
+    var pnlClass = isPos ? 'profit-cell' : 'loss-cell';
+    var rateCls  = isPos ? 'profit-rate pos' : 'profit-rate neg';
+    var avgStr   = avg   || '—';
     var priceStr = price || '—';
+    var pnlStr   = pnl   || '—';
+    var rateStr  = rate  || '—';
     return '<tr data-pnl="' + (isPos ? 'pos' : 'neg') + '"'
-      + ' data-us-code="'   + code   + '"'
-      + ' data-us-shares="' + shares + '"'
-      + ' data-us-pnl="'    + pnlStr + '"'
+      + ' data-us-code="'   + code    + '"'
+      + ' data-us-shares="' + shares  + '"'
+      + ' data-us-avg="'    + avgStr  + '"'
+      + ' data-us-pnl="'    + pnlStr  + '"'
       + ' data-us-rate="'   + rateStr + '"'
       + ' data-us-price="'  + priceStr + '">'
       + '<td><div class="stock-name">' + code + '</div></td>'
       + '<td class="shares">' + shares + '</td>'
-      + '<td class="' + pnlClass + '">' + pnlStr + '</td>'
-      + '<td><span class="' + rateClass + '">' + rateStr + '</span></td>'
+      + '<td class="price-cell us-avg">' + avgStr + '</td>'
       + '<td class="price-cell">' + priceStr + '</td>'
+      + '<td class="' + pnlClass + '">' + pnlStr + '</td>'
+      + '<td><span class="' + rateCls + '">' + rateStr + '</span></td>'
       + '<td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td>'
       + '</tr>';
   }
@@ -2663,6 +2746,7 @@
   window.saveUsModal = function() {
     var code   = document.getElementById('us-em-code').value.trim().toUpperCase();
     var shares = document.getElementById('us-em-shares').value.trim();
+    var avg    = document.getElementById('us-em-avg').value.trim();
     var price  = document.getElementById('us-em-price').value.trim();
     var pnl    = document.getElementById('us-em-pnl').value.trim();
     var rate   = document.getElementById('us-em-rate').value.trim();
@@ -2671,11 +2755,11 @@
     if (!shares || isNaN(parseFloat(shares))) { alert('請填寫持股數'); return; }
 
     if (_usEditTr) {
-      // 編輯現有列
       var tr = _usEditTr;
       var isPos = pnl.indexOf('-') === -1;
       tr.dataset.usCode   = code;
       tr.dataset.usShares = shares;
+      tr.dataset.usAvg    = avg;
       tr.dataset.usPnl    = pnl;
       tr.dataset.usRate   = rate;
       tr.dataset.usPrice  = price;
@@ -2685,21 +2769,19 @@
       tr.querySelector('.shares').textContent     = shares;
 
       var tds = tr.querySelectorAll('td');
-      // pnl cell (index 2)
-      tds[2].className   = isPos ? 'profit-cell' : 'loss-cell';
-      tds[2].textContent = pnl || '—';
-      // rate cell (index 3)
-      var span = tds[3].querySelector('span') || document.createElement('span');
+      // avg (index 2), price (index 3), pnl (index 4), rate (index 5)
+      tds[2].textContent = avg   || '—';
+      tds[3].textContent = price || '—';
+      tds[4].className   = isPos ? 'profit-cell' : 'loss-cell';
+      tds[4].textContent = pnl   || '—';
+      var span = tds[5].querySelector('span') || document.createElement('span');
       span.className   = isPos ? 'profit-rate pos' : 'profit-rate neg';
       span.textContent = rate || '—';
-      if (!tds[3].contains(span)) tds[3].appendChild(span);
-      // price cell (index 4)
-      tds[4].textContent = price || '—';
+      if (!tds[5].contains(span)) tds[5].appendChild(span);
     } else {
-      // 新增
       var tbody = document.querySelector('#panel-cheng tbody[data-section="美股（口袋存股）"]');
       var temp  = document.createElement('tbody');
-      temp.innerHTML = buildUsTr(code, shares, pnl, rate, price);
+      temp.innerHTML = buildUsTr(code, shares, avg, price, pnl, rate);
       tbody.appendChild(temp.firstChild);
       refreshUsCount();
     }
@@ -2787,19 +2869,23 @@
           <input class="em-input" id="us-em-shares" type="number" placeholder="例：0.5" step="0.0001" min="0">
         </div>
         <div class="em-field">
-          <div class="em-label">最新價（USD）</div>
-          <input class="em-input" id="us-em-price" type="number" placeholder="例：218.54" step="0.01" min="0">
+          <div class="em-label">買入均價（USD）</div>
+          <input class="em-input" id="us-em-avg" type="number" placeholder="例：175.30" step="0.01" min="0">
         </div>
       </div>
       <div class="em-row">
         <div class="em-field">
+          <div class="em-label">最新價（USD）</div>
+          <input class="em-input" id="us-em-price" type="number" placeholder="例：218.54" step="0.01" min="0">
+        </div>
+        <div class="em-field">
           <div class="em-label">損益（USD，含+/-）</div>
           <input class="em-input" id="us-em-pnl" placeholder="例：+294 或 -50">
         </div>
-        <div class="em-field">
-          <div class="em-label">報酬率（含+/-）</div>
-          <input class="em-input" id="us-em-rate" placeholder="例：+9.56%">
-        </div>
+      </div>
+      <div class="em-field">
+        <div class="em-label">報酬率（含+/-）</div>
+        <input class="em-input" id="us-em-rate" placeholder="例：+9.56%">
       </div>
       <div class="em-hint" id="us-em-hint">美股數據為手動更新，請自行填入最新資訊後儲存。</div>
     </div>
@@ -2809,6 +2895,289 @@
     </div>
   </div>
 </div>
+
+<!-- ══ 截圖辨識 Modal ══ -->
+<div id="ocr-modal-overlay" onclick="if(event.target===this)closeOcrModal()">
+  <div id="ocr-modal-box">
+    <div class="em-header">
+      <div class="em-title">📷 截圖辨識持股</div>
+      <button class="em-close" onclick="closeOcrModal()">✕</button>
+    </div>
+    <div class="ocr-scroll-body">
+      <div id="ocr-drop-zone" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="handleOcrDrop(event)">
+        <input type="file" accept="image/*" onchange="handleOcrFile(this.files[0])">
+        <div style="font-size:36px;margin-bottom:8px">📸</div>
+        <div style="font-size:14px;font-weight:900;color:var(--espresso);margin-bottom:4px">上傳或拖曳券商 App 截圖</div>
+        <div style="font-size:11px;color:var(--sienna);font-family:'DM Mono',monospace">支援 JPG / PNG</div>
+        <img id="ocr-preview" alt="預覽">
+      </div>
+      <div id="ocr-status">等待上傳截圖…</div>
+      <div id="ocr-result-list"></div>
+      <button class="ocr-apply-btn" id="ocr-apply-btn" onclick="applyOcrResults()" disabled>✅ 套用至持股表格</button>
+      <div class="em-hint" style="text-align:center">辨識結果可手動修正後再套用。台股更新股數均價；美股新增或更新。</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 寄送報表 Modal ══ -->
+<div id="email-modal-overlay" onclick="if(event.target===this)closeEmailModal()">
+  <div id="email-modal-box">
+    <div class="em-header">
+      <div class="em-title">✉️ 寄送持股報表</div>
+      <button class="em-close" onclick="closeEmailModal()">✕</button>
+    </div>
+    <div class="em-body">
+      <div class="em-field">
+        <div class="em-label">收件信箱</div>
+        <input class="em-input" id="email-to" type="email" placeholder="example@gmail.com" inputmode="email">
+      </div>
+      <div class="em-field">
+        <div class="em-label">報表內容</div>
+        <div style="display:flex;flex-direction:column;gap:8px;margin-top:2px">
+          <label class="email-option">
+            <input type="checkbox" id="email-opt-cheng" checked>
+            <div><div class="email-option-label">📋 呈的持股報表</div><div class="email-option-sub">台股 + 美股</div></div>
+          </label>
+          <label class="email-option">
+            <input type="checkbox" id="email-opt-niu">
+            <div><div class="email-option-label">📋 妞的持股報表</div><div class="email-option-sub">台股庫存</div></div>
+          </label>
+        </div>
+      </div>
+      <div id="email-status"></div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button class="email-send-btn" id="email-send-btn" onclick="sendEmailReport()">📤 寄送報表（EmailJS）</button>
+        <div class="email-divider">或</div>
+        <button class="email-send-btn" style="background:var(--lake,#4A7FA8);" onclick="openMailtoFallback()">📱 開啟郵件 App</button>
+      </div>
+      <div class="em-hint" style="text-align:center">EmailJS 免費方案每月 200 封。未設定時請用「開啟郵件 App」。</div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ══ 截圖辨識 ══
+var _ocrResults = [];
+
+window.openOcrModal = function() {
+  _ocrResults = [];
+  var el;
+  el = document.getElementById('ocr-result-list'); if(el) el.innerHTML = '';
+  el = document.getElementById('ocr-status');      if(el) el.textContent = '等待上傳截圖…';
+  el = document.getElementById('ocr-apply-btn');   if(el) el.disabled = true;
+  el = document.getElementById('ocr-preview');     if(el) el.style.display = 'none';
+  el = document.getElementById('ocr-modal-overlay'); if(el){ el.classList.add('on'); el.style.display='flex'; }
+};
+window.closeOcrModal = function() {
+  var el = document.getElementById('ocr-modal-overlay');
+  if(el){ el.classList.remove('on'); el.style.display='none'; }
+};
+window.handleOcrDrop = function(e) {
+  e.preventDefault();
+  document.getElementById('ocr-drop-zone').classList.remove('dragover');
+  var f = e.dataTransfer.files[0];
+  if(f && f.type.startsWith('image/')) handleOcrFile(f);
+};
+window.handleOcrFile = function(file) {
+  if(!file) return;
+  var reader = new FileReader();
+  reader.onload = function(ev) {
+    var preview = document.getElementById('ocr-preview');
+    preview.src = ev.target.result; preview.style.display = 'block';
+    runOcr(ev.target.result);
+  };
+  reader.readAsDataURL(file);
+};
+function runOcr(dataUrl) {
+  var status = document.getElementById('ocr-status');
+  status.textContent = '🤖 AI 辨識中，請稍候…';
+  document.getElementById('ocr-apply-btn').disabled = true;
+  var match = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
+  if(!match){ status.textContent = '⚠️ 圖片格式錯誤'; return; }
+  var mediaType = match[1], b64 = match[2];
+  var sys = '你是券商App截圖辨識助手。從截圖找出所有持股，以JSON陣列回傳：[{"type":"TW"或"US","code":"代號","name":"名稱","shares":"股數","avg":"均價","price":"現價","pnl":"損益(含+/-)","rate":"報酬率(含+/-%)"}]。只回傳JSON陣列。';
+  fetch('https://api.anthropic.com/v1/messages',{
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify({
+      model:'claude-sonnet-4-20250514', max_tokens:1000, system:sys,
+      messages:[{role:'user',content:[
+        {type:'image',source:{type:'base64',media_type:mediaType,data:b64}},
+        {type:'text',text:'辨識此截圖的持股，以JSON陣列回傳。'}
+      ]}]
+    })
+  })
+  .then(function(r){return r.json();})
+  .then(function(data){
+    var text='';
+    (data.content||[]).forEach(function(c){if(c.type==='text')text+=c.text;});
+    var m = text.match(/\[[\s\S]*\]/);
+    if(!m) throw new Error('無法解析');
+    var items = JSON.parse(m[0]);
+    if(!Array.isArray(items)||!items.length) throw new Error('未找到持股');
+    items.forEach(function(item){
+      var idx = _ocrResults.findIndex(function(r){return r.code===item.code;});
+      if(idx>=0) _ocrResults[idx]=Object.assign(_ocrResults[idx],item);
+      else _ocrResults.push(item);
+    });
+    renderOcrResults();
+    status.textContent = '✅ 辨識完成，共 '+_ocrResults.length+' 筆，可手動修正後套用。';
+    document.getElementById('ocr-apply-btn').disabled = false;
+  })
+  .catch(function(err){ status.textContent = '⚠️ 辨識失敗：'+err.message; });
+}
+function renderOcrResults() {
+  var list = document.getElementById('ocr-result-list');
+  list.innerHTML = '';
+  _ocrResults.forEach(function(item,idx){
+    var isTW = (item.type||'TW')!=='US';
+    var div = document.createElement('div');
+    div.className = 'ocr-item';
+    div.innerHTML =
+      '<div class="ocr-item-header">'+
+        '<div><div class="ocr-item-code">'+esc(item.code||'')+'</div>'+(item.name?'<div class="ocr-item-name">'+esc(item.name)+'</div>':'')+'</div>'+
+        '<div style="display:flex;align-items:center;gap:8px">'+
+          '<span class="ocr-item-type">'+(isTW?'🇹🇼 台股':'🇺🇸 美股')+'</span>'+
+          '<button class="ocr-item-del" onclick="removeOcrItem('+idx+')" title="移除">🗑</button>'+
+        '</div>'+
+      '</div>'+
+      '<div class="ocr-item-fields">'+
+        mkF('shares','股數',item.shares,idx)+
+        mkF('avg',isTW?'均價（元）':'均價（USD）',item.avg,idx)+
+        mkF('price',isTW?'現價（元）':'現價（USD）',item.price,idx)+
+        mkF('pnl','損益',item.pnl,idx)+
+        mkF('rate','報酬率',item.rate,idx)+
+      '</div>';
+    list.appendChild(div);
+  });
+}
+function mkF(f,label,val,idx){
+  return '<div class="ocr-item-field"><label>'+label+'</label><input type="text" value="'+esc(val||'')+'" oninput="updateOcrItem('+idx+',\''+f+'\',this.value)"></div>';
+}
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+window.updateOcrItem = function(idx,f,v){ if(_ocrResults[idx]) _ocrResults[idx][f]=v; };
+window.removeOcrItem = function(idx){
+  _ocrResults.splice(idx,1); renderOcrResults();
+  document.getElementById('ocr-apply-btn').disabled = _ocrResults.length===0;
+  document.getElementById('ocr-status').textContent = _ocrResults.length+' 筆待套用。';
+};
+window.applyOcrResults = function() {
+  var applied=0, skipped=0;
+  _ocrResults.forEach(function(item){
+    var code=(item.code||'').trim().toUpperCase();
+    if(!code){skipped++;return;}
+    var isTW = (item.type||'TW')!=='US';
+    if(isTW){
+      var tr=document.querySelector('#panel-cheng tr[data-code="'+code+'"],#panel-niu tr[data-code="'+code+'"]');
+      if(tr){
+        if(item.shares){tr.dataset.shares=item.shares;var sc=tr.querySelector('.shares');if(sc)sc.textContent=parseFloat(item.shares).toLocaleString('zh-TW');}
+        if(item.avg){tr.dataset.avg=item.avg;var cells=tr.querySelectorAll('.price-cell');if(cells[1])cells[1].textContent=item.avg;}
+        applied++;
+      } else skipped++;
+    } else {
+      var usTr=document.querySelector('#panel-cheng tr[data-us-code="'+code+'"]');
+      if(usTr){
+        if(item.shares){usTr.dataset.usShares=item.shares;var sc=usTr.querySelector('.shares');if(sc)sc.textContent=item.shares;}
+        if(item.price){usTr.dataset.usPrice=item.price;var tds=usTr.querySelectorAll('td');if(tds[4])tds[4].textContent=item.price;}
+        if(item.pnl){
+          usTr.dataset.usPnl=item.pnl;var isPos=item.pnl.indexOf('-')===-1;
+          var tds=usTr.querySelectorAll('td');
+          if(tds[2]){tds[2].className=isPos?'profit-cell':'loss-cell';tds[2].textContent=item.pnl;}
+        }
+        if(item.rate){usTr.dataset.usRate=item.rate;var tds=usTr.querySelectorAll('td');if(tds[3]){var sp=tds[3].querySelector('span');if(sp){var isPos=!item.pnl||item.pnl.indexOf('-')===-1;sp.className=isPos?'profit-rate pos':'profit-rate neg';sp.textContent=item.rate;}}}
+        applied++;
+      } else skipped++;
+    }
+  });
+  if(typeof fbSaveHoldings==='function') fbSaveHoldings();
+  var msg='✅ 已套用 '+applied+' 筆';
+  if(skipped>0) msg+='，'+skipped+' 筆跳過';
+  document.getElementById('ocr-status').textContent=msg;
+  document.getElementById('ocr-apply-btn').disabled=true;
+  _ocrResults=[];
+  document.getElementById('ocr-result-list').innerHTML='';
+  setTimeout(closeOcrModal,1800);
+};
+
+// ══ 寄送報表 ══
+var EMAILJS_PUBLIC_KEY  = 'YOUR_PUBLIC_KEY';
+var EMAILJS_SERVICE_ID  = 'YOUR_SERVICE_ID';
+var EMAILJS_TEMPLATE_ID = 'YOUR_TEMPLATE_ID';
+var _emailPanel = 'cheng';
+
+window.openEmailModal = function(panelId) {
+  _emailPanel = panelId||'cheng';
+  document.getElementById('email-opt-cheng').checked = (_emailPanel==='cheng');
+  document.getElementById('email-opt-niu').checked   = (_emailPanel==='niu');
+  var el = document.getElementById('email-status'); if(el) el.textContent='';
+  el = document.getElementById('email-send-btn'); if(el) el.disabled=false;
+  el = document.getElementById('email-modal-overlay'); if(el){el.classList.add('on');el.style.display='flex';}
+  setTimeout(function(){var t=document.getElementById('email-to');if(t)t.focus();},200);
+};
+window.closeEmailModal = function() {
+  var el=document.getElementById('email-modal-overlay');
+  if(el){el.classList.remove('on');el.style.display='none';}
+};
+function buildReportText(panelId) {
+  var panel=document.getElementById('panel-'+panelId);
+  if(!panel) return '';
+  var name=panelId==='cheng'?'呈':'妞';
+  var today=new Date().toLocaleDateString('zh-TW');
+  var lines=['呈貝持股報告 · '+name+' · '+today,'='.repeat(36)];
+  panel.querySelectorAll('.section').forEach(function(sec){
+    var title=sec.querySelector('.section-title');
+    if(title) lines.push('\n【'+title.textContent.trim()+'】');
+    var table=sec.querySelector('table');
+    if(!table) return;
+    var ths=Array.from(table.querySelectorAll('thead th'));
+    lines.push(ths.map(function(th){return th.textContent.replace(/[▲▼⇅]/g,'').trim();}).slice(0,-1).join('\t'));
+    lines.push('-'.repeat(32));
+    table.querySelectorAll('tbody tr').forEach(function(tr){
+      var cells=Array.from(tr.querySelectorAll('td')).slice(0,-1).map(function(td){
+        var n=td.querySelector('.stock-name');
+        if(n){var c=n.cloneNode(true);c.querySelectorAll('.tag').forEach(function(t){t.remove();});var code=td.querySelector('.stock-code');return c.textContent.trim()+(code?'（'+code.textContent.trim()+'）':'');}
+        return td.textContent.replace(/[▲▼]/g,'').trim();
+      });
+      lines.push(cells.join('\t'));
+    });
+  });
+  return lines.join('\n');
+}
+window.sendEmailReport = function() {
+  var to=(document.getElementById('email-to').value||'').trim();
+  if(!to||!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(to)){setEmailSt('⚠️ 請輸入正確信箱','warn');return;}
+  var optC=document.getElementById('email-opt-cheng').checked;
+  var optN=document.getElementById('email-opt-niu').checked;
+  if(!optC&&!optN){setEmailSt('⚠️ 請至少選一份報表','warn');return;}
+  if(EMAILJS_PUBLIC_KEY==='YOUR_PUBLIC_KEY'||typeof emailjs==='undefined'){setEmailSt('⚠️ EmailJS 未設定，請用「開啟郵件 App」','warn');return;}
+  var parts=[];
+  if(optC) parts.push(buildReportText('cheng'));
+  if(optN) parts.push(buildReportText('niu'));
+  var today=new Date().toLocaleDateString('zh-TW');
+  setEmailSt('📤 傳送中…','info');
+  document.getElementById('email-send-btn').disabled=true;
+  emailjs.init(EMAILJS_PUBLIC_KEY);
+  emailjs.send(EMAILJS_SERVICE_ID,EMAILJS_TEMPLATE_ID,{to_email:to,subject:'呈貝持股報告 · '+today,message:parts.join('\n\n'+'='.repeat(36)+'\n\n')})
+  .then(function(){setEmailSt('✅ 報表已寄出！','ok');document.getElementById('email-send-btn').disabled=false;setTimeout(closeEmailModal,2500);})
+  .catch(function(err){setEmailSt('❌ 失敗：'+(err.text||err.message),'err');document.getElementById('email-send-btn').disabled=false;});
+};
+window.openMailtoFallback = function() {
+  var to=(document.getElementById('email-to').value||'').trim();
+  var optC=document.getElementById('email-opt-cheng').checked;
+  var optN=document.getElementById('email-opt-niu').checked;
+  var parts=[];
+  if(optC) parts.push(buildReportText('cheng'));
+  if(optN) parts.push(buildReportText('niu'));
+  if(!parts.length){setEmailSt('⚠️ 請至少選一份報表','warn');return;}
+  var today=new Date().toLocaleDateString('zh-TW');
+  window.location.href='mailto:'+to+'?subject='+encodeURIComponent('呈貝持股報告 · '+today)+'&body='+encodeURIComponent(parts.join('\n\n========================================\n\n'));
+};
+function setEmailSt(msg,type) {
+  var el=document.getElementById('email-status'); if(!el) return;
+  el.textContent=msg;
+  el.style.color=type==='ok'?'var(--profit)':type==='err'||type==='warn'?'var(--loss)':'var(--sienna)';
+}
+</script>
 
 <!-- ══ Firebase 雲端同步 ══ -->
 <div id="fb-holdings-loading" style="position:fixed;inset:0;z-index:9999;background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;">
@@ -2892,6 +3261,7 @@ function collectHoldings() {
     data.cheng['US_' + code] = {
       usStock: true,
       shares:  tr.dataset.usShares || '',
+      avg:     tr.dataset.usAvg   || '',
       pnl:     tr.dataset.usPnl   || '',
       rate:    tr.dataset.usRate  || '',
       price:   tr.dataset.usPrice || '',
@@ -2923,6 +3293,36 @@ function applyHoldings(data) {
     Object.keys(panelData).forEach(code => {
       const d = panelData[code];
       if (!d) return;
+
+      // 美股（US_ 前綴）
+      if (code.startsWith('US_')) {
+        const usCode = code.replace(/^US_/, '');
+        let usTr = panelEl.querySelector('tr[data-us-code="' + usCode + '"]');
+        if (usTr) {
+          if (d.shares !== undefined) { usTr.dataset.usShares = d.shares; const sc = usTr.querySelector('.shares'); if (sc) sc.textContent = d.shares; }
+          if (d.avg    !== undefined) { usTr.dataset.usAvg   = d.avg;    const ac = usTr.querySelector('.us-avg'); if (ac) ac.textContent = d.avg || '—'; }
+          if (d.price  !== undefined) { usTr.dataset.usPrice = d.price;  const tds = usTr.querySelectorAll('td'); if (tds[3]) tds[3].textContent = d.price || '—'; }
+          if (d.pnl    !== undefined) { usTr.dataset.usPnl   = d.pnl;   const tds = usTr.querySelectorAll('td'); if (tds[4]) { const isPos = String(d.pnl).indexOf('-')===-1; tds[4].className = isPos?'profit-cell':'loss-cell'; tds[4].textContent = d.pnl; } }
+          if (d.rate   !== undefined) { usTr.dataset.usRate  = d.rate;  const tds = usTr.querySelectorAll('td'); if (tds[5]) { const sp = tds[5].querySelector('span'); if (sp) { const isPos = String(d.pnl||'').indexOf('-')===-1; sp.className = isPos?'profit-rate pos':'profit-rate neg'; sp.textContent = d.rate; } } }
+        } else if (panel === 'cheng') {
+          const tbody = panelEl.querySelector('tbody[data-section="美股（口袋存股）"]');
+          if (!tbody) return;
+          const isPos = String(d.pnl||'').indexOf('-')===-1;
+          const html = '<tr data-pnl="'+(isPos?'pos':'neg')+'" data-us-code="'+usCode+'" data-us-shares="'+(d.shares||'')+'" data-us-avg="'+(d.avg||'')+'" data-us-pnl="'+(d.pnl||'')+'" data-us-rate="'+(d.rate||'')+'" data-us-price="'+(d.price||'')+'">'
+            + '<td><div class="stock-name">'+usCode+'</div></td>'
+            + '<td class="shares">'+(d.shares||'')+'</td>'
+            + '<td class="price-cell us-avg">'+(d.avg||'—')+'</td>'
+            + '<td class="price-cell">'+(d.price||'—')+'</td>'
+            + '<td class="'+(isPos?'profit-cell':'loss-cell')+'">'+(d.pnl||'—')+'</td>'
+            + '<td><span class="profit-rate '+(isPos?'pos':'neg')+'">'+(d.rate||'—')+'</span></td>'
+            + '<td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td>'
+            + '</tr>';
+          const temp = document.createElement('tbody');
+          temp.innerHTML = html;
+          tbody.appendChild(temp.firstChild);
+        }
+        return;
+      }
 
       // 先找現有列
       let tr = panelEl.querySelector('tr[data-code="' + code + '"]');
