@@ -842,7 +842,7 @@
           <tr data-pnl="pos" data-code="2313"   data-avg="213.68"  data-shares="22" ><td><div class="stock-name">華通</div><div class="stock-code">2313</div></td><td class="price-cell live-price">—</td><td class="price-cell">213.68</td><td class="shares">22</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="2449"   data-avg="272.22"  data-shares="235"><td><div class="stock-name">京元電子</div><div class="stock-code">2449</div></td><td class="price-cell live-price">—</td><td class="price-cell">272.22</td><td class="shares">235</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="2324"   data-avg="28.05"  data-shares="250"><td><div class="stock-name">仁寶</div><div class="stock-code">2324</div></td><td class="price-cell live-price">—</td><td class="price-cell">28.05</td><td class="shares">250</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
-          <tr data-pnl="neg" data-code="3289"   data-avg="182.00"  data-shares="6"  ><td><div class="stock-name">宜特</div><div class="stock-code">3289</div></td><td class="price-cell live-price">—</td><td class="price-cell">182.00</td><td class="shares">6</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+
           <tr data-pnl="neg" data-code="6187"   data-avg="1135.00" data-shares="5"  ><td><div class="stock-name">萬潤</div><div class="stock-code">6187</div></td><td class="price-cell live-price">—</td><td class="price-cell">1135.00</td><td class="shares">5</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
@@ -984,7 +984,7 @@
           • 00981D（0.070元×19,000股）月配 → 年約 +15,960元<br>
           • 00830（9元×60股）年配 → +540元（2月發放）<br>
           • 00910（約3.5元×90股）年配 → 約+315元<br>
-          • 個股 6415/2313/2449/2324/3289/6187 → 約+1,891元（8月旺季）<br>
+          • 個股 6415/2313/2449/2324/6187 → 約+1,891元（8月旺季）<br>
           • 00631L、00941、00861、00876 設計上不配息<br>
           • 00996A、00400A、00999A 新上市，首次配息待公告<br>
           • 配息金額每期會變動，以最近一次為估算基準
@@ -1488,7 +1488,6 @@
     '2313':   { name:'華通',             divPerUnit:2.50,  type:'年配', payMonths:[8],          exMonths:[7]  },
     '2449':   { name:'京元電子',         divPerUnit:3.50,  type:'年配', payMonths:[8],          exMonths:[7]  },
     '2324':   { name:'仁寶',             divPerUnit:2.50,  type:'年配', payMonths:[8],          exMonths:[7]  },
-    '3289':   { name:'宜特',             divPerUnit:1.00,  type:'年配', payMonths:[8],          exMonths:[7]  },
     '6187':   { name:'萬潤',             divPerUnit:9.00,  type:'年配', payMonths:[8],          exMonths:[7]  },
   };
 
@@ -2612,14 +2611,13 @@
     '00882':'00882.TWO','00956A':'00956A.TWO','00981B':'00981B.TWO','00981D':'00981D.TWO',
     '00754B':'00754B.TWO','00996A':'00996A.TWO','00400A':'00400A.TWO','00999A':'00999A.TWO',
     '6415':'6415.TW','2313':'2313.TW','2449':'2449.TW','2324':'2324.TW',
-    '2542':'2542.TW','3289':'3289.TW','6187':'6187.TW',
+    '2542':'2542.TW','6187':'6187.TW',
   };
 
   // 備用靜態股價（GAS 抓不到的上櫃小股，手動每週更新一次）
   const FALLBACK_PRICE = {
     '00981B': 9.17,    // 第一金優選非投債（2026/05/13）
     '00981D': 10.32,   // 主動中信非投等債（2026/05/13）
-    '3289':   181.50,  // 宜特（2026/05/13）
     '6187':   1220.00, // 萬潤（2026/05/13）
   };
 
