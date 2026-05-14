@@ -904,18 +904,18 @@
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th onclick="sortTable(this)" data-col="0" data-type="name">代號</th><th onclick="sortTable(this)" data-col="1" data-type="num">持股數</th><th onclick="sortTable(this)" data-col="2" data-type="num">均價（元）</th><th onclick="sortTable(this)" data-col="3" data-type="num">現價（USD）</th><th onclick="sortTable(this)" data-col="4" data-type="num">損益（USD）</th><th onclick="sortTable(this)" data-col="5" data-type="num">報酬率</th><th style="text-align:center;width:80px">操作</th></tr></thead>
+        <thead><tr><th onclick="sortTable(this)" data-col="0" data-type="name">代號</th><th onclick="sortTable(this)" data-col="1" data-type="num">現價（USD）</th><th onclick="sortTable(this)" data-col="2" data-type="num">均價（元）</th><th onclick="sortTable(this)" data-col="3" data-type="num">持股數</th><th onclick="sortTable(this)" data-col="4" data-type="num">損益（元）</th><th onclick="sortTable(this)" data-col="5" data-type="num">報酬率</th><th style="text-align:center;width:80px">操作</th></tr></thead>
         <tbody data-section="美股（口袋存股）">
-          <tr data-pnl="pos" data-us-code="AMAT"  data-us-shares="0.123"  data-us-avg="394.07"   data-us-pnl="+5.23"  data-us-rate="+10.8%"  data-us-price="436.61"><td><div class="stock-name">AMAT</div></td><td class="shares">0.123</td><td class="price-cell us-avg">394.07</td><td class="price-cell">436.61</td><td class="profit-cell">+5.23</td><td><span class="profit-rate pos">+10.8%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="FLY"   data-us-shares="6.8843" data-us-avg="35.83"    data-us-pnl="+24.29" data-us-rate="+9.85%"  data-us-price="39.36"><td><div class="stock-name">FLY</div></td><td class="shares">6.8843</td><td class="price-cell us-avg">35.83</td><td class="price-cell">39.36</td><td class="profit-cell">+24.29</td><td><span class="profit-rate pos">+9.85%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="GEV"   data-us-shares="0.1839" data-us-avg="1054.27"  data-us-pnl="+1.53"  data-us-rate="+0.79%"  data-us-price="1062.57"><td><div class="stock-name">GEV</div></td><td class="shares">0.1839</td><td class="price-cell us-avg">1,054.27</td><td class="price-cell">1,062.57</td><td class="profit-cell">+1.53</td><td><span class="profit-rate pos">+0.79%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="LIN"   data-us-shares="0.1972" data-us-avg="491.73"   data-us-pnl="+4.24"  data-us-rate="+4.38%"  data-us-price="513.26"><td><div class="stock-name">LIN</div></td><td class="shares">0.1972</td><td class="price-cell us-avg">491.73</td><td class="price-cell">513.26</td><td class="profit-cell">+4.24</td><td><span class="profit-rate pos">+4.38%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="LITE"  data-us-shares="0.2239" data-us-avg="865.97"   data-us-pnl="+36.81" data-us-rate="+18.98%" data-us-price="1030.36"><td><div class="stock-name">LITE</div></td><td class="shares">0.2239</td><td class="price-cell us-avg">865.97</td><td class="price-cell">1,030.36</td><td class="profit-cell">+36.81</td><td><span class="profit-rate pos">+18.98%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="LRCX"  data-us-shares="0.3667" data-us-avg="264.6"    data-us-pnl="+11.31" data-us-rate="+11.65%" data-us-price="295.44"><td><div class="stock-name">LRCX</div></td><td class="shares">0.3667</td><td class="price-cell us-avg">264.6</td><td class="price-cell">295.44</td><td class="profit-cell">+11.31</td><td><span class="profit-rate pos">+11.65%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="NVDA"  data-us-shares="0.4864" data-us-avg="199.47"   data-us-pnl="+12.82" data-us-rate="+13.22%" data-us-price="225.83"><td><div class="stock-name">NVDA</div></td><td class="shares">0.4864</td><td class="price-cell us-avg">199.47</td><td class="price-cell">225.83</td><td class="profit-cell">+12.82</td><td><span class="profit-rate pos">+13.22%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="SATL"  data-us-shares="55"     data-us-avg="6.82"     data-us-pnl="+70.14" data-us-rate="+18.69%" data-us-price="8.1"><td><div class="stock-name">SATL</div></td><td class="shares">55</td><td class="price-cell us-avg">6.82</td><td class="price-cell">8.1</td><td class="profit-cell">+70.14</td><td><span class="profit-rate pos">+18.69%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="SNDK"  data-us-shares="0.034"  data-us-avg="1422.06"  data-us-pnl="+0.86"  data-us-rate="+1.77%"  data-us-price="1447.23"><td><div class="stock-name">SNDK</div></td><td class="shares">0.034</td><td class="price-cell us-avg">1,422.06</td><td class="price-cell">1,447.23</td><td class="profit-cell">+0.86</td><td><span class="profit-rate pos">+1.77%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-us-code="TSM"   data-us-shares="0.264"  data-us-avg="367.46"   data-us-pnl="+8.54"  data-us-rate="+8.8%"   data-us-price="399.8"><td><div class="stock-name">TSM</div></td><td class="shares">0.264</td><td class="price-cell us-avg">367.46</td><td class="price-cell">399.8</td><td class="profit-cell">+8.54</td><td><span class="profit-rate pos">+8.8%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="AMAT"  data-us-shares="0.123"  data-us-avg="394.07"   data-us-pnl="+180"   data-us-rate="+11.8%"  data-us-price="440.56"><td><div class="stock-name">AMAT</div></td><td class="price-cell">440.56</td><td class="price-cell us-avg">394.07</td><td class="shares">0.123</td><td class="profit-cell">+180</td><td><span class="profit-rate pos">+11.8%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="FLY"   data-us-shares="6.8843" data-us-avg="35.83"    data-us-pnl="+1418"  data-us-rate="+18.27%" data-us-price="42.38"><td><div class="stock-name">FLY</div></td><td class="price-cell">42.38</td><td class="price-cell us-avg">35.83</td><td class="shares">6.8843</td><td class="profit-cell">+1,418</td><td><span class="profit-rate pos">+18.27%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="GEV"   data-us-shares="0.1839" data-us-avg="1054.27"  data-us-pnl="+210"   data-us-rate="+3.44%"  data-us-price="1090.53"><td><div class="stock-name">GEV</div></td><td class="price-cell">1,090.53</td><td class="price-cell us-avg">1,054.27</td><td class="shares">0.1839</td><td class="profit-cell">+210</td><td><span class="profit-rate pos">+3.44%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="LIN"   data-us-shares="0.1972" data-us-avg="491.73"   data-us-pnl="+124"   data-us-rate="+4.05%"  data-us-price="511.65"><td><div class="stock-name">LIN</div></td><td class="price-cell">511.65</td><td class="price-cell us-avg">491.73</td><td class="shares">0.1972</td><td class="profit-cell">+124</td><td><span class="profit-rate pos">+4.05%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="LITE"  data-us-shares="0.2239" data-us-avg="865.97"   data-us-pnl="+957"   data-us-rate="+15.69%" data-us-price="1001.81"><td><div class="stock-name">LITE</div></td><td class="price-cell">1,001.81</td><td class="price-cell us-avg">865.97</td><td class="shares">0.2239</td><td class="profit-cell">+957</td><td><span class="profit-rate pos">+15.69%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="LRCX"  data-us-shares="0.3667" data-us-avg="264.6"    data-us-pnl="+398"   data-us-rate="+13.05%" data-us-price="299.14"><td><div class="stock-name">LRCX</div></td><td class="price-cell">299.14</td><td class="price-cell us-avg">264.6</td><td class="shares">0.3667</td><td class="profit-cell">+398</td><td><span class="profit-rate pos">+13.05%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="NVDA"  data-us-shares="0.4864" data-us-avg="199.47"   data-us-pnl="+555"   data-us-rate="+18.19%" data-us-price="235.74"><td><div class="stock-name">NVDA</div></td><td class="price-cell">235.74</td><td class="price-cell us-avg">199.47</td><td class="shares">0.4864</td><td class="profit-cell">+555</td><td><span class="profit-rate pos">+18.19%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="SATL"  data-us-shares="55"     data-us-avg="6.82"     data-us-pnl="+3141"  data-us-rate="+26.6%"  data-us-price="8.64"><td><div class="stock-name">SATL</div></td><td class="price-cell">8.64</td><td class="price-cell us-avg">6.82</td><td class="shares">55</td><td class="profit-cell">+3,141</td><td><span class="profit-rate pos">+26.6%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="neg" data-us-code="SNDK"  data-us-shares="0.0685" data-us-avg="1413.58"  data-us-pnl="-66"    data-us-rate="-2.18%"  data-us-price="1382.72"><td><div class="stock-name">SNDK</div></td><td class="price-cell">1,382.72</td><td class="price-cell us-avg">1,413.58</td><td class="shares">0.0685</td><td class="loss-cell">-66</td><td><span class="profit-rate neg">-2.18%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-us-code="TSM"   data-us-shares="0.264"  data-us-avg="367.46"   data-us-pnl="+417"   data-us-rate="+13.68%" data-us-price="417.72"><td><div class="stock-name">TSM</div></td><td class="price-cell">417.72</td><td class="price-cell us-avg">367.46</td><td class="shares">0.264</td><td class="profit-cell">+417</td><td><span class="profit-rate pos">+13.68%</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -929,7 +929,8 @@
     <div class="export-row">
       <button class="export-btn" style="border-color:#C0392B;color:#C0392B;" onclick="openEmailModal('cheng')">✉️ 寄送報表</button>
       <button class="export-btn" style="border-color:#4A7FA8;color:#4A7FA8;" onclick="openDivModal()">💰 配息月曆</button>
-      <button class="export-btn" style="border-color:#2a7a4a;color:#2a7a4a;" onclick="fbSaveHoldings()">☁️ 同步雲端</button>
+      <button class="export-btn" style="border-color:#2a7a4a;color:#2a7a4a;" onclick="fbSaveHoldings()">☁️ 存入雲端</button>
+      <button class="export-btn" style="border-color:#2a7a4a;color:#2a7a4a;" onclick="fbLoadHoldings()">📥 從雲端載入</button>
     </div>
   </div>
 
@@ -2909,9 +2910,9 @@
       + ' data-us-rate="'   + rateStr + '"'
       + ' data-us-price="'  + priceStr + '">'
       + '<td><div class="stock-name">' + code + '</div></td>'
-      + '<td class="shares">' + shares + '</td>'
-      + '<td class="price-cell us-avg">' + avgStr + '</td>'
       + '<td class="price-cell">' + priceStr + '</td>'
+      + '<td class="price-cell us-avg">' + avgStr + '</td>'
+      + '<td class="shares">' + shares + '</td>'
       + '<td class="' + pnlClass + '">' + pnlStr + '</td>'
       + '<td><span class="' + rateCls + '">' + rateStr + '</span></td>'
       + '<td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td>'
@@ -2944,9 +2945,10 @@
       tr.querySelector('.shares').textContent     = shares;
 
       var tds = tr.querySelectorAll('td');
-      // avg (index 2), price (index 3), pnl (index 4), rate (index 5)
+      // price (index 1), avg (index 2), shares (index 3), pnl (index 4), rate (index 5)
+      tds[1].textContent = price || '—';
       tds[2].textContent = avg   || '—';
-      tds[3].textContent = price || '—';
+      tds[3].textContent = shares;
       tds[4].className   = isPos ? 'profit-cell' : 'loss-cell';
       tds[4].textContent = pnl   || '—';
       var span = tds[5].querySelector('span') || document.createElement('span');
@@ -3207,69 +3209,53 @@ var GOOGLE_VISION_KEY = 'AIzaSyDltYGftORxk8M-ZXbH_rwHOFncm9zCtk4';
 
 function runOcr(dataUrl) {
   var status = document.getElementById('ocr-status');
-  status.textContent = '🔍 Google Vision 辨識中，請稍候…';
+  status.textContent = '🤖 AI 辨識中，請稍候…';
   document.getElementById('ocr-apply-btn').disabled = true;
 
   var match = dataUrl.match(/^data:([^;]+);base64,(.+)$/);
   if (!match) { status.textContent = '⚠️ 圖片格式錯誤'; return; }
+  var mediaType = match[1];
   var b64 = match[2];
 
-  // Step 1: Google Vision 抽取文字
-  fetch('https://vision.googleapis.com/v1/images:annotate?key=' + GOOGLE_VISION_KEY, {
+  fetch('https://api.anthropic.com/v1/messages', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'anthropic-dangerous-direct-browser-access': 'true'
+    },
     body: JSON.stringify({
-      requests: [{
-        image: { content: b64 },
-        features: [
-          { type: 'TEXT_DETECTION', maxResults: 1 },
-          { type: 'DOCUMENT_TEXT_DETECTION', maxResults: 1 }
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1500,
+      system: '你是台灣券商App持股截圖辨識助手。請仔細看圖片中的持股表格，找出所有持股資料，以JSON陣列回傳：[{"type":"TW"或"US","code":"股票代號","name":"股票名稱","shares":"持股數","avg":"均價或平均成本","price":"現價","pnl":"損益(含+/-)","rate":"報酬率(含+/-%)"}]。台股代號為數字如00878、2330；美股為英文如AAPL、NVDA。若某欄位看不清楚填""。只回傳JSON陣列，不要其他說明。',
+      messages: [{
+        role: 'user',
+        content: [
+          {
+            type: 'image',
+            source: { type: 'base64', media_type: mediaType, data: b64 }
+          },
+          {
+            type: 'text',
+            text: '請辨識這張券商App截圖中的所有持股資料，以JSON陣列回傳。'
+          }
         ]
       }]
     })
   })
   .then(function(r) { return r.json(); })
-  .then(function(visionData) {
-    var fullText = '';
-    try {
-      fullText = visionData.responses[0].fullTextAnnotation.text || '';
-    } catch(e) {
-      fullText = (visionData.responses[0].textAnnotations || []).map(function(t){ return t.description; }).join('\n');
-    }
-    if (!fullText.trim()) throw new Error('圖片中未偵測到文字，請確認圖片清晰');
-
-    status.textContent = '🤖 AI 解析持股資料中…';
-
-    // Step 2: 把辨識出的文字交給 Claude 解析結構
-    return fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        system: '你是台灣券商持股資料解析助手。從以下OCR文字中找出所有持股，以JSON陣列回傳：[{"type":"TW"或"US","code":"股票代號","name":"股票名稱","shares":"持股數","avg":"均價","price":"現價","pnl":"損益(含+/-)","rate":"報酬率(含+/-%)"}]。台股代號為數字如00878、2330；美股為英文如AAPL、NVDA。只回傳JSON陣列，不要其他說明。',
-        messages: [{
-          role: 'user',
-          content: '以下是券商App的OCR辨識文字，請解析出持股資料：\n\n' + fullText
-        }]
-      })
-    });
-  })
-  .then(function(r) { return r.json(); })
   .then(function(data) {
+    if (data.error) throw new Error(data.error.message || JSON.stringify(data.error));
     var text = '';
     (data.content || []).forEach(function(c) { if (c.type === 'text') text += c.text; });
     var m = text.match(/\[[\s\S]*\]/);
-    if (!m) throw new Error('無法解析持股資料');
+    if (!m) throw new Error('無法解析持股資料，請重試');
     var items = JSON.parse(m[0]);
-    if (!Array.isArray(items) || !items.length) throw new Error('未找到持股資料');
-
+    if (!Array.isArray(items) || !items.length) throw new Error('圖片中未找到持股資料');
     items.forEach(function(item) {
       var idx = _ocrResults.findIndex(function(r) { return r.code === item.code; });
       if (idx >= 0) _ocrResults[idx] = Object.assign(_ocrResults[idx], item);
       else _ocrResults.push(item);
     });
-
     renderOcrResults();
     status.textContent = '✅ 辨識完成，共 ' + _ocrResults.length + ' 筆，可手動修正後套用。';
     document.getElementById('ocr-apply-btn').disabled = false;
@@ -3682,24 +3668,41 @@ window.fbSaveHoldings = async function() {
   }
 };
 
-// ── 載入 Firebase 資料 ──
+// ── 強制清除雲端並重新同步 ──
+window.fbForceReset = async function() {
+  try {
+    await set(ref(db, 'holdings/portfolios'), null); // 清空
+    const data = collectHoldings();
+    await set(ref(db, 'holdings/portfolios'), data); // 存新資料
+    showSyncToast('✅ 雲端資料已重置並同步');
+  } catch(e) {
+    showSyncToast('⚠ 重置失敗：' + e.message, false);
+  }
+};
+
+// ── 載入 Firebase 資料（僅手動觸發）──
 async function loadHoldings() {
+  // 自動載入已停用，避免舊雲端資料覆蓋本地最新資料
+  // 請按「🔄 重置雲端」把最新資料存入後，再按「☁️ 同步雲端」
+  removeLoading();
+  if (typeof fetchAllPrices === 'function') fetchAllPrices();
+}
+
+// 手動從雲端載入
+window.fbLoadHoldings = async function() {
   try {
     const snap = await get(ref(db, 'holdings/portfolios'));
     if (snap.exists()) {
       applyHoldings(snap.val());
-      // 套用後重新計算即時股價損益
       if (typeof fetchAllPrices === 'function') fetchAllPrices();
-      showSyncToast('☁️ 已載入雲端持股資料');
+      showSyncToast('☁️ 已從雲端載入持股資料');
+    } else {
+      showSyncToast('⚠ 雲端尚無資料', false);
     }
   } catch(e) {
-    console.warn('Firebase 讀取失敗，使用預設資料:', e);
-    showSyncToast('⚠ 雲端載入失敗，使用本地資料', false);
-  } finally {
-    removeLoading();
-    // 存股計畫已有自己的 Firebase 邏輯，這裡不重複
+    showSyncToast('⚠ 載入失敗：' + e.message, false);
   }
-}
+};
 
 // 5 秒超時保護
 setTimeout(removeLoading, 5000);
