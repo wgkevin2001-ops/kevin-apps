@@ -3557,100 +3557,28 @@ function applyHoldings(data) {
     if (!panelData) return;
     const panelEl = document.getElementById('panel-' + panel);
 
-    // ★ 先刪除 Firebase 沒有的台股列（以雲端為準）
-    panelEl.querySelectorAll('tr[data-code]').forEach(tr => {
-      const code = tr.dataset.code;
-      if (code && !(code in panelData)) {
-        const tbody = tr.closest('tbody');
-        const sectionName = tbody ? tbody.dataset.section : '';
-        tr.remove();
-        if (sectionName && typeof refreshSectionCount === 'function') refreshSectionCount(sectionName);
-      }
-    });
-
-    // ★ 先刪除 Firebase 沒有的美股列（以雲端為準）
-    panelEl.querySelectorAll('tr[data-us-code]').forEach(tr => {
-      const code = 'US_' + tr.dataset.usCode;
-      if (code && !(code in panelData)) {
-        tr.remove();
-        if (typeof refreshUsCount === 'function') refreshUsCount();
-      }
-    });
-
     Object.keys(panelData).forEach(code => {
       const d = panelData[code];
       if (!d) return;
 
-      // 美股（US_ 前綴）
+      // 美股（US_ 前綴）— 只更新已存在的列，不新增
       if (code.startsWith('US_')) {
         const usCode = code.replace(/^US_/, '');
-        let usTr = panelEl.querySelector('tr[data-us-code="' + usCode + '"]');
-        if (usTr) {
-          if (d.shares !== undefined) { usTr.dataset.usShares = d.shares; const sc = usTr.querySelector('.shares'); if (sc) sc.textContent = d.shares; }
-          if (d.avg    !== undefined) { usTr.dataset.usAvg   = d.avg;    const ac = usTr.querySelector('.us-avg'); if (ac) ac.textContent = d.avg || '—'; }
-          if (d.price  !== undefined) { usTr.dataset.usPrice = d.price;  const tds = usTr.querySelectorAll('td'); if (tds[3]) tds[3].textContent = d.price || '—'; }
-          if (d.pnl    !== undefined) { usTr.dataset.usPnl   = d.pnl;   const tds = usTr.querySelectorAll('td'); if (tds[4]) { const isPos = String(d.pnl).indexOf('-')===-1; tds[4].className = isPos?'profit-cell':'loss-cell'; tds[4].textContent = d.pnl; } }
-          if (d.rate   !== undefined) { usTr.dataset.usRate  = d.rate;  const tds = usTr.querySelectorAll('td'); if (tds[5]) { const sp = tds[5].querySelector('span'); if (sp) { const isPos = String(d.pnl||'').indexOf('-')===-1; sp.className = isPos?'profit-rate pos':'profit-rate neg'; sp.textContent = d.rate; } } }
-        } else if (panel === 'cheng') {
-          const tbody = panelEl.querySelector('tbody[data-section="美股（口袋存股）"]');
-          if (!tbody) return;
-          const isPos = String(d.pnl||'').indexOf('-')===-1;
-          const html = '<tr data-pnl="'+(isPos?'pos':'neg')+'" data-us-code="'+usCode+'" data-us-shares="'+(d.shares||'')+'" data-us-avg="'+(d.avg||'')+'" data-us-pnl="'+(d.pnl||'')+'" data-us-rate="'+(d.rate||'')+'" data-us-price="'+(d.price||'')+'">'
-            + '<td><div class="stock-name">'+usCode+'</div></td>'
-            + '<td class="shares">'+(d.shares||'')+'</td>'
-            + '<td class="price-cell us-avg">'+(d.avg||'—')+'</td>'
-            + '<td class="price-cell">'+(d.price||'—')+'</td>'
-            + '<td class="'+(isPos?'profit-cell':'loss-cell')+'">'+(d.pnl||'—')+'</td>'
-            + '<td><span class="profit-rate '+(isPos?'pos':'neg')+'">'+(d.rate||'—')+'</span></td>'
-            + '<td style="text-align:center"><button class="edit-btn" onclick="openEditUsModal(this)">✏️</button> <button class="del-btn" onclick="deleteUsRow(this)">🗑</button></td>'
-            + '</tr>';
-          const temp = document.createElement('tbody');
-          temp.innerHTML = html;
-          tbody.appendChild(temp.firstChild);
-        }
+        const usTr = panelEl.querySelector('tr[data-us-code="' + usCode + '"]');
+        if (!usTr) return; // HTML 沒有就跳過，不從 Firebase 新增
+        if (d.shares !== undefined) { usTr.dataset.usShares = d.shares; const sc = usTr.querySelector('.shares'); if (sc) sc.textContent = d.shares; }
+        if (d.avg    !== undefined) { usTr.dataset.usAvg   = d.avg;    const ac = usTr.querySelector('.us-avg'); if (ac) ac.textContent = d.avg || '—'; }
+        if (d.price  !== undefined) { usTr.dataset.usPrice = d.price;  const tds = usTr.querySelectorAll('td'); if (tds[1]) tds[1].textContent = d.price || '—'; }
+        if (d.pnl    !== undefined) { usTr.dataset.usPnl   = d.pnl;   const tds = usTr.querySelectorAll('td'); if (tds[4]) { const isPos = String(d.pnl).indexOf('-')===-1; tds[4].className = isPos?'profit-cell':'loss-cell'; tds[4].textContent = d.pnl; } }
+        if (d.rate   !== undefined) { usTr.dataset.usRate  = d.rate;  const tds = usTr.querySelectorAll('td'); if (tds[5]) { const sp = tds[5].querySelector('span'); if (sp) { const isPos = String(d.pnl||'').indexOf('-')===-1; sp.className = isPos?'profit-rate pos':'profit-rate neg'; sp.textContent = d.rate; } } }
         return;
       }
 
-      // 先找現有列
-      let tr = panelEl.querySelector('tr[data-code="' + code + '"]');
-
-      if (tr) {
-        // 更新現有列
-        if (d.shares !== undefined) tr.dataset.shares = d.shares;
-        if (d.avg    !== undefined) tr.dataset.avg    = d.avg;
-        const sharesCell = tr.querySelector('.shares');
-        if (sharesCell) sharesCell.textContent = parseFloat(d.shares).toLocaleString('zh-TW');
-      } else if (panel === 'cheng' && d.section && d.name) {
-        // 新列（由使用者新增，HTML 沒有預設）
-        const tbody = panelEl.querySelector('tbody[data-section="' + d.section + '"]');
-        if (!tbody) return;
-        const etfTag = d.isEtf ? ' <span class="tag tag-etf">ETF</span>' : '';
-        const sharesDisp = parseFloat(d.shares).toLocaleString('zh-TW');
-        const html = '<tr data-pnl="pos" data-code="' + code + '" data-avg="' + d.avg + '" data-shares="' + d.shares + '">'
-          + '<td><div class="stock-name">' + d.name + etfTag + '</div><div class="stock-code">' + code + '</div></td>'
-          + '<td class="price-cell live-price">—</td>'
-          + '<td class="price-cell">' + d.avg + '</td>'
-          + '<td class="shares">' + sharesDisp + '</td>'
-          + '<td class="profit-cell live-pnl">—</td>'
-          + '<td class="live-rate"><span class="profit-rate pos">—</span></td>'
-          + '<td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td>'
-          + '</tr>';
-        const temp = document.createElement('tbody');
-        temp.innerHTML = html;
-        tbody.appendChild(temp.firstChild);
-
-        // 更新計數
-        const SECTION_CNT = {
-          '台股庫存（國泰帳號）': 'cnt-katai',
-          '主動高息型 ETF（富邦帳號）': 'cnt-fubon',
-          '永豐大戶頭（9A95 帳號）': 'cnt-sinopac',
-        };
-        const cntId = SECTION_CNT[d.section];
-        if (cntId) {
-          const cntEl = document.getElementById(cntId);
-          if (cntEl) cntEl.textContent = tbody.querySelectorAll('tr').length + ' 檔';
-        }
-      }
+      // 台股 — 只更新已存在的列，不新增
+      const tr = panelEl.querySelector('tr[data-code="' + code + '"]');
+      if (!tr) return; // HTML 沒有就跳過，不從 Firebase 新增
+      if (d.shares !== undefined) { tr.dataset.shares = d.shares; const sc = tr.querySelector('.shares'); if (sc) sc.textContent = parseFloat(d.shares).toLocaleString('zh-TW'); }
+      if (d.avg    !== undefined) { tr.dataset.avg = d.avg; const cells = tr.querySelectorAll('.price-cell'); if (cells[1]) cells[1].textContent = d.avg; }
     });
   });
 }
