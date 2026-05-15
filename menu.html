@@ -7,18 +7,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #1a0f00;
-    --paper: #f5ede0;
-    --amber: #c8790a;
-    --deep: #6b3a0f;
-    --cream: #fdf7ee;
-    --border: #d4a96a;
+    --ink: #2a1200;
+    --paper: rgba(255,248,235,0.82);
+    --amber: #b85c00;
+    --deep: #5c2800;
+    --cream: rgba(255,248,235,0.88);
+    --border: rgba(160,90,20,0.5);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: var(--paper);
+    background: #c8a06a;
     color: var(--ink);
     font-family: 'Noto Serif TC', serif;
     min-height: 100vh;
@@ -37,7 +37,10 @@
 
   .site-title {
     text-align: center;
-    padding: 36px 24px 0;
+    padding: 36px 24px 20px;
+    background: rgba(255,248,235,0.78);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
   .site-label {
     display: inline-block;
@@ -69,8 +72,8 @@
     font-family: 'Noto Serif TC', serif;
     font-size: 13px;
     font-weight: 600;
-    color: var(--deep);
-    background: var(--cream);
+    color: #5c2800;
+    background: rgba(255,248,235,0.88);
     border: 1.5px solid var(--border);
     border-radius: 2px;
     cursor: pointer;
@@ -82,7 +85,7 @@
     gap: 4px;
   }
   .menu-btn .btn-icon { font-size: 20px; }
-  .menu-btn:hover { background: #fff3e0; border-color: var(--amber); }
+  .menu-btn:hover { background: rgba(184,92,0,0.15); border-color: var(--amber); color: #3a1400; }
   .menu-btn.active {
     background: var(--amber);
     color: white;
@@ -97,6 +100,10 @@
     max-width: 760px;
     margin: 0 auto;
     padding: 40px 24px 80px;
+    background: rgba(255,248,235,0.75);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 4px;
   }
 
   .recipe-header {
@@ -124,7 +131,7 @@
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-size: 16px;
-    color: var(--deep);
+    color: #5c2800;
     opacity: 0.75;
   }
 
@@ -157,7 +164,7 @@
     margin-bottom: 36px;
   }
   .ingredient-card {
-    background: var(--cream);
+    background: rgba(255,248,235,0.88);
     border: 1px solid var(--border);
     border-radius: 2px;
     padding: 16px 18px;
@@ -166,7 +173,7 @@
   }
   .ingredient-card:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 24px rgba(100,50,0,0.12);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
   }
   .ingredient-card::before {
     content: '';
@@ -179,14 +186,14 @@
   .ingredient-name {
     font-size: 14px;
     font-weight: 600;
-    color: var(--deep);
+    color: #5c2800;
     margin-bottom: 5px;
   }
   .ingredient-amount {
     font-family: 'Playfair Display', serif;
     font-size: 24px;
     font-weight: 700;
-    color: var(--ink);
+    color: #2a1200;
     line-height: 1;
   }
   .ingredient-unit {
@@ -196,8 +203,8 @@
   }
 
   .info-bar {
-    background: var(--deep);
-    color: var(--cream);
+    background: rgba(184,92,0,0.85); border: 1px solid rgba(160,90,20,0.6);
+    color: #fff5e6;
     padding: 16px 24px;
     display: flex;
     justify-content: space-between;
@@ -243,18 +250,18 @@
     flex: 1;
     font-size: 15px;
     line-height: 1.85;
-    color: #3a1f00;
+    color: #3a1800;
   }
 
   .note-box {
-    background: #fff8ec;
+    background: rgba(255,248,235,0.88);
     border: 1px solid var(--border);
     border-left: 4px solid var(--amber);
     padding: 16px 20px;
     margin-top: 32px;
     font-size: 14px;
     line-height: 1.8;
-    color: var(--deep);
+    color: #5c2800;
   }
   .note-box strong {
     display: block;
@@ -294,6 +301,18 @@ body {
   background-attachment: fixed !important;
   background-position: center center !important;
 }
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(255, 240, 210, 0.35);
+  pointer-events: none;
+  z-index: 0;
+}
+.site-title, .menu-grid, [class*="panel"], div[style] {
+  position: relative;
+  z-index: 1;
+}
 </style>
 </head>
 <body>
@@ -303,7 +322,7 @@ body {
   <h1>配方手冊</h1>
 </div>
 
-<div style="max-width:500px; margin: 28px auto 0; padding: 0 16px;">
+<div style="max-width:500px; margin: 28px auto 0; padding: 16px; background: rgba(255,248,235,0.78); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
 
   <div style="font-size:11px; letter-spacing:0.25em; color:var(--amber); text-transform:uppercase; margin-bottom:10px; padding-left:2px;">🍽 秘製食譜</div>
   <div class="menu-grid" style="margin:0 0 24px 0;">
