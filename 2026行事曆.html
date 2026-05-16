@@ -361,7 +361,6 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
   <button class="nav-tab" onclick="switchSec('med')">💊 用藥</button>
   <button class="nav-tab" onclick="switchSec('cc')">💳 信用卡對帳</button>
   <button class="nav-tab" onclick="switchSec('exp')">📊 年度開銷</button>
-  <button class="nav-tab" onclick="switchSec('guide')">📖 備份說明</button>
 </div>
 
 <!-- ══ 本月重點 ══ -->
@@ -666,109 +665,6 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 </div></div>
 
 
-<!-- ══ 備份說明 ══ -->
-<div id="sec-guide" class="section"><div class="content">
-
-  <div style="background:linear-gradient(135deg,#1a1200,#2d1f00);border-radius:16px;padding:18px 20px;margin-bottom:16px;color:#ffd060">
-    <div style="font-size:18px;font-weight:900;margin-bottom:4px">📖 備份與行事曆匯入說明</div>
-    <div style="font-size:12px;opacity:.7">如何用 Claude 更新行事曆・如何備份還原資料</div>
-  </div>
-
-  <!-- 行事曆更新流程 -->
-  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;margin-bottom:14px">
-    <div style="background:rgba(26,110,168,.08);padding:12px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:8px">
-      <span style="font-size:18px">📅</span>
-      <span style="font-size:15px;font-weight:900;color:var(--bl)">行事曆更新流程（透過 Claude）</span>
-    </div>
-    <div style="padding:14px 16px;display:flex;flex-direction:column;gap:14px">
-
-      <div style="display:flex;gap:12px">
-        <div style="width:28px;height:28px;border-radius:50%;background:var(--bl);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0">1</div>
-        <div>
-          <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px">跟 Claude 說：</div>
-          <div style="background:#f0f4ff;border-radius:10px;padding:10px 13px;font-size:13px;color:#1a3a6a;line-height:1.6">"幫我查 6 月 Google 日曆，整理成行事曆 JSON 格式"</div>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:12px">
-        <div style="width:28px;height:28px;border-radius:50%;background:var(--bl);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0">2</div>
-        <div style="flex:1">
-          <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:4px">Claude 回覆 JSON，存成 .json 檔案</div>
-          <div style="background:#f5f5f5;border-radius:10px;padding:10px 13px;font-size:12px;color:#333;font-family:'DM Mono',monospace;line-height:1.7;overflow-x:auto;white-space:pre">{
-  "events": {
-    "2026-06-06": ["🚗 車貸自扣","🧠 亞東精神科"],
-    "2026-06-19": ["🐉 端午節連假"]
-  }
-}</div>
-        </div>
-      </div>
-
-      <div style="display:flex;gap:12px">
-        <div style="width:28px;height:28px;border-radius:50%;background:var(--gr);color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;flex-shrink:0">3</div>
-        <div style="flex:1">
-          <div style="font-size:14px;font-weight:800;color:var(--ink);margin-bottom:6px">點下方按鈕匯入</div>
-          <button onclick="importCalJSON()" style="background:var(--bl);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;width:100%">⬆️ 匯入行事曆 JSON</button>
-          <div style="font-size:12px;color:var(--ink-light);margin-top:6px">✅ 合併模式：保留現有 + 加入新事件，不覆蓋已有內容</div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- 匯出 -->
-  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;margin-bottom:14px">
-    <div style="background:rgba(26,138,58,.08);padding:12px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:8px">
-      <span style="font-size:18px">⬇️</span>
-      <span style="font-size:15px;font-weight:900;color:var(--gr)">匯出現有行事曆</span>
-    </div>
-    <div style="padding:14px 16px;display:flex;flex-direction:column;gap:8px">
-      <div style="font-size:13px;color:var(--ink-light)">將目前行事曆事件匯出成 JSON，方便備份或讓 Claude 讀取後補充。</div>
-      <button onclick="exportCalJSON()" style="background:var(--gr);color:#fff;border:none;border-radius:10px;padding:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit">⬇️ 匯出行事曆 .json</button>
-    </div>
-  </div>
-
-  <!-- 完整備份 -->
-  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;margin-bottom:14px">
-    <div style="background:rgba(184,118,10,.08);padding:12px 16px;border-bottom:1px solid var(--bdr);display:flex;align-items:center;gap:8px">
-      <span style="font-size:18px">💾</span>
-      <span style="font-size:15px;font-weight:900;color:var(--y)">完整資料備份 / 還原</span>
-    </div>
-    <div style="padding:14px 16px;display:flex;flex-direction:column;gap:7px">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:4px">
-        <button onclick="exportApptCSV()" style="background:rgba(26,138,58,.1);color:var(--gr);border:1px solid rgba(26,138,58,.25);border-radius:9px;padding:10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">🏥 看診 CSV</button>
-        <button onclick="exportBPCSV()" style="background:rgba(204,34,34,.08);color:var(--rd);border:1px solid rgba(204,34,34,.2);border-radius:9px;padding:10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">❤️ 血壓 CSV</button>
-        <button onclick="exportMedCSV()" style="background:rgba(122,79,168,.08);color:var(--pu);border:1px solid rgba(122,79,168,.2);border-radius:9px;padding:10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">💊 用藥 CSV</button>
-        <button onclick="exportCCCSV()" style="background:rgba(184,118,10,.08);color:var(--y);border:1px solid rgba(184,118,10,.2);border-radius:9px;padding:10px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">💳 信用卡 CSV</button>
-      </div>
-      <button onclick="exportJSON()" style="background:var(--y);color:#fff;border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit">⬇️ 匯出完整備份 .json</button>
-      <button onclick="importJSON()" style="background:var(--bl);color:#fff;border:none;border-radius:10px;padding:12px;font-size:13px;font-weight:800;cursor:pointer;font-family:inherit">⬆️ 匯入備份還原 .json</button>
-    </div>
-  </div>
-
-  <!-- 格式說明 -->
-  <div style="background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px 16px;margin-bottom:14px">
-    <div style="font-size:13px;font-weight:900;color:var(--ink);margin-bottom:8px">📋 Claude 可接受的行事曆 JSON 格式</div>
-    <div style="background:#f5f5f5;border-radius:10px;padding:12px;font-family:'DM Mono',monospace;font-size:12px;color:#333;overflow-x:auto;line-height:1.8;white-space:pre"><span style="color:#888">// 格式1（推薦）</span>
-{ "events": { "YYYY-MM-DD": ["事件1","事件2"] } }
-
-<span style="color:#888">// 格式2：純日期物件</span>
-{ "2026-07-04": ["🧠 亞東精神科 林竺君 #1"] }</div>
-    <div style="margin-top:8px;background:rgba(26,138,58,.08);border-radius:8px;padding:8px 12px;font-size:12px;color:var(--gr);font-weight:600">
-      ✅ 匯入時自動合併，不覆蓋已有資料，同一天相同事件不重複加入
-    </div>
-  </div>
-
-  <!-- 注意事項 -->
-  <div style="background:rgba(184,118,10,.07);border:1px solid rgba(184,118,10,.2);border-radius:12px;padding:13px 15px;font-size:13px;color:#8a5800;line-height:1.8">
-    <div style="font-weight:800;margin-bottom:5px">⚠️ 重要注意事項</div>
-    <div>• 所有資料儲存在瀏覽器 localStorage，換瀏覽器或清除快取會消失</div>
-    <div>• 建議每月定期點「匯出完整備份」存到手機或 Google Drive</div>
-    <div>• 更換手機前請先匯出備份，再到新手機匯入還原</div>
-  </div>
-
-</div></div>
-
-
 <div class="modal-overlay" id="mo" onclick="closeMo(event)">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -812,7 +708,7 @@ const HOLIDAYS = {
   "2026-12-25":"行憲紀念日","2026-12-26":"行憲紀念日","2026-12-27":"行憲紀念日"
 };
 
-let CAL_EVT = {
+const CAL_EVT = {
   "2026-05-01":["🟡勞動節","💳國泰$18,628自扣"],
   "2026-05-04":["⛽中油Pay","🥛鮮奶","🎵管樂"],
   "2026-05-05":["📚德段考"],"2026-05-06":["🚗車貸自扣"],
@@ -855,7 +751,7 @@ function switchSec(id){
   document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
   document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
   document.getElementById("sec-"+id).classList.add("active");
-  const idx={focus:0,cal:1,appt:2,bp:3,med:4,cc:5,exp:6,guide:7}[id];
+  const idx={focus:0,cal:1,appt:2,bp:3,med:4,cc:5,exp:6}[id];
   document.querySelectorAll(".nav-tab")[idx]?.classList.add("active");
   if(id==="cal")renderCal();
   if(id==="appt")renderAppts();
@@ -1131,60 +1027,6 @@ function renderMeds(){
 // ═══ EXPORT / IMPORT ═══
 
 // 匯出 JSON（完整備份）
-// ═══ 行事曆匯出 / 匯入 ═══
-function exportCalJSON(){
-  const data={version:'cal-v1',exportedAt:new Date().toISOString(),events:CAL_EVT};
-  const a=document.createElement('a');
-  a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));
-  a.download='行事曆_'+today()+'.json';
-  a.click();URL.revokeObjectURL(a.href);
-}
-function importCalJSON(){
-  const input=document.createElement('input');
-  input.type='file';input.accept='.json';
-  input.onchange=e=>{
-    const file=e.target.files[0];if(!file)return;
-    const reader=new FileReader();
-    reader.onload=ev=>{
-      try{
-        const raw=JSON.parse(ev.target.result);
-        let incoming=null;
-        if(raw.version==='cal-v1'&&raw.events) incoming=raw.events;
-        else if(raw.events&&typeof raw.events==='object') incoming=raw.events;
-        else if(typeof raw==='object'&&!Array.isArray(raw)){
-          const keys=Object.keys(raw);
-          if(keys.length&&/^\d{4}-\d{2}-\d{2}$/.test(keys[0])) incoming=raw;
-        }
-        if(!incoming){alert('❌ 格式不符，請確認為行事曆 JSON 格式');return;}
-        const newDates=Object.keys(incoming).length;
-        const exportTime=raw.exportedAt?new Date(raw.exportedAt).toLocaleString('zh-TW'):'不明';
-        if(!confirm('確定要匯入行事曆資料？\n\n📅 匯入日期數：'+newDates+' 天\n🕐 匯出時間：'+exportTime+'\n\n✅ 合併模式：保留現有資料 + 加入新事件，不覆蓋已有內容'))return;
-        let added=0,updated=0;
-        Object.entries(incoming).forEach(([date,evts])=>{
-          if(!Array.isArray(evts))return;
-          const existing=CAL_EVT[date]||[];
-          const merged=[...new Set([...existing,...evts])];
-          if(merged.length>existing.length){existing.length===0?added++:updated++;}
-          CAL_EVT[date]=merged;
-        });
-        saveCalEvents();renderCal();
-        alert('✅ 行事曆匯入成功！\n📅 新增 '+added+' 天・更新 '+updated+' 天');
-      }catch(err){alert('❌ 匯入失敗：'+err.message);}
-    };
-    reader.readAsText(file,'utf-8');
-  };
-  input.click();
-}
-function saveCalEvents(){
-  try{localStorage.setItem('cal_events_custom',JSON.stringify(CAL_EVT));}catch(e){}
-}
-function loadCalEvents(){
-  try{
-    const saved=localStorage.getItem('cal_events_custom');
-    if(saved){const parsed=JSON.parse(saved);if(typeof parsed==='object')Object.assign(CAL_EVT,parsed);}
-  }catch(e){}
-}
-
 function exportJSON(){
   const data={
     version:"2026-v1",
@@ -1912,7 +1754,9 @@ function renderExpOverview(){
   }).join('');
 
   document.getElementById('exp-income-panel').innerHTML=`
-    <div class="exp-income-title">💰 收支概況</div>
+    <div class="exp-income-title">💰 收支概況
+      ${window._lastDivSync ? `<span style="font-size:10px;font-weight:600;opacity:.6;margin-left:6px">📈 配息已同步 ${new Date(window._lastDivSync).toLocaleDateString('zh-TW',{month:'numeric',day:'numeric'})}</span>` : ''}
+    </div>
     <div class="exp-income-row"><span class="exp-income-lbl">🏠 租金等固定收入</span><span class="exp-income-val">NT$${salaryInc.toLocaleString()}</span></div>
     <div class="exp-income-row"><span class="exp-income-lbl">📈 呈股票配息（估算）</span><span class="exp-income-val" style="color:#6ed888">NT$${divInc.toLocaleString()}</span></div>
     <div style="height:1px;background:rgba(255,255,255,.2);margin:4px 0 6px"></div>
@@ -2181,7 +2025,6 @@ function applyAllData(data) {
   try { renderMeds();  } catch(e){}
   try { renderCC();    } catch(e){}
   try { renderExp();   } catch(e){}
-  try { loadCalEvents(); renderCal(); } catch(e){}
   try { renderFocus(); } catch(e){}
 }
 
@@ -2218,6 +2061,58 @@ async function loadFromFirebase() {
     showFbToast('⚠ 雲端載入失敗，使用本機資料', false);
   } finally {
     removeLoading();
+
+    // ── 從 Firebase 讀取存股計劃配息資料 ──
+    loadDividendSync();
+  }
+}
+
+// ── 從存股計劃同步配息到年度預算 ──
+async function loadDividendSync() {
+  try {
+    const snap = await get(ref(db, 'holdings/dividendSync'));
+    if (!snap.exists()) return;
+
+    const sync = snap.val();
+    if (!sync || !sync.monthlyDiv) return;
+
+    // 重建配息 incRecords（只替換配息部分，保留租金/網路費/電信費）
+    const newDivRecs = [];
+    Object.entries(sync.monthlyDiv).forEach(([mStr, items]) => {
+      const m = +mStr;
+      if (!Array.isArray(items)) return;
+      items.forEach(item => {
+        if (!item.amt || item.amt <= 0) return;
+        newDivRecs.push({
+          id: 'fb_sync_' + item.code + '_' + m,
+          month: m,
+          year: 2026,
+          amt: item.amt,
+          src: '📈 ' + item.code + ' ' + item.name + ' ' + item.type + '息（' + Math.round(item.shares/1000) + '張）',
+          cat: '📈 股票配息'
+        });
+      });
+    });
+
+    if (newDivRecs.length === 0) return;
+
+    // 移除舊配息，加入新同步配息
+    incRecords = incRecords.filter(r => !r.src || !r.src.includes('配息'));
+    incRecords = [...incRecords, ...newDivRecs];
+    try { localStorage.setItem('inc_records', JSON.stringify(incRecords)); } catch(e) {}
+
+    // 更新同步時間顯示
+    window._lastDivSync = sync.syncedAt;
+
+    // 重新渲染年度開銷
+    try { renderExpOverview(); } catch(e) {}
+    try { renderExpMonth(); } catch(e) {}
+
+    const t = new Date(sync.syncedAt);
+    showFbToast('📈 配息已從存股計劃同步（' + (t.getMonth()+1) + '/' + t.getDate() + ' ' + t.getHours() + ':' + String(t.getMinutes()).padStart(2,'0') + '）');
+
+  } catch(e) {
+    console.warn('配息同步讀取失敗：', e.message);
   }
 }
 

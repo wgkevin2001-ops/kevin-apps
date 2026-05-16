@@ -976,7 +976,12 @@
       </div>
 
       <!-- 月份時間軸 -->
-      <div style="font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--sienna);letter-spacing:.08em;margin-bottom:10px;text-transform:uppercase;">月份配息時間軸</div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div style="font-family:'DM Mono',monospace;font-size:10px;font-weight:700;color:var(--sienna);letter-spacing:.08em;text-transform:uppercase;">月份配息時間軸</div>
+        <button onclick="syncDividendToFirebase()" style="background:#1a8a3a;color:#fff;border:none;border-radius:8px;padding:5px 12px;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit">
+          🔄 同步配息到行事曆
+        </button>
+      </div>
       <div id="divTimeline"></div>
 
       <!-- 說明 -->
@@ -3773,11 +3778,62 @@ function applyHoldings(data) {
   });
 }
 
+// ── 配息同步到 Firebase（行事曆讀取用）──
+window.syncDividendToFirebase = async function(holdingsData) {
+  if(!holdingsData) holdingsData = collectHoldings();
+  const liveShares = getLiveShares();
+  try {
+
+    // 配息規則（與 DIV_RULES 保持一致）
+    const divRules = {
+      '00878':  { name:'國泰永續高股息',      divPerUnit:0.42,  type:'季配', payMonths:[3,6,9,12] },
+      '00918':  { name:'大華優利高填息30',     divPerUnit:0.62,  type:'季配', payMonths:[3,6,9,12] },
+      '00981B': { name:'第一金優選非投等債',   divPerUnit:0.072, type:'月配', payMonths:[1,2,3,4,5,6,7,8,9,10,11,12] },
+      '00981D': { name:'主動中信非投等債',     divPerUnit:0.070, type:'月配', payMonths:[1,2,3,4,5,6,7,8,9,10,11,12] },
+      '00400A': { name:'主動國泰動能高息',     divPerUnit:0.075, type:'月配', payMonths:[7,8,9,10,11,12] },
+      '00996A': { name:'主動兆豐台灣豐收',     divPerUnit:0.150, type:'季配', payMonths:[6,9,12] },
+      '00999A': { name:'主動野村台灣高息',     divPerUnit:0,     type:'待定', payMonths:[] },
+      '00403A': { name:'主動統一升級50',       divPerUnit:0,     type:'待定', payMonths:[] },
+    };
+
+    // 計算每月配息
+    const monthlyDiv = {};
+    for (let m = 1; m <= 12; m++) monthlyDiv[m] = [];
+
+    Object.entries(divRules).forEach(([code, rule]) => {
+      if (!rule.divPerUnit || !rule.payMonths.length) return;
+      const shares = liveShares[code] || 0;
+      if (!shares) return;
+      const amt = Math.round(shares * rule.divPerUnit);
+      rule.payMonths.forEach(m => {
+        monthlyDiv[m].push({ code, name: rule.name, shares, divPerUnit: rule.divPerUnit, amt, type: rule.type });
+      });
+    });
+
+    const syncData = {
+      syncedAt: new Date().toISOString(),
+      source: '呈貝目前持股',
+      divRules,
+      liveShares,
+      monthlyDiv
+    };
+
+    await set(ref(db, 'holdings/dividendSync'), syncData);
+    console.log('✅ 配息資料已同步到 Firebase');
+  } catch(e) {
+    console.warn('配息同步失敗：', e.message);
+  }
+}
+
 // ── 儲存持股到 Firebase ──
 window.fbSaveHoldings = async function() {
   try {
     const data = collectHoldings();
     await set(ref(db, 'holdings/portfolios'), data);
+
+    // 同時寫入配息同步資料（行事曆讀取用）
+    await syncDividendToFirebase(data);
+
     showSyncToast('☁️ 持股已同步至雲端');
   } catch(e) {
     showSyncToast('⚠ 同步失敗：' + e.message, false);
@@ -3787,9 +3843,10 @@ window.fbSaveHoldings = async function() {
 // ── 強制清除雲端並重新同步 ──
 window.fbForceReset = async function() {
   try {
-    await set(ref(db, 'holdings/portfolios'), null); // 清空
+    await set(ref(db, 'holdings/portfolios'), null);
     const data = collectHoldings();
-    await set(ref(db, 'holdings/portfolios'), data); // 存新資料
+    await set(ref(db, 'holdings/portfolios'), data);
+    await syncDividendToFirebase(data);
     showSyncToast('✅ 雲端資料已重置並同步');
   } catch(e) {
     showSyncToast('⚠ 重置失敗：' + e.message, false);
