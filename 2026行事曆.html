@@ -592,6 +592,25 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
         <div style="font-size:11px;font-weight:800;color:var(--ink-light);margin-bottom:7px;letter-spacing:.05em">篩選類別</div>
         <div id="exp-cat-filters" style="display:flex;gap:5px;flex-wrap:wrap"></div>
       </div>
+      <!-- 月份篩選 -->
+      <div style="padding:10px 12px;border-bottom:1px solid var(--bdr)">
+        <div style="font-size:11px;font-weight:800;color:var(--ink-light);margin-bottom:7px;letter-spacing:.05em">篩選月份</div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          <button id="mf-all" onclick="setExpMonthFilter(0)" style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--y);color:#fff">全部</button>
+          <button id="mf-1"  onclick="setExpMonthFilter(1)"  style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">1月</button>
+          <button id="mf-2"  onclick="setExpMonthFilter(2)"  style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">2月</button>
+          <button id="mf-3"  onclick="setExpMonthFilter(3)"  style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">3月</button>
+          <button id="mf-4"  onclick="setExpMonthFilter(4)"  style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">4月</button>
+          <button id="mf-5"  onclick="setExpMonthFilter(5)"  style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">5月</button>
+          <button id="mf-6"  onclick="setExpMonthFilter(6)"  style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">6月</button>
+          <button id="mf-7"  onclick="setExpMonthFilter(7)"  style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">7月</button>
+          <button id="mf-8"  onclick="setExpMonthFilter(8)"  style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">8月</button>
+          <button id="mf-9"  onclick="setExpMonthFilter(9)"  style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">9月</button>
+          <button id="mf-10" onclick="setExpMonthFilter(10)" style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">10月</button>
+          <button id="mf-11" onclick="setExpMonthFilter(11)" style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">11月</button>
+          <button id="mf-12" onclick="setExpMonthFilter(12)" style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">12月</button>
+        </div>
+      </div>
       <div style="overflow-x:auto"><table class="exp-table">
         <thead><tr><th>日期</th><th>類別</th><th>金額</th><th>付款方式</th><th>備註</th><th></th></tr></thead>
         <tbody id="exp-all-tbody"></tbody>
@@ -1652,6 +1671,25 @@ let incRecords = JSON.parse(localStorage.getItem('inc_records')||'null') || INC_
 let expViewTab = 'overview';
 let expCurMonth = new Date().getMonth()+1;
 let expFilterCat = 'all'; // 'all' or one of EXP_CATS
+let expFilterMonth = 0;   // 0=全部，1-12=指定月份
+
+function setExpMonthFilter(m){
+  expFilterMonth = m;
+  // 更新按鈕樣式
+  const allBtn = document.getElementById('mf-all');
+  if(allBtn){
+    allBtn.style.background = m===0 ? 'var(--y)' : 'var(--mid)';
+    allBtn.style.color      = m===0 ? '#fff'      : 'var(--ink-mid)';
+  }
+  for(let i=1;i<=12;i++){
+    const btn = document.getElementById('mf-'+i);
+    if(btn){
+      btn.style.background = m===i ? 'var(--y)' : 'var(--mid)';
+      btn.style.color      = m===i ? '#fff'      : 'var(--ink-mid)';
+    }
+  }
+  renderExpOverview();
+}
 
 function saveExpRecords(){ localStorage.setItem('exp_records', JSON.stringify(expRecords)); }
 function saveIncRecords(){ localStorage.setItem('inc_records', JSON.stringify(incRecords)); }
@@ -1838,15 +1876,18 @@ function renderExpOverview(){
   });
   document.getElementById('exp-cat-filters').innerHTML = chipsHtml;
 
-  // ── filtered table ──
-  const filtered = expFilterCat==='all' ? recs : recs.filter(r=>r.cat===expFilterCat);
+  // ── filtered table（類別＋月份雙重篩選）──
+  let filtered = expFilterCat==='all' ? recs : recs.filter(r=>r.cat===expFilterCat);
+  if(expFilterMonth !== 0) filtered = filtered.filter(r=>+r.date.slice(5,7)===expFilterMonth);
   const filteredTotal = filtered.reduce((s,r)=>s+r.amt,0);
   const sorted=[...filtered].sort((a,b)=>b.date.localeCompare(a.date));
-  // update header amount to show filtered total (with label if filtered)
+  // 標題金額：有篩選時顯示篩選合計 / 總計
+  const isFiltered = expFilterCat!=='all' || expFilterMonth!==0;
+  const filterLabel = expFilterMonth!==0 ? `${expFilterMonth}月` : '';
   document.getElementById('exp-all-total').textContent =
-    expFilterCat==='all' ? expFmt(totalExp) : `${expFmt(filteredTotal)} / ${expFmt(totalExp)}`;
+    isFiltered ? `${expFmt(filteredTotal)} / ${expFmt(totalExp)}${filterLabel?'（'+filterLabel+'）':''}` : expFmt(totalExp);
   document.getElementById('exp-all-tbody').innerHTML=sorted.map(r=>renderExpRow(r)).join('')
-    || `<tr><td colspan="6" style="text-align:center;padding:20px;color:#aaa">${expFilterCat==='all'?'尚無記錄':'此類別無記錄'}</td></tr>`;
+    || `<tr><td colspan="6" style="text-align:center;padding:20px;color:#aaa">${isFiltered?'此篩選條件無記錄':'尚無記錄'}</td></tr>`;
 }
 
 function renderExpMonth(){
