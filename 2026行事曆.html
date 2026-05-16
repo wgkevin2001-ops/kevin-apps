@@ -1613,6 +1613,16 @@ const EXP_SEED = [
   // 十二月
   {id:'s110',date:'2026-12-01',cat:'👨‍👩‍👧 家庭',amt:50000,pay:'',note:'老婆生活費'},
   {id:'s111',date:'2026-12-06',cat:'🚗 交通',amt:5613,pay:'中租',note:'車貸每月06日繳$5,613(中租)'},
+  // ── 中嘉網路費（固定，每季 $909）──
+  {id:'net001',date:'2026-01-05',cat:'🏠 居住',amt:909,pay:'信用卡自扣',note:'中嘉網路費 Q1（1-3月）400M/150M ✅已繳'},
+  {id:'net002',date:'2026-04-07',cat:'🏠 居住',amt:909,pay:'信用卡自扣',note:'中嘉網路費 Q2（4-6月）400M/150M ✅已繳'},
+  {id:'net003',date:'2026-07-07',cat:'🏠 居住',amt:909,pay:'信用卡自扣',note:'中嘉網路費 Q3（7-9月）400M/150M ⏳待繳'},
+  {id:'net004',date:'2026-10-07',cat:'🏠 居住',amt:909,pay:'信用卡自扣',note:'中嘉網路費 Q4（10-12月）400M/150M ⏳待繳'},
+  // ── 台灣大哥大電話費（09268***78）──
+  {id:'tel001',date:'2026-02-02',cat:'💻 3C/設備',amt:994, pay:'信用卡自扣',note:'台灣大電話費 1月帳單 ✅已繳'},
+  {id:'tel002',date:'2026-04-02',cat:'💻 3C/設備',amt:992, pay:'信用卡自扣',note:'台灣大電話費 3月帳單 ✅已繳'},
+  {id:'tel003',date:'2026-05-01',cat:'💻 3C/設備',amt:1065,pay:'信用卡自扣',note:'台灣大電話費 4月帳單 ✅已繳'},
+  {id:'tel004',date:'2026-06-02',cat:'💻 3C/設備',amt:1770,pay:'信用卡自扣',note:'台灣大電話費 5月帳單 ⏳待繳（截止6/2）'},
 ];
 
 const INC_SEED = [
@@ -1632,17 +1642,7 @@ const INC_SEED = [
   ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'div981B_'+m,month:m,year:2026,amt:1178,src:'📈 00981B 第一金優選非投債 月配息'})),
   // 00981D 主動中信非投等債：月配息，每股約0.070元 × 19,000股 ≈ 1,330元/月
   ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'div981D_'+m,month:m,year:2026,amt:1330,src:'📈 00981D 主動中信非投等債 月配息'})),
-  // 00830 國泰費城半導體：年配，除息1月，發放2月，9元/股 × 60股 = 540元
-  {id:'div830y1',month:2,year:2026,amt:540,src:'📈 00830 國泰費城半導體 年配息'},
-  // 00910 第一金太空衛星：年配，約1~2月除息，每股約3.5元 × 90股 ≈ 315元
-  {id:'div910y1',month:2,year:2026,amt:315,src:'📈 00910 第一金太空衛星 年配息'},
-  // 個股年配（7月為台股配息旺季高峰，8月發放）
-  {id:'div6415y',month:8,year:2026,amt:340, src:'📈 6415 矽力*-KY 年配息（約34元/股×10股）'},
-  {id:'div2313y',month:8,year:2026,amt:55,  src:'📈 2313 華通 年配息（約2.5元/股×22股）'},
-  {id:'div2449y',month:8,year:2026,amt:820, src:'📈 2449 京元電子 年配息（約3.5元/股×235股）'},
-  {id:'div2324y',month:8,year:2026,amt:625, src:'📈 2324 仁寶 年配息（約2.5元/股×250股）'},
-  {id:'div3289y',month:8,year:2026,amt:6,   src:'📈 3289 宜特 年配息（約1元/股×6股）'},
-  {id:'div6187y',month:8,year:2026,amt:45,  src:'📈 6187 萬潤 年配息（約9元/股×5股）'},
+  // 個股配息已移除（矽力6415、仁寶2324、華通2313、京元電2449、萬潤6187）
 ];
 
 let expRecords = JSON.parse(localStorage.getItem('exp_records')||'null') || EXP_SEED;
@@ -1741,16 +1741,24 @@ function renderExpOverview(){
     <div class="exp-sum-box"><div class="exp-sum-lbl">本月支出</div><div class="exp-sum-val" style="font-size:16px">${expFmt(monthExp)}</div><div class="exp-sum-sub">${curM}月</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">本月配息</div><div class="exp-sum-val" style="color:#1a6ea8;font-size:16px">${monthDiv>0?expFmt(monthDiv):'—'}</div><div class="exp-sum-sub">${curM}月${monthDiv>0?'入帳':'無配息'}</div></div>`;
 
-  // build per-month dividend detail rows
-  const divMonths=[3,4,6,7,9,10,12];
+  // build per-month dividend detail rows（支援月份篩選）
+  const divFilterM = window.divM || 0;
   const divRows = [1,2,3,4,5,6,7,8,9,10,11,12].map(m=>{
+    if(divFilterM !== 0 && m !== divFilterM) return '';
     const mDivs = incRecords.filter(r=>r.month===m&&r.src&&r.src.includes('配息'));
     if(!mDivs.length) return '';
-    return mDivs.map(r=>`
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:12px">
-        <span style="opacity:.85">${m}月 ${r.src.replace('📈 ','')}</span>
-        <span style="font-weight:900;color:#6ed888">+NT$${r.amt.toLocaleString()}</span>
-      </div>`).join('');
+    const mTotal = mDivs.reduce((s,r)=>s+r.amt,0);
+    return `<div style="margin-bottom:6px">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:4px 8px;background:rgba(255,255,255,.07);border-radius:7px;margin-bottom:2px;cursor:pointer" onclick="event.stopPropagation();window.divM=window.divM===${m}?0:${m};renderExpOverview()">
+        <span style="font-size:12px;font-weight:900;opacity:.9">${m}月</span>
+        <span style="font-weight:900;color:#6ed888;font-size:13px">+NT$${mTotal.toLocaleString()}</span>
+      </div>
+      ${mDivs.map(r=>`
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:2px 8px;font-size:11px;border-bottom:1px solid rgba(255,255,255,.05)">
+        <span style="opacity:.7">${r.src.replace('📈 ','')}</span>
+        <span style="font-weight:700;color:#6ed888">+NT$${r.amt.toLocaleString()}</span>
+      </div>`).join('')}
+    </div>`;
   }).join('');
 
   document.getElementById('exp-income-panel').innerHTML=`
@@ -1765,20 +1773,32 @@ function renderExpOverview(){
     <div style="height:1px;background:rgba(255,255,255,.2);margin:6px 0"></div>
     <div class="exp-income-row"><span class="exp-income-lbl" style="font-weight:900">年度結餘</span><span class="exp-income-val ${balance>=0?'exp-balance-pos':'exp-balance-neg'}">${balance>=0?'+':''}NT$${balance.toLocaleString()}</span></div>
     <div style="margin-top:10px;padding-top:10px;border-top:1px solid rgba(255,255,255,.15)">
-      <div style="font-size:11px;font-weight:900;opacity:.7;letter-spacing:.08em;margin-bottom:6px;text-transform:uppercase">📅 配息月份明細</div>
-      ${divRows}
-      <div style="font-size:11px;opacity:.55;margin-top:8px;line-height:1.6">
-        ※ 以最近一次配息估算：<br>
-        　00878（$0.66元/股×48,000股）= 季配 $31,680元<br>
-        　00918（$0.62元/股×6,000股）= 季配 $3,720元<br>
-        　00981B（$0.062元/股×19,000股）= 月配 $1,178元<br>
-        　00981D（$0.070元/股×19,000股）= 月配 $1,330元<br>
-        　00830（$9元/股×60股）= 年配 $540元（2月發放）<br>
-        　00910（約$3.5元/股×90股）= 年配 $315元<br>
-        　個股（6415、2313、2449、2324等）= 年配 約$1,891元（8月旺季）<br>
-        ※ 00631L、00941、00861、00876 設計上不配息<br>
-        ※ 00996A、00400A、00999A 為新上市ETF，首次配息待公告
+      <div onclick="window.divOpen=(window.divOpen===false?true:false);renderExpOverview()" style="display:flex;justify-content:space-between;align-items:center;cursor:pointer;margin-bottom:8px">
+        <div style="font-size:11px;font-weight:900;opacity:.8;letter-spacing:.08em;text-transform:uppercase">📅 配息月份明細</div>
+        <div style="font-size:12px;background:rgba(255,255,255,.12);padding:2px 10px;border-radius:8px;opacity:.8">${window.divOpen===false?'▼ 展開':'▲ 收合'}</div>
       </div>
+      ${window.divOpen===false ? '' : `
+      <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">
+        <button onclick="event.stopPropagation();window.divM=0;renderExpOverview()" style="padding:3px 9px;border-radius:10px;border:none;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;background:${(window.divM||0)===0?'#6ed888':'rgba(255,255,255,.15)'};color:${(window.divM||0)===0?'#1a3a1a':'#fff'}">全部</button>
+        ${[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>{
+          const hasDivs=incRecords.some(r=>r.month===m&&r.src&&r.src.includes('配息'));
+          if(!hasDivs)return '';
+          const active=(window.divM||0)===m;
+          return '<button onclick="event.stopPropagation();window.divM='+m+';renderExpOverview()" style="padding:3px 9px;border-radius:10px;border:none;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;background:'+(active?'#6ed888':'rgba(255,255,255,.15)')+';color:'+(active?'#1a3a1a':'#fff')+'">'+m+'月</button>';
+        }).join('')}
+      </div>
+      ${divRows}
+      <div style="font-size:11px;opacity:.5;margin-top:8px;line-height:1.7">
+        ※ 依存股計劃持股計算（2026/05/16更新）：<br>
+        　00878 50張 × $0.42 = 季配 $21,000（3,6,9,12月）<br>
+        　00918 6張 × $0.62 = 季配 $3,720（3,6,9,12月）<br>
+        　00981B 15張 × $0.072 = 月配 $1,080<br>
+        　00981D 15張 × $0.070 = 月配 $1,050<br>
+        　00400A 10張 × $0.075 = 月配 $750（7月起）<br>
+        　00996A 11張 × $0.15 = 季配 $1,650（6,9,12月）<br>
+        ※ 00999A、00403A 尚未配息，待公告後補入<br>
+        ※ 個股（矽力、仁寶、華通等）配息資料已移除
+      </div>`}
     </div>`;
 
   // category bars
