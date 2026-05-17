@@ -268,30 +268,7 @@ body::before {
   font-size: 12px; cursor: pointer; z-index: 2;
   -webkit-tap-highlight-color: transparent;
 }
-/* ── Lightbox ── */
-#news-lightbox {
-  display: none; position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  z-index: 99999;
-  background: rgba(0,0,0,0.93);
-  align-items: center; justify-content: center;
-  padding: 20px;
-  -webkit-overflow-scrolling: touch;
-}
-#news-lightbox.on { display: flex !important; } /* fallback */
-#news-lightbox img {
-  max-width: 100%; max-height: 85vh;
-  border-radius: 10px; box-shadow: 0 8px 40px rgba(0,0,0,.6);
-  object-fit: contain; display: block;
-}
-#news-lightbox-close {
-  position: absolute; top: 14px; right: 14px;
-  background: rgba(255,255,255,0.2); color: #fff; border: 2px solid rgba(255,255,255,0.3);
-  border-radius: 50%; width: 40px; height: 40px; font-size: 20px;
-  display: flex; align-items: center; justify-content: center;
-  cursor: pointer; z-index: 100000;
-  -webkit-tap-highlight-color: transparent;
-}
+
 .news-empty { text-align: center; font-size: 12px; color: #ccc; padding: 14px 0; font-family: 'DM Mono', monospace; }
 </style>
 
@@ -522,19 +499,37 @@ function delNews(btn) {
 }
 // ── 近期資訊：放大鏡 ──
 function openLightbox(img) {
-  var lb = document.getElementById('news-lightbox');
-  var lbImg = document.getElementById('news-lightbox-img');
-  lbImg.src = img.src;
-  lb.style.display = 'flex';
-  document.body.style.overflow = 'hidden';
+  // Create overlay dynamically and append to document.documentElement
+  // to avoid any overflow/transform clipping from parent elements
+  var ov = document.createElement('div');
+  ov.id = 'lb-overlay';
+  ov.style.cssText = [
+    'position:fixed','top:0','left:0','width:100%','height:100%',
+    'background:rgba(0,0,0,0.93)','z-index:2147483647',
+    'display:flex','align-items:center','justify-content:center',
+    'padding:20px','box-sizing:border-box'
+  ].join(';');
+  var close = document.createElement('button');
+  close.textContent = '✕';
+  close.style.cssText = [
+    'position:absolute','top:14px','right:14px',
+    'background:rgba(255,255,255,0.25)','color:#fff',
+    'border:none','border-radius:50%','width:42px','height:42px',
+    'font-size:22px','cursor:pointer','z-index:1',
+    'display:flex','align-items:center','justify-content:center'
+  ].join(';');
+  var image = document.createElement('img');
+  image.src = img.src;
+  image.style.cssText = 'max-width:100%;max-height:85vh;border-radius:10px;object-fit:contain;display:block';
+  function destroy() { if(ov.parentNode) ov.parentNode.removeChild(ov); }
+  close.onclick = destroy;
+  ov.onclick = destroy;
+  image.onclick = function(e){ e.stopPropagation(); };
+  ov.appendChild(close);
+  ov.appendChild(image);
+  document.documentElement.appendChild(ov);
 }
-function closeLightbox() {
-  var lb = document.getElementById('news-lightbox');
-  lb.style.display = 'none';
-  document.getElementById('news-lightbox-img').src = '';
-  document.body.style.overflow = '';
-}
-document.addEventListener('keydown', function(e){ if(e.key==='Escape') closeLightbox(); });
+document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ var o=document.getElementById('lb-overlay'); if(o) o.parentNode.removeChild(o); } });
 // ── 近期資訊：插入圖片 ──
 function addNewsImage(input) {
   var file = input.files[0];
@@ -543,21 +538,54 @@ function addNewsImage(input) {
   reader.onload = function(e) {
     var src = e.target.result;
     var now = new Date();
-    var dateStr = now.getFullYear()+'-'+(now.getMonth()+1<10?'0':'')+(now.getMonth()+1)+'-'+(now.getDate()<10?'0':'')+now.getDate();
-    var name = file.name.replace(/\.[^.]+$/, '').slice(0, 20);
+    var m = now.getMonth()+1;
+    var d = now.getDate();
+    var dateStr = now.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(d<10?'0':'')+d;
+    var name = (file.name.replace(/\.[^.]+$/,'') || '圖片').slice(0,20);
+
     var item = document.createElement('div');
     item.className = 'news-item';
     item.style.cssText = '--ni-color:#B8760A';
-    item.innerHTML =
-      '<div class="news-img-header">' +
-        '<span style="font-size:15px">📌</span>' +
-        '<span class="news-img-label">' + name + '</span>' +
-        '<span class="news-img-date">' + dateStr + '</span>' +
-        '<button class="news-del-btn" onclick="delNews(this)" title="刪除">✕</button>' +
-      '</div>' +
-      '<div class="news-img-wrap" onclick="openLightbox(this.querySelector('img'))">' +
-        '<img src="' + src + '" alt="' + name + '" style="width:100%;display:block">' +
-      '</div>';
+
+    var hdr = document.createElement('div');
+    hdr.className = 'news-img-header';
+    hdr.innerHTML = '<span style="font-size:15px">📌</span>';
+
+    var lbl = document.createElement('span');
+    lbl.className = 'news-img-label';
+    lbl.textContent = name;
+    hdr.appendChild(lbl);
+
+    var dt = document.createElement('span');
+    dt.className = 'news-img-date';
+    dt.textContent = dateStr;
+    hdr.appendChild(dt);
+
+    var delBtn = document.createElement('button');
+    delBtn.className = 'news-del-btn';
+    delBtn.title = '刪除';
+    delBtn.textContent = '✕';
+    delBtn.onclick = function(){ delNews(this); };
+    hdr.appendChild(delBtn);
+
+    var hint = document.createElement('div');
+    hint.style.cssText = 'font-size:10px;color:#bbb;text-align:center;padding:3px 0 1px;font-family:monospace';
+    hint.textContent = '點兩下圖片可放大';
+
+    var wrap = document.createElement('div');
+    wrap.className = 'news-img-wrap';
+
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = name;
+    img.style.cssText = 'width:100%;display:block';
+    img.ondblclick = function(){ openLightbox(this); };
+    wrap.appendChild(img);
+
+    item.appendChild(hdr);
+    item.appendChild(hint);
+    item.appendChild(wrap);
+
     var list = document.getElementById('news-list');
     var empty = list.querySelector('.news-empty');
     if (empty) empty.remove();
@@ -820,12 +848,6 @@ window.fetchWeather = function() {
 };
 
 </script>
-
-<!-- ── Lightbox ── -->
-<div id="news-lightbox" onclick="closeLightbox()">
-  <button id="news-lightbox-close" onclick="closeLightbox()">✕</button>
-  <img id="news-lightbox-img" src="" alt="" onclick="event.stopPropagation()">
-</div>
 
 </body>
 </html>
