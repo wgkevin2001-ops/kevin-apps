@@ -281,9 +281,9 @@ body::before {
   display: none; width: 100%; margin-top: 10px;
   background: linear-gradient(135deg, #1565C0, #0D47A1);
   color: #fff; border: none; border-radius: 12px;
-  padding: 12px; font-size: 14px; font-weight: 700;
-  cursor: pointer; align-items: center; justify-content: center;
-  gap: 6px; font-family: 'Noto Sans TC', sans-serif;
+  padding: 13px; font-size: 15px; font-weight: 700;
+  cursor: pointer; text-align: center;
+  font-family: 'Noto Sans TC', sans-serif;
   box-shadow: 0 4px 14px rgba(21,101,192,0.3);
   -webkit-tap-highlight-color: transparent;
 }
@@ -618,10 +618,11 @@ function initNewsDb(db) {
 function updateSyncBtn() {
   var btn = document.getElementById('news-sync-btn');
   if (!btn) return;
-  var unsynced = document.querySelectorAll('.news-item:not([data-key]) .news-sync-badge');
+  var unsynced = document.querySelectorAll('#news-list .news-item .news-sync-badge:not(.synced)');
   if (unsynced.length > 0) {
-    btn.style.display = 'flex';
+    btn.style.display = 'block';
     btn.textContent = '☁️ 同步雲端 (' + unsynced.length + ')';
+    btn.disabled = false;
   } else {
     btn.style.display = 'none';
   }
@@ -629,7 +630,8 @@ function updateSyncBtn() {
 
 // ── 同步到雲端 ──
 window.syncToCloud = function() {
-  var unsyncedItems = document.querySelectorAll('#news-list .news-item:not([data-key])');
+  var unsyncedItems = document.querySelectorAll('#news-list .news-item');
+  unsyncedItems = Array.from(unsyncedItems).filter(function(el){ return !el.dataset.key; });
   if (!unsyncedItems.length) return;
   if (!window._fbFns || !window._fbDb) { alert('雲端未連線，請稍後再試'); return; }
 
