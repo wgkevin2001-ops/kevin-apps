@@ -483,115 +483,141 @@ function unlockNow() { /* waiting for module */ }
 function fetchWeather() { /* waiting for module */ }
 
 // ── 近期資訊：刪除 ──
+// ── 壓縮圖片 ──
+function compressImage(file, callback) {
+  var reader = new FileReader();
+  reader.onload = function(e) {
+    var img = new Image();
+    img.onload = function() {
+      var canvas = document.createElement('canvas');
+      var maxW = 1200, maxH = 1200;
+      var w = img.width, h = img.height;
+      if (w > maxW) { h = h * maxW / w; w = maxW; }
+      if (h > maxH) { w = w * maxH / h; h = maxH; }
+      canvas.width = w; canvas.height = h;
+      canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+      var compressed = canvas.toDataURL('image/jpeg', 0.6);
+      callback(compressed);
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// ── 建立圖片卡片 DOM ──
+function buildNewsItem(src, name, date, key) {
+  var item = document.createElement('div');
+  item.className = 'news-item';
+  item.style.cssText = '--ni-color:#B8760A';
+  if (key) item.dataset.key = key;
+
+  var hdr = document.createElement('div');
+  hdr.className = 'news-img-header';
+  hdr.innerHTML = '<span style="font-size:15px">📌</span>';
+
+  var lbl = document.createElement('span');
+  lbl.className = 'news-img-label';
+  lbl.textContent = name;
+  hdr.appendChild(lbl);
+
+  var dt = document.createElement('span');
+  dt.className = 'news-img-date';
+  dt.textContent = date;
+  hdr.appendChild(dt);
+
+  var delBtn = document.createElement('button');
+  delBtn.className = 'news-del-btn';
+  delBtn.title = '刪除';
+  delBtn.textContent = '✕';
+  delBtn.onclick = function(){ delNews(this); };
+  hdr.appendChild(delBtn);
+
+  var hint = document.createElement('div');
+  hint.style.cssText = 'font-size:10px;color:#bbb;text-align:center;padding:3px 0 1px;font-family:monospace';
+  hint.textContent = '點兩下圖片可放大';
+
+  var wrap = document.createElement('div');
+  wrap.className = 'news-img-wrap';
+
+  var imgEl = document.createElement('img');
+  imgEl.src = src;
+  imgEl.alt = name;
+  imgEl.style.cssText = 'width:100%;display:block';
+  imgEl.ondblclick = function(){ openLightbox(this); };
+  wrap.appendChild(imgEl);
+
+  item.appendChild(hdr);
+  item.appendChild(hint);
+  item.appendChild(wrap);
+  return item;
+}
+
+// ── Firebase 存圖片 ──
+var newsDbRef = null;
+function initNewsDb(db) {
+  // db = firebase database instance passed from module
+  var { ref: fbRef, push, remove, onValue } = window._fbFns;
+  newsDbRef = fbRef(db, 'news_images');
+  onValue(newsDbRef, function(snap) {
+    var list = document.getElementById('news-list');
+    // keep built-in pinned items (those without data-key)
+    var pinned = Array.from(list.querySelectorAll('.news-item:not([data-key])'));
+    list.innerHTML = '';
+    pinned.forEach(function(p){ list.appendChild(p); });
+
+    var data = snap.val();
+    if (data) {
+      // sort by timestamp desc
+      var keys = Object.keys(data).sort().reverse();
+      keys.forEach(function(k) {
+        var d = data[k];
+        var item = buildNewsItem(d.src, d.name, d.date, k);
+        list.appendChild(item);
+      });
+    }
+    if (list.querySelectorAll('.news-item').length === 0) {
+      list.innerHTML = '<div class="news-empty">— 目前無近期資訊 —</div>';
+    }
+  });
+}
+
 function delNews(btn) {
   var item = btn.closest('.news-item');
   if (!item) return;
+  var key = item.dataset.key;
   item.style.transition = 'opacity .25s, transform .25s';
   item.style.opacity = '0';
   item.style.transform = 'translateX(20px)';
   setTimeout(function() {
     item.remove();
+    // delete from firebase if has key
+    if (key && newsDbRef && window._fbFns) {
+      var { ref: fbRef, remove } = window._fbFns;
+      var db = window._fbDb;
+      remove(fbRef(db, 'news_images/' + key));
+    }
     var list = document.getElementById('news-list');
-    if (list && list.children.length === 0) {
+    if (list && list.querySelectorAll('.news-item').length === 0) {
       list.innerHTML = '<div class="news-empty">— 目前無近期資訊 —</div>';
     }
   }, 260);
 }
-// ── 近期資訊：放大鏡 ──
-function openLightbox(img) {
-  // Create overlay dynamically and append to document.documentElement
-  // to avoid any overflow/transform clipping from parent elements
-  var ov = document.createElement('div');
-  ov.id = 'lb-overlay';
-  ov.style.cssText = [
-    'position:fixed','top:0','left:0','width:100%','height:100%',
-    'background:rgba(0,0,0,0.93)','z-index:2147483647',
-    'display:flex','align-items:center','justify-content:center',
-    'padding:20px','box-sizing:border-box'
-  ].join(';');
-  var close = document.createElement('button');
-  close.textContent = '✕';
-  close.style.cssText = [
-    'position:absolute','top:14px','right:14px',
-    'background:rgba(255,255,255,0.25)','color:#fff',
-    'border:none','border-radius:50%','width:42px','height:42px',
-    'font-size:22px','cursor:pointer','z-index:1',
-    'display:flex','align-items:center','justify-content:center'
-  ].join(';');
-  var image = document.createElement('img');
-  image.src = img.src;
-  image.style.cssText = 'max-width:100%;max-height:85vh;border-radius:10px;object-fit:contain;display:block';
-  function destroy() { if(ov.parentNode) ov.parentNode.removeChild(ov); }
-  close.onclick = destroy;
-  ov.onclick = destroy;
-  image.onclick = function(e){ e.stopPropagation(); };
-  ov.appendChild(close);
-  ov.appendChild(image);
-  document.documentElement.appendChild(ov);
-}
-document.addEventListener('keydown', function(e){ if(e.key==='Escape'){ var o=document.getElementById('lb-overlay'); if(o) o.parentNode.removeChild(o); } });
-// ── 近期資訊：插入圖片 ──
+
 function addNewsImage(input) {
   var file = input.files[0];
   if (!file) return;
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var src = e.target.result;
+  compressImage(file, function(src) {
     var now = new Date();
     var m = now.getMonth()+1;
     var d = now.getDate();
     var dateStr = now.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(d<10?'0':'')+d;
     var name = (file.name.replace(/\.[^.]+$/,'') || '圖片').slice(0,20);
 
-    var item = document.createElement('div');
-    item.className = 'news-item';
-    item.style.cssText = '--ni-color:#B8760A';
-
-    var hdr = document.createElement('div');
-    hdr.className = 'news-img-header';
-    hdr.innerHTML = '<span style="font-size:15px">📌</span>';
-
-    var lbl = document.createElement('span');
-    lbl.className = 'news-img-label';
-    lbl.textContent = name;
-    hdr.appendChild(lbl);
-
-    var dt = document.createElement('span');
-    dt.className = 'news-img-date';
-    dt.textContent = dateStr;
-    hdr.appendChild(dt);
-
-    var delBtn = document.createElement('button');
-    delBtn.className = 'news-del-btn';
-    delBtn.title = '刪除';
-    delBtn.textContent = '✕';
-    delBtn.onclick = function(){ delNews(this); };
-    hdr.appendChild(delBtn);
-
-    var hint = document.createElement('div');
-    hint.style.cssText = 'font-size:10px;color:#bbb;text-align:center;padding:3px 0 1px;font-family:monospace';
-    hint.textContent = '點兩下圖片可放大';
-
-    var wrap = document.createElement('div');
-    wrap.className = 'news-img-wrap';
-
-    var img = document.createElement('img');
-    img.src = src;
-    img.alt = name;
-    img.style.cssText = 'width:100%;display:block';
-    img.ondblclick = function(){ openLightbox(this); };
-    wrap.appendChild(img);
-
-    item.appendChild(hdr);
-    item.appendChild(hint);
-    item.appendChild(wrap);
-
-    var list = document.getElementById('news-list');
-    var empty = list.querySelector('.news-empty');
-    if (empty) empty.remove();
-    list.insertBefore(item, list.firstChild);
-  };
-  reader.readAsDataURL(file);
+    if (window._fbFns && window._fbDb) {
+      var { ref: fbRef, push } = window._fbFns;
+      push(fbRef(window._fbDb, 'news_images'), { src: src, name: name, date: dateStr });
+    }
+  });
   input.value = '';
 }
 </script>
@@ -601,7 +627,7 @@ function addNewsImage(input) {
      ══════════════════════════════════════════ -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getDatabase, ref, get, set, onValue }
+import { getDatabase, ref, get, set, onValue, push, remove }
   from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
 
 // ═══════════════════════════════════════
@@ -628,6 +654,10 @@ const LOCK_SECS = 30;
 const app = initializeApp(firebaseConfig);
 const db  = getDatabase(app);
 const loginRef = ref(db, 'login_guard'); // Firebase 路徑：login_guard
+
+// expose db + functions globally for news image feature
+window._fbDb = db;
+window._fbFns = { ref, push, remove, onValue };
 
 // ── 雲端狀態badge ──
 function setBadge(state, msg) {
@@ -665,6 +695,7 @@ var timer = null;
 // ── 初始化 ──
 function init() {
   tickClock(); setInterval(tickClock, 1000);
+  initNewsDb(db);
 
   // 讀取鎖定狀態（優先 Firebase，其次 sessionStorage）
   var lockUntil = fbData.lockUntil || 0;
