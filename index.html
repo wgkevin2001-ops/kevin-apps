@@ -270,6 +270,23 @@ body::before {
 }
 
 .news-empty { text-align: center; font-size: 12px; color: #ccc; padding: 14px 0; font-family: 'DM Mono', monospace; }
+.news-sync-badge {
+  text-align: center; font-size: 11px; font-weight: 700;
+  padding: 5px 0; background: #FFF8E8; color: #B8760A;
+  border-top: 1px solid rgba(184,118,10,0.15);
+  font-family: 'DM Mono', monospace;
+}
+.news-sync-badge.synced { background: #F0FFF4; color: #1A8A3A; }
+#news-sync-btn {
+  display: none; width: 100%; margin-top: 10px;
+  background: linear-gradient(135deg, #1565C0, #0D47A1);
+  color: #fff; border: none; border-radius: 12px;
+  padding: 12px; font-size: 14px; font-weight: 700;
+  cursor: pointer; align-items: center; justify-content: center;
+  gap: 6px; font-family: 'Noto Sans TC', sans-serif;
+  box-shadow: 0 4px 14px rgba(21,101,192,0.3);
+  -webkit-tap-highlight-color: transparent;
+}
 </style>
 
 <style>
@@ -496,8 +513,7 @@ function compressImage(file, callback) {
       if (h > maxH) { w = w * maxH / h; h = maxH; }
       canvas.width = w; canvas.height = h;
       canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-      var compressed = canvas.toDataURL('image/jpeg', 0.6);
-      callback(compressed);
+      callback(canvas.toDataURL('image/jpeg', 0.6));
     };
     img.src = e.target.result;
   };
@@ -538,7 +554,6 @@ function buildNewsItem(src, name, date, key) {
 
   var wrap = document.createElement('div');
   wrap.className = 'news-img-wrap';
-
   var imgEl = document.createElement('img');
   imgEl.src = src;
   imgEl.alt = name;
@@ -546,28 +561,41 @@ function buildNewsItem(src, name, date, key) {
   imgEl.ondblclick = function(){ openLightbox(this); };
   wrap.appendChild(imgEl);
 
-  item.appendChild(hdr);
-  item.appendChild(hint);
-  item.appendChild(wrap);
+  // sync badge (shown when not yet synced)
+  if (!key) {
+    var badge = document.createElement('div');
+    badge.className = 'news-sync-badge';
+    badge.textContent = '⏳ 未同步';
+    item.appendChild(hdr);
+    item.appendChild(hint);
+    item.appendChild(wrap);
+    item.appendChild(badge);
+  } else {
+    var badge = document.createElement('div');
+    badge.className = 'news-sync-badge synced';
+    badge.textContent = '☁️ 已同步';
+    item.appendChild(hdr);
+    item.appendChild(hint);
+    item.appendChild(wrap);
+    item.appendChild(badge);
+  }
+
   return item;
 }
 
-// ── Firebase 存圖片 ──
+// ── Firebase 監聽 ──
 var newsDbRef = null;
 function initNewsDb(db) {
-  // db = firebase database instance passed from module
-  var { ref: fbRef, push, remove, onValue } = window._fbFns;
-  newsDbRef = fbRef(db, 'news_images');
-  onValue(newsDbRef, function(snap) {
+  var fns = window._fbFns;
+  newsDbRef = fns.ref(db, 'news_images');
+  fns.onValue(newsDbRef, function(snap) {
+    // remove all firebase-keyed items and re-render
     var list = document.getElementById('news-list');
-    // keep built-in pinned items (those without data-key)
-    var pinned = Array.from(list.querySelectorAll('.news-item:not([data-key])'));
-    list.innerHTML = '';
-    pinned.forEach(function(p){ list.appendChild(p); });
+    var toRemove = list.querySelectorAll('.news-item[data-key]');
+    toRemove.forEach(function(el){ el.remove(); });
 
     var data = snap.val();
     if (data) {
-      // sort by timestamp desc
       var keys = Object.keys(data).sort().reverse();
       keys.forEach(function(k) {
         var d = data[k];
@@ -575,12 +603,59 @@ function initNewsDb(db) {
         list.appendChild(item);
       });
     }
+    var empty = list.querySelector('.news-empty');
     if (list.querySelectorAll('.news-item').length === 0) {
-      list.innerHTML = '<div class="news-empty">— 目前無近期資訊 —</div>';
+      if (!empty) list.innerHTML = '<div class="news-empty">— 目前無近期資訊 —</div>';
+    } else {
+      if (empty) empty.remove();
     }
+    updateSyncBtn();
   });
 }
 
+// ── 更新同步按鈕狀態 ──
+function updateSyncBtn() {
+  var btn = document.getElementById('news-sync-btn');
+  if (!btn) return;
+  var unsynced = document.querySelectorAll('.news-item:not([data-key]) .news-sync-badge');
+  if (unsynced.length > 0) {
+    btn.style.display = 'flex';
+    btn.textContent = '☁️ 同步雲端 (' + unsynced.length + ')';
+  } else {
+    btn.style.display = 'none';
+  }
+}
+
+// ── 同步到雲端 ──
+window.syncToCloud = function() {
+  var unsyncedItems = document.querySelectorAll('#news-list .news-item:not([data-key])');
+  if (!unsyncedItems.length) return;
+  if (!window._fbFns || !window._fbDb) { alert('雲端未連線，請稍後再試'); return; }
+
+  var btn = document.getElementById('news-sync-btn');
+  btn.textContent = '⏳ 上傳中...';
+  btn.disabled = true;
+
+  var fns = window._fbFns;
+  var count = unsyncedItems.length;
+  var done = 0;
+
+  unsyncedItems.forEach(function(item) {
+    var src = item.querySelector('img').src;
+    var name = item.querySelector('.news-img-label').textContent;
+    var date = item.querySelector('.news-img-date').textContent;
+    fns.push(fns.ref(window._fbDb, 'news_images'), { src: src, name: name, date: date })
+      .then(function() {
+        done++;
+        if (done === count) {
+          btn.disabled = false;
+          updateSyncBtn();
+        }
+      });
+  });
+};
+
+// ── 刪除 ──
 function delNews(btn) {
   var item = btn.closest('.news-item');
   if (!item) return;
@@ -590,33 +665,33 @@ function delNews(btn) {
   item.style.transform = 'translateX(20px)';
   setTimeout(function() {
     item.remove();
-    // delete from firebase if has key
-    if (key && newsDbRef && window._fbFns) {
-      var { ref: fbRef, remove } = window._fbFns;
-      var db = window._fbDb;
-      remove(fbRef(db, 'news_images/' + key));
+    if (key && window._fbFns && window._fbDb) {
+      var fns = window._fbFns;
+      fns.remove(fns.ref(window._fbDb, 'news_images/' + key));
     }
     var list = document.getElementById('news-list');
     if (list && list.querySelectorAll('.news-item').length === 0) {
       list.innerHTML = '<div class="news-empty">— 目前無近期資訊 —</div>';
     }
+    updateSyncBtn();
   }, 260);
 }
 
+// ── 插入圖片（本地預覽，待同步）──
 function addNewsImage(input) {
   var file = input.files[0];
   if (!file) return;
   compressImage(file, function(src) {
     var now = new Date();
-    var m = now.getMonth()+1;
-    var d = now.getDate();
+    var m = now.getMonth()+1, d = now.getDate();
     var dateStr = now.getFullYear()+'-'+(m<10?'0':'')+m+'-'+(d<10?'0':'')+d;
     var name = (file.name.replace(/\.[^.]+$/,'') || '圖片').slice(0,20);
-
-    if (window._fbFns && window._fbDb) {
-      var { ref: fbRef, push } = window._fbFns;
-      push(fbRef(window._fbDb, 'news_images'), { src: src, name: name, date: dateStr });
-    }
+    var item = buildNewsItem(src, name, dateStr, null);
+    var list = document.getElementById('news-list');
+    var empty = list.querySelector('.news-empty');
+    if (empty) empty.remove();
+    list.insertBefore(item, list.firstChild);
+    updateSyncBtn();
   });
   input.value = '';
 }
