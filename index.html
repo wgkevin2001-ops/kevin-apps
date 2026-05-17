@@ -223,6 +223,49 @@ body::before {
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
 @media(max-width:420px){ .login-card{padding:24px 18px} .login-title{font-size:22px} }
+
+/* ── 近期資訊 ── */
+.news-wrap { width: 100%; max-width: 400px; margin-top: 18px; }
+.news-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 10px;
+}
+.news-title {
+  font-size: 12px; font-weight: 700; letter-spacing: .12em; color: var(--muted);
+  font-family: 'DM Mono', monospace; text-transform: uppercase;
+}
+.news-list { display: flex; flex-direction: column; gap: 8px; }
+.news-item {
+  background: rgba(255,255,255,0.82); border: 1px solid var(--border);
+  border-radius: 12px; padding: 11px 14px;
+  display: flex; align-items: flex-start; gap: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+  animation: fadeUp .4s ease both;
+  position: relative; overflow: hidden;
+}
+.news-item::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; border-radius: 3px 0 0 3px;
+  background: var(--ni-color, var(--gold));
+}
+.news-dot { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.news-body { flex: 1; min-width: 0; }
+.news-tag {
+  display: inline-block; font-size: 10px; font-weight: 700;
+  padding: 1px 7px; border-radius: 20px; margin-bottom: 4px;
+  background: var(--ni-bg, #FFF3DC); color: var(--ni-color, var(--gold));
+  letter-spacing: .05em;
+}
+.news-text { font-size: 13px; font-weight: 600; line-height: 1.55; color: var(--text); }
+.news-date { font-size: 10px; color: #bbb; font-family: 'DM Mono', monospace; margin-top: 3px; }
+.news-del {
+  background: none; border: none; cursor: pointer; font-size: 15px;
+  color: #ccc; padding: 2px 4px; flex-shrink: 0;
+  transition: color .18s; -webkit-tap-highlight-color: transparent;
+  margin-top: -1px;
+}
+.news-del:hover { color: var(--red); }
+.news-empty { text-align: center; font-size: 12px; color: #ccc; padding: 10px 0; font-family: 'DM Mono', monospace; }
 </style>
 
 <style>
@@ -269,6 +312,43 @@ body {
   </div>
 
   <div class="footer-note" style="margin-top:20px">僅限授權使用 · 資料儲存於 Firebase 雲端</div>
+
+  <!-- ── 近期資訊 ── -->
+  <div class="news-wrap">
+    <div class="news-header">
+      <div class="news-title">📋 近期資訊</div>
+    </div>
+    <div class="news-list" id="news-list">
+      <!-- 預設範例資訊（可點右上角 × 刪除） -->
+      <div class="news-item" style="--ni-color:#E05A00;--ni-bg:#FFF0DC">
+        <div class="news-dot">📢</div>
+        <div class="news-body">
+          <div class="news-tag">公告</div>
+          <div class="news-text">交通部計程車油價補貼：台塑優惠卡申辦完成後，請記得至台塑加油站完成登記才能享有補貼。</div>
+          <div class="news-date">2025-05-17</div>
+        </div>
+        <button class="news-del" onclick="delNews(this)" title="刪除">✕</button>
+      </div>
+      <div class="news-item" style="--ni-color:#1A6EA8;--ni-bg:#DCE8FF">
+        <div class="news-dot">📝</div>
+        <div class="news-body">
+          <div class="news-tag">提醒</div>
+          <div class="news-text">優惠卡申辦地點：台塑及指定通路加油站共 563 處，申辦作業約需 7 個工作日。</div>
+          <div class="news-date">2025-05-17</div>
+        </div>
+        <button class="news-del" onclick="delNews(this)" title="刪除">✕</button>
+      </div>
+      <div class="news-item" style="--ni-color:#1A8A3A;--ni-bg:#DCF5E4">
+        <div class="news-dot">✅</div>
+        <div class="news-body">
+          <div class="news-tag">完成</div>
+          <div class="news-text">優惠卡登記所需文件：台塑計程車優惠卡、行車執照，並填妥申請表；登記作業約需 3 個工作日。</div>
+          <div class="news-date">2025-05-17</div>
+        </div>
+        <button class="news-del" onclick="delNews(this)" title="刪除">✕</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <!-- ── 鎖定畫面 ── -->
@@ -397,6 +477,22 @@ function doLogin()   { /* waiting for module */ }
 function logout()    { /* waiting for module */ }
 function unlockNow() { /* waiting for module */ }
 function fetchWeather() { /* waiting for module */ }
+
+// ── 近期資訊：刪除 ──
+function delNews(btn) {
+  var item = btn.closest('.news-item');
+  if (!item) return;
+  item.style.transition = 'opacity .25s, transform .25s';
+  item.style.opacity = '0';
+  item.style.transform = 'translateX(20px)';
+  setTimeout(function() {
+    item.remove();
+    var list = document.getElementById('news-list');
+    if (list && list.children.length === 0) {
+      list.innerHTML = '<div class="news-empty">— 目前無近期資訊 —</div>';
+    }
+  }, 260);
+}
 </script>
 
 <!-- ══════════════════════════════════════════
