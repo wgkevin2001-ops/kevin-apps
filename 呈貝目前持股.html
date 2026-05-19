@@ -824,6 +824,56 @@
     </div>
   </div>
 
+  <!-- 漲跌幅排行 -->
+  <div class="section" style="animation-delay:.08s" id="rank-section-cheng">
+    <div class="section-header">
+      <span class="section-flag">🏆</span>
+      <span class="section-title">漲跌幅排行（即時）</span>
+      <div class="section-line"></div>
+      <button class="add-stock-btn" onclick="buildRankCheng()" style="background:rgba(196,98,45,0.15);border-color:#C4622D;color:#C4622D;">🔄 更新</button>
+    </div>
+    <div style="display:flex;gap:16px;flex-wrap:wrap;">
+      <!-- 漲幅前5 -->
+      <div style="flex:1;min-width:280px;">
+        <div class="section-count" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:10px;color:var(--profit);border-color:var(--profit);background:var(--profit-bg);">
+          📈 漲幅前5
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>股票</th>
+              <th>現價</th>
+              <th>報酬率</th>
+              <th>損益（元）</th>
+            </tr></thead>
+            <tbody id="rank-top5-cheng">
+              <tr><td colspan="4" style="text-align:center;padding:16px;color:#999;">載入中…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 跌幅前5 -->
+      <div style="flex:1;min-width:280px;">
+        <div class="section-count" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:10px;color:var(--loss);border-color:var(--loss);background:var(--loss-bg);">
+          📉 跌幅前5
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>股票</th>
+              <th>現價</th>
+              <th>報酬率</th>
+              <th>損益（元）</th>
+            </tr></thead>
+            <tbody id="rank-bot5-cheng">
+              <tr><td colspan="4" style="text-align:center;padding:16px;color:#999;">載入中…</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- 台股 -->
   <div class="section" style="animation-delay:.1s">
     <div class="section-header">
@@ -840,15 +890,16 @@
           <tr data-pnl="pos" data-code="00631L" data-avg="20.34"  data-shares="130"><td><div class="stock-name">元大台灣50正2 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00631L</div></td><td class="price-cell live-price">—</td><td class="price-cell">20.34</td><td class="shares">130</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00830"  data-avg="54.14"  data-shares="60" ><td><div class="stock-name">國泰費城半導體 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00830</div></td><td class="price-cell live-price">—</td><td class="price-cell">54.14</td><td class="shares">60</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00861"  data-avg="64.48"  data-shares="65" ><td><div class="stock-name">元大全球未來通訊 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00861</div></td><td class="price-cell live-price">—</td><td class="price-cell">64.48</td><td class="shares">65</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-code="00876"  data-avg="62.51"  data-shares="40" ><td><div class="stock-name">元大全球5G <span class="tag tag-etf">ETF</span></div><div class="stock-code">00876</div></td><td class="price-cell live-price">—</td><td class="price-cell">62.51</td><td class="shares">40</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-code="00876"  data-avg="64.71"  data-shares="45" ><td><div class="stock-name">元大全球5G <span class="tag tag-etf">ETF</span></div><div class="stock-code">00876</div></td><td class="price-cell live-price">—</td><td class="price-cell">62.51</td><td class="shares">40</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00910"  data-avg="60.69"  data-shares="95" ><td><div class="stock-name">第一金太空衛星 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00910</div></td><td class="price-cell live-price">—</td><td class="price-cell">60.69</td><td class="shares">95</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-code="00920"  data-avg="25.33"  data-shares="30" ><td><div class="stock-name">富邦ESG綠色電力 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00920</div></td><td class="price-cell live-price">—</td><td class="price-cell">25.33</td><td class="shares">30</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00941"  data-avg="21.70"  data-shares="159"><td><div class="stock-name">中信上游半導體 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00941</div></td><td class="price-cell live-price">—</td><td class="price-cell">21.70</td><td class="shares">159</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-code="6415"   data-avg="276.10" data-shares="10" ><td><div class="stock-name">矽力*-KY</div><div class="stock-code">6415</div></td><td class="price-cell live-price">—</td><td class="price-cell">276.10</td><td class="shares">10</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-code="2308"   data-avg="1980"   data-shares="1" ><td><div class="stock-name">台達電</div><div class="stock-code">2308</div></td><td class="price-cell live-price">—</td><td class="price-cell">1980</td><td class="shares">1</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="2313"   data-avg="213.68"  data-shares="22" ><td><div class="stock-name">華通</div><div class="stock-code">2313</div></td><td class="price-cell live-price">—</td><td class="price-cell">213.68</td><td class="shares">22</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-code="2449"   data-avg="272.22"  data-shares="235"><td><div class="stock-name">京元電子</div><div class="stock-code">2449</div></td><td class="price-cell live-price">—</td><td class="price-cell">272.22</td><td class="shares">235</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-code="2449"   data-avg="273.46"  data-shares="240"><td><div class="stock-name">京元電子</div><div class="stock-code">2449</div></td><td class="price-cell live-price">—</td><td class="price-cell">272.22</td><td class="shares">235</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="2324"   data-avg="28.05"  data-shares="250"><td><div class="stock-name">仁寶</div><div class="stock-code">2324</div></td><td class="price-cell live-price">—</td><td class="price-cell">28.05</td><td class="shares">250</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
 
-          <tr data-pnl="neg" data-code="6187"   data-avg="1135.00" data-shares="5"  ><td><div class="stock-name">萬潤</div><div class="stock-code">6187</div></td><td class="price-cell live-price">—</td><td class="price-cell">1135.00</td><td class="shares">5</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-code="3665"   data-avg="1967.5"  data-shares="4" ><td><div class="stock-name">貿聯-KY</div><div class="stock-code">3665</div></td><td class="price-cell live-price">—</td><td class="price-cell">1967.5</td><td class="shares">4</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -868,8 +919,7 @@
         <thead><tr><th onclick="sortTable(this)" data-col="0" data-type="name">股票名稱</th><th onclick="sortTable(this)" data-col="1" data-type="num">現價</th><th onclick="sortTable(this)" data-col="2" data-type="num">均價</th><th onclick="sortTable(this)" data-col="3" data-type="num">股數</th><th onclick="sortTable(this)" data-col="4" data-type="num">損益（元）</th><th onclick="sortTable(this)" data-col="5" data-type="num">報酬率</th><th style="text-align:center;width:80px">操作</th></tr></thead>
         <tbody data-section="主動高息型 ETF（富邦帳號）">
           <tr data-pnl="pos" data-code="00878"  data-avg="14.50"  data-shares="48000"><td><div class="stock-name">國泰永續高股息</div><div class="stock-code">00878</div></td><td class="price-cell live-price">—</td><td class="price-cell">14.50</td><td class="shares">48,000</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-code="00403A" data-avg="10.13"  data-shares="12000"><td><div class="stock-name">主動統一升級50</div><div class="stock-code">00403A</div></td><td class="price-cell live-price">—</td><td class="price-cell">10.13</td><td class="shares">12,000</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-code="00996A" data-avg="10.09"  data-shares="9000" ><td><div class="stock-name">主動兆豐台灣豐收</div><div class="stock-code">00996A</div></td><td class="price-cell live-price">—</td><td class="price-cell">10.09</td><td class="shares">9,000</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-code="00996A" data-avg="10.09"  data-shares="1000" ><td><div class="stock-name">主動兆豐台灣豐收</div><div class="stock-code">00996A</div></td><td class="price-cell live-price">—</td><td class="price-cell">10.09</td><td class="shares">9,000</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00400A" data-avg="10.55"  data-shares="8000" ><td><div class="stock-name">主動國泰動能高息</div><div class="stock-code">00400A</div></td><td class="price-cell live-price">—</td><td class="price-cell">10.55</td><td class="shares">8,000</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00918"  data-avg="22.65"  data-shares="6000" ><td><div class="stock-name">大華優利高填息30</div><div class="stock-code">00918</div></td><td class="price-cell live-price">—</td><td class="price-cell">22.65</td><td class="shares">6,000</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00999A" data-avg="10.00"  data-shares="5000" ><td><div class="stock-name">主動野村台零高息</div><div class="stock-code">00999A</div></td><td class="price-cell live-price">—</td><td class="price-cell">10.00</td><td class="shares">5,000</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
@@ -2005,7 +2055,7 @@
     { id:'00981D', name:'主動中信非投等債',       color:'purple', held:15, target:75, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, dist:'月配' },
     { id:'00981B', name:'第一金優選非投債',       color:'blue',   held:15, target:75, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.062, dist:'月配' },
     { id:'00400A', name:'主動國泰動能高息',       color:'orange', held:8,  target:60, divM:[],                            divPu:0.075, dist:'月配' },
-    { id:'00996A', name:'主動兆豐台灣豐收',       color:'mint',   held:9,  target:20, divM:[],                            divPu:0.15,  dist:'季配' },
+    { id:'00996A', name:'主動兆豐台灣豐收',       color:'mint',   held:1,  target:20, divM:[],                            divPu:0.15,  dist:'季配' },
     { id:'00999A', name:'主動野村台灣高息',       color:'yellow', held:5,  target:20, divM:[],                            divPu:0,     dist:'待定' },
     { id:'00403A', name:'主動統一升級50',         color:'lime',   held:10, target:20, divM:[],                            divPu:0,     dist:'待定' },
   ];
@@ -2813,7 +2863,6 @@
   const FALLBACK_PRICE = {
     '00981B': 9.17,    // 第一金優選非投債（2026/05/13）
     '00981D': 10.32,   // 主動中信非投等債（2026/05/13）
-    '6187':   1220.00, // 萬潤（2026/05/13）
   };
 
   // Google Apps Script Proxy（自架，無 CORS 限制）
@@ -2863,8 +2912,67 @@
   }
 
   // 載入時執行，之後每 60 秒刷新
-  fetchAllPrices();
-  setInterval(fetchAllPrices, 60000);
+  fetchAllPrices().then(() => buildRankCheng());
+  setInterval(() => fetchAllPrices().then(() => buildRankCheng()), 60000);
+
+  // ══════════════════════════════════════════
+  //  🏆 漲跌幅排行榜（呈）
+  // ══════════════════════════════════════════
+  function buildRankCheng() {
+    const panel = document.getElementById('panel-cheng');
+    if (!panel) return;
+    const rows = [...panel.querySelectorAll('tr[data-code]')];
+    const items = [];
+
+    rows.forEach(tr => {
+      const code = tr.dataset.code;
+      if (!code || code === '—') return;
+      const avg    = parseFloat(tr.dataset.avg);
+      const shares = parseFloat(tr.dataset.shares);
+      if (!avg || !shares) return;
+
+      // 取即時現價（live-price td 的文字）
+      const priceCell = tr.querySelector('.live-price');
+      if (!priceCell) return;
+      const priceText = priceCell.textContent.replace(/[,，—\s]/g, '');
+      const price = parseFloat(priceText);
+      if (!price || isNaN(price)) return;
+
+      const rate = (price - avg) / avg * 100;
+      const pnl  = Math.round((price - avg) * shares);
+      const name = tr.querySelector('.stock-name')?.firstChild?.textContent?.trim() || code;
+
+      items.push({ code, name, price, avg, shares, rate, pnl });
+    });
+
+    if (!items.length) return;
+
+    const sorted = [...items].sort((a, b) => b.rate - a.rate);
+    const top5   = sorted.slice(0, 5);
+    const bot5   = sorted.slice(-5).reverse();
+
+    function renderRows(list, tbodyId, isTop) {
+      const tbody = document.getElementById(tbodyId);
+      if (!tbody) return;
+      tbody.innerHTML = list.map((s, i) => {
+        const medal  = i === 0 ? (isTop ? '🥇' : '💀') : i === 1 ? (isTop ? '🥈' : '😱') : i === 2 ? (isTop ? '🥉' : '😰') : `${i+1}.`;
+        const cls    = s.rate >= 0 ? 'profit-cell' : 'loss-cell';
+        const sign   = s.rate >= 0 ? '+' : '';
+        const pnlSign = s.pnl >= 0 ? '+' : '';
+        return `<tr>
+          <td><div class="stock-name">${medal} ${s.name}</div><div class="stock-code">${s.code}</div></td>
+          <td class="price-cell">${s.price.toLocaleString()}</td>
+          <td class="${cls}">${sign}${s.rate.toFixed(2)}%</td>
+          <td class="${cls}">${pnlSign}${s.pnl.toLocaleString()}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    renderRows(top5, 'rank-top5-cheng', true);
+    renderRows(bot5, 'rank-bot5-cheng', false);
+  }
+
+  window.buildRankCheng = buildRankCheng;
 
   // ══════════════════════════════════════════
   //  ✏️ 新增 / 編輯 / 刪除 持股
