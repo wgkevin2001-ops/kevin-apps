@@ -941,8 +941,8 @@
       <table>
         <thead><tr><th onclick="sortTable(this)" data-col="0" data-type="name">股票名稱</th><th onclick="sortTable(this)" data-col="1" data-type="num">現價</th><th onclick="sortTable(this)" data-col="2" data-type="num">均價</th><th onclick="sortTable(this)" data-col="3" data-type="num">股數</th><th onclick="sortTable(this)" data-col="4" data-type="num">損益（元）</th><th onclick="sortTable(this)" data-col="5" data-type="num">報酬率</th><th style="text-align:center;width:80px">操作</th></tr></thead>
         <tbody data-section="永豐大戶頭（9A95 帳號）">
-          <tr data-pnl="neg" data-code="00981B" data-avg="9.17"  data-shares="19000"><td><div class="stock-name">第一金優選... <span class="tag tag-etf">ETF</span></div><div class="stock-code">00981B</div></td><td class="price-cell live-price">—</td><td class="price-cell">9.17</td><td class="shares">19,000</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
-          <tr data-pnl="neg" data-code="00981D" data-avg="10.33"  data-shares="19000"><td><div class="stock-name">主動中信非... <span class="tag tag-etf">ETF</span></div><div class="stock-code">00981D</div></td><td class="price-cell live-price">—</td><td class="price-cell">10.33</td><td class="shares">19,000</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="neg" data-code="00981B" data-avg="9.17"  data-shares="15000"><td><div class="stock-name">第一金優選... <span class="tag tag-etf">ETF</span></div><div class="stock-code">00981B</div></td><td class="price-cell live-price">—</td><td class="price-cell">9.17</td><td class="shares">15,000</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="neg" data-code="00981D" data-avg="10.33"  data-shares="15000"><td><div class="stock-name">主動中信非... <span class="tag tag-etf">ETF</span></div><div class="stock-code">00981D</div></td><td class="price-cell live-price">—</td><td class="price-cell">10.33</td><td class="shares">15,000</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -1637,7 +1637,6 @@
     '2313':   { name:'華通',             divPerUnit:2.50,  type:'年配', payMonths:[8],          exMonths:[7]  },
     '2449':   { name:'京元電子',         divPerUnit:3.50,  type:'年配', payMonths:[8],          exMonths:[7]  },
     '2324':   { name:'仁寶',             divPerUnit:2.50,  type:'年配', payMonths:[8],          exMonths:[7]  },
-    '6187':   { name:'萬潤',             divPerUnit:9.00,  type:'年配', payMonths:[8],          exMonths:[7]  },
   };
 
   // 待配息 ETF（尚無歷史數據）
@@ -2057,7 +2056,7 @@
     { id:'00400A', name:'主動國泰動能高息',       color:'orange', held:8,  target:60, divM:[],                            divPu:0.075, dist:'月配' },
     { id:'00996A', name:'主動兆豐台灣豐收',       color:'mint',   held:1,  target:20, divM:[],                            divPu:0.15,  dist:'季配' },
     { id:'00999A', name:'主動野村台灣高息',       color:'yellow', held:5,  target:20, divM:[],                            divPu:0,     dist:'待定' },
-    { id:'00403A', name:'主動統一升級50',         color:'lime',   held:10, target:20, divM:[],                            divPu:0,     dist:'待定' },
+    { id:'00403A', name:'主動統一升級50',         color:'lime',   held:0,  target:20, divM:[],                            divPu:0,     dist:'待定' },
   ];
   let planMode = 'target';
   let planManageOpen = false;
