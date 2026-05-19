@@ -2304,8 +2304,6 @@ async function syncFromGitHub() {
   };
 
   const folderMap = window.folderMap || {};
-
-
   let totalFound = 0;
 
   try {
@@ -2319,25 +2317,33 @@ async function syncFromGitHub() {
 
       for (const file of files) {
         if (file.type !== 'file') continue;
-        // Skip if already in list
-        const already = fileStore[catId].some(f => f.name === file.name && f.ghPath);
-        if (already) continue;
 
-        fileStore[catId].push({
-          name: file.name,
-          fileObj: null,
-          docData: null,
-          ghPath: file.path,
-          ghUrl: file.download_url,
-          ghSha: file.sha,
-        });
-        totalFound++;
+        // Check if same filename already exists (regardless of source)
+        const existingIdx = fileStore[catId].findIndex(f => f.name === file.name);
+
+        if (existingIdx >= 0) {
+          // Update existing entry with GitHub info (merge)
+          fileStore[catId][existingIdx].ghPath = file.path;
+          fileStore[catId][existingIdx].ghUrl = file.download_url;
+          fileStore[catId][existingIdx].ghSha = file.sha;
+        } else {
+          // Add new entry from GitHub
+          fileStore[catId].push({
+            name: file.name,
+            fileObj: null,
+            docData: null,
+            ghPath: file.path,
+            ghUrl: file.download_url,
+            ghSha: file.sha,
+          });
+          totalFound++;
+        }
       }
     }
 
     renderCatList();
     status.style.color = 'var(--green)';
-    status.textContent = totalFound > 0 ? `✅ 已載入 ${totalFound} 個檔案` : '✅ 已是最新';
+    status.textContent = totalFound > 0 ? `✅ 已載入 ${totalFound} 個新檔案` : '✅ 已是最新';
     setTimeout(() => { status.style.display = 'none'; }, 2500);
 
   } catch(e) {
