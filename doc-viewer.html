@@ -28,7 +28,9 @@
   --text: #3a2e1e;
   --text-dim: #8a7a65;
   --text-muted: #b8a898;
-  --sidebar-w: 300px;
+  --sidebar-w: 260px;
+  --topbar-h: 52px;
+  --tab-h: 44px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -47,11 +49,11 @@ body {
 .topbar {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  padding: 0 1.2rem;
-  height: 48px;
+  gap: 0.8rem;
+  padding: 0 1rem;
+  height: var(--topbar-h);
   background: var(--surface);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--border);
   flex-shrink: 0;
   z-index: 100;
 }
@@ -59,7 +61,7 @@ body {
 .logo {
   font-family: 'Fraunces', serif;
   font-weight: 700;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   color: var(--accent);
   letter-spacing: -0.01em;
   white-space: nowrap;
@@ -68,15 +70,15 @@ body {
 
 .search-wrap {
   flex: 1;
-  max-width: 420px;
+  max-width: 380px;
   position: relative;
 }
 .search-wrap input {
   width: 100%;
-  background: var(--surface2);
+  background: #faf7f2;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0.38rem 0.8rem 0.38rem 2rem;
+  border-radius: 20px;
+  padding: 0.4rem 1rem 0.4rem 2.2rem;
   color: var(--text);
   font-size: 0.82rem;
   font-family: 'Noto Sans TC', sans-serif;
@@ -84,10 +86,9 @@ body {
   transition: border 0.15s;
 }
 .search-wrap input:focus { border-color: var(--accent); }
-.search-wrap input { background: #faf7f2; }
 .search-wrap .ico {
   position: absolute;
-  left: 0.6rem;
+  left: 0.75rem;
   top: 50%;
   transform: translateY(-50%);
   font-size: 0.75rem;
@@ -95,11 +96,11 @@ body {
   pointer-events: none;
 }
 
-.topbar-actions { display: flex; gap: 0.5rem; margin-left: auto; }
+.topbar-actions { display: flex; gap: 0.4rem; margin-left: auto; }
 
 .btn {
-  padding: 0.35rem 0.9rem;
-  border-radius: 5px;
+  padding: 0.38rem 0.85rem;
+  border-radius: 20px;
   border: 1px solid var(--border);
   background: var(--surface2);
   color: var(--text);
@@ -115,15 +116,16 @@ body {
 
 .file-badge {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.68rem;
-  padding: 0.2rem 0.5rem;
-  border-radius: 3px;
+  font-size: 0.66rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 20px;
   border: 1px solid var(--border);
   color: var(--text-dim);
-  max-width: 200px;
+  max-width: 160px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  background: var(--surface2);
 }
 
 /* ── MAIN LAYOUT ── */
@@ -516,26 +518,109 @@ body {
   letter-spacing: 0.08em;
 }
 
+/* ── HELP PANEL ── */
+.help-section {
+  background: var(--surface2);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.8rem;
+  border: 1px solid var(--border);
+}
+.help-title {
+  font-weight: 700;
+  color: var(--accent);
+  font-size: 0.85rem;
+  margin-bottom: 0.7rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.help-body { color: var(--text); font-size: 0.78rem; line-height: 1.8; }
+.help-divider { display: none; }
+.help-formats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+}
+.help-formats span {
+  font-size: 0.67rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--accent);
+  font-weight: 600;
+  font-family: 'JetBrains Mono', monospace;
+}
+.help-steps { display: flex; flex-direction: column; gap: 0.8rem; margin-top: 0.7rem; }
+.help-step {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 0.7rem 0.8rem;
+  border: 1px solid var(--border);
+}
+.help-step-num {
+  min-width: 1.6rem;
+  height: 1.6rem;
+  background: var(--accent);
+  color: #faf7f2;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 0.05rem;
+}
+.help-step em { color: var(--accent); font-style: normal; font-weight: 600; }
+.help-cat-row {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 6px;
+  margin-bottom: 0.3rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  font-size: 0.78rem;
+}
+.help-note {
+  font-size: 0.74rem;
+  color: var(--text-dim);
+  padding: 0.3rem 0;
+  display: flex;
+  gap: 0.4rem;
+  line-height: 1.6;
+}
+
 /* ── SIDEBAR TABS ── */
 .sidebar-tabs {
   display: flex;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 2px solid var(--border);
   flex-shrink: 0;
+  background: var(--surface2);
 }
 .stab {
   flex: 1;
-  padding: 0.55rem 0.5rem;
+  padding: 0.75rem 0.3rem;
   background: none;
   border: none;
-  border-bottom: 2px solid transparent;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
   color: var(--text-dim);
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-family: 'Noto Sans TC', sans-serif;
   cursor: pointer;
   transition: all 0.15s;
+  line-height: 1.3;
 }
-.stab:hover { color: var(--text); }
-.stab.active { color: var(--accent); border-bottom-color: var(--accent); }
+.stab:hover { color: var(--text); background: rgba(139,111,71,0.05); }
+.stab.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--surface); font-weight: 600; }
 
 .cat-panel {
   display: flex;
@@ -556,15 +641,16 @@ body {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.5rem 0.8rem;
-  font-size: 0.78rem;
-  font-weight: 500;
+  padding: 0.7rem 1rem;
+  font-size: 0.82rem;
+  font-weight: 600;
   cursor: pointer;
   background: var(--surface2);
   user-select: none;
   justify-content: space-between;
+  letter-spacing: 0.01em;
 }
-.cat-group-header:hover { background: rgba(122,162,247,0.08); }
+.cat-group-header:hover { background: rgba(139,111,71,0.08); }
 .cat-group-left { display:flex; align-items:center; gap:0.5rem; }
 .cat-badge {
   font-size: 0.6rem;
@@ -579,7 +665,7 @@ body {
 
 .cat-files {
   display: none;
-  padding: 0.3rem 0;
+  padding: 0.4rem 0;
   background: var(--bg);
 }
 .cat-files.open { display: block; }
@@ -587,18 +673,33 @@ body {
 .cat-file-item {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.38rem 0.8rem 0.38rem 1.2rem;
-  font-size: 0.78rem;
+  gap: 0.6rem;
+  padding: 0.55rem 1rem 0.55rem 1.4rem;
+  font-size: 0.8rem;
   cursor: pointer;
   transition: background 0.1s;
   position: relative;
-  border-radius: 4px;
-  margin: 1px 4px;
+  border-radius: 6px;
+  margin: 2px 6px;
 }
 .cat-file-item:hover { background: var(--surface2); }
 .cat-file-item.active { background: rgba(139,111,71,0.15); color: var(--accent); }
 .cat-file-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cat-file-gh {
+  opacity: 0;
+  font-size: 0.7rem;
+  padding: 2px 4px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+.cat-file-item:hover .cat-file-gh { opacity: 1; }
+.cat-file-gh:hover { border-color: var(--cyan); background: rgba(58,122,138,0.1); }
+
 .cat-file-del {
   opacity: 0;
   font-size: 0.65rem;
@@ -668,7 +769,47 @@ body {
 .modal-cancel { font-size: 0.75rem; color: var(--text-dim); text-align: center; cursor: pointer; }
 .modal-cancel:hover { color: var(--text); }
 
-/* resize handle */
+/* ── GITHUB MODAL ── */
+.gh-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.8rem;
+}
+.gh-field label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-dim);
+  letter-spacing: 0.03em;
+}
+.gh-field input {
+  padding: 0.5rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: #faf7f2;
+  color: var(--text);
+  font-size: 0.8rem;
+  font-family: 'JetBrains Mono', monospace;
+  outline: none;
+  transition: border 0.15s;
+}
+.gh-field input:focus { border-color: var(--accent); }
+
+.gh-folder-btn {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  background: var(--surface2);
+  color: var(--text);
+  font-size: 0.75rem;
+  font-family: 'Noto Sans TC', sans-serif;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.gh-folder-btn:hover { border-color: var(--accent); color: var(--accent); }
+.gh-folder-btn.active { background: var(--accent); color: #faf7f2; border-color: var(--accent); font-weight: 600; }
+
+/* ── RESIZE HANDLE ── */
 .resize-handle {
   width: 4px;
   background: var(--border);
@@ -687,15 +828,50 @@ body {
   .search-wrap { max-width: 140px; }
 }
 </style>
-
-<style>
-/* Beige theme base */
-body {
-  background-color: var(--bg);
-}
-</style>
 </head>
 <body>
+
+<!-- LOGIN SCREEN -->
+<div id="loginScreen" style="
+  position:fixed;inset:0;background:var(--bg);
+  display:flex;align-items:center;justify-content:center;
+  z-index:9999;flex-direction:column;gap:1.5rem;">
+  <div style="text-align:center">
+    <div style="font-family:'Fraunces',serif;font-size:2rem;color:var(--accent);font-weight:700">Doc<span style="color:var(--text-dim);font-weight:300">Viewer</span></div>
+    <div style="font-size:0.78rem;color:var(--text-dim);margin-top:0.3rem">文件管理系統</div>
+  </div>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:2rem;width:300px;display:flex;flex-direction:column;gap:1rem;box-shadow:0 8px 32px rgba(0,0,0,0.08)">
+    <div style="font-size:0.85rem;font-weight:600;color:var(--text);text-align:center">請輸入密碼</div>
+    <input type="password" id="loginInput" placeholder="密碼" onkeydown="if(event.key==='Enter')doLogin()"
+      style="padding:0.6rem 1rem;border:1px solid var(--border);border-radius:8px;background:#faf7f2;color:var(--text);font-size:0.9rem;outline:none;font-family:inherit;text-align:center;letter-spacing:0.1em" />
+    <button onclick="doLogin()" style="padding:0.65rem;background:var(--accent);color:#faf7f2;border:none;border-radius:8px;font-size:0.88rem;font-weight:600;cursor:pointer;font-family:inherit">登入</button>
+    <div id="loginError" style="font-size:0.72rem;color:var(--red);text-align:center;min-height:1rem"></div>
+  </div>
+</div>
+
+<!-- CHANGE PASSWORD MODAL -->
+<div class="modal-overlay" id="changePwModal">
+  <div class="modal" style="width:340px">
+    <div class="modal-title">🔑 變更密碼</div>
+    <div class="gh-field">
+      <label>目前密碼</label>
+      <input type="password" id="pwCurrent" placeholder="輸入目前密碼" />
+    </div>
+    <div class="gh-field">
+      <label>新密碼</label>
+      <input type="password" id="pwNew" placeholder="輸入新密碼" />
+    </div>
+    <div class="gh-field">
+      <label>確認新密碼</label>
+      <input type="password" id="pwConfirm" placeholder="再次輸入新密碼" />
+    </div>
+    <div style="display:flex;gap:0.6rem;margin-top:0.5rem">
+      <button class="btn primary" style="flex:1" onclick="doChangePw()">✅ 確認變更</button>
+      <button class="btn" onclick="document.getElementById('changePwModal').classList.remove('show')">取消</button>
+    </div>
+    <div id="changePwStatus" style="font-size:0.72rem;margin-top:0.6rem;text-align:center;min-height:1rem"></div>
+  </div>
+</div>
 
 <!-- TOP BAR -->
 <div class="topbar">
@@ -706,11 +882,14 @@ body {
   </div>
   <div class="file-badge" id="fileBadge">尚未載入文件</div>
   <div class="topbar-actions">
+    <button class="btn" onclick="openCameraModal()" title="拍照辨識">📷 拍照</button>
+    <button class="btn" onclick="openGhModal()" title="設定">⚙️ 設定</button>
     <button class="btn primary" onclick="document.getElementById('fileInput').click()">📂 開啟檔案</button>
     <button class="btn" onclick="clearAll()">✕ 清除</button>
   </div>
   <input type="file" id="fileInput" style="display:none"
     accept=".xlsx,.xls,.csv,.docx,.doc,.pptx,.ppt,.pdf,.txt,.md,.png,.jpg,.jpeg,.gif,.webp,.bmp">
+  <input type="file" id="cameraInput" style="display:none" accept="image/*" capture="environment">
 </div>
 
 <!-- MAIN -->
@@ -722,13 +901,16 @@ body {
     <div class="sidebar-tabs">
       <button class="stab active" id="tabCat" onclick="switchTab('cat')">📁 分類</button>
       <button class="stab" id="tabOutline" onclick="switchTab('outline')">📋 大綱</button>
+      <button class="stab" id="tabHelp" onclick="switchTab('help')">❓ 說明</button>
     </div>
 
     <!-- Category panel -->
     <div id="catPanel" class="cat-panel">
       <div class="cat-toolbar">
-        <button class="btn primary" style="font-size:0.72rem;padding:0.28rem 0.7rem" onclick="document.getElementById('fileInput').click()">＋ 加入文件</button>
+        <button class="btn" style="font-size:0.72rem;padding:0.28rem 0.7rem" onclick="syncFromGitHub()" id="syncBtn" title="從 GitHub 載入檔案">☁️ 同步</button>
+        <button class="btn primary" style="font-size:0.72rem;padding:0.28rem 0.7rem" onclick="document.getElementById('fileInput').click()">＋ 加入</button>
       </div>
+      <div id="syncStatus" style="display:none;font-size:0.7rem;color:var(--text-dim);padding:0.3rem 0.8rem;text-align:center"></div>
       <div id="catList"></div>
     </div>
 
@@ -737,6 +919,78 @@ body {
       <div id="treeWrap" style="padding:1.5rem 1rem; color:var(--text-dim); font-size:0.78rem; text-align:center; line-height:1.7">
         載入文件後<br>此處將顯示結構大綱
       </div>
+    </div>
+
+    <!-- Help panel -->
+    <div id="helpPanel" style="display:none;flex:1;overflow-y:auto;padding:1rem;font-size:0.78rem;line-height:1.8;color:var(--text);flex-direction:column;gap:0.2rem">
+
+      <div class="help-section">
+        <div class="help-title">📂 直接上傳文件</div>
+        <div class="help-body">
+          點擊右上角「開啟檔案」或側邊欄「＋ 加入文件」，選擇要上傳的檔案，再選擇分類即可。
+          <div class="help-formats">
+            <span>PDF</span><span>DOCX</span><span>XLSX</span><span>PPTX</span><span>JPG/PNG</span><span>TXT</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-divider"></div>
+
+      <div class="help-section">
+        <div class="help-title">📷 透過 Claude 翻拍匯入</div>
+        <div class="help-body">
+          拍照後透過 Claude AI 辨識文字，轉成可下載的文件格式：
+          <div class="help-steps">
+            <div class="help-step">
+              <div class="help-step-num">1</div>
+              <div>
+                <strong>說明類型</strong><br>
+                告訴 Claude 文件類別：<br>
+                「這是一張<em>合約</em>」<br>
+                「這是<em>繳費單據</em>」<br>
+                「這是<em>保險</em>文件」
+              </div>
+            </div>
+            <div class="help-step">
+              <div class="help-step-num">2</div>
+              <div>
+                <strong>拍照上傳</strong><br>
+                在對話框點「＋」上傳翻拍照片給 Claude
+              </div>
+            </div>
+            <div class="help-step">
+              <div class="help-step-num">3</div>
+              <div>
+                <strong>選擇格式下載</strong><br>
+                Claude 辨識後輸出可下載檔案：
+                <div class="help-formats" style="margin-top:0.4rem">
+                  <span>JPG</span><span>TXT</span><span>DOCX</span><span>XLSX</span><span>PDF</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-divider"></div>
+
+      <div class="help-section">
+        <div class="help-title">🗂️ 文件分類</div>
+        <div class="help-body">
+          <div id="helpCatList"></div>
+        </div>
+      </div>
+
+      <div class="help-divider"></div>
+
+      <div class="help-section">
+        <div class="help-title">💡 注意事項</div>
+        <div class="help-body">
+          <div class="help-note">• 文件僅存於瀏覽器記憶體，重新整理後需重新上傳</div>
+          <div class="help-note">• 透過 Claude 辨識的文件需下載後手動加入</div>
+        </div>
+      </div>
+
     </div>
     <div style="display:none"><span class="count" id="nodeCount">0</span></div>
   </div>
@@ -777,25 +1031,228 @@ body {
   </div>
 </div>
 
+<!-- GITHUB SETTINGS MODAL -->
+<div class="modal-overlay" id="ghModal">
+  <div class="modal" style="width:360px">
+    <div class="modal-title">⚙️ 系統設定</div>
+    <div style="font-size:0.75rem;color:var(--text-dim);margin-bottom:1rem;line-height:1.6">
+      設定 GitHub 上傳與 Gemini AI 辨識功能。
+    </div>
+
+    <div style="font-size:0.78rem;font-weight:700;color:var(--accent);margin:0.8rem 0 0.5rem">🔑 登入密碼</div>
+    <button class="btn" style="width:100%;margin-bottom:0.8rem" onclick="closeGhModal();document.getElementById('changePwModal').classList.add('show')">🔑 變更登入密碼</button>
+
+    <div style="font-size:0.78rem;font-weight:700;color:var(--accent);margin-bottom:0.5rem">🤖 Gemini AI 辨識</div>
+    <div class="gh-field">
+      <label>Gemini API Key</label>
+      <input type="password" id="geminiKey" placeholder="AIza…" />
+    </div>
+
+    <div style="font-size:0.78rem;font-weight:700;color:var(--accent);margin:0.8rem 0 0.5rem">☁️ GitHub 設定</div>
+    <div class="gh-field">
+      <label>Personal Access Token</label>
+      <input type="password" id="ghToken" placeholder="ghp_xxxxxxxxxxxxxxxxxx" />
+    </div>
+    <div class="gh-field">
+      <label>帳號 / Owner</label>
+      <input type="text" id="ghOwner" placeholder="wgkevin2001-ops" />
+    </div>
+    <div class="gh-field">
+      <label>Repository 名稱</label>
+      <input type="text" id="ghRepo" placeholder="kevin-apps" />
+    </div>
+    <div class="gh-field">
+      <label>Branch</label>
+      <input type="text" id="ghBranch" placeholder="main" value="main" />
+    </div>
+    <div style="display:flex;gap:0.6rem;margin-top:0.5rem">
+      <button class="btn primary" style="flex:1" onclick="saveGhSettings()">💾 儲存設定</button>
+      <button class="btn" onclick="closeGhModal()">取消</button>
+    </div>
+    <div id="ghSettingsStatus" style="font-size:0.72rem;margin-top:0.6rem;text-align:center;color:var(--green)"></div>
+  </div>
+</div>
+
+<!-- CAMERA / OCR MODAL -->
+<div class="modal-overlay" id="cameraModal">
+  <div class="modal" style="width:380px;max-height:90vh;overflow-y:auto">
+    <div class="modal-title">📷 拍照辨識</div>
+
+    <!-- Step 1: Take photo -->
+    <div id="camStep1">
+      <div style="font-size:0.78rem;color:var(--text-dim);margin-bottom:1rem;line-height:1.6">
+        拍攝單據、合約或任何文件，Gemini AI 自動辨識內容。
+      </div>
+      <div id="camPreviewWrap" style="display:none;margin-bottom:0.8rem;text-align:center">
+        <img id="camPreview" style="max-width:100%;max-height:220px;border-radius:8px;border:1px solid var(--border)" />
+      </div>
+      <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+        <button class="btn primary" style="flex:1" onclick="document.getElementById('cameraInput').click()">📷 拍照</button>
+        <button class="btn" style="flex:1" onclick="document.getElementById('camFileInput').click()">🖼️ 選圖片</button>
+      </div>
+      <input type="file" id="camFileInput" style="display:none" accept="image/*">
+      <div style="margin-top:0.8rem">
+        <div class="gh-field">
+          <label>文件類別</label>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.3rem" id="camCatBtns"></div>
+        </div>
+        <div class="gh-field">
+          <label>輸出格式</label>
+          <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.3rem">
+            <button class="gh-folder-btn active" onclick="selectCamFmt(this,'jpg')">📷 JPG</button>
+            <button class="gh-folder-btn" onclick="selectCamFmt(this,'txt')">📄 TXT</button>
+            <button class="gh-folder-btn" onclick="selectCamFmt(this,'xlsx')">📊 XLSX</button>
+            <button class="gh-folder-btn" onclick="selectCamFmt(this,'pdf')">📑 PDF</button>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;gap:0.5rem;margin-top:0.8rem">
+        <button class="btn primary" style="flex:1" id="camAnalyzeBtn" onclick="analyzePhoto()" disabled>🤖 辨識</button>
+        <button class="btn" onclick="closeCameraModal()">取消</button>
+      </div>
+      <div id="camStatus" style="font-size:0.72rem;margin-top:0.6rem;text-align:center;min-height:1rem"></div>
+    </div>
+
+    <!-- Step 2: Result -->
+    <div id="camStep2" style="display:none">
+      <div style="font-size:0.75rem;font-weight:600;color:var(--accent);margin-bottom:0.5rem">🤖 辨識結果</div>
+      <textarea id="camResult" style="width:100%;height:180px;padding:0.6rem;border:1px solid var(--border);border-radius:8px;background:#faf7f2;color:var(--text);font-size:0.75rem;font-family:'Noto Sans TC',sans-serif;resize:vertical;outline:none"></textarea>
+      <div style="display:flex;gap:0.5rem;margin-top:0.8rem;flex-wrap:wrap">
+        <button class="btn primary" style="flex:1" onclick="saveCamResult()">💾 儲存並上傳</button>
+        <button class="btn" onclick="document.getElementById('camStep2').style.display='none';document.getElementById('camStep1').style.display='block'">← 重拍</button>
+        <button class="btn" onclick="closeCameraModal()">關閉</button>
+      </div>
+      <div id="camSaveStatus" style="font-size:0.72rem;margin-top:0.6rem;text-align:center;min-height:1rem"></div>
+    </div>
+  </div>
+</div>
+<div class="modal-overlay" id="ghUploadModal">
+  <div class="modal" style="width:360px">
+    <div class="modal-title">☁️ 上傳到 GitHub</div>
+    <div class="gh-field">
+      <label>文件名稱</label>
+      <input type="text" id="ghUploadName" placeholder="document.pdf" />
+    </div>
+    <div class="gh-field">
+      <label>上傳到資料夾</label>
+      <div style="display:flex;gap:0.4rem;flex-wrap:wrap;margin-top:0.4rem" id="ghFolderBtns"></div>
+    </div>
+    <div class="gh-field">
+      <label>自訂路徑（可選）</label>
+      <input type="text" id="ghCustomPath" placeholder="例如：docs/合約" />
+    </div>
+    <div style="display:flex;gap:0.6rem;margin-top:0.5rem">
+      <button class="btn primary" style="flex:1" onclick="doGhUpload()">☁️ 上傳</button>
+      <button class="btn" onclick="closeGhUpload()">取消</button>
+    </div>
+    <div id="ghUploadStatus" style="font-size:0.72rem;margin-top:0.7rem;text-align:center;min-height:1.2rem"></div>
+  </div>
+</div>
+
 <script>
+// ─── LOGIN ────────────────────────────────────────────
+// Password is SHA-256 hashed and stored here
+// Current password: 55688taxi
+const STORED_PW_HASH = '4bc3fec7387006bff7399bf8864d0fe835ea0db4c8d8e294e164274378e8b5bb';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function getStoredHash() {
+  // Check localStorage for updated password first
+  return localStorage.getItem('dvPwHash') || STORED_PW_HASH;
+}
+
+async function initLogin() {
+  // Pre-compute and store the default hash on first run
+  if (!localStorage.getItem('dvPwHash')) {
+    const h = await sha256('55688taxi');
+    localStorage.setItem('dvPwHash', h);
+  }
+  document.getElementById('loginScreen').style.display = 'flex';
+  setTimeout(() => document.getElementById('loginInput').focus(), 100);
+}
+
+async function doLogin() {
+  const input = document.getElementById('loginInput').value;
+  if (!input) return;
+  const inputHash = await sha256(input);
+  const stored = await getStoredHash();
+  if (inputHash === stored) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('loginError').textContent = '';
+    document.getElementById('loginInput').value = '';
+  } else {
+    document.getElementById('loginError').textContent = '❌ 密碼錯誤，請重試';
+    document.getElementById('loginInput').value = '';
+    document.getElementById('loginInput').focus();
+  }
+}
+
+async function doChangePw() {
+  const current = document.getElementById('pwCurrent').value;
+  const newPw = document.getElementById('pwNew').value;
+  const confirm = document.getElementById('pwConfirm').value;
+  const status = document.getElementById('changePwStatus');
+
+  const currentHash = await sha256(current);
+  const stored = await getStoredHash();
+
+  if (currentHash !== stored) {
+    status.style.color = 'var(--red)';
+    status.textContent = '❌ 目前密碼錯誤';
+    return;
+  }
+  if (newPw.length < 4) {
+    status.style.color = 'var(--red)';
+    status.textContent = '❌ 新密碼至少需要 4 個字元';
+    return;
+  }
+  if (newPw !== confirm) {
+    status.style.color = 'var(--red)';
+    status.textContent = '❌ 兩次密碼不一致';
+    return;
+  }
+  const newHash = await sha256(newPw);
+  localStorage.setItem('dvPwHash', newHash);
+  status.style.color = 'var(--green)';
+  status.textContent = '✅ 密碼已變更成功';
+  document.getElementById('pwCurrent').value = '';
+  document.getElementById('pwNew').value = '';
+  document.getElementById('pwConfirm').value = '';
+  setTimeout(() => {
+    document.getElementById('changePwModal').classList.remove('show');
+    status.textContent = '';
+  }, 1500);
+}
+
 // ─── CATEGORY STATE ───────────────────────────────────
 const CATEGORIES = [
-  { id: 'contract', label: '合約', icon: '📝', color: '#7aa2f7' },
-  { id: 'invoice',  label: '繳費單據', icon: '🧾', color: '#9ece6a' },
-  { id: 'insurance',label: '保險', icon: '🛡️', color: '#bb9af7' },
-  { id: 'tdz0950',  label: 'TDZ-0950', icon: '🗂️', color: '#ff9e64' },
+  { id: 'contract',  label: '合約',    icon: '📝', color: '#8b6f47' },
+  { id: 'invoice',   label: '繳費單據', icon: '🧾', color: '#5a7a3a' },
+  { id: 'insurance', label: '保險',    icon: '🛡️', color: '#7a5f9a' },
+  { id: 'medical',   label: '醫療單據', icon: '🏥', color: '#b85450' },
+  { id: 'tax',       label: '稅務文件', icon: '📋', color: '#3a7a8a' },
+  { id: 'vehicle',   label: '車輛文件', icon: '🚗', color: '#5a6a9a' },
+  { id: 'salary',    label: '薪資文件', icon: '💰', color: '#7a8a3a' },
+  { id: 'house',     label: '房屋文件', icon: '🏠', color: '#9a6a5a' },
+  { id: 'unsorted',  label: '尚未分類', icon: '📂', color: '#8a7a65' },
 ];
 
 // fileStore: { [catId]: [ { name, fileObj, docData? } ] }
-let fileStore = { contract: [], invoice: [], insurance: [], tdz0950: [] };
+let fileStore = { contract: [], invoice: [], insurance: [], medical: [], tax: [], vehicle: [], salary: [], house: [], unsorted: [] };
 let activeFileRef = null;   // { catId, index }
 let pendingFile = null;     // file awaiting category selection
 
 function switchTab(tab) {
   document.getElementById('tabCat').classList.toggle('active', tab === 'cat');
   document.getElementById('tabOutline').classList.toggle('active', tab === 'outline');
+  document.getElementById('tabHelp').classList.toggle('active', tab === 'help');
   document.getElementById('catPanel').style.display = tab === 'cat' ? 'flex' : 'none';
   document.getElementById('outlinePanel').style.display = tab === 'outline' ? 'flex' : 'none';
+  document.getElementById('helpPanel').style.display = tab === 'help' ? 'flex' : 'none';
 }
 
 function renderCatList() {
@@ -830,6 +1287,8 @@ function renderCatList() {
         item.innerHTML = `
           <span>${fileTypeIcon(f.name)}</span>
           <span class="cat-file-name" title="${f.name}">${f.name}</span>
+          ${f.ghPath ? '<span style="font-size:0.6rem;color:var(--cyan);flex-shrink:0" title="來自 GitHub">☁</span>' : ''}
+          <button class="cat-file-gh" title="上傳到 GitHub" onclick="openGhUpload(fileStore['${cat.id}'][${idx}].fileObj,'${cat.label}');event.stopPropagation()">☁️</button>
           <button class="cat-file-del" title="移除" onclick="removeFile('${cat.id}',${idx},event)">✕</button>`;
         item.addEventListener('click', () => openCatFile(cat.id, idx));
         fileList.appendChild(item);
@@ -863,10 +1322,15 @@ async function openCatFile(catId, idx) {
   const f = fileStore[catId][idx];
   activeFileRef = { catId, idx };
   renderCatList();
-  switchTab('outline');
 
+  // GitHub file not yet downloaded
+  if (!f.fileObj && f.ghUrl) {
+    await openGhFile(catId, idx);
+    return;
+  }
+
+  switchTab('outline');
   if (f.docData) {
-    // already parsed
     setDoc(f.docData);
   } else {
     await loadFile(f.fileObj);
@@ -916,9 +1380,7 @@ function assignFile(catId) {
 
 // ─── INTERCEPT FILE LOAD ─────────────────────────────
 // Override the existing file input handler to show modal first
-</script>
 
-<script>
 let docData = null; // { type, name, sections: [{id, title, icon, content, children}] }
 let activeId = null;
 let searchQ = '';
@@ -945,6 +1407,44 @@ panel.addEventListener('drop', e => {
 
 // Initialize
 renderCatList();
+renderDynamicCatBtns();
+initLogin();
+
+function renderDynamicCatBtns() {
+  // Camera modal category buttons
+  const camBtns = document.getElementById('camCatBtns');
+  if (camBtns) {
+    camBtns.innerHTML = CATEGORIES.map((cat, i) => `
+      <button class="gh-folder-btn ${i===0?'active':''}"
+        onclick="selectCamCat(this,'${cat.id}','${cat.label}')">
+        ${cat.icon} ${cat.label}
+      </button>`).join('');
+  }
+
+  // GitHub upload folder buttons
+  const ghBtns = document.getElementById('ghFolderBtns');
+  if (ghBtns) {
+    ghBtns.innerHTML = CATEGORIES.map((cat, i) => `
+      <button class="gh-folder-btn ${i===0?'active':''}"
+        onclick="selectFolder(this,'${cat.label}')">
+        ${cat.icon} ${cat.label}
+      </button>`).join('');
+  }
+
+  // Help panel category list
+  const helpList = document.getElementById('helpCatList');
+  if (helpList) {
+    helpList.innerHTML = CATEGORIES.map(cat => `
+      <div class="help-cat-row">
+        <span style="color:${cat.color}">${cat.icon}</span>
+        <strong>${cat.label}</strong>
+      </div>`).join('');
+  }
+
+  // Sync folderMap dynamically
+  window.folderMap = {};
+  CATEGORIES.forEach(cat => { window.folderMap[cat.label] = cat.id; });
+}
 
 // ─── LOAD FILE ───────────────────────────────────────
 async function loadFile(file) {
@@ -1614,6 +2114,411 @@ document.addEventListener('mousemove', e => {
   sidebar.style.width = w + 'px';
 });
 document.addEventListener('mouseup', () => resizing = false);
+
+// ─── CAMERA & GEMINI OCR ─────────────────────────────
+let camImageBase64 = null;
+let camCatId = 'contract';
+let camCatLabel = '合約';
+let camFmt = 'jpg';
+
+function openCameraModal() {
+  camImageBase64 = null;
+  document.getElementById('camPreviewWrap').style.display = 'none';
+  document.getElementById('camAnalyzeBtn').disabled = true;
+  document.getElementById('camStatus').textContent = '';
+  document.getElementById('camStep1').style.display = 'block';
+  document.getElementById('camStep2').style.display = 'none';
+  document.getElementById('cameraModal').classList.add('show');
+}
+
+function closeCameraModal() {
+  document.getElementById('cameraModal').classList.remove('show');
+  camImageBase64 = null;
+}
+
+function selectCamCat(btn, catId, label) {
+  btn.closest('.gh-field').querySelectorAll('.gh-folder-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  camCatId = catId;
+  camCatLabel = label;
+}
+
+function selectCamFmt(btn, fmt) {
+  btn.closest('.gh-field').querySelectorAll('.gh-folder-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  camFmt = fmt;
+}
+
+function setupCameraInputs() {
+  const handleImg = (file) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => {
+      camImageBase64 = e.target.result.split(',')[1];
+      document.getElementById('camPreview').src = e.target.result;
+      document.getElementById('camPreviewWrap').style.display = 'block';
+      document.getElementById('camAnalyzeBtn').disabled = false;
+      document.getElementById('camStatus').style.color = 'var(--green)';
+      document.getElementById('camStatus').textContent = '✅ 圖片已載入，點「辨識」開始分析';
+    };
+    reader.readAsDataURL(file);
+  };
+  document.getElementById('cameraInput').addEventListener('change', e => { handleImg(e.target.files[0]); e.target.value=''; });
+  document.getElementById('camFileInput').addEventListener('change', e => { handleImg(e.target.files[0]); e.target.value=''; });
+}
+
+async function analyzePhoto() {
+  if (!camImageBase64) return;
+  if (!ghSettings.geminiKey) {
+    document.getElementById('camStatus').style.color = 'var(--red)';
+    document.getElementById('camStatus').textContent = '⚠️ 請先在 ⚙️ 設定中填入 Gemini API Key';
+    return;
+  }
+  const status = document.getElementById('camStatus');
+  status.style.color = 'var(--text-dim)';
+  status.textContent = '⏳ Gemini AI 辨識中…';
+  document.getElementById('camAnalyzeBtn').disabled = true;
+
+  try {
+    const prompt = camFmt === 'xlsx'
+      ? '請辨識圖片中所有文字和數據，以JSON格式回傳：{"headers":["欄位"],"rows":[["值"]],"title":"標題","summary":"摘要"}。只回傳JSON。'
+      : '請辨識圖片中所有文字，完整轉錄，保留格式、標題、表格結構和數字。只輸出文字內容。';
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${ghSettings.geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [
+            { text: prompt },
+            { inline_data: { mime_type: 'image/jpeg', data: camImageBase64 } }
+          ]}]
+        })
+      }
+    );
+    if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || '辨識失敗'); }
+    const data = await res.json();
+    const text = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    document.getElementById('camResult').value = text;
+    document.getElementById('camStep1').style.display = 'none';
+    document.getElementById('camStep2').style.display = 'block';
+  } catch(e) {
+    status.style.color = 'var(--red)';
+    status.textContent = `❌ ${e.message}`;
+    document.getElementById('camAnalyzeBtn').disabled = false;
+  }
+}
+
+async function saveCamResult() {
+  const text = document.getElementById('camResult').value.trim();
+  const status = document.getElementById('camSaveStatus');
+  if (!text) return;
+  const now = new Date();
+  const dateStr = `${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+  status.style.color = 'var(--text-dim)';
+  status.textContent = '⏳ 上傳中…';
+  try {
+    let b64, finalName;
+    if (camFmt === 'jpg') {
+      finalName = `${camCatLabel}_${dateStr}.jpg`;
+      b64 = camImageBase64;
+    } else if (camFmt === 'pdf') {
+      // Create simple PDF with text content using data URI approach
+      finalName = `${camCatLabel}_${dateStr}.pdf`;
+      const pdfContent = buildSimplePDF(text, finalName);
+      b64 = btoa(unescape(encodeURIComponent(pdfContent)));
+    } else {
+      finalName = `${camCatLabel}_${dateStr}.${camFmt}`;
+      const bytes = new TextEncoder().encode(text);
+      b64 = btoa(String.fromCharCode(...bytes));
+    }
+    await uploadToGitHub(finalName, camCatLabel, b64);
+    const blob = new Blob([text], { type: 'text/plain' });
+    fileStore[camCatId].push({ name: finalName, fileObj: new File([blob], finalName), docData: null });
+    renderCatList();
+    status.style.color = 'var(--green)';
+    status.textContent = `✅ 已上傳到 GitHub/${camCatLabel}/`;
+    setTimeout(closeCameraModal, 2000);
+  } catch(e) {
+    status.style.color = 'var(--red)';
+    status.textContent = `❌ ${e.message}`;
+  }
+}
+
+function buildSimplePDF(text, title) {
+  const lines = text.split('\n');
+  const escaped = lines.map(l => l.replace(/[()\\]/g, c => '\\' + c));
+  let stream = `BT\n/F1 12 Tf\n50 780 Td\n14 TL\n`;
+  escaped.forEach(line => {
+    stream += `(${line.substring(0,90)}) Tj T*\n`;
+  });
+  stream += `ET`;
+  const streamBytes = stream.length;
+  return `%PDF-1.4
+1 0 obj<</Type/Catalog/Pages 2 0 R>>endobj
+2 0 obj<</Type/Pages/Kids[3 0 R]/Count 1>>endobj
+3 0 obj<</Type/Page/Parent 2 0 R/MediaBox[0 0 595 842]/Contents 4 0 R/Resources<</Font<</F1 5 0 R>>>>>>endobj
+4 0 obj<</Length ${streamBytes}>>
+stream
+${stream}
+endstream
+endobj
+5 0 obj<</Type/Font/Subtype/Type1/BaseFont/Helvetica>>endobj
+xref
+0 6
+trailer<</Size 6/Root 1 0 R>>
+startxref
+0
+%%EOF`;
+}
+
+async function uploadToGitHub(fileName, folder, base64Content) {
+  if (!ghSettings.token) throw new Error('請先設定 GitHub Token');
+  const path = `${folder}/${fileName}`;
+  const url = `https://api.github.com/repos/${ghSettings.owner}/${ghSettings.repo}/contents/${path}`;
+  const headers = { 'Authorization': `token ${ghSettings.token}`, 'Accept': 'application/vnd.github+json', 'Content-Type': 'application/json' };
+  let sha = null;
+  const check = await fetch(url, { headers });
+  if (check.ok) { const ex = await check.json(); sha = ex.sha; }
+  const body = { message: `📄 ${fileName}`, content: base64Content, branch: ghSettings.branch || 'main' };
+  if (sha) body.sha = sha;
+  const up = await fetch(url, { method: 'PUT', headers, body: JSON.stringify(body) });
+  if (!up.ok) { const e = await up.json(); throw new Error(e.message || '上傳失敗'); }
+}
+
+setupCameraInputs();
+
+// ─── GITHUB BROWSE & SYNC ────────────────────────────
+async function syncFromGitHub() {
+  if (!ghSettings.token) { openGhModal(); return; }
+
+  const status = document.getElementById('syncStatus');
+  status.style.display = 'block';
+  status.style.color = 'var(--text-dim)';
+  status.textContent = '⏳ 從 GitHub 載入中…';
+
+  const headers = {
+    'Authorization': `token ${ghSettings.token}`,
+    'Accept': 'application/vnd.github+json',
+  };
+
+  const folderMap = window.folderMap || {};
+
+
+  let totalFound = 0;
+
+  try {
+    for (const [folder, catId] of Object.entries(folderMap)) {
+      const url = `https://api.github.com/repos/${ghSettings.owner}/${ghSettings.repo}/contents/${folder}`;
+      const res = await fetch(url, { headers });
+      if (!res.ok) continue;
+
+      const files = await res.json();
+      if (!Array.isArray(files)) continue;
+
+      for (const file of files) {
+        if (file.type !== 'file') continue;
+        // Skip if already in list
+        const already = fileStore[catId].some(f => f.name === file.name && f.ghPath);
+        if (already) continue;
+
+        fileStore[catId].push({
+          name: file.name,
+          fileObj: null,
+          docData: null,
+          ghPath: file.path,
+          ghUrl: file.download_url,
+          ghSha: file.sha,
+        });
+        totalFound++;
+      }
+    }
+
+    renderCatList();
+    status.style.color = 'var(--green)';
+    status.textContent = totalFound > 0 ? `✅ 已載入 ${totalFound} 個檔案` : '✅ 已是最新';
+    setTimeout(() => { status.style.display = 'none'; }, 2500);
+
+  } catch(e) {
+    status.style.color = 'var(--red)';
+    status.textContent = `❌ 載入失敗：${e.message}`;
+  }
+}
+
+async function openGhFile(catId, idx) {
+  const f = fileStore[catId][idx];
+  if (!f.ghUrl) return;
+
+  const status = document.getElementById('syncStatus');
+  status.style.display = 'block';
+  status.style.color = 'var(--text-dim)';
+  status.textContent = `⏳ 開啟 ${f.name}…`;
+
+  try {
+    const res = await fetch(f.ghUrl);
+    if (!res.ok) throw new Error('下載失敗');
+    const blob = await res.blob();
+    const file = new File([blob], f.name, { type: blob.type });
+    f.fileObj = file;
+
+    activeFileRef = { catId, idx };
+    renderCatList();
+    switchTab('outline');
+    await loadFile(file);
+    f.docData = docData;
+
+    status.style.color = 'var(--green)';
+    status.textContent = `✅ 已開啟 ${f.name}`;
+    setTimeout(() => { status.style.display = 'none'; }, 2000);
+  } catch(e) {
+    status.style.color = 'var(--red)';
+    status.textContent = `❌ ${e.message}`;
+  }
+}
+
+let ghSettings = JSON.parse(sessionStorage.getItem('ghSettings') || '{}');
+let ghUploadFile = null;
+let ghSelectedFolder = '合約';
+
+function openGhModal() {
+  document.getElementById('ghToken').value = ghSettings.token || '';
+  document.getElementById('ghOwner').value = ghSettings.owner || 'wgkevin2001-ops';
+  document.getElementById('ghRepo').value = ghSettings.repo || 'kevin-apps';
+  document.getElementById('ghBranch').value = ghSettings.branch || 'main';
+  document.getElementById('geminiKey').value = ghSettings.geminiKey || '';
+  document.getElementById('ghSettingsStatus').textContent = '';
+  document.getElementById('ghModal').classList.add('show');
+}
+
+function closeGhModal() {
+  document.getElementById('ghModal').classList.remove('show');
+}
+
+function saveGhSettings() {
+  ghSettings = {
+    token: document.getElementById('ghToken').value.trim(),
+    owner: document.getElementById('ghOwner').value.trim(),
+    repo: document.getElementById('ghRepo').value.trim(),
+    branch: document.getElementById('ghBranch').value.trim() || 'main',
+    geminiKey: document.getElementById('geminiKey').value.trim(),
+  };
+  if (!ghSettings.token || !ghSettings.owner || !ghSettings.repo) {
+    document.getElementById('ghSettingsStatus').style.color = 'var(--red)';
+    document.getElementById('ghSettingsStatus').textContent = '⚠️ 請填寫 GitHub 必填欄位';
+    return;
+  }
+  sessionStorage.setItem('ghSettings', JSON.stringify(ghSettings));
+  document.getElementById('ghSettingsStatus').style.color = 'var(--green)';
+  document.getElementById('ghSettingsStatus').textContent = '✅ 設定已儲存';
+  setTimeout(closeGhModal, 1200);
+}
+
+function openGhUpload(file, suggestedFolder) {
+  if (!ghSettings.token) {
+    openGhModal();
+    return;
+  }
+  ghUploadFile = file;
+  document.getElementById('ghUploadName').value = file.name || 'document';
+  document.getElementById('ghCustomPath').value = '';
+  document.getElementById('ghUploadStatus').textContent = '';
+  document.getElementById('ghUploadStatus').style.color = 'var(--text-dim)';
+  // Select suggested folder
+  selectFolderById(suggestedFolder || '合約');
+  document.getElementById('ghUploadModal').classList.add('show');
+}
+
+function closeGhUpload() {
+  document.getElementById('ghUploadModal').classList.remove('show');
+  ghUploadFile = null;
+}
+
+function selectFolder(btn, folder) {
+  document.querySelectorAll('.gh-folder-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ghSelectedFolder = folder;
+}
+
+function selectFolderById(folder) {
+  document.querySelectorAll('.gh-folder-btn').forEach(btn => {
+    if (btn.textContent.includes(folder)) {
+      btn.classList.add('active');
+      ghSelectedFolder = folder;
+    } else {
+      btn.classList.remove('active');
+    }
+  });
+}
+
+async function doGhUpload() {
+  if (!ghUploadFile) return;
+  const status = document.getElementById('ghUploadStatus');
+  const fileName = document.getElementById('ghUploadName').value.trim();
+  const customPath = document.getElementById('ghCustomPath').value.trim();
+  const folder = customPath || ghSelectedFolder;
+  const path = `${folder}/${fileName}`;
+
+  status.style.color = 'var(--text-dim)';
+  status.textContent = '⏳ 上傳中…';
+
+  try {
+    // Convert file to base64
+    const base64 = await fileToBase64(ghUploadFile);
+
+    // Check if file exists (to get SHA for update)
+    const checkUrl = `https://api.github.com/repos/${ghSettings.owner}/${ghSettings.repo}/contents/${path}`;
+    const headers = {
+      'Authorization': `token ${ghSettings.token}`,
+      'Accept': 'application/vnd.github+json',
+      'Content-Type': 'application/json',
+    };
+
+    let sha = null;
+    const checkRes = await fetch(checkUrl, { headers });
+    if (checkRes.ok) {
+      const existing = await checkRes.json();
+      sha = existing.sha;
+    }
+
+    // Upload file
+    const body = {
+      message: `📄 上傳文件：${fileName}`,
+      content: base64,
+      branch: ghSettings.branch,
+    };
+    if (sha) body.sha = sha;
+
+    const uploadRes = await fetch(checkUrl, {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify(body),
+    });
+
+    if (uploadRes.ok) {
+      const data = await uploadRes.json();
+      status.style.color = 'var(--green)';
+      status.textContent = `✅ 已上傳到 ${folder}/${fileName}`;
+      setTimeout(closeGhUpload, 2000);
+    } else {
+      const err = await uploadRes.json();
+      throw new Error(err.message || uploadRes.statusText);
+    }
+  } catch (e) {
+    status.style.color = 'var(--red)';
+    status.textContent = `❌ 上傳失敗：${e.message}`;
+  }
+}
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result.split(',')[1]);
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
 </script>
+
 </body>
 </html>
