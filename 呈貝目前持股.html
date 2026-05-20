@@ -434,56 +434,73 @@
   }
 
   @media (max-width: 600px) {
-    body { padding: 20px 12px 48px; }
+    body { padding: 16px 10px 60px; }
 
-    .page-header { margin-bottom: 24px; }
-    .page-header h1 { font-size: 24px; }
-    .page-header .subtitle { font-size: 11px; letter-spacing: .08em; }
-    .page-header::before { margin-bottom: 12px; }
-    .page-header::after  { margin-top: 12px; }
+    /* ── 頁首 ── */
+    .page-header { margin-bottom: 18px; }
+    .page-header h1 { font-size: 22px; }
+    .page-header .subtitle { font-size: 10px; letter-spacing: .06em; }
+    .page-header::before { margin-bottom: 10px; }
+    .page-header::after  { margin-top: 10px; }
 
-    .tab-nav { max-width: 100%; margin-bottom: 20px; }
-    .tab-btn { font-size: 15px; padding: 10px 12px; }
-    .tab-btn .tab-sub { font-size: 9px; }
+    /* ── Tab 導覽：全寬、字稍小 ── */
+    .tab-nav { max-width: 100%; margin-bottom: 16px; gap: 4px; }
+    .tab-btn { font-size: 13px; padding: 9px 8px; flex: 1; text-align: center; }
+    .tab-btn .tab-sub { font-size: 8.5px; }
 
+    /* ── 摘要卡片：3欄改2欄 ── */
     .summary-grid {
-      grid-template-columns: repeat(3, 1fr);
-      gap: 6px;
-      margin-bottom: 20px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 7px;
+      margin-bottom: 16px;
     }
-    .summary-card { padding: 8px 6px 6px; border-radius: 6px; gap: 2px; }
-    .summary-card .card-icon { font-size: 15px; }
-    .summary-card .label { font-size: 8px; letter-spacing: .04em; }
-    .summary-card .value { font-size: 13px; }
-    .summary-card .value span { font-size: 8px; }
+    .summary-card { padding: 11px 9px 9px; border-radius: 8px; gap: 3px; }
+    .summary-card .card-icon { font-size: 18px; }
+    .summary-card .label { font-size: 10px; letter-spacing: .04em; }
+    .summary-card .value { font-size: 17px; }
+    .summary-card .value span { font-size: 10px; }
 
-    .section { margin-bottom: 20px; }
-    .section-header { gap: 8px; margin-bottom: 10px; }
-    .section-flag { font-size: 16px; }
-    .section-title { font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 55vw; }
+    /* ── Section ── */
+    .section { margin-bottom: 18px; }
+    .section-header { gap: 7px; margin-bottom: 10px; flex-wrap: wrap; }
+    .section-flag { font-size: 15px; }
+    .section-title { font-size: 14.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 52vw; }
     .section-count { font-size: 10px; padding: 2px 7px; }
 
-    /* 表格橫向捲動容器 */
-    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    table { font-size: 12px; min-width: 380px; }
-    thead th { padding: 8px 10px; font-size: 9.5px; letter-spacing: .04em; }
-    tbody td { padding: 9px 10px; }
+    /* ── 表格：橫向捲動、字體放大 ── */
+    .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 10px; }
+    table { font-size: 13px; min-width: 360px; }
+    thead th { padding: 8px 9px; font-size: 10.5px; letter-spacing: .03em; }
+    tbody td { padding: 10px 9px; }
 
-    .stock-name { font-size: 12.5px; }
-    .stock-code { font-size: 10px; }
-    .profit-rate { font-size: 10.5px; padding: 2px 6px; }
-    .tag { font-size: 8.5px; padding: 1px 4px; margin-left: 3px; }
+    .stock-name { font-size: 13.5px; }
+    .stock-code { font-size: 11px; }
+    .price-cell { font-size: 13px; }
+    .profit-cell, .loss-cell { font-size: 13px; }
+    .profit-rate { font-size: 11px; padding: 2px 6px; }
+    .tag { font-size: 9px; padding: 1px 4px; margin-left: 2px; }
 
-    .footer { font-size: 10px; margin-top: 28px; }
 
-    /* modal 輸入框手機優化：字大 16px 防止 iOS/Android 自動縮放 */
+    /* ── 匯出按鈕縮小 ── */
+    .export-btn { font-size: 10px; padding: 6px 9px; }
+    .export-row { flex-wrap: wrap; }
+
+    /* ── 頁尾 ── */
+    .footer { font-size: 10px; margin-top: 24px; }
+
+    /* ── Modal 輸入框：16px 防 iOS 自動縮放 ── */
     .em-input, .em-input[type="number"],
     #us-modal-overlay input, #us-modal-overlay select,
     .modal-box input, .modal-box select {
       font-size: 16px !important;
     }
-    #edit-modal-box { max-width: 95vw; }
-    #us-modal-overlay > div { max-width: 95vw; margin: 16px; }
+    #edit-modal-box { max-width: 95vw; margin: 12px; }
+    #us-modal-overlay > div { max-width: 95vw; margin: 12px; }
+
+    /* ── 存股計畫：全數移至 panel-plan 內的 @media 處理 ── */
+    /* 保留舊版相容 */
+    .fund-table { font-size: 11px; }
+    .fund-section { padding: 0; }
   }
   /* ── EXPORT TOOLBAR ── */
   .export-bar {
@@ -820,56 +837,6 @@
     </div>
   </div>
 
-  <!-- 漲跌幅排行 -->
-  <div class="section" style="animation-delay:.08s" id="rank-section-cheng">
-    <div class="section-header">
-      <span class="section-flag">🏆</span>
-      <span class="section-title">漲跌幅排行（即時）</span>
-      <div class="section-line"></div>
-      <button class="add-stock-btn" onclick="buildRankCheng()" style="background:rgba(196,98,45,0.15);border-color:#C4622D;color:#C4622D;">🔄 更新</button>
-    </div>
-    <div style="display:flex;gap:16px;flex-wrap:wrap;">
-      <!-- 漲幅前5 -->
-      <div style="flex:1;min-width:280px;">
-        <div class="section-count" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:10px;color:var(--profit);border-color:var(--profit);background:var(--profit-bg);">
-          📈 漲幅前5
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr>
-              <th>股票</th>
-              <th>現價</th>
-              <th>報酬率</th>
-              <th>損益（元）</th>
-            </tr></thead>
-            <tbody id="rank-top5-cheng">
-              <tr><td colspan="4" style="text-align:center;padding:16px;color:#999;">載入中…</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-      <!-- 跌幅前5 -->
-      <div style="flex:1;min-width:280px;">
-        <div class="section-count" style="display:inline-flex;align-items:center;gap:6px;margin-bottom:10px;color:var(--loss);border-color:var(--loss);background:var(--loss-bg);">
-          📉 跌幅前5
-        </div>
-        <div class="table-wrap">
-          <table>
-            <thead><tr>
-              <th>股票</th>
-              <th>現價</th>
-              <th>報酬率</th>
-              <th>損益（元）</th>
-            </tr></thead>
-            <tbody id="rank-bot5-cheng">
-              <tr><td colspan="4" style="text-align:center;padding:16px;color:#999;">載入中…</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <!-- 台股 -->
   <div class="section" style="animation-delay:.1s">
     <div class="section-header">
@@ -883,19 +850,19 @@
       <table>
         <thead><tr><th onclick="sortTable(this)" data-col="0" data-type="name">股票名稱</th><th onclick="sortTable(this)" data-col="1" data-type="num">現價</th><th onclick="sortTable(this)" data-col="2" data-type="num">均價</th><th onclick="sortTable(this)" data-col="3" data-type="num">股數</th><th onclick="sortTable(this)" data-col="4" data-type="num">損益（元）</th><th onclick="sortTable(this)" data-col="5" data-type="num">報酬率</th><th style="text-align:center;width:80px">操作</th></tr></thead>
         <tbody data-section="台股庫存（國泰帳號）">
-          <tr data-pnl="pos" data-code="00631L" data-avg="20.34"  data-shares="130"><td><div class="stock-name">元大台灣50正2 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00631L</div></td><td class="price-cell live-price">—</td><td class="price-cell">20.34</td><td class="shares">130</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-code="00631L" data-avg="21.62"  data-shares="150"><td><div class="stock-name">元大台灣50正2 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00631L</div></td><td class="price-cell live-price">—</td><td class="price-cell">21.62</td><td class="shares">150</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00830"  data-avg="54.14"  data-shares="60" ><td><div class="stock-name">國泰費城半導體 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00830</div></td><td class="price-cell live-price">—</td><td class="price-cell">54.14</td><td class="shares">60</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00861"  data-avg="64.48"  data-shares="65" ><td><div class="stock-name">元大全球未來通訊 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00861</div></td><td class="price-cell live-price">—</td><td class="price-cell">64.48</td><td class="shares">65</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00876"  data-avg="64.71"  data-shares="45" ><td><div class="stock-name">元大全球5G <span class="tag tag-etf">ETF</span></div><div class="stock-code">00876</div></td><td class="price-cell live-price">—</td><td class="price-cell">62.51</td><td class="shares">40</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00910"  data-avg="60.69"  data-shares="95" ><td><div class="stock-name">第一金太空衛星 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00910</div></td><td class="price-cell live-price">—</td><td class="price-cell">60.69</td><td class="shares">95</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-code="00920"  data-avg="25.33"  data-shares="30" ><td><div class="stock-name">富邦ESG綠色電力 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00920</div></td><td class="price-cell live-price">—</td><td class="price-cell">25.33</td><td class="shares">30</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-code="00920"  data-avg="25.10"  data-shares="230" ><td><div class="stock-name">富邦ESG綠色電力 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00920</div></td><td class="price-cell live-price">—</td><td class="price-cell">25.10</td><td class="shares">230</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="00941"  data-avg="21.70"  data-shares="159"><td><div class="stock-name">中信上游半導體 <span class="tag tag-etf">ETF</span></div><div class="stock-code">00941</div></td><td class="price-cell live-price">—</td><td class="price-cell">21.70</td><td class="shares">159</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="2308"   data-avg="1980"   data-shares="1" ><td><div class="stock-name">台達電</div><div class="stock-code">2308</div></td><td class="price-cell live-price">—</td><td class="price-cell">1980</td><td class="shares">1</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="2313"   data-avg="213.68"  data-shares="22" ><td><div class="stock-name">華通</div><div class="stock-code">2313</div></td><td class="price-cell live-price">—</td><td class="price-cell">213.68</td><td class="shares">22</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
-          <tr data-pnl="pos" data-code="2449"   data-avg="273.46"  data-shares="240"><td><div class="stock-name">京元電子</div><div class="stock-code">2449</div></td><td class="price-cell live-price">—</td><td class="price-cell">272.22</td><td class="shares">235</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-code="2449"   data-avg="274.65"  data-shares="278"><td><div class="stock-name">京元電子</div><div class="stock-code">2449</div></td><td class="price-cell live-price">—</td><td class="price-cell">274.65</td><td class="shares">278</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
           <tr data-pnl="pos" data-code="2324"   data-avg="28.05"  data-shares="250"><td><div class="stock-name">仁寶</div><div class="stock-code">2324</div></td><td class="price-cell live-price">—</td><td class="price-cell">28.05</td><td class="shares">250</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
 
-          <tr data-pnl="pos" data-code="3665"   data-avg="1967.5"  data-shares="4" ><td><div class="stock-name">貿聯-KY</div><div class="stock-code">3665</div></td><td class="price-cell live-price">—</td><td class="price-cell">1967.5</td><td class="shares">4</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="pos" data-code="3665"   data-avg="1976.36"  data-shares="11" ><td><div class="stock-name">貿聯-KY</div><div class="stock-code">3665</div></td><td class="price-cell live-price">—</td><td class="price-cell">1976.36</td><td class="shares">11</td><td class="profit-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate pos">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -937,8 +904,8 @@
       <table>
         <thead><tr><th onclick="sortTable(this)" data-col="0" data-type="name">股票名稱</th><th onclick="sortTable(this)" data-col="1" data-type="num">現價</th><th onclick="sortTable(this)" data-col="2" data-type="num">均價</th><th onclick="sortTable(this)" data-col="3" data-type="num">股數</th><th onclick="sortTable(this)" data-col="4" data-type="num">損益（元）</th><th onclick="sortTable(this)" data-col="5" data-type="num">報酬率</th><th style="text-align:center;width:80px">操作</th></tr></thead>
         <tbody data-section="永豐大戶頭（9A95 帳號）">
-          <tr data-pnl="neg" data-code="00981B" data-avg="9.17"  data-shares="15000"><td><div class="stock-name">第一金優選... <span class="tag tag-etf">ETF</span></div><div class="stock-code">00981B</div></td><td class="price-cell live-price">—</td><td class="price-cell">9.17</td><td class="shares">15,000</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
-          <tr data-pnl="neg" data-code="00981D" data-avg="10.33"  data-shares="15000"><td><div class="stock-name">主動中信非... <span class="tag tag-etf">ETF</span></div><div class="stock-code">00981D</div></td><td class="price-cell live-price">—</td><td class="price-cell">10.33</td><td class="shares">15,000</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="neg" data-code="00981B" data-avg="9.17"  data-shares="17000"><td><div class="stock-name">第一金優選... <span class="tag tag-etf">ETF</span></div><div class="stock-code">00981B</div></td><td class="price-cell live-price">—</td><td class="price-cell">9.17</td><td class="shares">17,000</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
+          <tr data-pnl="neg" data-code="00981D" data-avg="10.33"  data-shares="17000"><td><div class="stock-name">主動中信非... <span class="tag tag-etf">ETF</span></div><div class="stock-code">00981D</div></td><td class="price-cell live-price">—</td><td class="price-cell">10.33</td><td class="shares">17,000</td><td class="loss-cell live-pnl">—</td><td class="live-rate"><span class="profit-rate neg">—</span></td><td style="text-align:center"><button class="edit-btn" onclick="openEditModal(this)">✏️</button> <button class="del-btn" onclick="deleteRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -970,6 +937,13 @@
         </tbody>
       </table>
     </div>
+  </div>
+  <div style="max-width:680px;margin:0 auto 10px;display:flex;align-items:flex-start;gap:8px;background:rgba(255,200,50,0.12);border:1px solid rgba(200,160,30,0.35);border-radius:10px;padding:9px 13px;">
+    <span style="font-size:15px;flex-shrink:0;">⚠️</span>
+    <p style="margin:0;font-size:11px;line-height:1.65;color:var(--sienna);font-family:'DM Mono',monospace;">
+      資料變動後請點 <strong style="color:#2a7a4a;">☁️ 存入雲端</strong>，否則下次開啟網頁時 Firebase 舊資料會覆蓋本機修改。<br>
+      上傳 GitHub 前請先同步雲端，確保兩端資料一致。
+    </p>
   </div>
   <div class="export-bar">
     <div class="export-row">
@@ -1036,13 +1010,9 @@
         <div style="font-family:'Noto Sans TC',sans-serif;font-size:11px;font-weight:700;color:var(--espresso);line-height:1.7;">
           • 00878（0.66元×48,000股）季配 → 年約 +126,720元<br>
           • 00918（0.62元×6,000股）季配 → 年約 +14,880元<br>
-          • 00981B（0.062元×19,000股）月配 → 年約 +14,136元<br>
-          • 00981D（0.070元×19,000股）月配 → 年約 +15,960元<br>
-          • 00830（9元×60股）年配 → +540元（2月發放）<br>
-          • 00910（約3.5元×90股）年配 → 約+315元<br>
-          • 個股 6415/2313/2449/2324/6187 → 約+1,891元（8月旺季）<br>
-          • 00631L、00941、00861、00876 設計上不配息<br>
-          • 00996A、00400A、00999A 新上市，首次配息待公告<br>
+          • 00981B（0.062元×17,000股）月配 → 年約 +12,648元<br>
+          • 00981D（0.070元×17,000股）月配 → 年約 +14,280元<br>
+          • 00400A、00999A 新上市，首次配息待公告<br>
           • 配息金額每期會變動，以最近一次為估算基準
         </div>
       </div>
@@ -1140,6 +1110,13 @@
         </tbody>
       </table>
     </div>
+  </div>
+  <div style="max-width:680px;margin:0 auto 10px;display:flex;align-items:flex-start;gap:8px;background:rgba(255,200,50,0.12);border:1px solid rgba(200,160,30,0.35);border-radius:10px;padding:9px 13px;">
+    <span style="font-size:15px;flex-shrink:0;">⚠️</span>
+    <p style="margin:0;font-size:11px;line-height:1.65;color:var(--sienna);font-family:'DM Mono',monospace;">
+      資料變動後請點 <strong style="color:#2a7a4a;">☁️ 存入雲端</strong>，否則下次開啟網頁時 Firebase 舊資料會覆蓋本機修改。<br>
+      上傳 GitHub 前請先同步雲端，確保兩端資料一致。
+    </p>
   </div>
   <div class="export-bar">
     <div class="export-row">
@@ -1298,14 +1275,112 @@
     .fund-pct { font-family:'DM Mono',monospace; font-size:10px; color:var(--sienna); min-width:28px; text-align:right; }
     .fund-note { font-family:'DM Mono',monospace; font-size:10px; color:var(--warm-tan); text-align:center; padding:10px 14px; line-height:1.7; border-top:1px solid rgba(168,200,232,.15); }
     @media(max-width:600px) {
-      .fund-sum-grid { grid-template-columns:repeat(2,1fr); }
+      .fund-sum-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
       .fund-table { font-size:11px; }
+      .fund-table thead th { padding:6px 6px; font-size:9px; }
+      .fund-table tbody td { padding:7px 6px; }
+      .fund-bar-bg { max-width:36px; }
     }
     @media(max-width:600px) {
-      .plan-summary { grid-template-columns:repeat(3,1fr); gap:6px; }
-      .plan-sum-val { font-size:14px; }
-      .plan-manage-row { grid-template-columns:auto 60px 1fr 50px 50px 60px 50px 1fr; font-size:11px; }
-      .plan-sell-row { grid-template-columns:auto 60px 1fr 70px 70px 60px; }
+      /* ── 摘要卡：2欄 ── */
+      .plan-summary { grid-template-columns:repeat(2,1fr) !important; gap:8px; }
+      .plan-sum-card { padding:12px 10px; }
+      .plan-sum-val { font-size:16px; }
+      .plan-sum-lbl { font-size:9px; }
+      .plan-sum-sub { font-size:9px; }
+
+      /* ── 切換 + 操作列 ── */
+      .plan-action-bar { flex-direction:column; gap:10px; margin-bottom:14px; }
+      .plan-toggle { width:100%; border-radius:10px; }
+      .plan-toggle-btn { flex:1; padding:12px 8px; font-size:13px; letter-spacing:.02em; }
+      .plan-btn-group { width:100%; display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+      .plan-btn { justify-content:center; padding:12px 10px; font-size:12px; border-radius:10px; }
+
+      /* ── 月份卡片：更寬鬆 ── */
+      .plan-month-block { border-radius:12px; }
+      .plan-month-hdr { padding:14px 14px; }
+      .plan-month-num { font-size:24px; min-width:34px; }
+      .plan-month-name { font-size:14px; }
+      .plan-month-count { font-size:11px; margin-top:3px; }
+      .plan-month-total { font-size:17px; }
+      .plan-diff-badge { font-size:9px; padding:2px 5px; margin-left:4px; }
+
+      /* ── ETF 明細：手機改成縱向卡片堆疊 ── */
+      .plan-etf-rows { padding:0 12px 14px; }
+      .plan-etf-row {
+        flex-direction:column; align-items:flex-start;
+        gap:0; padding:10px 0;
+        border-bottom:1px solid rgba(168,200,232,.18);
+      }
+      .plan-etf-row:last-of-type { border-bottom:none; }
+      .plan-etf-row-top {
+        display:flex; align-items:center; gap:8px;
+        width:100%; margin-bottom:5px;
+      }
+      .plan-etf-dot { width:10px; height:10px; flex-shrink:0; }
+      .plan-etf-id { font-size:12px; min-width:auto; color:var(--sienna); }
+      .plan-etf-name { font-size:13px; font-weight:900; flex:1; }
+      .plan-etf-row-bot {
+        display:flex; align-items:center; justify-content:space-between;
+        width:100%; padding-left:18px;
+      }
+      .plan-etf-detail { font-size:11px; text-align:left; min-width:auto; color:var(--sienna); }
+      .plan-etf-amt { font-size:15px; font-weight:900; min-width:auto; text-align:right; }
+
+      /* ── 進度條 ── */
+      .plan-bar-wrap { padding:0 12px 10px; }
+      .plan-bar-bg { height:7px; }
+
+      /* ── 管理面板：手機版卡片式 ── */
+      .plan-manage-hdr { padding:14px 16px; }
+      .plan-manage-title { font-size:14px; }
+      .plan-tab-btn { font-size:13px; padding:12px 8px; }
+      .plan-manage-body { padding:12px; }
+      .plan-manage-col-lbl { display:none; } /* 隱藏欄位標題列 */
+      .plan-manage-row {
+        display:flex; flex-direction:column;
+        gap:8px; padding:14px 0;
+        border-bottom:1.5px solid rgba(168,200,232,.2);
+      }
+      .plan-manage-row:last-child { border-bottom:none; }
+      .plan-manage-row-header {
+        display:flex; align-items:center; gap:8px;
+      }
+      .plan-manage-grid {
+        display:grid; grid-template-columns:1fr 1fr;
+        gap:8px; margin-bottom:10px;
+      }
+      .plan-manage-inp, .plan-manage-sel {
+        font-size:16px !important; /* iOS 防縮放 */
+        padding:10px 12px;
+      }
+      .plan-manage-lbl { font-size:12px; margin-bottom:5px; }
+      .plan-btn-confirm { padding:12px 20px; font-size:14px; }
+
+      /* 賣出面板 */
+      .plan-sell-row {
+        display:flex; flex-direction:column;
+        gap:8px; padding:14px 0;
+        border-bottom:1.5px solid rgba(168,200,232,.2);
+      }
+      .plan-sell-row:last-child { border-bottom:none; }
+      .plan-sell-row-body { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+      .plan-btn-sell { width:100%; padding:12px; font-size:14px; }
+
+      /* ── 尚需資金：橫向捲動 ── */
+      .fund-table-wrap { overflow-x:auto; -webkit-overflow-scrolling:touch; }
+      .fund-table { min-width:440px; font-size:11.5px; }
+      .fund-table thead th { padding:8px 7px; font-size:9.5px; }
+      .fund-table tbody td { padding:9px 7px; }
+      .fund-price-inp { width:56px; font-size:12px; }
+      .fund-bar-bg { max-width:32px; }
+      .fund-sum-grid { grid-template-columns:repeat(2,1fr); gap:8px; }
+
+      /* ── 匯出列 ── */
+      .export-bar { max-width:100% !important; }
+      .export-row { gap:5px; }
+      .export-btn { font-size:11px; padding:9px 10px; flex:1; justify-content:center; }
+      .plan-footer { font-size:10px; margin-top:16px; }
     }
   </style>
 
@@ -1421,6 +1496,13 @@
     實際金額以投信公告為準，不構成投資建議。
   </div>
 
+  <div style="max-width:680px;margin:0 auto 10px;display:flex;align-items:flex-start;gap:8px;background:rgba(255,200,50,0.12);border:1px solid rgba(200,160,30,0.35);border-radius:10px;padding:9px 13px;">
+    <span style="font-size:15px;flex-shrink:0;">⚠️</span>
+    <p style="margin:0;font-size:11px;line-height:1.65;color:var(--sienna);font-family:'DM Mono',monospace;">
+      資料變動後請點 <strong style="color:#2a7a4a;">☁️ 存入雲端</strong>，否則下次開啟網頁時 Firebase 舊資料會覆蓋本機修改。<br>
+      上傳 GitHub 前請先同步雲端，確保兩端資料一致。
+    </p>
+  </div>
   <div class="export-bar">
     <div class="export-row">
       <button class="export-btn" style="border-color:#6A5ACD;color:#6A5ACD;" onclick="openOcrModal()">📷 截圖辨識</button>
@@ -1464,30 +1546,20 @@
   const DIV_RULES = {
     '00878':  { name:'國泰永續高股息',   divPerUnit:0.66,  type:'季配', payMonths:[3,6,9,12],  exMonths:[2,5,8,11] },
     '00918':  { name:'大華優利高填息30', divPerUnit:0.62,  type:'季配', payMonths:[4,7,10,12], exMonths:[3,6,9,12] },
-    '00830':  { name:'國泰費城半導體',   divPerUnit:9.00,  type:'年配', payMonths:[2],          exMonths:[1]  },
-    '00910':  { name:'第一金太空衛星',   divPerUnit:3.50,  type:'年配', payMonths:[2],          exMonths:[1]  },
     '00981B': { name:'第一金優選非投債', divPerUnit:0.062, type:'月配', payMonths:[1,2,3,4,5,6,7,8,9,10,11,12], exMonths:[] },
     '00981D': { name:'主動中信非投等債', divPerUnit:0.070, type:'月配', payMonths:[1,2,3,4,5,6,7,8,9,10,11,12], exMonths:[] },
-    '6415':   { name:'矽力*-KY',         divPerUnit:34.00, type:'年配', payMonths:[8],          exMonths:[7]  },
-    '2313':   { name:'華通',             divPerUnit:2.50,  type:'年配', payMonths:[8],          exMonths:[7]  },
-    '2449':   { name:'京元電子',         divPerUnit:3.50,  type:'年配', payMonths:[8],          exMonths:[7]  },
-    '2324':   { name:'仁寶',             divPerUnit:2.50,  type:'年配', payMonths:[8],          exMonths:[7]  },
+    '00400A': { name:'主動國泰動能高息', divPerUnit:0.075, type:'月配', payMonths:[1,2,3,4,5,6,7,8,9,10,11,12], exMonths:[] },
+    '00999A': { name:'主動野村台灣高息', divPerUnit:0,     type:'待定', payMonths:[], exMonths:[] },
   };
 
   // 待配息 ETF（尚無歷史數據）
   const pendingETFs = [
-    { code:'00996A', name:'主動兆豐台灣豐收', freq:'季配', note:'2026/3 上市，首次配息待公告' },
     { code:'00400A', name:'主動國泰動能高息', freq:'月配', note:'2026/4 上市，開始配息後每月皆有收益' },
     { code:'00999A', name:'主動野村台灣高息', freq:'季配', note:'2026/5 上市，首次配息待公告' },
   ];
 
-  // 不配息的持股說明
-  const noDivStocks = [
-    { code:'00631L', name:'元大台灣50正2',   reason:'槓桿型ETF，不配息' },
-    { code:'00941',  name:'中信上游半導體',   reason:'設計上不分配收益' },
-    { code:'00861',  name:'元大全球未來通訊', reason:'海外主題型，不配息' },
-    { code:'00876',  name:'元大全球5G',       reason:'海外主題型，不配息' },
-  ];
+  // 不配息的持股說明（已清空）
+  const noDivStocks = [];
 
   // ── 從 panel-cheng 的表格即時讀取各代號的股數 ──
   function getLiveShares() {
@@ -1886,12 +1958,10 @@
   let planEtfs = [
     { id:'00878',  name:'國泰永續高股息',        color:'green',  held:48, target:60, divM:[2,5,8,11],                    divPu:0.66,  dist:'季配' },
     { id:'00918',  name:'大華優利高填息30',       color:'teal',   held:6,  target:60, divM:[3,6,9,12],                    divPu:0.62,  dist:'季配' },
-    { id:'00981D', name:'主動中信非投等債',       color:'purple', held:15, target:75, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, dist:'月配' },
-    { id:'00981B', name:'第一金優選非投債',       color:'blue',   held:15, target:75, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.062, dist:'月配' },
-    { id:'00400A', name:'主動國泰動能高息',       color:'orange', held:8,  target:60, divM:[],                            divPu:0.075, dist:'月配' },
-    { id:'00996A', name:'主動兆豐台灣豐收',       color:'mint',   held:1,  target:20, divM:[],                            divPu:0.15,  dist:'季配' },
-    { id:'00999A', name:'主動野村台灣高息',       color:'yellow', held:5,  target:20, divM:[],                            divPu:0,     dist:'待定' },
-    { id:'00403A', name:'主動統一升級50',         color:'lime',   held:0,  target:20, divM:[],                            divPu:0,     dist:'待定' },
+    { id:'00981D', name:'主動中信非投等債',       color:'purple', held:17, target:75, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, dist:'月配' },
+    { id:'00981B', name:'第一金優選非投債',       color:'blue',   held:17, target:75, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.062, dist:'月配' },
+    { id:'00400A', name:'主動國泰動能高息',       color:'orange', held:8,  target:30, divM:[],                            divPu:0.075, dist:'月配' },
+    { id:'00999A', name:'主動野村台灣高息',       color:'yellow', held:5,  target:30, divM:[],                            divPu:0,     dist:'待定' },
   ];
   let planMode = 'target';
   let planManageOpen = false;
@@ -1904,18 +1974,12 @@
   }
 
   function planSaveData() {
-    try { localStorage.setItem(PLAN_STORAGE_KEY, JSON.stringify(planEtfs)); } catch(e){}
-    planShowToast('✓ 已儲存');
+    // ⚠️ localStorage 已停用，以 HTML 為唯一資料來源
+    planShowToast('✓ 已更新（請重新下載 HTML 以永久保存）');
   }
 
   function planLoadData() {
-    try {
-      const local = localStorage.getItem(PLAN_STORAGE_KEY);
-      if (local) {
-        const parsed = JSON.parse(local);
-        if (Array.isArray(parsed) && parsed.length > 0) planEtfs = parsed;
-      }
-    } catch(e){}
+    // ⚠️ localStorage 已停用，直接使用 HTML 內定義的 planEtfs，不從舊快取載入
   }
 
   // ── 從富邦＋永豐帳號持股同步 held 到存股計畫 ──
@@ -1992,14 +2056,20 @@
       const row = document.createElement('div');
       row.className = 'plan-manage-row';
       row.innerHTML = `
-        <div><div class="plan-mdot c-${e.color}"></div></div>
-        <input class="plan-manage-inp" style="font-size:11px" value="${e.id}" onchange="planUpdateETF(${idx},'id',this.value)">
-        <input class="plan-manage-inp" style="font-size:11px" value="${e.name}" onchange="planUpdateETF(${idx},'name',this.value)">
-        <input class="plan-manage-inp" type="number" min="0" value="${e.held}" onchange="planUpdateETF(${idx},'held',+this.value)" style="color:#c06010;font-size:12px">
-        <input class="plan-manage-inp" type="number" min="0" value="${e.target}" onchange="planUpdateETF(${idx},'target',+this.value)" style="color:var(--espresso);font-size:12px">
-        <input class="plan-manage-inp" type="number" min="0" step="0.001" value="${e.divPu}" onchange="planUpdateETF(${idx},'divPu',+this.value)" style="color:#b07800;font-size:12px">
-        <select class="plan-manage-sel" style="font-size:11px" onchange="planUpdateETF(${idx},'dist',this.value)">${['月配','季配','半年配','年配','待定'].map(d=>`<option${d===e.dist?' selected':''}>${d}</option>`).join('')}</select>
-        <input class="plan-manage-inp" style="font-size:11px" value="${e.divM.join(',')}" onchange="planUpdateMonths(${idx},this.value)" placeholder="1,2,3...">`;
+        <div class="plan-manage-row-header">
+          <div class="plan-mdot c-${e.color}"></div>
+          <span style="font-family:'DM Mono',monospace;font-size:13px;font-weight:700;color:var(--sienna);">${e.id}</span>
+          <span style="font-size:13px;font-weight:900;color:var(--espresso);flex:1;">${e.name}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div class="plan-manage-field"><div class="plan-manage-lbl">代號</div><input class="plan-manage-inp" value="${e.id}" onchange="planUpdateETF(${idx},'id',this.value)"></div>
+          <div class="plan-manage-field"><div class="plan-manage-lbl">名稱</div><input class="plan-manage-inp" value="${e.name}" onchange="planUpdateETF(${idx},'name',this.value)"></div>
+          <div class="plan-manage-field"><div class="plan-manage-lbl">現有張數</div><input class="plan-manage-inp" type="number" min="0" value="${e.held}" onchange="planUpdateETF(${idx},'held',+this.value)" style="color:#c06010;"></div>
+          <div class="plan-manage-field"><div class="plan-manage-lbl">目標張數</div><input class="plan-manage-inp" type="number" min="0" value="${e.target}" onchange="planUpdateETF(${idx},'target',+this.value)"></div>
+          <div class="plan-manage-field"><div class="plan-manage-lbl">配息元／股</div><input class="plan-manage-inp" type="number" min="0" step="0.001" value="${e.divPu}" onchange="planUpdateETF(${idx},'divPu',+this.value)" style="color:#b07800;"></div>
+          <div class="plan-manage-field"><div class="plan-manage-lbl">頻率</div><select class="plan-manage-sel" onchange="planUpdateETF(${idx},'dist',this.value)">${['月配','季配','半年配','年配','待定'].map(d=>`<option${d===e.dist?' selected':''}>${d}</option>`).join('')}</select></div>
+        </div>
+        <div class="plan-manage-field"><div class="plan-manage-lbl">配息月份（逗號分隔）</div><input class="plan-manage-inp" value="${e.divM.join(',')}" onchange="planUpdateMonths(${idx},this.value)" placeholder="e.g. 3,6,9,12"></div>`,
       list.appendChild(row);
     });
   }
@@ -2018,21 +2088,18 @@
       const row = document.createElement('div');
       row.className = 'plan-sell-row';
       row.innerHTML = `
-        <div><div class="plan-mdot c-${e.color}"></div></div>
-        <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--sienna)">${e.id}</div>
-        <div><div style="font-size:12px;font-weight:700">${e.name}</div><div style="font-family:'DM Mono',monospace;font-size:10px;color:var(--sienna)">${e.dist}・現有${e.held}張・目標${e.target}張</div></div>
-        <div>
-          <div style="font-size:10px;color:var(--sienna);font-family:'DM Mono',monospace;margin-bottom:3px">減少張數</div>
-          <input class="plan-manage-inp" type="number" min="0" id="plan-sell-qty-${idx}" placeholder="張數">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div class="plan-mdot c-${e.color}"></div>
+          <div>
+            <div style="font-size:14px;font-weight:900;color:var(--espresso);">${e.name}</div>
+            <div style="font-family:'DM Mono',monospace;font-size:11px;color:var(--sienna);margin-top:2px;">${e.id}・${e.dist}・現有 ${e.held} 張・目標 ${e.target} 張</div>
+          </div>
         </div>
-        <div>
-          <div style="font-size:10px;color:var(--sienna);font-family:'DM Mono',monospace;margin-bottom:3px">對象</div>
-          <select class="plan-manage-sel" id="plan-sell-target-${idx}" style="font-size:11px">
-            <option value="held">現有</option><option value="target">目標</option>
-            <option value="both">兩者</option><option value="remove">完全移除</option>
-          </select>
+        <div class="plan-sell-row-body">
+          <div class="plan-manage-field"><div class="plan-manage-lbl">減少張數</div><input class="plan-manage-inp" type="number" min="0" id="plan-sell-qty-${idx}" placeholder="張數"></div>
+          <div class="plan-manage-field"><div class="plan-manage-lbl">對象</div><select class="plan-manage-sel" id="plan-sell-target-${idx}"><option value="held">現有</option><option value="target">目標</option><option value="both">兩者</option><option value="remove">完全移除</option></select></div>
         </div>
-        <button class="plan-btn-sell" onclick="planSellETF(${idx})">確認</button>`;
+        <button class="plan-btn-sell" onclick="planSellETF(${idx})">✓ 確認</button>`,
       list.appendChild(row);
     });
   }
@@ -2127,15 +2194,19 @@
       const diffBadge = d.total > 0 ? `<span class="plan-diff-badge ${diffCls}">${useTarget?'較現況':'較目標'} ${mDiffStr}</span>` : '';
       let rowsHtml = '';
       if (!d.items.length) {
-        rowsHtml = `<div class="plan-no-income">── 本月無配息收入 ──</div>`;
+        rowsHtml = `<div class="plan-no-income">── 本月無配息，下次請看有色點月份 ──</div>`;
       } else {
         rowsHtml = `<div class="plan-etf-rows">` +
           d.items.map(e => `<div class="plan-etf-row">
-            <div class="plan-etf-dot c-${e.color}"></div>
-            <div class="plan-etf-id">${e.id}</div>
-            <div class="plan-etf-name">${e.name}</div>
-            <div class="plan-etf-detail">${e.qty}張 × ${e.divPu.toFixed(3)}元</div>
-            <div class="plan-etf-amt">+${e.amt.toLocaleString()} 元</div>
+            <div class="plan-etf-row-top">
+              <div class="plan-etf-dot c-${e.color}"></div>
+              <div class="plan-etf-id">${e.id}</div>
+              <div class="plan-etf-name">${e.name}</div>
+            </div>
+            <div class="plan-etf-row-bot">
+              <div class="plan-etf-detail">${e.qty}張 × ${e.divPu.toFixed(3)}元</div>
+              <div class="plan-etf-amt">+${e.amt.toLocaleString()} 元</div>
+            </div>
           </div>`).join('') +
           `</div><div class="plan-bar-wrap"><div class="plan-bar-bg"><div class="plan-bar-fill" style="width:0%" data-w="${pct}%"></div></div></div>`;
       }
@@ -2204,7 +2275,7 @@
   /* ── 尚需資金試算 ── */
   const FUND_PRICES = {
     '00878': 28.12, '00918': 30.50, '00981D': 10.33,
-    '00981B': 9.19, '00400A': 12.10, '00996A': 10.80,
+    '00981B': 9.19, '00400A': 12.10, 
     '00999A': 10.00, '00403A': 10.80
   };
   const FUND_COLORS = {
@@ -2422,7 +2493,7 @@
     '00878':'00878.TW','00910':'00910.TW','00918':'00918.TW','00941':'00941.TW',
     '00687B':'00687B.TW','00403A':'00403A.TWO',
     '00882':'00882.TWO','00956A':'00956A.TWO','00981B':'00981B.TWO','00981D':'00981D.TWO',
-    '00754B':'00754B.TWO','00996A':'00996A.TWO','00400A':'00400A.TWO','00999A':'00999A.TWO',
+    '00754B':'00754B.TWO','00400A':'00400A.TWO','00999A':'00999A.TWO',
     '6415':'6415.TW','2313':'2313.TW','2449':'2449.TW','2324':'2324.TW',
     '2542':'2542.TW','6187':'6187.TW',
   };
@@ -2452,11 +2523,13 @@
     });
 
     try {
-      const controller = new AbortController();
-      const _timer = setTimeout(() => controller.abort(), 15000);
-      const res  = await fetch(`${GAS_URL}?codes=${codes.join(',')}`, { signal: controller.signal });
-      clearTimeout(_timer);
-      const map  = await res.json();
+      // 使用 Promise.race 實作 timeout，避免 AbortSignal 無法 postMessage clone 的問題
+      const fetchPromise = fetch(`${GAS_URL}?codes=${codes.join(',')}`);
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('timeout')), 15000)
+      );
+      const res = await Promise.race([fetchPromise, timeoutPromise]);
+      const map = await res.json();
 
       let updated = 0;
       allRows.forEach(tr => {
@@ -2480,67 +2553,9 @@
   }
 
   // 載入時執行，之後每 60 秒刷新
-  fetchAllPrices().then(() => buildRankCheng());
-  setInterval(() => fetchAllPrices().then(() => buildRankCheng()), 60000);
+  fetchAllPrices();
+  setInterval(() => fetchAllPrices(), 60000);
 
-  // ══════════════════════════════════════════
-  //  🏆 漲跌幅排行榜（呈）
-  // ══════════════════════════════════════════
-  function buildRankCheng() {
-    const panel = document.getElementById('panel-cheng');
-    if (!panel) return;
-    const rows = [...panel.querySelectorAll('tr[data-code]')];
-    const items = [];
-
-    rows.forEach(tr => {
-      const code = tr.dataset.code;
-      if (!code || code === '—') return;
-      const avg    = parseFloat(tr.dataset.avg);
-      const shares = parseFloat(tr.dataset.shares);
-      if (!avg || !shares) return;
-
-      // 取即時現價（live-price td 的文字）
-      const priceCell = tr.querySelector('.live-price');
-      if (!priceCell) return;
-      const priceText = priceCell.textContent.replace(/[,，—\s]/g, '');
-      const price = parseFloat(priceText);
-      if (!price || isNaN(price)) return;
-
-      const rate = (price - avg) / avg * 100;
-      const pnl  = Math.round((price - avg) * shares);
-      const name = tr.querySelector('.stock-name')?.firstChild?.textContent?.trim() || code;
-
-      items.push({ code, name, price, avg, shares, rate, pnl });
-    });
-
-    if (!items.length) return;
-
-    const sorted = [...items].sort((a, b) => b.rate - a.rate);
-    const top5   = sorted.slice(0, 5);
-    const bot5   = sorted.slice(-5).reverse();
-
-    function renderRows(list, tbodyId, isTop) {
-      const tbody = document.getElementById(tbodyId);
-      if (!tbody) return;
-      tbody.innerHTML = list.map((s, i) => {
-        const medal  = i === 0 ? (isTop ? '🥇' : '💀') : i === 1 ? (isTop ? '🥈' : '😱') : i === 2 ? (isTop ? '🥉' : '😰') : `${i+1}.`;
-        const cls    = s.rate >= 0 ? 'profit-cell' : 'loss-cell';
-        const sign   = s.rate >= 0 ? '+' : '';
-        const pnlSign = s.pnl >= 0 ? '+' : '';
-        return `<tr>
-          <td><div class="stock-name">${medal} ${s.name}</div><div class="stock-code">${s.code}</div></td>
-          <td class="price-cell">${s.price.toLocaleString()}</td>
-          <td class="${cls}">${sign}${s.rate.toFixed(2)}%</td>
-          <td class="${cls}">${pnlSign}${s.pnl.toLocaleString()}</td>
-        </tr>`;
-      }).join('');
-    }
-
-    renderRows(top5, 'rank-top5-cheng', true);
-    renderRows(bot5, 'rank-bot5-cheng', false);
-  }
-
-  window.buildRankCheng = buildRankCheng;
 
   // ══════════════════════════════════════════
   //  ✏️ 新增 / 編輯 / 刪除 持股
@@ -3467,7 +3482,6 @@ window.syncDividendToFirebase = async function(holdingsData) {
       '00981B': { name:'第一金優選非投等債',   divPerUnit:0.072, type:'月配', payMonths:[1,2,3,4,5,6,7,8,9,10,11,12] },
       '00981D': { name:'主動中信非投等債',     divPerUnit:0.070, type:'月配', payMonths:[1,2,3,4,5,6,7,8,9,10,11,12] },
       '00400A': { name:'主動國泰動能高息',     divPerUnit:0.075, type:'月配', payMonths:[7,8,9,10,11,12] },
-      '00996A': { name:'主動兆豐台灣豐收',     divPerUnit:0.150, type:'季配', payMonths:[6,9,12] },
       '00999A': { name:'主動野村台灣高息',     divPerUnit:0,     type:'待定', payMonths:[] },
       '00403A': { name:'主動統一升級50',       divPerUnit:0,     type:'待定', payMonths:[] },
     };
@@ -3565,7 +3579,10 @@ window.fbLoadHoldings = async function() {
 // 5 秒超時保護
 setTimeout(removeLoading, 5000);
 
-loadHoldings();
+// ⚠️ 自動載入已停用：避免雲端舊資料覆蓋 HTML 最新資料
+// 如需從雲端載入，請手動點「📥 從雲端載入」按鈕
+removeLoading();
+if (typeof fetchAllPrices === 'function') fetchAllPrices();
 </script>
 </body>
 </html>
