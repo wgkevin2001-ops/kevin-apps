@@ -365,6 +365,15 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 
 <!-- ══ 本月重點 ══ -->
 <div id="sec-focus" class="section active"><div class="content">
+  <!-- 月份切換 -->
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+    <div style="display:flex;align-items:center;gap:6px">
+      <button onclick="changeFocusMonth(-1)" style="width:32px;height:32px;border:1px solid var(--bdr);background:var(--card);border-radius:8px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit">‹</button>
+      <div id="focus-month-lbl" style="font-size:15px;font-weight:900;color:var(--y);min-width:48px;text-align:center">5月</div>
+      <button onclick="changeFocusMonth(1)" style="width:32px;height:32px;border:1px solid var(--bdr);background:var(--card);border-radius:8px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-family:inherit">›</button>
+    </div>
+    <div id="focus-month-hint" style="font-size:11px;color:var(--gr)">2026年（本月）</div>
+  </div>
   <div class="focus-stats" id="focus-stats"></div>
   <div class="focus-sort-bar">
     <span style="font-size:12px;color:#888;font-weight:700">排序：</span>
@@ -772,7 +781,7 @@ function switchSec(id){
   document.getElementById("sec-"+id).classList.add("active");
   const idx={focus:0,cal:1,appt:2,bp:3,med:4,cc:5,exp:6}[id];
   document.querySelectorAll(".nav-tab")[idx]?.classList.add("active");
-  if(id==="cal")renderCal();
+  if(id==="cal"){renderCal();syncFocusToCalMonth();}
   if(id==="appt")renderAppts();
   if(id==="focus")renderFocus();
   if(id==="exp")renderExp();
@@ -807,6 +816,20 @@ function changeMonth(delta){
   if(curMonth>11){curMonth=0;curYear++;}
   if(curMonth<0){curMonth=11;curYear--;}
   renderCal();
+  // ── 同步工作重點月份 ──
+  syncFocusToCalMonth();
+}
+
+function syncFocusToCalMonth(){
+  const calM = curMonth + 1; // 轉成 1-indexed
+  if(typeof focusViewMonth !== 'undefined' && FOCUS_ITEMS_BY_MONTH){
+    // 有資料的月份才切換
+    if(FOCUS_ITEMS_BY_MONTH[calM] !== undefined){
+      focusViewMonth = calM;
+      if(typeof updateFocusMonthLabel === 'function') updateFocusMonthLabel();
+      if(typeof renderFocus === 'function') renderFocus();
+    }
+  }
 }
 
 function renderCal(){
@@ -1341,48 +1364,95 @@ function exportCCCSV(){
 
 // ═══ 本月重點 工作排程 ═══
 const FOCUS_ITEMS_INIT = [
+  // ── 5月工作重點（從Google日曆整理）──
   // 財務重點
   {id:'f01', cat:'💰 財務重點', catKey:'finance', sortDate:'05/01', text:'💳 國泰世華 $18,628 自動扣款',        note:'',                    badge:'fb-ok',  badgeText:'✅已扣',   initStatus:'done'},
-  {id:'f02', cat:'💰 財務重點', catKey:'finance', sortDate:'05/06', text:'🚗 中租車貸 自動扣款（國泰銀行）',   note:'',                    badge:'fb-warn',badgeText:'⏳待確認',initStatus:'pending'},
-  {id:'f03', cat:'💰 財務重點', catKey:'finance', sortDate:'05/08', text:'💳 中信信用卡 $12,619 自動扣款',    note:'',                    badge:'fb-warn',badgeText:'⏳待確認',initStatus:'pending'},
-  {id:'f04', cat:'💰 財務重點', catKey:'finance', sortDate:'05/12', text:'💳 玉山信用卡 $5,007（國泰帳戶自動扣款）',note:'已改設自動扣款，截止日5/12',badge:'fb-ok', badgeText:'🔄自動',  initStatus:'doing'},
-  {id:'f05', cat:'💰 財務重點', catKey:'finance', sortDate:'05/06', text:'💳 聯邦 $31,406（出帳後繳費）',     note:'',                    badge:'fb-warn',badgeText:'⏳待繳',  initStatus:'pending'},
-  {id:'f06', cat:'💰 財務重點', catKey:'finance', sortDate:'05/31', text:'📋 綜合所得稅申報截止 ＋ 🏠 房屋稅截止',note:'🏠 房屋稅已繳 5/11 共$14,554（玉山卡9117）',              badge:'fb-ok', badgeText:'🏠部分✅',  initStatus:'doing'},
-  // 醫療行程
-  {id:'f10', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/09', text:'🦴 亞東骨科 陳文質醫師 H116 #37',  note:'',               badge:'fb-info',badgeText:'→月曆',initStatus:'done', apptDate:'2026-05-09'},
-  {id:'f12', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/16', text:'🧠 亞東精神科 林竺君醫師 A901 #10', note:'建議08:50到診',  badge:'fb-info',badgeText:'→月曆',initStatus:'pending', apptDate:'2026-05-16'},
-  {id:'f13', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/23', text:'🦴 亞東骨科 陳文質醫師 H116 #43',  note:'',               badge:'fb-info',badgeText:'→月曆',initStatus:'pending', apptDate:'2026-05-23'},
-  // 孩子行程
-  {id:'f20', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/05', text:'📚 德第二次段考',                   note:'5/5–5/7（5/6下午停課）',    badge:'fb-warn',badgeText:'⏳',      initStatus:'done'},
-  {id:'f21', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/11', text:'🎶 管樂成果發表會 18:30',           note:'新北市政府多功能集會堂 3F',badge:'fb-warn',badgeText:'⏳重要',initStatus:'done'},
-  {id:'f22', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/12', text:'🎨 萱畢業美展（至5/20）09:00開幕',  note:'5/12起',              badge:'fb-warn',badgeText:'⏳',      initStatus:'doing'},
-  // 家庭活動
-  {id:'f30', cat:'🎉 家庭活動', catKey:'family',  sortDate:'00/00', text:'⛲ 碧潭水舞季（每晚18:30）',         note:'至6/14',              badge:'fb-info',badgeText:'持續中',  initStatus:'doing'},
-  {id:'f33', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/02', text:'🍽️ 母親節聚餐 金世界',              note:'$1,100/人',           badge:'fb-warn',badgeText:'⏳',      initStatus:'done'},
-  {id:'f34', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/02', text:'🛒 新店 IKEA',                      note:'',                    badge:'fb-warn',badgeText:'⏳',      initStatus:'done'},
-  {id:'f35', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/03', text:'🏺 鶯歌',                           note:'',                    badge:'fb-warn',badgeText:'⏳',      initStatus:'done'},
-  {id:'f31', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/27', text:'👗 迪化街扮裝（萱）大稻埕遊客中心', note:'',                    badge:'fb-warn',badgeText:'⏳',      initStatus:'pending'},
-  {id:'f32', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/29', text:'🧸 世貿玩具展（已有票）',           note:'5/29–6/1',            badge:'fb-warn',badgeText:'⏳',      initStatus:'pending'},
-  // 財務補充
+  {id:'f02', cat:'💰 財務重點', catKey:'finance', sortDate:'05/06', text:'🚗 中租車貸 自動扣款（國泰銀行）',   note:'',                    badge:'fb-ok',  badgeText:'✅已扣',  initStatus:'done'},
+  {id:'f03', cat:'💰 財務重點', catKey:'finance', sortDate:'05/08', text:'💳 中信信用卡 $12,619 自動扣款',    note:'',                    badge:'fb-ok',  badgeText:'✅已扣',  initStatus:'done'},
+  {id:'f04', cat:'💰 財務重點', catKey:'finance', sortDate:'05/12', text:'💳 玉山信用卡 $5,007（國泰帳戶自動扣款）',note:'截止日5/12',badge:'fb-ok', badgeText:'✅已扣',  initStatus:'done'},
+  {id:'f05', cat:'💰 財務重點', catKey:'finance', sortDate:'05/31', text:'📋 綜合所得稅申報截止 ＋ 🏠 房屋稅截止',note:'🏠房屋稅已繳5/11共$14,554（玉山卡9117）', badge:'fb-ok', badgeText:'✅已繳',  initStatus:'done'},
   {id:'f07', cat:'💰 財務重點', catKey:'finance', sortDate:'05/01', text:'👨‍🎓 阿德生活費 NT$4,000',            note:'每月初確認',          badge:'fb-warn',badgeText:'⏳待確認',initStatus:'pending'},
   {id:'f08', cat:'💰 財務重點', catKey:'finance', sortDate:'05/04', text:'🇿🇦 南非幣定存到期 → 續存',         note:'每月4日確認',         badge:'fb-warn',badgeText:'⏳',      initStatus:'pending'},
-  {id:'f09', cat:'💰 財務重點', catKey:'finance', sortDate:'05/05', text:'💹 00999A 主動野村臺灣高息 掟牌',    note:'目標20張，已申購10張',badge:'fb-info',badgeText:'📈投資',  initStatus:'done'},
+  {id:'f09', cat:'💰 財務重點', catKey:'finance', sortDate:'05/05', text:'💹 00999A 主動野村臺灣高息 掟牌',    note:'目標20張，已申購10張',badge:'fb-ok', badgeText:'✅完成',  initStatus:'done'},
+  // 醫療行程
+  {id:'f10', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/09', text:'🦴 亞東骨科 陳文質醫師 H116 #37',  note:'',               badge:'fb-ok', badgeText:'✅完成',initStatus:'done', apptDate:'2026-05-09'},
+  {id:'f12', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/16', text:'🧠 亞東精神科 林竺君醫師 A901 #10', note:'建議08:50到診',  badge:'fb-ok', badgeText:'✅完成',initStatus:'done', apptDate:'2026-05-16'},
+  {id:'f13', cat:'🏥 醫療行程', catKey:'medical', sortDate:'05/23', text:'🦴 亞東骨科 陳文質醫師 H116 #43',  note:'',               badge:'fb-info',badgeText:'→月曆',initStatus:'pending', apptDate:'2026-05-23'},
+  // 孩子行程
+  {id:'f20', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/05', text:'📚 德第二次段考',                   note:'5/5–5/7（5/6下午停課）', badge:'fb-ok',  badgeText:'✅完成',initStatus:'done'},
+  {id:'f21', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/11', text:'🎶 管樂成果發表會 18:30',           note:'新北市政府多功能集會堂3F',badge:'fb-ok', badgeText:'✅完成',initStatus:'done'},
+  {id:'f22', cat:'👧 孩子行程', catKey:'kids',    sortDate:'05/12', text:'🎨 萱畢業美展（至5/20）09:00開幕',  note:'5/12起',         badge:'fb-ok',  badgeText:'✅完成',initStatus:'done'},
+  // 家庭活動
+  {id:'f30', cat:'🎉 家庭活動', catKey:'family',  sortDate:'00/00', text:'⛲ 碧潭水舞季（每晚18:30）',         note:'至6/14',              badge:'fb-info',badgeText:'持續中',  initStatus:'doing'},
+  {id:'f31', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/27', text:'👗 迪化街扮裝（萱）大稻埕遊客中心', note:'',                    badge:'fb-warn',badgeText:'⏳',      initStatus:'pending'},
+  {id:'f32', cat:'🎉 家庭活動', catKey:'family',  sortDate:'05/29', text:'🧸 世貿玩具展（已有票）',           note:'5/29–6/1',            badge:'fb-warn',badgeText:'⏳',      initStatus:'pending'},
+  // 車輛
+  {id:'f50', cat:'🚗 車輛事務', catKey:'custom',  sortDate:'05/22', text:'🚗 TDZ-0950 淡水右前方撞人行道敦', note:'下次保養注意：右前保險桿、輪胎鋼圈、避震器、四輪定位、底盤', badge:'fb-warn',badgeText:'⚠️待處理',initStatus:'pending'},
   // 每週例行
   {id:'f40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
   {id:'f41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/03', text:'✅ 查違規 TDZ-0950（監理站）',   note:'每週三', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
-  {id:'f14', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週二、六（一週2次）', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
-  {id:'f42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車',                    note:'每日',   badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
-  {id:'f43', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🪿 十金鵝',                    note:'每日',   badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
-  {id:'f44', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'💊 老德燕中藥（三餐）',          note:'每日',   badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'f14', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週二、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'f42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥', note:'每日', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
 ];
+
+// ── 6月工作重點 ──
+const FOCUS_ITEMS_JUNE = [
+  {id:'j01', cat:'💰 財務重點', catKey:'finance', sortDate:'06/02', text:'📱 台灣大電話費 $1,770 截止（信用卡自扣）', note:'5月帳單截止6/2', badge:'fb-warn', badgeText:'⚠️截止6/2', initStatus:'pending'},
+  {id:'j02', cat:'💰 財務重點', catKey:'finance', sortDate:'06/06', text:'🚗 中租車貸 自動扣款（國泰銀行）', note:'每月6日', badge:'fb-rep', badgeText:'🔄自動', initStatus:'doing'},
+  {id:'j03', cat:'💰 財務重點', catKey:'finance', sortDate:'06/01', text:'👨‍🎓 阿德生活費 NT$4,000', note:'每月初確認', badge:'fb-warn', badgeText:'⏳待確認', initStatus:'pending'},
+  {id:'j04', cat:'💰 財務重點', catKey:'finance', sortDate:'06/04', text:'🇿🇦 南非幣定存到期 → 續存', note:'每月4日確認', badge:'fb-warn', badgeText:'⏳', initStatus:'pending'},
+  {id:'j10', cat:'🏥 醫療行程', catKey:'medical', sortDate:'06/06', text:'🧠 亞東精神科 林竺君醫師 A901 #10', note:'08:50到診', badge:'fb-info', badgeText:'→月曆', initStatus:'pending', apptDate:'2026-06-06'},
+  {id:'j11', cat:'🏥 醫療行程', catKey:'medical', sortDate:'06/06', text:'🩺 亞東新陳代謝科 陳華芬醫師 G224 #3', note:'與精神科同日', badge:'fb-info', badgeText:'→月曆', initStatus:'pending', apptDate:'2026-06-06'},
+  {id:'j12', cat:'🏥 醫療行程', catKey:'medical', sortDate:'06/18', text:'🧬 亞東神經醫學部 李少白醫師 F203 #9', note:'週四上午', badge:'fb-info', badgeText:'→月曆', initStatus:'pending', apptDate:'2026-06-18'},
+  {id:'j50', cat:'🚗 車輛事務', catKey:'custom', sortDate:'06/20', text:'🔍 查詢朋友車違規（5/16新生轉民族）', note:'朋友的車，非本人，協助確認', badge:'fb-warn', badgeText:'⏳待查', initStatus:'pending'},
+  {id:'j30', cat:'🎉 家庭活動', catKey:'family', sortDate:'00/00', text:'⛲ 碧潭水舞季（每晚18:30）', note:'至6/14', badge:'fb-info', badgeText:'持續中', initStatus:'doing'},
+  {id:'j40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'j41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/03', text:'✅ 查違規 TDZ-0950（監理站）', note:'每週三', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'j14', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週二、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'j42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥', note:'每日', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+];
+
+// ── 月份資料對應表 ──
+const FOCUS_ITEMS_BY_MONTH = {
+  5: FOCUS_ITEMS_INIT,
+  6: FOCUS_ITEMS_JUNE,
+};
+
+// ── 目前顯示的月份 ──
+let focusViewMonth = new Date().getMonth() + 1; // 預設本月
+
+function getCurrentFocusItems(){
+  return FOCUS_ITEMS_BY_MONTH[focusViewMonth] || FOCUS_ITEMS_INIT;
+}
+
+function changeFocusMonth(delta){
+  const months = Object.keys(FOCUS_ITEMS_BY_MONTH).map(Number).sort((a,b)=>a-b);
+  const idx = months.indexOf(focusViewMonth);
+  const newIdx = idx + delta;
+  if(newIdx < 0 || newIdx >= months.length) return;
+  focusViewMonth = months[newIdx];
+  updateFocusMonthLabel();
+  renderFocus();
+}
+
+function updateFocusMonthLabel(){
+  const el = document.getElementById('focus-month-lbl');
+  const hint = document.getElementById('focus-month-hint');
+  if(el) el.textContent = focusViewMonth + '月';
+  const curM = new Date().getMonth() + 1;
+  if(hint){
+    hint.textContent = focusViewMonth === curM ? '2026年（本月）' : '2026年';
+    hint.style.color = focusViewMonth === curM ? 'var(--gr)' : 'var(--ink-light)';
+  }
+}
 
 // ── 自訂新增項目（存 localStorage）──
 let focusCustomItems = JSON.parse(localStorage.getItem('focus_custom')||'[]');
 function saveFocusCustom(){ localStorage.setItem('focus_custom', JSON.stringify(focusCustomItems)); }
 
-// 全部 items = INIT + custom（custom 不含已刪除）
+// 全部 items = 當月 ITEMS + custom
 function allFocusItems(){
-  return [...FOCUS_ITEMS_INIT, ...focusCustomItems];
+  return [...getCurrentFocusItems(), ...focusCustomItems];
 }
 
 // status: 'done' | 'doing' | 'pending'
@@ -1390,7 +1460,7 @@ let focusStatus = JSON.parse(localStorage.getItem('focus_status')||'null') || {}
 let focusSortMode = 'cat'; // 'cat' | 'date' | 'status'
 
 // Initialize default statuses for built-in items
-FOCUS_ITEMS_INIT.forEach(it=>{
+[...FOCUS_ITEMS_INIT, ...FOCUS_ITEMS_JUNE].forEach(it=>{
   if(!(it.id in focusStatus)) focusStatus[it.id] = it.initStatus;
 });
 
@@ -1524,6 +1594,7 @@ function renderFocus(){
   </div>`;
 
   document.getElementById('focus-content').innerHTML = addForm + html;
+  updateFocusMonthLabel();
 }
 
 function renderFocusItem(it){
