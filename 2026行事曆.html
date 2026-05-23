@@ -2,15 +2,19 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>2026 行事曆 × 健康管理</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --y:#B8760A;--y-light:rgba(184,118,10,.1);--y-mid:rgba(184,118,10,.25);
+  --y:#0E9F8E;--y-lt:#2AB5A5;--y-light:rgba(14,159,142,.1);--y-mid:rgba(14,159,142,.22);
   --gr:#1A8A3A;--rd:#CC2222;--bl:#1A6EA8;--pu:#7A4FA8;--or:#C07A1A;
-  --bg:#F5F0E8;--card:#FFFFFF;--mid:#F0EDE8;--bdr:rgba(180,140,60,.22);
-  --ink:#2A2A2A;--ink-mid:#555;--ink-light:#999;
+  --bg:#F0F6F6;--card:#FFFFFF;--mid:#E6F5F3;--bdr:rgba(14,159,142,.16);
+  --ink:#111827;--ink-mid:#4B5563;--ink-light:#8592A3;
+  --shadow-sm:0 1px 3px rgba(0,0,0,.06);
+  --shadow:0 4px 16px rgba(0,0,0,.08);
+  --radius:12px;
   --dept-ortho:#1a6fa8;--dept-ortho-bg:#e8f2fa;
   --dept-psych:#7a4fa8;--dept-psych-bg:#f0eaf8;
   --dept-endo:#1a8a5f;--dept-endo-bg:#e8f5ef;
@@ -20,31 +24,31 @@
   --dept-rehab:#c07a1a;--dept-rehab-bg:#faf0e0;
   --dept-tcm:#2e7d5a;--dept-tcm-bg:#e6f5ee;
 }
-body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft JhengHei','Noto Sans TC',sans-serif;min-height:100vh;font-size:16px}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jakarta Sans','PingFang TC','Microsoft JhengHei',sans-serif;min-height:100vh;font-size:16px;-webkit-font-smoothing:antialiased}
 
 /* ── HEADER ── */
-.main-header{background:var(--y);color:#fff;padding:16px 15px 13px;overflow:hidden;position:relative}
-.main-header::before{content:'';position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,.07)}
-.hrow1{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
-.htitles .sub{font-size:11px;opacity:.7;letter-spacing:.08em}
-.htitles .main{font-size:20px;font-weight:900;letter-spacing:.03em;margin-top:2px}
-.hdate{text-align:right;font-size:11px;opacity:.8}
-.hdate strong{display:block;font-size:16px;font-weight:900;opacity:1;margin-top:1px}
-.hstats{display:flex;gap:14px;flex-wrap:wrap}
-.hstat{display:flex;flex-direction:column;gap:1px}
-.hstat-num{font-size:22px;font-weight:900;line-height:1}
-.hstat-lbl{font-size:11px;opacity:.7;letter-spacing:.05em}
-.hstat-div{width:1px;background:rgba(255,255,255,.25);align-self:stretch}
+.main-header{background:#fff;color:var(--ink);padding:14px 16px 12px;border-bottom:1px solid rgba(14,159,142,.15);position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.hrow1{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.htitles .sub{font-size:10.5px;color:var(--ink-light);letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+.htitles .main{font-size:18px;font-weight:900;color:var(--y);letter-spacing:-.3px;margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif}
+.hdate{text-align:right;font-size:11px;color:var(--ink-light)}
+.hdate strong{display:block;font-size:15px;font-weight:800;color:var(--ink);margin-top:1px;font-family:'DM Mono',monospace}
+.hstats{display:flex;gap:0;background:var(--mid);border-radius:12px;padding:2px;overflow:hidden}
+.hstat{display:flex;flex-direction:column;gap:2px;flex:1;padding:10px 12px;align-items:center}
+.hstat-num{font-size:20px;font-weight:900;line-height:1;color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif}
+.hstat-lbl{font-size:10px;color:var(--ink-light);letter-spacing:.04em;font-weight:600}
+.hstat-div{width:1px;background:rgba(14,159,142,.2);align-self:stretch;margin:6px 0}
 
 /* ── NAV ── */
-.nav-tabs{display:flex;gap:3px;background:#E8E0D0;padding:5px 10px;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.nav-tabs{display:flex;gap:3px;background:#fff;border-bottom:1px solid rgba(14,159,142,.15);padding:0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:0;z-index:90;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .nav-tabs::-webkit-scrollbar{display:none}
-.nav-tab{flex:0 0 auto;padding:9px 14px;border:none;border-radius:8px;font-family:inherit;font-size:13px;font-weight:700;cursor:pointer;background:transparent;color:#888;white-space:nowrap;transition:all .2s}
-.nav-tab.active{background:var(--y);color:#fff;box-shadow:0 2px 8px rgba(180,120,10,.35)}
+.nav-tab{flex:0 0 auto;padding:12px 14px;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:transparent;color:var(--ink-light);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .18s}
+.nav-tab.active{color:var(--y);border-bottom-color:var(--y);font-weight:700}
+.nav-tab:hover:not(.active){color:var(--ink-mid);background:var(--y-light);border-radius:8px 8px 0 0}
 
 /* ── SECTIONS ── */
 .section{display:none}.section.active{display:block}
-.content{padding:14px 12px 72px}
+.content{padding:14px 14px 80px;max-width:860px;margin:0 auto}
 
 /* ── FOCUS ── */
 .focus-group{margin-bottom:16px}
@@ -58,7 +62,7 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .fnote{font-size:11px;color:var(--ink-light);margin-top:2px}
 .fbadge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;flex-shrink:0;white-space:nowrap}
 .fb-red{background:rgba(204,34,34,.12);color:#cc2222}
-.fb-warn{background:rgba(184,118,10,.12);color:#b8760a}
+.fb-warn{background:rgba(14,159,142,.12);color:#0E9F8E}
 .fb-ok{background:rgba(26,138,58,.12);color:#1a8a3a}
 .fb-info{background:rgba(26,110,168,.12);color:#1a6ea8}
 .fb-rep{background:rgba(122,79,168,.12);color:#7a4fa8}
@@ -88,9 +92,9 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .focus-add-title{font-size:13px;font-weight:900;color:var(--y);margin-bottom:9px}
 .focus-add-row{display:flex;gap:7px;margin-bottom:7px;align-items:center}
 .focus-add-row:last-child{margin-bottom:0}
-.focus-add-inp{background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:13px;padding:8px 10px;outline:none;transition:border-color .2s}
+.focus-add-inp{background:var(--mid);border:1px solid rgba(14,159,142,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:13px;padding:8px 10px;outline:none;transition:border-color .2s}
 .focus-add-inp:focus{border-color:var(--y)}
-.focus-add-sel{background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:13px;padding:8px 10px;outline:none;flex:1}
+.focus-add-sel{background:var(--mid);border:1px solid rgba(14,159,142,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:13px;padding:8px 10px;outline:none;flex:1}
 .focus-add-btn{background:var(--y);color:#fff;border:none;border-radius:9px;padding:8px 16px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit;white-space:nowrap;flex-shrink:0}
 
 /* ── CALENDAR ── */
@@ -101,7 +105,7 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .cal-wd{text-align:center;font-size:11px;font-weight:700;color:var(--ink-light);padding:5px 0}
 .cal-day{min-height:50px;display:flex;flex-direction:column;align-items:center;padding:3px 1px 2px;border-radius:8px;cursor:pointer;position:relative;transition:background .15s;gap:1px}
 .cal-day:hover{background:var(--y-light)}
-.cal-day.today{background:rgba(184,118,10,.18);border:1.5px solid rgba(184,118,10,.5)}
+.cal-day.today{background:rgba(14,159,142,.18);border:1.5px solid rgba(14,159,142,.5)}
 .cal-day.holiday{background:rgba(204,34,34,.06)}
 .dnum{font-size:13px;font-weight:700;color:var(--ink);line-height:1;margin-top:2px}
 .dnum.sun{color:#cc4444}.dnum.sat{color:#4466cc}
@@ -147,7 +151,7 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .card-body{padding:11px 14px 9px}
 .dept-name{font-size:17px;font-weight:800;color:var(--ink);margin-bottom:4px}
 .card-meta{font-size:13px;color:var(--ink-mid);margin-bottom:2px;display:flex;align-items:center;gap:6px}
-.card-note{background:rgba(184,118,10,.07);border-top:1px solid rgba(184,118,10,.18);padding:8px 14px;font-size:12px;color:#7a5800;font-weight:600;line-height:1.5}
+.card-note{background:rgba(14,159,142,.07);border-top:1px solid rgba(14,159,142,.18);padding:8px 14px;font-size:12px;color:#0a6b5e;font-weight:600;line-height:1.5}
 .card-outcome{border-top:1px solid rgba(26,138,58,.18);padding:8px 14px;background:rgba(26,138,58,.04)}
 .outcome-lbl{font-size:11px;font-weight:800;color:var(--gr);margin-bottom:4px;letter-spacing:.04em}
 .outcome-text{font-size:13px;color:var(--ink);line-height:1.5;word-break:break-all}
@@ -172,7 +176,7 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:7px;margin-bottom:10px}
 .form-group{display:flex;flex-direction:column;gap:4px}
 .form-label{font-size:12px;color:#777;font-weight:700}
-.form-input,.form-select{background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:14px;padding:9px 11px;outline:none;width:100%;transition:border-color .2s}
+.form-input,.form-select{background:var(--mid);border:1px solid rgba(14,159,142,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:14px;padding:9px 11px;outline:none;width:100%;transition:border-color .2s}
 .form-input:focus,.form-select:focus{border-color:var(--y)}
 .btn-add{background:var(--y);color:#fff;border:none;border-radius:10px;padding:11px 20px;font-size:14px;font-weight:900;cursor:pointer;font-family:inherit}
 .btn-danger{background:var(--rd);color:#fff;border:none;border-radius:7px;padding:5px 11px;font-size:12px;font-weight:700;cursor:pointer;font-family:inherit}
@@ -195,13 +199,13 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .bp-inputs{display:grid;grid-template-columns:repeat(auto-fit,minmax(95px,1fr));gap:7px;margin-bottom:10px}
 .bp-ig{display:flex;flex-direction:column;gap:3px}
 .bp-ilbl{font-size:12px;color:#666;font-weight:700}
-.bp-input{font-family:inherit;font-size:14px;font-weight:700;border:1px solid rgba(180,140,60,.3);border-radius:9px;padding:8px 10px;background:var(--card);color:var(--ink);width:100%;outline:none}
+.bp-input{font-family:inherit;font-size:14px;font-weight:700;border:1px solid rgba(14,159,142,.3);border-radius:9px;padding:8px 10px;background:var(--card);color:var(--ink);width:100%;outline:none}
 .bp-input:focus{border-color:var(--rd)}
 .bp-btn{background:var(--rd);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit}
 .bp-twrap{overflow-x:auto}
 .bp-table{width:100%;border-collapse:collapse;font-size:13px}
 .bp-table thead th{text-align:left;font-size:12px;color:#888;font-weight:700;padding:0 9px 8px;border-bottom:2px solid var(--bdr)}
-.bp-table tbody tr{border-bottom:1px solid rgba(180,140,60,.1)}
+.bp-table tbody tr{border-bottom:1px solid rgba(14,159,142,.1)}
 .bp-table tbody tr:hover{background:var(--mid)}
 .bp-table td{padding:10px 9px;vertical-align:middle}
 .bpmono{font-weight:800;font-size:14px}
@@ -220,11 +224,11 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .med-inputs{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:7px;margin-bottom:10px}
 .med-ig{display:flex;flex-direction:column;gap:3px}
 .med-ilbl{font-size:12px;color:#666;font-weight:700}
-.med-input{font-family:inherit;font-size:14px;border:1px solid rgba(180,140,60,.3);border-radius:9px;padding:8px 10px;background:var(--card);color:var(--ink);width:100%;outline:none}
+.med-input{font-family:inherit;font-size:14px;border:1px solid rgba(14,159,142,.3);border-radius:9px;padding:8px 10px;background:var(--card);color:var(--ink);width:100%;outline:none}
 .med-input:focus{border-color:var(--bl)}
 .med-table{width:100%;border-collapse:collapse;font-size:13px}
 .med-table thead th{text-align:left;font-size:12px;color:#888;font-weight:700;padding:0 9px 8px;border-bottom:2px solid var(--bdr)}
-.med-table tbody tr{border-bottom:1px solid rgba(180,140,60,.1)}
+.med-table tbody tr{border-bottom:1px solid rgba(14,159,142,.1)}
 .med-table tbody tr:hover{background:var(--mid)}
 .med-table td{padding:10px 9px;vertical-align:middle}
 .med-active{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px}
@@ -240,7 +244,7 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .leg-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 
 /* sync note */
-.sync-note{font-size:12px;color:var(--gr);text-align:center;padding:6px;background:rgba(26,138,58,.07);border-radius:8px;margin-bottom:10px;font-weight:600}
+.sync-note{background:rgba(14,159,142,.07);border:1px solid rgba(14,159,142,.15);border-radius:9px;padding:8px 12px;font-size:12px;color:var(--y);font-weight:600;margin-bottom:12px; /*override*/ font-size:12px;color:var(--gr);text-align:center;padding:6px;background:rgba(26,138,58,.07);border-radius:8px;margin-bottom:10px;font-weight:600}
 
 @media(max-width:600px){.cards-grid{grid-template-columns:1fr}}
 /* ── 信用卡對帳 ── */
@@ -254,7 +258,7 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .cc-twrap{overflow-x:auto}
 .cc-table{width:100%;border-collapse:collapse;font-size:14px}
 .cc-table thead th{text-align:left;font-size:11px;font-weight:800;color:var(--ink-light);padding:8px 14px;border-bottom:2px solid var(--bdr);letter-spacing:.04em;white-space:nowrap}
-.cc-table tbody tr{border-bottom:1px solid rgba(180,140,60,.08);transition:background .15s}
+.cc-table tbody tr{border-bottom:1px solid rgba(14,159,142,.08);transition:background .15s}
 .cc-table tbody tr:hover{background:var(--mid)}
 .cc-table td{padding:11px 14px;vertical-align:middle}
 .cc-bank{font-size:15px;font-weight:800;color:var(--ink)}
@@ -263,22 +267,22 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .cc-amt.zero{color:var(--gr)}.cc-amt.pos{color:var(--ink)}
 .cc-due{font-size:13px;font-weight:700;white-space:nowrap}
 .cc-auto{font-size:11px;font-weight:700;padding:3px 8px;border-radius:10px;white-space:nowrap}
-.cc-auto.yes{background:rgba(26,138,58,.12);color:var(--gr)}.cc-auto.no{background:rgba(184,118,10,.12);color:var(--y)}
+.cc-auto.yes{background:rgba(26,138,58,.12);color:var(--gr)}.cc-auto.no{background:rgba(14,159,142,.12);color:var(--y)}
 .cc-st{font-size:11px;font-weight:700;padding:3px 9px;border-radius:12px;white-space:nowrap}
-.cc-st.paid{background:rgba(26,138,58,.12);color:var(--gr)}.cc-st.pending{background:rgba(184,118,10,.12);color:var(--y)}.cc-st.overdue{background:rgba(204,34,34,.12);color:var(--rd)}.cc-st.zero{background:#f0f0f0;color:#aaa}
+.cc-st.paid{background:rgba(26,138,58,.12);color:var(--gr)}.cc-st.pending{background:rgba(14,159,142,.12);color:var(--y)}.cc-st.overdue{background:rgba(204,34,34,.12);color:var(--rd)}.cc-st.zero{background:#f0f0f0;color:#aaa}
 .cc-del{background:none;border:none;color:#ccc;cursor:pointer;font-size:15px;padding:3px 8px;border-radius:5px}.cc-del:hover{color:var(--rd)}
 .cc-add-form{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:14px}
 .cc-add-title{font-size:14px;font-weight:900;color:var(--y);margin-bottom:10px}
 .cc-fg{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:7px;margin-bottom:10px}
 .cc-fgrp{display:flex;flex-direction:column;gap:4px}
 .cc-flbl{font-size:12px;color:#777;font-weight:700}
-.cc-fi,.cc-fs{background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:14px;padding:8px 11px;outline:none;width:100%}
+.cc-fi,.cc-fs{background:var(--mid);border:1px solid rgba(14,159,142,.3);border-radius:9px;color:var(--ink);font-family:inherit;font-size:14px;padding:8px 11px;outline:none;width:100%}
 .cc-fi:focus,.cc-fs:focus{border-color:var(--y)}
 .cc-add-btn{background:var(--y);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:14px;font-weight:900;cursor:pointer;font-family:inherit}
 .cc-mnav{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .cc-mnbtn{background:var(--mid);border:1px solid var(--bdr);border-radius:8px;color:var(--ink);font-size:16px;width:34px;height:34px;cursor:pointer;font-weight:700}
 .cc-mlbl{font-size:15px;font-weight:900;color:var(--y);flex:1;text-align:center}
-.cc-total{background:linear-gradient(135deg,#1a1200,#2d1f00);color:#ffd060;padding:12px 16px;border-radius:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.cc-total{background:linear-gradient(135deg,#073d38,#0a5c54);color:#7ef5ec;padding:12px 16px;border-radius:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
 .cc-total-lbl{font-size:12px;font-weight:700;opacity:.8}
 .cc-total-amt{font-size:22px;font-weight:900}
 .cc-stripe-bar{width:4px;border-radius:2px;align-self:stretch;flex-shrink:0}
@@ -297,10 +301,10 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .exp-panel-amt{font-size:15px;font-weight:900}
 .exp-table{width:100%;border-collapse:collapse;font-size:13px}
 .exp-table thead th{text-align:left;font-size:11px;color:#888;font-weight:800;padding:7px 12px;border-bottom:2px solid var(--bdr);white-space:nowrap;letter-spacing:.04em}
-.exp-table tbody tr{border-bottom:1px solid rgba(180,140,60,.08);transition:background .12s}
+.exp-table tbody tr{border-bottom:1px solid rgba(14,159,142,.08);transition:background .12s}
 .exp-table tbody tr:hover{background:var(--mid)}
 .exp-table td{padding:9px 12px;vertical-align:middle}
-.exp-cat-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(184,118,10,.1);color:#7a5800;white-space:nowrap}
+.exp-cat-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(14,159,142,.1);color:#0a6b5e;white-space:nowrap}
 .exp-amt{font-size:14px;font-weight:900;text-align:right;white-space:nowrap}
 .exp-amt.zero{color:#ccc}
 .exp-note{font-size:11px;color:var(--ink-light)}
@@ -309,17 +313,17 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .exp-add-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:7px;margin-bottom:9px}
 .exp-add-grp{display:flex;flex-direction:column;gap:3px}
 .exp-add-lbl{font-size:11px;color:#777;font-weight:700}
-.exp-add-inp,.exp-add-sel{background:var(--mid);border:1px solid rgba(180,140,60,.3);border-radius:8px;color:var(--ink);font-family:inherit;font-size:13px;padding:7px 9px;outline:none;width:100%}
+.exp-add-inp,.exp-add-sel{background:var(--mid);border:1px solid rgba(14,159,142,.3);border-radius:8px;color:var(--ink);font-family:inherit;font-size:13px;padding:7px 9px;outline:none;width:100%}
 .exp-add-inp:focus,.exp-add-sel:focus{border-color:var(--y)}
 .exp-add-btn{background:var(--y);color:#fff;border:none;border-radius:9px;padding:9px 18px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit}
 .exp-del{background:none;border:none;color:#ccc;cursor:pointer;font-size:14px;padding:3px 6px;border-radius:5px}
 .exp-del:hover{color:var(--rd)}
 .exp-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .exp-bar-lbl{font-size:12px;font-weight:700;color:var(--ink-mid);min-width:90px;flex-shrink:0}
-.exp-bar-track{flex:1;background:rgba(184,118,10,.1);border-radius:4px;height:8px;overflow:hidden}
+.exp-bar-track{flex:1;background:rgba(14,159,142,.1);border-radius:4px;height:8px;overflow:hidden}
 .exp-bar-fill{height:100%;border-radius:4px;background:var(--y);transition:width .4s}
 .exp-bar-amt{font-size:12px;font-weight:800;color:var(--ink);min-width:70px;text-align:right;flex-shrink:0}
-.exp-income-panel{background:linear-gradient(135deg,#1a3a1a,#1a4a1a);color:#fff;border-radius:12px;padding:12px 14px;margin-bottom:12px}
+.exp-income-panel{background:linear-gradient(135deg,#063d38,#0a5050);color:#fff;border-radius:12px;padding:12px 14px;margin-bottom:12px}
 .exp-income-title{font-size:13px;font-weight:900;opacity:.8;margin-bottom:6px}
 .exp-income-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:3px}
 .exp-income-lbl{font-size:13px;font-weight:600;opacity:.9}
@@ -331,15 +335,105 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
 .exp-cat-chip.active{color:#fff;border-color:transparent}
 .exp-mnbtn{background:var(--mid);border:1px solid var(--bdr);border-radius:8px;color:var(--ink);font-size:16px;width:34px;height:34px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center}
 .exp-mlbl{font-size:15px;font-weight:900;color:var(--y);flex:1;text-align:center}
+
+/* ══ 呈貝風格補充 ══ */
+.sec-card{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);margin-bottom:14px;overflow:hidden}
+.sec-card-hdr{padding:13px 16px 10px;border-bottom:1px solid rgba(14,159,142,.1);display:flex;align-items:center;gap:9px}
+.sec-card-title{font-size:14px;font-weight:800;color:var(--ink);flex:1}
+.sec-card-badge{font-family:'DM Mono',monospace;font-size:11px;background:var(--mid);color:var(--y);padding:2px 9px;border-radius:20px;font-weight:600}
+
+/* summary cards */
+.sum-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.sum-card{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.sum-card.hl{background:var(--y);border-color:var(--y)}
+.sum-lbl{font-size:11px;font-weight:600;color:var(--ink-light);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px}
+.sum-card.hl .sum-lbl{color:rgba(255,255,255,.8)}
+.sum-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:900;color:var(--ink);letter-spacing:-.4px}
+.sum-card.hl .sum-val{color:#fff}
+.sum-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;margin-top:4px;background:var(--mid);color:var(--y)}
+.sum-card.hl .sum-tag{background:rgba(255,255,255,.2);color:#fff}
+
+/* ptb toolbar */
+.ptb{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 4px}
+.ptb-btn{display:flex;align-items:center;gap:4px;padding:7px 13px;background:#fff;border:1.5px solid rgba(14,159,142,.25);border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--ink-mid);cursor:pointer;white-space:nowrap;transition:all .15s}
+.ptb-btn:hover{background:var(--y-light);border-color:var(--y);color:var(--y)}
+.ptb-btn.teal{color:var(--y);border-color:var(--y)}
+
+/* focus items 升級 */
+.focus-item{background:#fff;border:1px solid rgba(14,159,142,.14);border-radius:11px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:flex-start;gap:9px;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:box-shadow .15s}
+.focus-item:hover{box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.fdate{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--y);min-width:54px;flex-shrink:0;padding-top:2px}
+.ftext{font-size:14px;font-weight:700;color:var(--ink);line-height:1.4}
+.fnote{font-size:11.5px;color:var(--ink-light);margin-top:2px}
+.fbadge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;flex-shrink:0}
+.fb-ok{background:rgba(14,159,142,.12);color:var(--y)}
+.fb-warn{background:rgba(14,159,142,.12);color:var(--y)}
+.fb-red{background:rgba(204,34,34,.1);color:#cc2222}
+.fb-info{background:rgba(26,110,168,.1);color:#1a6ea8}
+.fb-rep{background:rgba(122,79,168,.1);color:#7a4fa8}
+
+/* forms 升級 */
+.form-input,.form-select,.bp-input,.med-input,.cc-fi,.cc-fs,.exp-add-inp,.exp-add-sel,.focus-add-inp,.focus-add-sel{background:var(--mid);border:1.5px solid rgba(14,159,142,.2);border-radius:9px;color:var(--ink);font-family:inherit;font-size:13.5px;padding:9px 11px;outline:none;transition:border-color .15s;width:100%}
+.form-input:focus,.form-select:focus,.bp-input:focus,.med-input:focus,.cc-fi:focus,.cc-fs:focus,.exp-add-inp:focus,.exp-add-sel:focus,.focus-add-inp:focus,.focus-add-sel:focus{border-color:var(--y);background:#fff}
+
+/* 按鈕統一 */
+.btn-add,.bp-btn,.med-btn,.cc-add-btn,.exp-add-btn,.focus-add-btn{background:var(--y);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.btn-add:hover,.bp-btn:hover,.med-btn:hover,.cc-add-btn:hover,.exp-add-btn:hover,.focus-add-btn:hover{opacity:.88}
+
+/* 月曆 teal */
+.cal-mlbl{font-size:16px;font-weight:900;color:var(--y);font-family:'Plus Jakarta Sans',sans-serif}
+.cal-nbtn{background:#fff;border:1.5px solid rgba(14,159,142,.2);border-radius:9px;color:var(--y);font-size:18px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cal-nbtn:hover{background:var(--y-light)}
+.cal-day:hover{background:var(--y-light)}
+.cal-day.today{background:rgba(14,159,142,.15);border:1.5px solid rgba(14,159,142,.45)}
+.dhol{font-size:8px;color:rgba(14,159,142,.7);text-align:center;line-height:1.2;max-width:100%;overflow:hidden}
+
+/* exp panel hdr teal */
+.exp-panel-hdr{padding:11px 14px;background:var(--y);color:#fff;display:flex;align-items:center;justify-content:space-between}
+
+/* cc-total teal */
+.cc-total{background:linear-gradient(135deg,#073d38,#0a5c54);color:#7ef5ec;padding:12px 16px;border-radius:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+
+/* income panel teal */
+.exp-income-panel{background:linear-gradient(135deg,#063d38,#0a5050);color:#fff;border-radius:12px;padding:12px 14px;margin-bottom:12px}
+
+/* add-form 升級 */
+.add-form,.bp-panel,.med-panel,.exp-add-form,.focus-add-form,.cc-add-form{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;padding:14px 16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.add-form-title,.bp-ftitle,.med-phdr,.focus-add-title,.cc-add-title,.exp-add-title{font-size:13.5px;font-weight:800;color:var(--y);margin-bottom:10px}
+
+/* exp-tab active teal */
+.exp-tab.active{background:var(--y);color:#fff;border-color:var(--y)}
+.exp-bar-fill{height:100%;border-radius:4px;background:var(--y);transition:width .4s}
+.exp-bar-track{flex:1;background:rgba(14,159,142,.1);border-radius:4px;height:8px;overflow:hidden}
+
+/* vcard teal */
+.vcard{background:#fff;border:1px solid rgba(14,159,142,.14);border-radius:13px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.vcard:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(0,0,0,.08)}
+.vcard.synced{border:2px solid var(--y);box-shadow:0 0 0 2px rgba(14,159,142,.12)}
+.month-lbl{font-size:13px;font-weight:900;letter-spacing:.08em;color:var(--y)}
+
+/* fb toast */
+#fb-toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;font-weight:700;opacity:0;transition:all .25s;z-index:700;pointer-events:none;white-space:nowrap}
+#fb-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:600px){
+  .sum-row{grid-template-columns:1fr 1fr}
+  .sum-row .sum-card:last-child{grid-column:1/-1}
+  .sum-val{font-size:17px}
+  .nav-tab{padding:10px 10px;font-size:12px}
+  .hstats{gap:0}
+  .hstat{padding:8px 10px}
+  .hstat-num{font-size:17px}
+}
 </style>
 <body>
 
 <!-- HEADER -->
-<div class="main-header">
+<header class="main-header">
   <div class="hrow1">
     <div class="htitles">
-      <div class="sub">2026 · 中華民國115年 · 整合健康管理版</div>
-      <div class="main">🗓 2026 年度行事曆</div>
+      <div class="sub">2026 · 中華民國115年</div>
+      <div class="main">🗓 年度行事曆</div>
     </div>
     <div class="hdate"><strong id="hdr-today"></strong><span id="hdr-wd"></span></div>
   </div>
@@ -350,7 +444,7 @@ body{background:var(--bg);color:var(--ink);font-family:'PingFang TC','Microsoft 
     <div class="hstat-div"></div>
     <div class="hstat"><span class="hstat-num" id="hstat-med">—</span><span class="hstat-lbl">目前用藥</span></div>
   </div>
-</div>
+</header>
 
 <!-- NAV -->
 <div class="nav-tabs">
@@ -861,7 +955,7 @@ function renderCal(){
 
     // dots: gold for events, green for medical
     const dots=[
-      ...evts.slice(0,2).map(()=>`<div class="dot" style="background:#b8760a"></div>`),
+      ...evts.slice(0,2).map(()=>`<div class="dot" style="background:var(--y)"></div>`),
       ...meds.slice(0,2).map(()=>`<div class="dot" style="background:#1a8a3a"></div>`)
     ].slice(0,4).join("");
 
@@ -1254,7 +1348,7 @@ function renderCC(){
     const rowBg=isAuto?'rgba(26,138,58,.04)':'#fff';
     const rowBorder=isPaid?'border-left:3px solid #1a8a3a':'border-left:3px solid transparent';
 
-    html+=`<tr style="background:${rowBg};${rowBorder};border-bottom:1px solid rgba(180,140,60,.1)">
+    html+=`<tr style="background:${rowBg};${rowBorder};border-bottom:1px solid rgba(14,159,142,.1)">
       <td style="padding:12px 14px">
         <div style="display:flex;align-items:center;gap:9px">
           <div style="width:5px;min-height:40px;border-radius:3px;flex-shrink:0;background:${bank.color}"></div>
@@ -1275,7 +1369,7 @@ function renderCC(){
           style="border:none;border-radius:20px;padding:7px 13px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap;
           ${isAuto
             ?'background:rgba(26,138,58,.15);color:#1a8a3a;outline:1.5px solid rgba(26,138,58,.3);'
-            :'background:rgba(184,118,10,.12);color:#b8760a;outline:1.5px solid rgba(184,118,10,.3);'
+            :'background:rgba(14,159,142,.12);color:#0E9F8E;outline:1.5px solid rgba(14,159,142,.3);'
           }">
           ${isAuto?'🔄 自動':'✋ 手動'}
         </button>
@@ -1283,7 +1377,7 @@ function renderCC(){
       <td style="padding:12px 14px">
         <!-- 金額輸入 -->
         <input type="number" placeholder="金額"
-          style="width:88px;font-size:13px;padding:5px 8px;border:1px solid rgba(180,140,60,.3);border-radius:8px;background:var(--mid);color:var(--ink);font-family:inherit;outline:none"
+          style="width:88px;font-size:13px;padding:5px 8px;border:1px solid rgba(14,159,142,.3);border-radius:8px;background:var(--mid);color:var(--ink);font-family:inherit;outline:none"
           onchange="updateCCAmount(${card.id},this.value)"
           value="${amount||''}"/>
       </td>
@@ -1627,7 +1721,7 @@ renderFocus();
 
 // ═══ 年度開銷記錄 ═══
 const EXP_CATS = ['🏠 居住','🍽️ 飲食','🚗 交通','🏥 醫療健康','👕 服飾','📚 教育','🎮 娛樂','💻 3C/設備','👨‍👩‍👧 家庭','💰 其他'];
-const CAT_COLORS = {'🏠 居住':'#1a6ea8','🍽️ 飲食':'#c05a1a','🚗 交通':'#1a8a3a','🏥 醫療健康':'#cc2222','👕 服飾':'#7a4fa8','📚 教育':'#1a8a5f','🎮 娛樂':'#c07a1a','💻 3C/設備':'#4a6fa8','👨‍👩‍👧 家庭':'#b8760a','💰 其他':'#555'};
+const CAT_COLORS = {'🏠 居住':'#1a6ea8','🍽️ 飲食':'#c05a1a','🚗 交通':'#1a8a3a','🏥 醫療健康':'#cc2222','👕 服飾':'#7a4fa8','📚 教育':'#1a8a5f','🎮 娛樂':'#c07a1a','💻 3C/設備':'#4a6fa8','👨‍👩‍👧 家庭':'#0E9F8E','💰 其他':'#555'};
 
 // Seed data from xlsx (Jan–May known, rest pre-filled recurring)
 const EXP_SEED = [
@@ -1725,11 +1819,11 @@ const INC_SEED = [
   {id:'div878q2',month:6, year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q2配息'},
   {id:'div878q3',month:9, year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q3配息'},
   {id:'div878q4',month:12,year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q4配息'},
-  // 00918 大華優利高填息30：季配，發放月為 4、7、10、12 月（除息 3、6、9、12）
-  {id:'div918q1',month:4, year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q1配息'},
-  {id:'div918q2',month:7, year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q2配息'},
-  {id:'div918q3',month:10,year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q3配息'},
-  {id:'div918q4',month:12,year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q4配息'},
+  // 00918 大華優利高填息30：季配，除息3/6/9/12月 → 發放4/7/10/1月
+  {id:'div918q1',month:4, year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q1配息（除息3月）'},
+  {id:'div918q2',month:7, year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q2配息（除息6月）'},
+  {id:'div918q3',month:10,year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q3配息（除息9月）'},
+  {id:'div918q4',month:1, year:2027,amt:3720,src:'📈 00918 大華優利高填息30 Q4配息（除息12月）'},
   // 00981B 第一金優選非投債：月配息，每股約0.062元 × 19,000股 ≈ 1,178元/月
   ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'div981B_'+m,month:m,year:2026,amt:1178,src:'📈 00981B 第一金優選非投債 月配息'})),
   // 00981D 主動中信非投等債：月配息，每股約0.070元 × 19,000股 ≈ 1,330元/月
@@ -1902,7 +1996,7 @@ function renderExpOverview(){
       <div style="font-size:11px;opacity:.5;margin-top:8px;line-height:1.7">
         ※ 依存股計劃持股計算（2026/05/16更新）：<br>
         　00878 50張 × $0.42 = 季配 $21,000（3,6,9,12月）<br>
-        　00918 6張 × $0.62 = 季配 $3,720（3,6,9,12月）<br>
+        　00918 6張 × $0.62 = 季配 $3,720（4,7,10月+隔年1月）<br>
         　00981B 15張 × $0.072 = 月配 $1,080<br>
         　00981D 15張 × $0.070 = 月配 $1,050<br>
         　00400A 10張 × $0.075 = 月配 $750（7月起）<br>
@@ -1924,7 +2018,7 @@ function renderExpOverview(){
     const pct=Math.round(amt/maxAmt*100);
     const color=CAT_COLORS[cat]||'var(--y)';
     const isActive = expFilterCat===cat;
-    barsHtml+=`<div class="exp-bar-row" onclick="setExpCatFilter('${isActive?'all':cat}')" style="cursor:pointer;${isActive?'background:rgba(184,118,10,.07);border-radius:8px;margin-left:-4px;padding-left:4px':''}">
+    barsHtml+=`<div class="exp-bar-row" onclick="setExpCatFilter('${isActive?'all':cat}')" style="cursor:pointer;${isActive?'background:rgba(14,159,142,.07);border-radius:8px;margin-left:-4px;padding-left:4px':''}">
       <div class="exp-bar-lbl" style="${isActive?'color:var(--ink);font-weight:900':''}">${cat}</div>
       <div class="exp-bar-track"><div class="exp-bar-fill" style="width:${pct}%;background:${color};opacity:${isActive?1:.7}"></div></div>
       <div class="exp-bar-amt">${expFmt(amt)}</div>
@@ -2035,6 +2129,96 @@ function addCCCard(){
 .bpbtn.import:hover{background:rgba(26,110,168,.08)}
 .bpbtn.full{border-color:var(--y);color:var(--y);width:100%}
 .bpbtn.full:hover{background:var(--y-light)}
+
+/* ══ 呈貝風格補充 ══ */
+.sec-card{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);margin-bottom:14px;overflow:hidden}
+.sec-card-hdr{padding:13px 16px 10px;border-bottom:1px solid rgba(14,159,142,.1);display:flex;align-items:center;gap:9px}
+.sec-card-title{font-size:14px;font-weight:800;color:var(--ink);flex:1}
+.sec-card-badge{font-family:'DM Mono',monospace;font-size:11px;background:var(--mid);color:var(--y);padding:2px 9px;border-radius:20px;font-weight:600}
+
+/* summary cards */
+.sum-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.sum-card{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.sum-card.hl{background:var(--y);border-color:var(--y)}
+.sum-lbl{font-size:11px;font-weight:600;color:var(--ink-light);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px}
+.sum-card.hl .sum-lbl{color:rgba(255,255,255,.8)}
+.sum-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:900;color:var(--ink);letter-spacing:-.4px}
+.sum-card.hl .sum-val{color:#fff}
+.sum-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;margin-top:4px;background:var(--mid);color:var(--y)}
+.sum-card.hl .sum-tag{background:rgba(255,255,255,.2);color:#fff}
+
+/* ptb toolbar */
+.ptb{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0 4px}
+.ptb-btn{display:flex;align-items:center;gap:4px;padding:7px 13px;background:#fff;border:1.5px solid rgba(14,159,142,.25);border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--ink-mid);cursor:pointer;white-space:nowrap;transition:all .15s}
+.ptb-btn:hover{background:var(--y-light);border-color:var(--y);color:var(--y)}
+.ptb-btn.teal{color:var(--y);border-color:var(--y)}
+
+/* focus items 升級 */
+.focus-item{background:#fff;border:1px solid rgba(14,159,142,.14);border-radius:11px;padding:11px 13px;margin-bottom:8px;display:flex;align-items:flex-start;gap:9px;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:box-shadow .15s}
+.focus-item:hover{box-shadow:0 3px 10px rgba(0,0,0,.08)}
+.fdate{font-family:'DM Mono',monospace;font-size:11px;font-weight:700;color:var(--y);min-width:54px;flex-shrink:0;padding-top:2px}
+.ftext{font-size:14px;font-weight:700;color:var(--ink);line-height:1.4}
+.fnote{font-size:11.5px;color:var(--ink-light);margin-top:2px}
+.fbadge{font-size:11px;font-weight:700;padding:2px 8px;border-radius:8px;flex-shrink:0}
+.fb-ok{background:rgba(14,159,142,.12);color:var(--y)}
+.fb-warn{background:rgba(14,159,142,.12);color:var(--y)}
+.fb-red{background:rgba(204,34,34,.1);color:#cc2222}
+.fb-info{background:rgba(26,110,168,.1);color:#1a6ea8}
+.fb-rep{background:rgba(122,79,168,.1);color:#7a4fa8}
+
+/* forms 升級 */
+.form-input,.form-select,.bp-input,.med-input,.cc-fi,.cc-fs,.exp-add-inp,.exp-add-sel,.focus-add-inp,.focus-add-sel{background:var(--mid);border:1.5px solid rgba(14,159,142,.2);border-radius:9px;color:var(--ink);font-family:inherit;font-size:13.5px;padding:9px 11px;outline:none;transition:border-color .15s;width:100%}
+.form-input:focus,.form-select:focus,.bp-input:focus,.med-input:focus,.cc-fi:focus,.cc-fs:focus,.exp-add-inp:focus,.exp-add-sel:focus,.focus-add-inp:focus,.focus-add-sel:focus{border-color:var(--y);background:#fff}
+
+/* 按鈕統一 */
+.btn-add,.bp-btn,.med-btn,.cc-add-btn,.exp-add-btn,.focus-add-btn{background:var(--y);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.btn-add:hover,.bp-btn:hover,.med-btn:hover,.cc-add-btn:hover,.exp-add-btn:hover,.focus-add-btn:hover{opacity:.88}
+
+/* 月曆 teal */
+.cal-mlbl{font-size:16px;font-weight:900;color:var(--y);font-family:'Plus Jakarta Sans',sans-serif}
+.cal-nbtn{background:#fff;border:1.5px solid rgba(14,159,142,.2);border-radius:9px;color:var(--y);font-size:18px;width:38px;height:38px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.cal-nbtn:hover{background:var(--y-light)}
+.cal-day:hover{background:var(--y-light)}
+.cal-day.today{background:rgba(14,159,142,.15);border:1.5px solid rgba(14,159,142,.45)}
+.dhol{font-size:8px;color:rgba(14,159,142,.7);text-align:center;line-height:1.2;max-width:100%;overflow:hidden}
+
+/* exp panel hdr teal */
+.exp-panel-hdr{padding:11px 14px;background:var(--y);color:#fff;display:flex;align-items:center;justify-content:space-between}
+
+/* cc-total teal */
+.cc-total{background:linear-gradient(135deg,#073d38,#0a5c54);color:#7ef5ec;padding:12px 16px;border-radius:12px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+
+/* income panel teal */
+.exp-income-panel{background:linear-gradient(135deg,#063d38,#0a5050);color:#fff;border-radius:12px;padding:12px 14px;margin-bottom:12px}
+
+/* add-form 升級 */
+.add-form,.bp-panel,.med-panel,.exp-add-form,.focus-add-form,.cc-add-form{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;padding:14px 16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.add-form-title,.bp-ftitle,.med-phdr,.focus-add-title,.cc-add-title,.exp-add-title{font-size:13.5px;font-weight:800;color:var(--y);margin-bottom:10px}
+
+/* exp-tab active teal */
+.exp-tab.active{background:var(--y);color:#fff;border-color:var(--y)}
+.exp-bar-fill{height:100%;border-radius:4px;background:var(--y);transition:width .4s}
+.exp-bar-track{flex:1;background:rgba(14,159,142,.1);border-radius:4px;height:8px;overflow:hidden}
+
+/* vcard teal */
+.vcard{background:#fff;border:1px solid rgba(14,159,142,.14);border-radius:13px;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.05);cursor:pointer;transition:transform .15s,box-shadow .15s}
+.vcard:hover{transform:translateY(-2px);box-shadow:0 5px 16px rgba(0,0,0,.08)}
+.vcard.synced{border:2px solid var(--y);box-shadow:0 0 0 2px rgba(14,159,142,.12)}
+.month-lbl{font-size:13px;font-weight:900;letter-spacing:.08em;color:var(--y)}
+
+/* fb toast */
+#fb-toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;font-weight:700;opacity:0;transition:all .25s;z-index:700;pointer-events:none;white-space:nowrap}
+#fb-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media(max-width:600px){
+  .sum-row{grid-template-columns:1fr 1fr}
+  .sum-row .sum-card:last-child{grid-column:1/-1}
+  .sum-val{font-size:17px}
+  .nav-tab{padding:10px 10px;font-size:12px}
+  .hstats{gap:0}
+  .hstat{padding:8px 10px}
+  .hstat-num{font-size:17px}
+}
 </style>
 
 <div class="fab-wrap">
