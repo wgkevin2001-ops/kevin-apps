@@ -7,18 +7,18 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
 <style>
   :root {
-    --ink: #2a1200;
-    --paper: rgba(255,248,235,0.82);
-    --amber: #b85c00;
-    --deep: #5c2800;
-    --cream: rgba(255,248,235,0.88);
-    --border: rgba(160,90,20,0.5);
+    --ink: #0a2e2a;
+    --paper: rgba(240,246,246,0.92);
+    --teal: #0E9F8E;
+    --deep: #065e55;
+    --cream: rgba(240,246,246,0.95);
+    --border: rgba(14,159,142,0.5);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    background: #c8a06a;
+    background: #0a7a6e;
     color: var(--ink);
     font-family: 'Noto Serif TC', serif;
     min-height: 100vh;
@@ -46,7 +46,7 @@
     display: inline-block;
     font-size: 11px;
     letter-spacing: 0.3em;
-    color: var(--amber);
+    color: var(--teal);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     padding: 5px 18px;
@@ -72,7 +72,7 @@
     font-family: 'Noto Serif TC', serif;
     font-size: 13px;
     font-weight: 600;
-    color: #5c2800;
+    color: #065e55;
     background: rgba(255,248,235,0.88);
     border: 1.5px solid var(--border);
     border-radius: 2px;
@@ -85,11 +85,11 @@
     gap: 4px;
   }
   .menu-btn .btn-icon { font-size: 20px; }
-  .menu-btn:hover { background: rgba(184,92,0,0.15); border-color: var(--amber); color: #3a1400; }
+  .menu-btn:hover { background: rgba(14,159,142,0.15); border-color: var(--teal); color: #3a1400; }
   .menu-btn.active {
-    background: var(--amber);
+    background: var(--teal);
     color: white;
-    border-color: var(--amber);
+    border-color: var(--teal);
   }
 
   /* Panels */
@@ -114,7 +114,7 @@
     display: inline-block;
     font-size: 11px;
     letter-spacing: 0.3em;
-    color: var(--amber);
+    color: var(--teal);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
     padding: 5px 18px;
@@ -131,7 +131,7 @@
     font-family: 'Playfair Display', serif;
     font-style: italic;
     font-size: 16px;
-    color: #5c2800;
+    color: #065e55;
     opacity: 0.75;
   }
 
@@ -153,7 +153,7 @@
     font-size: 12px;
     letter-spacing: 0.25em;
     text-transform: uppercase;
-    color: var(--amber);
+    color: var(--teal);
     margin-bottom: 22px;
   }
 
@@ -180,30 +180,30 @@
     position: absolute;
     top: 0; left: 0;
     width: 3px; height: 100%;
-    background: var(--amber);
+    background: var(--teal);
     border-radius: 2px 0 0 2px;
   }
   .ingredient-name {
     font-size: 14px;
     font-weight: 600;
-    color: #5c2800;
+    color: #065e55;
     margin-bottom: 5px;
   }
   .ingredient-amount {
     font-family: 'Playfair Display', serif;
     font-size: 24px;
     font-weight: 700;
-    color: #2a1200;
+    color: #0a2e2a;
     line-height: 1;
   }
   .ingredient-unit {
     font-size: 12px;
-    color: var(--amber);
+    color: var(--teal);
     margin-left: 3px;
   }
 
   .info-bar {
-    background: rgba(184,92,0,0.85); border: 1px solid rgba(160,90,20,0.6);
+    background: rgba(14,159,142,0.85); border: 1px solid rgba(14,159,142,0.6);
     color: #fff5e6;
     padding: 16px 24px;
     display: flex;
@@ -235,7 +235,7 @@
   .step-num {
     flex-shrink: 0;
     width: 36px; height: 36px;
-    background: var(--amber);
+    background: var(--teal);
     color: white;
     font-family: 'Playfair Display', serif;
     font-size: 16px;
@@ -256,19 +256,19 @@
   .note-box {
     background: rgba(255,248,235,0.88);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--amber);
+    border-left: 4px solid var(--teal);
     padding: 16px 20px;
     margin-top: 32px;
     font-size: 14px;
     line-height: 1.8;
-    color: #5c2800;
+    color: #065e55;
   }
   .note-box strong {
     display: block;
     font-size: 11px;
     letter-spacing: 0.2em;
     text-transform: uppercase;
-    color: var(--amber);
+    color: var(--teal);
     margin-bottom: 6px;
   }
 
@@ -277,7 +277,7 @@
     margin-top: 52px;
     font-size: 12px;
     letter-spacing: 0.15em;
-    color: var(--amber);
+    color: var(--teal);
     opacity: 0.6;
   }
 
@@ -324,7 +324,7 @@ body::after {
 
 <div style="max-width:500px; margin: 28px auto 0; padding: 16px; background: rgba(255,248,235,0.78); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
 
-  <div style="font-size:11px; letter-spacing:0.25em; color:var(--amber); text-transform:uppercase; margin-bottom:10px; padding-left:2px;">🍽 秘製食譜</div>
+  <div style="font-size:11px; letter-spacing:0.25em; color:var(--teal); text-transform:uppercase; margin-bottom:10px; padding-left:2px;">🍽 秘製食譜</div>
   <div class="menu-grid" style="margin:0 0 24px 0;">
     <button class="menu-btn active" onclick="showTab(0)"><span class="btn-icon">🫙</span>蒜蓉醬油膏</button>
     <button class="menu-btn" onclick="showTab(1)"><span class="btn-icon">🥒</span>涼拌小菜</button>
@@ -339,7 +339,7 @@ body::after {
   </div>
 
   <div style="border-top: 1px solid var(--border); margin-bottom:14px;"></div>
-  <div style="font-size:11px; letter-spacing:0.25em; color:var(--amber); text-transform:uppercase; margin-bottom:10px; padding-left:2px;">🛵 營運資訊</div>
+  <div style="font-size:11px; letter-spacing:0.25em; color:var(--teal); text-transform:uppercase; margin-bottom:10px; padding-left:2px;">🛵 營運資訊</div>
   <div class="menu-grid" style="margin:0 0 32px 0; grid-template-columns:1fr;">
     <button class="menu-btn" onclick="showTab(7)"><span class="btn-icon">🛵</span>外送平台 & 點餐系統</button>
   </div>
@@ -679,7 +679,7 @@ body::after {
 
     <div style="margin-top:24px; text-align:center;">
       <a href="https://merchants.ubereats.com" target="_blank" style="display:inline-block; background:var(--deep); color:white; padding:12px 24px; font-family:'Noto Serif TC',serif; font-size:13px; text-decoration:none; margin:6px;">Uber Eats 店家申請 →</a>
-      <a href="https://www.foodpanda.com.tw/vendor/signup" target="_blank" style="display:inline-block; background:var(--amber); color:white; padding:12px 24px; font-family:'Noto Serif TC',serif; font-size:13px; text-decoration:none; margin:6px;">Foodpanda 店家申請 →</a>
+      <a href="https://www.foodpanda.com.tw/vendor/signup" target="_blank" style="display:inline-block; background:var(--teal); color:white; padding:12px 24px; font-family:'Noto Serif TC',serif; font-size:13px; text-decoration:none; margin:6px;">Foodpanda 店家申請 →</a>
     </div>
 
     <div class="divider" style="margin-top:40px"><span class="divider-icon">🖥️</span></div>
