@@ -7,14 +7,14 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root {
-  --gold: #B8760A;
-  --gold2: #E6A800;
-  --bg: #F5F0E8;
+  --teal: #0E9F8E;
+  --teal2: #2AB5A5;
+  --bg: #F0F6F6;
   --card: #FFFFFF;
   --text: #2A2A2A;
   --muted: #888;
-  --border: rgba(184,118,10,0.22);
-  --shadow: rgba(184,118,10,0.15);
+  --border: rgba(14,159,142,0.22);
+  --shadow: rgba(14,159,142,0.15);
   --red: #CC2222;
   --green: #1A8A3A;
 }
@@ -40,7 +40,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 60% 50% at 15% 10%, rgba(184,118,10,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 15% 10%, rgba(14,159,142,0.09) 0%, transparent 60%),
     radial-gradient(ellipse 50% 40% at 85% 90%, rgba(230,168,0,0.07) 0%, transparent 55%);
 }
 
@@ -54,20 +54,20 @@ body::before {
 }
 .logo-ring {
   width: 80px; height: 80px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
   display: flex; align-items: center; justify-content: center;
   font-size: 36px; box-shadow: 0 8px 32px var(--shadow);
   margin-bottom: 20px; position: relative;
 }
 .logo-ring::after {
   content: ''; position: absolute; inset: -4px; border-radius: 50%;
-  border: 2px solid rgba(184,118,10,0.2);
+  border: 2px solid rgba(14,159,142,0.2);
   animation: pulse 2.5s ease-in-out infinite;
 }
 @keyframes pulse {
   0%,100%{transform:scale(1);opacity:.8} 50%{transform:scale(1.08);opacity:.3}
 }
-.login-title { font-size: 26px; font-weight: 900; color: var(--gold); text-align: center; margin-bottom: 6px; }
+.login-title { font-size: 26px; font-weight: 900; color: var(--teal); text-align: center; margin-bottom: 6px; }
 .login-sub { font-size: 14px; color: var(--muted); font-family: 'DM Mono', monospace; text-align: center; margin-bottom: 36px; }
 
 .login-card {
@@ -86,7 +86,7 @@ body::before {
   outline: none; transition: border-color .2s, box-shadow .2s;
 }
 .input-wrap input:focus {
-  border-color: var(--gold); box-shadow: 0 0 0 3px rgba(184,118,10,.12); background: #fff;
+  border-color: var(--teal); box-shadow: 0 0 0 3px rgba(14,159,142,.12); background: #fff;
 }
 .input-wrap input.shake { animation: shake .35s ease; border-color: var(--red); box-shadow: 0 0 0 3px rgba(204,34,34,.1); }
 .eye-btn {
@@ -97,7 +97,7 @@ body::before {
 
 .login-btn {
   width: 100%; padding: 15px;
-  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
   color: #fff; border: none; border-radius: 12px;
   font-family: 'Noto Sans TC', sans-serif; font-size: 17px; font-weight: 900;
   cursor: pointer; box-shadow: 0 4px 16px var(--shadow);
@@ -134,7 +134,7 @@ body::before {
 .lock-cd { font-size: 52px; font-weight: 900; color: var(--red); margin: 18px 0 6px; font-family: 'DM Mono', monospace; }
 .unlock-btn {
   margin-top: 18px; padding: 13px 32px;
-  background: var(--gold); color: #fff; border: none; border-radius: 11px;
+  background: var(--teal); color: #fff; border: none; border-radius: 11px;
   font-family: 'Noto Sans TC', sans-serif; font-size: 15px; font-weight: 700;
   cursor: pointer; display: none;
 }
@@ -149,12 +149,12 @@ body::before {
 .portal-header { text-align: center; margin-bottom: 28px; }
 .user-avatar {
   width: 68px; height: 68px; border-radius: 50%;
-  border: 3px solid var(--gold); margin: 0 auto 12px;
-  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  border: 3px solid var(--teal); margin: 0 auto 12px;
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
   display: flex; align-items: center; justify-content: center;
   font-size: 32px; box-shadow: 0 4px 16px var(--shadow);
 }
-.portal-greeting { font-size: 22px; font-weight: 900; color: var(--gold); }
+.portal-greeting { font-size: 22px; font-weight: 900; color: var(--teal); }
 .portal-clock { font-size: 13px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 4px; }
 .section-lbl {
   font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--muted);
@@ -171,16 +171,16 @@ body::before {
 }
 .app-card::before {
   content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-  width: 4px; background: var(--accent, var(--gold)); border-radius: 4px 0 0 4px;
+  width: 4px; background: var(--accent, var(--teal)); border-radius: 4px 0 0 4px;
 }
-.app-card:hover { box-shadow: 0 6px 24px var(--shadow); transform: translateY(-2px); border-color: rgba(184,118,10,.4); }
+.app-card:hover { box-shadow: 0 6px 24px var(--shadow); transform: translateY(-2px); border-color: rgba(14,159,142,.4); }
 .app-card:active { transform: scale(.98); }
 .app-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 26px; flex-shrink: 0; }
 .app-info { flex: 1; }
 .app-name { font-size: 17px; font-weight: 900; margin-bottom: 4px; }
 .app-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
 .app-arrow { font-size: 20px; color: #ddd; flex-shrink: 0; transition: transform .2s; }
-.app-card:hover .app-arrow { transform: translateX(4px); color: var(--gold); }
+.app-card:hover .app-arrow { transform: translateX(4px); color: var(--teal); }
 
 .logout-btn {
   background: none; border: 1px solid var(--border); border-radius: 10px;
@@ -218,7 +218,7 @@ body::before {
 }
 .cloud-badge.ok  { background: rgba(26,138,58,.12); color: #1A8A3A; }
 .cloud-badge.err { background: rgba(204,34,34,.10); color: #CC2222; }
-.cloud-badge.ing { background: rgba(184,118,10,.10); color: #B8760A; }
+.cloud-badge.ing { background: rgba(14,159,142,.10); color: #0E9F8E; }
 
 @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
@@ -230,7 +230,7 @@ body::before {
 .news-title { font-size: 12px; font-weight: 700; letter-spacing: .12em; color: var(--muted); font-family: 'DM Mono', monospace; text-transform: uppercase; }
 .news-add-btn {
   display: flex; align-items: center; gap: 5px;
-  background: linear-gradient(135deg, var(--gold), var(--gold2));
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
   color: #fff; border: none; border-radius: 20px;
   padding: 5px 13px; font-size: 12px; font-weight: 700;
   cursor: pointer; box-shadow: 0 2px 8px var(--shadow);
@@ -249,7 +249,7 @@ body::before {
   padding: 9px 14px 8px; display: flex; align-items: center; gap: 8px;
   border-bottom: 1px solid rgba(0,0,0,0.07);
 }
-.news-img-label { font-size: 12px; font-weight: 700; color: var(--ni-color, var(--gold)); letter-spacing: .04em; flex: 1; }
+.news-img-label { font-size: 12px; font-weight: 700; color: var(--ni-color, var(--teal)); letter-spacing: .04em; flex: 1; }
 .news-img-date { font-size: 10px; color: #bbb; font-family: 'DM Mono', monospace; }
 .news-img-wrap { position: relative; cursor: zoom-in; }
 .news-img-wrap img { width: 100%; display: block; }
@@ -272,8 +272,8 @@ body::before {
 .news-empty { text-align: center; font-size: 12px; color: #ccc; padding: 14px 0; font-family: 'DM Mono', monospace; }
 .news-sync-badge {
   text-align: center; font-size: 11px; font-weight: 700;
-  padding: 5px 0; background: #FFF8E8; color: #B8760A;
-  border-top: 1px solid rgba(184,118,10,0.15);
+  padding: 5px 0; background: #FFF8E8; color: #0E9F8E;
+  border-top: 1px solid rgba(14,159,142,0.15);
   font-family: 'DM Mono', monospace;
 }
 .news-sync-badge.synced { background: #F0FFF4; color: #1A8A3A; }
@@ -403,7 +403,7 @@ body {
   <div class="section-lbl">我的工具</div>
 
   <div class="app-cards">
-    <a class="app-card" href="計程車營收彙總.html" style="--accent:#B8760A">
+    <a class="app-card" href="計程車營收彙總.html" style="--teal:#0E9F8E">
       <div class="app-icon" style="background:linear-gradient(135deg,#FFF3DC,#FFE0A0)">🚖</div>
       <div class="app-info">
         <div class="app-name">計程車營收彙總</div>
@@ -412,7 +412,7 @@ body {
       <div class="app-arrow">›</div>
     </a>
 
-    <a class="app-card" href="呈貝目前持股.html" style="--accent:#1A8A3A">
+    <a class="app-card" href="呈貝目前持股.html" style="--teal:#1A8A3A">
       <div class="app-icon" style="background:linear-gradient(135deg,#DCF5E4,#B0E8C0)">📈</div>
       <div class="app-info">
         <div class="app-name">呈貝持股報告</div>
@@ -421,7 +421,7 @@ body {
       <div class="app-arrow">›</div>
     </a>
 
-    <a class="app-card" href="2026行事曆.html" style="--accent:#1A6EA8">
+    <a class="app-card" href="2026行事曆.html" style="--teal:#1A6EA8">
       <div class="app-icon" style="background:linear-gradient(135deg,#DCE8FF,#B0C8F0)">📅</div>
       <div class="app-info">
         <div class="app-name">2026 行事曆與健康管理</div>
@@ -430,7 +430,7 @@ body {
       <div class="app-arrow">›</div>
     </a>
 
-    <a class="app-card" href="menu.html" style="--accent:#E05A00">
+    <a class="app-card" href="menu.html" style="--teal:#E05A00">
       <div class="app-icon" style="background:linear-gradient(135deg,#FFF0DC,#FFD6A0)">🪿</div>
       <div class="app-info">
         <div class="app-name">鵝店食譜</div>
@@ -439,7 +439,7 @@ body {
       <div class="app-arrow">›</div>
     </a>
 
-    <a class="app-card" href="doc-viewer.html" style="--accent:#6A3EA8">
+    <a class="app-card" href="doc-viewer.html" style="--teal:#6A3EA8">
       <div class="app-icon" style="background:linear-gradient(135deg,#EEE0FF,#D4B8F0)">📂</div>
       <div class="app-info">
         <div class="app-name">文件管理系統</div>
@@ -448,7 +448,7 @@ body {
       <div class="app-arrow">›</div>
     </a>
 
-    <a class="app-card" href="goose-pos.html" style="--accent:#D4380D">
+    <a class="app-card" href="goose-pos.html" style="--teal:#D4380D">
       <div class="app-icon" style="background:linear-gradient(135deg,#FFF1EC,#FFD0BC)">🧾</div>
       <div class="app-info">
         <div class="app-name">鵝店訂餐系統</div>
@@ -511,7 +511,7 @@ function compressImage(file, callback) {
 function buildNewsItem(src, name, date, key) {
   var item = document.createElement('div');
   item.className = 'news-item';
-  item.style.cssText = '--ni-color:#B8760A';
+  item.style.cssText = '--ni-color:#0E9F8E';
   if (key) item.dataset.key = key;
 
   var hdr = document.createElement('div');
