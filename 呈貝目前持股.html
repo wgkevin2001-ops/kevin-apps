@@ -953,18 +953,18 @@ tbody td:last-child  { padding-right: 14px; }
   <div class="summary-row" style="margin-top:16px;">
     <div class="sum-card">
       <div class="sum-label">總市值</div>
-      <div class="sum-value">629,184</div>
-      <span class="sum-rate up">TWD</span>
+      <div class="sum-value" id="niu-total-val">—</div>
+      <span class="sum-rate up" id="niu-total-sub">TWD</span>
     </div>
     <div class="sum-card">
       <div class="sum-label">持股檔數</div>
-      <div class="sum-value">9</div>
+      <div class="sum-value" id="niu-count">—</div>
       <span class="sum-rate up" style="background:var(--gray-100);color:var(--gray-600);">檔</span>
     </div>
     <div class="sum-card highlight">
       <div class="sum-label">未實現損益</div>
-      <div class="sum-value">+74,617</div>
-      <span class="sum-rate up">TWD</span>
+      <div class="sum-value" id="niu-pnl">—</div>
+      <span class="sum-rate up" id="niu-pnl-rate">TWD</span>
     </div>
   </div>
 
@@ -1251,6 +1251,7 @@ async function fetchPrices() {
     updateUsPieChart();
     updateTwPieChart();
     updateChengSummary();
+    updateNiuSummary();
   } catch(e) {
     document.querySelectorAll('.page-footer').forEach(el => el.textContent = '⚠ 股價更新失敗 · 僅供參考');
   }
@@ -1469,6 +1470,76 @@ function updateUsPieChart() {
         <span class="rank-rate ${cls}">${d.rate||'—'}</span>
       </div>`;
     }).join(''); }
+}
+
+function updateNiuSummary() {
+  const allTr = document.querySelectorAll('#page-niu tr[data-code]');
+  const count = allTr.length;
+  const niuCountEl = document.getElementById('niu-count');
+  if (niuCountEl) niuCountEl.textContent = count;
+
+  let totalMkt = 0, totalPnl = 0, totalCost = 0, hasPrice = false;
+  allTr.forEach(tr => {
+    const avg    = parseFloat(tr.dataset.avg)    || 0;
+    const shares = parseFloat(tr.dataset.shares) || 0;
+    const priceEl = tr.querySelector('.live-price-cell');
+    const priceRaw = priceEl ? priceEl.textContent.replace(/,/g,'') : '';
+    const price = parseFloat(priceRaw);
+    if (!isNaN(price) && price > 0) {
+      totalMkt  += price * shares;
+      totalPnl  += (price - avg) * shares;
+      totalCost += avg * shares;
+      hasPrice = true;
+    } else if (avg > 0 && shares > 0) {
+      // 有靜態損益的特殊行（如台新新光庚特二，data-code="—"）
+      const pnlEl = tr.querySelector('.live-pnl, .pnl-up, .pnl-down');
+      if (pnlEl) {
+        const staticPnl = parseFloat(pnlEl.textContent.replace(/,/g,'')) || 0;
+        const staticPrice = avg + staticPnl / (shares || 1);
+        totalMkt  += staticPrice * shares;
+        totalPnl  += staticPnl;
+        totalCost += avg * shares;
+        hasPrice = true;
+      }
+    }
+  });
+
+  // 也抓 data-code="—" 那行（特殊股）
+  document.querySelectorAll('#page-niu tr[data-code="—"]').forEach(tr => {
+    const avg    = parseFloat(tr.dataset.avg)    || 0;
+    const shares = parseFloat(tr.dataset.shares) || 0;
+    const priceEl = tr.querySelector('.live-price-cell');
+    const price = parseFloat((priceEl ? priceEl.textContent : '').replace(/,/g,''));
+    if (!isNaN(price) && price > 0) {
+      totalMkt  += price * shares;
+      totalPnl  += (price - avg) * shares;
+      totalCost += avg * shares;
+      hasPrice = true;
+    }
+  });
+
+  if (!hasPrice) return;
+
+  const isPos = totalPnl >= 0;
+  const pct   = totalCost > 0 ? (totalPnl / totalCost * 100).toFixed(2) : '—';
+
+  const totalValEl = document.getElementById('niu-total-val');
+  if (totalValEl) totalValEl.textContent = Math.round(totalMkt).toLocaleString('zh-TW');
+
+  const pnlEl = document.getElementById('niu-pnl');
+  if (pnlEl) {
+    pnlEl.textContent = (isPos ? '+' : '') + Math.round(totalPnl).toLocaleString('zh-TW');
+    pnlEl.className   = 'sum-value ' + (isPos ? 'up' : 'down');
+  }
+
+  const pnlRateEl = document.getElementById('niu-pnl-rate');
+  if (pnlRateEl) {
+    pnlRateEl.textContent = pct !== '—' ? (isPos ? '+' : '') + pct + '%' : 'TWD';
+    pnlRateEl.className   = 'sum-rate ' + (isPos ? 'up' : 'down');
+  }
+
+  const subEl = document.getElementById('niu-total-sub');
+  if (subEl) subEl.textContent = 'TWD';
 }
 
 function updateChengSummary() {
@@ -1870,8 +1941,10 @@ setInterval(fetchPrices, 60000);
 updateUsPieChart();
 updateTwPieChart();
 updateChengSummary();
+updateNiuSummary();
 setTimeout(updateUsPieChart, 300);
 setTimeout(updateTwPieChart, 400);
+setTimeout(updateNiuSummary, 500);
 
 </script>
 
