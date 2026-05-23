@@ -305,42 +305,50 @@ select option{background:#F0F7F6}
 <!-- ══ 歷史記錄 ══ -->
 <div class="pane" id="pane-history">
 
-  <!-- 警語 -->
-  <div class="warn">
-    <div class="warn-ttl">⚠️ 重要資料安全警語</div>
-    <div class="warn-item" style="border-left:3px solid var(--rd)"><b style="color:var(--rd)">🗑️ 清除瀏覽器快取＝永久刪除所有記錄</b><br>手機清除 Chrome 快取或重置瀏覽器，記錄將<b>永久刪除無法復原</b>。</div>
-    <div class="warn-item" style="border-left:3px solid #E67E00"><b style="color:#E67E00">📱 換手機或重裝 App 記錄會消失</b><br>更換手機、恢復出廠設定，記錄不會自動轉移，請事先備份。</div>
-    <div class="warn-item" style="border-left:3px solid var(--bl)"><b style="color:var(--bl)">💾 手機空間不足時可能自動清除</b><br>請保持手機有足夠儲存空間，並定期備份。</div>
-    <div class="warn-item" style="border-left:3px solid var(--teal);background:#E6F4F2"><b style="color:var(--y)">✅ 建議每月至少備份一次</b><br>使用下方「匯出 Excel」或「複製 JSON」存到雲端或電腦。</div>
+  <!-- Firebase 雲端說明 -->
+  <div style="background:linear-gradient(135deg,#E6F4F2,#D4EDEA);border:1.5px solid rgba(15,171,142,.35);border-radius:14px;padding:16px;margin-bottom:12px">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+      <span style="font-size:22px">☁️</span>
+      <div>
+        <div style="font-size:15px;font-weight:900;color:var(--teal)">資料已儲存於 Firebase 雲端</div>
+        <div style="font-size:12px;color:#7AADA6;margin-top:1px">每次儲存記錄時自動同步，無需手動備份</div>
+      </div>
+    </div>
+    <div style="display:grid;gap:7px">
+      <div style="background:#fff;border-radius:9px;padding:11px 13px;display:flex;align-items:flex-start;gap:9px">
+        <span style="font-size:18px;flex-shrink:0">📱</span>
+        <div style="font-size:13px;color:#1A2E2C;line-height:1.7"><b style="color:var(--teal)">換手機／重裝不怕</b><br>只要開啟同一個 HTML 檔，資料會自動從雲端載入，不受裝置影響。</div>
+      </div>
+      <div style="background:#fff;border-radius:9px;padding:11px 13px;display:flex;align-items:flex-start;gap:9px">
+        <span style="font-size:18px;flex-shrink:0">🔄</span>
+        <div style="font-size:13px;color:#1A2E2C;line-height:1.7"><b style="color:var(--teal)">清除快取也沒關係</b><br>資料存在 Firebase，不存在瀏覽器本機，清除快取不會影響任何記錄。</div>
+      </div>
+      <div style="background:#fff;border-radius:9px;padding:11px 13px;display:flex;align-items:flex-start;gap:9px">
+        <span style="font-size:18px;flex-shrink:0">💻</span>
+        <div style="font-size:13px;color:#1A2E2C;line-height:1.7"><b style="color:var(--teal)">多裝置同步</b><br>手機、電腦、平板開啟同一個 HTML，都能即時看到相同資料。</div>
+      </div>
+    </div>
   </div>
 
   <!-- 備份工具 -->
   <div class="card" style="padding:14px;margin-bottom:12px">
-    <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:10px">📁 資料備份與搬移</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:8px">
+    <div style="font-size:13px;font-weight:700;color:var(--teal);margin-bottom:4px">📥 額外備份（選用）</div>
+    <div style="font-size:11px;color:#7AADA6;margin-bottom:10px">雲端資料已安全，以下為額外匯出留存用</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px">
       <button class="btn gr sm" onclick="exportExcel()">📊 匯出 Excel</button>
-      <button class="btn bl sm" onclick="document.getElementById('xl-in').click()">📥 匯入 Excel</button>
+      <button class="btn sm" onclick="exportJSON()" style="background:#7AADA6">💾 下載 JSON</button>
     </div>
     <input type="file" id="xl-in" accept=".xlsx,.xls" style="display:none" onchange="importExcel(this)">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
-      <button class="btn sm" onclick="copyJSON()" style="background:#888">📋 複製 JSON</button>
-      <button class="btn sm" onclick="exportJSON()" style="background:#aaa">💾 下載 JSON</button>
-    </div>
     <div style="font-size:11px;color:#aaa;margin-top:9px;line-height:1.9;background:var(--mid);border-radius:8px;padding:9px 11px">
-      <div style="font-weight:700;color:#888;margin-bottom:4px">📌 備份方式說明</div>
-      <b style="color:var(--teal)">📊 Excel 用途：</b>正式備份、每月月底備份、換版本搬資料，可用電腦 Excel/Google Sheets 開啟查看編輯<br>
-      <b style="color:var(--teal)">📋 JSON 用途：</b>換手機前快速備份、無法存檔時複製後傳給自己（LINE/Email 都可），離線狀態也能用，不需載入外部程式
+      <div style="font-weight:700;color:#4A7A75;margin-bottom:4px">📌 匯出說明</div>
+      <b style="color:var(--teal)">📊 Excel：</b>可用 Google Sheets / Excel 開啟，方便查帳或與他人分享<br>
+      <b style="color:#7AADA6">💾 JSON：</b>完整原始資料，可作為離線備份或版本搬移用
       <div style="height:1px;background:rgba(15,171,142,.2);margin:8px 0"></div>
-      <div style="font-weight:700;color:#888;margin-bottom:4px">🔄 換新版本流程</div>
-      <div style="color:#666;line-height:2">
-        ① 此頁按「📊 匯出 Excel」→ 存到 Google Drive<br>
-        ② 下載新版 HTML → 存到手機本機<br>
-        ③ Chrome 開啟新版 → 「📥 匯入 Excel」選擇剛才的檔案<br>
-        ④ 確認營收＋保養記錄筆數正確 ✅<br>
-        ⑤ 新版 HTML 也上傳 Google Drive 備份替換舊版
-      </div>
-      <div style="margin-top:6px;color:#aaa">
-        ⚠️ Google Drive 內的 HTML <b style="color:#2A2A2A">不能直接開啟</b>，需先下載到手機再用 Chrome 開啟
+      <div style="font-weight:700;color:#4A7A75;margin-bottom:4px">🔄 換新版 HTML 流程</div>
+      <div style="color:#4A7A75;line-height:2">
+        ① 下載新版 HTML → 存到手機本機<br>
+        ② Chrome 開啟新版 → 資料自動從 Firebase 載入 ✅<br>
+        ③ 確認記錄筆數正確即完成，<b>無需任何匯入操作</b>
       </div>
     </div>
   </div>
