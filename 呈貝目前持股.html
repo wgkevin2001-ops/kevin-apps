@@ -476,7 +476,18 @@ tbody td:last-child  { padding-right: 14px; }
 .etf-dot { width:9px; height:9px; border-radius:50%; flex-shrink:0; }
 .etf-id   { font-family:'DM Mono',monospace; font-size:11.5px; color:var(--gray-400); min-width:58px; font-weight:500; }
 .etf-nm   { flex:1; font-size:13.5px; font-weight:700; color:var(--gray-800); }
-.etf-detail { font-family:'DM Mono',monospace; font-size:10.5px; color:var(--gray-400); }
+.etf-detail {
+  font-family:'DM Mono',monospace; font-size:11px; color:var(--gray-500,#6B7280);
+  display:flex; align-items:center; gap:5px; flex-wrap:wrap;
+}
+.etf-formula {
+  font-family:'DM Mono',monospace; font-size:11px; color:var(--gray-500,#6B7280);
+  background:var(--gray-50,#F8F9FA); border:1px solid var(--gray-200,#E4E8EE);
+  border-radius:5px; padding:2px 7px; white-space:nowrap;
+}
+.etf-formula .op { color:var(--gray-400,#A0AAB8); margin:0 2px; }
+.etf-formula .result { color:var(--coral); font-weight:700; }
+.etf-exlabel { font-size:10px; color:var(--gray-400); }
 .etf-amt  { font-family:'DM Mono',monospace; font-size:14px; font-weight:800; color:var(--coral); min-width:76px; text-align:right; }
 .no-income { padding:12px 0; font-size:12px; color:var(--gray-400); text-align:center; border-top:1px solid var(--gray-100); }
 .month-bar { height:4px; background:var(--gray-100); margin:0 18px 12px; border-radius:2px; overflow:hidden; }
@@ -576,7 +587,8 @@ tbody td:last-child  { padding-right: 14px; }
   .month-num { font-size:18px; }
   .month-rows { padding:0 12px 10px; }
   .month-row { font-size:12px; gap:7px; }
-  .etf-detail { display:none; }
+  .etf-detail { font-size:10.5px; }
+  .etf-formula { font-size:10px; padding:1px 5px; }
   .modal-bg { padding:0; align-items:flex-end; }
   .modal-box { max-width:100%; border-radius:20px 20px 0 0; }
   .modal-body { padding:14px 16px; }
@@ -1026,6 +1038,7 @@ tbody td:last-child  { padding-right: 14px; }
     <div class="sum-card"><div class="sum-label">月均收息</div><div class="sum-value" style="color:#4A9FBE" id="plan-monthly">—</div></div>
     <div class="sum-card highlight"><div class="sum-label">最高配息月</div><div class="sum-value" id="plan-topmonth">—</div><span class="sum-rate up" id="plan-topval" style="background:rgba(255,255,255,.22);color:#fff;">—</span></div>
   </div>
+
 
 
   <div class="month-grid" id="plan-months"></div>
@@ -1632,8 +1645,8 @@ const ETF_COLORS  = { '00878':'#0E9F8E','00918':'#4ECDC4','00981D':'#DDA0DD','00
 let planEtfs = [
   { id:'00878',  name:'國泰永續高股息',  color:'#0E9F8E', held:48000, target:60000, divM:[3,6,9,12], divPu:0.66, dist:'季配', exM:[2,5,8,11] },
   { id:'00918',  name:'大華優利高填息30',color:'#4ECDC4', held:6000,  target:60000, divM:[4,7,10,1],  divPu:0.62, dist:'季配', exM:[3,6,9,12] },
-  { id:'00981D', name:'主動中信非投等債',color:'#DDA0DD', held:20000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, dist:'月配', exM:[] },
-  { id:'00981B', name:'第一金優選非投債',color:'#45B7D1', held:20000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.063, dist:'月配', exM:[] },
+  { id:'00981D', name:'主動中信非投等債',color:'#DDA0DD', held:17000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, dist:'月配', exM:[] },
+  { id:'00981B', name:'第一金優選非投債',color:'#45B7D1', held:17000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.063, dist:'月配', exM:[] },
   { id:'00400A', name:'主動國泰動能高息',color:'#FF9E9E', held:8150,  target:30000, divM:[], divPu:0, dist:'待定', exM:[] },
   { id:'00999A', name:'主動野村臺灣高息',color:'#FFEAA7', held:5200,  target:30000, divM:[], divPu:0, dist:'待定', exM:[] },
 ];
@@ -1647,6 +1660,22 @@ function planMode(m) {
 }
 
 function planRender() {
+  // 從「呈的持股」頁面動態同步 held（確保只算呈，不含妞）
+  // 只讀 #page-cheng 內 data-section=富邦/永豐 的 tr
+  const heldMap = {};
+  document.querySelectorAll('#page-cheng tr[data-code]').forEach(tr => {
+    const code = tr.dataset.code;
+    const shares = parseFloat(tr.dataset.shares) || 0;
+    if (!heldMap[code]) heldMap[code] = 0;
+    heldMap[code] += shares;
+  });
+  // 同步到 planEtfs
+  planEtfs.forEach(e => {
+    if (heldMap[e.id] !== undefined && heldMap[e.id] > 0) {
+      e.held = heldMap[e.id];
+    }
+  });
+
   const useTarget = _planMode === 'target';
   const months = Array.from({length:12}, (_,i) => {
     const m = i+1; let total = 0; const items = [];
@@ -1663,6 +1692,7 @@ function planRender() {
   });
 
   const annual  = months.reduce((s,d) => s+d.total, 0);
+
   const maxT    = Math.max(...months.map(d => d.total), 0);
   const topMs   = months.filter(d => d.total === maxT && maxT > 0);
   document.getElementById('plan-annual').textContent  = annual.toLocaleString() + ' 元';
@@ -1680,8 +1710,28 @@ function planRender() {
 
     const rowsHtml = d.items.length
       ? d.items.map(e => {
-          const exLabel = e.exM && e.exM.length ? `除息${e.exM[e.divM.indexOf(d.m) % e.exM.length]}月` : e.dist;
-          return `<div class="month-row"><div class="etf-dot" style="background:${e.color}"></div><div class="etf-id">${e.id}</div><div class="etf-nm">${e.name}</div><div class="etf-detail">${exLabel} · ${e.qty.toLocaleString()}股×${e.divPu}</div><div class="etf-amt">+${e.amt.toLocaleString()}</div></div>`;
+          const exIdx   = e.divM.indexOf(d.m);
+          const exLabel = e.exM && e.exM.length && exIdx >= 0 ? `除息${e.exM[exIdx % e.exM.length]}月` : e.dist;
+          const modeTag = useTarget ? '目標' : '現況';
+          const formula = `${e.qty.toLocaleString()} × ${e.divPu} = <span class="result">+${e.amt.toLocaleString()}</span>`;
+          return `<div class="month-row">
+            <div class="etf-dot" style="background:${e.color}"></div>
+            <div style="flex:1;min-width:0">
+              <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+                <span class="etf-id">${e.id}</span>
+                <span class="etf-nm">${e.name}</span>
+                <span class="etf-exlabel">${exLabel}</span>
+              </div>
+              <div class="etf-formula" style="margin-top:4px">
+                <span title="${modeTag}股數">${e.qty.toLocaleString()}股</span>
+                <span class="op">×</span>
+                <span title="每股配息">$${e.divPu}</span>
+                <span class="op">=</span>
+                <span class="result">+${e.amt.toLocaleString()}元</span>
+              </div>
+            </div>
+            <div class="etf-amt">+${e.amt.toLocaleString()}</div>
+          </div>`;
         }).join('')
       : '<div class="no-income">本月無配息</div>';
 
