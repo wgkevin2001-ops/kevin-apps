@@ -244,6 +244,104 @@ tbody td:last-child  { padding-right: 14px; }
 .op-btn.del { border-color: var(--red-bg); color: var(--red); }
 .op-btn.del:hover { background: var(--red-bg); }
 
+/* ── SORT SELECTOR ── */
+.sort-bar {
+  display: flex; align-items: center; gap: 6px;
+  padding: 8px 18px 4px;
+  border-bottom: 1px solid var(--gray-100);
+  overflow-x: auto; scrollbar-width: none;
+}
+.sort-bar::-webkit-scrollbar { display: none; }
+.sort-lbl {
+  font-size: 10.5px; font-weight: 600; color: var(--gray-400);
+  letter-spacing: .05em; text-transform: uppercase;
+  white-space: nowrap; flex-shrink: 0;
+}
+.sort-chip {
+  padding: 5px 12px;
+  border: 1.5px solid var(--gray-200);
+  border-radius: 20px;
+  background: var(--white);
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 12px; font-weight: 600;
+  color: var(--gray-600); cursor: pointer;
+  transition: all .15s; white-space: nowrap; flex-shrink: 0;
+}
+.sort-chip.active {
+  background: var(--coral-bg);
+  border-color: var(--coral);
+  color: var(--coral);
+}
+.sort-chip:hover:not(.active) { background: var(--gray-100); }
+.sort-dir {
+  margin-left: auto; flex-shrink: 0;
+  padding: 5px 10px;
+  border: 1.5px solid var(--gray-200); border-radius: 20px;
+  background: var(--white); cursor: pointer;
+  font-size: 12px; font-weight: 700; color: var(--gray-500, #6B7280);
+  transition: all .15s;
+}
+.sort-dir:hover { background: var(--gray-100); }
+
+/* ── STOCK CARDS ── */
+.stock-card-list { display: flex; flex-direction: column; gap: 0; }
+.stock-card {
+  padding: 12px 18px 14px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px 12px;
+  transition: background .12s;
+  position: relative;
+}
+/* 彩色分隔線：每張卡片底部漸層線 */
+.stock-card::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 18px; right: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--coral-lt) 0%, var(--pink) 60%, transparent 100%);
+  opacity: 0.35;
+}
+.stock-card:last-child::after { display: none; }
+.stock-card:hover { background: var(--gray-50); }
+.sc-top { display: flex; align-items: center; gap: 6px; }
+.sc-rank { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; color: var(--gray-400); min-width: 16px; }
+.sc-name { font-size: 13.5px; font-weight: 800; color: var(--gray-800); }
+.sc-code { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gray-500, #6B7280); margin-left: 2px; }
+.sc-rate {
+  font-family: 'DM Mono', monospace;
+  font-size: 15px; font-weight: 800;
+  text-align: right; align-self: start; padding-top: 2px;
+}
+.sc-rate.up   { color: var(--coral); }
+.sc-rate.down { color: var(--green); }
+/* 欄位區：兩行 grid，三欄嚴格對齊 */
+.sc-meta {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 0;
+  column-gap: 0;
+}
+.sc-meta-break {
+  grid-column: 1 / -1;
+  height: 1px;
+  background: var(--gray-100);
+  margin: 6px 0 4px;
+}
+.sc-meta-item { display: flex; flex-direction: column; gap: 2px; padding: 2px 0; }
+.sc-meta-label { font-size: 10px; color: var(--gray-400); font-weight: 500; letter-spacing: .04em; text-transform: uppercase; }
+.sc-meta-val { font-size: 13px; font-weight: 600; color: var(--gray-800); font-family: 'DM Mono', monospace; }
+.sc-pnl { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700; }
+.sc-pnl.up   { color: var(--coral); }
+.sc-pnl.down { color: var(--green); }
+@media(max-width:599px) {
+  .stock-card { padding: 12px 14px; }
+  .sc-name { font-size: 13px; }
+  .sc-rate { font-size: 14px; }
+}
+
 /* ── PIE CHART SECTION ── */
 .chart-row {
   display: flex; flex-direction: column;
@@ -1028,32 +1126,17 @@ tbody td:last-child  { padding-right: 14px; }
       <span class="section-badge" id="cnt-katai">13 檔</span>
       <button class="add-btn" onclick="openAdd('國泰')">＋ 新增</button>
     </div>
-    <!-- 台股圓餅圖 -->
-    <div class="chart-toggle-row">
-      <button class="chart-tab active" id="tw-ctab-weight" onclick="switchTwChart('weight')">📊 市值佔比</button>
-      <button class="chart-tab" id="tw-ctab-rank" onclick="switchTwChart('rank')">🏆 報酬排行</button>
+    <!-- 排序條件列 -->
+    <div class="sort-bar" id="tw-sort-bar">
+      <span class="sort-lbl">排序</span>
+      <button class="sort-chip active" onclick="setSort('tw','rate')">🏆 報酬率</button>
+      <button class="sort-chip" onclick="setSort('tw','mkt')">💰 市占比</button>
+      <button class="sort-chip" onclick="setSort('tw','price')">📈 股價</button>
+      <button class="sort-chip" onclick="setSort('tw','pnl')">💵 損益</button>
+      <button class="sort-dir" id="tw-sort-dir" onclick="toggleDir('tw')">↓</button>
     </div>
-    <div class="chart-row" id="tw-chart-weight">
-      <div class="pie-wrap">
-        <svg id="tw-pie" viewBox="0 0 170 170" style="width:170px;height:170px"></svg>
-        <div class="pie-center">
-          <div class="pie-center-lbl">市值佔比</div>
-          <div class="pie-center-val" id="tw-pie-center">—</div>
-        </div>
-      </div>
-      <div class="legend-list" id="tw-legend"></div>
-    </div>
-    <div class="chart-row" id="tw-chart-rank" style="display:none">
-      <div class="pie-wrap">
-        <svg id="tw-pie-rank" viewBox="0 0 170 170" style="width:170px;height:170px"></svg>
-        <div class="pie-center">
-          <div class="pie-center-lbl">報酬排行</div>
-          <div class="pie-center-val" id="tw-pie-rank-center">—</div>
-        </div>
-      </div>
-      <div class="legend-list" id="tw-legend-rank"></div>
-    </div>
-    <div class="tbl-wrap">
+    <div id="tw-card-list"></div>
+    <div class="tbl-wrap" style="display:none">
       <table id="tbl-katai">
         <thead><tr>
           <th onclick="sortTbl(this)" data-col="0" data-type="name" style="text-align:left">股票名稱</th>
@@ -1091,21 +1174,16 @@ tbody td:last-child  { padding-right: 14px; }
       <span class="section-badge">5 檔</span>
       <button class="add-btn" onclick="openAdd('富邦')">＋ 新增</button>
     </div>
-    <div class="chart-toggle-row">
-      <button class="chart-tab active" id="fb-ctab-weight" onclick="switchSectionChart('fb','weight')">📊 市值佔比</button>
-      <button class="chart-tab" id="fb-ctab-rank" onclick="switchSectionChart('fb','rank')">🏆 報酬排行</button>
+    <div class="sort-bar" id="fb-sort-bar">
+      <span class="sort-lbl">排序</span>
+      <button class="sort-chip active" onclick="setSort('fb','rate')">🏆 報酬率</button>
+      <button class="sort-chip" onclick="setSort('fb','mkt')">💰 市占比</button>
+      <button class="sort-chip" onclick="setSort('fb','price')">📈 股價</button>
+      <button class="sort-chip" onclick="setSort('fb','pnl')">💵 損益</button>
+      <button class="sort-dir" id="fb-sort-dir" onclick="toggleDir('fb')">↓</button>
     </div>
-    <div class="chart-row" id="fb-chart-weight">
-      <div class="pie-wrap">
-        <svg id="fb-pie" viewBox="0 0 170 170" style="width:170px;height:170px"></svg>
-        <div class="pie-center"><div class="pie-center-lbl">市值佔比</div><div class="pie-center-val" id="fb-pie-center">—</div></div>
-      </div>
-      <div class="legend-list" id="fb-legend"></div>
-    </div>
-    <div class="chart-row" id="fb-chart-rank" style="display:none;padding:8px 0 4px">
-      <div class="rank-list" id="fb-legend-rank" style="width:100%"></div>
-    </div>
-    <div class="tbl-wrap">
+    <div id="fb-card-list"></div>
+    <div class="tbl-wrap" style="display:none">
       <table>
         <thead><tr>
           <th style="text-align:left">股票名稱</th>
@@ -1131,21 +1209,16 @@ tbody td:last-child  { padding-right: 14px; }
       <span class="section-badge">2 檔</span>
       <button class="add-btn" onclick="openAdd('永豐')">＋ 新增</button>
     </div>
-    <div class="chart-toggle-row">
-      <button class="chart-tab active" id="yf-ctab-weight" onclick="switchSectionChart('yf','weight')">📊 市值佔比</button>
-      <button class="chart-tab" id="yf-ctab-rank" onclick="switchSectionChart('yf','rank')">🏆 報酬排行</button>
+    <div class="sort-bar" id="yf-sort-bar">
+      <span class="sort-lbl">排序</span>
+      <button class="sort-chip active" onclick="setSort('yf','rate')">🏆 報酬率</button>
+      <button class="sort-chip" onclick="setSort('yf','mkt')">💰 市占比</button>
+      <button class="sort-chip" onclick="setSort('yf','price')">📈 股價</button>
+      <button class="sort-chip" onclick="setSort('yf','pnl')">💵 損益</button>
+      <button class="sort-dir" id="yf-sort-dir" onclick="toggleDir('yf')">↓</button>
     </div>
-    <div class="chart-row" id="yf-chart-weight">
-      <div class="pie-wrap">
-        <svg id="yf-pie" viewBox="0 0 170 170" style="width:170px;height:170px"></svg>
-        <div class="pie-center"><div class="pie-center-lbl">市值佔比</div><div class="pie-center-val" id="yf-pie-center">—</div></div>
-      </div>
-      <div class="legend-list" id="yf-legend"></div>
-    </div>
-    <div class="chart-row" id="yf-chart-rank" style="display:none;padding:8px 0 4px">
-      <div class="rank-list" id="yf-legend-rank" style="width:100%"></div>
-    </div>
-    <div class="tbl-wrap">
+    <div id="yf-card-list"></div>
+    <div class="tbl-wrap" style="display:none">
       <table>
         <thead><tr>
           <th style="text-align:left">股票名稱</th>
@@ -1168,34 +1241,17 @@ tbody td:last-child  { padding-right: 14px; }
       <span class="section-badge" id="cnt-us">12 檔</span>
       <button class="add-btn" onclick="openAddUs()">＋ 新增</button>
     </div>
-    <!-- 圓餅圖 -->
-    <div class="chart-toggle-row">
-      <button class="chart-tab active" id="ctab-weight" onclick="switchChart('weight')">📊 市值佔比</button>
-      <button class="chart-tab" id="ctab-rank" onclick="switchChart('rank')">🏆 報酬排行</button>
+    <!-- 報酬排行卡片列表 -->
+    <div class="sort-bar" id="us-sort-bar">
+      <span class="sort-lbl">排序</span>
+      <button class="sort-chip active" onclick="setSort('us','rate')">🏆 報酬率</button>
+      <button class="sort-chip" onclick="setSort('us','mkt')">💰 市占比</button>
+      <button class="sort-chip" onclick="setSort('us','price')">📈 股價(USD)</button>
+      <button class="sort-chip" onclick="setSort('us','pnl')">💵 損益</button>
+      <button class="sort-dir" id="us-sort-dir" onclick="toggleDir('us')">↓</button>
     </div>
-    <!-- 市值佔比圖 -->
-    <div class="chart-row" id="chart-weight">
-      <div class="pie-wrap">
-        <svg id="us-pie" viewBox="0 0 170 170" style="width:170px;height:170px"></svg>
-        <div class="pie-center">
-          <div class="pie-center-lbl">市值佔比</div>
-          <div class="pie-center-val" id="pie-center-val">12檔</div>
-        </div>
-      </div>
-      <div class="legend-list" id="us-legend"></div>
-    </div>
-    <!-- 報酬排行圖 -->
-    <div class="chart-row" id="chart-rank" style="display:none">
-      <div class="pie-wrap">
-        <svg id="us-pie-rank" viewBox="0 0 170 170" style="width:170px;height:170px"></svg>
-        <div class="pie-center">
-          <div class="pie-center-lbl">報酬排行</div>
-          <div class="pie-center-val" id="pie-rank-center">—</div>
-        </div>
-      </div>
-      <div class="legend-list" id="us-legend-rank"></div>
-    </div>
-    <div class="tbl-wrap">
+    <div id="us-card-list"></div>
+    <div class="tbl-wrap" style="display:none">
       <table>
         <thead><tr>
           <th style="text-align:left">代號</th>
@@ -1672,10 +1728,213 @@ async function fetchPrices() {
     updateTwPieChart();
     updateFbPieChart();
     updateYfPieChart();
+    renderAllCards();
   } catch(e) {
     document.querySelectorAll('.page-footer').forEach(el => el.textContent = '⚠ 股價更新失敗 · 僅供參考');
   }
 }
+
+/* ══ STOCK CARD SORT STATE ══ */
+const _sortState = {
+  tw: { key: 'rate', asc: false },
+  fb: { key: 'rate', asc: false },
+  yf: { key: 'rate', asc: false },
+  us: { key: 'rate', asc: false },
+};
+
+function setSort(prefix, key) {
+  // 同一條件再按 → 切換方向
+  if (_sortState[prefix].key === key) {
+    _sortState[prefix].asc = !_sortState[prefix].asc;
+  } else {
+    _sortState[prefix].key = key;
+    _sortState[prefix].asc = false; // 換條件預設降序
+  }
+  // 更新 chip active 樣式
+  const bar = document.getElementById(prefix + '-sort-bar');
+  if (bar) bar.querySelectorAll('.sort-chip').forEach(btn => {
+    const btnKey = btn.getAttribute('onclick').match(/'([^']+)'\)$/)?.[1];
+    btn.classList.toggle('active', btnKey === key);
+  });
+  // 更新方向箭頭
+  const dirBtn = document.getElementById(prefix + '-sort-dir');
+  if (dirBtn) dirBtn.textContent = _sortState[prefix].asc ? '↑' : '↓';
+  // 重新渲染
+  if (prefix === 'us') renderUsCards();
+  else {
+    const sectionMap = { tw: '國泰', fb: '富邦', yf: '永豐' };
+    renderStockCards(sectionMap[prefix], prefix + '-card-list', prefix);
+  }
+}
+
+function toggleDir(prefix) {
+  _sortState[prefix].asc = !_sortState[prefix].asc;
+  const dirBtn = document.getElementById(prefix + '-sort-dir');
+  if (dirBtn) dirBtn.textContent = _sortState[prefix].asc ? '↑' : '↓';
+  if (prefix === 'us') renderUsCards();
+  else {
+    const sectionMap = { tw: '國泰', fb: '富邦', yf: '永豐' };
+    renderStockCards(sectionMap[prefix], prefix + '-card-list', prefix);
+  }
+}
+
+/* ══ STOCK CARD RENDERERS ══ */
+function renderStockCards(section, containerId, prefix) {
+  const container = document.getElementById(containerId);
+  if (!container) return;
+  const rows = document.querySelectorAll(`tbody[data-section="${section}"] tr[data-code]`);
+  const items = [];
+  let totalMkt = 0;
+  rows.forEach(tr => {
+    const nameEl = tr.querySelector('.sname');
+    const nm = nameEl ? nameEl.cloneNode(true) : null;
+    if (nm) nm.querySelectorAll('.etf-tag').forEach(t => t.remove());
+    const name = nm ? nm.textContent.trim() : tr.dataset.code;
+    const isEtf = !!tr.querySelector('.etf-tag');
+    const code = tr.dataset.code;
+    const avg = parseFloat(tr.dataset.avg) || 0;
+    const shares = parseFloat(tr.dataset.shares) || 0;
+    const priceEl = tr.querySelector('.live-price-cell');
+    const price = priceEl ? parseFloat(priceEl.textContent.replace(/,/g,'')) : 0;
+    const mkt = price > 0 ? price * shares : avg * shares;
+    totalMkt += mkt;
+    const displayPrice = price > 0
+      ? price.toLocaleString('zh-TW', {minimumFractionDigits:2,maximumFractionDigits:2})
+      : avg.toLocaleString('zh-TW');
+    // 直接計算損益與報酬率，不依賴 DOM 文字
+    let pnlText, pnlNum, rateText, rateNum;
+    if (price > 0 && avg > 0) {
+      pnlNum = (price - avg) * shares;
+      rateNum = (price - avg) / avg * 100;
+      pnlText = (pnlNum >= 0 ? '+' : '') + Math.round(pnlNum).toLocaleString('zh-TW');
+      rateText = (rateNum >= 0 ? '+' : '') + rateNum.toFixed(2) + '%';
+    } else {
+      const pnlEl = tr.querySelector('.live-pnl');
+      pnlText = pnlEl ? pnlEl.textContent.trim() : '—';
+      pnlNum = parseFloat((pnlText||'').replace(/,/g,'')) || 0;
+      const rateSp = tr.querySelector('.live-rate span');
+      rateText = rateSp ? rateSp.textContent.trim() : '—';
+      rateNum = parseFloat(rateText.replace('%','')) || 0;
+    }
+    items.push({ name, isEtf, code, avg, shares, price, mkt, displayPrice, pnlText, pnlNum, rateText, rateNum });
+  });
+
+  // 計算市占比
+  items.forEach(d => d.mktPct = totalMkt > 0 ? d.mkt / totalMkt * 100 : 0);
+
+  // 排序
+  const st = _sortState[prefix] || { key:'rate', asc:false };
+  const dir = st.asc ? 1 : -1;
+  items.sort((a,b) => {
+    if (st.key === 'rate') return dir * (a.rateNum - b.rateNum);
+    if (st.key === 'mkt')  return dir * (a.mktPct - b.mktPct);
+    if (st.key === 'price') return dir * (a.price - b.price);
+    if (st.key === 'pnl')  return dir * (a.pnlNum - b.pnlNum);
+    return 0;
+  });
+
+  // 右上角顯示當前排序值
+  const sortValFn = d => {
+    if (st.key === 'rate')  return `<span class="sc-rate ${d.rateText.startsWith('-')?'down':'up'}">${d.rateText}</span>`;
+    if (st.key === 'mkt')   return `<span class="sc-rate" style="color:var(--gray-600);font-size:13px">${d.mktPct.toFixed(1)}%</span>`;
+    if (st.key === 'price') return `<span class="sc-rate" style="color:var(--gray-800);font-size:13px">${d.displayPrice}</span>`;
+    if (st.key === 'pnl')   return `<span class="sc-rate ${d.pnlText.startsWith('-')?'down':'up'}">${d.pnlText}</span>`;
+    return '';
+  };
+
+  container.innerHTML = `<div class="stock-card-list">${items.map((d,i) => {
+    const rateUp = !d.rateText.startsWith('-');
+    const pnlUp = !d.pnlText.startsWith('-') && d.pnlText !== '—';
+    return `<div class="stock-card">
+      <div class="sc-top">
+        <span class="sc-rank">${i+1}</span>
+        <span class="sc-name">${d.name}</span>${d.isEtf ? '<span class="etf-tag">ETF</span>' : ''}
+        <span class="sc-code">${d.code}</span>
+      </div>
+      ${sortValFn(d)}
+      <div class="sc-meta">
+        <div class="sc-meta-item"><span class="sc-meta-label">現價</span><span class="sc-meta-val">${d.displayPrice}</span></div>
+        <div class="sc-meta-item"><span class="sc-meta-label">均價</span><span class="sc-meta-val">${d.avg.toLocaleString('zh-TW')}</span></div>
+        <div class="sc-meta-item"><span class="sc-meta-label">股數</span><span class="sc-meta-val">${d.shares.toLocaleString('zh-TW')}</span></div>
+        <div class="sc-meta-break"></div>
+        <div class="sc-meta-item"><span class="sc-meta-label">市占</span><span class="sc-meta-val">${d.mktPct.toFixed(1)}%</span></div>
+        <div class="sc-meta-item"><span class="sc-meta-label">損益</span><span class="sc-pnl ${pnlUp ? 'up' : 'down'}">${d.pnlText}</span></div>
+        <div class="sc-meta-item"><span class="sc-meta-label">報酬率</span><span class="sc-pnl ${rateUp ? 'up' : 'down'}">${d.rateText}</span></div>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function renderUsCards() {
+  const container = document.getElementById('us-card-list');
+  if (!container) return;
+  const rows = document.querySelectorAll('tbody[data-section="美股"] tr[data-us-code]');
+  const items = [];
+  let totalMkt = 0;
+  rows.forEach(tr => {
+    const code = tr.dataset.usCode;
+    const priceUsd = parseFloat(tr.dataset.usPrice) || 0;
+    const shares = parseFloat(tr.dataset.usShares) || 0;
+    const avg = parseFloat(tr.dataset.usAvg) || 0;
+    const mkt = priceUsd * shares * 32;
+    totalMkt += mkt;
+    const pnl = tr.dataset.usPnl || '—';
+    const pnlNum = parseFloat((pnl||'').replace(/,/g,'')) || 0;
+    const rate = tr.dataset.usRate || '—';
+    const rateNum = parseFloat(rate.replace('%','')) || 0;
+    items.push({ code, priceUsd, shares, avg, mkt, pnl, pnlNum, rate, rateNum });
+  });
+
+  items.forEach(d => d.mktPct = totalMkt > 0 ? d.mkt / totalMkt * 100 : 0);
+
+  const st = _sortState['us'] || { key:'rate', asc:false };
+  const dir = st.asc ? 1 : -1;
+  items.sort((a,b) => {
+    if (st.key === 'rate')  return dir * (a.rateNum - b.rateNum);
+    if (st.key === 'mkt')   return dir * (a.mktPct - b.mktPct);
+    if (st.key === 'price') return dir * (a.priceUsd - b.priceUsd);
+    if (st.key === 'pnl')   return dir * (a.pnlNum - b.pnlNum);
+    return 0;
+  });
+
+  const sortValFn = d => {
+    if (st.key === 'rate')  return `<span class="sc-rate ${d.rate.startsWith('-')?'down':'up'}">${d.rate}</span>`;
+    if (st.key === 'mkt')   return `<span class="sc-rate" style="color:var(--gray-600);font-size:13px">${d.mktPct.toFixed(1)}%</span>`;
+    if (st.key === 'price') return `<span class="sc-rate" style="color:var(--gray-800);font-size:13px">$${d.priceUsd}</span>`;
+    if (st.key === 'pnl')   return `<span class="sc-rate ${d.pnl.startsWith('-')?'down':'up'}">${d.pnl}</span>`;
+    return '';
+  };
+
+  container.innerHTML = `<div class="stock-card-list">${items.map((d,i) => {
+    const rateUp = !d.rate.startsWith('-');
+    const pnlUp = !d.pnl.startsWith('-') && d.pnl !== '—';
+    return `<div class="stock-card">
+      <div class="sc-top">
+        <span class="sc-rank">${i+1}</span>
+        <span class="sc-name" style="font-family:'DM Mono',monospace;font-size:14px">${d.code}</span>
+        <span class="sc-code">🇺🇸</span>
+      </div>
+      ${sortValFn(d)}
+      <div class="sc-meta">
+        <div class="sc-meta-item"><span class="sc-meta-label">現價(USD)</span><span class="sc-meta-val">$${d.priceUsd}</span></div>
+        <div class="sc-meta-item"><span class="sc-meta-label">均價(TWD)</span><span class="sc-meta-val">${d.avg}</span></div>
+        <div class="sc-meta-item"><span class="sc-meta-label">持股數</span><span class="sc-meta-val">${d.shares}</span></div>
+        <div class="sc-meta-break"></div>
+        <div class="sc-meta-item"><span class="sc-meta-label">市占</span><span class="sc-meta-val">${d.mktPct.toFixed(1)}%</span></div>
+        <div class="sc-meta-item"><span class="sc-meta-label">損益</span><span class="sc-pnl ${pnlUp?'up':'down'}">${d.pnl}</span></div>
+        <div class="sc-meta-item"><span class="sc-meta-label">報酬率</span><span class="sc-pnl ${rateUp?'up':'down'}">${d.rate}</span></div>
+      </div>
+    </div>`;
+  }).join('')}</div>`;
+}
+
+function renderAllCards() {
+  renderStockCards('國泰', 'tw-card-list', 'tw');
+  renderStockCards('富邦', 'fb-card-list', 'fb');
+  renderStockCards('永豐', 'yf-card-list', 'yf');
+  renderUsCards();
+}
+
 
 /* ══ PIE CHART (純 CSS+SVG，不需 Chart.js) ══ */
 const PIE_COLORS = ['#0E9F8E','#2AB5A5','#45B7D1','#45B7D1','#96CEB4','#FFEAA7','#DDA0DD','#98D8C8','#F7DC6F','#AED6F1','#A9DFBF','#F1948A'];
@@ -1743,42 +2002,36 @@ function buildPieChart(section, prefix) {
   if (!totalVal || data.length === 0) return;
 
   const rateClass = r => r.startsWith('-') ? 'down' : 'up';
-  const RANK_POS = ['#0E9F8E','#2AB5A5','#45B7D1','#7BC8E0','#A8DDE9'];
-  const RANK_NEG = ['#F1948A','#E74C3C'];
 
   // 圖1：市值佔比
   const byVal = [...data].sort((a,b) => b.val - a.val);
-  byVal.forEach((d,i) => d.color = PIE_COLORS[i % PIE_COLORS.length]);
-  const svgEl = document.getElementById(prefix+'-pie');
-  if (svgEl) drawDonut(prefix+'-pie', byVal, totalVal);
-  const cntEl = document.getElementById(prefix+'-pie-center');
-  if (cntEl) cntEl.textContent = data.length + '檔';
-  const top5 = byVal.slice(0, 5);
-  const otherPct = byVal.slice(5).reduce((s,d) => s + d.val/totalVal*100, 0);
+  const maxVal = (byVal[0] && byVal[0].val) || 1;
   const leg = document.getElementById(prefix+'-legend');
-  if (leg) leg.innerHTML = top5.map(d => `
-    <div class="legend-item">
-      <div class="legend-dot" style="background:${d.color}"></div>
-      <span class="legend-name"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:4px">${d.code}</span>${d.shortName}</span>
-      <span class="legend-pct">${(d.val/totalVal*100).toFixed(1)}%</span>
-      <span class="legend-rate ${rateClass(d.rate)}">${d.rate||'—'}</span>
-    </div>`).join('') + (otherPct > 0 ? `
-    <div class="legend-item">
-      <div class="legend-dot" style="background:${PIE_COLORS[5]}"></div>
-      <span class="legend-name">其他</span>
-      <span class="legend-pct">${otherPct.toFixed(1)}%</span>
-      <span class="legend-rate" style="color:var(--gray-400)">—</span>
-    </div>` : '');
-
-  // 圖2：報酬排行（純列表，無圓餅圖）
-  const byRate = [...data].sort((a,b) => b.rateNum - a.rateNum);
-  const legRank = document.getElementById(prefix+'-legend-rank');
-  if (legRank) { legRank.className='rank-list'; legRank.innerHTML = byRate.map((d,i) => {
-    const cls = d.rateNum >= 0 ? 'up' : 'down';
-    const rateColor = d.rateNum >= 0 ? 'var(--coral)' : '#cc2222';
+  if (leg) { leg.className='rank-list'; leg.innerHTML = byVal.map((d,i) => {
+    const pct = (d.val/totalVal*100).toFixed(1);
+    const barPct = (d.val/maxVal*100).toFixed(0);
+    const cls = rateClass(d.rate);
     return `<div class="rank-item" style="padding:9px 18px">
       <span class="rank-no">${i+1}</span>
       <span class="rank-name" style="flex:1"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:5px">${d.code}</span>${d.shortName}</span>
+      <div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${barPct}%;background:var(--coral)"></div></div>
+      <span style="font-family:'DM Mono',monospace;font-size:11.5px;font-weight:600;color:var(--gray-600);min-width:42px;text-align:right">${pct}%</span>
+      <span class="rank-rate ${cls}" style="font-size:13px;font-weight:700;min-width:68px;text-align:right">${d.rate||'—'}</span>
+    </div>`;
+  }).join(''); }
+
+  // 圖2：報酬排行（橫條列表）
+  const byRate = [...data].sort((a,b) => b.rateNum - a.rateNum);
+  const maxAbs = Math.max(...byRate.map(d=>Math.abs(d.rateNum)),1);
+  const legRank = document.getElementById(prefix+'-legend-rank');
+  if (legRank) { legRank.className='rank-list'; legRank.innerHTML = byRate.map((d,i) => {
+    const cls = d.rateNum >= 0 ? 'up' : 'down';
+    const barColor = d.rateNum >= 0 ? 'var(--coral)' : 'var(--green)';
+    const barPct = (Math.abs(d.rateNum)/maxAbs*100).toFixed(0);
+    return `<div class="rank-item" style="padding:9px 18px">
+      <span class="rank-no">${i+1}</span>
+      <span class="rank-name" style="flex:1"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:5px">${d.code}</span>${d.shortName}</span>
+      <div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
       <span class="rank-rate ${cls}" style="font-size:13.5px;font-weight:800;min-width:72px;text-align:right">${d.rate||'—'}</span>
     </div>`;
   }).join(''); }
@@ -1803,20 +2056,17 @@ function updateTwPieChart() {
   let totalVal = 0;
 
   rows.forEach(tr => {
-    // 市值 = 即時現價 × 股數
     const priceEl = tr.querySelector('.live-price-cell');
     const price   = priceEl ? parseFloat(priceEl.textContent.replace(/,/g,'')) : 0;
     const shares  = parseFloat(tr.dataset.shares) || 0;
     const avg     = parseFloat(tr.dataset.avg)    || 0;
-    const val     = price > 0 ? price * shares : avg * shares; // fallback 用均價
+    const val     = price > 0 ? price * shares : avg * shares;
     totalVal += val;
 
-    // 報酬率：從 live-rate span 取
     const rateSp  = tr.querySelector('.live-rate span');
     const rateStr = rateSp ? rateSp.textContent.trim() : '';
     const rateNum = parseFloat(rateStr.replace('%','')) || 0;
 
-    // 名稱
     const nameEl = tr.querySelector('.sname');
     const nm     = nameEl ? nameEl.cloneNode(true) : null;
     if (nm) nm.querySelectorAll('.etf-tag').forEach(t => t.remove());
@@ -1830,40 +2080,36 @@ function updateTwPieChart() {
 
   const rateClass = r => r.startsWith('-') ? 'down' : 'up';
 
-  // ── 圖1：市值佔比 ──
+  // ── 市值佔比：橫條排序列表 ──
   const byVal = [...data].sort((a,b) => b.val - a.val);
-  byVal.forEach((d,i) => d.color = PIE_COLORS[i % PIE_COLORS.length]);
-  drawDonut('tw-pie', byVal, totalVal);
-
-  const cntEl = document.getElementById('tw-pie-center');
-  if (cntEl) cntEl.textContent = data.length + '檔';
-
-  const top5 = byVal.slice(0,5);
-  const otherPct = byVal.slice(5).reduce((s,d) => s + d.val/totalVal*100, 0);
+  const maxVal = byVal[0].val || 1;
   const legend = document.getElementById('tw-legend');
-  if (legend) legend.innerHTML = top5.map((d,i) => `
-    <div class="legend-item">
-      <div class="legend-dot" style="background:${d.color}"></div>
-      <span class="legend-name"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:4px">${d.code}</span>${d.name.slice(0,6)}</span>
-      <span class="legend-pct">${(d.val/totalVal*100).toFixed(1)}%</span>
-      <span class="legend-rate ${rateClass(d.rate)}">${d.rate || '—'}</span>
-    </div>`).join('') + (otherPct > 0 ? `
-    <div class="legend-item">
-      <div class="legend-dot" style="background:${PIE_COLORS[5]}"></div>
-      <span class="legend-name">其他</span>
-      <span class="legend-pct">${otherPct.toFixed(1)}%</span>
-      <span class="legend-rate" style="color:var(--gray-400)">—</span>
-    </div>` : '');
+  if (legend) { legend.className='rank-list'; legend.innerHTML = byVal.map((d,i) => {
+    const pct = (d.val/totalVal*100).toFixed(1);
+    const barPct = (d.val/maxVal*100).toFixed(0);
+    const cls = rateClass(d.rate);
+    return `<div class="rank-item" style="padding:9px 18px">
+      <span class="rank-no">${i+1}</span>
+      <span class="rank-name" style="flex:1"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:5px">${d.code}</span>${d.name.slice(0,6)}</span>
+      <div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${barPct}%;background:var(--coral)"></div></div>
+      <span style="font-family:'DM Mono',monospace;font-size:11.5px;font-weight:600;color:var(--gray-600);min-width:42px;text-align:right">${pct}%</span>
+      <span class="rank-rate ${cls}" style="font-size:13px;font-weight:700;min-width:68px;text-align:right">${d.rate||'—'}</span>
+    </div>`;
+  }).join(''); }
 
-  // ── 圖2：報酬排行（純列表）──
+  // ── 報酬排行：橫條排序列表 ──
   const byRate = [...data].sort((a,b) => b.rateNum - a.rateNum);
   const legendRank = document.getElementById('tw-legend-rank');
   if (legendRank) { legendRank.className='rank-list'; legendRank.innerHTML =
     byRate.map((d,i) => {
       const cls = d.rateNum >= 0 ? 'up' : 'down';
+      const barColor = d.rateNum >= 0 ? 'var(--coral)' : 'var(--green)';
+      const maxAbs = Math.max(...byRate.map(x=>Math.abs(x.rateNum)),1);
+      const barPct = (Math.abs(d.rateNum)/maxAbs*100).toFixed(0);
       return `<div class="rank-item" style="padding:9px 18px">
         <span class="rank-no">${i+1}</span>
         <span class="rank-name" style="flex:1"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:5px">${d.code}</span>${d.name.slice(0,6)}</span>
+        <div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
         <span class="rank-rate ${cls}" style="font-size:13.5px;font-weight:800;min-width:72px;text-align:right">${d.rate||'—'}</span>
       </div>`;
     }).join(''); }
@@ -1884,65 +2130,39 @@ function updateUsPieChart() {
     data.push({ code: tr.dataset.usCode, val, rate: rateStr, rateNum, pnl, color: '' });
   });
 
-  // ── 圖1：市值佔比（按市值排序）──
-  const byVal = [...data].sort((a,b) => b.val - a.val);
-  byVal.forEach((d,i) => d.color = PIE_COLORS[i % PIE_COLORS.length]);
-  drawDonut('us-pie', byVal, totalVal);
-  const cntEl = document.getElementById('pie-center-val');
-  if(cntEl) cntEl.textContent = data.length + '檔';
-
   const rateClass = r => r.startsWith('-') ? 'down' : 'up';
-  const top5 = byVal.slice(0,5);
-  const otherPct = byVal.slice(5).reduce((s,d)=>s+d.val/totalVal*100,0);
+
+  // ── 市值佔比：橫條排序列表 ──
+  const byVal = [...data].sort((a,b) => b.val - a.val);
+  const maxVal = (byVal[0] && byVal[0].val) || 1;
   const legend = document.getElementById('us-legend');
-  if(legend) legend.innerHTML = top5.map((d,i) => `
-    <div class="legend-item">
-      <div class="legend-dot" style="background:${d.color}"></div>
-      <span class="legend-name">${d.code}</span>
-      <span class="legend-pct">${(d.val/totalVal*100).toFixed(1)}%</span>
-      <span class="legend-rate ${rateClass(d.rate)}">${d.rate||'—'}</span>
-    </div>`).join('') + (otherPct>0?`
-    <div class="legend-item">
-      <div class="legend-dot" style="background:${PIE_COLORS[5]}"></div>
-      <span class="legend-name">其他</span>
-      <span class="legend-pct">${otherPct.toFixed(1)}%</span>
-      <span class="legend-rate" style="color:var(--gray-400)">—</span>
-    </div>`:'');
+  if(legend) { legend.className='rank-list'; legend.innerHTML = byVal.map((d,i) => {
+    const pct = totalVal > 0 ? (d.val/totalVal*100).toFixed(1) : '0.0';
+    const barPct = (d.val/maxVal*100).toFixed(0);
+    const cls = rateClass(d.rate);
+    return `<div class="rank-item" style="padding:9px 18px">
+      <span class="rank-no">${i+1}</span>
+      <span class="rank-name" style="flex:1;font-family:'DM Mono',monospace;font-size:13px;font-weight:700">${d.code}</span>
+      <div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${barPct}%;background:var(--coral)"></div></div>
+      <span style="font-family:'DM Mono',monospace;font-size:11.5px;font-weight:600;color:var(--gray-600);min-width:42px;text-align:right">${pct}%</span>
+      <span class="rank-rate ${cls}" style="font-size:13px;font-weight:700;min-width:68px;text-align:right">${d.rate||'—'}</span>
+    </div>`;
+  }).join(''); }
 
-  // ── 圖2：報酬排行（按報酬率絕對值大小做圓餅，排行榜顯示真實正負）──
+  // ── 報酬排行：橫條排序列表 ──
   const byRate = [...data].sort((a,b) => b.rateNum - a.rateNum);
-  const RANK_COLORS_POS = ['#0E9F8E','#2AB5A5','#45B7D1','#7BC8E0','#A8DDE9'];
-  const RANK_COLORS_NEG = ['#F1948A','#E74C3C'];
-  byRate.forEach((d,i) => {
-    d.rankColor = d.rateNum >= 0
-      ? RANK_COLORS_POS[Math.min(i, RANK_COLORS_POS.length-1)]
-      : RANK_COLORS_NEG[Math.min(i - byRate.filter(x=>x.rateNum>=0).length, RANK_COLORS_NEG.length-1)];
-  });
-  // 圓餅用絕對值（讓每格面積反映報酬率大小）
-  const totalAbs = byRate.reduce((s,d)=>s+Math.abs(d.rateNum),0) || 1;
-  const rankSlices = byRate.map(d=>({...d, val:Math.abs(d.rateNum)||0.1}));
-  drawDonut('us-pie-rank', rankSlices, totalAbs);
-
-  // 最高報酬
-  const best = byRate[0];
-  const rankCenter = document.getElementById('pie-rank-center');
-  if(rankCenter) rankCenter.textContent = best ? best.rate : '—';
-  if(rankCenter) rankCenter.style.color = best && best.rateNum<0 ? 'var(--green)' : 'var(--coral)';
-
-  // 排行榜列表（橫條 bar）
   const maxAbs = Math.max(...byRate.map(d=>Math.abs(d.rateNum)),1);
   const legendRank = document.getElementById('us-legend-rank');
-  if(legendRank) { legendRank.className='legend-list'; legendRank.innerHTML =
+  if(legendRank) { legendRank.className='rank-list'; legendRank.innerHTML =
     byRate.map((d,i)=>{
       const barPct = (Math.abs(d.rateNum)/maxAbs*100).toFixed(0);
       const cls = d.rateNum>=0 ? 'up' : 'down';
       const barColor = d.rateNum>=0 ? 'var(--coral)' : 'var(--green)';
-      return `<div class="rank-item">
+      return `<div class="rank-item" style="padding:9px 18px">
         <span class="rank-no">${i+1}</span>
-        <div class="rank-dot" style="background:${d.rankColor}"></div>
-        <span class="rank-name"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:4px">${d.code}</span>${d.name.slice(0,6)}</span>
+        <span class="rank-name" style="flex:1;font-family:'DM Mono',monospace;font-size:13px;font-weight:700">${d.code}</span>
         <div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
-        <span class="rank-rate ${cls}">${d.rate||'—'}</span>
+        <span class="rank-rate ${cls}" style="font-size:13.5px;font-weight:800;min-width:72px;text-align:right">${d.rate||'—'}</span>
       </div>`;
     }).join(''); }
 }
@@ -2437,12 +2657,14 @@ window.addEventListener('holdings-ready', function() {
   updateUsPieChart();
   updateChengSummary();
   updateNiuSummary();
+  renderAllCards();
 });
 
 /* ══ INIT ══ */
 switchPage('cheng');
 fetchPrices();
 setInterval(fetchPrices, 60000);
+renderAllCards();
 updateUsPieChart();
 updateTwPieChart();
 updateFbPieChart();
@@ -2456,6 +2678,7 @@ setTimeout(updateYfPieChart, 500);
 setTimeout(updateNiuSummary, 550);
 setTimeout(updateChengSummary, 600);
 setTimeout(() => { renderLossCard('cheng'); renderLossCard('niu'); }, 700);
+setTimeout(renderAllCards, 800);
 
 </script>
 
