@@ -40,7 +40,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .hstat-div{width:1px;background:rgba(14,159,142,.2);align-self:stretch;margin:6px 0}
 
 /* ── NAV ── */
-.nav-tabs{display:flex;gap:3px;background:#fff;border-bottom:1px solid rgba(14,159,142,.15);padding:0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:0;z-index:90;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.nav-tabs{display:flex;gap:3px;background:#fff;border-bottom:1px solid rgba(14,159,142,.15);padding:0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:0;z-index:90;box-shadow:0 1px 3px rgba(0,0,0,.05);-webkit-overflow-scrolling:touch}
 .nav-tabs::-webkit-scrollbar{display:none}
 .nav-tab{flex:0 0 auto;padding:12px 14px;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:transparent;color:var(--ink-light);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .18s}
 .nav-tab.active{color:var(--y);border-bottom-color:var(--y);font-weight:700}
@@ -416,14 +416,216 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 #fb-toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;font-weight:700;opacity:0;transition:all .25s;z-index:700;pointer-events:none;white-space:nowrap}
 #fb-toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-@media(max-width:600px){
+/* ══════════════════════════════════════════
+   DESKTOP LAYOUT (≥ 900px) — 側邊欄導覽
+══════════════════════════════════════════ */
+@media(min-width:900px){
+  /* header 桌機加寬 */
+  .main-header{
+    padding:16px 32px 14px;
+    display:flex;align-items:center;gap:24px;
+  }
+  .hrow1{flex:1;margin-bottom:0}
+  .htitles .main{font-size:22px}
+  .hdate strong{font-size:17px}
+
+  /* header stats 橫排展開 */
+  .hstats{
+    flex:0 0 auto;border-radius:14px;
+    background:var(--mid);padding:4px;gap:0;
+  }
+  .hstat{padding:10px 20px;flex-direction:row;gap:10px;align-items:center}
+  .hstat-num{font-size:22px}
+  .hstat-lbl{font-size:11px;margin-top:0}
+  .hstat-div{width:1px;height:auto;margin:0;align-self:stretch}
+
+  /* ── SIDEBAR NAV ── */
+  .nav-tabs{
+    position:fixed;left:0;top:0;bottom:0;
+    width:190px;
+    flex-direction:column;
+    align-items:stretch;
+    padding:80px 10px 24px;
+    background:#fff;
+    border-right:1px solid rgba(14,159,142,.14);
+    border-bottom:none;
+    overflow-y:auto;overflow-x:hidden;
+    box-shadow:2px 0 12px rgba(0,0,0,.04);
+    gap:3px;z-index:150;
+  }
+  .nav-tab{
+    padding:11px 14px;
+    border-bottom:none;
+    border-left:3px solid transparent;
+    margin-bottom:0;
+    border-radius:10px;
+    text-align:left;
+    font-size:13.5px;
+  }
+  .nav-tab.active{
+    border-bottom:none;
+    border-left-color:var(--y);
+    background:var(--y-light);
+    color:var(--y);font-weight:800;
+  }
+  .nav-tab:hover:not(.active){border-radius:10px;border-left-color:transparent}
+
+  /* header 左邊讓出側邊欄空間 */
+  .main-header{padding-left:210px}
+
+  /* content area 左移讓出側邊欄 */
+  .section{padding-left:190px}
+  .content{padding:24px 32px 60px;max-width:1120px}
+
+  /* 月曆格子加大 */
+  .cal-day{min-height:72px;padding:5px 3px 4px}
+  .dnum{font-size:15px}
+  .ddots{gap:3px;margin-top:3px}
+  .dot{width:7px;height:7px}
+  .dhol{font-size:9px}
+
+  /* cards grid 桌機多欄 */
+  .cards-grid{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+
+  /* summary row 四欄 */
+  .sum-row{grid-template-columns:repeat(4,1fr)}
+
+  /* forms 更多欄 */
+  .form-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+  .bp-inputs{grid-template-columns:repeat(auto-fit,minmax(110px,1fr))}
+  .cc-fg{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  .exp-add-grid{grid-template-columns:repeat(auto-fill,minmax(140px,1fr))}
+
+  /* 表格字級 */
+  .bp-table,.med-table,.cc-table,.exp-table{font-size:14px}
+  .bpmono,.cc-amt,.exp-amt{font-size:15px}
+
+  /* focus items */
+  .focus-item{padding:13px 16px}
+  .ftext{font-size:15px}
+
+  /* modal 桌機置中 */
+  .modal-overlay{align-items:center}
+  .modal{border-radius:20px;max-height:85vh;width:520px}
+
+  /* fb-toast */
+  #fb-toast{bottom:24px}
+
+  /* exp summary */
+  .exp-summary-grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+
+  /* 表單 padding */
+  .add-form,.bp-panel,.med-panel,.exp-add-form,.focus-add-form,.cc-add-form{
+    padding:18px 20px;
+  }
+}
+
+/* ══════════════════════════════════════════
+   TABLET (600px – 899px)
+══════════════════════════════════════════ */
+@media(min-width:600px) and (max-width:899px){
+  .content{padding:16px 20px 80px;max-width:720px}
+  .cards-grid{grid-template-columns:repeat(2,1fr)}
+  .sum-row{grid-template-columns:repeat(3,1fr)}
+  .cal-day{min-height:60px}
+  .dnum{font-size:14px}
+  .main-header{padding:14px 20px 12px}
+  .hstat{padding:10px 14px}
+  .hstat-num{font-size:18px}
+}
+
+/* ══════════════════════════════════════════
+   MOBILE (< 600px)
+══════════════════════════════════════════ */
+@media(max-width:599px){
+  /* nav 底部固定 tab bar */
+  .nav-tabs{
+    position:fixed;bottom:0;left:0;right:0;top:auto;
+    display:flex;flex-direction:row;
+    overflow-x:auto;
+    padding:0 2px;
+    background:#fff;
+    border-top:1px solid rgba(14,159,142,.15);
+    border-bottom:none;
+    box-shadow:0 -2px 10px rgba(0,0,0,.07);
+    z-index:200;
+    -webkit-overflow-scrolling:touch;
+    height:54px;align-items:stretch;gap:0;
+  }
+  .nav-tabs::-webkit-scrollbar{display:none}
+  .nav-tab{
+    flex:1 0 auto;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    padding:5px 8px 3px;
+    font-size:9.5px;font-weight:600;
+    border-bottom:none;
+    border-top:2.5px solid transparent;
+    margin-bottom:0;
+    min-width:58px;max-width:80px;
+    line-height:1.2;gap:1px;
+    white-space:nowrap;text-align:center;
+  }
+  .nav-tab.active{
+    border-bottom:none;border-top-color:var(--y);
+    color:var(--y);background:var(--y-light);font-weight:800;
+  }
+
+  /* 底部 nav 留空 */
+  .content{padding:12px 12px 72px}
+
+  /* header 緊湊 */
+  .main-header{padding:10px 12px 8px}
+  .htitles .main{font-size:16px}
+  .hdate strong{font-size:13px}
+  .hstats{gap:0}
+  .hstat{padding:7px 8px}
+  .hstat-num{font-size:16px}
+  .hstat-lbl{font-size:9.5px}
+
+  /* sum row 2欄 */
   .sum-row{grid-template-columns:1fr 1fr}
   .sum-row .sum-card:last-child{grid-column:1/-1}
   .sum-val{font-size:17px}
-  .nav-tab{padding:10px 10px;font-size:12px}
-  .hstats{gap:0}
-  .hstat{padding:8px 10px}
-  .hstat-num{font-size:17px}
+  .sum-lbl{font-size:10px}
+
+  /* cards 單欄 */
+  .cards-grid{grid-template-columns:1fr}
+
+  /* 月曆 緊湊 */
+  .cal-day{min-height:44px;padding:2px 1px}
+  .dnum{font-size:12px}
+  .dhol{font-size:7.5px}
+  .dot{width:4px;height:4px}
+  .ddots{gap:1px}
+
+  /* focus items */
+  .ftext{font-size:13.5px}
+  .fdate{font-size:10.5px;min-width:46px}
+  .fbadge{font-size:10px;padding:2px 6px}
+
+  /* 表格橫滑 */
+  .bp-twrap,.cc-twrap{overflow-x:auto}
+
+  /* form grid 雙欄 */
+  .form-grid,.cc-fg,.exp-add-grid,.bp-inputs,.med-inputs{grid-template-columns:1fr 1fr}
+
+  /* modal 下方 slide-up */
+  .modal{border-radius:20px 20px 0 0;padding:16px 14px 32px}
+  .modal-title{font-size:16px}
+
+  /* fb toast 在底部 nav 上方 */
+  #fb-toast{bottom:62px;font-size:12px;padding:8px 16px}
+
+  /* 按鈕全寬 */
+  .btn-add,.bp-btn,.med-btn,.cc-add-btn,.exp-add-btn,.focus-add-btn{
+    padding:12px 20px;font-size:14px;width:100%;
+  }
+  .focus-sort-btn{padding:6px 10px;font-size:11.5px}
+
+  /* 減少多餘 margin */
+  .month-section{margin-bottom:14px}
+  .bp-panel,.med-panel,.cc-panel{margin-bottom:10px}
 }
 </style>
 <body>
