@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>文件管理系統 · DocViewer</title>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.6.0/mammoth.browser.min.js"></script>
@@ -18,7 +18,7 @@
   --shadow-sm:0 1px 3px rgba(0,0,0,.06);--shadow:0 4px 16px rgba(0,0,0,.08);
   --sidebar-w:272px;--topbar-h:56px;
 }
-body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jakarta Sans','PingFang TC',sans-serif;height:100vh;overflow:hidden;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jakarta Sans','PingFang TC',sans-serif;height:100dvh;height:100vh;overflow:hidden;display:flex;flex-direction:column;-webkit-font-smoothing:antialiased}
 /* TOPBAR */
 .topbar{display:flex;align-items:center;gap:.75rem;padding:0 1rem;height:var(--topbar-h);background:#fff;border-bottom:1px solid rgba(14,159,142,.15);flex-shrink:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .logo-icon{width:30px;height:30px;background:var(--y);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
@@ -193,7 +193,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   .resize-handle{display:none}
 
   /* main: stack vertically, sidebar becomes full panel */
-  body{overflow:hidden}
+  body{overflow:hidden;height:100dvh}
   .main{flex-direction:column;flex:1;overflow:hidden;position:relative}
 
   /* sidebar becomes hidden overlay panel, slides in */
@@ -222,14 +222,15 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   .mobile-nav{
     display:flex;background:#fff;border-top:1px solid rgba(14,159,142,.15);
     flex-shrink:0;z-index:60;
+    padding-bottom:env(safe-area-inset-bottom, 0px);
   }
   .mobile-nav-btn{
     flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:3px;padding:.6rem .3rem;border:none;background:none;cursor:pointer;
-    font-family:inherit;font-size:.6rem;color:var(--ink-light);transition:all .15s;
-    border-top:2px solid transparent;
+    gap:3px;padding:.65rem .3rem;border:none;background:none;cursor:pointer;
+    font-family:inherit;font-size:.62rem;color:var(--ink-light);transition:all .15s;
+    border-top:2.5px solid transparent;min-height:56px;
   }
-  .mobile-nav-btn .mnb-icon{font-size:1.25rem;line-height:1}
+  .mobile-nav-btn .mnb-icon{font-size:1.3rem;line-height:1}
   .mobile-nav-btn.active{color:var(--y);border-top-color:var(--y);background:var(--y-light)}
 
   /* cat group rows bigger touch targets */
@@ -269,6 +270,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     <button class="btn mobile-only" onclick="openCameraModal()" title="拍照">📷</button>
     <button class="btn mobile-only" onclick="clearAll()" title="清除">✕</button>
   </div>
+  <div id="ghStatusDot" style="display:none;width:8px;height:8px;border-radius:50%;background:var(--gr);flex-shrink:0" title="GitHub 已連接"></div>
   <input type="file" id="fileInput" style="display:none" accept=".xlsx,.xls,.csv,.docx,.doc,.pptx,.ppt,.pdf,.txt,.md,.png,.jpg,.jpeg,.gif,.webp,.bmp">
   <input type="file" id="cameraInput" style="display:none" accept="image/*" capture="environment">
 </div>
@@ -386,7 +388,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 <div class="modal-overlay" id="ghModal">
   <div class="modal" style="width:360px">
     <div class="modal-title">⚙️ 系統設定</div>
-    <div style="font-size:.75rem;color:var(--ink-light);line-height:1.6">設定 GitHub 上傳與 Gemini AI 辨識功能。</div>
+    <div style="font-size:.75rem;color:var(--ink-light);line-height:1.6">設定儲存於本機，重開頁面自動帶入。GitHub 欄位非必填，只用 Gemini 可留空。</div>
     <div class="modal-section">🤖 Gemini AI 辨識</div>
     <div class="gh-field"><label>Gemini API Key</label><input type="password" id="geminiKey" placeholder="AIza…" /></div>
     <div class="modal-section">☁️ GitHub 設定</div>
@@ -493,7 +495,7 @@ function renderCatList(){
     if(!files.length){fileList.innerHTML='<div class="cat-drop-hint">尚無文件</div>'}
     else files.forEach((f,idx)=>{
       const item=document.createElement('div');item.className='cat-file-item'+(activeFileRef&&activeFileRef.catId===cat.id&&activeFileRef.index===idx?' active':'');
-      item.innerHTML=`<span>${fileTypeIcon(f.name)}</span><span class="cat-file-name" title="${f.name}">${f.name}</span>${f.ghPath?'<span style="font-size:.6rem;color:var(--y)" title="來自GitHub">☁</span>':''}<button class="cat-file-btn" title="上傳GitHub" onclick="openGhUpload(fileStore['${cat.id}'][${idx}].fileObj,'${cat.label}');event.stopPropagation()">☁️</button><button class="cat-file-btn cat-file-del" title="移除" onclick="removeFile('${cat.id}',${idx},event)">✕</button>`;
+      item.innerHTML=`<span>${fileTypeIcon(f.name)}</span><span class="cat-file-name" title="${f.name}">${f.name}</span>${f.ghPath?'<span style="font-size:.6rem;color:var(--y)" title="來自GitHub">☁</span>':''}<button class="cat-file-btn" title="下載" onclick="downloadFile('${cat.id}',${idx});event.stopPropagation()">⬇️</button><button class="cat-file-btn" title="上傳GitHub" onclick="openGhUpload(fileStore['${cat.id}'][${idx}].fileObj,'${cat.label}');event.stopPropagation()">☁️</button><button class="cat-file-btn cat-file-del" title="移除" onclick="removeFile('${cat.id}',${idx},event)">✕</button>`;
       item.addEventListener('click',()=>openCatFile(cat.id,idx));
       fileList.appendChild(item);
     });
@@ -611,16 +613,149 @@ async function syncFromGitHub(){if(!ghSettings.token){openGhModal();return}const
 
 async function openGhFile(catId,idx){const f=fileStore[catId][idx];if(!f.ghUrl)return;const status=document.getElementById('syncStatus');status.style.display='block';status.style.color='var(--ink-light)';status.textContent=`⏳ 開啟 ${f.name}…`;try{const res=await fetch(f.ghUrl);if(!res.ok)throw new Error('下載失敗');const blob=await res.blob();const file=new File([blob],f.name,{type:blob.type});f.fileObj=file;activeFileRef={catId,idx};renderCatList();switchTab('outline');await loadFile(file);f.docData=docData;status.style.color='var(--gr)';status.textContent=`✅ 已開啟 ${f.name}`;setTimeout(()=>status.style.display='none',2000)}catch(e){status.style.color='var(--rd)';status.textContent=`❌ ${e.message}`}}
 
-let ghSettings=JSON.parse(sessionStorage.getItem('ghSettings')||'{}');let ghUploadFile=null;let ghSelectedFolder='合約';
-function openGhModal(){document.getElementById('ghToken').value=ghSettings.token||'';document.getElementById('ghOwner').value=ghSettings.owner||'';document.getElementById('ghRepo').value=ghSettings.repo||'';document.getElementById('ghBranch').value=ghSettings.branch||'main';document.getElementById('geminiKey').value=ghSettings.geminiKey||'';document.getElementById('ghSettingsStatus').textContent='';document.getElementById('ghModal').classList.add('show')}
+let ghSettings=JSON.parse(localStorage.getItem('ghSettings')||sessionStorage.getItem('ghSettings')||'{}');let ghUploadFile=null;let ghSelectedFolder='合約';
+function openGhModal(){document.getElementById('ghToken').value=ghSettings.token||'';document.getElementById('ghOwner').value=ghSettings.owner||'';document.getElementById('ghRepo').value=ghSettings.repo||'';document.getElementById('ghBranch').value=ghSettings.branch||'main';document.getElementById('geminiKey').value=ghSettings.geminiKey||'';
+  // Show current saved status
+  const parts=[];if(ghSettings.geminiKey)parts.push('Gemini ✓');if(ghSettings.token)parts.push('GitHub ✓');
+  document.getElementById('ghSettingsStatus').style.color='var(--gr)';
+  document.getElementById('ghSettingsStatus').textContent=parts.length?'已儲存：'+parts.join('　'):'';
+  document.getElementById('ghModal').classList.add('show')}
+function updateGhStatusDot(){const dot=document.getElementById('ghStatusDot');if(dot)dot.style.display=ghSettings.token?'block':'none'}
 function closeGhModal(){document.getElementById('ghModal').classList.remove('show')}
-function saveGhSettings(){ghSettings={token:document.getElementById('ghToken').value.trim(),owner:document.getElementById('ghOwner').value.trim(),repo:document.getElementById('ghRepo').value.trim(),branch:document.getElementById('ghBranch').value.trim()||'main',geminiKey:document.getElementById('geminiKey').value.trim()};if(!ghSettings.token||!ghSettings.owner||!ghSettings.repo){document.getElementById('ghSettingsStatus').style.color='var(--rd)';document.getElementById('ghSettingsStatus').textContent='⚠️ 請填寫 GitHub 必填欄位';return}sessionStorage.setItem('ghSettings',JSON.stringify(ghSettings));document.getElementById('ghSettingsStatus').style.color='var(--gr)';document.getElementById('ghSettingsStatus').textContent='✅ 設定已儲存';setTimeout(closeGhModal,1200)}
+function saveGhSettings(){
+  const token=document.getElementById('ghToken').value.trim();
+  const owner=document.getElementById('ghOwner').value.trim();
+  const repo=document.getElementById('ghRepo').value.trim();
+  const branch=document.getElementById('ghBranch').value.trim()||'main';
+  const geminiKey=document.getElementById('geminiKey').value.trim();
+  const statusEl=document.getElementById('ghSettingsStatus');
+  // GitHub fields: if any filled, all three required
+  if((token||owner||repo)&&(!token||!owner||!repo)){
+    statusEl.style.color='var(--rd)';
+    statusEl.textContent='⚠️ GitHub Token、帳號、Repo 請填寫完整（或全部留空）';
+    return;
+  }
+  ghSettings={token,owner,repo,branch,geminiKey};
+  localStorage.setItem('ghSettings',JSON.stringify(ghSettings));
+  sessionStorage.setItem('ghSettings',JSON.stringify(ghSettings));
+  statusEl.style.color='var(--gr)';
+  const parts=[];
+  if(geminiKey) parts.push('Gemini AI');
+  if(token) parts.push('GitHub');
+  statusEl.textContent='✅ 已儲存：'+(parts.length?parts.join('、'):'（空白）');
+  updateGhStatusDot();setTimeout(closeGhModal,1400);
+}
 
 function openGhUpload(file,suggestedFolder){if(!ghSettings.token){openGhModal();return}ghUploadFile=file;document.getElementById('ghUploadName').value=file.name||'document';document.getElementById('ghCustomPath').value='';document.getElementById('ghUploadStatus').textContent='';selectFolderById(suggestedFolder||'合約');document.getElementById('ghUploadModal').classList.add('show')}
 function closeGhUpload(){document.getElementById('ghUploadModal').classList.remove('show');ghUploadFile=null}
 function selectFolder(btn,folder){document.querySelectorAll('.gh-folder-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');ghSelectedFolder=folder}
 function selectFolderById(folder){document.querySelectorAll('#ghFolderBtns .gh-folder-btn').forEach(btn=>{if(btn.textContent.includes(folder)){btn.classList.add('active');ghSelectedFolder=folder}else btn.classList.remove('active')})}
 async function doGhUpload(){if(!ghUploadFile)return;const status=document.getElementById('ghUploadStatus');const fileName=document.getElementById('ghUploadName').value.trim();const customPath=document.getElementById('ghCustomPath').value.trim();const folder=customPath||ghSelectedFolder;const path=`${folder}/${fileName}`;status.style.color='var(--ink-light)';status.textContent='⏳ 上傳中…';try{const base64=await new Promise((res,rej)=>{const reader=new FileReader();reader.onload=()=>res(reader.result.split(',')[1]);reader.onerror=rej;reader.readAsDataURL(ghUploadFile)});const checkUrl=`https://api.github.com/repos/${ghSettings.owner}/${ghSettings.repo}/contents/${path}`;const headers={'Authorization':`token ${ghSettings.token}`,'Accept':'application/vnd.github+json','Content-Type':'application/json'};let sha=null;const checkRes=await fetch(checkUrl,{headers});if(checkRes.ok){const existing=await checkRes.json();sha=existing.sha}const body={message:`📄 上傳文件：${fileName}`,content:base64,branch:ghSettings.branch};if(sha)body.sha=sha;const uploadRes=await fetch(checkUrl,{method:'PUT',headers,body:JSON.stringify(body)});if(uploadRes.ok){status.style.color='var(--gr)';status.textContent=`✅ 已上傳到 ${folder}/${fileName}`;setTimeout(closeGhUpload,2000)}else{const err=await uploadRes.json();throw new Error(err.message||uploadRes.statusText)}}catch(e){status.style.color='var(--rd)';status.textContent=`❌ 上傳失敗：${e.message}`}}
+
+// ── LOCAL STORAGE PERSISTENCE ────────────────────────
+const LS_KEY = 'dv_filestore_v2';
+
+function saveToStorage() {
+  try {
+    const data = {};
+    CATEGORIES.forEach(cat => {
+      data[cat.id] = fileStore[cat.id].map(f => ({
+        name: f.name,
+        ghPath: f.ghPath || null,
+        ghUrl: f.ghUrl || null,
+        ghSha: f.ghSha || null,
+        // store file as base64 if small enough (<5MB)
+        b64: null
+      }));
+    });
+    localStorage.setItem(LS_KEY, JSON.stringify(data));
+  } catch(e) { console.warn('Storage save failed:', e); }
+}
+
+function saveFileToStorage(catId, idx) {
+  const f = fileStore[catId][idx];
+  if (!f.fileObj || f.fileObj.size > 5*1024*1024) { saveToStorage(); return; }
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(localStorage.getItem(LS_KEY) || '{}');
+      if (!data[catId]) data[catId] = [];
+      const entry = data[catId].find(x => x.name === f.name);
+      if (entry) entry.b64 = e.target.result;
+      localStorage.setItem(LS_KEY, JSON.stringify(data));
+    } catch(err) { console.warn('File save failed:', err); }
+  };
+  reader.readAsDataURL(f.fileObj);
+}
+
+function loadFromStorage() {
+  try {
+    const raw = localStorage.getItem(LS_KEY);
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    CATEGORIES.forEach(cat => {
+      if (!data[cat.id]) return;
+      data[cat.id].forEach(item => {
+        const existing = fileStore[cat.id].find(f => f.name === item.name);
+        if (existing) return;
+        let fileObj = null;
+        if (item.b64) {
+          try {
+            const arr = item.b64.split(',');
+            const mime = arr[0].match(/:(.*?);/)[1];
+            const bstr = atob(arr[1]);
+            const u8 = new Uint8Array(bstr.length);
+            for (let i=0;i<bstr.length;i++) u8[i]=bstr.charCodeAt(i);
+            fileObj = new File([u8], item.name, {type: mime});
+          } catch(e) {}
+        }
+        fileStore[cat.id].push({
+          name: item.name,
+          fileObj,
+          docData: null,
+          ghPath: item.ghPath,
+          ghUrl: item.ghUrl,
+          ghSha: item.ghSha,
+        });
+      });
+    });
+    renderCatList();
+  } catch(e) { console.warn('Storage load failed:', e); }
+}
+
+// Hook into assignFile to save after adding
+const _origAssignFile = assignFile;
+window.assignFile = function(catId) {
+  _origAssignFile(catId);
+  const idx = fileStore[catId].length - 1;
+  saveFileToStorage(catId, idx);
+};
+
+// Hook into removeFile to save after removing
+const _origRemoveFile = removeFile;
+window.removeFile = function(catId, idx, e) {
+  _origRemoveFile(catId, idx, e);
+  saveToStorage();
+};
+
+// Download a file from the store
+function downloadFile(catId, idx) {
+  const f = fileStore[catId][idx];
+  if (!f.fileObj) {
+    if (f.ghUrl) { window.open(f.ghUrl, '_blank'); return; }
+    alert('此文件尚未載入，請先點選開啟'); return;
+  }
+  const url = URL.createObjectURL(f.fileObj);
+  const a = document.createElement('a');
+  a.href = url; a.download = f.name;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+// Load saved files on startup
+loadFromStorage();
+updateGhStatusDot();
 
 // ── MOBILE TAB SWITCHING ──────────────────────────────
 function isMobile(){return window.innerWidth<=768}
