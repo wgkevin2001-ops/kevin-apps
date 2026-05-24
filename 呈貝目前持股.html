@@ -494,108 +494,172 @@ tbody td:last-child  { padding-right: 14px; }
 .month-bar-fill { height:100%; border-radius:2px; background:var(--coral); opacity:.35; transition:width .6s ease; }
 .month-card.top .month-bar-fill { opacity:1; }
 
-/* ── RESPONSIVE ── */
-/* ── MOBILE ── */
-@media (max-width:600px) {
-  .topnav { padding:0 12px; height:52px; gap:8px; }
-  .topnav-logo { font-size:14px; margin-right:8px; }
-  .topnav-tab { padding:6px 9px; font-size:11.5px; }
-  .topnav-right { gap:5px; }
-  .icon-btn { width:30px; height:30px; font-size:13px; }
-  .page { padding:12px; }
-  .summary-row { grid-template-columns:1fr 1fr; gap:8px; }
-  .summary-row .sum-card:last-child { grid-column:1 / -1; }
-  .plan-sum-row { grid-template-columns:1fr 1fr; gap:8px; }
-  .plan-sum-row .sum-card:last-child { grid-column:1 / -1; }
-  .sum-card { padding:12px 14px; }
-  .sum-value { font-size:19px; }
-  .sum-label { font-size:10px; }
-  .section-card { margin-bottom:10px; }
-  .section-hdr { padding:10px 14px 8px; flex-wrap:wrap; gap:6px; }
-  .section-title { font-size:13px; }
-  /* 手機版：卡片列取代橫向捲動 */
-  .tbl-wrap { overflow-x: visible; }
-  table { font-size:13px; min-width:0; width:100%; }
-  table thead { display:none; }           /* 隱藏 thead */
-  table tbody tr {
-    display: flex; flex-wrap: wrap;
-    align-items: center;
-    padding: 11px 14px 9px;
-    border-top: 1px solid var(--gray-100);
-    gap: 2px 0;
-    position: relative;
-  }
-  table tbody tr:first-child { border-top: none; }
-  table tbody td {
-    display: block;
-    padding: 0; text-align: left !important;
-    border: none;
-  }
-  /* 股票名稱：佔整行 */
-  table tbody td:first-child {
-    width: 100%; padding: 0 0 5px 0;
-  }
-  /* 現價 均價 股數：同一行各佔 1/3 */
-  table tbody td:nth-child(2),
-  table tbody td:nth-child(3),
-  table tbody td:nth-child(4) {
-    width: 33.33%;
-    font-size: 12px;
-  }
-  table tbody td:nth-child(2)::before { content: '現價 '; font-size:10px; color:var(--gray-400); font-weight:600; display:block; margin-bottom:1px; }
-  table tbody td:nth-child(3)::before { content: '均價 '; font-size:10px; color:var(--gray-400); font-weight:600; display:block; margin-bottom:1px; }
-  table tbody td:nth-child(4)::before { content: '股數 '; font-size:10px; color:var(--gray-400); font-weight:600; display:block; margin-bottom:1px; }
-  /* 損益 報酬率：換行，各佔一半 */
-  table tbody td:nth-child(5),
-  table tbody td:nth-child(6) {
-    width: 50%; margin-top: 7px;
-  }
-  table tbody td:nth-child(5)::before { content: '損益 '; font-size:10px; color:var(--gray-400); font-weight:600; display:block; margin-bottom:2px; }
-  /* 操作按鈕：絕對定位右上角 */
-  table tbody td:last-child {
-    position: absolute; top: 10px; right: 12px;
-    width: auto; display: flex; gap:4px;
-  }
-  /* 美股表格：7欄（代號 現價 均價 股數 損益 報酬 操作）*/
-  /* 第1欄代號：整行（同台股名稱） */
-  table tbody tr[data-us-code] td:nth-child(1) {
-    width: 100%; padding: 0 0 5px 0; font-size:15px; font-weight:800;
-  }
-  /* 現價USD 均價TWD 持股數：三欄並排 */
-  table tbody tr[data-us-code] td:nth-child(2),
-  table tbody tr[data-us-code] td:nth-child(3),
-  table tbody tr[data-us-code] td:nth-child(4) {
-    width: 33.33%; font-size:12.5px;
-  }
-  table tbody tr[data-us-code] td:nth-child(2)::before { content: '現價USD'; font-size:10px; color:var(--gray-400); font-weight:600; display:block; margin-bottom:1px; }
-  table tbody tr[data-us-code] td:nth-child(3)::before { content: '均價TWD'; font-size:10px; color:var(--gray-400); font-weight:600; display:block; margin-bottom:1px; }
-  table tbody tr[data-us-code] td:nth-child(4)::before { content: '持股數'; font-size:10px; color:var(--gray-400); font-weight:600; display:block; margin-bottom:1px; }
-  /* 損益TWD 報酬率：換行各佔一半 */
-  table tbody tr[data-us-code] td:nth-child(5) {
-    width: 50%; margin-top: 7px;
-  }
-  table tbody tr[data-us-code] td:nth-child(5)::before { content: '損益TWD'; font-size:10px; color:var(--gray-400); font-weight:600; display:block; margin-bottom:2px; }
-  table tbody tr[data-us-code] td:nth-child(6) {
-    width: 50%; margin-top: 7px;
-  }
-  /* 操作：右上角 */
-  table tbody tr[data-us-code] td:last-child { position:absolute; top:10px; right:12px; width:auto; display:flex; gap:4px; }
-  .pie-wrap { margin:0 auto; }
-  .plan-toggle { width:100%; }
-  .plan-toggle-btn { flex:1; padding:6px 10px; font-size:11px; }
-  .month-hdr { padding:10px 12px; }
-  .month-num { font-size:18px; }
-  .month-rows { padding:0 12px 10px; }
-  .month-row { font-size:12px; gap:7px; }
-  .etf-detail { font-size:10.5px; }
-  .etf-formula { font-size:10px; padding:1px 5px; }
-  .modal-bg { padding:0; align-items:flex-end; }
-  .modal-box { max-width:100%; border-radius:20px 20px 0 0; }
-  .modal-body { padding:14px 16px; }
-  .modal-footer { padding:0 16px 24px; }
-  .op-btn { padding:2px 6px; font-size:11px; }
+/* ══════════════════════════════════════════
+   DESKTOP (≥ 900px)
+══════════════════════════════════════════ */
+@media(min-width:900px){
+  /* page 讓出 sidebar 空間 */
+  .page { padding: 28px 40px 60px 210px !important; max-width: none; margin: 0; }
+
+  /* summary 3欄 */
+  .summary-row { grid-template-columns: repeat(3,1fr); gap:14px; }
+  .plan-sum-row { grid-template-columns: repeat(3,1fr); gap:14px; }
+
+  /* 表格字級加大 */
+  table { font-size:14px; }
+  thead th { padding:10px 16px; font-size:11px; }
+  tbody td { padding:13px 16px; }
+  .sname { font-size:14px; }
+  .mono,.pnl-up,.pnl-down { font-size:13.5px; }
+  .rate-pill { font-size:12px; padding:3px 10px; }
+
+  /* section card */
+  .section-hdr { padding:15px 20px 12px; }
+  .section-title { font-size:15px; }
+
+  /* sum card */
+  .sum-value { font-size:24px; }
+  .sum-label { font-size:11.5px; }
+
+  /* chart */
+  .chart-toggle-row { padding:14px 20px 0; }
+  .chart-tab { font-size:13px; padding:8px 18px; }
+  .chart-row { padding:20px; }
+  .pie-wrap { width:200px; height:200px; }
+  .pie-wrap svg,.pie-wrap canvas { width:200px !important; height:200px !important; }
+  .legend-name { font-size:14px; }
+  .legend-pct,.legend-rate { font-size:13px; }
+
+  /* plan */
+  .month-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:12px; }
+  .month-hdr { padding:16px 20px; }
+  .month-rows { padding:0 20px 16px; }
+  .etf-nm { font-size:14px; }
+  .etf-amt { font-size:15px; }
+
+  /* modal 桌機置中 */
+  .modal-bg { align-items:center; }
+  .modal-box { border-radius:20px; max-height:88vh; width:500px; }
+
+  /* fab panel */
+  #export-panel { right:0; }
+
+  /* cal-header */
+  .cal-header { padding:16px 32px 14px 210px !important; display:flex; align-items:center; gap:24px; }
+  .cal-hrow1 { flex:1; margin-bottom:0; }
+  .cal-htitles .cal-main { font-size:22px; }
+  .cal-hdate strong { font-size:17px; }
 }
 
+/* ══════════════════════════════════════════
+   TABLET (600px – 899px)
+══════════════════════════════════════════ */
+@media(min-width:600px) and (max-width:899px){
+  .page { padding:16px 20px 60px; }
+  .summary-row,.plan-sum-row { grid-template-columns:repeat(3,1fr); gap:10px; }
+  .section-hdr { padding:12px 16px 10px; }
+  table { font-size:13.5px; }
+  .month-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+}
+
+/* ══════════════════════════════════════════
+   MOBILE (≤ 599px)
+══════════════════════════════════════════ */
+@media(max-width:599px){
+  /* page 讓出 nav(50px) + header(~78px) */
+  .page { display:none; padding:12px 12px 28px; }
+  .page.active { display:block; padding-top:132px; }
+
+  /* 摘要 2欄，最後一張全寬 */
+  .summary-row { grid-template-columns:1fr 1fr; gap:9px; }
+  .summary-row .sum-card:last-child { grid-column:1/-1; }
+  .plan-sum-row { grid-template-columns:1fr 1fr; gap:9px; }
+  .plan-sum-row .sum-card:last-child { grid-column:1/-1; }
+  .sum-card { padding:13px 14px; }
+  .sum-value { font-size:20px; }
+  .sum-label { font-size:10.5px; }
+
+  /* section */
+  .section-card { margin-bottom:11px; }
+  .section-hdr { padding:11px 14px 9px; flex-wrap:wrap; gap:6px; }
+  .section-title { font-size:14px; }
+  .section-badge { font-size:11px; }
+
+  /* 表格 → 卡片列 */
+  .tbl-wrap { overflow-x:visible; }
+  table { font-size:13px; min-width:0; width:100%; }
+  table thead { display:none; }
+  table tbody tr {
+    display:flex; flex-wrap:wrap; align-items:flex-start;
+    padding:12px 14px 10px;
+    border-top:1px solid var(--gray-100);
+    gap:2px 0; position:relative;
+  }
+  table tbody tr:first-child { border-top:none; }
+  table tbody td { display:block; padding:0; text-align:left !important; border:none; }
+  table tbody td:first-child { width:100%; padding:0 48px 6px 0; }
+  table tbody td:nth-child(2),
+  table tbody td:nth-child(3),
+  table tbody td:nth-child(4) { width:33.33%; font-size:12.5px; padding-bottom:2px; }
+  table tbody td:nth-child(2)::before { content:'現價'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
+  table tbody td:nth-child(3)::before { content:'均價'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
+  table tbody td:nth-child(4)::before { content:'股數'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
+  table tbody td:nth-child(5),
+  table tbody td:nth-child(6) { width:50%; margin-top:8px; }
+  table tbody td:nth-child(5)::before { content:'損益'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
+  table tbody td:nth-child(6)::before { content:'報酬率'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
+  table tbody td:last-child { position:absolute; top:12px; right:12px; width:auto; display:flex; gap:5px; }
+  /* 美股 */
+  table tbody tr[data-us-code] td:nth-child(1) { width:100%; padding:0 48px 6px 0; }
+  table tbody tr[data-us-code] td:nth-child(2),
+  table tbody tr[data-us-code] td:nth-child(3),
+  table tbody tr[data-us-code] td:nth-child(4) { width:33.33%; font-size:12.5px; }
+  table tbody tr[data-us-code] td:nth-child(2)::before { content:'現價USD'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
+  table tbody tr[data-us-code] td:nth-child(3)::before { content:'均價TWD'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
+  table tbody tr[data-us-code] td:nth-child(4)::before { content:'持股數'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
+  table tbody tr[data-us-code] td:nth-child(5) { width:50%; margin-top:8px; }
+  table tbody tr[data-us-code] td:nth-child(5)::before { content:'損益TWD'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
+  table tbody tr[data-us-code] td:nth-child(6) { width:50%; margin-top:8px; }
+  table tbody tr[data-us-code] td:last-child { position:absolute; top:12px; right:12px; width:auto; display:flex; gap:5px; }
+
+  /* 圓餅圖 */
+  .pie-wrap { margin:0 auto; }
+  .chart-toggle-row { padding:10px 14px 0; gap:8px; }
+  .chart-tab { padding:7px 14px; font-size:12px; }
+  .chart-row { padding:14px 12px; }
+  .legend-name { font-size:13px; }
+  .legend-pct,.legend-rate,.rank-rate { font-size:12.5px; }
+
+  /* 操作按鈕 */
+  .op-btn { padding:4px 9px; font-size:11.5px; border-radius:8px; }
+  .add-btn { font-size:12px; padding:5px 11px; }
+
+  /* 存股計畫 */
+  .plan-toggle { width:100%; }
+  .plan-toggle-btn { flex:1; padding:7px 10px; font-size:12px; }
+  .month-hdr { padding:12px 14px; }
+  .month-num { font-size:20px; }
+  .month-name { font-size:14px; }
+  .month-total { font-size:17px; }
+  .month-rows { padding:0 14px 12px; }
+  .month-row { font-size:12.5px; gap:8px; padding:9px 0; }
+  .etf-id { font-size:11px; min-width:52px; }
+  .etf-nm { font-size:13px; }
+  .etf-amt { font-size:13px; min-width:64px; }
+  .etf-formula { font-size:10.5px; }
+
+  /* modal slide-up */
+  .modal-bg { padding:0; align-items:flex-end; }
+  .modal-box { max-width:100%; border-radius:20px 20px 0 0; }
+  .modal-body { padding:14px 16px; gap:10px; }
+  .modal-footer { padding:0 16px 28px; }
+  .field input,.field select { font-size:15px; padding:11px 12px; }
+
+  /* toast & fab */
+  #toast { bottom:20px; }
+  .fab { width:50px; height:50px; font-size:21px; }
+  #export-panel { min-width:200px; right:0; }
+}
 
 /* ── PAGE TOOLBAR ── */
 .page-toolbar {
@@ -731,19 +795,165 @@ tbody td:last-child  { padding-right: 14px; }
   .etf-tag { background:#EEF2FF !important; color:#6366F1 !important; -webkit-print-color-adjust:exact; }
   .page-footer { display:block !important; text-align:center; font-size:7pt; color:#A0AAB8; padding:6pt 0 0; }
 }
+
+/* ══ 行事曆風格 Top Bar ══ */
+.cal-header {
+  background: #fff;
+  border-bottom: 1px solid rgba(14,159,142,.15);
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  padding: 14px 16px 12px;
+}
+.cal-hrow1 { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+.cal-htitles .cal-sub { font-size:10.5px; color:#8592A3; letter-spacing:.06em; text-transform:uppercase; font-weight:500; font-family:'Noto Sans TC',sans-serif; }
+.cal-htitles .cal-main { font-size:18px; font-weight:900; color:#0E9F8E; letter-spacing:-.3px; margin-top:3px; font-family:'Plus Jakarta Sans',sans-serif; }
+.cal-hdate { text-align:right; font-size:11px; color:#8592A3; }
+.cal-hdate strong { display:block; font-size:15px; font-weight:800; color:#111827; margin-top:1px; font-family:'DM Mono',monospace; }
+
+/* Nav tabs 行事曆風格 */
+.cal-nav-tabs {
+  display: flex; gap: 3px;
+  background: #fff;
+  border-bottom: 1px solid rgba(14,159,142,.15);
+  padding: 0 12px;
+  overflow-x: auto; -webkit-overflow-scrolling: touch;
+  position: sticky; top: 0; z-index: 90;
+  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+}
+.cal-nav-tabs::-webkit-scrollbar { display:none; }
+.cal-nav-tab {
+  flex: 0 0 auto; padding: 12px 16px;
+  border: none; border-bottom: 2px solid transparent; margin-bottom: -1px;
+  background: transparent; color: #8592A3;
+  font-family: 'Noto Sans TC', sans-serif;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; white-space: nowrap; transition: all .18s;
+}
+.cal-nav-tab.active { color: #0E9F8E; border-bottom-color: #0E9F8E; font-weight: 700; }
+.cal-nav-tab:hover:not(.active) { color: #4B5563; background: rgba(14,159,142,.07); border-radius: 8px 8px 0 0; }
+
+/* ══ 桌機：Sidebar（完全比照行事曆）══ */
+@media(min-width:900px) {
+  /* Header 橫排，讓出 sidebar 寬度 */
+  .cal-header {
+    padding: 16px 32px 14px 212px;
+    display: flex; align-items: center; gap: 24px;
+  }
+  .cal-hrow1 { flex:1; margin-bottom:0; }
+  .cal-htitles .cal-main { font-size:22px; }
+  .cal-hdate { white-space:nowrap; }
+  .cal-hdate strong { font-size:17px; }
+
+  /* Sidebar nav */
+  .cal-nav-tabs {
+    position: fixed; left:0; top:0; bottom:0; width:196px;
+    flex-direction: column; align-items: stretch;
+    padding: 0 10px 24px;
+    border-right: 1px solid rgba(14,159,142,.14);
+    border-bottom: none;
+    overflow-y: auto; overflow-x: hidden;
+    box-shadow: 2px 0 12px rgba(0,0,0,.04);
+    gap: 3px; z-index: 150;
+    background: #fff;
+  }
+  /* Sidebar 頂部 logo（行事曆風格）*/
+  .cal-nav-tabs::before {
+    content: '📈 呈貝持股';
+    display: block;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 16px; font-weight: 900;
+    color: #0E9F8E; letter-spacing: -.3px;
+    padding: 28px 14px 20px;
+    border-bottom: 1px solid rgba(14,159,142,.12);
+    margin-bottom: 8px;
+    flex-shrink: 0;
+  }
+  .cal-nav-tab {
+    padding: 11px 14px;
+    border-bottom: none; border-left: 3px solid transparent;
+    margin-bottom: 0; border-radius: 10px;
+    text-align: left; font-size: 13.5px;
+  }
+  .cal-nav-tab.active {
+    border-bottom: none; border-left-color: #0E9F8E;
+    background: rgba(14,159,142,.1); color: #0E9F8E; font-weight: 800;
+  }
+  .cal-nav-tab:hover:not(.active) { border-radius:10px; border-left-color:transparent; background: rgba(14,159,142,.05); }
+}
+
+/* ══ 手機：頂部 Tab Bar（完全比照行事曆）══ */
+@media(max-width:599px) {
+  .cal-nav-tabs {
+    position: fixed; top:0; left:0; right:0; bottom:auto;
+    flex-direction: row; padding: 0 2px;
+    border-bottom: 1px solid rgba(14,159,142,.15); border-top:none;
+    box-shadow: 0 2px 10px rgba(0,0,0,.07);
+    z-index: 200; height: 52px; align-items: stretch; gap:0;
+  }
+  .cal-nav-tab {
+    flex: 1 0 auto; display:flex; flex-direction:column;
+    align-items:center; justify-content:center;
+    padding: 5px 6px 3px; font-size:11px; font-weight:600;
+    border-bottom: 2.5px solid transparent; border-top:none;
+    min-width: 60px; line-height:1.2; gap:1px;
+  }
+  .cal-nav-tab.active { border-top:none; border-bottom-color:#0E9F8E; color:#0E9F8E; background:rgba(14,159,142,.08); font-weight:800; }
+  .cal-header { position:sticky; top:52px; z-index:100; padding:10px 14px 9px; }
+  .cal-htitles .cal-sub { font-size:10px; }
+  .cal-htitles .cal-main { font-size:17px; }
+  .cal-hdate strong { font-size:14px; }
+}
+
+/* ══ 平板 ══ */
+@media(min-width:600px) and (max-width:899px){
+  .cal-header { padding:14px 20px 12px; }
+}
+
+
+/* ══ 虧損區塊 ══ */
+.loss-card { border: 1.5px solid rgba(204,34,34,.2); }
+.loss-hdr  { background: rgba(204,34,34,.05); border-bottom: 1px solid rgba(204,34,34,.12); }
+.loss-hdr .section-title { color: #cc2222; }
+.loss-hdr .section-badge { background: rgba(204,34,34,.1); color: #cc2222; }
+.loss-row {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 18px; border-bottom: 1px solid var(--gray-100);
+}
+.loss-row:last-child { border-bottom: none; }
+.loss-code { font-family:'DM Mono',monospace; font-size:12px; color:var(--gray-400); min-width:54px; flex-shrink:0; }
+.loss-name { font-size:13.5px; font-weight:700; color:var(--gray-800); flex:1; min-width:0; }
+.loss-pnl  { font-family:'DM Mono',monospace; font-size:13px; font-weight:700; color:#cc2222; min-width:80px; text-align:right; }
+.loss-pill { font-family:'DM Mono',monospace; font-size:11.5px; background:rgba(204,34,34,.1); color:#cc2222; padding:2px 8px; border-radius:6px; white-space:nowrap; }
+.loss-empty { padding:14px 18px; font-size:13px; color:var(--gray-400); text-align:center; }
+@media(max-width:599px){
+  .loss-row { padding:9px 14px; gap:8px; }
+  .loss-name { font-size:13px; }
+  .loss-pnl  { font-size:12.5px; min-width:68px; }
+}
+
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav class="topnav">
-  <div class="topnav-logo">呈貝持股</div>
-  <div class="topnav-tabs">
-    <button class="topnav-tab" onclick="switchPage('plan')" id="tab-plan">存股計畫</button>
-    <button class="topnav-tab active" onclick="switchPage('cheng')" id="tab-cheng">呈的持股</button>
-    <button class="topnav-tab" onclick="switchPage('niu')" id="tab-niu">妞的持股</button>
+<!-- 行事曆風格 Header -->
+<header class="cal-header">
+  <div class="cal-hrow1">
+    <div class="cal-htitles">
+      <div class="cal-sub">呈貝家庭 · 投資總覽</div>
+      <div class="cal-main">📈 目前持股</div>
+    </div>
+    <div class="cal-hdate">
+      <strong id="cal-hdr-today"></strong>
+      <span id="cal-hdr-wd"></span>
+    </div>
   </div>
-  <div class="topnav-right"></div>
+</header>
+
+<!-- 行事曆風格 Nav -->
+<nav class="cal-nav-tabs">
+  <button class="cal-nav-tab" onclick="switchPage('plan')" id="tab-plan">🌱 存股計畫</button>
+  <button class="cal-nav-tab active" onclick="switchPage('cheng')" id="tab-cheng">📊 呈的持股</button>
+  <button class="cal-nav-tab" onclick="switchPage('niu')" id="tab-niu">💎 妞的持股</button>
 </nav>
 
 <!-- ══ 呈的持股 PAGE ══ -->
@@ -768,8 +978,47 @@ tbody td:last-child  { padding-right: 14px; }
       <span class="sum-rate up" id="cheng-pnl-rate">TWD</span>
     </div>
   </div>
+  <!-- 摘要立即計算（不依賴外部函數）-->
+  <script>
+  (function(){
+    // 等 DOM 完整後執行
+    function calcSummary() {
+      var trs = document.querySelectorAll('#page-cheng tr[data-code]');
+      var usTs = document.querySelectorAll('#page-cheng tr[data-us-code]');
+      var cnt = document.getElementById('cheng-count');
+      if (cnt) cnt.textContent = trs.length + usTs.length;
+      var mkt = 0, cost = 0;
+      trs.forEach(function(tr){
+        var avg = parseFloat(tr.dataset.avg) || 0;
+        var sh  = parseFloat(tr.dataset.shares) || 0;
+        mkt  += avg * sh;
+        cost += avg * sh;
+      });
+      var tv = document.getElementById('cheng-total-val');
+      if (tv && mkt > 0) tv.textContent = Math.round(mkt).toLocaleString('zh-TW');
+      var sub = document.getElementById('cheng-total-sub');
+      if (sub) sub.textContent = '（均價估算）';
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', calcSummary);
+    } else {
+      calcSummary();
+    }
+  })();
+  </script>
 
 
+
+
+  <!-- 📉 虧損持股 -->
+  <div class="section-card loss-card" id="cheng-loss-card" style="display:none">
+    <div class="section-hdr loss-hdr">
+      <span class="section-flag">📉</span>
+      <span class="section-title">虧損中的持股</span>
+      <span class="section-badge" id="cheng-loss-cnt">0 檔</span>
+    </div>
+    <div id="cheng-loss-body"></div>
+  </div>
 
   <!-- 台股：國泰 -->
   <div class="section-card">
@@ -842,6 +1091,20 @@ tbody td:last-child  { padding-right: 14px; }
       <span class="section-badge">5 檔</span>
       <button class="add-btn" onclick="openAdd('富邦')">＋ 新增</button>
     </div>
+    <div class="chart-toggle-row">
+      <button class="chart-tab active" id="fb-ctab-weight" onclick="switchSectionChart('fb','weight')">📊 市值佔比</button>
+      <button class="chart-tab" id="fb-ctab-rank" onclick="switchSectionChart('fb','rank')">🏆 報酬排行</button>
+    </div>
+    <div class="chart-row" id="fb-chart-weight">
+      <div class="pie-wrap">
+        <svg id="fb-pie" viewBox="0 0 170 170" style="width:170px;height:170px"></svg>
+        <div class="pie-center"><div class="pie-center-lbl">市值佔比</div><div class="pie-center-val" id="fb-pie-center">—</div></div>
+      </div>
+      <div class="legend-list" id="fb-legend"></div>
+    </div>
+    <div class="chart-row" id="fb-chart-rank" style="display:none;padding:8px 0 4px">
+      <div class="rank-list" id="fb-legend-rank" style="width:100%"></div>
+    </div>
     <div class="tbl-wrap">
       <table>
         <thead><tr>
@@ -868,6 +1131,20 @@ tbody td:last-child  { padding-right: 14px; }
       <span class="section-badge">2 檔</span>
       <button class="add-btn" onclick="openAdd('永豐')">＋ 新增</button>
     </div>
+    <div class="chart-toggle-row">
+      <button class="chart-tab active" id="yf-ctab-weight" onclick="switchSectionChart('yf','weight')">📊 市值佔比</button>
+      <button class="chart-tab" id="yf-ctab-rank" onclick="switchSectionChart('yf','rank')">🏆 報酬排行</button>
+    </div>
+    <div class="chart-row" id="yf-chart-weight">
+      <div class="pie-wrap">
+        <svg id="yf-pie" viewBox="0 0 170 170" style="width:170px;height:170px"></svg>
+        <div class="pie-center"><div class="pie-center-lbl">市值佔比</div><div class="pie-center-val" id="yf-pie-center">—</div></div>
+      </div>
+      <div class="legend-list" id="yf-legend"></div>
+    </div>
+    <div class="chart-row" id="yf-chart-rank" style="display:none;padding:8px 0 4px">
+      <div class="rank-list" id="yf-legend-rank" style="width:100%"></div>
+    </div>
     <div class="tbl-wrap">
       <table>
         <thead><tr>
@@ -876,8 +1153,8 @@ tbody td:last-child  { padding-right: 14px; }
           <th style="text-align:center;width:70px">操作</th>
         </tr></thead>
         <tbody data-section="永豐">
-          <tr data-code="00981B" data-avg="9.17"  data-shares="17000"><td><div class="stock-name-wrap"><span class="sname">第一金優選非投債 <span class="etf-tag">ETF</span></span><span class="scode">00981B</span></div></td><td class="live-price-cell">—</td><td class="mono">9.17</td><td class="mono">17,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00981D" data-avg="10.33" data-shares="17000"><td><div class="stock-name-wrap"><span class="sname">主動中信非投等債 <span class="etf-tag">ETF</span></span><span class="scode">00981D</span></div></td><td class="live-price-cell">—</td><td class="mono">10.33</td><td class="mono">17,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00981B" data-avg="9.17"  data-shares="20000"><td><div class="stock-name-wrap"><span class="sname">第一金優選非投債 <span class="etf-tag">ETF</span></span><span class="scode">00981B</span></div></td><td class="live-price-cell">—</td><td class="mono">9.17</td><td class="mono">20,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00981D" data-avg="10.33" data-shares="20000"><td><div class="stock-name-wrap"><span class="sname">主動中信非投等債 <span class="etf-tag">ETF</span></span><span class="scode">00981D</span></div></td><td class="live-price-cell">—</td><td class="mono">10.33</td><td class="mono">20,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -966,6 +1243,41 @@ tbody td:last-child  { padding-right: 14px; }
       <div class="sum-value" id="niu-pnl">—</div>
       <span class="sum-rate up" id="niu-pnl-rate">TWD</span>
     </div>
+  </div>
+  <script>
+  (function(){
+    function calcNiu() {
+      var trs = document.querySelectorAll('#page-niu tr[data-code]');
+      var cnt = document.getElementById('niu-count');
+      if (cnt) cnt.textContent = trs.length;
+      var mkt = 0;
+      trs.forEach(function(tr){
+        var avg = parseFloat(tr.dataset.avg) || 0;
+        var sh  = parseFloat(tr.dataset.shares) || 0;
+        mkt += avg * sh;
+      });
+      var tv = document.getElementById('niu-total-val');
+      if (tv && mkt > 0) tv.textContent = Math.round(mkt).toLocaleString('zh-TW');
+      var sub = document.getElementById('niu-total-sub');
+      if (sub) sub.textContent = '（均價估算）';
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', calcNiu);
+    } else {
+      calcNiu();
+    }
+  })();
+  </script>
+
+
+  <!-- 📉 虧損持股 -->
+  <div class="section-card loss-card" id="niu-loss-card" style="display:none">
+    <div class="section-hdr loss-hdr">
+      <span class="section-flag">📉</span>
+      <span class="section-title">虧損中的持股</span>
+      <span class="section-badge" id="niu-loss-cnt">0 檔</span>
+    </div>
+    <div id="niu-loss-body"></div>
   </div>
 
   <div class="section-card">
@@ -1142,16 +1454,78 @@ tbody td:last-child  { padding-right: 14px; }
 <div id="toast"></div>
 
 <!-- ══ Firebase loading ══ -->
-<div id="fb-loading" style="position:fixed;inset:0;z-index:999;background:var(--gray-50);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;">
-  <div style="font-size:36px">☁️</div>
-  <div style="font-size:15px;font-weight:700;color:var(--gray-800);">連接雲端中...</div>
-</div>
+<div id="fb-loading" style="display:none"></div>
 
 <script>
+
+/* ══ Header 日期 ══ */
+(function(){
+  const now = new Date();
+  const wds = ['日','一','二','三','四','五','六'];
+  const d = document.getElementById('cal-hdr-today');
+  const w = document.getElementById('cal-hdr-wd');
+  if(d) d.textContent = now.getFullYear() + '/' + String(now.getMonth()+1).padStart(2,'0') + '/' + String(now.getDate()).padStart(2,'0');
+  if(w) w.textContent = ' 週' + wds[now.getDay()];
+})();
+
+
+/* ══ 虧損持股區塊 ══ */
+function renderLossCard(pageId) {
+  const card  = document.getElementById(pageId + '-loss-card');
+  const body  = document.getElementById(pageId + '-loss-body');
+  const cntEl = document.getElementById(pageId + '-loss-cnt');
+  if (!card || !body) return;
+
+  const losses = [];
+  // 台股
+  document.querySelectorAll('#page-' + pageId + ' tr[data-code]').forEach(tr => {
+    const priceEl = tr.querySelector('.live-price-cell');
+    const price   = parseFloat((priceEl ? priceEl.textContent : '').replace(/,/g,''));
+    const avg     = parseFloat(tr.dataset.avg)    || 0;
+    const shares  = parseFloat(tr.dataset.shares) || 0;
+    if (!avg || !shares) return;
+    if (!isNaN(price) && price > 0) {
+      const pnl = (price - avg) * shares;
+      const pct = (price - avg) / avg * 100;
+      if (pnl < 0) {
+        const nm = tr.querySelector('.sname');
+        const clone = nm ? nm.cloneNode(true) : null;
+        if (clone) clone.querySelectorAll('.etf-tag').forEach(t => t.remove());
+        losses.push({ code: tr.dataset.code, name: clone ? clone.textContent.trim() : tr.dataset.code, pnl, pct });
+      }
+    }
+  });
+  // 美股（只有呈）
+  if (pageId === 'cheng') {
+    document.querySelectorAll('#page-cheng tr[data-us-code]').forEach(tr => {
+      const pnl = parseFloat((tr.dataset.usPnl || '').replace(/,/g,'')) || 0;
+      if (pnl < 0) {
+        const rate = parseFloat(tr.dataset.usRate) || 0;
+        losses.push({ code: tr.dataset.usCode, name: tr.dataset.usCode, pnl, pct: rate });
+      }
+    });
+  }
+
+  if (losses.length === 0) {
+    card.style.display = 'none';
+    return;
+  }
+  losses.sort((a, b) => a.pnl - b.pnl);
+  card.style.display = '';
+  if (cntEl) cntEl.textContent = losses.length + ' 檔';
+  body.innerHTML = losses.map(d => `
+    <div class="loss-row">
+      <span class="loss-code">${d.code}</span>
+      <span class="loss-name">${d.name.slice(0, 8)}</span>
+      <span class="loss-pnl">${Math.round(d.pnl).toLocaleString('zh-TW')}</span>
+      <span class="loss-pill">${d.pct.toFixed(2)}%</span>
+    </div>`).join('');
+}
+
 /* ══ PAGE SWITCH ══ */
 function switchPage(p) {
   document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
-  document.querySelectorAll('.topnav-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.cal-nav-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + p).classList.add('active');
   document.getElementById('tab-' + p).classList.add('active');
   if (p === 'plan') planRender();
@@ -1248,10 +1622,56 @@ async function fetchPrices() {
     document.querySelectorAll('.page-footer').forEach(el => {
       el.textContent = `✅ 已更新 ${n} 檔 · ${now.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'})} · 僅供參考`;
     });
+
+    // 直接計算呈的台股摘要（不透過函數，確保 DOM 已更新）
+    let cMkt=0, cPnl=0, cCost=0;
+    document.querySelectorAll('#page-cheng tr[data-code]').forEach(tr => {
+      const p = parseFloat((tr.querySelector('.live-price-cell')||{}).textContent||'') || 0;
+      const avg = parseFloat(tr.dataset.avg)||0, sh = parseFloat(tr.dataset.shares)||0;
+      if (p > 0) { cMkt += p*sh; cPnl += (p-avg)*sh; cCost += avg*sh; }
+      else { cMkt += avg*sh; cCost += avg*sh; }
+    });
+    let usPnl=0;
+    document.querySelectorAll('#page-cheng tr[data-us-code]').forEach(tr => { usPnl += parseFloat((tr.dataset.usPnl||'').replace(/,/g,''))||0; });
+    const cGrand = cPnl+usPnl, cPos = cGrand>=0;
+    const cPct = cCost>0 ? (cPnl/cCost*100).toFixed(2) : null;
+    const tv = document.getElementById('cheng-total-val');
+    const pv = document.getElementById('cheng-pnl');
+    const pr = document.getElementById('cheng-pnl-rate');
+    const sub = document.getElementById('cheng-total-sub');
+    const cnt = document.getElementById('cheng-count');
+    if (tv) tv.textContent = Math.round(cMkt).toLocaleString('zh-TW');
+    if (sub) sub.textContent = 'TWD';
+    if (pv) { pv.textContent = (cPos?'+':'')+Math.round(cGrand).toLocaleString('zh-TW'); pv.className='sum-value '+(cPos?'up':'down'); }
+    if (pr) { pr.textContent = cPct ? (cPos?'+':'')+cPct+'%' : 'TWD'; pr.className='sum-rate '+(cPos?'up':'down'); }
+    if (cnt) cnt.textContent = document.querySelectorAll('#page-cheng tr[data-code]').length + document.querySelectorAll('#page-cheng tr[data-us-code]').length;
+
+    // 直接計算妞的摘要
+    let nMkt=0, nPnl=0, nCost=0;
+    document.querySelectorAll('#page-niu tr[data-code]').forEach(tr => {
+      const p = parseFloat((tr.querySelector('.live-price-cell')||{}).textContent||'') || 0;
+      const avg = parseFloat(tr.dataset.avg)||0, sh = parseFloat(tr.dataset.shares)||0;
+      if (p > 0) { nMkt += p*sh; nPnl += (p-avg)*sh; nCost += avg*sh; }
+      else { nMkt += avg*sh; nCost += avg*sh; }
+    });
+    const nPos = nPnl>=0, nPct = nCost>0 ? (nPnl/nCost*100).toFixed(2) : null;
+    const ntv = document.getElementById('niu-total-val');
+    const npv = document.getElementById('niu-pnl');
+    const npr = document.getElementById('niu-pnl-rate');
+    const nsub = document.getElementById('niu-total-sub');
+    const ncnt = document.getElementById('niu-count');
+    if (ntv) ntv.textContent = Math.round(nMkt).toLocaleString('zh-TW');
+    if (nsub) nsub.textContent = 'TWD';
+    if (npv) { npv.textContent = (nPos?'+':'')+Math.round(nPnl).toLocaleString('zh-TW'); npv.className='sum-value '+(nPos?'up':'down'); }
+    if (npr) { npr.textContent = nPct ? (nPos?'+':'')+nPct+'%' : 'TWD'; npr.className='sum-rate '+(nPos?'up':'down'); }
+    if (ncnt) ncnt.textContent = document.querySelectorAll('#page-niu tr[data-code]').length;
+
+    renderLossCard('cheng');
+    renderLossCard('niu');
     updateUsPieChart();
     updateTwPieChart();
-    updateChengSummary();
-    updateNiuSummary();
+    updateFbPieChart();
+    updateYfPieChart();
   } catch(e) {
     document.querySelectorAll('.page-footer').forEach(el => el.textContent = '⚠ 股價更新失敗 · 僅供參考');
   }
@@ -1287,6 +1707,85 @@ function switchChart(mode) {
   document.getElementById('chart-rank').style.display   = mode==='rank'   ? '' : 'none';
 }
 
+
+
+/* ══ 通用圓餅圖切換 ══ */
+const _sectionMode = {};
+function switchSectionChart(prefix, mode) {
+  _sectionMode[prefix] = mode;
+  document.getElementById(prefix+'-ctab-weight').classList.toggle('active', mode==='weight');
+  document.getElementById(prefix+'-ctab-rank').classList.toggle('active',  mode==='rank');
+  document.getElementById(prefix+'-chart-weight').style.display = mode==='weight' ? '' : 'none';
+  document.getElementById(prefix+'-chart-rank').style.display   = mode==='rank'   ? '' : 'none';
+}
+
+/* 通用圓餅圖：section=tbody的data-section，prefix=svg id前綴 */
+function buildPieChart(section, prefix) {
+  const rows = document.querySelectorAll(`tbody[data-section="${section}"] tr[data-code]`);
+  const data = []; let totalVal = 0;
+  rows.forEach(tr => {
+    const priceEl = tr.querySelector('.live-price-cell');
+    const price   = priceEl ? parseFloat(priceEl.textContent.replace(/,/g,'')) : 0;
+    const shares  = parseFloat(tr.dataset.shares) || 0;
+    const avg     = parseFloat(tr.dataset.avg)    || 0;
+    const val     = price > 0 ? price * shares : avg * shares;
+    totalVal += val;
+    const rateSp  = tr.querySelector('.live-rate span');
+    const rateStr = rateSp ? rateSp.textContent.trim() : '';
+    const rateNum = parseFloat(rateStr.replace('%','')) || 0;
+    const nameEl  = tr.querySelector('.sname');
+    const nm      = nameEl ? nameEl.cloneNode(true) : null;
+    if (nm) nm.querySelectorAll('.etf-tag').forEach(t => t.remove());
+    const fullName  = nm ? nm.textContent.trim() : tr.dataset.code;
+    const shortName = fullName.slice(0, 6);
+    data.push({ code: tr.dataset.code, name: fullName, shortName, val, rate: rateStr, rateNum, color: '' });
+  });
+  if (!totalVal || data.length === 0) return;
+
+  const rateClass = r => r.startsWith('-') ? 'down' : 'up';
+  const RANK_POS = ['#0E9F8E','#2AB5A5','#45B7D1','#7BC8E0','#A8DDE9'];
+  const RANK_NEG = ['#F1948A','#E74C3C'];
+
+  // 圖1：市值佔比
+  const byVal = [...data].sort((a,b) => b.val - a.val);
+  byVal.forEach((d,i) => d.color = PIE_COLORS[i % PIE_COLORS.length]);
+  const svgEl = document.getElementById(prefix+'-pie');
+  if (svgEl) drawDonut(prefix+'-pie', byVal, totalVal);
+  const cntEl = document.getElementById(prefix+'-pie-center');
+  if (cntEl) cntEl.textContent = data.length + '檔';
+  const top5 = byVal.slice(0, 5);
+  const otherPct = byVal.slice(5).reduce((s,d) => s + d.val/totalVal*100, 0);
+  const leg = document.getElementById(prefix+'-legend');
+  if (leg) leg.innerHTML = top5.map(d => `
+    <div class="legend-item">
+      <div class="legend-dot" style="background:${d.color}"></div>
+      <span class="legend-name"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:4px">${d.code}</span>${d.shortName}</span>
+      <span class="legend-pct">${(d.val/totalVal*100).toFixed(1)}%</span>
+      <span class="legend-rate ${rateClass(d.rate)}">${d.rate||'—'}</span>
+    </div>`).join('') + (otherPct > 0 ? `
+    <div class="legend-item">
+      <div class="legend-dot" style="background:${PIE_COLORS[5]}"></div>
+      <span class="legend-name">其他</span>
+      <span class="legend-pct">${otherPct.toFixed(1)}%</span>
+      <span class="legend-rate" style="color:var(--gray-400)">—</span>
+    </div>` : '');
+
+  // 圖2：報酬排行（純列表，無圓餅圖）
+  const byRate = [...data].sort((a,b) => b.rateNum - a.rateNum);
+  const legRank = document.getElementById(prefix+'-legend-rank');
+  if (legRank) { legRank.className='rank-list'; legRank.innerHTML = byRate.map((d,i) => {
+    const cls = d.rateNum >= 0 ? 'up' : 'down';
+    const rateColor = d.rateNum >= 0 ? 'var(--coral)' : '#cc2222';
+    return `<div class="rank-item" style="padding:9px 18px">
+      <span class="rank-no">${i+1}</span>
+      <span class="rank-name" style="flex:1"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:5px">${d.code}</span>${d.shortName}</span>
+      <span class="rank-rate ${cls}" style="font-size:13.5px;font-weight:800;min-width:72px;text-align:right">${d.rate||'—'}</span>
+    </div>`;
+  }).join(''); }
+}
+
+function updateFbPieChart()  { buildPieChart('富邦', 'fb'); }
+function updateYfPieChart()  { buildPieChart('永豐', 'yf'); }
 
 /* ══ 台股圓餅圖 ══ */
 let _twChartMode = 'weight';
@@ -1345,7 +1844,7 @@ function updateTwPieChart() {
   if (legend) legend.innerHTML = top5.map((d,i) => `
     <div class="legend-item">
       <div class="legend-dot" style="background:${d.color}"></div>
-      <span class="legend-name">${d.code}</span>
+      <span class="legend-name"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:4px">${d.code}</span>${d.name.slice(0,6)}</span>
       <span class="legend-pct">${(d.val/totalVal*100).toFixed(1)}%</span>
       <span class="legend-rate ${rateClass(d.rate)}">${d.rate || '—'}</span>
     </div>`).join('') + (otherPct > 0 ? `
@@ -1356,40 +1855,16 @@ function updateTwPieChart() {
       <span class="legend-rate" style="color:var(--gray-400)">—</span>
     </div>` : '');
 
-  // ── 圖2：報酬排行 ──
+  // ── 圖2：報酬排行（純列表）──
   const byRate = [...data].sort((a,b) => b.rateNum - a.rateNum);
-  const RANK_POS = ['#0E9F8E','#2AB5A5','#45B7D1','#7BC8E0','#A8DDE9'];
-  const RANK_NEG = ['#F1948A','#E74C3C'];
-  const posCount = byRate.filter(d => d.rateNum >= 0).length;
-  byRate.forEach((d,i) => {
-    d.rankColor = d.rateNum >= 0
-      ? RANK_POS[Math.min(i, RANK_POS.length-1)]
-      : RANK_NEG[Math.min(i - posCount, RANK_NEG.length-1)];
-  });
-
-  const totalAbs = byRate.reduce((s,d) => s + Math.abs(d.rateNum), 0) || 1;
-  drawDonut('tw-pie-rank', byRate.map(d => ({...d, val: Math.abs(d.rateNum)||0.1})), totalAbs);
-
-  const best = byRate[0];
-  const rankCenter = document.getElementById('tw-pie-rank-center');
-  if (rankCenter) {
-    rankCenter.textContent = best ? best.rate : '—';
-    rankCenter.style.color = best && best.rateNum < 0 ? 'var(--green)' : 'var(--coral)';
-  }
-
-  const maxAbs = Math.max(...byRate.map(d => Math.abs(d.rateNum)), 1);
   const legendRank = document.getElementById('tw-legend-rank');
-  if (legendRank) { legendRank.className='legend-list'; legendRank.innerHTML =
+  if (legendRank) { legendRank.className='rank-list'; legendRank.innerHTML =
     byRate.map((d,i) => {
-      const barPct = (Math.abs(d.rateNum)/maxAbs*100).toFixed(0);
-      const cls    = d.rateNum >= 0 ? 'up' : 'down';
-      const barClr = d.rateNum >= 0 ? 'var(--coral)' : 'var(--green)';
-      return `<div class="rank-item">
+      const cls = d.rateNum >= 0 ? 'up' : 'down';
+      return `<div class="rank-item" style="padding:9px 18px">
         <span class="rank-no">${i+1}</span>
-        <div class="rank-dot" style="background:${d.rankColor}"></div>
-        <span class="rank-name">${d.code}</span>
-        <div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${barPct}%;background:${barClr}"></div></div>
-        <span class="rank-rate ${cls}">${d.rate||'—'}</span>
+        <span class="rank-name" style="flex:1"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:5px">${d.code}</span>${d.name.slice(0,6)}</span>
+        <span class="rank-rate ${cls}" style="font-size:13.5px;font-weight:800;min-width:72px;text-align:right">${d.rate||'—'}</span>
       </div>`;
     }).join(''); }
 }
@@ -1465,7 +1940,7 @@ function updateUsPieChart() {
       return `<div class="rank-item">
         <span class="rank-no">${i+1}</span>
         <div class="rank-dot" style="background:${d.rankColor}"></div>
-        <span class="rank-name">${d.code}</span>
+        <span class="rank-name"><span style="font-family:'DM Mono',monospace;font-size:11px;color:var(--gray-400);margin-right:4px">${d.code}</span>${d.name.slice(0,6)}</span>
         <div class="rank-bar-wrap"><div class="rank-bar-fill" style="width:${barPct}%;background:${barColor}"></div></div>
         <span class="rank-rate ${cls}">${d.rate||'—'}</span>
       </div>`;
@@ -1543,46 +2018,62 @@ function updateNiuSummary() {
 }
 
 function updateChengSummary() {
-  const twCount = document.querySelectorAll('#page-cheng tr[data-code]').length;
-  const usCount = document.querySelectorAll('#page-cheng tr[data-us-code]').length;
-  document.getElementById('cheng-count').textContent = twCount + usCount;
+  const allTw = document.querySelectorAll('#page-cheng tr[data-code]');
+  const allUs = document.querySelectorAll('#page-cheng tr[data-us-code]');
+  const twCount = allTw.length;
+  const usCount = allUs.length;
 
-  // 計算台股總市值 & 損益（從已填入的 live-price-cell 反算）
-  let totalMkt = 0, totalPnl = 0, hasTwPrice = false;
-  document.querySelectorAll('#page-cheng tr[data-code]').forEach(tr => {
+  // 持股檔數（不依賴股價，直接算 tr 數量）
+  const cntEl = document.getElementById('cheng-count');
+  if (cntEl) cntEl.textContent = twCount + usCount;
+
+  let totalMkt = 0, totalPnl = 0, totalCost = 0, hasPrice = false;
+
+  allTw.forEach(tr => {
+    const avg    = parseFloat(tr.dataset.avg)    || 0;
+    const shares = parseFloat(tr.dataset.shares) || 0;
+    if (!avg || !shares) return;
+
     const priceEl = tr.querySelector('.live-price-cell');
-    const price = priceEl ? parseFloat(priceEl.textContent.replace(/,/g,'')) : NaN;
+    const price   = parseFloat((priceEl ? priceEl.textContent : '').replace(/,/g,''));
+
     if (!isNaN(price) && price > 0) {
-      const avg    = parseFloat(tr.dataset.avg)    || 0;
-      const shares = parseFloat(tr.dataset.shares) || 0;
-      totalMkt += price * shares;
-      totalPnl += (price - avg) * shares;
-      hasTwPrice = true;
+      totalMkt  += price * shares;
+      totalPnl  += (price - avg) * shares;
+      totalCost += avg * shares;
+      hasPrice   = true;
+    } else {
+      // 均價 fallback：市值用成本估算
+      totalMkt  += avg * shares;
+      totalCost += avg * shares;
     }
   });
 
-  // 加美股靜態損益（台幣）
+  // 美股靜態損益
   let usPnlTotal = 0;
-  document.querySelectorAll('#page-cheng tr[data-us-code]').forEach(tr => {
-    const p = tr.dataset.usPnl || '';
-    usPnlTotal += parseFloat(p.replace(/,/g,'')) || 0;
+  allUs.forEach(tr => {
+    usPnlTotal += parseFloat((tr.dataset.usPnl || '').replace(/,/g,'')) || 0;
   });
 
-  if (hasTwPrice) {
-    const grandPnl  = totalPnl + usPnlTotal;
-    const isPos     = grandPnl >= 0;
-    document.getElementById('cheng-total-val').textContent = Math.round(totalMkt).toLocaleString('zh-TW');
-    document.getElementById('cheng-pnl').textContent = (isPos ? '+' : '') + Math.round(grandPnl).toLocaleString('zh-TW');
-    document.getElementById('cheng-pnl').className   = 'sum-value ' + (isPos ? 'up' : 'down');
-    const twCost = [...document.querySelectorAll('#page-cheng tr[data-code]')].reduce((s,tr)=>{
-      const avg=parseFloat(tr.dataset.avg)||0; const sh=parseFloat(tr.dataset.shares)||0; return s+avg*sh;
-    }, 0);
-    const totalCost = twCost; // 美股成本不含 (只有台幣帳)
-    const pct = totalCost > 0 ? (totalPnl / totalCost * 100).toFixed(2) : '—';
-    document.getElementById('cheng-pnl-rate').textContent = pct !== '—' ? (isPos?'+':'')+pct+'%' : 'TWD';
-    document.getElementById('cheng-pnl-rate').className   = 'sum-rate ' + (isPos ? 'up' : 'down');
-    document.getElementById('cheng-total-sub').textContent = 'TWD';
+  const grandPnl = totalPnl + usPnlTotal;
+  const isPos    = grandPnl >= 0;
+  const pct      = totalCost > 0 && hasPrice ? (totalPnl / totalCost * 100).toFixed(2) : '—';
+
+  const totalValEl = document.getElementById('cheng-total-val');
+  const pnlEl      = document.getElementById('cheng-pnl');
+  const pnlRateEl  = document.getElementById('cheng-pnl-rate');
+  const subEl      = document.getElementById('cheng-total-sub');
+
+  if (totalValEl) totalValEl.textContent = totalMkt > 0 ? Math.round(totalMkt).toLocaleString('zh-TW') : '—';
+  if (pnlEl) {
+    pnlEl.textContent = hasPrice ? (isPos?'+':'') + Math.round(grandPnl).toLocaleString('zh-TW') : '—';
+    pnlEl.className   = 'sum-value ' + (isPos ? 'up' : 'down');
   }
+  if (pnlRateEl) {
+    pnlRateEl.textContent = pct !== '—' ? (isPos?'+':'')+pct+'%' : 'TWD';
+    pnlRateEl.className   = 'sum-rate ' + (isPos ? 'up' : 'down');
+  }
+  if (subEl) subEl.textContent = 'TWD';
 }
 
 /* ══ EDIT / ADD 台股 ══ */
@@ -1716,8 +2207,8 @@ const ETF_COLORS  = { '00878':'#0E9F8E','00918':'#4ECDC4','00981D':'#DDA0DD','00
 let planEtfs = [
   { id:'00878',  name:'國泰永續高股息',  color:'#0E9F8E', held:48000, target:60000, divM:[3,6,9,12], divPu:0.66, dist:'季配', exM:[2,5,8,11] },
   { id:'00918',  name:'大華優利高填息30',color:'#4ECDC4', held:6000,  target:60000, divM:[4,7,10,1],  divPu:0.62, dist:'季配', exM:[3,6,9,12] },
-  { id:'00981D', name:'主動中信非投等債',color:'#DDA0DD', held:17000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, dist:'月配', exM:[] },
-  { id:'00981B', name:'第一金優選非投債',color:'#45B7D1', held:17000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.063, dist:'月配', exM:[] },
+  { id:'00981D', name:'主動中信非投等債',color:'#DDA0DD', held:20000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, dist:'月配', exM:[] },
+  { id:'00981B', name:'第一金優選非投債',color:'#45B7D1', held:20000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.063, dist:'月配', exM:[] },
   { id:'00400A', name:'主動國泰動能高息',color:'#FF9E9E', held:8150,  target:30000, divM:[], divPu:0, dist:'待定', exM:[] },
   { id:'00999A', name:'主動野村臺灣高息',color:'#FFEAA7', held:5200,  target:30000, divM:[], divPu:0, dist:'待定', exM:[] },
 ];
@@ -1934,17 +2425,37 @@ function printPDF() {
   pages.forEach((p, i) => p.style.display = prevStyles[i]);
 }
 
+// 確保 Firebase module 可以呼叫
+window.updateChengSummary = updateChengSummary;
+window.updateNiuSummary   = updateNiuSummary;
+
+// 監聽 Firebase 觸發的刷新事件
+window.addEventListener('holdings-ready', function() {
+  updateTwPieChart();
+  updateFbPieChart();
+  updateYfPieChart();
+  updateUsPieChart();
+  updateChengSummary();
+  updateNiuSummary();
+});
+
 /* ══ INIT ══ */
 switchPage('cheng');
-fetchPrices();                       // 立刻抓台股即時價+計算損益
+fetchPrices();
 setInterval(fetchPrices, 60000);
 updateUsPieChart();
 updateTwPieChart();
+updateFbPieChart();
+updateYfPieChart();
 updateChengSummary();
 updateNiuSummary();
 setTimeout(updateUsPieChart, 300);
 setTimeout(updateTwPieChart, 400);
-setTimeout(updateNiuSummary, 500);
+setTimeout(updateFbPieChart, 450);
+setTimeout(updateYfPieChart, 500);
+setTimeout(updateNiuSummary, 550);
+setTimeout(updateChengSummary, 600);
+setTimeout(() => { renderLossCard('cheng'); renderLossCard('niu'); }, 700);
 
 </script>
 
@@ -2070,6 +2581,9 @@ window.fbLoadHoldings = async function() {
 
 setTimeout(rmLoading, 5000);
 rmLoading();
+// 用事件通知普通 script 刷新，確保跨 module 呼叫成功
+setTimeout(() => window.dispatchEvent(new Event('holdings-ready')), 200);
+setTimeout(() => window.dispatchEvent(new Event('holdings-ready')), 1000);
 if(typeof fetchPrices==='function') fetchPrices();
 </script>
 

@@ -538,16 +538,16 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
    MOBILE (< 600px)
 ══════════════════════════════════════════ */
 @media(max-width:599px){
-  /* nav 底部固定 tab bar */
+  /* nav 頂部固定 tab bar */
   .nav-tabs{
-    position:fixed;bottom:0;left:0;right:0;top:auto;
+    position:fixed;top:0;left:0;right:0;bottom:auto;
     display:flex;flex-direction:row;
     overflow-x:auto;
     padding:0 2px;
     background:#fff;
-    border-top:1px solid rgba(14,159,142,.15);
-    border-bottom:none;
-    box-shadow:0 -2px 10px rgba(0,0,0,.07);
+    border-bottom:1px solid rgba(14,159,142,.15);
+    border-top:none;
+    box-shadow:0 2px 10px rgba(0,0,0,.07);
     z-index:200;
     -webkit-overflow-scrolling:touch;
     height:54px;align-items:stretch;gap:0;
@@ -559,23 +559,24 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     align-items:center;justify-content:center;
     padding:5px 8px 3px;
     font-size:9.5px;font-weight:600;
-    border-bottom:none;
-    border-top:2.5px solid transparent;
+    border-top:none;
+    border-bottom:2.5px solid transparent;
     margin-bottom:0;
     min-width:58px;max-width:80px;
     line-height:1.2;gap:1px;
     white-space:nowrap;text-align:center;
   }
   .nav-tab.active{
-    border-bottom:none;border-top-color:var(--y);
+    border-top:none;border-bottom-color:var(--y);
     color:var(--y);background:var(--y-light);font-weight:800;
   }
 
-  /* 底部 nav 留空 */
-  .content{padding:12px 12px 72px}
+  /* header 往下推，讓出 nav 空間，並緊湊顯示 */
+  .main-header{top:54px;padding:10px 12px 8px}
 
-  /* header 緊湊 */
-  .main-header{padding:10px 12px 8px}
+  /* section 往下推，讓出 nav(54) + header(~70) 空間 */
+  .section{padding-top:124px}
+  .content{padding:12px 12px 24px}
   .htitles .main{font-size:16px}
   .hdate strong{font-size:13px}
   .hstats{gap:0}
@@ -583,26 +584,55 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   .hstat-num{font-size:16px}
   .hstat-lbl{font-size:9.5px}
 
+  /* ── 手機整體字體放大 ── */
+  body{font-size:17px}
+  .ftext{font-size:15.5px}
+  .fnote{font-size:13px}
+  .fdate{font-size:12.5px;min-width:52px}
+  .fbadge{font-size:12px;padding:3px 8px}
+  .nav-tab{font-size:11px}
+  .hstat-num{font-size:18px}
+  .hstat-lbl{font-size:11px}
+  .htitles .main{font-size:18px}
+  .hdate strong{font-size:15px}
+  .focus-add-title{font-size:15px}
+  .focus-add-inp,.focus-add-sel{font-size:14.5px;padding:10px 11px}
+  .form-input,.form-select,.bp-input,.med-input,.cc-fi,.cc-fs,.exp-add-inp,.exp-add-sel{font-size:15px;padding:10px 12px}
+  .form-label,.bp-ilbl,.med-ilbl,.exp-add-lbl{font-size:13.5px}
+  .focus-sort-btn{font-size:13px;padding:7px 13px}
+  .focus-stats{font-size:14px}
+  .fstat-box{padding:5px 12px;font-size:13px}
+  .cal-wd{font-size:12.5px}
+  .cal-mlbl{font-size:18px}
+  .dnum{font-size:13.5px}
+  .month-lbl{font-size:15px}
+  .sec-card-title{font-size:16px}
+  .focus-ghdr .focus-gtitle{font-size:14px}
+  .status-btn{font-size:12.5px;padding:4px 11px}
+
+  /* 新增鈕縮小（不全寬） */
+  .btn-add,.bp-btn,.med-btn,.cc-add-btn,.exp-add-btn,.focus-add-btn{
+    padding:11px 28px;font-size:15px;width:auto;
+  }
+  /* 新增表單最後一排按鈕靠右 */
+  .focus-add-row:last-child{justify-content:flex-end}
+
   /* sum row 2欄 */
   .sum-row{grid-template-columns:1fr 1fr}
   .sum-row .sum-card:last-child{grid-column:1/-1}
-  .sum-val{font-size:17px}
-  .sum-lbl{font-size:10px}
+  .sum-val{font-size:19px}
+  .sum-lbl{font-size:11.5px}
 
   /* cards 單欄 */
   .cards-grid{grid-template-columns:1fr}
 
   /* 月曆 緊湊 */
   .cal-day{min-height:44px;padding:2px 1px}
-  .dnum{font-size:12px}
-  .dhol{font-size:7.5px}
+  .dhol{font-size:8px}
   .dot{width:4px;height:4px}
   .ddots{gap:1px}
 
   /* focus items */
-  .ftext{font-size:13.5px}
-  .fdate{font-size:10.5px;min-width:46px}
-  .fbadge{font-size:10px;padding:2px 6px}
 
   /* 表格橫滑 */
   .bp-twrap,.cc-twrap{overflow-x:auto}
@@ -614,14 +644,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   .modal{border-radius:20px 20px 0 0;padding:16px 14px 32px}
   .modal-title{font-size:16px}
 
-  /* fb toast 在底部 nav 上方 */
-  #fb-toast{bottom:62px;font-size:12px;padding:8px 16px}
-
-  /* 按鈕全寬 */
-  .btn-add,.bp-btn,.med-btn,.cc-add-btn,.exp-add-btn,.focus-add-btn{
-    padding:12px 20px;font-size:14px;width:100%;
-  }
-  .focus-sort-btn{padding:6px 10px;font-size:11.5px}
+  /* fb toast */
+  #fb-toast{bottom:24px;font-size:12px;padding:8px 16px}
 
   /* 減少多餘 margin */
   .month-section{margin-bottom:14px}
