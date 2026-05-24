@@ -246,6 +246,41 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   .mobile-nav{display:none}
   .sidebar{transform:none!important}
 }
+
+/* ── 文件動作列 ── */
+.doc-actions {
+  display: flex; align-items: center; gap: .4rem;
+  padding: .4rem 1.2rem;
+  border-bottom: 1px solid rgba(14,159,142,.12);
+  background: #fff; flex-shrink: 0;
+}
+.doc-actions.hidden { display: none; }
+.doc-act-name {
+  font-size: .75rem; font-weight: 700; color: var(--ink);
+  flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  font-family: 'DM Mono', monospace;
+}
+.doc-act-btn {
+  display: flex; align-items: center; gap: .3rem;
+  padding: .32rem .78rem; border-radius: 20px;
+  border: 1px solid var(--bdr); background: #fff;
+  color: var(--ink-mid); font-size: .75rem; font-family: inherit;
+  cursor: pointer; white-space: nowrap; transition: all .15s; flex-shrink: 0;
+}
+.doc-act-btn:hover { border-color: var(--y); color: var(--y); background: var(--y-light); }
+.doc-act-btn.danger:hover { border-color: var(--rd); color: var(--rd); background: rgba(204,34,34,.06); }
+
+/* 列印樣式 */
+@media print {
+  body > *:not(#print-frame) { display: none !important; }
+  #print-frame { display: block !important; position: fixed; inset: 0; width: 100%; height: 100%; border: none; }
+}
+@media(max-width:768px){
+  .doc-actions { padding: .35rem .75rem; gap: .3rem; }
+  .doc-act-btn span.btn-label { display: none; }
+  .doc-act-btn { padding: .32rem .5rem; }
+}
+
 </style>
 </head>
 <body>
@@ -302,30 +337,91 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     </div>
     <!-- Help panel -->
     <div id="helpPanel" style="display:none;flex:1;overflow-y:auto;padding:1rem">
+
       <div class="help-section">
-        <div class="help-title">📂 直接上傳文件</div>
-        <div class="help-body">點擊右上角「開啟檔案」或側邊欄「＋ 加入」，選擇檔案後選擇分類即可。
-          <div class="help-formats"><span>PDF</span><span>DOCX</span><span>XLSX</span><span>PPTX</span><span>JPG/PNG</span><span>TXT</span></div>
-        </div>
-      </div>
-      <div class="help-section">
-        <div class="help-title">📷 透過 Claude 翻拍匯入</div>
-        <div class="help-body">拍照後透過 Claude AI 辨識文字，轉成可下載文件格式：
+        <div class="help-title">🚀 快速上手</div>
+        <div class="help-body">
           <div class="help-steps">
-            <div class="help-step"><div class="help-step-num">1</div><div><strong>說明類型</strong><br>告訴 Claude：「這是一張<em>合約</em>」「這是<em>繳費單據</em>」</div></div>
-            <div class="help-step"><div class="help-step-num">2</div><div><strong>拍照上傳</strong><br>在對話框點「＋」上傳翻拍照片</div></div>
-            <div class="help-step"><div class="help-step-num">3</div><div><strong>下載檔案</strong><br>Claude 辨識後輸出：<div class="help-formats" style="margin-top:.4rem"><span>JPG</span><span>TXT</span><span>DOCX</span><span>XLSX</span><span>PDF</span></div></div></div>
+            <div class="help-step"><div class="help-step-num">1</div><div>點右上角「<em>＋ 開啟檔案</em>」或直接拖曳文件到畫面</div></div>
+            <div class="help-step"><div class="help-step-num">2</div><div>選擇文件的<em>分類</em>（合約、保險、稅務…）</div></div>
+            <div class="help-step"><div class="help-step-num">3</div><div>點擊側邊欄的文件名稱即可<em>開啟閱讀</em></div></div>
+            <div class="help-step"><div class="help-step-num">4</div><div>使用文件上方工具列<em>下載或列印</em></div></div>
           </div>
         </div>
       </div>
+
+      <div class="help-section">
+        <div class="help-title">⬇️ 下載文件</div>
+        <div class="help-body">
+          開啟文件後，breadcrumb 下方會出現工具列，點「<em>⬇️ 下載</em>」即可下載原始檔案到本機。<br><br>
+          也可以在左側分類列表中，將游標移到文件名稱上，點「⬇️」快速下載，無需先開啟文件。
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-title">🖨️ 列印 / 另存為 PDF</div>
+        <div class="help-body">
+          開啟文件後點「<em>🖨️ 列印 PDF</em>」，系統會開啟格式化的列印視窗：
+          <div class="help-steps" style="margin-top:.6rem">
+            <div class="help-step"><div class="help-step-num">1</div><div>點「🖨️ 列印 PDF」，新視窗自動開啟並顯示文件</div></div>
+            <div class="help-step"><div class="help-step-num">2</div><div>瀏覽器列印對話框出現後，選擇印表機<em>或「另存為 PDF」</em></div></div>
+            <div class="help-step"><div class="help-step-num">3</div><div>手機用戶可選擇「<em>儲存為 PDF</em>」保存到本機</div></div>
+          </div>
+          <div style="margin-top:.6rem;font-size:.75rem;color:var(--ink-light);background:var(--bg);border-radius:8px;padding:.5rem .7rem;border:1px solid var(--bdr)">
+            💡 列印版本已優化排版：青綠色標題、清晰表格、適合 A4 輸出
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-title">📷 拍照翻拍匯入</div>
+        <div class="help-body">點「📷 拍照」透過 Claude AI 辨識實體文件，轉成可搜尋的數位文件：
+          <div class="help-steps" style="margin-top:.6rem">
+            <div class="help-step"><div class="help-step-num">1</div><div>點「📷 拍照」並選擇分類</div></div>
+            <div class="help-step"><div class="help-step-num">2</div><div>拍攝文件照片（確保光線充足、畫面清晰）</div></div>
+            <div class="help-step"><div class="help-step-num">3</div><div>點「🤖 辨識」，Claude AI 自動提取文字內容</div></div>
+            <div class="help-step"><div class="help-step-num">4</div><div>確認辨識結果後點「💾 儲存並上傳」</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-title">☁️ GitHub 雲端同步</div>
+        <div class="help-body">
+          點右上角「<em>⚙️ 設定</em>」輸入 GitHub Token 和 Repo，即可：
+          <div class="help-steps" style="margin-top:.6rem">
+            <div class="help-step"><div class="help-step-num">1</div><div>點「☁️ 同步」從 GitHub 載入已存的文件</div></div>
+            <div class="help-step"><div class="help-step-num">2</div><div>文件旁「☁️」按鈕可上傳到 GitHub 備份</div></div>
+            <div class="help-step"><div class="help-step-num">3</div><div>顯示 🟢 綠點代表 GitHub 連線成功</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="help-section">
+        <div class="help-title">🔍 搜尋功能</div>
+        <div class="help-body">
+          頂部搜尋欄可即時搜尋<em>文件內容</em>，關鍵字會以青綠色標記。大綱面板也會同步過濾顯示符合的章節。
+        </div>
+      </div>
+
       <div class="help-section">
         <div class="help-title">🗂️ 文件分類</div>
         <div class="help-body"><div id="helpCatList"></div></div>
       </div>
+
       <div class="help-section">
         <div class="help-title">📋 支援格式</div>
-        <div class="help-body"><div class="help-formats"><span>XLSX / XLS / CSV</span><span>DOCX / DOC</span><span>PPTX / PPT</span><span>PDF</span><span>JPG / PNG / 圖片</span><span>TXT / MD</span></div></div>
+        <div class="help-body">
+          <div class="help-formats">
+            <span>XLSX / XLS / CSV</span><span>DOCX / DOC</span><span>PPTX / PPT</span>
+            <span>PDF</span><span>JPG / PNG / 圖片</span><span>TXT / MD</span>
+          </div>
+          <div style="margin-top:.6rem;font-size:.75rem;color:var(--ink-light)">
+            所有文件僅儲存於本機瀏覽器，不會自動上傳，隱私安全。
+          </div>
+        </div>
       </div>
+
     </div>
   </div>
 
@@ -334,6 +430,12 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   <!-- CONTENT AREA -->
   <div class="content-area">
     <div class="breadcrumb" id="breadcrumb"><span style="color:var(--ink-light)">請拖曳或點擊「開啟檔案」載入文件</span></div>
+    <!-- 文件動作列 -->
+    <div class="doc-actions hidden" id="docActions">
+      <span class="doc-act-name" id="docActName">—</span>
+      <button class="doc-act-btn" onclick="downloadCurrentFile()" title="下載原始檔案">⬇️ <span class="btn-label">下載</span></button>
+      <button class="doc-act-btn" onclick="printCurrentDoc()" title="列印 / 另存為 PDF">🖨️ <span class="btn-label">列印 PDF</span></button>
+    </div>
     <div class="panel" id="contentPanel"></div>
   </div>
 </div>
@@ -504,7 +606,8 @@ function renderCatList(){
 }
 function toggleCatGroup(catId){document.getElementById(`ctog-${catId}`).classList.toggle('open');document.getElementById(`cfiles-${catId}`).classList.toggle('open')}
 function fileTypeIcon(name){const ext=name.split('.').pop().toLowerCase();if(ext==='pdf')return'📕';if(['xlsx','xls','csv'].includes(ext))return'📊';if(['docx','doc'].includes(ext))return'📄';if(['pptx','ppt'].includes(ext))return'📑';if(['png','jpg','jpeg','gif','webp','bmp'].includes(ext))return'🖼️';return'📄'}
-async function openCatFile(catId,idx){const f=fileStore[catId][idx];activeFileRef={catId,idx};renderCatList();if(!f.fileObj&&f.ghUrl){await openGhFile(catId,idx);return}switchTab('outline');if(f.docData)setDoc(f.docData);else{await loadFile(f.fileObj);f.docData=docData}}
+async function openCatFile(catId,idx){
+  showDocActions(fileStore[catId][idx].name, {catId, idx});const f=fileStore[catId][idx];activeFileRef={catId,idx};renderCatList();if(!f.fileObj&&f.ghUrl){await openGhFile(catId,idx);return}switchTab('outline');if(f.docData)setDoc(f.docData);else{await loadFile(f.fileObj);f.docData=docData}}
 function removeFile(catId,idx,e){e.stopPropagation();fileStore[catId].splice(idx,1);if(activeFileRef&&activeFileRef.catId===catId&&activeFileRef.index===idx)activeFileRef=null;renderCatList()}
 
 function openModal(file){pendingFile=file;document.getElementById('modalFileName').textContent=file.name;const cats=document.getElementById('modalCats');cats.innerHTML='';CATEGORIES.forEach(cat=>{const btn=document.createElement('button');btn.className='modal-cat-btn';btn.innerHTML=`${cat.icon} ${cat.label}`;btn.addEventListener('click',()=>assignFile(cat.id));cats.appendChild(btn)});document.getElementById('catModal').classList.add('show')}
@@ -555,7 +658,7 @@ async function loadText(file,name){const text=await file.text();const lines=text
 
 async function loadImage(file,name){const url=URL.createObjectURL(file);setDoc({type:'image',name,sections:[{id:'img-0',title:name,icon:'🖼️',content:{type:'image',url,fileName:name},children:[]}]})}
 
-function setDoc(doc){docData=doc;activeId=null;document.getElementById('dropZone').style.display='none';renderTree(doc.sections);if(doc.sections.length>0)selectNode(doc.sections[0].id);updateBreadcrumb([doc.name])}
+function setDoc(doc){docData=doc;activeId=null;document.getElementById('dropZone').style.display='none';showDocActions(doc.name, null);renderTree(doc.sections);if(doc.sections.length>0)selectNode(doc.sections[0].id);updateBreadcrumb([doc.name])}
 
 function renderTree(sections){let count=0;function cn(nodes){nodes.forEach(n=>{count++;cn(n.children||[])})}cn(sections);document.getElementById('nodeCount').textContent=count;const wrap=document.getElementById('treeWrap');wrap.innerHTML='';wrap.style.padding='';sections.forEach(s=>wrap.appendChild(buildNode(s,0)))}
 
@@ -585,7 +688,10 @@ function getPath(nodes,id,path=[]){for(const n of nodes){if(n.id===id)return[...
 function showProgress(msg,pct){document.getElementById('contentPanel').innerHTML=`<div class="progress-wrap"><div style="font-size:2rem">⚙️</div><div class="progress-label">${msg}</div><div class="progress-bar-outer"><div class="progress-bar-inner" style="width:${pct}%"></div></div></div>`}
 function showError(msg){document.getElementById('contentPanel').innerHTML=`<div class="progress-wrap"><div style="font-size:2rem">❌</div><div style="color:var(--rd);font-size:.9rem">${escHtml(msg)}</div></div>`}
 
-function clearAll(){docData=null;activeId=null;document.getElementById('fileBadge').textContent='尚未載入文件';document.getElementById('nodeCount').textContent='0';document.getElementById('treeWrap').innerHTML='<div style="padding:1.5rem 1rem;color:var(--ink-light);font-size:.78rem;text-align:center;line-height:1.8">載入文件後<br>此處將顯示結構大綱</div>';document.getElementById('contentPanel').innerHTML='';document.getElementById('dropZone').style.display='flex';document.getElementById('breadcrumb').innerHTML='<span style="color:var(--ink-light)">請拖曳或點擊「開啟檔案」載入文件</span>';document.getElementById('searchInput').value='';searchQ='';document.getElementById('fileInput').value=''}
+function clearAll(){
+  _currentFileRef = null;
+  const bar = document.getElementById('docActions');
+  if (bar) bar.classList.add('hidden');docData=null;activeId=null;document.getElementById('fileBadge').textContent='尚未載入文件';document.getElementById('nodeCount').textContent='0';document.getElementById('treeWrap').innerHTML='<div style="padding:1.5rem 1rem;color:var(--ink-light);font-size:.78rem;text-align:center;line-height:1.8">載入文件後<br>此處將顯示結構大綱</div>';document.getElementById('contentPanel').innerHTML='';document.getElementById('dropZone').style.display='flex';document.getElementById('breadcrumb').innerHTML='<span style="color:var(--ink-light)">請拖曳或點擊「開啟檔案」載入文件</span>';document.getElementById('searchInput').value='';searchQ='';document.getElementById('fileInput').value=''}
 
 // RESIZE
 const rHandle=document.getElementById('resizeHandle');const rSidebar=document.getElementById('sidebar');let resizing=false;
@@ -739,6 +845,90 @@ window.removeFile = function(catId, idx, e) {
 };
 
 // Download a file from the store
+
+/* ══ 文件動作列 ══ */
+let _currentFileRef = null;  // {catId, idx} 或 null
+
+function showDocActions(name, fileRef) {
+  _currentFileRef = fileRef || null;
+  const bar = document.getElementById('docActions');
+  const nm  = document.getElementById('docActName');
+  if (bar) bar.classList.remove('hidden');
+  if (nm)  nm.textContent = name || '—';
+}
+
+function downloadCurrentFile() {
+  // 優先用 _currentFileRef（分類列表來的）
+  if (_currentFileRef) {
+    downloadFile(_currentFileRef.catId, _currentFileRef.idx);
+    return;
+  }
+  // 從 docData 拿原始 File
+  if (!docData) { alert('尚無文件可下載'); return; }
+  // 找 fileStore 裡對應的 fileObj
+  for (const cat of CATEGORIES) {
+    const arr = fileStore[cat.id] || [];
+    const f = arr.find(f => f.name === docData.name && f.fileObj);
+    if (f) { downloadFileObj(f.fileObj, f.name); return; }
+  }
+  alert('找不到原始檔案，請確認文件已從本機載入');
+}
+
+function downloadFileObj(fileObj, name) {
+  const url = URL.createObjectURL(fileObj);
+  const a = document.createElement('a');
+  a.href = url; a.download = name;
+  document.body.appendChild(a); a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+
+function printCurrentDoc() {
+  if (!docData) { alert('尚無文件可列印'); return; }
+  // 收集目前 contentPanel 的 HTML 並列印
+  const panel = document.getElementById('contentPanel');
+  if (!panel || !panel.innerHTML.trim()) { alert('請先選擇要列印的內容'); return; }
+
+  const printWin = window.open('', '_blank', 'width=900,height=700');
+  printWin.document.write(`<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<title>${escHtml(docData.name)}</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;700&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+  body { font-family: 'Noto Sans TC', sans-serif; color: #111827; padding: 2.5cm 2cm; max-width: 800px; margin: 0 auto; font-size: 10.5pt; line-height: 1.85; }
+  h1,h2,h3 { color: #0E9F8E; page-break-after: avoid; }
+  .section-title { font-size: 13pt; font-weight: 900; border-bottom: 1.5px solid #0E9F8E; padding-bottom: .4rem; margin: 1.5rem 0 .8rem; }
+  .section-sub { font-size: 10.5pt; font-weight: 700; color: #0E9F8E; margin: .8rem 0 .3rem; }
+  .content-text { font-size: 10pt; line-height: 1.9; color: #374151; }
+  .data-table-wrap { overflow: visible; border: 1px solid #d1faf4; border-radius: 6px; margin: .5rem 0; page-break-inside: avoid; }
+  .data-table { width: 100%; border-collapse: collapse; font-size: 9pt; }
+  .data-table th { background: #E6F5F3; color: #0E9F8E; padding: .35rem .6rem; text-align: left; font-weight: 700; border-bottom: 1px solid #b2e8e0; }
+  .data-table td { padding: .3rem .6rem; border-bottom: 1px solid #f0faf8; }
+  .pdf-page-label { font-size: 8pt; color: #8592A3; border-bottom: 1px solid #e5e7eb; padding-bottom: 2px; margin-bottom: .4rem; font-family: 'DM Mono', monospace; }
+  .pdf-page-text { font-size: 9.5pt; line-height: 1.85; white-space: pre-wrap; color: #374151; }
+  .slide-card { border: 1px solid #d1faf4; border-radius: 6px; padding: .75rem 1rem; margin-bottom: .6rem; page-break-inside: avoid; }
+  .slide-num { font-size: 8pt; color: #8592A3; }
+  .slide-heading { font-weight: 700; font-size: 11pt; color: #111827; }
+  .slide-body { font-size: 9.5pt; color: #374151; }
+  img { max-width: 100%; border-radius: 6px; }
+  mark { background: rgba(14,159,142,.15); border-radius: 2px; padding: 0 2px; }
+  @page { margin: 2cm 1.5cm; }
+  @media print { body { padding: 0; } }
+</style>
+</head>
+<body>
+<h1 style="font-size:15pt;color:#0E9F8E;margin-bottom:1.5rem">${escHtml(docData.name)}</h1>
+${panel.innerHTML}
+<div style="margin-top:2rem;font-size:8pt;color:#8592A3;border-top:1px solid #e5e7eb;padding-top:.6rem;text-align:right">
+  列印時間：${new Date().toLocaleString('zh-TW')}
+</div>
+</body></html>`);
+  printWin.document.close();
+  printWin.onload = () => { printWin.focus(); printWin.print(); };
+}
+
 function downloadFile(catId, idx) {
   const f = fileStore[catId][idx];
   if (!f.fileObj) {
