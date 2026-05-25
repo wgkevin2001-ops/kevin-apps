@@ -52,17 +52,8 @@ body{background:#F0F7F6;color:#1A2E2C;font-family:'PingFang TC','Microsoft Jheng
 }
 #main-wrap{display:none}
 
-/* HEADER */
-.hdr{text-align:center;margin-bottom:20px}
-.hdr h1{font-size:26px;font-weight:900;color:var(--teal);letter-spacing:.05em}
-.hdr p{font-size:15px;color:#7AADA6;margin-top:4px}
-
-/* TABS */
-.tabs{display:flex;gap:4px;margin-bottom:14px;background:#D4EDEA;border-radius:12px;padding:5px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.tabs::-webkit-scrollbar{display:none}
-.tab{flex:0 0 auto;padding:9px 11px;border:none;border-radius:8px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;background:transparent;color:#7AADA6;white-space:nowrap;-webkit-tap-highlight-color:transparent;transition:all .2s}
-.tab.on{background:var(--teal);color:#fff;box-shadow:0 2px 10px rgba(15,171,142,.4)}
-.pane{display:none}
+/* (舊版 hdr/tabs 已由 cal-header/cal-nav-tabs 取代) */
+.pane{display:none;padding-top:4px}
 .pane.on{display:block}
 
 /* CARDS */
@@ -169,6 +160,126 @@ select option{background:#F0F7F6}
 .warn-item{background:#fff;border-radius:7px;padding:10px 12px;margin-bottom:6px;font-size:13px;line-height:1.8}
 .warn-item:last-child{margin-bottom:0}
 
+/* ══ 行事曆風格 Top Header ══ */
+.cal-header{
+  background:#fff;
+  border-bottom:1px solid rgba(15,171,142,.15);
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 1px 3px rgba(0,0,0,.05);
+  padding:14px 16px 12px;
+}
+.cal-hrow1{display:flex;justify-content:space-between;align-items:center;margin-bottom:0}
+.cal-htitles .cal-sub{font-size:10.5px;color:#7AADA6;letter-spacing:.06em;text-transform:uppercase;font-weight:600;font-family:'PingFang TC','Microsoft JhengHei',sans-serif}
+.cal-htitles .cal-main{font-size:20px;font-weight:900;color:var(--teal);letter-spacing:-.3px;margin-top:3px}
+.cal-hdate{text-align:right;font-size:11px;color:#7AADA6}
+.cal-hdate strong{display:block;font-size:15px;font-weight:800;color:#1A2E2C;margin-top:1px;font-family:monospace}
+
+/* ══ Nav Tabs ══ */
+.cal-nav-tabs{
+  display:flex;gap:3px;
+  background:#fff;
+  border-bottom:1px solid rgba(15,171,142,.15);
+  padding:0 12px;
+  overflow-x:auto;-webkit-overflow-scrolling:touch;
+  position:sticky;top:0;z-index:90;
+  box-shadow:0 1px 3px rgba(0,0,0,.05);
+}
+.cal-nav-tabs::-webkit-scrollbar{display:none}
+.cal-nav-tab{
+  flex:0 0 auto;padding:12px 14px;
+  border:none;border-bottom:2px solid transparent;margin-bottom:-1px;
+  background:transparent;color:#7AADA6;
+  font-family:'PingFang TC','Microsoft JhengHei',sans-serif;
+  font-size:13px;font-weight:600;
+  cursor:pointer;white-space:nowrap;transition:all .18s;
+  -webkit-tap-highlight-color:transparent;
+}
+.cal-nav-tab.active{color:var(--teal);border-bottom-color:var(--teal);font-weight:700}
+.cal-nav-tab:hover:not(.active){color:#1A2E2C;background:rgba(15,171,142,.07);border-radius:8px 8px 0 0}
+
+/* ══ 桌機：Sidebar ══ */
+@media(min-width:900px){
+  body{padding:16px 14px 60px 224px !important}
+
+  .cal-header{
+    padding:16px 32px 14px 224px;
+    display:flex;align-items:center;gap:24px;
+  }
+  .cal-hrow1{flex:1;margin-bottom:0}
+  .cal-htitles .cal-main{font-size:22px}
+  .cal-hdate{white-space:nowrap}
+  .cal-hdate strong{font-size:17px}
+
+  .cal-nav-tabs{
+    position:fixed;left:0;top:0;bottom:0;width:200px;
+    flex-direction:column;align-items:stretch;
+    padding:0 10px 24px;
+    border-right:1px solid rgba(15,171,142,.14);
+    border-bottom:none;
+    overflow-y:auto;overflow-x:hidden;
+    box-shadow:2px 0 12px rgba(0,0,0,.04);
+    gap:3px;z-index:150;
+    background:#fff;
+    height:100vh;
+  }
+  .cal-nav-tabs::before{
+    content:'🚕 計程車管家';
+    display:block;
+    font-family:'PingFang TC','Microsoft JhengHei',sans-serif;
+    font-size:15px;font-weight:900;
+    color:var(--teal);letter-spacing:-.2px;
+    padding:28px 14px 20px;
+    border-bottom:1px solid rgba(15,171,142,.12);
+    margin-bottom:8px;
+    flex-shrink:0;
+  }
+  .cal-nav-tab{
+    padding:11px 14px;
+    border-bottom:none;border-left:3px solid transparent;
+    margin-bottom:0;border-radius:10px;
+    text-align:left;font-size:13.5px;
+  }
+  .cal-nav-tab.active{
+    border-bottom:none;border-left-color:var(--teal);
+    background:rgba(15,171,142,.1);color:var(--teal);font-weight:800;
+  }
+  .cal-nav-tab:hover:not(.active){border-radius:10px;border-left-color:transparent;background:rgba(15,171,142,.05)}
+}
+
+/* ══ 手機：頂部 Tab Bar ══ */
+@media(max-width:599px){
+  body{padding:0 !important}
+  #main-wrap{padding:136px 12px 60px !important}
+
+  .cal-nav-tabs{
+    position:fixed;top:0;left:0;right:0;bottom:auto;
+    flex-direction:row;padding:0 2px;
+    border-bottom:1px solid rgba(15,171,142,.15);border-top:none;
+    box-shadow:0 2px 10px rgba(0,0,0,.07);
+    z-index:200;height:50px;align-items:stretch;gap:0;
+  }
+  .cal-nav-tab{
+    flex:1 0 auto;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;
+    padding:5px 4px 3px;font-size:10px;font-weight:600;
+    border-bottom:2.5px solid transparent;border-top:none;
+    min-width:0;line-height:1.2;gap:1px;
+  }
+  .cal-nav-tab .tab-icon{font-size:14px;line-height:1}
+  .cal-nav-tab .tab-lbl{font-size:9.5px}
+  .cal-nav-tab.active{border-top:none;border-bottom-color:var(--teal);color:var(--teal);background:rgba(15,171,142,.08);font-weight:800}
+  .cal-header{position:sticky;top:50px;z-index:100;padding:10px 14px 9px}
+  .cal-htitles .cal-sub{font-size:10px}
+  .cal-htitles .cal-main{font-size:16px}
+  .cal-hdate strong{font-size:14px}
+}
+
+/* ══ 平板 ══ */
+@media(min-width:600px) and (max-width:899px){
+  .cal-header{padding:14px 20px 12px}
+  body{padding:16px 18px 60px}
+}
+
 /* MONTHLY STATS */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
 .stat-box{background:var(--mid);border-radius:9px;padding:11px;text-align:center}
@@ -194,24 +305,50 @@ select option{background:#F0F7F6}
 </head>
 <body>
 
+<!-- 行事曆風格 Header -->
+<header class="cal-header">
+  <div class="cal-hrow1">
+    <div class="cal-htitles">
+      <div class="cal-sub">計程車管家 · 營收彙總</div>
+      <div class="cal-main">🚕 計程車營收彙總表</div>
+    </div>
+    <div class="cal-hdate">
+      <strong id="cal-hdr-today"></strong>
+      <span id="cal-hdr-wd"></span>
+    </div>
+  </div>
+</header>
+
+<!-- 行事曆風格 Nav -->
+<nav class="cal-nav-tabs">
+  <button class="cal-nav-tab active" onclick="go('daily')" id="tab-daily">
+    <span class="tab-icon">📝</span><span class="tab-lbl">輸入</span>
+  </button>
+  <button class="cal-nav-tab" onclick="go('history')" id="tab-history">
+    <span class="tab-icon">📋</span><span class="tab-lbl">記錄</span>
+  </button>
+  <button class="cal-nav-tab" onclick="go('annual')" id="tab-annual">
+    <span class="tab-icon">📊</span><span class="tab-lbl">年度</span>
+  </button>
+  <button class="cal-nav-tab" onclick="go('export')" id="tab-export">
+    <span class="tab-icon">📤</span><span class="tab-lbl">匯出</span>
+  </button>
+  <button class="cal-nav-tab" onclick="go('inspect')" id="tab-inspect">
+    <span class="tab-icon">🔔</span><span class="tab-lbl">審驗</span>
+  </button>
+  <button class="cal-nav-tab" onclick="go('query')" id="tab-query">
+    <span class="tab-icon">🔍</span><span class="tab-lbl">查詢</span>
+  </button>
+  <button class="cal-nav-tab" onclick="go('maint')" id="tab-maint">
+    <span class="tab-icon">🔧</span><span class="tab-lbl">保養</span>
+  </button>
+  <button class="cal-nav-tab" onclick="go('parttime')" id="tab-parttime">
+    <span class="tab-icon">💼</span><span class="tab-lbl">兼職</span>
+  </button>
+</nav>
+
 <!-- 主要內容 -->
 <div id="main-wrap" style="display:block">
-
-<div class="hdr">
-  <h1>🚕 計程車營收彙總表</h1>
-  <p id="today-txt"></p>
-</div>
-
-<div class="tabs">
-  <button class="tab on" onclick="go('daily')">📝 輸入</button>
-  <button class="tab" onclick="go('history')">📋 記錄</button>
-  <button class="tab" onclick="go('annual')">📊 年度</button>
-  <button class="tab" onclick="go('export')">📤 匯出</button>
-  <button class="tab" onclick="go('inspect')">🔔 審驗</button>
-  <button class="tab" onclick="go('query')">🔍 查詢</button>
-  <button class="tab" onclick="go('maint')">🔧 保養</button>
-  <button class="tab" onclick="go('parttime')">💼 兼職</button>
-</div>
 
 <!-- ══ 每日輸入 ══ -->
 <div class="pane on" id="pane-daily">
@@ -1265,11 +1402,15 @@ function go(name) {
   var panes = document.querySelectorAll('.pane');
   for (var i = 0; i < panes.length; i++) panes[i].style.display = 'none';
   document.getElementById('pane-' + name).style.display = 'block';
-  var tabs = document.querySelectorAll('.tab');
-  for (var j = 0; j < tabs.length; j++) tabs[j].classList.remove('active');
-  event.currentTarget.classList.add('active');
+  // 更新新版 cal-nav-tab 的 active 狀態
+  var navTabs = document.querySelectorAll('.cal-nav-tab');
+  for (var j = 0; j < navTabs.length; j++) navTabs[j].classList.remove('active');
+  var target = document.getElementById('tab-' + name);
+  if (target) target.classList.add('active');
   if (name === 'inspect') renderInspect();
   if (name === 'maint') renderMaint();
+  // 手機版切換後滾回頂部（cal-header下方）
+  window.scrollTo({top:0,behavior:'smooth'});
 }
 
 // ── 子選單 ──
@@ -2451,6 +2592,19 @@ function checkPw() {
 }
 
 function initApp() {
+  // ── 初始化 Header 日期顯示 ──
+  (function initCalHeader(){
+    var days = ['日','一','二','三','四','五','六'];
+    var now = new Date();
+    var mm = now.getMonth()+1;
+    var dd = now.getDate();
+    var wd = days[now.getDay()];
+    var todayEl = document.getElementById('cal-hdr-today');
+    var wdEl = document.getElementById('cal-hdr-wd');
+    if (todayEl) todayEl.textContent = mm + '月 ' + dd + ' 日';
+    if (wdEl) wdEl.textContent = '星期' + wd;
+  })();
+
   (function initDate(){
     var dateEl = document.getElementById('date');
     if (dateEl) dateEl.value = today.toISOString().split('T')[0];
