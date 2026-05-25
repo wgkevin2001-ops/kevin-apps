@@ -756,6 +756,7 @@ async function syncFromGitHub(){if(!ghSettings.token){openGhModal();return}const
 async function openGhFile(catId,idx){const f=fileStore[catId][idx];if(!f.ghUrl)return;const status=document.getElementById('syncStatus');status.style.display='block';status.style.color='var(--ink-light)';status.textContent=`⏳ 開啟 ${f.name}…`;try{const res=await fetch(f.ghUrl);if(!res.ok)throw new Error('下載失敗');const blob=await res.blob();const file=new File([blob],f.name,{type:blob.type});f.fileObj=file;activeFileRef={catId,idx};renderCatList();switchTab('outline');await loadFile(file);f.docData=docData;status.style.color='var(--gr)';status.textContent=`✅ 已開啟 ${f.name}`;setTimeout(()=>status.style.display='none',2000)}catch(e){status.style.color='var(--rd)';status.textContent=`❌ ${e.message}`}}
 
 let ghSettings=Object.assign({token:'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',owner:'wgkevin2001-ops',repo:'kevin-apps',branch:'main',geminiKey:'AIzaSyBr9uns5hNEp0X8lUctvKnFYNHYZTGQ1R4'},JSON.parse(localStorage.getItem('ghSettings')||sessionStorage.getItem('ghSettings')||'{}'));let ghUploadFile=null;let ghSelectedFolder='合約';
+window.folderMap={'合約':'contract','繳費單據':'invoice','保險':'insurance','醫療單據':'medical','稅務文件':'tax','車輛文件':'vehicle','薪資文件':'salary','房屋文件':'house','尚未分類':'unsorted'};
 function openGhModal(){document.getElementById('ghToken').value=ghSettings.token||'';document.getElementById('ghOwner').value=ghSettings.owner||'';document.getElementById('ghRepo').value=ghSettings.repo||'';document.getElementById('ghBranch').value=ghSettings.branch||'main';document.getElementById('geminiKey').value=ghSettings.geminiKey||'';
   // Show current saved status
   const parts=[];if(ghSettings.geminiKey)parts.push('Gemini ✓');if(ghSettings.token)parts.push('GitHub ✓');
@@ -982,6 +983,8 @@ function downloadFile(catId, idx) {
 // Load saved files on startup
 loadFromStorage();
 updateGhStatusDot();
+// 啟動時自動從 GitHub 同步
+if(ghSettings.token && ghSettings.owner && ghSettings.repo){ setTimeout(syncFromGitHub, 800); }
 
 // ── MOBILE TAB SWITCHING ──────────────────────────────
 function isMobile(){return window.innerWidth<=768}
