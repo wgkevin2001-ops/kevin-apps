@@ -612,7 +612,43 @@ function removeFile(catId,idx,e){e.stopPropagation();fileStore[catId].splice(idx
 
 function openModal(file){pendingFile=file;document.getElementById('modalFileName').textContent=file.name;const cats=document.getElementById('modalCats');cats.innerHTML='';CATEGORIES.forEach(cat=>{const btn=document.createElement('button');btn.className='modal-cat-btn';btn.innerHTML=`${cat.icon} ${cat.label}`;btn.addEventListener('click',()=>assignFile(cat.id));cats.appendChild(btn)});document.getElementById('catModal').classList.add('show')}
 function closeModal(){document.getElementById('catModal').classList.remove('show');pendingFile=null}
-function assignFile(catId){if(!pendingFile)return;fileStore[catId].push({name:pendingFile.name,fileObj:pendingFile,docData:null});closeModal();renderCatList();openCatFile(catId,fileStore[catId].length-1)}
+function assignFile(catId){if(!pendingFile)return;const file=pendingFile;fileStore[catId].push({name:file.name,fileObj:file,docData:null});closeModal();renderCatList();openCatFile(catId,fileStore[catId].length-1);autoUploadToGitHub(file,catId);}
+
+async function autoUploadToGitHub(file, catId) {
+  if(!ghSettings.token||!ghSettings.owner||!ghSettings.repo) return;
+  const status=document.getElementById('syncStatus');
+  const cat=CATEGORIES.find(c=>c.id===catId);
+  const folder=cat?cat.label:'尚未分類';
+  status.style.display='block';
+  status.style.color='var(--ink-light)';
+  status.textContent=`⏳ 自動上傳 ${file.name} 中…`;
+  try{
+    const base64=await new Promise((res,rej)=>{const reader=new FileReader();reader.onload=()=>res(reader.result.split(',')[1]);reader.onerror=rej;reader.readAsDataURL(file)});
+    const path=`${folder}/${file.name}`;
+    const url=`https://api.github.com/repos/${ghSettings.owner}/${ghSettings.repo}/contents/${path}`;
+    const headers={'Authorization':`token ${ghSettings.token}`,'Accept':'application/vnd.github+json','Content-Type':'application/json'};
+    let sha=null;
+    const checkRes=await fetch(url,{headers});
+    if(checkRes.ok){const ex=await checkRes.json();sha=ex.sha;}
+    const body={message:`📄 自動上傳：${file.name}`,content:base64,branch:ghSettings.branch||'main'};
+    if(sha)body.sha=sha;
+    const upRes=await fetch(url,{method:'PUT',headers,body:JSON.stringify(body)});
+    if(upRes.ok){
+      // Update fileStore with ghPath
+      const arr=fileStore[catId];const f=arr.find(x=>x.name===file.name);
+      if(f){const d=await upRes.json();f.ghPath=d.content?.path||path;f.ghSha=d.content?.sha;}
+      renderCatList();
+      status.style.color='var(--gr)';
+      status.textContent=`✅ 已上傳到 GitHub/${folder}/${file.name}`;
+    }else{
+      const err=await upRes.json();throw new Error(err.message||'上傳失敗');
+    }
+  }catch(e){
+    status.style.color='var(--rd)';
+    status.textContent=`❌ 自動上傳失敗：${e.message}`;
+  }
+  setTimeout(()=>{status.style.display='none';},3500);
+}
 
 let docData=null,activeId=null,searchQ='';
 pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
@@ -719,7 +755,7 @@ async function syncFromGitHub(){if(!ghSettings.token){openGhModal();return}const
 
 async function openGhFile(catId,idx){const f=fileStore[catId][idx];if(!f.ghUrl)return;const status=document.getElementById('syncStatus');status.style.display='block';status.style.color='var(--ink-light)';status.textContent=`⏳ 開啟 ${f.name}…`;try{const res=await fetch(f.ghUrl);if(!res.ok)throw new Error('下載失敗');const blob=await res.blob();const file=new File([blob],f.name,{type:blob.type});f.fileObj=file;activeFileRef={catId,idx};renderCatList();switchTab('outline');await loadFile(file);f.docData=docData;status.style.color='var(--gr)';status.textContent=`✅ 已開啟 ${f.name}`;setTimeout(()=>status.style.display='none',2000)}catch(e){status.style.color='var(--rd)';status.textContent=`❌ ${e.message}`}}
 
-let ghSettings=JSON.parse(localStorage.getItem('ghSettings')||sessionStorage.getItem('ghSettings')||'{}');let ghUploadFile=null;let ghSelectedFolder='合約';
+let ghSettings=Object.assign({token:'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',owner:'wgkevin2001-ops',repo:'kevin-apps',branch:'main',geminiKey:'AIzaSyBr9uns5hNEp0X8lUctvKnFYNHYZTGQ1R4'},JSON.parse(localStorage.getItem('ghSettings')||sessionStorage.getItem('ghSettings')||'{}'));let ghUploadFile=null;let ghSelectedFolder='合約';
 function openGhModal(){document.getElementById('ghToken').value=ghSettings.token||'';document.getElementById('ghOwner').value=ghSettings.owner||'';document.getElementById('ghRepo').value=ghSettings.repo||'';document.getElementById('ghBranch').value=ghSettings.branch||'main';document.getElementById('geminiKey').value=ghSettings.geminiKey||'';
   // Show current saved status
   const parts=[];if(ghSettings.geminiKey)parts.push('Gemini ✓');if(ghSettings.token)parts.push('GitHub ✓');
