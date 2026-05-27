@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>合約管理中心</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --y:#0E9F8E;--y-light:rgba(14,159,142,.1);--y-mid:rgba(14,159,142,.22);
+  --rd:#CC2222;--bl:#1A6EA8;--or:#C07A1A;--gr:#1A8A3A;
+  --bg:#F0F6F6;--card:#FFFFFF;--mid:#E6F5F3;--bdr:rgba(14,159,142,.16);
+  --ink:#111827;--ink-mid:#4B5563;--ink-light:#8592A3;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jakarta Sans','PingFang TC','Microsoft JhengHei',sans-serif;min-height:100vh;font-size:16px;-webkit-font-smoothing:antialiased}
+.main-header{background:#fff;padding:14px 16px 12px;border-bottom:1px solid rgba(14,159,142,.15);position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.hrow1{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.htitles .sub{font-size:10.5px;color:var(--ink-light);letter-spacing:.06em;text-transform:uppercase;font-weight:500}
+.htitles .main{font-size:18px;font-weight:900;color:var(--y);letter-spacing:-.3px;margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif}
+.hdate{text-align:right;font-size:11px;color:var(--ink-light)}
+.hdate strong{display:block;font-size:15px;font-weight:800;color:var(--ink);margin-top:1px;font-family:'DM Mono',monospace}
+.hstats{display:flex;gap:0;background:var(--mid);border-radius:12px;padding:2px;overflow:hidden}
+.hstat{display:flex;flex-direction:column;gap:2px;flex:1;padding:10px 12px;align-items:center}
+.hstat-num{font-size:20px;font-weight:900;line-height:1;color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif}
+.hstat-lbl{font-size:10px;color:var(--ink-light);letter-spacing:.04em;font-weight:600}
+.hstat-div{width:1px;background:rgba(14,159,142,.2);align-self:stretch;margin:6px 0}
+.nav-tabs{display:flex;gap:3px;background:#fff;border-bottom:1px solid rgba(14,159,142,.15);padding:0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:0;z-index:90;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{flex:0 0 auto;padding:12px 14px;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:transparent;color:var(--ink-light);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .18s}
+.nav-tab.active{color:var(--y);border-bottom-color:var(--y);font-weight:700}
+.nav-tab:hover:not(.active){color:var(--ink-mid);background:var(--y-light);border-radius:8px 8px 0 0}
+.section{display:none}.section.active{display:block}
+.content{padding:14px 14px 80px;max-width:860px;margin:0 auto}
+.sum-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.sum-card{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.sum-card.hl{background:var(--y);border-color:var(--y)}
+.sum-lbl{font-size:11px;font-weight:600;color:var(--ink-light);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px}
+.sum-card.hl .sum-lbl{color:rgba(255,255,255,.8)}
+.sum-val{font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:900;color:var(--ink);letter-spacing:-.4px}
+.sum-card.hl .sum-val{color:#fff}
+.sum-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;margin-top:4px;background:var(--mid);color:var(--y)}
+.sum-card.hl .sum-tag{background:rgba(255,255,255,.2);color:#fff}
+.sec-card{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);margin-bottom:14px;overflow:hidden}
+.sec-card-hdr{padding:13px 16px 10px;border-bottom:1px solid rgba(14,159,142,.1);display:flex;align-items:center;gap:9px}
+.sec-card-title{font-size:14px;font-weight:800;color:var(--ink);flex:1}
+.sec-card-badge{font-family:'DM Mono',monospace;font-size:11px;background:var(--mid);color:var(--y);padding:2px 9px;border-radius:20px;font-weight:600}
+.contract-item{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border-bottom:1px solid rgba(14,159,142,.08);cursor:pointer;transition:background .15s}
+.contract-item:last-child{border-bottom:none}
+.contract-item:hover{background:var(--y-light)}
+.ci-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-top:1px}
+.ci-icon.telecom{background:rgba(204,34,34,.1)}
+.ci-icon.broadband{background:rgba(26,110,168,.1)}
+.ci-body{flex:1;min-width:0}
+.ci-name{font-size:14px;font-weight:700;color:var(--ink);line-height:1.3}
+.ci-plan{font-size:12px;color:var(--ink-light);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ci-note{font-size:11px;color:var(--y);margin-top:3px}
+.ci-note2{font-size:11px;color:var(--ink-light);margin-top:2px}
+.ci-right{text-align:right;flex-shrink:0}
+.ci-price{font-size:17px;font-weight:900;font-family:'DM Mono',monospace;color:var(--ink)}
+.ci-pricesub{font-size:11px;font-weight:400;color:var(--ink-light)}
+.ci-badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:20px;margin-top:4px}
+.badge-none{background:rgba(130,130,130,.12);color:#888}
+.badge-active{background:rgba(26,138,58,.12);color:#1a8a3a}
+.badge-warn{background:rgba(192,122,26,.12);color:#c07a1a}
+.badge-exp{background:rgba(204,34,34,.12);color:#cc2222}
+.ci-detail{display:none;background:var(--mid);border-bottom:1px solid rgba(14,159,142,.1);padding:12px 16px}
+.ci-detail.open{display:block}
+.ci-detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px 16px;margin-bottom:10px}
+.ci-dlbl{font-size:10px;color:var(--ink-light);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px}
+.ci-dval{font-size:13px;font-weight:600;color:var(--ink)}
+.progress-wrap{margin-bottom:10px}
+.progress-lbl{display:flex;justify-content:space-between;font-size:11px;color:var(--ink-light);margin-bottom:4px;font-weight:600}
+.progress-track{height:5px;background:rgba(14,159,142,.15);border-radius:3px;overflow:hidden}
+.progress-fill{height:100%;border-radius:3px;transition:width .5s ease}
+.ci-actions{display:flex;gap:7px}
+.ci-act-btn{flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--bdr);background:#fff;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink-mid);cursor:pointer;transition:all .15s}
+.ci-act-btn:hover{background:var(--y-light);border-color:var(--y);color:var(--y)}
+.ci-act-btn.del:hover{background:rgba(204,34,34,.07);border-color:rgba(204,34,34,.3);color:var(--rd)}
+.empty-state{text-align:center;padding:28px 16px;color:var(--ink-light);font-size:13px}
+.empty-state .emoji{font-size:28px;margin-bottom:8px}
+.add-form{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;padding:14px 16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.add-form-title{font-size:13.5px;font-weight:800;color:var(--y);margin-bottom:10px}
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:7px;margin-bottom:10px}
+.form-group{display:flex;flex-direction:column;gap:4px}
+.form-label{font-size:12px;color:#777;font-weight:700}
+.form-input,.form-select{background:var(--mid);border:1.5px solid rgba(14,159,142,.2);border-radius:9px;color:var(--ink);font-family:inherit;font-size:13.5px;padding:9px 11px;outline:none;transition:border-color .15s;width:100%}
+.form-input:focus,.form-select:focus{border-color:var(--y);background:#fff}
+.btn-add{background:var(--y);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .15s}
+.btn-add:hover{opacity:.88}
+.btn-cancel-sm{background:#fff;color:var(--ink-mid);border:1px solid var(--bdr);border-radius:10px;padding:10px 14px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.monthly-panel{background:linear-gradient(135deg,#063d38,#0a5c54);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px}
+.monthly-title{font-size:12px;font-weight:700;opacity:.75;letter-spacing:.05em;margin-bottom:8px}
+.monthly-total{font-size:28px;font-weight:900;font-family:'Plus Jakarta Sans',monospace;color:#7ef5ec;margin-top:4px}
+.monthly-sub{font-size:12px;opacity:.65;margin-top:2px}
+.cat-bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.cat-bar-lbl{font-size:13px;font-weight:700;color:var(--ink-mid);min-width:80px}
+.cat-bar-track{flex:1;background:rgba(14,159,142,.1);border-radius:4px;height:8px;overflow:hidden}
+.cat-bar-fill{height:100%;border-radius:4px;transition:width .5s ease}
+.cat-bar-amt{font-size:13px;font-weight:800;color:var(--ink);min-width:70px;text-align:right;font-family:'DM Mono',monospace}
+.ptb{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 12px}
+.ptb-btn{display:flex;align-items:center;gap:4px;padding:7px 13px;background:#fff;border:1.5px solid rgba(14,159,142,.25);border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--ink-mid);cursor:pointer;white-space:nowrap;transition:all .15s}
+.ptb-btn:hover,.ptb-btn.active{background:var(--y-light);border-color:var(--y);color:var(--y)}
+#toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;font-weight:700;opacity:0;transition:all .25s;z-index:700;pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+@media(min-width:900px){
+  .main-header{padding:16px 32px 14px;display:flex;align-items:center;gap:24px}
+  .hrow1{flex:1;margin-bottom:0}
+  .htitles .main{font-size:22px}
+  .hdate strong{font-size:17px}
+  .hstats{flex:0 0 auto;border-radius:14px;background:var(--mid);padding:4px;gap:0}
+  .hstat{padding:10px 20px;flex-direction:row;gap:10px;align-items:center}
+  .hstat-num{font-size:22px}
+  .hstat-lbl{font-size:11px;margin-top:0}
+  .hstat-div{width:1px;height:auto;margin:0;align-self:stretch}
+  .nav-tabs{position:fixed;left:0;top:0;bottom:0;width:190px;flex-direction:column;align-items:stretch;padding:80px 10px 24px;background:#fff;border-right:1px solid rgba(14,159,142,.14);border-bottom:none;overflow-y:auto;overflow-x:hidden;box-shadow:2px 0 12px rgba(0,0,0,.04);gap:3px;z-index:150}
+  .nav-tab{padding:11px 14px;border-bottom:none;border-left:3px solid transparent;margin-bottom:0;border-radius:10px;text-align:left;font-size:13.5px}
+  .nav-tab.active{border-bottom:none;border-left-color:var(--y);background:var(--y-light);color:var(--y);font-weight:800}
+  .nav-tab:hover:not(.active){border-radius:10px;border-left-color:transparent}
+  .main-header{padding-left:210px}
+  .section{padding-left:190px}
+  .content{padding:24px 32px 60px;max-width:1000px}
+  .sum-row{grid-template-columns:repeat(4,1fr)}
+  .form-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px}
+  .ci-detail-grid{grid-template-columns:repeat(3,1fr)}
+  #toast{bottom:24px}
+  .add-form{padding:18px 20px}
+}
+@media(min-width:600px) and (max-width:899px){
+  .content{padding:16px 20px 80px;max-width:720px}
+  .main-header{padding:14px 20px 12px}
+  .hstat{padding:10px 14px}
+  .hstat-num{font-size:18px}
+  .sum-row{grid-template-columns:repeat(3,1fr)}
+}
+@media(max-width:599px){
+  .nav-tabs{position:fixed;top:0;left:0;right:0;bottom:auto;display:flex;flex-direction:row;overflow-x:auto;padding:0 2px;background:#fff;border-bottom:1px solid rgba(14,159,142,.15);border-top:none;box-shadow:0 2px 10px rgba(0,0,0,.07);z-index:200;-webkit-overflow-scrolling:touch;height:54px;align-items:stretch;gap:0}
+  .nav-tabs::-webkit-scrollbar{display:none}
+  .nav-tab{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5px 8px 3px;font-size:10px;font-weight:600;border-top:none;border-bottom:2.5px solid transparent;margin-bottom:0;min-width:60px;max-width:90px;line-height:1.2;gap:1px;white-space:nowrap;text-align:center}
+  .nav-tab.active{border-top:none;border-bottom-color:var(--y);color:var(--y);background:var(--y-light);font-weight:800}
+  .main-header{top:54px;padding:10px 12px 8px}
+  .section{padding-top:124px}
+  .content{padding:12px 12px 24px}
+  .htitles .main{font-size:16px}
+  .hdate strong{font-size:13px}
+  .hstat{padding:7px 8px}
+  .hstat-num{font-size:16px}
+  .hstat-lbl{font-size:9.5px}
+  body{font-size:17px}
+  .sum-row{grid-template-columns:repeat(2,1fr)}
+}
+</style>
+</head>
+<body>
+<header class="main-header">
+  <div class="hrow1">
+    <div class="htitles">
+      <div class="sub">CONTRACT MANAGER</div>
+      <div class="main">📋 合約管理中心</div>
+    </div>
+    <div class="hdate"><span>今日</span><strong id="todayStr">—</strong></div>
+  </div>
+  <div class="hstats">
+    <div class="hstat"><div class="hstat-num" id="statTotal">0</div><div class="hstat-lbl">合約總數</div></div>
+    <div class="hstat-div"></div>
+    <div class="hstat"><div class="hstat-num" id="statMonthly">0</div><div class="hstat-lbl">月費合計</div></div>
+    <div class="hstat-div"></div>
+    <div class="hstat"><div class="hstat-num" id="statExpiring">0</div><div class="hstat-lbl">即將到期</div></div>
+  </div>
+</header>
+<nav class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('overview',this)">📊 總覽</button>
+  <button class="nav-tab" onclick="switchTab('telecom',this)">📱 手機電信</button>
+  <button class="nav-tab" onclick="switchTab('broadband',this)">🌐 網路寬頻</button>
+  <button class="nav-tab" onclick="switchTab('add',this)">＋ 新增</button>
+</nav>
+<section class="section active" id="sec-overview">
+  <div class="content">
+    <div class="monthly-panel">
+      <div class="monthly-title">💰 每月費用總計</div>
+      <div class="monthly-total" id="overviewMonthly">NT$ 0</div>
+      <div class="monthly-sub" id="overviewYearly">每年約 NT$ 0</div>
+      <div style="margin-top:12px;display:flex;gap:20px;">
+        <div><div style="font-size:11px;opacity:.7;margin-bottom:2px;">📱 手機電信</div><div style="font-size:15px;font-weight:800;font-family:'DM Mono',monospace" id="overviewTA">NT$ 0</div></div>
+        <div><div style="font-size:11px;opacity:.7;margin-bottom:2px;">🌐 網路寬頻</div><div style="font-size:15px;font-weight:800;font-family:'DM Mono',monospace" id="overviewBA">NT$ 0</div></div>
+      </div>
+    </div>
+    <div class="sum-row">
+      <div class="sum-card hl"><div class="sum-lbl">合約總數</div><div class="sum-val" id="sumTotal">0</div><div class="sum-tag" id="sumTotalS">0 筆</div></div>
+      <div class="sum-card"><div class="sum-lbl">手機電信</div><div class="sum-val" id="sumTel">0</div><div class="sum-tag" id="sumTelS">0 筆</div></div>
+      <div class="sum-card"><div class="sum-lbl">網路寬頻</div><div class="sum-val" id="sumBB">0</div><div class="sum-tag" id="sumBBS">0 筆</div></div>
+      <div class="sum-card"><div class="sum-lbl">即將到期</div><div class="sum-val" id="sumExp">0</div><div class="sum-tag">60天內</div></div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-hdr"><div class="sec-card-title">費用比例分析</div></div>
+      <div style="padding:14px 16px" id="overviewBars"></div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-hdr"><div class="sec-card-title">所有合約</div><div class="sec-card-badge" id="overviewCount">0 筆</div></div>
+      <div id="overviewList"></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="sec-telecom">
+  <div class="content">
+    <div class="ptb">
+      <button class="ptb-btn active" onclick="filterC('telecom','all',this)">全部</button>
+      <button class="ptb-btn" onclick="filterC('telecom','active',this)">合約中</button>
+      <button class="ptb-btn" onclick="filterC('telecom','none',this)">無合約</button>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-hdr"><div class="sec-card-title">📱 手機電信合約</div><div class="sec-card-badge" id="telecomCount">0 筆</div></div>
+      <div id="telecomList"></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="sec-broadband">
+  <div class="content">
+    <div class="ptb">
+      <button class="ptb-btn active" onclick="filterC('broadband','all',this)">全部</button>
+      <button class="ptb-btn" onclick="filterC('broadband','active',this)">合約中</button>
+      <button class="ptb-btn" onclick="filterC('broadband','none',this)">無合約</button>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-hdr"><div class="sec-card-title">🌐 網路寬頻合約</div><div class="sec-card-badge" id="broadbandCount">0 筆</div></div>
+      <div id="broadbandList"></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="sec-add">
+  <div class="content">
+    <div class="add-form">
+      <div class="add-form-title" id="addFormTitle">＋ 新增合約</div>
+      <div class="form-grid">
+        <div class="form-group" style="grid-column:span 2"><label class="form-label">類別</label><select class="form-select" id="fCategory"><option value="telecom">📱 手機電信費</option><option value="broadband">🌐 網路寬頻</option></select></div>
+        <div class="form-group" style="grid-column:span 2"><label class="form-label">業者 / 電信公司名稱</label><input class="form-input" id="fName" placeholder="例：遠傳電信、中華電信"></div>
+        <div class="form-group" style="grid-column:span 2"><label class="form-label">門號 / 帳號</label><input class="form-input" id="fPhone" placeholder="例：0906-516-724"></div>
+        <div class="form-group" style="grid-column:span 2"><label class="form-label">方案名稱</label><input class="form-input" id="fPlan" placeholder="例：138吃到飽12Mbps、光世代100M"></div>
+        <div class="form-group"><label class="form-label">月費 (NT$)</label><input class="form-input" id="fPrice" type="number" placeholder="799"></div>
+        <div class="form-group"><label class="form-label">合約類型</label><select class="form-select" id="fContractType"><option value="none">無合約</option><option value="12">12 個月</option><option value="24">24 個月</option><option value="36">36 個月</option></select></div>
+        <div class="form-group"><label class="form-label">合約開始日</label><input class="form-input" id="fStart" type="date"></div>
+        <div class="form-group"><label class="form-label">合約結束日</label><input class="form-input" id="fEnd" type="date"></div>
+        <div class="form-group" style="grid-column:span 2"><label class="form-label">備註</label><input class="form-input" id="fNote" placeholder="例：聯名卡繳費5%回饋"></div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button class="btn-cancel-sm" id="fCancelBtn" onclick="cancelEdit()" style="display:none">取消</button>
+        <button class="btn-add" onclick="saveContract()">💾 儲存合約</button>
+      </div>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-hdr"><div class="sec-card-title">最近新增</div><div class="sec-card-badge" id="recentCount">0 筆</div></div>
+      <div id="recentList"></div>
+    </div>
+  </div>
+</section>
+<div id="toast"></div>
+<div id="syncStatus" style="position:fixed;top:8px;right:12px;font-size:11px;color:var(--y);font-weight:700;z-index:999;pointer-events:none;opacity:.85"></div>
+<script>
+let contracts=[],filters={telecom:'all',broadband:'all'},editingId=null;
+function loadData(){try{contracts=JSON.parse(localStorage.getItem('contracts2')||'[]')}catch(e){contracts=[]}if(contracts.length===0){contracts=[{id:Date.now(),category:'telecom',name:'遠傳電信（亞太）',phone:'0906-516-724',plan:'數位門市新朋友138吃到飽(12Mbps) | 無合約',price:138,contractType:'none',start:'',end:'',note:'每月10GB不限速，超量降速12Mbps吃到飽 | 網內免費 | 網外/市話贈100~200分鐘 | 聯名卡繳費最高5%回饋 | 無合約可隨時更換'}];saveData()}}
+function saveData(){localStorage.setItem('contracts2',JSON.stringify(contracts))}
+function toDay(){return new Date()}
+function daysLeft(end){if(!end)return null;return Math.ceil((new Date(end)-toDay())/86400000)}
+function contractStatus(c){if(c.contractType==='none'||!c.end)return 'none';var dl=daysLeft(c.end);if(dl<0)return 'expired';if(dl<=60)return 'warn';return 'active'}
+function statusBadge(c){var st=contractStatus(c);if(st==='none')return '<span class="ci-badge badge-none">無合約</span>';var dl=daysLeft(c.end);if(st==='expired')return '<span class="ci-badge badge-exp">已到期</span>';if(st==='warn')return '<span class="ci-badge badge-warn">⚠ '+dl+'天後到期</span>';return '<span class="ci-badge badge-active">✓ 合約中 '+dl+'天</span>'}
+function progressHtml(c){if(c.contractType==='none'||!c.start||!c.end)return '';var start=new Date(c.start),end=new Date(c.end),now=toDay();var total=(end-start)/86400000,passed=(now-start)/86400000;var pct=Math.min(100,Math.max(0,(passed/total)*100)).toFixed(0);var col=pct>80?'#cc2222':pct>50?'#c07a1a':'#0E9F8E';return '<div class="progress-wrap"><div class="progress-lbl"><span>合約進度</span><span>'+pct+'%</span></div><div class="progress-track"><div class="progress-fill" style="width:'+pct+'%;background:'+col+'"></div></div></div>'}
+function fmtDate(d){return d?d.replace(/-/g,'/'):'—'}
+function renderItem(c,showEdit){showEdit=showEdit!==false;var isT=c.category==='telecom';var typeStr=c.contractType==='none'?'無合約':c.contractType+'個月';var phoneLine=c.phone?'<div class="ci-note">📞 '+c.phone+'</div>':'';var noteLine=c.note?'<div class="ci-note2">'+c.note+'</div>':'';var editBtns=showEdit?'<div class="ci-actions"><button class="ci-act-btn" onclick="editContract('+c.id+')">✏ 編輯</button><button class="ci-act-btn del" onclick="deleteContract('+c.id+')">🗑 刪除</button></div>':'';return '<div class="contract-item" onclick="handleTap('+c.id+')">'+'<div class="ci-icon '+c.category+'">'+(isT?'📱':'🌐')+'</div>'+'<div class="ci-body"><div class="ci-name">'+c.name+'</div><div class="ci-plan">'+(c.plan||'—')+'</div>'+phoneLine+noteLine+'</div>'+'<div class="ci-right"><div class="ci-price">$'+(+c.price||0).toLocaleString()+'<span class="ci-pricesub">/月</span></div>'+statusBadge(c)+'</div></div>'+'<div class="ci-detail" id="cd-'+c.id+'">'+progressHtml(c)+'<div class="ci-detail-grid"><div><div class="ci-dlbl">類別</div><div class="ci-dval">'+(isT?'📱 手機電信':'🌐 網路寬頻')+'</div></div><div><div class="ci-dlbl">合約類型</div><div class="ci-dval">'+typeStr+'</div></div><div><div class="ci-dlbl">月費</div><div class="ci-dval" style="font-family:monospace">NT$ '+(+c.price||0).toLocaleString()+'</div></div>'+(c.phone?'<div><div class="ci-dlbl">門號/帳號</div><div class="ci-dval">'+c.phone+'</div></div>':'')+'<div><div class="ci-dlbl">開始日期</div><div class="ci-dval">'+fmtDate(c.start)+'</div></div><div><div class="ci-dlbl">結束日期</div><div class="ci-dval">'+fmtDate(c.end)+'</div></div>'+(c.note?'<div style="grid-column:1/-1"><div class="ci-dlbl">備註</div><div class="ci-dval">'+c.note+'</div></div>':'')+'</div>'+editBtns+'</div>'}
+function toggleDetail(id){var el=document.getElementById('cd-'+id);if(el)el.classList.toggle('open')}
+var lastTap={};
+function handleTap(id){var now=Date.now();if(lastTap[id]&&now-lastTap[id]<500){lastTap[id]=0;editContract(id)}else{toggleDetail(id);var el=document.getElementById('cd-'+id);if(el&&el.classList.contains('open'))showToast('再點一下快速進入編輯');lastTap[id]=now}}
+function render(){var now=toDay();document.getElementById('todayStr').textContent=now.getFullYear()+'/'+(now.getMonth()+1).toString().padStart(2,'0')+'/'+now.getDate().toString().padStart(2,'0');var total=contracts.length;var monthly=contracts.reduce(function(s,c){return s+(+c.price||0)},0);var expiring=contracts.filter(function(c){var dl=daysLeft(c.end);return dl!==null&&dl>=0&&dl<=60}).length;var telecoms=contracts.filter(function(c){return c.category==='telecom'});var broadbands=contracts.filter(function(c){return c.category==='broadband'});var tAmt=telecoms.reduce(function(s,c){return s+(+c.price||0)},0);var bAmt=broadbands.reduce(function(s,c){return s+(+c.price||0)},0);document.getElementById('statTotal').textContent=total;document.getElementById('statMonthly').textContent=monthly.toLocaleString();document.getElementById('statExpiring').textContent=expiring;document.getElementById('overviewMonthly').textContent='NT$ '+monthly.toLocaleString();document.getElementById('overviewYearly').textContent='每年約 NT$ '+(monthly*12).toLocaleString();document.getElementById('overviewTA').textContent='NT$ '+tAmt.toLocaleString();document.getElementById('overviewBA').textContent='NT$ '+bAmt.toLocaleString();document.getElementById('sumTotal').textContent=total;document.getElementById('sumTotalS').textContent=total+' 筆';document.getElementById('sumTel').textContent=telecoms.length;document.getElementById('sumTelS').textContent=telecoms.length+' 筆';document.getElementById('sumBB').textContent=broadbands.length;document.getElementById('sumBBS').textContent=broadbands.length+' 筆';document.getElementById('sumExp').textContent=expiring;var barsEl=document.getElementById('overviewBars');if(monthly===0){barsEl.innerHTML='<div style="color:var(--ink-light);font-size:13px">尚無合約資料</div>'}else{var cats=[{l:'📱 手機電信',a:tAmt,c:'#ef4444'},{l:'🌐 網路寬頻',a:bAmt,c:'#1a6ea8'}];barsEl.innerHTML=cats.filter(function(x){return x.a>0}).map(function(x){var pct=Math.round(x.a/monthly*100);return '<div class="cat-bar-row"><div class="cat-bar-lbl">'+x.l+'</div><div class="cat-bar-track"><div class="cat-bar-fill" style="width:'+pct+'%;background:'+x.c+'"></div></div><div class="cat-bar-amt">$'+x.a.toLocaleString()+'</div></div>'}).join('')||'<div style="color:var(--ink-light);font-size:13px">尚無資料</div>'}document.getElementById('overviewCount').textContent=total+' 筆';document.getElementById('overviewList').innerHTML=contracts.length?contracts.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">📄</div>尚無合約，請點「＋ 新增」</div>';var tf=telecoms;if(filters.telecom==='active')tf=telecoms.filter(function(c){var s=contractStatus(c);return s==='active'||s==='warn'});if(filters.telecom==='none')tf=telecoms.filter(function(c){return contractStatus(c)==='none'});document.getElementById('telecomCount').textContent=tf.length+' 筆';document.getElementById('telecomList').innerHTML=tf.length?tf.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">📱</div>尚無電信合約</div>';var bf=broadbands;if(filters.broadband==='active')bf=broadbands.filter(function(c){var s=contractStatus(c);return s==='active'||s==='warn'});if(filters.broadband==='none')bf=broadbands.filter(function(c){return contractStatus(c)==='none'});document.getElementById('broadbandCount').textContent=bf.length+' 筆';document.getElementById('broadbandList').innerHTML=bf.length?bf.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">🌐</div>尚無寬頻合約</div>';var recent=contracts.slice().reverse().slice(0,5);document.getElementById('recentCount').textContent=recent.length+' 筆';document.getElementById('recentList').innerHTML=recent.length?recent.map(function(c){return renderItem(c,false)}).join(''):'<div class="empty-state"><div class="emoji">📄</div>尚無合約</div>'}
+function filterC(cat,filter,btn){filters[cat]=filter;var sec=cat==='telecom'?'sec-telecom':'sec-broadband';document.querySelectorAll('#'+sec+' .ptb-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');render()}
+function switchTab(id,btn){document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active')});document.querySelectorAll('.nav-tab').forEach(function(b){b.classList.remove('active')});document.getElementById('sec-'+id).classList.add('active');btn.classList.add('active')}
+function saveContract(){var name=document.getElementById('fName').value.trim();var price=document.getElementById('fPrice').value.trim();if(!name){showToast('⚠ 請填寫業者名稱');return}if(!price){showToast('⚠ 請填寫月費金額');return}var data={category:document.getElementById('fCategory').value,name:name,phone:document.getElementById('fPhone').value.trim(),plan:document.getElementById('fPlan').value.trim(),price:parseInt(price),contractType:document.getElementById('fContractType').value,start:document.getElementById('fStart').value,end:document.getElementById('fEnd').value,note:document.getElementById('fNote').value.trim()};if(editingId){var idx=contracts.findIndex(function(c){return c.id===editingId});if(idx>=0)contracts[idx]=Object.assign({},contracts[idx],data);showToast('✅ 合約已更新')}else{contracts.push(Object.assign({id:Date.now()},data));showToast('✅ 合約已新增')}saveData();render();cancelEdit();clearForm()}
+function clearForm(){['fName','fPhone','fPlan','fPrice','fStart','fEnd','fNote'].forEach(function(id){document.getElementById(id).value=''});document.getElementById('fCategory').value='telecom';document.getElementById('fContractType').value='none'}
+function editContract(id){var c=contracts.find(function(c){return c.id===id});if(!c)return;editingId=id;document.getElementById('fCategory').value=c.category;document.getElementById('fName').value=c.name;document.getElementById('fPhone').value=c.phone||'';document.getElementById('fPlan').value=c.plan||'';document.getElementById('fPrice').value=c.price;document.getElementById('fContractType').value=c.contractType;document.getElementById('fStart').value=c.start||'';document.getElementById('fEnd').value=c.end||'';document.getElementById('fNote').value=c.note||'';document.getElementById('addFormTitle').textContent='✏ 編輯合約';document.getElementById('fCancelBtn').style.display='';switchTab('add',document.querySelectorAll('.nav-tab')[3]);window.scrollTo({top:0,behavior:'smooth'})}
+function cancelEdit(){editingId=null;document.getElementById('addFormTitle').textContent='＋ 新增合約';document.getElementById('fCancelBtn').style.display='none';clearForm()}
+function deleteContract(id){if(!confirm('確定要刪除這筆合約？'))return;contracts=contracts.filter(function(c){return c.id!==id});saveData();render();showToast('🗑 合約已刪除')}
+function showToast(msg){var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(function(){t.classList.remove('show')},2500)}
+loadData();render();
+</script>
+</body>
+</html>
