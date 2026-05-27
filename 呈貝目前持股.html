@@ -222,6 +222,15 @@ tbody td:last-child  { padding-right: 14px; }
   padding: 1px 5px; border-radius: 3px;
   margin-left: 4px; vertical-align: middle;
 }
+.note-badge {
+  display: inline-block;
+  font-size: 9px; font-weight: 700;
+  background: #FFF8E1; color: #F59E0B;
+  border: 1px solid #FDE68A;
+  padding: 1px 6px; border-radius: 3px;
+  margin-left: 4px; vertical-align: middle;
+  letter-spacing: .02em;
+}
 .mono { font-family: 'DM Mono', monospace; font-size: 13px; color: var(--gray-700, #374151); font-weight: 500; }
 .pnl-up   { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700; color: var(--coral); }
 .pnl-down { font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 700; color: var(--green); }
@@ -307,7 +316,8 @@ tbody td:last-child  { padding-right: 14px; }
 .stock-card:hover { background: var(--gray-50); }
 .sc-top { display: flex; align-items: center; gap: 6px; }
 .sc-rank { font-family: 'DM Mono', monospace; font-size: 11px; font-weight: 600; color: var(--gray-400); min-width: 16px; }
-.sc-name { font-size: 13.5px; font-weight: 800; color: var(--gray-800); }
+.sc-name { font-size: 13.5px; font-weight: 800; color: var(--gray-800); cursor: pointer; }
+.sc-name:hover { color: var(--coral); text-decoration: underline; text-underline-offset: 2px; }
 .sc-code { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--gray-500, #6B7280); margin-left: 2px; }
 .sc-rate {
   font-family: 'DM Mono', monospace;
@@ -661,102 +671,117 @@ tbody td:last-child  { padding-right: 14px; }
 }
 
 /* ══════════════════════════════════════════
-   MOBILE (≤ 599px)
+   MOBILE (≤ 599px)  ── 字體 +20%
 ══════════════════════════════════════════ */
 @media(max-width:599px){
   /* page 讓出 nav(50px) + header(~78px) */
-  .page { display:none; padding:12px 12px 28px; }
-  .page.active { display:block; padding-top:132px; }
+  .page { display:none; padding:14px 14px 34px; }
+  .page.active { display:block; padding-top:140px; }
 
   /* 摘要 2欄，最後一張全寬 */
-  .summary-row { grid-template-columns:1fr 1fr; gap:9px; }
+  .summary-row { grid-template-columns:1fr 1fr; gap:11px; }
   .summary-row .sum-card:last-child { grid-column:1/-1; }
-  .plan-sum-row { grid-template-columns:1fr 1fr; gap:9px; }
+  .plan-sum-row { grid-template-columns:1fr 1fr; gap:11px; }
   .plan-sum-row .sum-card:last-child { grid-column:1/-1; }
-  .sum-card { padding:13px 14px; }
-  .sum-value { font-size:20px; }
-  .sum-label { font-size:10.5px; }
+  .sum-card { padding:16px 16px; }
+  .sum-value { font-size:24px; }
+  .sum-label { font-size:12.5px; }
+  .sum-rate { font-size:13px; padding:3px 9px; }
 
   /* section */
-  .section-card { margin-bottom:11px; }
-  .section-hdr { padding:11px 14px 9px; flex-wrap:wrap; gap:6px; }
-  .section-title { font-size:14px; }
-  .section-badge { font-size:11px; }
+  .section-card { margin-bottom:13px; }
+  .section-hdr { padding:13px 16px 11px; flex-wrap:wrap; gap:7px; }
+  .section-title { font-size:17px; }
+  .section-badge { font-size:13px; padding:4px 11px; }
+
+  /* 股票卡片 */
+  .stock-card { padding:14px 16px 16px; }
+  .sc-rank { font-size:13px; }
+  .sc-name { font-size:16px !important; }
+  .sc-code { font-size:13px; }
+  .sc-rate { font-size:18px !important; }
+  .sc-meta-label { font-size:12px; }
+  .sc-meta-val { font-size:15px; }
+  .sc-pnl { font-size:15px; }
 
   /* 表格 → 卡片列 */
   .tbl-wrap { overflow-x:visible; }
-  table { font-size:13px; min-width:0; width:100%; }
+  table { font-size:15.5px; min-width:0; width:100%; }
   table thead { display:none; }
   table tbody tr {
     display:flex; flex-wrap:wrap; align-items:flex-start;
-    padding:12px 14px 10px;
+    padding:14px 16px 12px;
     border-top:1px solid var(--gray-100);
-    gap:2px 0; position:relative;
+    gap:3px 0; position:relative;
   }
   table tbody tr:first-child { border-top:none; }
   table tbody td { display:block; padding:0; text-align:left !important; border:none; }
-  table tbody td:first-child { width:100%; padding:0 48px 6px 0; }
+  table tbody td:first-child { width:100%; padding:0 56px 8px 0; }
   table tbody td:nth-child(2),
   table tbody td:nth-child(3),
-  table tbody td:nth-child(4) { width:33.33%; font-size:12.5px; padding-bottom:2px; }
-  table tbody td:nth-child(2)::before { content:'現價'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
-  table tbody td:nth-child(3)::before { content:'均價'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
-  table tbody td:nth-child(4)::before { content:'股數'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
+  table tbody td:nth-child(4) { width:33.33%; font-size:15px; padding-bottom:3px; }
+  table tbody td:nth-child(2)::before { content:'現價'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
+  table tbody td:nth-child(3)::before { content:'均價'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
+  table tbody td:nth-child(4)::before { content:'股數'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
   table tbody td:nth-child(5),
-  table tbody td:nth-child(6) { width:50%; margin-top:8px; }
-  table tbody td:nth-child(5)::before { content:'損益'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
-  table tbody td:nth-child(6)::before { content:'報酬率'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
-  table tbody td:last-child { position:absolute; top:12px; right:12px; width:auto; display:flex; gap:5px; }
+  table tbody td:nth-child(6) { width:50%; margin-top:10px; }
+  table tbody td:nth-child(5)::before { content:'損益'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
+  table tbody td:nth-child(6)::before { content:'報酬率'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
+  table tbody td:last-child { position:absolute; top:14px; right:14px; width:auto; display:flex; gap:6px; }
   /* 美股 */
-  table tbody tr[data-us-code] td:nth-child(1) { width:100%; padding:0 48px 6px 0; }
+  table tbody tr[data-us-code] td:nth-child(1) { width:100%; padding:0 56px 8px 0; }
   table tbody tr[data-us-code] td:nth-child(2),
   table tbody tr[data-us-code] td:nth-child(3),
-  table tbody tr[data-us-code] td:nth-child(4) { width:33.33%; font-size:12.5px; }
-  table tbody tr[data-us-code] td:nth-child(2)::before { content:'現價USD'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
-  table tbody tr[data-us-code] td:nth-child(3)::before { content:'均價TWD'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
-  table tbody tr[data-us-code] td:nth-child(4)::before { content:'持股數'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
-  table tbody tr[data-us-code] td:nth-child(5) { width:50%; margin-top:8px; }
-  table tbody tr[data-us-code] td:nth-child(5)::before { content:'損益TWD'; font-size:10px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:2px; }
-  table tbody tr[data-us-code] td:nth-child(6) { width:50%; margin-top:8px; }
-  table tbody tr[data-us-code] td:last-child { position:absolute; top:12px; right:12px; width:auto; display:flex; gap:5px; }
+  table tbody tr[data-us-code] td:nth-child(4) { width:33.33%; font-size:15px; }
+  table tbody tr[data-us-code] td:nth-child(2)::before { content:'現價USD'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
+  table tbody tr[data-us-code] td:nth-child(3)::before { content:'均價TWD'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
+  table tbody tr[data-us-code] td:nth-child(4)::before { content:'持股數'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
+  table tbody tr[data-us-code] td:nth-child(5) { width:50%; margin-top:10px; }
+  table tbody tr[data-us-code] td:nth-child(5)::before { content:'損益TWD'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
+  table tbody tr[data-us-code] td:nth-child(6) { width:50%; margin-top:10px; }
+  table tbody tr[data-us-code] td:last-child { position:absolute; top:14px; right:14px; width:auto; display:flex; gap:6px; }
 
   /* 圓餅圖 */
   .pie-wrap { margin:0 auto; }
-  .chart-toggle-row { padding:10px 14px 0; gap:8px; }
-  .chart-tab { padding:7px 14px; font-size:12px; }
-  .chart-row { padding:14px 12px; }
-  .legend-name { font-size:13px; }
-  .legend-pct,.legend-rate,.rank-rate { font-size:12.5px; }
+  .chart-toggle-row { padding:12px 16px 0; gap:10px; }
+  .chart-tab { padding:8px 16px; font-size:14px; }
+  .chart-row { padding:16px 14px; }
+  .legend-name { font-size:15.5px; }
+  .legend-pct,.legend-rate,.rank-rate { font-size:15px; }
+  .rank-name { font-size:15px; }
 
   /* 操作按鈕 */
-  .op-btn { padding:4px 9px; font-size:11.5px; border-radius:8px; }
-  .add-btn { font-size:12px; padding:5px 11px; }
+  .op-btn { padding:6px 11px; font-size:14px; border-radius:8px; }
+  .add-btn { font-size:14px; padding:6px 13px; }
 
   /* 存股計畫 */
   .plan-toggle { width:100%; }
-  .plan-toggle-btn { flex:1; padding:7px 10px; font-size:12px; }
-  .month-hdr { padding:12px 14px; }
-  .month-num { font-size:20px; }
-  .month-name { font-size:14px; }
-  .month-total { font-size:17px; }
-  .month-rows { padding:0 14px 12px; }
-  .month-row { font-size:12.5px; gap:8px; padding:9px 0; }
-  .etf-id { font-size:11px; min-width:52px; }
-  .etf-nm { font-size:13px; }
-  .etf-amt { font-size:13px; min-width:64px; }
-  .etf-formula { font-size:10.5px; }
+  .plan-toggle-btn { flex:1; padding:9px 12px; font-size:14px; }
+  .month-hdr { padding:14px 16px; }
+  .month-num { font-size:24px; }
+  .month-name { font-size:17px; }
+  .month-total { font-size:20px; }
+  .month-rows { padding:0 16px 14px; }
+  .month-row { font-size:15px; gap:10px; padding:11px 0; }
+  .etf-id { font-size:13px; min-width:62px; }
+  .etf-nm { font-size:15.5px; }
+  .etf-amt { font-size:15.5px; min-width:77px; }
+  .etf-formula { font-size:12.5px; }
 
   /* modal slide-up */
   .modal-bg { padding:0; align-items:flex-end; }
   .modal-box { max-width:100%; border-radius:20px 20px 0 0; }
-  .modal-body { padding:14px 16px; gap:10px; }
-  .modal-footer { padding:0 16px 28px; }
-  .field input,.field select { font-size:15px; padding:11px 12px; }
+  .modal-body { padding:16px 18px; gap:12px; }
+  .modal-footer { padding:0 18px 32px; }
+  .field input,.field select { font-size:17px; padding:13px 14px; }
+  .field label { font-size:13px; }
 
   /* toast & fab */
-  #toast { bottom:20px; }
-  .fab { width:50px; height:50px; font-size:21px; }
-  #export-panel { min-width:200px; right:0; }
+  #toast { bottom:20px; font-size:14px; }
+  .fab { width:56px; height:56px; font-size:24px; }
+  #export-panel { min-width:220px; right:0; }
+  .epbtn { font-size:13.5px; }
+  .ep-title { font-size:13px; }
 }
 
 /* ── PAGE TOOLBAR ── */
@@ -782,8 +807,8 @@ tbody td:last-child  { padding-right: 14px; }
   color: var(--coral);
 }
 @media (max-width:600px) {
-  .page-toolbar { gap:6px; margin:10px 0 2px; }
-  .ptb-btn { padding:7px 11px; font-size:11.5px; }
+  .page-toolbar { gap:7px; margin:12px 0 3px; }
+  .ptb-btn { padding:9px 13px; font-size:14px; }
 }
 
 /* ── FAB 浮動按鈕（行事曆風格移植）── */
@@ -1436,6 +1461,7 @@ tbody td:last-child  { padding-right: 14px; }
         </select>
       </div>
       <div class="field" style="flex-direction:row;align-items:center;gap:8px;"><input type="checkbox" id="e-etf" style="width:16px;height:16px;accent-color:var(--coral)"><label style="margin:0;font-size:13px;font-weight:600;color:var(--gray-800);">標記為 ETF</label></div>
+      <div class="field"><label>備註標籤（選填，如：待配息、觀察中）</label><input id="e-note" placeholder="留空則不顯示標籤" maxlength="8"></div>
     </div>
     <div class="modal-footer">
       <button class="btn-cancel" onclick="closeEdit()">取消</button>
@@ -1793,6 +1819,7 @@ function renderStockCards(section, containerId, prefix) {
     const name = nm ? nm.textContent.trim() : tr.dataset.code;
     const isEtf = !!tr.querySelector('.etf-tag');
     const code = tr.dataset.code;
+    const note = tr.dataset.note || '';
     const avg = parseFloat(tr.dataset.avg) || 0;
     const shares = parseFloat(tr.dataset.shares) || 0;
     const priceEl = tr.querySelector('.live-price-cell');
@@ -1817,7 +1844,7 @@ function renderStockCards(section, containerId, prefix) {
       rateText = rateSp ? rateSp.textContent.trim() : '—';
       rateNum = parseFloat(rateText.replace('%','')) || 0;
     }
-    items.push({ name, isEtf, code, avg, shares, price, mkt, displayPrice, pnlText, pnlNum, rateText, rateNum });
+    items.push({ name, isEtf, note, code, avg, shares, price, mkt, displayPrice, pnlText, pnlNum, rateText, rateNum });
   });
 
   // 計算市占比
@@ -1849,7 +1876,7 @@ function renderStockCards(section, containerId, prefix) {
     return `<div class="stock-card">
       <div class="sc-top">
         <span class="sc-rank">${i+1}</span>
-        <span class="sc-name">${d.name}</span>${d.isEtf ? '<span class="etf-tag">ETF</span>' : ''}
+        <span class="sc-name" onclick="openEditByCode('${d.code}','${section}')" title="點擊編輯">${d.name}</span>${d.isEtf ? '<span class="etf-tag">ETF</span>' : ''}${d.note ? `<span class="note-badge">${d.note}</span>` : ''}
         <span class="sc-code">${d.code}</span>
       </div>
       ${sortValFn(d)}
@@ -1912,7 +1939,7 @@ function renderUsCards() {
     return `<div class="stock-card">
       <div class="sc-top">
         <span class="sc-rank">${i+1}</span>
-        <span class="sc-name" style="font-family:'DM Mono',monospace;font-size:14px">${d.code}</span>
+        <span class="sc-name" style="font-family:'DM Mono',monospace;font-size:14px" onclick="openEditUsByCode('${d.code}')" title="點擊編輯">${d.code}</span>
         <span class="sc-code">🇺🇸</span>
       </div>
       ${sortValFn(d)}
@@ -2303,14 +2330,34 @@ window.openEdit = function(btn) {
   _editTr = btn.closest('tr'); _addSection = '';
   const nm = _editTr.querySelector('.sname').cloneNode(true);
   nm.querySelectorAll('.etf-tag').forEach(t => t.remove());
+  nm.querySelectorAll('.note-badge').forEach(t => t.remove());
   document.getElementById('edit-title').textContent = '✏️ 編輯持股';
   document.getElementById('e-code').value   = _editTr.dataset.code;
   document.getElementById('e-name').value   = nm.textContent.trim();
   document.getElementById('e-shares').value = _editTr.dataset.shares;
   document.getElementById('e-avg').value    = _editTr.dataset.avg;
   document.getElementById('e-etf').checked  = !!_editTr.querySelector('.etf-tag');
+  document.getElementById('e-note').value   = _editTr.dataset.note || '';
   document.getElementById('e-code').readOnly = true;
   document.getElementById('edit-modal').classList.add('on');
+};
+/* 從卡片點擊股名：用 code 找 tr 後觸發 openEdit */
+window.openEditByCode = function(code, section) {
+  let tr = null;
+  if (section) {
+    tr = document.querySelector(`tbody[data-section="${section}"] tr[data-code="${code}"]`);
+  } else {
+    tr = document.querySelector(`tr[data-code="${code}"]`);
+  }
+  if (!tr) { showToast('⚠ 找不到持股資料'); return; }
+  const fakeBtn = { closest: () => tr };
+  openEdit(fakeBtn);
+};
+window.openEditUsByCode = function(code) {
+  const tr = document.querySelector(`tr[data-us-code="${code}"]`);
+  if (!tr) { showToast('⚠ 找不到持股資料'); return; }
+  const fakeBtn = { closest: () => tr };
+  openEditUs(fakeBtn);
 };
 window.openAdd = function(section) {
   _editTr = null; _addSection = section;
@@ -2320,6 +2367,7 @@ window.openAdd = function(section) {
   document.getElementById('e-shares').value = '';
   document.getElementById('e-avg').value = '';
   document.getElementById('e-etf').checked = false;
+  document.getElementById('e-note').value = '';
   document.getElementById('e-code').readOnly = false;
   document.getElementById('e-section').value = section;
   document.getElementById('edit-modal').classList.add('on');
@@ -2331,11 +2379,14 @@ window.saveEdit = function() {
   const shares = parseFloat(document.getElementById('e-shares').value) || 0;
   const avg    = parseFloat(document.getElementById('e-avg').value) || 0;
   const isEtf  = document.getElementById('e-etf').checked;
+  const note   = document.getElementById('e-note').value.trim().slice(0, 8);
   if (!code || !name || shares <= 0) { showToast('⚠ 請填寫完整資料'); return; }
-  const etfTag = isEtf ? ' <span class="etf-tag">ETF</span>' : '';
+  const etfTag  = isEtf ? ' <span class="etf-tag">ETF</span>' : '';
+  const noteTag = note  ? ` <span class="note-badge">${note}</span>` : '';
   if (_editTr) {
     _editTr.dataset.code = code; _editTr.dataset.shares = shares; _editTr.dataset.avg = avg;
-    _editTr.querySelector('.sname').innerHTML = name + etfTag;
+    _editTr.dataset.note = note;
+    _editTr.querySelector('.sname').innerHTML = name + etfTag + noteTag;
     const tds = _editTr.querySelectorAll('td');
     tds[2].textContent = avg; tds[3].textContent = shares.toLocaleString('zh-TW');
   } else {
@@ -2343,8 +2394,8 @@ window.saveEdit = function() {
     const tbody = document.querySelector(`tbody[data-section="${section}"]`);
     if (!tbody) { showToast('⚠ 找不到區段'); return; }
     const tr = document.createElement('tr');
-    tr.dataset.code = code; tr.dataset.shares = shares; tr.dataset.avg = avg;
-    tr.innerHTML = `<td><div class="stock-name-wrap"><span class="sname">${name}${etfTag}</span><span class="scode">${code}</span></div></td><td class="live-price-cell">—</td><td class="mono">${avg}</td><td class="mono">${shares.toLocaleString()}</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td>`;
+    tr.dataset.code = code; tr.dataset.shares = shares; tr.dataset.avg = avg; tr.dataset.note = note;
+    tr.innerHTML = `<td><div class="stock-name-wrap"><span class="sname">${name}${etfTag}${noteTag}</span><span class="scode">${code}</span></div></td><td class="live-price-cell">—</td><td class="mono">${avg}</td><td class="mono">${shares.toLocaleString()}</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td>`;
     tbody.appendChild(tr);
   }
   closeEdit();
