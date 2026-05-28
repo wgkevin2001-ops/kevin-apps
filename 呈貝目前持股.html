@@ -1577,6 +1577,33 @@ tbody td:last-child  { padding-right: 14px; }
   </div>
 </div>
 
+<!-- ══ 快速編輯目標張數 Modal ══ -->
+<div class="modal-bg" id="quick-target-modal" onclick="if(event.target===this)closeQuickTarget()" style="display:none;z-index:3200">
+  <div class="modal-box" style="max-width:320px">
+    <div class="modal-hdr">
+      <div class="modal-title" id="qt-title">設定目標張數</div>
+      <button class="modal-close" onclick="closeQuickTarget()">✕</button>
+    </div>
+    <div class="modal-body" style="padding:16px 8px">
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="font-size:12px;color:#888;margin-bottom:8px">目標張數</div>
+        <div style="display:flex;align-items:center;justify-content:center;gap:12px">
+          <button onclick="adjustQt(-10)" style="width:40px;height:40px;border-radius:50%;border:1.5px solid var(--gray-200);background:#fff;font-size:18px;cursor:pointer;font-weight:700">−10</button>
+          <button onclick="adjustQt(-1)" style="width:36px;height:36px;border-radius:50%;border:1.5px solid var(--gray-200);background:#fff;font-size:18px;cursor:pointer">−</button>
+          <input id="qt-input" type="number" min="0" style="width:80px;text-align:center;font-size:24px;font-weight:700;border:2px solid var(--coral);border-radius:10px;padding:6px;color:var(--coral);font-family:'Noto Sans TC',sans-serif">
+          <button onclick="adjustQt(1)" style="width:36px;height:36px;border-radius:50%;border:1.5px solid var(--coral);background:#fff;font-size:18px;cursor:pointer;color:var(--coral)">＋</button>
+          <button onclick="adjustQt(10)" style="width:40px;height:40px;border-radius:50%;border:1.5px solid var(--coral);background:#fff;font-size:16px;cursor:pointer;color:var(--coral);font-weight:700">+10</button>
+        </div>
+        <div id="qt-shares" style="font-size:12px;color:#aaa;margin-top:8px">= 0 股</div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeQuickTarget()">取消</button>
+      <button class="btn-save" onclick="saveQuickTarget()">💾 儲存</button>
+    </div>
+  </div>
+</div>
+
 <!-- ══ 存股計畫 Preset Picker Modal ══ -->
 <div class="modal-bg" id="plan-preset-modal" onclick="if(event.target===this)closePlanPreset()" style="display:none;z-index:3100">
   <div class="modal-box" style="max-width:360px">
@@ -2675,6 +2702,36 @@ function planDelRow(i) {
   planEtfs.splice(i, 1);
   renderPlanEditBody();
 }
+/* 快速編輯目標張數 */
+let _qtId = null;
+function openQuickTarget(id, name, currentLots) {
+  _qtId = id;
+  document.getElementById('qt-title').textContent = name + ' 目標張數';
+  const inp = document.getElementById('qt-input');
+  inp.value = currentLots;
+  document.getElementById('qt-shares').textContent = '= ' + (currentLots * 1000).toLocaleString() + ' 股';
+  document.getElementById('quick-target-modal').style.display = 'flex';
+}
+function closeQuickTarget() {
+  document.getElementById('quick-target-modal').style.display = 'none';
+  _qtId = null;
+}
+function adjustQt(delta) {
+  const inp = document.getElementById('qt-input');
+  const val = Math.max(0, (parseInt(inp.value) || 0) + delta);
+  inp.value = val;
+  document.getElementById('qt-shares').textContent = '= ' + (val * 1000).toLocaleString() + ' 股';
+}
+function saveQuickTarget() {
+  if (!_qtId) return;
+  const lots = parseInt(document.getElementById('qt-input').value) || 0;
+  const etf = planEtfs.find(e => e.id === _qtId);
+  if (etf) { etf.target = lots * 1000; }
+  closeQuickTarget();
+  planRender();
+  showToast('✅ 目標已更新');
+}
+
 /* 常用 ETF 預設清單 */
 const PLAN_PRESETS = [
   { id:'00878',  name:'國泰永續高股息',   color:'#0E9F8E', target:60000, divM:[3,6,9,12],              divPu:0.66,  divByM:{3:0.66,6:0.66,9:0.66,12:0.66}, dist:'季配', exM:[2,5,8,11] },
@@ -2813,7 +2870,7 @@ function planRender() {
     const targetLots = Math.floor(target / 1000);
     const remainLots = Math.ceil(remain / 1000);
     return `
-      <div class="plan-progress-card">
+      <div class="plan-progress-card" onclick="openQuickTarget('${e.id}','${e.name}',${targetLots})" style="cursor:pointer">
         <div class="plan-progress-hdr">
           <div class="plan-progress-name">
             <div class="etf-dot" style="background:${e.color};width:11px;height:11px;border-radius:50%"></div>
@@ -2830,7 +2887,7 @@ function planRender() {
             <div style="font-size:10px;color:#aaa">${held.toLocaleString()} 股</div>
           </div>
           <div class="plan-stat">
-            <div class="plan-stat-label">目標</div>
+            <div class="plan-stat-label">目標 ✏️</div>
             <div class="plan-stat-val">${targetLots} 張</div>
             <div style="font-size:10px;color:#aaa">${target.toLocaleString()} 股</div>
           </div>
