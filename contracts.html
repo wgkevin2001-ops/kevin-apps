@@ -258,7 +258,12 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 <div id="syncStatus" style="position:fixed;top:8px;right:12px;font-size:11px;color:var(--y);font-weight:700;z-index:999;pointer-events:none;opacity:.85"></div>
 <script>
 let contracts=[],filters={telecom:'all',broadband:'all'},editingId=null;
-function loadData(){try{contracts=JSON.parse(localStorage.getItem('contracts2')||'[]')}catch(e){contracts=[]}if(contracts.length===0){contracts=[{id:Date.now(),category:'telecom',name:'遠傳電信（亞太）',phone:'0906-516-724',plan:'數位門市新朋友138吃到飽(12Mbps) | 無合約',price:138,contractType:'none',start:'',end:'',note:'每月10GB不限速，超量降速12Mbps吃到飽 | 網內免費 | 網外/市話贈100~200分鐘 | 聯名卡繳費最高5%回饋 | 無合約可隨時更換'}];saveData()}}
+var DEFAULT_CONTRACTS=[
+  {id:1,category:'telecom',name:'遠傳電信（亞太）',phone:'0906-516-724',plan:'數位門市新朋友138吃到飽(12Mbps) | 無合約',price:138,contractType:'none',start:'',end:'',note:'每月10GB不限速，超量降速12Mbps吃到飽 | 網內免費 | 網外/市話贈100~200分鐘 | 聯名卡繳費最高5%回饋 | 無合約可隨時更換'},
+  {id:2,category:'telecom',name:'台灣之星',phone:'',plan:'續約新4G_約內單_特案_188_30M',price:188,contractType:'30',start:'2023-09-11',end:'2026-03-11',note:'每月上網3GB，超量綁約期降速21Mbps/期滿降1Mbps | 熱點分享納入流量 | 網內通話免費 | 網外每月20分鐘免費，超過0.1元/秒 | 合約已於2026/03/11到期'},
+  {id:3,category:'broadband',name:'寬頻網路（家用）',phone:'',plan:'連線400M/150M',price:909,contractType:'none',start:'',end:'',note:'裝機地址：板橋區文化路一段 | 繳費方式：信用卡 | 最近繳費：2026-04-07，繳費期間2026/04~06'}
+];
+function loadData(){localStorage.removeItem('contracts2');contracts=DEFAULT_CONTRACTS.slice();saveData()}
 function saveData(){localStorage.setItem('contracts2',JSON.stringify(contracts))}
 function toDay(){return new Date()}
 function daysLeft(end){if(!end)return null;return Math.ceil((new Date(end)-toDay())/86400000)}

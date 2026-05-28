@@ -548,6 +548,21 @@ tbody td:last-child  { padding-right: 14px; }
   color:var(--gray-500,#6B7280); border-radius:8px; cursor:pointer; transition:all .18s;
 }
 .plan-toggle-btn.active { background:var(--white); color:var(--coral); box-shadow:var(--shadow-sm); }
+/* 基金卡片 */
+.fund-card {
+  background:#fff; border:1px solid var(--gray-200); border-radius:var(--radius);
+  padding:14px 16px; box-shadow:var(--shadow-sm);
+}
+.fund-card-hdr { display:flex; align-items:baseline; gap:8px; margin-bottom:12px; }
+.fund-name { font-size:16px; font-weight:700; color:var(--gray-800); }
+.fund-code { font-size:11px; color:#aaa; }
+.fund-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px; }
+.fund-stat { text-align:center; }
+.fund-stat-label { font-size:10px; color:var(--gray-500); margin-bottom:2px; }
+.fund-stat-val { font-size:13px; font-weight:700; color:var(--gray-800); }
+.fund-stat-val.up { color:#0E9F8E; }
+.fund-stat-val.down { color:#e07; }
+.fund-footer { font-size:11px; color:#aaa; text-align:right; margin-top:4px; }
 .plan-edit-btn {
   padding:7px 14px; border:1.5px solid var(--coral); background:transparent;
   font-family:'Noto Sans TC',sans-serif; font-size:13px; font-weight:600;
@@ -1381,7 +1396,7 @@ tbody td:last-child  { padding-right: 14px; }
   <div class="print-header">呈貝持股報告 · 妞的持股</div>
   <div class="summary-row" style="margin-top:16px;">
     <div class="sum-card">
-      <div class="sum-label">總市值</div>
+      <div class="sum-label">台股市值</div>
       <div class="sum-value" id="niu-total-val">—</div>
       <span class="sum-rate up" id="niu-total-sub">TWD</span>
     </div>
@@ -1391,9 +1406,27 @@ tbody td:last-child  { padding-right: 14px; }
       <span class="sum-rate up" style="background:var(--gray-100);color:var(--gray-600);">檔</span>
     </div>
     <div class="sum-card highlight">
-      <div class="sum-label">未實現損益</div>
+      <div class="sum-label">台股未實現損益</div>
       <div class="sum-value" id="niu-pnl">—</div>
       <span class="sum-rate up" id="niu-pnl-rate">TWD</span>
+    </div>
+  </div>
+  <!-- 基金損益摘要 -->
+  <div class="summary-row" style="margin-top:10px;">
+    <div class="sum-card">
+      <div class="sum-label">基金現值合計</div>
+      <div class="sum-value" id="niu-fund-nav">—</div>
+      <span class="sum-rate" style="background:var(--gray-100);color:var(--gray-600);">TWD</span>
+    </div>
+    <div class="sum-card">
+      <div class="sum-label">基金筆數</div>
+      <div class="sum-value" id="niu-fund-cnt2">—</div>
+      <span class="sum-rate" style="background:var(--gray-100);color:var(--gray-600);">筆</span>
+    </div>
+    <div class="sum-card highlight" style="background:linear-gradient(135deg,#0E9F8E,#4ECDC4)">
+      <div class="sum-label">基金預估損益</div>
+      <div class="sum-value" id="niu-fund-pnl">—</div>
+      <span class="sum-rate up" id="niu-fund-pnl-rate" style="background:rgba(255,255,255,.22);color:#fff;">—</span>
     </div>
   </div>
   <script>
@@ -1408,10 +1441,49 @@ tbody td:last-child  { padding-right: 14px; }
         var sh  = parseFloat(tr.dataset.shares) || 0;
         mkt += avg * sh;
       });
+      // 加入基金現值
+      var fundMkt = 0, fundPnl = 0;
+      document.querySelectorAll('#niu-fund-list .fund-card').forEach(function(card){
+        fundMkt += parseInt(card.dataset.nav) || 0;
+        var invest = parseInt(card.dataset.invest) || 0;
+        var nav    = parseInt(card.dataset.nav) || 0;
+        var div    = parseInt(card.dataset.div) || 0;
+        fundPnl += (nav + div - invest);
+      });
+      // 台股市值（不含基金）
       var tv = document.getElementById('niu-total-val');
       if (tv && mkt > 0) tv.textContent = Math.round(mkt).toLocaleString('zh-TW');
       var sub = document.getElementById('niu-total-sub');
-      if (sub) sub.textContent = '（均價估算）';
+      if (sub) sub.textContent = 'TWD';
+      // 基金統計
+      var fundMkt = 0, fundPnl = 0, fundInvest = 0, fundCnt = 0;
+      document.querySelectorAll('#niu-fund-list .fund-card').forEach(function(card){
+        var nav    = parseInt(card.dataset.nav)    || 0;
+        var invest = parseInt(card.dataset.invest) || 0;
+        var div    = parseInt(card.dataset.div)    || 0;
+        fundMkt    += nav;
+        fundInvest += invest;
+        fundPnl    += (nav + div - invest);
+        fundCnt++;
+      });
+      var fnav = document.getElementById('niu-fund-nav');
+      if (fnav) fnav.textContent = fundMkt.toLocaleString('zh-TW');
+      var fcnt2 = document.getElementById('niu-fund-cnt2');
+      if (fcnt2) fcnt2.textContent = fundCnt;
+      var fpv = document.getElementById('niu-fund-pnl');
+      var fpr = document.getElementById('niu-fund-pnl-rate');
+      if (fpv) {
+        var isPos = fundPnl >= 0;
+        fpv.textContent = (isPos?'+':'')+Math.round(fundPnl).toLocaleString('zh-TW');
+        fpv.className = 'sum-value '+(isPos?'up':'down');
+      }
+      if (fpr && fundInvest > 0) {
+        var pct = (fundPnl / fundInvest * 100).toFixed(2);
+        fpr.textContent = (fundPnl>=0?'+':'')+pct+'%';
+        fpr.className = 'sum-rate '+(fundPnl>=0?'up':'down');
+        fpr.style.background = 'rgba(255,255,255,.22)';
+        fpr.style.color = '#fff';
+      }
     }
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', calcNiu);
@@ -1444,7 +1516,7 @@ tbody td:last-child  { padding-right: 14px; }
         <tbody data-section="妞高息">
           <tr data-code="00878"  data-avg="14.50" data-shares="6000"><td><div class="stock-name-wrap"><span class="sname">國泰永續高股息 <span class="etf-tag">ETF</span></span><span class="scode">00878</span></div></td><td class="live-price-cell">—</td><td class="mono">14.50</td><td class="mono">6,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td></tr>
           <tr data-code="00882"  data-avg="14.00" data-shares="2000"><td><div class="stock-name-wrap"><span class="sname">中信中國高股息 <span class="etf-tag">ETF</span></span><span class="scode">00882</span></div></td><td class="live-price-cell">—</td><td class="mono">14.00</td><td class="mono">2,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td></tr>
-          <tr data-code="00918"  data-avg="22.65" data-shares="5200"><td><div class="stock-name-wrap"><span class="sname">大華優利高填息30 <span class="etf-tag">ETF</span></span><span class="scode">00918</span></div></td><td class="live-price-cell">—</td><td class="mono">22.65</td><td class="mono">5,200</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td></tr>
+          <tr data-code="00918"  data-avg="22.65" data-shares="5000"><td><div class="stock-name-wrap"><span class="sname">大華優利高填息30 <span class="etf-tag">ETF</span></span><span class="scode">00918</span></div></td><td class="live-price-cell">—</td><td class="mono">22.65</td><td class="mono">5,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td></tr>
           <tr data-code="00991A" data-avg="9.67"  data-shares="3000"><td><div class="stock-name-wrap"><span class="sname">主動復華未來50 <span class="etf-tag">ETF</span></span><span class="scode">00991A</span></div></td><td class="live-price-cell">—</td><td class="mono">9.67</td><td class="mono">3,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td></tr>
           <tr data-code="00403A" data-avg="10.00" data-shares="10000"><td><div class="stock-name-wrap"><span class="sname">主動統一升級50 <span class="etf-tag">ETF</span></span><span class="scode">00403A</span></div></td><td class="live-price-cell">—</td><td class="mono">10.00</td><td class="mono">10,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td></tr>
         </tbody>
@@ -1478,14 +1550,158 @@ tbody td:last-child  { padding-right: 14px; }
       <table>
         <thead><tr><th style="text-align:left">股票名稱</th><th>現價</th><th>均價</th><th>股數</th><th>損益</th><th>報酬率</th></tr></thead>
         <tbody data-section="妞債券">
-          <tr data-code="00696B" data-avg="41.49" data-shares="3000"><td><div class="stock-name-wrap"><span class="sname">富邦美債20年 <span class="etf-tag">ETF</span></span><span class="scode">00696B</span></div></td><td class="live-price-cell">—</td><td class="mono">41.49</td><td class="mono">3,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td></tr>
-          <tr data-code="00724B" data-avg="41.66" data-shares="1000"><td><div class="stock-name-wrap"><span class="sname">群益投資級金融債 <span class="etf-tag">ETF</span></span><span class="scode">00724B</span></div></td><td class="live-price-cell">—</td><td class="mono">41.66</td><td class="mono">1,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td></tr>
+          <tr data-code="00696B" data-avg="41.49" data-shares="3000"><td><div class="stock-name-wrap"><span class="sname">富邦美債20年 <span class="etf-tag">ETF</span></span><span class="scode">00696B</span></div></td><td class="live-price-cell">29.93</td><td class="mono">41.49</td><td class="mono">3,000</td><td class="pnl-down">-34,680</td><td class="live-rate"><span class="rate-pill down">-27.85%</span></td></tr>
+          <tr data-code="00724B" data-avg="41.66" data-shares="1000"><td><div class="stock-name-wrap"><span class="sname">群益投資級金融債 <span class="etf-tag">ETF</span></span><span class="scode">00724B</span></div></td><td class="live-price-cell">33.51</td><td class="mono">41.66</td><td class="mono">1,000</td><td class="pnl-down">-8,150</td><td class="live-rate"><span class="rate-pill down">-19.56%</span></td></tr>
           <tr data-code="—" data-avg="41.84" data-shares="1000"><td><div class="stock-name-wrap"><span class="sname">台新新光庚特二</span><span class="scode">—</span></div></td><td class="live-price-cell">41.10</td><td class="mono">41.84</td><td class="mono">1,000</td><td class="pnl-down">-916</td><td><span class="rate-pill down">-2.19%</span></td></tr>
         </tbody>
       </table>
     </div>
   </div>
-  <div class="page-footer">資料更新時間 2026/05/23 · 僅供參考</div>
+  <!-- ══ 妞基金區塊 ══ -->
+  <div class="section-hdr" style="margin-top:20px">
+    <div style="display:flex;align-items:center;gap:8px">
+      <span style="font-size:20px">📋</span>
+      <span class="section-title">基金</span>
+      <span class="section-badge" id="niu-fund-cnt">9 筆</span>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:12px;margin-top:10px" id="niu-fund-list">
+
+    <!-- 0808 富坦債美息 -->
+    <div class="fund-card" data-fund-code="902TS4669500" data-invest="120000" data-nav="70153" data-div="63637" data-units="206.367" data-start="2011/03/16">
+      <div class="fund-card-hdr">
+        <div class="fund-name">富坦債美息</div>
+        <div class="fund-code">0808 · 902TS4669500</div>
+      </div>
+      <div class="fund-grid">
+        <div class="fund-stat"><div class="fund-stat-label">投資金額</div><div class="fund-stat-val">120,000</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">參考現值</div><div class="fund-stat-val">70,153</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">累計配息</div><div class="fund-stat-val up">+63,637</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">預估損益</div><div class="fund-stat-val up">+12,734</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">損益報酬率</div><div class="fund-stat-val up">+10.52%</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">單位數</div><div class="fund-stat-val">206.367</div></div>
+      </div>
+      <div class="fund-footer">信託起始 2011/03/16 · 中止扣款</div>
+    </div>
+
+    <!-- 0812 富坦美政息 -->
+    <div class="fund-card" data-fund-code="902TN222978" data-invest="100000" data-nav="74813" data-div="37195" data-units="335.059" data-start="2010/10/08">
+      <div class="fund-card-hdr">
+        <div class="fund-name">富坦美政息</div>
+        <div class="fund-code">0812 · 902TN222978</div>
+      </div>
+      <div class="fund-grid">
+        <div class="fund-stat"><div class="fund-stat-label">投資金額</div><div class="fund-stat-val">100,000</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">參考現值</div><div class="fund-stat-val">74,813</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">累計配息</div><div class="fund-stat-val up">+37,195</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">預估損益</div><div class="fund-stat-val up">+11,123</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">損益報酬率</div><div class="fund-stat-val up">+11.03%</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">單位數</div><div class="fund-stat-val">335.059</div></div>
+      </div>
+      <div class="fund-footer">信託起始 2010/10/08 · 單筆</div>
+    </div>
+
+    <!-- 0812 富坦美政息 902TN226635 -->
+    <div class="fund-card" data-fund-code="902TN226635" data-invest="100000" data-nav="76772" data-div="37873" data-units="343.833" data-start="2010/11/09">
+      <div class="fund-card-hdr"><div class="fund-name">富坦美政息</div><div class="fund-code">0812 · 902TN226635</div></div>
+      <div class="fund-grid">
+        <div class="fund-stat"><div class="fund-stat-label">投資金額</div><div class="fund-stat-val">100,000</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">參考現值</div><div class="fund-stat-val">76,772</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">累計配息</div><div class="fund-stat-val up">+37,873</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">預估損益</div><div class="fund-stat-val up">+13,760</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">損益報酬率</div><div class="fund-stat-val up">+13.64%</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">單位數</div><div class="fund-stat-val">343.833</div></div>
+      </div>
+      <div class="fund-footer">信託起始 2010/11/09 · 單筆</div>
+    </div>
+
+    <!-- 0812 富坦美政息 902TS472695 -->
+    <div class="fund-card" data-fund-code="902TS472695" data-invest="120000" data-nav="96283" data-div="45263" data-units="431.215" data-start="2011/04/14">
+      <div class="fund-card-hdr"><div class="fund-name">富坦美政息</div><div class="fund-code">0812 · 902TS472695</div></div>
+      <div class="fund-grid">
+        <div class="fund-stat"><div class="fund-stat-label">投資金額</div><div class="fund-stat-val">120,000</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">參考現值</div><div class="fund-stat-val">96,283</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">累計配息</div><div class="fund-stat-val up">+45,263</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">預估損益</div><div class="fund-stat-val up">+20,478</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">損益報酬率</div><div class="fund-stat-val up">+16.91%</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">單位數</div><div class="fund-stat-val">431.215</div></div>
+      </div>
+      <div class="fund-footer">信託起始 2011/04/14 · 定額中止</div>
+    </div>
+
+    <!-- 0813 坦公司美息 -->
+    <div class="fund-card" data-fund-code="902TS337795" data-invest="50000" data-nav="41993" data-div="47009" data-units="256.525" data-start="2009/05/25">
+      <div class="fund-card-hdr"><div class="fund-name">坦公司美息</div><div class="fund-code">0813 · 902TS337795</div></div>
+      <div class="fund-grid">
+        <div class="fund-stat"><div class="fund-stat-label">投資金額</div><div class="fund-stat-val">50,000</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">參考現值</div><div class="fund-stat-val">41,993</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">累計配息</div><div class="fund-stat-val up">+47,009</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">預估損益</div><div class="fund-stat-val up">+38,695</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">損益報酬率</div><div class="fund-stat-val up">+76.92%</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">單位數</div><div class="fund-stat-val">256.525</div></div>
+      </div>
+      <div class="fund-footer">信託起始 2009/05/25 · 定額中止</div>
+    </div>
+
+    <!-- 0820 富坦債歐息 -->
+    <div class="fund-card" data-fund-code="902TN128252" data-invest="50000" data-nav="33495" data-div="40248" data-units="98.9" data-start="2008/04/07">
+      <div class="fund-card-hdr"><div class="fund-name">富坦債歐息</div><div class="fund-code">0820 · 902TN128252</div></div>
+      <div class="fund-grid">
+        <div class="fund-stat"><div class="fund-stat-label">投資金額</div><div class="fund-stat-val">50,000</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">參考現值</div><div class="fund-stat-val">33,495</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">累計配息</div><div class="fund-stat-val up">+40,248</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">預估損益</div><div class="fund-stat-val up">+23,300</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">損益報酬率</div><div class="fund-stat-val up">+46.19%</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">單位數</div><div class="fund-stat-val">98.9</div></div>
+      </div>
+      <div class="fund-footer">信託起始 2008/04/07 · 單筆</div>
+    </div>
+
+    <!-- 0852 坦新固美息 -->
+    <div class="fund-card" data-fund-code="902TS414390" data-invest="106000" data-nav="47020" data-div="73698" data-units="339.995" data-start="2010/04/23">
+      <div class="fund-card-hdr"><div class="fund-name">坦新固美息</div><div class="fund-code">0852 · 902TS414390</div></div>
+      <div class="fund-grid">
+        <div class="fund-stat"><div class="fund-stat-label">投資金額</div><div class="fund-stat-val">106,000</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">參考現值</div><div class="fund-stat-val">47,020</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">累計配息</div><div class="fund-stat-val up">+73,698</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">預估損益</div><div class="fund-stat-val up">+13,782</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">損益報酬率</div><div class="fund-stat-val up">+12.89%</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">單位數</div><div class="fund-stat-val">339.995</div></div>
+      </div>
+      <div class="fund-footer">信託起始 2010/04/23 · 定額中止</div>
+    </div>
+
+    <!-- 0873 坦總報美息 -->
+    <div class="fund-card" data-fund-code="902TS568327" data-invest="86000" data-nav="40622" data-div="41980" data-units="167.143" data-start="2015/04/28">
+      <div class="fund-card-hdr"><div class="fund-name">坦總報美息</div><div class="fund-code">0873 · 902TS568327</div></div>
+      <div class="fund-grid">
+        <div class="fund-stat"><div class="fund-stat-label">投資金額</div><div class="fund-stat-val">86,000</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">參考現值</div><div class="fund-stat-val">40,622</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">累計配息</div><div class="fund-stat-val up">+41,980</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">預估損益</div><div class="fund-stat-val down">-4,146</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">損益報酬率</div><div class="fund-stat-val down">-4.78%</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">單位數</div><div class="fund-stat-val">167.143</div></div>
+      </div>
+      <div class="fund-footer">信託起始 2015/04/28 · 定額中止</div>
+    </div>
+
+    <!-- 5813 柏瑞全非B -->
+    <div class="fund-card" data-fund-code="902DS227953" data-invest="59000" data-nav="37574" data-div="32920" data-units="7443.5" data-start="2013/06/11">
+      <div class="fund-card-hdr"><div class="fund-name">柏瑞全非B</div><div class="fund-code">5813 · 902DS227953</div></div>
+      <div class="fund-grid">
+        <div class="fund-stat"><div class="fund-stat-label">投資金額</div><div class="fund-stat-val">59,000</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">參考現值</div><div class="fund-stat-val">37,574</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">累計配息</div><div class="fund-stat-val up">+32,920</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">預估損益</div><div class="fund-stat-val up">+11,096</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">損益報酬率</div><div class="fund-stat-val up">+18.68%</div></div>
+        <div class="fund-stat"><div class="fund-stat-label">單位數</div><div class="fund-stat-val">7,443.5</div></div>
+      </div>
+      <div class="fund-footer">信託起始 2013/06/11 · 定額中止</div>
+    </div>
+
+  </div>
+
+  <div class="page-footer">資料更新時間 2026/05/28 · 僅供參考</div>
 </div>
 
 <!-- ══ 存股計畫 PAGE ══ -->
@@ -1792,7 +2008,7 @@ const TW_SUFFIX = {
   '00631L':'00631L.TW','00830':'00830.TW','00861':'00861.TW','00876':'00876.TW',
   '00878':'00878.TW','00893':'00893.TW','00910':'00910.TW','00918':'00918.TW',
   '00920':'00920.TW','00941':'00941.TW',
-  '00696B':'00696B.TW','00724B':'00724B.TWO',
+  '00696B':'00696B.TWO','00724B':'00724B.TWO',
   // 台股 ETF（上櫃 .TWO）
   '00403A':'00403A.TWO','00400A':'00400A.TWO','00999A':'00999A.TWO',
   '00882':'00882.TWO','00991A':'00991A.TWO',
@@ -1801,7 +2017,7 @@ const TW_SUFFIX = {
   '2308':'2308.TW','2313':'2313.TW','2324':'2324.TW','2449':'2449.TW',
   '2542':'2542.TW','3665':'3665.TW',
 };
-const FALLBACK = { '00981B': 9.17, '00981D': 10.32 };
+const FALLBACK = { '00981B': 9.17, '00981D': 10.32, '00696B': 29.93, '00724B': 33.51 }; // 00696B & 00724B 參考價 2026/05/28
 
 const fmt2 = n => n.toLocaleString('zh-TW',{minimumFractionDigits:2,maximumFractionDigits:2});
 const fmtI = n => Math.round(n).toLocaleString('zh-TW');
