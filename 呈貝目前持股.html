@@ -2729,7 +2729,8 @@ function saveQuickTarget() {
   if (etf) { etf.target = lots * 1000; }
   closeQuickTarget();
   planRender();
-  showToast('✅ 目標已更新');
+  if (typeof fbSaveHoldings === 'function') fbSaveHoldings();
+  showToast('✅ 目標已更新並同步雲端');
 }
 
 /* 常用 ETF 預設清單 */
@@ -2807,7 +2808,8 @@ function savePlanEdit() {
   });
   closePlanEdit();
   planRender();
-  showToast('✅ 存股計畫已更新');
+  if (typeof fbSaveHoldings === 'function') fbSaveHoldings();
+  showToast('✅ 存股計畫已更新並同步雲端');
 }
 
 function planRender() {
@@ -3082,6 +3084,7 @@ window.addEventListener('holdings-ready', function() {
   updateChengSummary();
   updateNiuSummary();
   renderAllCards();
+  if (typeof planRender === 'function') planRender();
 });
 
 /* ══ INIT ══ */
@@ -3091,6 +3094,12 @@ setInterval(fetchPrices, 60000);
 renderAllCards();
 updateUsPieChart();
 updateTwPieChart();
+// 自動從 Firebase 載入最新資料
+setTimeout(async () => {
+  if (typeof fbLoadHoldings === 'function') {
+    await fbLoadHoldings();
+  }
+}, 800);
 updateFbPieChart();
 updateYfPieChart();
 updateChengSummary();
@@ -3141,11 +3150,27 @@ function collectHoldings() {
     const code = tr.dataset.code; if(!code||code==='—') return;
     d.niu[code] = { shares: parseFloat(tr.dataset.shares)||0, avg: parseFloat(tr.dataset.avg)||0 };
   });
+  // 存股計畫
+  d.planEtfs = planEtfs.map(e => ({
+    id:e.id, name:e.name, color:e.color, target:e.target,
+    divM:e.divM, divPu:e.divPu, divByM:e.divByM||{}, dist:e.dist, exM:e.exM||[]
+  }));
   return d;
 }
 
 function applyHoldings(data) {
   if (!data) return;
+  // 還原存股計畫
+  if (data.planEtfs && Array.isArray(data.planEtfs) && data.planEtfs.length > 0) {
+    planEtfs = data.planEtfs.map(e => ({
+      id:e.id, name:e.name, color:e.color||'#CCCCCC',
+      held:0,
+      target:e.target||0, divM:e.divM||[], divPu:e.divPu||0,
+      divByM:e.divByM||{}, dist:e.dist||'待定', exM:e.exM||[]
+    }));
+    // 還原後重新渲染計畫頁
+    if (typeof planRender === 'function') setTimeout(planRender, 300);
+  }
   ['cheng','niu'].forEach(panel => {
     const pd = data[panel]; if(!pd) return;
     const panelEl = document.getElementById('page-'+panel);
