@@ -1587,23 +1587,46 @@ function renderHistory() {
       var d = new Date(r.date + 'T00:00:00');
       var ds = d.toLocaleDateString('zh-TW', {year:'numeric', month:'2-digit', day:'2-digit'});
       var shiftTxt = r.shift ? ' ｜ ' + r.shift : '';
+
+      // ── 自動產生平台明細文字（像截圖那樣）──
+      var det = r.inc_detail || {};
+      var detParts = [];
+      var labelMap = {meter:'台灣大', uber:'Uber', bolt:'Bolt毛', t55688:'55688', metro:'大都會', lingo:'Line Go', panda:'熊貓', ubereats:'UE', other:'其他'};
+      var orderKeys = ['meter','t55688','metro','bolt','uber','lingo','panda','ubereats','other'];
+      orderKeys.forEach(function(k) {
+        var v = det[k] || 0;
+        if (v <= 0) return;
+        if (k === 'bolt' && r.fee > 0) {
+          // Bolt：顯示毛收入和服務費
+          detParts.push('Bolt毛$' + Math.round(v) + '(服務費$' + Math.round(r.fee) + '淨$' + Math.round(v - r.fee) + ')');
+        } else {
+          detParts.push(labelMap[k] + '$' + Math.round(v));
+        }
+      });
+      // 停車費
+      if (r.park > 0) detParts.push('停車$' + Math.round(r.park));
+      // 油費
+      if (r.fuel > 0) detParts.push('油費$' + Math.round(r.fuel));
+      var detText = detParts.join('・');
+
       return '<div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:8px;box-shadow:0 1px 6px rgba(15,171,142,.08)">' +
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
           '<div>' +
             '<span style="font-size:14px;font-weight:700;color:#2A2A2A">' + ds + '</span>' +
-            '<span style="font-size:12px;color:#aaa">' + shiftTxt + '</span>' +
+            '<span style="font-size:11px;color:#aaa;margin-left:6px">⏱ ' + (r.shift || '全天') + '</span>' +
           '</div>' +
           '<div style="display:flex;align-items:center;gap:8px">' +
-            '<span style="font-size:15px;font-weight:900;color:' + (r.net >= 0 ? 'var(--gr)' : 'var(--rd)') + '">NT$ ' + Math.round(r.net).toLocaleString('zh-TW') + '</span>' +
+            '<span style="font-size:16px;font-weight:900;color:' + (r.net >= 0 ? 'var(--teal)' : 'var(--rd)') + '">NT$ ' + Math.round(r.net).toLocaleString('zh-TW') + '</span>' +
             '<button onclick="deleteRec(' + r.id + ')" style="background:var(--rd);color:#fff;border:none;border-radius:6px;padding:4px 9px;font-size:11px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent">🗑️</button>' +
           '</div>' +
         '</div>' +
-        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:12px">' +
-          '<div style="background:var(--mid);border-radius:7px;padding:7px 9px"><div style="color:#888;margin-bottom:2px">收入</div><div style="font-weight:700">NT$ ' + Math.round(r.inc).toLocaleString('zh-TW') + '</div></div>' +
-          '<div style="background:var(--mid);border-radius:7px;padding:7px 9px"><div style="color:#888;margin-bottom:2px">支出</div><div style="font-weight:700;color:var(--rd)">NT$ ' + Math.round(r.exp).toLocaleString('zh-TW') + '</div></div>' +
-          '<div style="background:var(--mid);border-radius:7px;padding:7px 9px"><div style="color:#888;margin-bottom:2px">油費</div><div style="font-weight:700">NT$ ' + Math.round(r.fuel || 0).toLocaleString('zh-TW') + '</div></div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:13px;margin-bottom:8px">' +
+          '<div style="background:var(--mid);border-radius:8px;padding:8px 10px"><div style="color:#888;font-size:11px;margin-bottom:3px">收入</div><div style="font-weight:700">NT$ ' + Math.round(r.inc).toLocaleString('zh-TW') + '</div></div>' +
+          '<div style="background:var(--mid);border-radius:8px;padding:8px 10px"><div style="color:#888;font-size:11px;margin-bottom:3px">支出</div><div style="font-weight:700;color:var(--rd)">NT$ ' + Math.round(r.exp).toLocaleString('zh-TW') + '</div></div>' +
+          '<div style="background:var(--mid);border-radius:8px;padding:8px 10px"><div style="color:#888;font-size:11px;margin-bottom:3px">油費</div><div style="font-weight:700">NT$ ' + Math.round(r.fuel || 0).toLocaleString('zh-TW') + '</div></div>' +
         '</div>' +
-        (r.note ? '<div style="font-size:12px;color:#888;background:var(--mid);border-radius:6px;padding:7px 10px;margin-top:8px">📝 ' + r.note + '</div>' : '') +
+        (detText ? '<div style="font-size:12px;color:#555;background:var(--mid);border-radius:6px;padding:8px 11px;line-height:1.7">📝 ' + detText + '</div>' : '') +
+        (r.note ? '<div style="font-size:12px;color:#888;background:rgba(15,171,142,.06);border-radius:6px;padding:6px 10px;margin-top:6px;border-left:3px solid var(--teal)">💬 ' + r.note + '</div>' : '') +
       '</div>';
     }).join('');
 
