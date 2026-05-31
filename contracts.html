@@ -52,6 +52,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .ci-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;margin-top:1px}
 .ci-icon.telecom{background:rgba(204,34,34,.1)}
 .ci-icon.broadband{background:rgba(26,110,168,.1)}
+.ci-icon.fare{background:rgba(192,122,26,.1)}
+.ci-icon.insurance{background:rgba(14,159,142,.1)}
 .ci-body{flex:1;min-width:0}
 .ci-name{font-size:14px;font-weight:700;color:var(--ink);line-height:1.3}
 .ci-plan{font-size:12px;color:var(--ink-light);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
@@ -104,7 +106,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .ptb-btn:hover,.ptb-btn.active{background:var(--y-light);border-color:var(--y);color:var(--y)}
 #toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;font-weight:700;opacity:0;transition:all .25s;z-index:700;pointer-events:none;white-space:nowrap}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-@media(min-width:900px){
+@media(min-width:1024px){
   .main-header{padding:16px 32px 14px;display:flex;align-items:center;gap:24px}
   .hrow1{flex:1;margin-bottom:0}
   .htitles .main{font-size:22px}
@@ -127,28 +129,55 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   #toast{bottom:24px}
   .add-form{padding:18px 20px}
 }
-@media(min-width:600px) and (max-width:899px){
+@media(min-width:768px) and (max-width:1023px){
   .content{padding:16px 20px 80px;max-width:720px}
   .main-header{padding:14px 20px 12px}
   .hstat{padding:10px 14px}
   .hstat-num{font-size:18px}
   .sum-row{grid-template-columns:repeat(3,1fr)}
 }
-@media(max-width:599px){
-  .nav-tabs{position:fixed;top:0;left:0;right:0;bottom:auto;display:flex;flex-direction:row;overflow-x:auto;padding:0 2px;background:#fff;border-bottom:1px solid rgba(14,159,142,.15);border-top:none;box-shadow:0 2px 10px rgba(0,0,0,.07);z-index:200;-webkit-overflow-scrolling:touch;height:54px;align-items:stretch;gap:0}
+@media(max-width:767px){
+  .nav-tabs{position:fixed;top:0;left:0;right:0;bottom:auto;display:flex;flex-direction:row;overflow-x:auto;padding:0 2px;background:#fff;border-bottom:1px solid rgba(14,159,142,.15);border-top:none;box-shadow:0 2px 10px rgba(0,0,0,.07);z-index:200;-webkit-overflow-scrolling:touch;height:62px;align-items:stretch;gap:0}
   .nav-tabs::-webkit-scrollbar{display:none}
-  .nav-tab{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5px 8px 3px;font-size:10px;font-weight:600;border-top:none;border-bottom:2.5px solid transparent;margin-bottom:0;min-width:60px;max-width:90px;line-height:1.2;gap:1px;white-space:nowrap;text-align:center}
+  .nav-tab{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 10px 4px;font-size:12px;font-weight:600;border-top:none;border-bottom:3px solid transparent;margin-bottom:0;min-width:68px;max-width:100px;line-height:1.3;gap:1px;white-space:nowrap;text-align:center}
   .nav-tab.active{border-top:none;border-bottom-color:var(--y);color:var(--y);background:var(--y-light);font-weight:800}
-  .main-header{top:54px;padding:10px 12px 8px}
-  .section{padding-top:124px}
-  .content{padding:12px 12px 24px}
-  .htitles .main{font-size:16px}
-  .hdate strong{font-size:13px}
-  .hstat{padding:7px 8px}
-  .hstat-num{font-size:16px}
-  .hstat-lbl{font-size:9.5px}
+  .main-header{top:62px;padding:12px 14px 10px}
+  .section{padding-top:136px}
+  .content{padding:14px 14px 28px}
+  .htitles .main{font-size:18px}
+  .hdate strong{font-size:15px}
+  .hstat{padding:9px 10px}
+  .hstat-num{font-size:20px}
+  .hstat-lbl{font-size:11px}
   body{font-size:17px}
   .sum-row{grid-template-columns:repeat(2,1fr)}
+  .ci-name{font-size:16px}
+  .ci-plan{font-size:13px}
+  .ci-note{font-size:12px}
+  .ci-note2{font-size:12px}
+  .ci-price{font-size:19px}
+  .ci-pricesub{font-size:12px}
+  .ci-badge{font-size:12px;padding:3px 10px}
+  .sec-card-title{font-size:16px}
+  .sec-card-badge{font-size:12px}
+  .ci-dlbl{font-size:11px}
+  .ci-dval{font-size:15px}
+  .ptb-btn{font-size:14px;padding:9px 16px}
+  .sum-lbl{font-size:12px}
+  .sum-val{font-size:22px}
+  .sum-tag{font-size:12px}
+  .monthly-total{font-size:32px}
+  .monthly-title{font-size:14px}
+  .monthly-sub{font-size:13px}
+  .cat-bar-lbl{font-size:14px}
+  .cat-bar-amt{font-size:14px}
+  .ci-act-btn{font-size:14px;padding:10px}
+  .empty-state{font-size:15px}
+  .form-label{font-size:14px}
+  .form-input,.form-select{font-size:15px;padding:11px 13px}
+  .btn-add,.btn-cancel-sm{font-size:15px;padding:12px 20px}
+  .add-form-title{font-size:16px}
+  .progress-lbl{font-size:12px}
 }
 </style>
 </head>
@@ -173,6 +202,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   <button class="nav-tab active" onclick="switchTab('overview',this)">📊 總覽</button>
   <button class="nav-tab" onclick="switchTab('telecom',this)">📱 手機電信</button>
   <button class="nav-tab" onclick="switchTab('broadband',this)">🌐 網路寬頻</button>
+  <button class="nav-tab" onclick="switchTab('fare',this)">🏢 行費</button>
+  <button class="nav-tab" onclick="switchTab('insurance',this)">🚕 計程車保險</button>
   <button class="nav-tab" onclick="switchTab('add',this)">＋ 新增</button>
 </nav>
 <section class="section active" id="sec-overview">
@@ -228,12 +259,38 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     </div>
   </div>
 </section>
+<section class="section" id="sec-fare">
+  <div class="content">
+    <div class="ptb">
+      <button class="ptb-btn active" onclick="filterC('fare','all',this)">全部</button>
+      <button class="ptb-btn" onclick="filterC('fare','active',this)">合約中</button>
+      <button class="ptb-btn" onclick="filterC('fare','expired',this)">已到期</button>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-hdr"><div class="sec-card-title">🏢 行費合約</div><div class="sec-card-badge" id="fareCount">0 筆</div></div>
+      <div id="fareList"></div>
+    </div>
+  </div>
+</section>
+<section class="section" id="sec-insurance">
+  <div class="content">
+    <div class="ptb">
+      <button class="ptb-btn active" onclick="filterC('insurance','all',this)">全部</button>
+      <button class="ptb-btn" onclick="filterC('insurance','active',this)">保障中</button>
+      <button class="ptb-btn" onclick="filterC('insurance','expired',this)">已到期</button>
+    </div>
+    <div class="sec-card">
+      <div class="sec-card-hdr"><div class="sec-card-title">🚕 計程車保險合約</div><div class="sec-card-badge" id="insuranceCount">0 筆</div></div>
+      <div id="insuranceList"></div>
+    </div>
+  </div>
+</section>
 <section class="section" id="sec-add">
   <div class="content">
     <div class="add-form">
       <div class="add-form-title" id="addFormTitle">＋ 新增合約</div>
       <div class="form-grid">
-        <div class="form-group" style="grid-column:span 2"><label class="form-label">類別</label><select class="form-select" id="fCategory"><option value="telecom">📱 手機電信費</option><option value="broadband">🌐 網路寬頻</option></select></div>
+        <div class="form-group" style="grid-column:span 2"><label class="form-label">類別</label><select class="form-select" id="fCategory"><option value="telecom">📱 手機電信費</option><option value="broadband">🌐 網路寬頻</option><option value="fare">🏢 行費</option><option value="insurance">🚕 計程車保險</option></select></div>
         <div class="form-group" style="grid-column:span 2"><label class="form-label">業者 / 電信公司名稱</label><input class="form-input" id="fName" placeholder="例：遠傳電信、中華電信"></div>
         <div class="form-group" style="grid-column:span 2"><label class="form-label">門號 / 帳號</label><input class="form-input" id="fPhone" placeholder="例：0906-516-724"></div>
         <div class="form-group" style="grid-column:span 2"><label class="form-label">方案名稱</label><input class="form-input" id="fPlan" placeholder="例：138吃到飽12Mbps、光世代100M"></div>
@@ -257,11 +314,19 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 <div id="toast"></div>
 <div id="syncStatus" style="position:fixed;top:8px;right:12px;font-size:11px;color:var(--y);font-weight:700;z-index:999;pointer-events:none;opacity:.85"></div>
 <script>
-let contracts=[],filters={telecom:'all',broadband:'all'},editingId=null;
+let contracts=[],filters={telecom:'all',broadband:'all',insurance:'all',fare:'all'},editingId=null;
 var DEFAULT_CONTRACTS=[
   {id:1,category:'telecom',name:'遠傳電信（亞太）',phone:'0906-516-724',plan:'數位門市新朋友138吃到飽(12Mbps) | 無合約',price:138,contractType:'none',start:'',end:'',note:'每月10GB不限速，超量降速12Mbps吃到飽 | 網內免費 | 網外/市話贈100~200分鐘 | 聯名卡繳費最高5%回饋 | 無合約可隨時更換'},
   {id:2,category:'telecom',name:'台灣之星',phone:'',plan:'續約新4G_約內單_特案_188_30M',price:188,contractType:'30',start:'2023-09-11',end:'2026-03-11',note:'每月上網3GB，超量綁約期降速21Mbps/期滿降1Mbps | 熱點分享納入流量 | 網內通話免費 | 網外每月20分鐘免費，超過0.1元/秒 | 合約已於2026/03/11到期'},
-  {id:3,category:'broadband',name:'寬頻網路（家用）',phone:'',plan:'連線400M/150M',price:909,contractType:'none',start:'',end:'',note:'裝機地址：板橋區文化路一段 | 繳費方式：信用卡 | 最近繳費：2026-04-07，繳費期間2026/04~06'}
+  {id:3,category:'broadband',name:'寬頻網路（家用）',phone:'',plan:'連線400M/150M',price:909,contractType:'none',start:'',end:'',note:'裝機地址：板橋區文化路一段 | 繳費方式：信用卡 | 最近繳費：2026-04-07，繳費期間2026/04~06'},
+  {id:4,category:'insurance',name:'富邦產物 - 強制險',phone:'0800-009888',plan:'強制汽車責任保險 | TDZ-0950',price:0,contractType:'12',start:'2026-04-25',end:'2027-04-25',note:'保險證號：051026KCA0002048 | 被保人：青宮交通 | 車型：國瑞(國產)1798cc | 係數等級2'},
+  {id:5,category:'insurance',name:'新安東京海上 - 任意險',phone:'0800-050-119',plan:'汽車保險單 | TDZ-0950 計程車',price:0,contractType:'12',start:'2026-05-03',end:'2027-05-03',note:'保單號：15V0042797 | 總保費：19,047元/年 | 三人傷害責任險100萬/200萬 | 三人財損30萬 | 超額責任300萬 | 道路救援30萬+拖吊不限里程'},
+  {id:6,category:'insurance',name:'新安東京海上 - 旅客運送責任險',phone:'0800-050-119',plan:'旅客運送業責任保險 | TDZ-0950',price:0,contractType:'12',start:'2025-09-30',end:'2026-09-30',note:'保單號：02014CT000531 | 保額：每人死亡/失能/傷害醫療500萬 | 被保人：青宮交通股份有限公司 | 續保聯繫：小瑜-租售車部（LINE）| 續保需透過大車隊APP辦理'},
+  {id:8,category:'fare',name:'台灣大哥大 - 行費',phone:'',plan:'計程車行費方案',price:15000,contractType:'12',start:'2026-02-01',end:'2027-02-01',note:'聯絡：台灣大哥大 | 合約期間：115.02～116.02'},
+  {id:9,category:'insurance',name:'執業登記證審驗',phone:'',plan:'年審 | 每年辦理',price:0,contractType:'12',start:'2025-09-21',end:'2026-09-21',note:'辦理地點：台北市計程車客運業職業工會 | 每年9月前往辦理 | 需備：執業登記證、身分證、體檢表'},
+  {id:10,category:'insurance',name:'職業小客車駕照審驗',phone:'',plan:'年審 | 每年辦理',price:0,contractType:'12',start:'2025-09-21',end:'2026-09-21',note:'與執業登記證同時辦理 | 辦理地點：監理所或公會 | 需備：駕照、身分證、體檢表'},
+  {id:11,category:'insurance',name:'計程車錶驗錶',phone:'',plan:'每兩年 | 監理站辦理',price:0,contractType:'24',start:'2026-04-30',end:'2028-04-30',note:'到期前由監理站通知 | 辦理地點：各監理站 | 需備：驗錶通知單、行車執照'},
+  {id:7,category:'insurance',name:'行車執照 - TDZ-0950',phone:'',plan:'營業小客車 | 牌照有效至 116.04.29',price:0,contractType:'12',start:'2024-04-29',end:'2027-04-29',note:'廠牌：豐田 ZWE211L-GEXYBR | 排氣量：1798cc | 引擎：2ZRX706989 | 車身：ZWE211-00009529 | 出廠：2020.05 | 乘客：5人 | 下次驗車：2026/10/29 | 辦理地點：各監理站/代辦 | 注意：有未結清罰鍰無法辦理審驗'}
 ];
 function loadData(){localStorage.removeItem('contracts2');contracts=DEFAULT_CONTRACTS.slice();saveData()}
 function saveData(){localStorage.setItem('contracts2',JSON.stringify(contracts))}
@@ -271,12 +336,24 @@ function contractStatus(c){if(c.contractType==='none'||!c.end)return 'none';var 
 function statusBadge(c){var st=contractStatus(c);if(st==='none')return '<span class="ci-badge badge-none">無合約</span>';var dl=daysLeft(c.end);if(st==='expired')return '<span class="ci-badge badge-exp">已到期</span>';if(st==='warn')return '<span class="ci-badge badge-warn">⚠ '+dl+'天後到期</span>';return '<span class="ci-badge badge-active">✓ 合約中 '+dl+'天</span>'}
 function progressHtml(c){if(c.contractType==='none'||!c.start||!c.end)return '';var start=new Date(c.start),end=new Date(c.end),now=toDay();var total=(end-start)/86400000,passed=(now-start)/86400000;var pct=Math.min(100,Math.max(0,(passed/total)*100)).toFixed(0);var col=pct>80?'#cc2222':pct>50?'#c07a1a':'#0E9F8E';return '<div class="progress-wrap"><div class="progress-lbl"><span>合約進度</span><span>'+pct+'%</span></div><div class="progress-track"><div class="progress-fill" style="width:'+pct+'%;background:'+col+'"></div></div></div>'}
 function fmtDate(d){return d?d.replace(/-/g,'/'):'—'}
-function renderItem(c,showEdit){showEdit=showEdit!==false;var isT=c.category==='telecom';var typeStr=c.contractType==='none'?'無合約':c.contractType+'個月';var phoneLine=c.phone?'<div class="ci-note">📞 '+c.phone+'</div>':'';var noteLine=c.note?'<div class="ci-note2">'+c.note+'</div>':'';var editBtns=showEdit?'<div class="ci-actions"><button class="ci-act-btn" onclick="editContract('+c.id+')">✏ 編輯</button><button class="ci-act-btn del" onclick="deleteContract('+c.id+')">🗑 刪除</button></div>':'';return '<div class="contract-item" onclick="handleTap('+c.id+')">'+'<div class="ci-icon '+c.category+'">'+(isT?'📱':'🌐')+'</div>'+'<div class="ci-body"><div class="ci-name">'+c.name+'</div><div class="ci-plan">'+(c.plan||'—')+'</div>'+phoneLine+noteLine+'</div>'+'<div class="ci-right"><div class="ci-price">$'+(+c.price||0).toLocaleString()+'<span class="ci-pricesub">/月</span></div>'+statusBadge(c)+'</div></div>'+'<div class="ci-detail" id="cd-'+c.id+'">'+progressHtml(c)+'<div class="ci-detail-grid"><div><div class="ci-dlbl">類別</div><div class="ci-dval">'+(isT?'📱 手機電信':'🌐 網路寬頻')+'</div></div><div><div class="ci-dlbl">合約類型</div><div class="ci-dval">'+typeStr+'</div></div><div><div class="ci-dlbl">月費</div><div class="ci-dval" style="font-family:monospace">NT$ '+(+c.price||0).toLocaleString()+'</div></div>'+(c.phone?'<div><div class="ci-dlbl">門號/帳號</div><div class="ci-dval">'+c.phone+'</div></div>':'')+'<div><div class="ci-dlbl">開始日期</div><div class="ci-dval">'+fmtDate(c.start)+'</div></div><div><div class="ci-dlbl">結束日期</div><div class="ci-dval">'+fmtDate(c.end)+'</div></div>'+(c.note?'<div style="grid-column:1/-1"><div class="ci-dlbl">備註</div><div class="ci-dval">'+c.note+'</div></div>':'')+'</div>'+editBtns+'</div>'}
+function renderItem(c,showEdit){showEdit=showEdit!==false;var isT=c.category==='telecom';var isI=c.category==='insurance';var isF=c.category==='fare';var typeStr=c.contractType==='none'?'無合約':c.contractType+'個月';var phoneLine=c.phone?'<div class="ci-note">📞 '+c.phone+'</div>':'';var noteLine=c.note?'<div class="ci-note2">'+c.note+'</div>':'';var editBtns=showEdit?'<div class="ci-actions"><button class="ci-act-btn" onclick="editContract('+c.id+')">✏ 編輯</button><button class="ci-act-btn del" onclick="deleteContract('+c.id+')">🗑 刪除</button></div>':'';return '<div class="contract-item" onclick="handleTap('+c.id+')">'+'<div class="ci-icon '+c.category+'">'+(isT?'📱':isI?'🚕':isF?'🏢':'🌐')+'</div>'+'<div class="ci-body"><div class="ci-name">'+c.name+'</div><div class="ci-plan">'+(c.plan||'—')+'</div>'+phoneLine+noteLine+'</div>'+'<div class="ci-right"><div class="ci-price">$'+(+c.price||0).toLocaleString()+'<span class="ci-pricesub">/月</span></div>'+statusBadge(c)+'</div></div>'+'<div class="ci-detail" id="cd-'+c.id+'">'+progressHtml(c)+'<div class="ci-detail-grid"><div><div class="ci-dlbl">類別</div><div class="ci-dval">'+(isT?'📱 手機電信':isI?'🚕 計程車保險':isF?'🏢 行費':'🌐 網路寬頻')+'</div></div><div><div class="ci-dlbl">合約類型</div><div class="ci-dval">'+typeStr+'</div></div><div><div class="ci-dlbl">月費</div><div class="ci-dval" style="font-family:monospace">NT$ '+(+c.price||0).toLocaleString()+'</div></div>'+(c.phone?'<div><div class="ci-dlbl">門號/帳號</div><div class="ci-dval">'+c.phone+'</div></div>':'')+'<div><div class="ci-dlbl">開始日期</div><div class="ci-dval">'+fmtDate(c.start)+'</div></div><div><div class="ci-dlbl">結束日期</div><div class="ci-dval">'+fmtDate(c.end)+'</div></div>'+(c.note?'<div style="grid-column:1/-1"><div class="ci-dlbl">備註</div><div class="ci-dval">'+c.note+'</div></div>':'')+'</div>'+editBtns+'</div>'}
 function toggleDetail(id){var el=document.getElementById('cd-'+id);if(el)el.classList.toggle('open')}
 var lastTap={};
 function handleTap(id){var now=Date.now();if(lastTap[id]&&now-lastTap[id]<500){lastTap[id]=0;editContract(id)}else{toggleDetail(id);var el=document.getElementById('cd-'+id);if(el&&el.classList.contains('open'))showToast('再點一下快速進入編輯');lastTap[id]=now}}
-function render(){var now=toDay();document.getElementById('todayStr').textContent=now.getFullYear()+'/'+(now.getMonth()+1).toString().padStart(2,'0')+'/'+now.getDate().toString().padStart(2,'0');var total=contracts.length;var monthly=contracts.reduce(function(s,c){return s+(+c.price||0)},0);var expiring=contracts.filter(function(c){var dl=daysLeft(c.end);return dl!==null&&dl>=0&&dl<=60}).length;var telecoms=contracts.filter(function(c){return c.category==='telecom'});var broadbands=contracts.filter(function(c){return c.category==='broadband'});var tAmt=telecoms.reduce(function(s,c){return s+(+c.price||0)},0);var bAmt=broadbands.reduce(function(s,c){return s+(+c.price||0)},0);document.getElementById('statTotal').textContent=total;document.getElementById('statMonthly').textContent=monthly.toLocaleString();document.getElementById('statExpiring').textContent=expiring;document.getElementById('overviewMonthly').textContent='NT$ '+monthly.toLocaleString();document.getElementById('overviewYearly').textContent='每年約 NT$ '+(monthly*12).toLocaleString();document.getElementById('overviewTA').textContent='NT$ '+tAmt.toLocaleString();document.getElementById('overviewBA').textContent='NT$ '+bAmt.toLocaleString();document.getElementById('sumTotal').textContent=total;document.getElementById('sumTotalS').textContent=total+' 筆';document.getElementById('sumTel').textContent=telecoms.length;document.getElementById('sumTelS').textContent=telecoms.length+' 筆';document.getElementById('sumBB').textContent=broadbands.length;document.getElementById('sumBBS').textContent=broadbands.length+' 筆';document.getElementById('sumExp').textContent=expiring;var barsEl=document.getElementById('overviewBars');if(monthly===0){barsEl.innerHTML='<div style="color:var(--ink-light);font-size:13px">尚無合約資料</div>'}else{var cats=[{l:'📱 手機電信',a:tAmt,c:'#ef4444'},{l:'🌐 網路寬頻',a:bAmt,c:'#1a6ea8'}];barsEl.innerHTML=cats.filter(function(x){return x.a>0}).map(function(x){var pct=Math.round(x.a/monthly*100);return '<div class="cat-bar-row"><div class="cat-bar-lbl">'+x.l+'</div><div class="cat-bar-track"><div class="cat-bar-fill" style="width:'+pct+'%;background:'+x.c+'"></div></div><div class="cat-bar-amt">$'+x.a.toLocaleString()+'</div></div>'}).join('')||'<div style="color:var(--ink-light);font-size:13px">尚無資料</div>'}document.getElementById('overviewCount').textContent=total+' 筆';document.getElementById('overviewList').innerHTML=contracts.length?contracts.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">📄</div>尚無合約，請點「＋ 新增」</div>';var tf=telecoms;if(filters.telecom==='active')tf=telecoms.filter(function(c){var s=contractStatus(c);return s==='active'||s==='warn'});if(filters.telecom==='none')tf=telecoms.filter(function(c){return contractStatus(c)==='none'});document.getElementById('telecomCount').textContent=tf.length+' 筆';document.getElementById('telecomList').innerHTML=tf.length?tf.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">📱</div>尚無電信合約</div>';var bf=broadbands;if(filters.broadband==='active')bf=broadbands.filter(function(c){var s=contractStatus(c);return s==='active'||s==='warn'});if(filters.broadband==='none')bf=broadbands.filter(function(c){return contractStatus(c)==='none'});document.getElementById('broadbandCount').textContent=bf.length+' 筆';document.getElementById('broadbandList').innerHTML=bf.length?bf.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">🌐</div>尚無寬頻合約</div>';var recent=contracts.slice().reverse().slice(0,5);document.getElementById('recentCount').textContent=recent.length+' 筆';document.getElementById('recentList').innerHTML=recent.length?recent.map(function(c){return renderItem(c,false)}).join(''):'<div class="empty-state"><div class="emoji">📄</div>尚無合約</div>'}
-function filterC(cat,filter,btn){filters[cat]=filter;var sec=cat==='telecom'?'sec-telecom':'sec-broadband';document.querySelectorAll('#'+sec+' .ptb-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');render()}
+function render(){var now=toDay();document.getElementById('todayStr').textContent=now.getFullYear()+'/'+(now.getMonth()+1).toString().padStart(2,'0')+'/'+now.getDate().toString().padStart(2,'0');var total=contracts.length;var monthly=contracts.reduce(function(s,c){return s+(+c.price||0)},0);var expiring=contracts.filter(function(c){var dl=daysLeft(c.end);return dl!==null&&dl>=0&&dl<=60}).length;var telecoms=contracts.filter(function(c){return c.category==='telecom'});var broadbands=contracts.filter(function(c){return c.category==='broadband'});var tAmt=telecoms.reduce(function(s,c){return s+(+c.price||0)},0);var bAmt=broadbands.reduce(function(s,c){return s+(+c.price||0)},0);document.getElementById('statTotal').textContent=total;document.getElementById('statMonthly').textContent=monthly.toLocaleString();document.getElementById('statExpiring').textContent=expiring;document.getElementById('overviewMonthly').textContent='NT$ '+monthly.toLocaleString();document.getElementById('overviewYearly').textContent='每年約 NT$ '+(monthly*12).toLocaleString();document.getElementById('overviewTA').textContent='NT$ '+tAmt.toLocaleString();document.getElementById('overviewBA').textContent='NT$ '+bAmt.toLocaleString();document.getElementById('sumTotal').textContent=total;document.getElementById('sumTotalS').textContent=total+' 筆';document.getElementById('sumTel').textContent=telecoms.length;document.getElementById('sumTelS').textContent=telecoms.length+' 筆';document.getElementById('sumBB').textContent=broadbands.length;document.getElementById('sumBBS').textContent=broadbands.length+' 筆';document.getElementById('sumExp').textContent=expiring;var barsEl=document.getElementById('overviewBars');if(monthly===0){barsEl.innerHTML='<div style="color:var(--ink-light);font-size:13px">尚無合約資料</div>'}else{var cats=[{l:'📱 手機電信',a:tAmt,c:'#ef4444'},{l:'🌐 網路寬頻',a:bAmt,c:'#1a6ea8'}];barsEl.innerHTML=cats.filter(function(x){return x.a>0}).map(function(x){var pct=Math.round(x.a/monthly*100);return '<div class="cat-bar-row"><div class="cat-bar-lbl">'+x.l+'</div><div class="cat-bar-track"><div class="cat-bar-fill" style="width:'+pct+'%;background:'+x.c+'"></div></div><div class="cat-bar-amt">$'+x.a.toLocaleString()+'</div></div>'}).join('')||'<div style="color:var(--ink-light);font-size:13px">尚無資料</div>'}document.getElementById('overviewCount').textContent=total+' 筆';document.getElementById('overviewList').innerHTML=contracts.length?contracts.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">📄</div>尚無合約，請點「＋ 新增」</div>';var tf=telecoms;if(filters.telecom==='active')tf=telecoms.filter(function(c){var s=contractStatus(c);return s==='active'||s==='warn'});if(filters.telecom==='none')tf=telecoms.filter(function(c){return contractStatus(c)==='none'});document.getElementById('telecomCount').textContent=tf.length+' 筆';document.getElementById('telecomList').innerHTML=tf.length?tf.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">📱</div>尚無電信合約</div>';var bf=broadbands;if(filters.broadband==='active')bf=broadbands.filter(function(c){var s=contractStatus(c);return s==='active'||s==='warn'});if(filters.broadband==='none')bf=broadbands.filter(function(c){return contractStatus(c)==='none'});document.getElementById('broadbandCount').textContent=bf.length+' 筆';document.getElementById('broadbandList').innerHTML=bf.length?bf.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">🌐</div>尚無寬頻合約</div>';var fares=contracts.filter(function(c){return c.category==='fare'});
+var faref=fares;
+if(filters.fare==='active')faref=fares.filter(function(c){var s=contractStatus(c);return s==='active'||s==='warn'});
+if(filters.fare==='expired')faref=fares.filter(function(c){return contractStatus(c)==='expired'});
+document.getElementById('fareCount').textContent=faref.length+' 筆';
+document.getElementById('fareList').innerHTML=faref.length?faref.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">🏢</div>尚無行費合約</div>';
+var insurances=contracts.filter(function(c){return c.category==='insurance'});
+var insf=insurances;
+if(filters.insurance==='active')insf=insurances.filter(function(c){var s=contractStatus(c);return s==='active'||s==='warn'});
+if(filters.insurance==='expired')insf=insurances.filter(function(c){return contractStatus(c)==='expired'});
+document.getElementById('insuranceCount').textContent=insf.length+' 筆';
+document.getElementById('insuranceList').innerHTML=insf.length?insf.map(function(c){return renderItem(c)}).join(''):'<div class="empty-state"><div class="emoji">🚕</div>尚無計程車保險合約</div>';
+var recent=contracts.slice().reverse().slice(0,5);document.getElementById('recentCount').textContent=recent.length+' 筆';document.getElementById('recentList').innerHTML=recent.length?recent.map(function(c){return renderItem(c,false)}).join(''):'<div class="empty-state"><div class="emoji">📄</div>尚無合約</div>'}
+function filterC(cat,filter,btn){filters[cat]=filter;var sec=cat==='telecom'?'sec-telecom':cat==='insurance'?'sec-insurance':cat==='fare'?'sec-fare':'sec-broadband';document.querySelectorAll('#'+sec+' .ptb-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');render()}
 function switchTab(id,btn){document.querySelectorAll('.section').forEach(function(s){s.classList.remove('active')});document.querySelectorAll('.nav-tab').forEach(function(b){b.classList.remove('active')});document.getElementById('sec-'+id).classList.add('active');btn.classList.add('active')}
 function saveContract(){var name=document.getElementById('fName').value.trim();var price=document.getElementById('fPrice').value.trim();if(!name){showToast('⚠ 請填寫業者名稱');return}if(!price){showToast('⚠ 請填寫月費金額');return}var data={category:document.getElementById('fCategory').value,name:name,phone:document.getElementById('fPhone').value.trim(),plan:document.getElementById('fPlan').value.trim(),price:parseInt(price),contractType:document.getElementById('fContractType').value,start:document.getElementById('fStart').value,end:document.getElementById('fEnd').value,note:document.getElementById('fNote').value.trim()};if(editingId){var idx=contracts.findIndex(function(c){return c.id===editingId});if(idx>=0)contracts[idx]=Object.assign({},contracts[idx],data);showToast('✅ 合約已更新')}else{contracts.push(Object.assign({id:Date.now()},data));showToast('✅ 合約已新增')}saveData();render();cancelEdit();clearForm()}
 function clearForm(){['fName','fPhone','fPlan','fPrice','fStart','fEnd','fNote'].forEach(function(id){document.getElementById(id).value=''});document.getElementById('fCategory').value='telecom';document.getElementById('fContractType').value='none'}
