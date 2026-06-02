@@ -2003,7 +2003,7 @@ function sortTbl(th) {
 }
 
 /* ══ LIVE PRICE ══ */
-const GAS_URL = 'https://script.google.com/macros/s/AKfycbxsF2cTN5cwVzYoxQ4yxYU0ALvvDJx0rPExaygl8Qy0Elkxdaa2FWP0xKYDii5mBlL6nw/exec';
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbwhnX5LYECYdJCi9sw5lbtTSdClZ9Wm8r8L9OVCynI8Ex_tX_4Kpu3sP2tFxuwNIQI1pA/exec';
 const TW_SUFFIX = {
   // 台股 ETF（上市 .TW）
   '00631L':'00631L.TW','00830':'00830.TW','00861':'00861.TW','00876':'00876.TW',
@@ -2049,19 +2049,65 @@ async function fetchPrices() {
   const allRows = document.querySelectorAll('tr[data-code]');
   const codes = [...new Set([...allRows].map(r => r.dataset.code).filter(c => c && c !== '—' && TW_SUFFIX[c]))];
   allRows.forEach(tr => { if (FALLBACK[tr.dataset.code] != null) applyPrice(tr, FALLBACK[tr.dataset.code]); });
-  if (!codes.length) return;
-  try {
-    const res = await Promise.race([
-      fetch(`${GAS_URL}?codes=${codes.join(',')}`),
-      new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 15000))
-    ]);
-    const map = await res.json();
-    let n = 0;
-    allRows.forEach(tr => { if (map[tr.dataset.code] != null) { applyPrice(tr, map[tr.dataset.code]); n++; } });
-    const now = new Date();
-    document.querySelectorAll('.page-footer').forEach(el => {
-      el.textContent = `✅ 已更新 ${n} 檔 · ${now.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'})} · 僅供參考`;
-    });
+
+  const usRows = document.querySelectorAll('#page-cheng tr[data-us-code]');
+  const usCodes = [...new Set([...usRows].map(r => r.dataset.usCode).filter(Boolean))];
+
+  let n = 0;
+
+  // ── 台股 ──
+  if (codes.length) {
+    try {
+      const res = await Promise.race([
+        fetch(`${GAS_URL}?codes=${codes.join(',')}`),
+        new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 15000))
+      ]);
+      const map = await res.json();
+      allRows.forEach(tr => { if (map[tr.dataset.code] != null) { applyPrice(tr, map[tr.dataset.code]); n++; } });
+    } catch(e) {
+      console.warn('台股報價失敗:', e);
+    }
+  }
+
+  // ── 美股 ──
+  if (usCodes.length) {
+    try {
+      const usRes = await Promise.race([
+        fetch(`${GAS_URL}?codes=${usCodes.join(',')}&market=us`),
+        new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 15000))
+      ]);
+      const usMap = await usRes.json();
+      console.log('美股報價回傳:', JSON.stringify(usMap));
+      const usdTwd = usMap['USD_TWD'] || usMap['USDTWD'] || 32.5;
+      usRows.forEach(tr => {
+        const code = tr.dataset.usCode;
+        if (usMap[code] == null) return;
+        const priceUsd = parseFloat(usMap[code]);
+        if (isNaN(priceUsd) || priceUsd <= 0) return;
+        const avgTwd   = parseFloat(tr.dataset.usAvg) || 0;
+        const shares   = parseFloat(tr.dataset.usShares) || 0;
+        const priceTwd = Math.round(priceUsd * usdTwd * 100) / 100;
+        const pnlTwd   = Math.round((priceTwd - avgTwd) * shares);
+        const pct      = avgTwd > 0 ? ((priceTwd - avgTwd) / avgTwd * 100).toFixed(2) : '0.00';
+        const isPos    = pnlTwd >= 0;
+        tr.dataset.usPrice = priceUsd;
+        tr.dataset.usPnl   = pnlTwd;
+        tr.dataset.usRate  = (isPos?'+':'')+pct+'%';
+        const tds = tr.querySelectorAll('td');
+        if (tds[1]) tds[1].textContent = priceUsd;
+        if (tds[4]) { tds[4].textContent = (isPos?'+':'')+pnlTwd.toLocaleString('zh-TW'); tds[4].className = isPos?'pnl-up':'pnl-down'; }
+        if (tds[5]) { tds[5].innerHTML = `<span class="rate-pill ${isPos?'up':'down'}">${(isPos?'+':'')+pct}%</span>`; }
+        n++;
+      });
+    } catch(e) {
+      console.warn('美股報價失敗:', e);
+    }
+  }
+
+  const now = new Date();
+  document.querySelectorAll('.page-footer').forEach(el => {
+    el.textContent = `✅ 已更新 ${n} 檔 · ${now.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'})} · 僅供參考`;
+  });
 
     // 直接計算呈的台股摘要（不透過函數，確保 DOM 已更新）
     let cMkt=0, cPnl=0, cCost=0;
@@ -2113,9 +2159,6 @@ async function fetchPrices() {
     updateFbPieChart();
     updateYfPieChart();
     renderAllCards();
-  } catch(e) {
-    document.querySelectorAll('.page-footer').forEach(el => el.textContent = '⚠ 股價更新失敗 · 僅供參考');
-  }
 }
 
 /* ══ STOCK CARD SORT STATE ══ */
