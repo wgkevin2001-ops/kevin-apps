@@ -23,6 +23,7 @@
   --dept-other:#4a6fa8;--dept-other-bg:#eef2fa;
   --dept-rehab:#c07a1a;--dept-rehab-bg:#faf0e0;
   --dept-tcm:#2e7d5a;--dept-tcm-bg:#e6f5ee;
+  --dept-eye:#0e7490;--dept-eye-bg:#e0f5fa;
 }
 body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jakarta Sans','PingFang TC','Microsoft JhengHei',sans-serif;min-height:100vh;font-size:16px;-webkit-font-smoothing:antialiased}
 
@@ -167,8 +168,8 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .go-cal-btn{font-size:12px;font-weight:700;color:var(--bl);background:rgba(26,110,168,.08);border:1px solid rgba(26,110,168,.2);border-radius:7px;padding:4px 10px;cursor:pointer;font-family:inherit}
 
 /* DEPT STRIPES / BADGES */
-.ortho{background:var(--dept-ortho)}.psych{background:var(--dept-psych)}.endo{background:var(--dept-endo)}.neuro{background:var(--dept-neuro)}.cardio{background:var(--dept-cardio)}.other{background:var(--dept-other)}.rehab{background:var(--dept-rehab)}.tcm{background:var(--dept-tcm)}
-.badge-ortho{background:var(--dept-ortho-bg);color:var(--dept-ortho)}.badge-psych{background:var(--dept-psych-bg);color:var(--dept-psych)}.badge-endo{background:var(--dept-endo-bg);color:var(--dept-endo)}.badge-neuro{background:var(--dept-neuro-bg);color:var(--dept-neuro)}.badge-cardio{background:var(--dept-cardio-bg);color:var(--dept-cardio)}.badge-other{background:var(--dept-other-bg);color:var(--dept-other)}.badge-rehab{background:var(--dept-rehab-bg);color:var(--dept-rehab)}.badge-tcm{background:var(--dept-tcm-bg);color:var(--dept-tcm)}
+.ortho{background:var(--dept-ortho)}.psych{background:var(--dept-psych)}.endo{background:var(--dept-endo)}.neuro{background:var(--dept-neuro)}.cardio{background:var(--dept-cardio)}.other{background:var(--dept-other)}.rehab{background:var(--dept-rehab)}.tcm{background:var(--dept-tcm)}.eye{background:var(--dept-eye)}
+.badge-ortho{background:var(--dept-ortho-bg);color:var(--dept-ortho)}.badge-psych{background:var(--dept-psych-bg);color:var(--dept-psych)}.badge-endo{background:var(--dept-endo-bg);color:var(--dept-endo)}.badge-neuro{background:var(--dept-neuro-bg);color:var(--dept-neuro)}.badge-cardio{background:var(--dept-cardio-bg);color:var(--dept-cardio)}.badge-other{background:var(--dept-other-bg);color:var(--dept-other)}.badge-rehab{background:var(--dept-rehab-bg);color:var(--dept-rehab)}.badge-tcm{background:var(--dept-tcm-bg);color:var(--dept-tcm)}.badge-eye{background:var(--dept-eye-bg);color:var(--dept-eye)}
 
 /* ADD FORM */
 .add-form{background:var(--card);border:1px solid var(--bdr);border-radius:14px;padding:14px;margin-bottom:14px}
@@ -718,10 +719,10 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   <div class="focus-group">
     <div class="focus-ghdr"><div class="focus-gtitle">🏥 醫療行程</div><div class="focus-gline"></div></div>
     <div class="focus-item" onclick="goToAppt('2026-05-09')" style="cursor:pointer"><div class="fdate">5/9（六）</div><div class="fbody"><div class="ftext">🦴 亞東骨科 陳文質醫師 H116 #37</div></div><span class="fbadge fb-info">→月曆</span></div>
-    <div class="focus-item" onclick="goToAppt('2026-05-12')" style="cursor:pointer"><div class="fdate">5/12（二）</div><div class="fbody"><div class="ftext">🏥 大鈞復健 脖子牽引 08:00</div></div><span class="fbadge fb-info">→月曆</span></div>
+    <div class="focus-item" onclick="goToAppt('2026-05-12')" style="cursor:pointer"><div class="fdate">5/12（二→三調整）</div><div class="fbody"><div class="ftext">🏥 大鈞復健 脖子牽引 08:00</div></div><span class="fbadge fb-info">→月曆</span></div>
     <div class="focus-item" onclick="goToAppt('2026-05-16')" style="cursor:pointer"><div class="fdate">5/16（六）</div><div class="fbody"><div class="ftext">🧠 亞東精神科 林竺君醫師 A901 #10</div><div class="fnote">建議08:50到診</div></div><span class="fbadge fb-info">→月曆</span></div>
     <div class="focus-item" onclick="goToAppt('2026-05-23')" style="cursor:pointer"><div class="fdate">5/23（六）</div><div class="fbody"><div class="ftext">🦴 亞東骨科 陳文質醫師 H116 #43</div></div><span class="fbadge fb-info">→月曆</span></div>
-    <div class="focus-item"><div class="fdate">每週二、六</div><div class="fbody"><div class="ftext">🏥 大鈞復健 脖子牽引 08:00–09:30</div></div><span class="fbadge fb-rep">🔄例行</span></div>
+    <div class="focus-item"><div class="fdate">每週三、六</div><div class="fbody"><div class="ftext">🏥 大鈞復健 脖子牽引 08:00–09:30</div></div><span class="fbadge fb-rep">🔄例行</span></div>
   </div>
   <div class="focus-group">
     <div class="focus-ghdr"><div class="focus-gtitle">👧 孩子行程</div><div class="focus-gline"></div></div>
@@ -764,6 +765,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     <span class="leg-item"><span class="leg-dot" style="background:var(--dept-neuro)"></span>神經科</span>
     <span class="leg-item"><span class="leg-dot" style="background:var(--dept-rehab)"></span>復健</span>
     <span class="leg-item"><span class="leg-dot" style="background:var(--dept-tcm)"></span>中醫</span>
+    <span class="leg-item"><span class="leg-dot" style="background:var(--dept-eye)"></span>眼科</span>
     <span class="leg-item" style="margin-left:4px"><span class="leg-dot" style="background:var(--gr)"></span>已完成</span>
   </div>
   <div class="add-form">
@@ -775,7 +777,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
           <option value="ortho">骨科部</option><option value="psych">精神暨心身醫學部</option>
           <option value="endo">新陳代謝科</option><option value="neuro">神經醫學部</option>
           <option value="cardio">心臟內科</option><option value="rehab">復健治療（診所）</option>
-          <option value="tcm">中醫診所</option><option value="other">其他</option>
+          <option value="tcm">中醫診所</option><option value="eye">眼科診所</option><option value="other">其他</option>
         </select>
       </div>
       <div class="form-group"><span class="form-label">科別名稱（自訂）</span><input type="text" class="form-input" id="appt-dept-name" placeholder="骨科部"/></div>
@@ -1040,7 +1042,7 @@ const TCM_DATES = (()=>{
   return dates;
 })();
 
-const INIT_APPTS = [{"id": 1, "date": "2026-05-09", "deptType": "ortho", "deptName": "骨科部", "doctor": "陳文質 醫師", "room": "診間 H116 · 上午診", "time": "", "number": 37, "note": "半年評估：膝關節玻尿酸注射。健保給付：Suplasyn 3-Shot（愛爾蘭，570元）。自費選項：Artz 1,482元 / HyLink 3,573元 / Durolane 6,273元 / Hyafelic Uno 16,473元。"}, {"id": 2, "date": "2026-05-16", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:50", "number": 10}, {"id": 3, "date": "2026-05-23", "deptType": "ortho", "deptName": "骨科部", "doctor": "陳文質 醫師", "room": "診間 H116 · 上午診", "time": "", "number": 43, "note": "膝關節評估"}, {"id": 4, "date": "2026-06-06", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:50", "number": 10}, {"id": 5, "date": "2026-06-06", "deptType": "endo", "deptName": "新陳代謝科", "doctor": "陳華芬 醫師", "room": "診間 G224 · 上午診", "time": "", "number": 3}, {"id": 6, "date": "2026-06-18", "deptType": "neuro", "deptName": "神經醫學部", "doctor": "李少白 醫師", "room": "診間 F203 · 上午診", "time": "", "number": 9}, {"id": 7, "date": "2026-07-04", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:30", "number": 1}, {"id": 8, "date": "2026-08-01", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:30", "number": 1}, {"id": 100, "date": "2026-05-12", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 101, "date": "2026-05-14", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 102, "date": "2026-05-19", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 103, "date": "2026-05-21", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 104, "date": "2026-05-26", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 105, "date": "2026-05-28", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 106, "date": "2026-06-02", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 107, "date": "2026-06-04", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 108, "date": "2026-06-09", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 109, "date": "2026-06-11", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 110, "date": "2026-06-16", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 111, "date": "2026-06-18", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 112, "date": "2026-06-23", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 113, "date": "2026-06-25", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 114, "date": "2026-06-30", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 115, "date": "2026-07-02", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 116, "date": "2026-07-07", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 117, "date": "2026-07-09", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 118, "date": "2026-07-14", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 119, "date": "2026-07-16", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 120, "date": "2026-07-21", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 121, "date": "2026-07-23", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 122, "date": "2026-07-28", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 123, "date": "2026-07-30", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, ...TCM_DATES];
+const INIT_APPTS = [{"id": 1, "date": "2026-05-09", "deptType": "ortho", "deptName": "骨科部", "doctor": "陳文質 醫師", "room": "診間 H116 · 上午診", "time": "", "number": 37, "note": "半年評估：膝關節玻尿酸注射。健保給付：Suplasyn 3-Shot（愛爾蘭，570元）。自費選項：Artz 1,482元 / HyLink 3,573元 / Durolane 6,273元 / Hyafelic Uno 16,473元。"}, {"id": 2, "date": "2026-05-16", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:50", "number": 10}, {"id": 3, "date": "2026-05-23", "deptType": "ortho", "deptName": "骨科部", "doctor": "陳文質 醫師", "room": "診間 H116 · 上午診", "time": "", "number": 43, "note": "膝關節評估"}, {"id": 4, "date": "2026-06-06", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:50", "number": 10}, {"id": 5, "date": "2026-06-06", "deptType": "endo", "deptName": "新陳代謝科", "doctor": "陳華芬 醫師", "room": "診間 G224 · 上午診", "time": "", "number": 3}, {"id": 6, "date": "2026-06-18", "deptType": "neuro", "deptName": "神經醫學部", "doctor": "李少白 醫師", "room": "診間 F203 · 上午診", "time": "", "number": 9}, {"id": 7, "date": "2026-07-04", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:30", "number": 1}, {"id": 8, "date": "2026-08-01", "deptType": "psych", "deptName": "精神暨心身醫學部", "doctor": "林竺君 醫師", "room": "診間 A901 · 上午診", "time": "08:30", "number": 1}, {"id": 124, "date": "2026-06-03", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 125, "date": "2026-06-06", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 126, "date": "2026-06-10", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 127, "date": "2026-06-13", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 128, "date": "2026-06-17", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 129, "date": "2026-06-20", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 130, "date": "2026-06-24", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 131, "date": "2026-06-27", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 132, "date": "2026-07-01", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 133, "date": "2026-07-04", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 134, "date": "2026-07-08", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 135, "date": "2026-07-11", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 136, "date": "2026-07-15", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 137, "date": "2026-07-18", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 138, "date": "2026-07-22", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 139, "date": "2026-07-25", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 140, "date": "2026-07-29", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 141, "date": "2026-08-01", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 142, "date": "2026-08-05", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 143, "date": "2026-08-08", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 144, "date": "2026-08-12", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 145, "date": "2026-08-15", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 146, "date": "2026-08-19", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 147, "date": "2026-08-22", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 148, "date": "2026-08-26", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 149, "date": "2026-08-29", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 150, "date": "2026-09-02", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 151, "date": "2026-09-05", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 152, "date": "2026-09-09", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 153, "date": "2026-09-12", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 154, "date": "2026-09-16", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 155, "date": "2026-09-19", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 156, "date": "2026-09-23", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 157, "date": "2026-09-26", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 158, "date": "2026-09-30", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 159, "date": "2026-10-03", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 160, "date": "2026-10-07", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 161, "date": "2026-10-10", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 162, "date": "2026-10-14", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 163, "date": "2026-10-17", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 164, "date": "2026-10-21", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 165, "date": "2026-10-24", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 166, "date": "2026-10-28", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 167, "date": "2026-10-31", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 168, "date": "2026-11-04", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 169, "date": "2026-11-07", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 170, "date": "2026-11-11", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 171, "date": "2026-11-14", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 172, "date": "2026-11-18", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 173, "date": "2026-11-21", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 174, "date": "2026-11-25", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 175, "date": "2026-11-28", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 176, "date": "2026-12-02", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 177, "date": "2026-12-05", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 178, "date": "2026-12-09", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 179, "date": "2026-12-12", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 180, "date": "2026-12-16", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 181, "date": "2026-12-19", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 182, "date": "2026-12-23", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 183, "date": "2026-12-26", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, {"id": 184, "date": "2026-12-30", "deptType": "rehab", "deptName": "脖子牽引復健", "doctor": "大鈞診所", "room": "板橋大鈞診所", "time": "08:00", "number": 0}, ...TCM_DATES];
 
 const HOLIDAYS = {
   "2026-01-01":"元旦","2026-02-14":"除夕","2026-02-15":"春節","2026-02-16":"春節",
@@ -1057,13 +1059,69 @@ const HOLIDAYS = {
 };
 
 const CAL_EVT = {
+  // ── 5月 ──
   "2026-05-01":["🟡勞動節","💳國泰$18,628自扣"],
   "2026-05-04":["⛽中油Pay","🥛鮮奶","🎵管樂"],
   "2026-05-05":["📚德段考"],"2026-05-06":["🚗車貸自扣"],
   "2026-05-08":["💳中信$12,619自扣"],"2026-05-11":["🎶管樂成果發表18:30","🏠房屋稅繳費×4筆 NT$14,554"],
   "2026-05-12":["🎨萱畢業美展開幕"],"2026-05-27":["👗迪化街扮裝"],
   "2026-05-29":["🧸世貿玩具展"],"2026-05-31":["📋所得稅截止","🏠房屋稅截止"],
-  "2026-06-06":["🚗車貸自扣"],"2026-06-19":["🐉端午節"],
+  // ── 6月 ──
+  "2026-06-02":["📱台灣大電話費$1,770截止"],
+  "2026-06-06":["🚗車貸自扣","🧠精神科 林竺君醫師","💉新陳代謝科 陳華芬醫師"],
+  "2026-06-08":["⛽中油Pay"],"2026-06-15":["⛽中油Pay"],
+  "2026-06-18":["🧬神經醫學部 李少白醫師"],
+  "2026-06-19":["🐉端午節"],
+  "2026-06-20":["🔍查朋友車違規"],
+  "2026-06-22":["⛽中油Pay"],"2026-06-29":["⛽中油Pay"],
+  // ── 7月 ──
+  "2026-07-04":["🧠精神科 林竺君醫師 08:30"],
+  "2026-07-06":["🚗車貸自扣","⛽中油Pay","📡中嘉網路費$909 Q3自扣"],
+  "2026-07-13":["⛽中油Pay"],
+  "2026-07-15":["🚗燃料稅繳費確認"],
+  "2026-07-20":["⛽中油Pay"],
+  "2026-07-23":["📋職業駕照到期前60天換發提醒"],
+  "2026-07-27":["⛽中油Pay"],
+  // ── 8月 ──
+  "2026-08-01":["🧠精神科 林竺君醫師 08:30"],
+  "2026-08-03":["⛽中油Pay"],"2026-08-06":["🚗車貸自扣"],
+  "2026-08-10":["⛽中油Pay"],"2026-08-17":["⛽中油Pay"],
+  "2026-08-21":["🚕計程車營登審驗提醒（開始）"],
+  "2026-08-22":["🪶執業登記證+職業駕照 到期前30天"],
+  "2026-08-24":["⛽中油Pay"],
+  "2026-08-31":["⛽中油Pay","🏥職業駕照審驗體檢（9月初辦理）"],
+  // ── 9月 ──
+  "2026-09-06":["🚗車貸自扣"],
+  "2026-09-07":["⛽中油Pay","🚕計程車營登審驗（剩2週）"],
+  "2026-09-10":["🔧車子驗重保養"],
+  "2026-09-14":["⛽中油Pay"],
+  "2026-09-20":["⚠️職業駕照審驗明日到期","🚕計程車營登明日到期"],
+  "2026-09-21":["⚠️職業駕照到期‼️","🚕計程車營登到期‼️","⛽中油Pay"],
+  "2026-09-24":["🟡中秋節＋教師節連假（4天）"],
+  "2026-09-28":["⛽中油Pay"],
+  "2026-09-29":["📋準備執登審驗文件","📋驗車提前30天提醒（TDZ-0950）"],
+  // ── 10月 ──
+  "2026-10-05":["⛽中油Pay"],"2026-10-06":["🚗車貸自扣"],
+  "2026-10-07":["📡中嘉網路費$909 Q4自扣"],
+  "2026-10-08":["🟡國慶日連假（3天）"],
+  "2026-10-12":["⛽中油Pay"],"2026-10-19":["⛽中油Pay"],
+  "2026-10-24":["🟡台灣光復節連假（2天）"],
+  "2026-10-26":["⛽中油Pay"],
+  "2026-10-29":["🚗Altis定期驗車 TDZ-0950"],
+  "2026-10-30":["⚠️計程車執登有效期到期"],
+  "2026-10-31":["⚠️計程車執業登記證換發到期","🏡地價稅繳納開始（截止11/30）"],
+  // ── 11月 ──
+  "2026-11-02":["⛽中油Pay"],"2026-11-06":["🚗車貸自扣"],
+  "2026-11-09":["⛽中油Pay"],"2026-11-16":["⛽中油Pay"],
+  "2026-11-23":["⛽中油Pay"],
+  "2026-11-29":["🔔地價稅繳納截止日"],
+  "2026-11-30":["⛽中油Pay"],
+  // ── 12月 ──
+  "2026-12-06":["🚗車貸自扣"],
+  "2026-12-07":["⛽中油Pay"],"2026-12-14":["⛽中油Pay"],
+  "2026-12-21":["⛽中油Pay"],
+  "2026-12-24":["🟡行憲紀念日連假（3天）"],
+  "2026-12-28":["⛽中油Pay"],
 };
 
 const DEPT = {
@@ -1075,6 +1133,7 @@ const DEPT = {
   other:{label:"其他",s:"other",b:"badge-other",n:"其他科別"},
   rehab:{label:"復健治療",s:"rehab",b:"badge-rehab",n:"復健治療"},
   tcm:{label:"中醫",s:"tcm",b:"badge-tcm",n:"中醫診所"},
+  eye:{label:"眼科",s:"eye",b:"badge-eye",n:"眼科診所"},
 };
 
 const WDS=["週日","週一","週二","週三","週四","週五","週六"];
@@ -1266,19 +1325,33 @@ function editOutcome(id){
 }
 
 function renderAppts(){
-  const sorted=[...appointments].sort((a,b)=>a.date.localeCompare(b.date));
   const todayStr=today();
-  document.getElementById("hstat-appt").textContent=sorted.filter(a=>a.date>=todayStr).length||"—";
+  // 未來（含今天）升序，過去降序（最近的在前）
+  const future=[...appointments].filter(a=>a.date>=todayStr).sort((a,b)=>a.date.localeCompare(b.date));
+  const past=[...appointments].filter(a=>a.date<todayStr).sort((a,b)=>b.date.localeCompare(a.date));
+  const sorted=[...future,...past];
+  document.getElementById("hstat-appt").textContent=future.length||"—";
 
   const groups={};
   sorted.forEach(a=>{const ym=a.date.slice(0,7);if(!groups[ym])groups[ym]=[];groups[ym].push(a);});
 
   let html="";
+  let pastDividerAdded=false;
   for(const[ym,list] of Object.entries(groups)){
     const[y,m]=ym.split("-");
+    const isAllPast=list.every(a=>a.date<todayStr);
+    // 在第一個全部是過去的月份前面插入分隔線
+    if(isAllPast && !pastDividerAdded){
+      pastDividerAdded=true;
+      html+=`<div style="display:flex;align-items:center;gap:10px;margin:18px 0 10px">
+        <div style="flex:1;height:1px;background:rgba(0,0,0,.1)"></div>
+        <span style="font-size:11px;font-weight:700;color:#aaa;letter-spacing:.06em;white-space:nowrap">▲ 以上為未來預約 ｜ 以下為歷史記錄 ▼</span>
+        <div style="flex:1;height:1px;background:rgba(0,0,0,.1)"></div>
+      </div>`;
+    }
     html+=`<div class="month-section">
       <div class="month-hdr">
-        <span class="month-lbl">${y}年 ${MONTHS[+m]}</span>
+        <span class="month-lbl"${isAllPast?' style="color:var(--ink-light)"':''}>${y}年 ${MONTHS[+m]}</span>
         <span class="month-line"></span>
         <span class="month-cnt">${list.length}筆</span>
       </div>
@@ -1711,7 +1784,7 @@ const FOCUS_ITEMS_INIT = [
   // 每週例行
   {id:'f40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
   {id:'f41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/03', text:'✅ 查違規 TDZ-0950（監理站）',   note:'每週三', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
-  {id:'f14', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週二、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'f14', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週三、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
   {id:'f42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥', note:'每日', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
 ];
 
@@ -1728,14 +1801,95 @@ const FOCUS_ITEMS_JUNE = [
   {id:'j30', cat:'🎉 家庭活動', catKey:'family', sortDate:'00/00', text:'⛲ 碧潭水舞季（每晚18:30）', note:'至6/14', badge:'fb-info', badgeText:'持續中', initStatus:'doing'},
   {id:'j40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
   {id:'j41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/03', text:'✅ 查違規 TDZ-0950（監理站）', note:'每週三', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
-  {id:'j14', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週二、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'j14', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週三、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
   {id:'j42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥', note:'每日', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+];
+
+// ── 7月工作重點（Google Calendar 同步）──
+const FOCUS_ITEMS_JULY = [
+  {id:'jul01', cat:'💰 財務重點', catKey:'finance', sortDate:'07/06', text:'🚗 中租車貸 自動扣款（國泰銀行）', note:'每月6日', badge:'fb-rep', badgeText:'🔄自動', initStatus:'doing'},
+  {id:'jul02', cat:'💰 財務重點', catKey:'finance', sortDate:'07/01', text:'👨‍🎓 阿德生活費 NT$4,000', note:'每月初確認', badge:'fb-warn', badgeText:'⏳待確認', initStatus:'pending'},
+  {id:'jul03', cat:'💰 財務重點', catKey:'finance', sortDate:'07/04', text:'🇿🇦 南非幣定存到期 → 續存', note:'每月4日確認', badge:'fb-warn', badgeText:'⏳', initStatus:'pending'},
+  {id:'jul10', cat:'🏥 醫療行程', catKey:'medical', sortDate:'07/04', text:'🧠 亞東精神科 林竺君醫師 A901 #1', note:'08:30到診', badge:'fb-info', badgeText:'→月曆', initStatus:'pending', apptDate:'2026-07-04'},
+  {id:'jul40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'jul41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/03', text:'✅ 查違規 TDZ-0950（監理站）', note:'每週三', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'jul14', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週三、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'jul42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥', note:'每日', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+];
+
+// ── 8月工作重點（Google Calendar 同步）──
+const FOCUS_ITEMS_AUGUST = [
+  {id:'aug01', cat:'💰 財務重點', catKey:'finance', sortDate:'08/06', text:'🚗 中租車貸 自動扣款（國泰銀行）', note:'每月6日', badge:'fb-rep', badgeText:'🔄自動', initStatus:'doing'},
+  {id:'aug02', cat:'💰 財務重點', catKey:'finance', sortDate:'08/01', text:'👨‍🎓 阿德生活費 NT$4,000', note:'每月初確認', badge:'fb-warn', badgeText:'⏳待確認', initStatus:'pending'},
+  {id:'aug03', cat:'💰 財務重點', catKey:'finance', sortDate:'08/04', text:'🇿🇦 南非幣定存到期 → 續存', note:'每月4日確認', badge:'fb-warn', badgeText:'⏳', initStatus:'pending'},
+  {id:'aug10', cat:'🏥 醫療行程', catKey:'medical', sortDate:'08/01', text:'🧠 亞東精神科 林竺君醫師 A901 #1', note:'08:30到診', badge:'fb-info', badgeText:'→月曆', initStatus:'pending', apptDate:'2026-08-01'},
+  {id:'aug40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'aug41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/03', text:'✅ 查違規 TDZ-0950（監理站）', note:'每週三', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'aug14', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週三、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'aug42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥', note:'每日', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+];
+
+// ── 9月工作重點（Google Calendar 同步）──
+const FOCUS_ITEMS_SEPT = [
+  {id:'sep01', cat:'💰 財務重點', catKey:'finance', sortDate:'09/06', text:'🚗 中租車貸 自動扣款（國泰銀行）', note:'每月6日', badge:'fb-rep', badgeText:'🔄自動', initStatus:'doing'},
+  {id:'sep02', cat:'💰 財務重點', catKey:'finance', sortDate:'09/01', text:'👨‍🎓 阿德生活費 NT$4,000', note:'每月初確認', badge:'fb-warn', badgeText:'⏳待確認', initStatus:'pending'},
+  {id:'sep03', cat:'💰 財務重點', catKey:'finance', sortDate:'09/04', text:'🇿🇦 南非幣定存到期 → 續存', note:'每月4日確認', badge:'fb-warn', badgeText:'⏳', initStatus:'pending'},
+  {id:'sep10', cat:'🚗 車輛事務', catKey:'custom', sortDate:'09/10', text:'🔧 車子驗重保養', note:'9/10', badge:'fb-warn', badgeText:'⏳', initStatus:'pending'},
+  {id:'sep20', cat:'🚗 車輛事務', catKey:'custom', sortDate:'09/21', text:'⚠️ 職業駕照審驗到期‼️', note:'9/21 截止，須至監理所辦理', badge:'fb-red', badgeText:'⚠️截止', initStatus:'pending'},
+  {id:'sep21', cat:'🚗 車輛事務', catKey:'custom', sortDate:'09/21', text:'🚕 計程車營登審驗到期‼️', note:'9/21 截止，須辦續期', badge:'fb-red', badgeText:'⚠️截止', initStatus:'pending'},
+  {id:'sep22', cat:'🚗 車輛事務', catKey:'custom', sortDate:'09/29', text:'📋 準備計程車執登審驗文件（有效期10/31）', note:'驗車提前30天', badge:'fb-warn', badgeText:'⏳', initStatus:'pending'},
+  {id:'sep23', cat:'🚗 車輛事務', catKey:'custom', sortDate:'09/29', text:'📋 TDZ-0950 驗車提前30天提醒（10/29）', note:'政錩汽車預約', badge:'fb-warn', badgeText:'⏳', initStatus:'pending'},
+  {id:'sep30', cat:'🎉 家庭活動', catKey:'family', sortDate:'09/24', text:'🟡 中秋節＋教師節連假（4天）', note:'9/24–9/27', badge:'fb-info', badgeText:'連假', initStatus:'pending'},
+  {id:'sep40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'sep41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週三、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'sep42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥', note:'每日', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+];
+
+// ── 10月工作重點（Google Calendar 同步）──
+const FOCUS_ITEMS_OCT = [
+  {id:'oct01', cat:'💰 財務重點', catKey:'finance', sortDate:'10/06', text:'🚗 中租車貸 自動扣款（國泰銀行）', note:'每月6日', badge:'fb-rep', badgeText:'🔄自動', initStatus:'doing'},
+  {id:'oct02', cat:'💰 財務重點', catKey:'finance', sortDate:'10/07', text:'📡 中嘉網路費 $909（Q4 10-12月）信用卡自扣', note:'10/7', badge:'fb-rep', badgeText:'🔄自動', initStatus:'doing'},
+  {id:'oct03', cat:'💰 財務重點', catKey:'finance', sortDate:'10/01', text:'👨‍🎓 阿德生活費 NT$4,000', note:'每月初確認', badge:'fb-warn', badgeText:'⏳待確認', initStatus:'pending'},
+  {id:'oct04', cat:'💰 財務重點', catKey:'finance', sortDate:'10/31', text:'🏡 地價稅繳納開始（截止11/30）', note:'10/31起', badge:'fb-warn', badgeText:'⏳', initStatus:'pending'},
+  {id:'oct10', cat:'🚗 車輛事務', catKey:'custom', sortDate:'10/29', text:'🚗 TDZ-0950 定期驗車（政錩汽車）', note:'10/29 Altis驗車', badge:'fb-red', badgeText:'⚠️截止', initStatus:'pending'},
+  {id:'oct11', cat:'🚗 車輛事務', catKey:'custom', sortDate:'10/31', text:'⚠️ 計程車執業登記證換發到期', note:'10/31截止', badge:'fb-red', badgeText:'⚠️截止', initStatus:'pending'},
+  {id:'oct20', cat:'🎉 家庭活動', catKey:'family', sortDate:'10/08', text:'🟡 國慶日連假（3天）', note:'10/8–10/11', badge:'fb-info', badgeText:'連假', initStatus:'pending'},
+  {id:'oct21', cat:'🎉 家庭活動', catKey:'family', sortDate:'10/24', text:'🟡 台灣光復節連假（2天）', note:'10/24–10/25', badge:'fb-info', badgeText:'連假', initStatus:'pending'},
+  {id:'oct40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'oct41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週三、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'oct42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥', note:'每日', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+];
+
+// ── 11月工作重點（Google Calendar 同步）──
+const FOCUS_ITEMS_NOV = [
+  {id:'nov01', cat:'💰 財務重點', catKey:'finance', sortDate:'11/06', text:'🚗 中租車貸 自動扣款（國泰銀行）', note:'每月6日', badge:'fb-rep', badgeText:'🔄自動', initStatus:'doing'},
+  {id:'nov02', cat:'💰 財務重點', catKey:'finance', sortDate:'11/29', text:'🔔 地價稅繳納截止日', note:'11/29 截止，勿忘繳費', badge:'fb-red', badgeText:'⚠️截止', initStatus:'pending'},
+  {id:'nov03', cat:'💰 財務重點', catKey:'finance', sortDate:'11/01', text:'👨‍🎓 阿德生活費 NT$4,000', note:'每月初確認', badge:'fb-warn', badgeText:'⏳待確認', initStatus:'pending'},
+  {id:'nov40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'nov41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週三、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'nov42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥', note:'每日', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+];
+
+// ── 12月工作重點（Google Calendar 同步）──
+const FOCUS_ITEMS_DEC = [
+  {id:'dec01', cat:'💰 財務重點', catKey:'finance', sortDate:'12/06', text:'🚗 中租車貸 自動扣款（國泰銀行）', note:'每月6日', badge:'fb-rep', badgeText:'🔄自動', initStatus:'doing'},
+  {id:'dec02', cat:'💰 財務重點', catKey:'finance', sortDate:'12/01', text:'👨‍🎓 阿德生活費 NT$4,000', note:'每月初確認', badge:'fb-warn', badgeText:'⏳待確認', initStatus:'pending'},
+  {id:'dec20', cat:'🎉 家庭活動', catKey:'family', sortDate:'12/24', text:'🟡 行憲紀念日連假（3天）', note:'12/24–12/26', badge:'fb-info', badgeText:'連假', initStatus:'pending'},
+  {id:'dec40', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/01', text:'⛽ 中油Pay加值 ＋ 🥛 鮮奶兌換', note:'每週一', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'dec41', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/02', text:'🏥 大鈞復健 脖子牽引 08:00–09:30', note:'每週三、六', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
+  {id:'dec42', cat:'🔄 每週例行', catKey:'routine', sortDate:'00/07', text:'🚕 計程車 ＋ 🪿 十金鵝 ＋ 💊 老德燕中藥', note:'每日', badge:'fb-rep', badgeText:'🔄', initStatus:'doing'},
 ];
 
 // ── 月份資料對應表 ──
 const FOCUS_ITEMS_BY_MONTH = {
   5: FOCUS_ITEMS_INIT,
   6: FOCUS_ITEMS_JUNE,
+  7: FOCUS_ITEMS_JULY,
+  8: FOCUS_ITEMS_AUGUST,
+  9: FOCUS_ITEMS_SEPT,
+  10: FOCUS_ITEMS_OCT,
+  11: FOCUS_ITEMS_NOV,
+  12: FOCUS_ITEMS_DEC,
 };
 
 // ── 目前顯示的月份 ──
@@ -1780,7 +1934,8 @@ let focusStatus = JSON.parse(localStorage.getItem('focus_status')||'null') || {}
 let focusSortMode = 'cat'; // 'cat' | 'date' | 'status'
 
 // Initialize default statuses for built-in items
-[...FOCUS_ITEMS_INIT, ...FOCUS_ITEMS_JUNE].forEach(it=>{
+[...FOCUS_ITEMS_INIT, ...FOCUS_ITEMS_JUNE, ...FOCUS_ITEMS_JULY, ...FOCUS_ITEMS_AUGUST,
+ ...FOCUS_ITEMS_SEPT, ...FOCUS_ITEMS_OCT, ...FOCUS_ITEMS_NOV, ...FOCUS_ITEMS_DEC].forEach(it=>{
   if(!(it.id in focusStatus)) focusStatus[it.id] = it.initStatus;
 });
 
@@ -2543,7 +2698,7 @@ function collectAllData() {
 }
 
 // ── 把 Firebase 資料寫回 localStorage 並重新渲染 ──
-function applyAllData(data) {
+async function applyAllData(data) {
   if (!data) return;
   const keys = ['appts','bp','meds','cc_data','cc_records','exp_records','inc_records','focus_custom','focus_status'];
   keys.forEach(k => {
@@ -2562,6 +2717,22 @@ function applyAllData(data) {
   if (data.inc_records)  { incRecords = data.inc_records; }
   if (data.focus_custom) { focusCustomItems = data.focus_custom; }
   if (data.focus_status) { focusStatus = data.focus_status; }
+
+  // ── 遷移：把舊的大鈞週二/週四改為週三/週六，並回存 Firebase ──
+  const newRehabDates = new Set(INIT_APPTS.filter(a=>a.deptName==="脖子牽引復健").map(a=>a.date));
+  const hasOldRehab = appointments.some(a=>a.deptName==="脖子牽引復健"&&a.doctor==="大鈞診所"&&!newRehabDates.has(a.date));
+  if (hasOldRehab) {
+    appointments = appointments.filter(a=>!(a.deptName==="脖子牽引復健"&&a.doctor==="大鈞診所"));
+    appointments = [...appointments, ...INIT_APPTS.filter(a=>a.deptName==="脖子牽引復健")];
+    localStorage.setItem("appts", JSON.stringify(appointments));
+    // 同步回 Firebase
+    try {
+      await set(ref(db, 'calendar/all'), collectAllData());
+      showFbToast('✅ 大鈞排班已更新為週三/週六並同步雲端');
+    } catch(e) {
+      showFbToast('⚠ 排班更新完成，但雲端同步失敗', false);
+    }
+  }
 
   // 重新渲染
   try { renderAppts(); } catch(e){}
