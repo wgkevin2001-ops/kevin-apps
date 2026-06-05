@@ -2831,8 +2831,13 @@ async function loadDividendSync() {
   }
 }
 
-// 5 秒超時保護
-setTimeout(removeLoading, 5000);
+// 超時保護：2秒後強制顯示（本機開啟 file:// 時 Firebase module 可能被封鎖）
+setTimeout(removeLoading, 2000);
+
+// 若是本機 file:// 開啟，立即 removeLoading
+if (location.protocol === 'file:' || location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
+  setTimeout(removeLoading, 300);
+}
 
 loadFromFirebase();
 </script>
