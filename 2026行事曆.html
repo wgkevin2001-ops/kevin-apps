@@ -2335,6 +2335,8 @@ const EXP_SEED = [
   {id:'tel004',date:'2026-06-02',cat:'💻 3C/設備',amt:1770,pay:'信用卡自扣',note:'台灣大電話費 5月帳單 ⏳待繳（截止6/2）'},
   // ── 遠雄人壽保費（年繳，每年4/22）──
   {id:'ins001',date:'2026-04-22',cat:'🛡️ 保險',amt:15338,pay:'信用卡',note:'遠雄人壽 萱終身壽險(98)20年期 保單1018760106 第13年度 ✅已繳'},
+  // ── 特殊事件 ──
+  {id:'uber001',date:'2026-06-04',cat:'🚗 交通',amt:-4000,pay:'乘客現金賠償',note:'🤢 Uber單#86 酒客吐車（台北林森→坪林）✅乘客賠償NT$4,000 已簽名畫押存證'},
 ];
 
 const INC_SEED = [
@@ -2858,10 +2860,35 @@ async function applyAllData(data) {
   if (data.meds)         { meds = data.meds; }
   if (data.cc_data)      { ccData = data.cc_data; }
   if (data.cc_records)   { ccRecords = data.cc_records; }
-  if (data.exp_records)  { expRecords = data.exp_records; }
+  if (data.exp_records)  {
+    expRecords = data.exp_records;
+    // 補上 EXP_SEED 裡有但 Firebase 沒有的固定記錄（如 Uber 賠償等新增項目）
+    EXP_SEED.forEach(seed => {
+      if(!expRecords.find(r => r.id === seed.id)){
+        expRecords.push(seed);
+      }
+    });
+    localStorage.setItem('exp_records', JSON.stringify(expRecords));
+  }
   if (data.inc_records)  { incRecords = data.inc_records; }
   if (data.focus_custom) { focusCustomItems = data.focus_custom; }
   if (data.focus_status) { focusStatus = data.focus_status; }
+
+  // ── Firebase 載入後，補上 HTML 裡新增的工作重點項目（Firebase 沒有的）──
+  const allMonthItems = [
+    ...(FOCUS_ITEMS_BY_MONTH[5]||[]),
+    ...(FOCUS_ITEMS_BY_MONTH[6]||[]),
+    ...(FOCUS_ITEMS_BY_MONTH[7]||[]),
+    ...(FOCUS_ITEMS_BY_MONTH[8]||[]),
+    ...(FOCUS_ITEMS_BY_MONTH[9]||[]),
+    ...(FOCUS_ITEMS_BY_MONTH[10]||[]),
+    ...(FOCUS_ITEMS_BY_MONTH[11]||[]),
+    ...(FOCUS_ITEMS_BY_MONTH[12]||[]),
+  ];
+  allMonthItems.forEach(it => {
+    if(!(it.id in focusStatus)) focusStatus[it.id] = it.initStatus;
+  });
+  localStorage.setItem('focus_status', JSON.stringify(focusStatus));
 
   // ── 遷移：把舊的大鈞週二/週四改為週三/週六，並回存 Firebase ──
   const newRehabDates = new Set(INIT_APPTS.filter(a=>a.deptName==="脖子牽引復健").map(a=>a.date));
