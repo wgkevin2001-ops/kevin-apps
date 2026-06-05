@@ -852,7 +852,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 
 <!-- ══ 信用卡對帳 ══ -->
 <div id="sec-cc" class="section"><div class="content">
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
     <div class="sec-title" style="margin-bottom:0">💳 信用卡對帳</div>
     <div style="display:flex;gap:7px">
       <button onclick="syncAllCCToExp()" style="background:var(--y);color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">🔄 同步到年度開銷</button>
@@ -895,7 +895,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 
   <!-- 使用說明 -->
   <div style="background:var(--mid);border-radius:10px;padding:10px 14px;font-size:12px;color:var(--ink-light);line-height:1.7">
-    💡 <strong>使用說明：</strong>輸入金額後按 Enter 儲存・點 ✅ 標記已繳・輸入金額後自動同步到年度開銷・點「🔄 同步到年度開銷」可一次同步所有記錄
+    💡 <strong>使用說明：</strong>輸入金額後按 Enter 儲存・點 ✅ 標記已繳・點 ↩️ 改回待繳・⬇️ 可匯出 CSV 到 Excel
   </div>
 </div></div>
 
@@ -998,91 +998,73 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 
     <div class="exp-add-form">
       <div class="exp-add-title">🔄 例行費用快速記錄</div>
-      <div style="font-size:12px;color:var(--ink-light);margin-bottom:10px">每月固定支出一鍵加入年度開銷，輸入金額後點「記錄」</div>
-
-      <!-- 水電費 -->
+      <div style="font-size:12px;color:var(--ink-light);margin-bottom:10px">每月固定支出，選月份輸入金額後點「記錄」，自動寫入年度開銷</div>
       <div style="display:flex;flex-direction:column;gap:8px">
 
-        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px">
-          <span style="font-size:15px">💡</span>
-          <span style="font-size:13px;font-weight:700;flex:1">台電電費</span>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px;flex-wrap:wrap">
+          <span style="font-size:16px">💡</span>
+          <span style="font-size:13px;font-weight:700;min-width:90px">台電電費</span>
           <select id="rec-elec-month" style="font-size:12px;border:1px solid var(--bdr);border-radius:7px;padding:4px 6px;background:var(--card);font-family:inherit">
             <option value="">本月</option>
-            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
-            <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
-            <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
-            <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option><option value="4">4月</option><option value="5">5月</option><option value="6">6月</option><option value="7">7月</option><option value="8">8月</option><option value="9">9月</option><option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
           </select>
           <input type="number" id="rec-elec-amt" placeholder="金額" style="width:90px;font-size:13px;border:1px solid var(--bdr);border-radius:7px;padding:5px 8px;font-family:inherit"/>
-          <button onclick="addRecurringExp('elec')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap">記錄</button>
+          <button onclick="addRecurringExp('elec')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">記錄</button>
         </div>
 
-        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px">
-          <span style="font-size:15px">💧</span>
-          <span style="font-size:13px;font-weight:700;flex:1">自來水費</span>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px;flex-wrap:wrap">
+          <span style="font-size:16px">💧</span>
+          <span style="font-size:13px;font-weight:700;min-width:90px">自來水費</span>
           <select id="rec-water-month" style="font-size:12px;border:1px solid var(--bdr);border-radius:7px;padding:4px 6px;background:var(--card);font-family:inherit">
             <option value="">本月</option>
-            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
-            <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
-            <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
-            <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option><option value="4">4月</option><option value="5">5月</option><option value="6">6月</option><option value="7">7月</option><option value="8">8月</option><option value="9">9月</option><option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
           </select>
           <input type="number" id="rec-water-amt" placeholder="金額" style="width:90px;font-size:13px;border:1px solid var(--bdr);border-radius:7px;padding:5px 8px;font-family:inherit"/>
-          <button onclick="addRecurringExp('water')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap">記錄</button>
+          <button onclick="addRecurringExp('water')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">記錄</button>
         </div>
 
-        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px">
-          <span style="font-size:15px">📱</span>
-          <span style="font-size:13px;font-weight:700;flex:1">台灣大電話費</span>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px;flex-wrap:wrap">
+          <span style="font-size:16px">📱</span>
+          <span style="font-size:13px;font-weight:700;min-width:90px">台灣大電話費</span>
           <select id="rec-tel-month" style="font-size:12px;border:1px solid var(--bdr);border-radius:7px;padding:4px 6px;background:var(--card);font-family:inherit">
             <option value="">本月</option>
-            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
-            <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
-            <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
-            <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option><option value="4">4月</option><option value="5">5月</option><option value="6">6月</option><option value="7">7月</option><option value="8">8月</option><option value="9">9月</option><option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
           </select>
           <input type="number" id="rec-tel-amt" placeholder="金額" style="width:90px;font-size:13px;border:1px solid var(--bdr);border-radius:7px;padding:5px 8px;font-family:inherit"/>
-          <button onclick="addRecurringExp('tel')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap">記錄</button>
+          <button onclick="addRecurringExp('tel')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">記錄</button>
         </div>
 
-        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px">
-          <span style="font-size:15px">📡</span>
-          <span style="font-size:13px;font-weight:700;flex:1">中嘉網路費（季繳）</span>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px;flex-wrap:wrap">
+          <span style="font-size:16px">📡</span>
+          <span style="font-size:13px;font-weight:700;min-width:90px">中嘉網路費</span>
           <select id="rec-net-month" style="font-size:12px;border:1px solid var(--bdr);border-radius:7px;padding:4px 6px;background:var(--card);font-family:inherit">
             <option value="">本月</option>
-            <option value="1">1月</option><option value="4">4月</option>
-            <option value="7">7月</option><option value="10">10月</option>
+            <option value="1">1月 Q1</option><option value="4">4月 Q2</option><option value="7">7月 Q3</option><option value="10">10月 Q4</option>
           </select>
-          <input type="number" id="rec-net-amt" placeholder="909" style="width:90px;font-size:13px;border:1px solid var(--bdr);border-radius:7px;padding:5px 8px;font-family:inherit" value="909"/>
-          <button onclick="addRecurringExp('net')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap">記錄</button>
+          <input type="number" id="rec-net-amt" value="909" style="width:90px;font-size:13px;border:1px solid var(--bdr);border-radius:7px;padding:5px 8px;font-family:inherit"/>
+          <button onclick="addRecurringExp('net')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">記錄</button>
         </div>
 
-        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px">
-          <span style="font-size:15px">🏠</span>
-          <span style="font-size:13px;font-weight:700;flex:1">老婆生活費</span>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px;flex-wrap:wrap">
+          <span style="font-size:16px">🏠</span>
+          <span style="font-size:13px;font-weight:700;min-width:90px">老婆生活費</span>
           <select id="rec-living-month" style="font-size:12px;border:1px solid var(--bdr);border-radius:7px;padding:4px 6px;background:var(--card);font-family:inherit">
             <option value="">本月</option>
-            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
-            <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
-            <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
-            <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option><option value="4">4月</option><option value="5">5月</option><option value="6">6月</option><option value="7">7月</option><option value="8">8月</option><option value="9">9月</option><option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
           </select>
-          <input type="number" id="rec-living-amt" placeholder="50000" style="width:90px;font-size:13px;border:1px solid var(--bdr);border-radius:7px;padding:5px 8px;font-family:inherit" value="50000"/>
-          <button onclick="addRecurringExp('living')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap">記錄</button>
+          <input type="number" id="rec-living-amt" value="50000" style="width:90px;font-size:13px;border:1px solid var(--bdr);border-radius:7px;padding:5px 8px;font-family:inherit"/>
+          <button onclick="addRecurringExp('living')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">記錄</button>
         </div>
 
-        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px">
-          <span style="font-size:15px">🚗</span>
-          <span style="font-size:13px;font-weight:700;flex:1">中租車貸</span>
+        <div style="display:flex;align-items:center;gap:8px;padding:9px 12px;background:var(--mid);border-radius:10px;flex-wrap:wrap">
+          <span style="font-size:16px">🚗</span>
+          <span style="font-size:13px;font-weight:700;min-width:90px">中租車貸</span>
           <select id="rec-loan-month" style="font-size:12px;border:1px solid var(--bdr);border-radius:7px;padding:4px 6px;background:var(--card);font-family:inherit">
             <option value="">本月</option>
-            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
-            <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
-            <option value="7">7月</option><option value="8">8月</option><option value="9">9月</option>
-            <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+            <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option><option value="4">4月</option><option value="5">5月</option><option value="6">6月</option><option value="7">7月</option><option value="8">8月</option><option value="9">9月</option><option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
           </select>
-          <input type="number" id="rec-loan-amt" placeholder="5613" style="width:90px;font-size:13px;border:1px solid var(--bdr);border-radius:7px;padding:5px 8px;font-family:inherit" value="5613"/>
-          <button onclick="addRecurringExp('loan')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 12px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap">記錄</button>
+          <input type="number" id="rec-loan-amt" value="5613" style="width:90px;font-size:13px;border:1px solid var(--bdr);border-radius:7px;padding:5px 8px;font-family:inherit"/>
+          <button onclick="addRecurringExp('loan')" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">記錄</button>
         </div>
 
       </div>
@@ -1681,21 +1663,6 @@ let ccRecords = JSON.parse(localStorage.getItem('cc_records')||'null') || [
 ];
 let ccYear=(new Date()).getFullYear(), ccMonth=(new Date()).getMonth()+1;
 
-// ── 一鍵同步所有信用卡記錄到年度開銷 ──
-function syncAllCCToExp(showAlert=true){
-  let count = 0;
-  ccRecords.forEach(rec => {
-    if(rec.amount > 0){
-      syncCCToExp(rec.cardId, rec.year, rec.month, rec.amount);
-      count++;
-    }
-  });
-  saveExpRecords();
-  if(showAlert) alert('✅ 已同步 ' + count + ' 筆信用卡記錄到年度開銷！\n\n前往「📊 年度開銷」頁籤查看');
-}
-
-function saveCCData(){localStorage.setItem('cc_data',JSON.stringify(ccData));}
-function saveCCRecords(){localStorage.setItem('cc_records',JSON.stringify(ccRecords));}
 
 // ── 信用卡記錄同步到年度開銷 ──
 function syncCCToExp(cardId, year, month, amount){
@@ -1706,18 +1673,62 @@ function syncCCToExp(cardId, year, month, amount){
   const expId = 'cc_' + cardId + '_' + year + '_' + month;
   const date = year + '-' + String(month).padStart(2,'0') + '-' + String(card.dueDay).padStart(2,'0');
   const note = bank.name + ' 信用卡 ' + year + '/' + month + '月帳單';
-  const pay = card.autoDebit ? card.debitBank || '自動扣款' : '手動繳款';
-
-  // 找既有的，有就更新，沒有就新增
-  const existing = expRecords.findIndex(r => r.id === expId);
-  if(existing >= 0){
-    expRecords[existing].amt = amount;
-    expRecords[existing].note = note;
-  } else {
-    expRecords.push({ id: expId, date, cat:'💰 其他', amt: amount, pay, note });
-  }
+  const pay = card.autoDebit ? (card.debitBank || '自動扣款') : '手動繳款';
+  const idx = expRecords.findIndex(r => r.id === expId);
+  if(idx >= 0){ expRecords[idx].amt = amount; expRecords[idx].note = note; }
+  else { expRecords.push({ id:expId, date, cat:'💰 其他', amt:amount, pay, note }); }
   saveExpRecords();
 }
+
+// ── 一鍵同步所有信用卡到年度開銷 ──
+function syncAllCCToExp(){
+  let count = 0;
+  ccRecords.forEach(rec => {
+    if(rec.amount > 0){ syncCCToExp(rec.cardId, rec.year, rec.month, rec.amount); count++; }
+  });
+  saveExpRecords();
+  alert('✅ 已同步 ' + count + ' 筆信用卡記錄到年度開銷！\n前往「📊 年度開銷」查看');
+}
+
+// ── 例行費用快速記錄 ──
+function addRecurringExp(type){
+  const now = new Date();
+  const curM = now.getMonth()+1;
+  const curY = now.getFullYear();
+  const configs = {
+    elec:   { cat:'🏠 居住',    pay:'台電',       note:'台電電費',        day:1 },
+    water:  { cat:'🏠 居住',    pay:'自來水費',   note:'台水自來水費',     day:1 },
+    tel:    { cat:'💻 3C/設備', pay:'信用卡自扣', note:'台灣大哥大電話費', day:2 },
+    net:    { cat:'🏠 居住',    pay:'信用卡自扣', note:'中嘉網路費（400M/150M）', day:7 },
+    living: { cat:'👨‍👩‍👧 家庭',  pay:'',          note:'老婆生活費',       day:1 },
+    loan:   { cat:'🚗 交通',    pay:'中租自動扣', note:'中租車貸 每月06日', day:6 },
+  };
+  const labels = { elec:'台電電費', water:'自來水費', tel:'台灣大電話費', net:'中嘉網路費', living:'老婆生活費', loan:'中租車貸' };
+  const cfg = configs[type];
+  if(!cfg) return;
+  const monthEl = document.getElementById('rec-'+type+'-month');
+  const amtEl   = document.getElementById('rec-'+type+'-amt');
+  const month   = +monthEl.value || curM;
+  const amt     = +amtEl.value || 0;
+  if(!amt){ alert('請輸入金額！'); amtEl.focus(); return; }
+  const date  = curY + '-' + String(month).padStart(2,'0') + '-' + String(cfg.day).padStart(2,'0');
+  const expId = 'rec_' + type + '_' + curY + '_' + month;
+  const idx   = expRecords.findIndex(r => r.id === expId);
+  if(idx >= 0){
+    if(!confirm('此項目 ' + month + ' 月已記錄 NT$' + expRecords[idx].amt.toLocaleString() + '，要更新為 NT$' + amt.toLocaleString() + ' 嗎？')) return;
+    expRecords[idx].amt = amt;
+    expRecords[idx].date = date;
+  } else {
+    expRecords.push({ id:expId, date, cat:cfg.cat, amt, pay:cfg.pay, note:cfg.note + ' ' + month + '月' });
+  }
+  saveExpRecords();
+  try{ renderExpOverview(); }catch(e){}
+  amtEl.value = type==='net'?'909': type==='living'?'50000': type==='loan'?'5613':'';
+  alert('✅ ' + labels[type] + ' ' + month + '月 NT$' + amt.toLocaleString() + ' 已記錄！');
+}
+
+function saveCCData(){localStorage.setItem('cc_data',JSON.stringify(ccData));}
+function saveCCRecords(){localStorage.setItem('cc_records',JSON.stringify(ccRecords));}
 
 function ccFmt(n){return n===0?'$0':'NT$'+n.toLocaleString();}
 
@@ -1841,7 +1852,7 @@ function updateCCAmount(cardId,val){
   if(rec){rec.amount=amount;}
   else{ccRecords.push({id:Date.now(),cardId,year:ccYear,month:ccMonth,amount,status:'pending',note:''});}
   saveCCRecords();
-  syncCCToExp(cardId, ccYear, ccMonth, amount); // 同步到年度開銷
+  syncCCToExp(cardId, ccYear, ccMonth, amount);
   renderCC();
 }
 
@@ -2369,50 +2380,6 @@ function setExpMonthFilter(m){
     }
   }
   renderExpOverview();
-}
-
-// ── 例行費用快速記錄 ──
-function addRecurringExp(type){
-  const now = new Date();
-  const curM = now.getMonth()+1;
-  const curY = now.getFullYear();
-
-  const configs = {
-    elec:   { id:'rec_elec',   cat:'🏠 居住',    pay:'台電',      note:'台電電費',           day:1  },
-    water:  { id:'rec_water',  cat:'🏠 居住',    pay:'自來水費',  note:'台水自來水費',        day:1  },
-    tel:    { id:'rec_tel',    cat:'💻 3C/設備', pay:'信用卡自扣',note:'台灣大哥大電話費',    day:2  },
-    net:    { id:'rec_net',    cat:'🏠 居住',    pay:'信用卡自扣',note:'中嘉網路費（400M/150M）', day:7 },
-    living: { id:'rec_living', cat:'👨‍👩‍👧 家庭',  pay:'',          note:'老婆生活費',          day:1  },
-    loan:   { id:'rec_loan',   cat:'🚗 交通',    pay:'中租自動扣款',note:'中租車貸 每月06日', day:6  },
-  };
-
-  const cfg = configs[type];
-  if(!cfg) return;
-
-  const monthEl = document.getElementById('rec-'+type+'-month');
-  const amtEl   = document.getElementById('rec-'+type+'-amt');
-  const month   = +monthEl.value || curM;
-  const amt     = +amtEl.value || 0;
-
-  if(!amt){ alert('請輸入金額！'); amtEl.focus(); return; }
-
-  const date = curY + '-' + String(month).padStart(2,'0') + '-' + String(cfg.day).padStart(2,'0');
-  const expId = cfg.id + '_' + curY + '_' + month;
-
-  const existing = expRecords.findIndex(r => r.id === expId);
-  if(existing >= 0){
-    if(!confirm('此項目本月已記錄 NT$' + expRecords[existing].amt.toLocaleString() + '，要更新為 NT$' + amt.toLocaleString() + ' 嗎？')) return;
-    expRecords[existing].amt = amt;
-    expRecords[existing].date = date;
-  } else {
-    expRecords.push({ id:expId, date, cat:cfg.cat, amt, pay:cfg.pay, note:cfg.note + ' ' + month + '月' });
-  }
-
-  saveExpRecords();
-  renderExpOverview();
-  amtEl.value = '';
-  const labels = {elec:'台電電費',water:'自來水費',tel:'台灣大電話費',net:'中嘉網路費',living:'老婆生活費',loan:'中租車貸'};
-  alert('✅ ' + labels[type] + ' ' + month + '月 NT$' + amt.toLocaleString() + ' 已記錄到年度開銷！');
 }
 
 function saveExpRecords(){ localStorage.setItem('exp_records', JSON.stringify(expRecords)); }
@@ -3009,13 +2976,8 @@ async function loadDividendSync() {
   }
 }
 
-// 超時保護：2秒後強制顯示（本機開啟 file:// 時 Firebase module 可能被封鎖）
-setTimeout(removeLoading, 2000);
-
-// 若是本機 file:// 開啟，立即 removeLoading
-if (location.protocol === 'file:' || location.hostname === '127.0.0.1' || location.hostname === 'localhost') {
-  setTimeout(removeLoading, 300);
-}
+// 5 秒超時保護
+setTimeout(removeLoading, 5000);
 
 loadFromFirebase();
 </script>
