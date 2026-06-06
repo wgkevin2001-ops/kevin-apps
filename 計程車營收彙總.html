@@ -2760,6 +2760,49 @@ function initApp() {
     try { localStorage.setItem(PATCH_KEY, '1'); } catch(e){}
   })();
 
+  // ── 寫入 6月資料 (2026-06-01 ~ 2026-06-05) ──
+  (function seedJuneData(){
+    var SEED_KEY = 'june2026_seeded_v1';
+    try { if (localStorage.getItem(SEED_KEY)) return; } catch(e){ return; }
+    var juneData = [
+      // date, uber, t55688(台灣大), metro(大都會), lingo(LineGo), fuel, park
+      {date:'2026-06-01', uber:4660, t55688:1460, metro:0,   lingo:779,  fuel:973, park:200},
+      {date:'2026-06-02', uber:2236, t55688:1365, metro:122, lingo:658,  fuel:0,   park:200},
+      {date:'2026-06-03', uber:4038, t55688:0,    metro:0,   lingo:0,    fuel:0,   park:200},
+      {date:'2026-06-04', uber:3231, t55688:1255, metro:0,   lingo:0,    fuel:0,   park:200},
+      {date:'2026-06-05', uber:7879, t55688:220,  metro:255, lingo:0,    fuel:938, park:200},
+    ];
+    var recs = getRecs();
+    juneData.forEach(function(row, idx){
+      var exists = recs.some(function(r){ return r.date === row.date; });
+      if (exists) return;
+      var inc = row.uber + row.t55688 + row.metro + row.lingo;
+      var exp = row.fuel + row.park;
+      var net = inc - exp;
+      var inc_detail = {};
+      if (row.uber)    inc_detail.uber    = row.uber;
+      if (row.t55688)  inc_detail.t55688  = row.t55688;
+      if (row.metro)   inc_detail.metro   = row.metro;
+      if (row.lingo)   inc_detail.lingo   = row.lingo;
+      recs.push({
+        id: 1700000200000 + idx,
+        date: row.date,
+        shift: 'day',
+        inc: inc,
+        inc_detail: inc_detail,
+        fuel: row.fuel,
+        park: row.park,
+        fee: 0,
+        misc: 0,
+        exp: exp,
+        net: net,
+        note: ''
+      });
+    });
+    saveRecs(recs);
+    try { localStorage.setItem(SEED_KEY, '1'); } catch(e){}
+  })();
+
   calc();
   renderHistory();
   renderAnnual();
