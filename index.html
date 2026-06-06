@@ -276,17 +276,71 @@ body::before {
   border-top: 1px solid rgba(14,159,142,0.15);
   font-family: 'DM Mono', monospace;
 }
-.news-sync-badge.synced { background: #F0FFF4; color: #1A8A3A; }
-#news-sync-btn {
-  display: none; width: 100%; margin-top: 10px;
-  background: linear-gradient(135deg, #1565C0, #0D47A1);
-  color: #fff; border: none; border-radius: 12px;
-  padding: 13px; font-size: 15px; font-weight: 700;
-  cursor: pointer; text-align: center;
-  font-family: 'Noto Sans TC', sans-serif;
-  box-shadow: 0 4px 14px rgba(21,101,192,0.3);
-  -webkit-tap-highlight-color: transparent;
+/* ── 到期提醒 ── */
+.exp-wrap { width: 100%; margin-bottom: 20px; }
+.exp-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+.exp-title { font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--muted); font-family: 'DM Mono', monospace; text-transform: uppercase; }
+.exp-list { display: flex; flex-direction: column; gap: 8px; }
+.exp-item {
+  background: var(--card); border-radius: 14px; padding: 13px 16px;
+  display: flex; align-items: center; gap: 12px;
+  border: 1px solid var(--border); box-shadow: 0 2px 8px rgba(0,0,0,.05);
+  position: relative; overflow: hidden;
 }
+.exp-item::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 4px; background: var(--exp-color, #ccc); border-radius: 4px 0 0 4px;
+}
+.exp-icon { font-size: 22px; flex-shrink: 0; }
+.exp-body { flex: 1; min-width: 0; }
+.exp-name { font-size: 14px; font-weight: 800; color: var(--text); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.exp-sub { font-size: 12px; color: var(--muted); }
+.exp-right { text-align: right; flex-shrink: 0; }
+.exp-days { font-size: 20px; font-weight: 900; font-family: 'DM Mono', monospace; line-height: 1; }
+.exp-days-lbl { font-size: 10px; color: var(--muted); margin-top: 2px; }
+.exp-badge {
+  display: inline-block; font-size: 10px; font-weight: 800;
+  padding: 2px 8px; border-radius: 20px; margin-top: 4px;
+}
+.badge-crit { background: rgba(204,34,34,.12); color: #CC2222; }
+.badge-warn { background: rgba(192,122,26,.12); color: #C07A1A; }
+.badge-ok   { background: rgba(26,138,58,.12);  color: #1A8A3A; }
+.badge-exp  { background: rgba(204,34,34,.18); color: #CC2222; }
+.exp-item { cursor: pointer; flex-wrap: wrap; }
+.exp-item-row { display: flex; align-items: center; gap: 12px; width: 100%; }
+.exp-detail {
+  display: none; width: 100%; margin-top: 12px;
+  border-top: 1px solid rgba(0,0,0,.07); padding-top: 12px;
+  animation: fadeUp .2s ease both;
+}
+.exp-detail.open { display: block; }
+.exp-det-section { margin-bottom: 10px; }
+.exp-det-title { font-size: 11px; font-weight: 800; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; margin-bottom: 6px; }
+.exp-det-steps { display: flex; flex-direction: column; gap: 5px; }
+.exp-det-step {
+  display: flex; gap: 9px; align-items: flex-start;
+  background: #F7F9F9; border-radius: 9px; padding: 8px 10px;
+  font-size: 13px; line-height: 1.5;
+}
+.exp-det-num {
+  width: 20px; height: 20px; border-radius: 50%; flex-shrink: 0;
+  background: var(--exp-color, var(--teal)); color: #fff;
+  font-size: 11px; font-weight: 900; display: flex; align-items: center; justify-content: center;
+  margin-top: 1px;
+}
+.exp-det-docs { display: flex; flex-wrap: wrap; gap: 5px; }
+.exp-det-doc {
+  background: rgba(14,159,142,.09); color: var(--teal); border-radius: 6px;
+  padding: 3px 9px; font-size: 12px; font-weight: 700;
+}
+.exp-det-contact {
+  background: linear-gradient(135deg, rgba(14,159,142,.08), rgba(14,159,142,.04));
+  border: 1px solid rgba(14,159,142,.18); border-radius: 9px;
+  padding: 9px 12px; font-size: 12px; line-height: 1.8;
+}
+.exp-det-contact a { color: var(--teal); font-weight: 700; text-decoration: none; }
+.exp-arrow-icon { font-size: 12px; color: #ccc; flex-shrink: 0; transition: transform .2s; }
+.exp-arrow-icon.open { transform: rotate(90deg); }
 </style>
 
 
@@ -298,6 +352,17 @@ body::before {
   <div class="logo-ring">🚖</div>
   <div class="login-title">Kevin 工作事務</div>
   <div class="login-sub">KEVIN'S WORKSPACE PORTAL</div>
+
+  <!-- 到期提醒（登入前可見）-->
+  <div class="exp-wrap" id="exp-wrap" style="width:100%;max-width:400px;margin-bottom:16px">
+    <div class="exp-header">
+      <div class="exp-title">⏰ 到期提醒</div>
+      <div id="exp-summary" style="font-size:11px;color:var(--muted);font-family:'DM Mono',monospace"></div>
+    </div>
+    <div class="exp-list" id="exp-list">
+      <div style="text-align:center;font-size:12px;color:#ccc;padding:10px;font-family:'DM Mono',monospace">計算中...</div>
+    </div>
+  </div>
 
   <div class="login-card">
     <h2>🔐 請輸入密碼</h2>
@@ -667,6 +732,235 @@ function delNews(btn) {
   }, 260);
 }
 
+// ── 到期提醒資料（含辦理步驟）──
+var EXPIRY_ITEMS = [
+  {
+    icon:'📱', name:'台灣之星 電信合約', end:'2026-03-11', source:'合約', freq:'30個月合約',
+    note:'合約已到期，請洽台灣之星辦理續約或轉換方案',
+    steps:['撥打台灣之星客服 0800-688-168 或前往門市','告知門號並說明要辦理續約或轉換方案','選擇新方案（可詢問是否有特案）','確認合約期間與月費後簽約'],
+    docs:['身分證正本','原門號SIM卡'],
+    contact:'台灣之星客服：0800-688-168\n門市查詢：官網門市搜尋'
+  },
+  {
+    icon:'🛡️', name:'富邦產物 強制險', end:'2027-04-25', source:'保險', freq:'每年',
+    note:'保單號 051026KCA0002048｜車號 TDZ-0950｜承保：富邦產物',
+    steps:['到期前30天聯絡富邦產物 0800-009888 或透過代辦','提供車牌號碼 TDZ-0950 及保單號碼','確認保費金額與繳費方式','繳費後取得新保單（需在行車執照夾中保存）'],
+    docs:['行車執照','身分證'],
+    contact:'富邦產物保險 24H：0800-009888\n★ 強制險必須先續保，才能辦理驗車'
+  },
+  {
+    icon:'🛡️', name:'新安東京海上 任意險', end:'2027-05-03', source:'保險', freq:'每年',
+    note:'保單號 15V0042797｜總保費 19,047元/年｜承保：新安東京海上',
+    steps:['到期前30天聯絡經辦小瑜（LINE：租售車部）','告知車牌 TDZ-0950 及保單號碼 15V0042797','確認保障內容（三人傷害100萬、財損30萬、超額責任300萬）','確認保費後轉帳並取得新保單'],
+    docs:['行車執照','舊保單'],
+    contact:'新安東京海上 24H：0800-050-119\n經辦：小瑜（租售車部 LINE）'
+  },
+  {
+    icon:'🤝', name:'新安東京海上 旅客運送責任險', end:'2026-09-30', source:'保險', freq:'每年',
+    note:'保單號 02014CT000531｜被保人：青宮交通｜須透過大車隊APP辦理',
+    steps:['開啟 55688 大車隊 APP','進入「保險」或「旅客運送責任險」專區','確認被保人為青宮交通股份有限公司','依指示繳費後取得新保單（保額：死亡/失能/傷害醫療各500萬）'],
+    docs:['大車隊APP帳號','舊保單資料'],
+    contact:'續保請透過大車隊APP辦理\n聯絡：小瑜（租售車部 LINE）\n新安東京海上：0800-050-119'
+  },
+  {
+    icon:'🏢', name:'台灣大哥大 行費合約', end:'2027-02-01', source:'合約', freq:'12個月',
+    note:'55688大車隊行費方案｜合約期間 115.02～116.02',
+    steps:['到期前60天聯絡55688台灣大車隊客服','告知目前方案內容，詢問續約條件','確認新合約期間（月費15,000元）','簽訂新合約並保留合約文件'],
+    docs:['身分證','前期合約書'],
+    contact:'55688台灣大車隊：02-2516-0966\n台灣大哥大客服：*100'
+  },
+  {
+    icon:'📋', name:'執業登記證審驗', end:'2026-09-21', source:'審驗', freq:'每年',
+    note:'每年依出生月份前後1個月內辦理，前往臺北市政府警察局交通警察大隊（愛國西路26號）',
+    steps:['確認自己的出生月份，於出生月份前後1個月內辦理（勿等到最後）','備齊所有文件（年度查驗不需體檢、不需照片）','親自前往臺北市政府警察局交通警察大隊（中正區愛國西路26號）辦理','服務時間：週一至週五 8:30–17:00（中午不休息）','★ 若同時辦理補發/換發執業登記證，須另備2吋彩色照片×2張','★ 逾期未辦罰款1,200元；逾6個月廢止登記'],
+    docs:['身分證正本','職業駕駛執照正本','執業登記證及副證正本','執業事實證明文件（行照）—個人車行/合作社請帶行車執照','【補發/換發執登時才需要】2吋彩色照片×2張'],
+    contact:'臺北市政府警察局交通警察大隊\n地址：台北市中正區愛國西路26號\n電話：02-2375-2100\n服務時間：週一至週五 8:30–17:00（中午不休息）\n⚠️ 有未結清罰鍰 → 無法辦理審驗',
+    checklist:[
+      '身分證正本',
+      '職業駕駛執照正本',
+      '執業登記證及副證正本',
+      '行車執照正本',
+      '2吋彩色照片 × 2張（換照需要）',
+      '確認無未結清罰鍰',
+      '確認無違規記點問題',
+    ]
+  },
+  {
+    icon:'🚗', name:'職業小客車駕照審驗', end:'2026-09-21', source:'審驗', freq:'每年',
+    note:'與執業登記證同時辦理，同一地點（台北市交通警察大隊），不需體檢或照片',
+    steps:['與執業登記證年度查驗同日辦理（出生月份前後1個月內）','前往臺北市政府警察局交通警察大隊（愛國西路26號）','繳費後完成換照或審驗手續'],
+    docs:['職業駕照正本','身分證正本','執業登記證及副證正本','行車執照（個人車行需附）'],
+    contact:'臺北市政府警察局交通警察大隊\n地址：台北市中正區愛國西路26號\n電話：02-2375-2100'
+  },
+  {
+    icon:'🔍', name:'車輛驗車', end:'2026-10-29', source:'審驗', freq:'每半年',
+    note:'TDZ-0950｜有未結清罰鍰無法辦理審驗',
+    steps:['先確認強制險在有效期內（必須先續保）','確認無未結清罰鍰（可至監理所查詢）','攜帶文件前往各監理站或代辦預約辦理','通過驗車後取得行車執照驗車章戳'],
+    docs:['行車執照','強制險保單（有效期內）','驗車預約單（若有）'],
+    contact:'各監理站 / 代辦機構\n⚠️ 有未結清罰鍰 → 無法辦理\n⚠️ 須先完成強制險續保'
+  },
+  {
+    icon:'⏱️', name:'計程車錶驗錶', end:'2028-04-30', source:'審驗', freq:'每兩年',
+    note:'到期前由監理站通知，每2年辦理一次',
+    steps:['收到監理站驗錶通知單後（約到期前1個月）','攜帶文件前往各監理站辦理','驗錶人員現場檢測計費表是否準確','通過後完成驗錶，取得驗錶合格標誌'],
+    docs:['驗錶通知單','行車執照'],
+    contact:'各監理站\n到期前由監理站主動通知'
+  },
+  {
+    icon:'🚘', name:'行車執照 TDZ-0950', end:'2027-04-29', source:'審驗', freq:'每年',
+    note:'下次驗車：2026/10/29｜豐田 ZWE211L｜乘客5人',
+    steps:['確認強制險在有效期內（先辦強制險）','確認無未結清罰鍰','前往各監理站或代辦預約驗車（可電話或網路預約）','通過驗車後繳費，取得新行車執照或貼換驗車標誌','逾期6個月 → 吊銷牌照'],
+    docs:['行車執照','強制險保單'],
+    contact:'各監理站 / 汽車代辦\n⚠️ 有未結清罰鍰 → 無法辦理審驗'
+  },
+];
+
+function saveExpCheck(idx, ci, checked) {
+  var clKey = 'exp_checklist_' + idx;
+  var saved = {};
+  try { saved = JSON.parse(localStorage.getItem(clKey) || '{}'); } catch(e) {}
+  saved[ci] = checked;
+  localStorage.setItem(clKey, JSON.stringify(saved));
+  // Update strike-through style
+  var list = document.getElementById('cl-list-' + idx);
+  if (list) {
+    var labels = list.querySelectorAll('label');
+    if (labels[ci]) {
+      var span = labels[ci].querySelector('span');
+      if (span) span.style.cssText = checked ? 'text-decoration:line-through;color:#bbb' : '';
+    }
+  }
+  // Update count
+  var doneCount = Object.values(saved).filter(Boolean).length;
+  var item = EXPIRY_ITEMS[idx];
+  var total = item && item.checklist ? item.checklist.length : 0;
+  var countEl = document.getElementById('cl-count-' + idx);
+  if (countEl) countEl.textContent = doneCount + ' / ' + total + ' 完成';
+}
+
+function toggleExpDetail(idx) {
+  var detail = document.getElementById('exp-detail-'+idx);
+  var arrow  = document.getElementById('exp-arrow-'+idx);
+  if (!detail) return;
+  var isOpen = detail.classList.contains('open');
+  // Close all
+  document.querySelectorAll('.exp-detail').forEach(function(d){ d.classList.remove('open'); });
+  document.querySelectorAll('.exp-arrow-icon').forEach(function(a){ a.classList.remove('open'); });
+  // Toggle clicked
+  if (!isOpen) {
+    detail.classList.add('open');
+    arrow.classList.add('open');
+    detail.scrollIntoView({ behavior:'smooth', block:'nearest' });
+  }
+}
+
+function renderExpiryList() {
+  var now = new Date(); now.setHours(0,0,0,0);
+  var items = EXPIRY_ITEMS.map(function(item, idx) {
+    var endDate = new Date(item.end); endDate.setHours(0,0,0,0);
+    var days = Math.ceil((endDate - now) / 86400000);
+    return Object.assign({}, item, { days: days, idx: idx });
+  });
+  items.sort(function(a, b) { return a.days - b.days; });
+
+  var list = document.getElementById('exp-list');
+  var sumEl = document.getElementById('exp-summary');
+  if (!list) return;
+
+  var crit = items.filter(function(i){ return i.days >= 0 && i.days <= 30; }).length;
+  var warn = items.filter(function(i){ return i.days > 30 && i.days <= 90; }).length;
+  var exp  = items.filter(function(i){ return i.days < 0; }).length;
+  var parts = [];
+  if (exp > 0)  parts.push('<span style="color:#CC2222;font-weight:800">已到期 '+exp+'</span>');
+  if (crit > 0) parts.push('<span style="color:#CC2222;font-weight:800">緊急 '+crit+'</span>');
+  if (warn > 0) parts.push('<span style="color:#C07A1A;font-weight:700">注意 '+warn+'</span>');
+  if (sumEl) sumEl.innerHTML = parts.join(' · ') || '<span style="color:#1A8A3A">✓ 均正常</span>';
+
+  list.innerHTML = items.map(function(item) {
+    var days = item.days;
+    var color, badgeClass, badgeText, daysText, daysColor;
+    if (days < 0) {
+      color = '#CC2222'; badgeClass = 'badge-exp'; badgeText = '已到期';
+      daysText = Math.abs(days); daysColor = '#CC2222';
+    } else if (days <= 30) {
+      color = '#CC2222'; badgeClass = 'badge-crit'; badgeText = '緊急';
+      daysText = days; daysColor = '#CC2222';
+    } else if (days <= 90) {
+      color = '#C07A1A'; badgeClass = 'badge-warn'; badgeText = '注意';
+      daysText = days; daysColor = '#C07A1A';
+    } else {
+      color = '#1A8A3A'; badgeClass = 'badge-ok'; badgeText = '正常';
+      daysText = days; daysColor = '#1A8A3A';
+    }
+    var srcColor = item.source==='保險'?'#1A6EA8':item.source==='審驗'?'#C07A1A':'#0E9F8E';
+
+    // Steps HTML
+    var stepsHtml = (item.steps||[]).map(function(s, si) {
+      return '<div class="exp-det-step">'
+        + '<div class="exp-det-num" style="background:'+color+'">'+(si+1)+'</div>'
+        + '<div>'+s+'</div>'
+        + '</div>';
+    }).join('');
+
+    // Docs HTML
+    var docsHtml = (item.docs||[]).map(function(d) {
+      return '<span class="exp-det-doc">✅ '+d+'</span>';
+    }).join('');
+
+    // Checklist HTML
+    var checklistHtml = '';
+    if (item.checklist && item.checklist.length) {
+      var clKey = 'exp_checklist_' + item.idx;
+      var saved = {};
+      try { saved = JSON.parse(localStorage.getItem(clKey) || '{}'); } catch(e) {}
+      var clItems = item.checklist.map(function(c, ci) {
+        var checked = saved[ci] ? 'checked' : '';
+        var doneStyle = saved[ci] ? 'text-decoration:line-through;color:#bbb;' : '';
+        return '<label style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:#F7F9F9;border-radius:9px;cursor:pointer;font-size:13px;line-height:1.4">'
+          + '<input type="checkbox" '+checked+' onchange="saveExpCheck('+item.idx+','+ci+',this.checked)" style="width:18px;height:18px;accent-color:#0E9F8E;flex-shrink:0">'
+          + '<span style="'+doneStyle+'">'+c+'</span>'
+          + '</label>';
+      }).join('');
+      var doneCount = Object.values(saved).filter(Boolean).length;
+      checklistHtml = '<div class="exp-det-section">'
+        + '<div class="exp-det-title" style="display:flex;justify-content:space-between">📝 今年換照準備清單 <span style="font-size:11px;color:#0E9F8E;font-weight:700" id="cl-count-'+item.idx+'">'+doneCount+' / '+item.checklist.length+' 完成</span></div>'
+        + '<div style="display:flex;flex-direction:column;gap:6px" id="cl-list-'+item.idx+'">'+clItems+'</div>'
+        + '</div>';
+    }
+
+    // Contact HTML
+    var contactHtml = (item.contact||'').replace(/\n/g,'<br>');
+
+    return '<div class="exp-item" style="--exp-color:'+color+'" onclick="toggleExpDetail('+item.idx+')">'
+      + '<div class="exp-item-row">'
+      +   '<div class="exp-icon">'+item.icon+'</div>'
+      +   '<div class="exp-body">'
+      +     '<div class="exp-name">'+item.name+'</div>'
+      +     '<div class="exp-sub"><span style="background:rgba(0,0,0,.06);border-radius:4px;padding:1px 6px;font-size:10px;font-weight:700;color:'+srcColor+'">'+item.source+'</span>'
+      +     ' '+item.freq+' · '+item.end.replace(/-/g,'/')+'</div>'
+      +   '</div>'
+      +   '<div class="exp-right">'
+      +     '<div class="exp-days" style="color:'+daysColor+'">'+daysText+'</div>'
+      +     '<div class="exp-days-lbl">'+(days<0?'天前':'天後')+'</div>'
+      +     '<div class="exp-badge '+badgeClass+'">'+badgeText+'</div>'
+      +   '</div>'
+      +   '<div class="exp-arrow-icon" id="exp-arrow-'+item.idx+'">▶</div>'
+      + '</div>'
+      + '<div class="exp-detail" id="exp-detail-'+item.idx+'">'
+      +   '<div class="exp-det-section">'
+      +     '<div class="exp-det-title">📌 說明</div>'
+      +     '<div style="font-size:13px;color:#555;line-height:1.6;background:#F7F9F9;border-radius:8px;padding:8px 10px">'+item.note+'</div>'
+      +   '</div>'
+      +   (stepsHtml ? '<div class="exp-det-section"><div class="exp-det-title">📋 辦理步驟</div><div class="exp-det-steps">'+stepsHtml+'</div></div>' : '')
+      +   (docsHtml  ? '<div class="exp-det-section"><div class="exp-det-title">📁 所需文件</div><div class="exp-det-docs">'+docsHtml+'</div></div>' : '')
+      +   (checklistHtml ? checklistHtml : '')
+      +   (contactHtml ? '<div class="exp-det-section"><div class="exp-det-title">📞 聯絡資訊</div><div class="exp-det-contact">'+contactHtml+'</div></div>' : '')
+      + '</div>'
+      + '</div>';
+  }).join('');
+}
+
+
 // ── 插入圖片（本地預覽，待同步）──
 function addNewsImage(input) {
   var file = input.files[0];
@@ -862,6 +1156,7 @@ function showLogin() {
   document.getElementById('login-screen').style.display = 'flex';
   document.getElementById('portal-screen').style.display = 'none';
   document.getElementById('lock-screen').style.display = 'none';
+  renderExpiryList();
   setTimeout(() => document.getElementById('pw-input').focus(), 300);
 }
 function showPortal() {
