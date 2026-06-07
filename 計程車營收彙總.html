@@ -339,9 +339,7 @@ select option{background:#F0F7F6}
   <button class="cal-nav-tab" onclick="go('query')" id="tab-query">
     <span class="tab-icon">🔍</span><span class="tab-lbl">查詢</span>
   </button>
-  <button class="cal-nav-tab" onclick="go('maint')" id="tab-maint">
-    <span class="tab-icon">🔧</span><span class="tab-lbl">保養</span>
-  </button>
+
   <button class="cal-nav-tab" onclick="go('parttime')" id="tab-parttime">
     <span class="tab-icon">💼</span><span class="tab-lbl">兼職</span>
   </button>
@@ -1318,71 +1316,7 @@ select option{background:#F0F7F6}
   </div>
 </div>
 
-<div class="pane" id="pane-maint">
 
-  <!-- 新增/編輯表單 -->
-  <div class="card t-gr" id="maint-form-card">
-    <div class="slbl" id="maint-form-title">🔧 新增保養記錄</div>
-
-    <div class="fg">
-      <div class="two">
-        <div class="field"><label>📅 保養日期</label><input type="date" id="m-date"></div>
-        <div class="field"><label>🔢 當時里程（km）</label><div class="pfx"><input type="number" id="m-km" placeholder="0" min="0"></div></div>
-      </div>
-
-      <div class="field"><label>🔧 保養項目</label>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px" id="m-items-grid">
-          <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-oil" style="width:16px;height:16px;accent-color:var(--y)"> 機油</label>
-          <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-filter" style="width:16px;height:16px;accent-color:var(--y)"> 機油濾芯</label>
-          <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-airfilter" style="width:16px;height:16px;accent-color:var(--y)"> 空氣濾芯</label>
-          <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-acfilter" style="width:16px;height:16px;accent-color:var(--y)"> 冷氣濾網</label>
-          <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-tire" style="width:16px;height:16px;accent-color:var(--y)"> 輪胎</label>
-          <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-brake" style="width:16px;height:16px;accent-color:var(--y)"> 煞車</label>
-          <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-battery" style="width:16px;height:16px;accent-color:var(--y)"> 電池</label>
-          <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-spark" style="width:16px;height:16px;accent-color:var(--y)"> 火星塞</label>
-          <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-ac" style="width:16px;height:16px;accent-color:var(--y)"> 冷氣保養</label>
-          <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-wash" style="width:16px;height:16px;accent-color:var(--y)"> 洗車/美容</label>
-        </div>
-        <div class="field"><label style="font-size:12px;color:#aaa">其他項目（手動輸入）</label><input type="text" id="m-other-items" placeholder="例：前輪軸承、雨刷..."></div>
-      </div>
-
-      <div class="two">
-        <div class="field"><label>🏪 保養廠</label><input type="text" id="m-shop" placeholder="例：煌舜汽車"></div>
-        <div class="field"><label>💰 費用（NT$）</label><div class="pfx"><input type="number" id="m-cost" placeholder="0" min="0"></div></div>
-      </div>
-
-      <div class="field"><label>📝 備註</label><textarea id="m-note" placeholder="換機油品牌、技師建議、下次保養里程..."></textarea></div>
-
-      <div id="m-edit-id" style="display:none"></div>
-
-      <!-- 相機拍照辨識 -->
-      <div style="background:rgba(26,110,168,.06);border:1px solid rgba(15,171,142,.2);border-radius:9px;padding:11px;margin-bottom:10px">
-        <div style="font-size:12px;font-weight:700;color:var(--bl);margin-bottom:7px">📷 拍照辨識單據（AI自動填入）</div>
-        <input type="file" id="m-photo" accept="image/*" capture="environment" style="display:none" onchange="analyzePhoto(this)">
-        <button onclick="document.getElementById('m-photo').click()" style="width:100%;background:var(--bl);color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;gap:8px">
-          <span>📷</span><span>拍攝保養單據 自動辨識</span>
-        </button>
-        <div id="m-photo-status" style="font-size:11px;color:#aaa;margin-top:6px;text-align:center;display:none"></div>
-        <div id="m-photo-preview" style="margin-top:8px;display:none"><img id="m-photo-img" style="width:100%;border-radius:7px;max-height:160px;object-fit:cover"></div>
-      </div>
-
-      <div class="field"><label>📋 補充說明／修改</label><textarea id="m-supplement" placeholder="對AI辨識結果的補充或修正，例如：實際費用、換油品牌、技師建議..."></textarea></div>
-
-      <div style="display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:4px">
-        <button class="btn" onclick="saveMaint()">✅ 儲存保養記錄</button>
-        <button class="btn" onclick="clearMaintForm()" style="background:#aaa;padding:15px 14px;width:auto">✖</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- 歷程列表 -->
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <span style="font-size:12px;font-weight:700;color:#888;letter-spacing:.1em;text-transform:uppercase">🔧 保養歷程</span>
-    <span id="maint-km-info" style="font-size:12px;color:var(--bl);font-weight:700"></span>
-  </div>
-  <div id="maint-list"><div class="empty">尚無保養記錄<br><span style="font-size:12px;color:#aaa">翻拍單據後填寫上方表單</span></div></div>
-
-</div>
 
 <div id="dl-bar" style="position:fixed;bottom:0;left:0;right:0;background:var(--y);z-index:9998;display:flex;align-items:center;justify-content:center;padding:10px 16px;box-shadow:0 -2px 12px rgba(180,120,10,.25)">
   <span style="color:#fff;font-size:13px;font-weight:700;margin-right:10px">📥 下載 HTML 檔案</span>
@@ -1408,7 +1342,6 @@ function go(name) {
   var target = document.getElementById('tab-' + name);
   if (target) target.classList.add('active');
   if (name === 'inspect') renderInspect();
-  if (name === 'maint') renderMaint();
   // 手機版切換後滾回頂部（cal-header下方）
   window.scrollTo({top:0,behavior:'smooth'});
 }
@@ -1437,7 +1370,6 @@ function toast(msg) {
 
 // ── 本地快取（Firebase 讀取後存這裡，讓同步函數快速存取）──
 var _taxiRecs   = [];
-var _maintRecs  = [];
 var _ptRecs     = [];
 var _fbReady    = false;
 var _db         = null;
@@ -1791,11 +1723,6 @@ function exportExcel() {
     var monthly = [['月份','記錄天數','總收入','總支出','淨利']];
     for (var m=1;m<=12;m++) monthly.push([m+'月', months[m].days, months[m].inc, months[m].exp, months[m].net]);
     XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(monthly), '月統計');
-    // Sheet3: 保養歷程
-    var maintRecs = getMaintRecs().sort(function(a,b){return a.date.localeCompare(b.date);});
-    var maintData = [['日期','里程(km)','保養項目','保養廠','費用(NT$)','備註']];
-    maintRecs.forEach(function(r){ maintData.push([r.date, r.km||0, (r.items||[]).join('、'), r.shop||'', r.cost||0, r.note||'']); });
-    XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(maintData), '保養歷程');
     XLSX.writeFile(wb, '計程車營收彙總表_' + new Date().toISOString().split('T')[0] + '.xlsx');
     toast('✅ Excel 已匯出！');
   };
@@ -1818,19 +1745,8 @@ function doImportExcel(e) {
         var row = rows[i]; if (!row || !row[0]) continue;
         recs.push({id: Date.now()+i, date:String(row[0]), inc_detail:{meter:row[1]||0,uber:row[2]||0,bolt:row[3]||0,t55688:row[4]||0,metro:row[5]||0,lingo:row[6]||0,panda:row[7]||0,ubereats:row[8]||0,other:row[9]||0}, inc:row[10]||0, fuel:row[11]||0, park:row[12]||0, fee:row[13]||0, misc:row[14]||0, exp:row[15]||0, net:row[16]||0, note:row[17]||''});
       }
-      // Import maint if sheet exists
-      if (wb.SheetNames.length >= 3) {
-        var mws = wb.Sheets[wb.SheetNames[2]];
-        var mrows = XLSX.utils.sheet_to_json(mws, {header:1});
-        var mrecs = [];
-        for (var j=1; j<mrows.length; j++) {
-          var mr = mrows[j]; if (!mr||!mr[0]) continue;
-          mrecs.push({id:Date.now()+j*1000, date:String(mr[0]), km:mr[1]||0, items:(mr[2]?String(mr[2]).split('、'):[]), shop:mr[3]||'', cost:mr[4]||0, note:mr[5]||''});
-        }
-        saveMaintRecs(mrecs);
-      }
       saveRecs(recs);
-      renderHistory(); renderAnnual(); renderMaint();
+      renderHistory(); renderAnnual();
       toast('✅ 匯入完成！共 ' + recs.length + ' 筆');
     };
     reader.readAsBinaryString(file);
@@ -1840,14 +1756,14 @@ function doImportExcel(e) {
 
 // ── JSON 備份 ──
 function copyJSON() {
-  var data = {taxi_records: getRecs(), maint_records: getMaintRecs()};
+  var data = {taxi_records: getRecs()};
   var txt = JSON.stringify(data);
   if (navigator.clipboard) {
     navigator.clipboard.writeText(txt).then(function(){ toast('✅ JSON 已複製！'); });
   } else { toast('⚠️ 請手動複製'); }
 }
 function exportJSON() {
-  var data = {taxi_records: getRecs(), maint_records: getMaintRecs()};
+  var data = {taxi_records: getRecs()};
   var blob = new Blob([JSON.stringify(data)], {type:'application/json'});
   var a = document.createElement('a'); a.href = URL.createObjectURL(blob);
   a.download = '計程車備份_' + today.toISOString().split('T')[0] + '.json'; a.click();
@@ -2262,9 +2178,8 @@ function doImportJSON() {
     if (Array.isArray(data)) { saveRecs(data); }
     else if (data.taxi_records) {
       saveRecs(data.taxi_records);
-      if (data.maint_records) saveMaintRecs(data.maint_records);
     }
-    renderHistory(); renderAnnual(); renderMaint();
+    renderHistory(); renderAnnual();
     toast('✅ 匯入完成！共 ' + getRecs().length + ' 筆');
     document.getElementById('import-box').style.display = 'none';
   } catch(e) { toast('❌ JSON 格式錯誤'); }
@@ -2375,20 +2290,7 @@ function renderInspect() {
   }).join('');
 }
 
-// ── 保養歷程 ──
-var MAINT_ITEMS = [
-  {id:'mc-oil',      lbl:'機油',    icon:'🛢️'},
-  {id:'mc-filter',   lbl:'機油濾芯', icon:'🔩'},
-  {id:'mc-airfilter',lbl:'空氣濾芯', icon:'💨'},
-  {id:'mc-acfilter', lbl:'冷氣濾網', icon:'❄️'},
-  {id:'mc-tire',     lbl:'輪胎',    icon:'🔄'},
-  {id:'mc-brake',    lbl:'煞車',    icon:'🛑'},
-  {id:'mc-battery',  lbl:'電池',    icon:'🔋'},
-  {id:'mc-spark',    lbl:'火星塞',  icon:'⚡'},
-  {id:'mc-ac',       lbl:'冷氣保養', icon:'🌀'},
-  {id:'mc-wash',     lbl:'洗車/美容',icon:'✨'}
-];
-
+// ── 保養歷程（已移至一汽機車保養.html）──
 function getMaintRecs()    { return _maintRecs.slice(); }
 function saveMaintRecs(r) {
   _maintRecs = r;
@@ -2397,177 +2299,7 @@ function saveMaintRecs(r) {
 }
 
 
-function analyzePhoto(input) {
-  var file = input.files[0];
-  if (!file) return;
-  var status = document.getElementById('m-photo-status');
-  var preview = document.getElementById('m-photo-preview');
-  var img = document.getElementById('m-photo-img');
-  status.style.display = 'block';
-  status.textContent = '⏳ 正在辨識單據，請稍候...';
-  preview.style.display = 'block';
-  img.src = URL.createObjectURL(file);
 
-  var reader = new FileReader();
-  reader.onload = function(e) {
-    var base64 = e.target.result.split(',')[1];
-    var mediaType = file.type || 'image/jpeg';
-
-    fetch('https://api.anthropic.com/v1/messages', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            {type: 'image', source: {type: 'base64', media_type: mediaType, data: base64}},
-            {type: 'text', text: '這是一張汽車保養單據的照片。請辨識並以JSON格式回傳以下資訊（找不到的欄位填null）：{"date":"YYYY-MM-DD格式日期，若無填今天","km":里程數字或null,"shop":"保養廠名稱或null","cost":總費用數字或null,"items":["保養項目陣列，從以下選擇：機油、機油濾芯、空氣濾芯、冷氣濾網、輪胎、煞車、電池、火星塞、冷氣保養、洗車/美容"],"other_items":"其他保養項目文字或null","note":"重要備註或null"}。只回傳JSON，不要其他文字。'}
-          ]
-        }]
-      })
-    })
-    .then(function(r){ return r.json(); })
-    .then(function(data) {
-      var txt = data.content && data.content[0] ? data.content[0].text : '';
-      try {
-        var clean = txt.replace(/```json|```/g,'').trim();
-        var info = JSON.parse(clean);
-        // 填入表單
-        if (info.date) document.getElementById('m-date').value = info.date;
-        if (info.km)   document.getElementById('m-km').value   = info.km;
-        if (info.shop) document.getElementById('m-shop').value = info.shop;
-        if (info.cost) document.getElementById('m-cost').value = info.cost;
-        if (info.note) document.getElementById('m-note').value = info.note;
-        if (info.other_items) document.getElementById('m-other-items').value = info.other_items;
-        // 勾選項目
-        MAINT_ITEMS.forEach(function(it){ document.getElementById(it.id).checked = false; });
-        if (info.items && info.items.length) {
-          info.items.forEach(function(item) {
-            var found = MAINT_ITEMS.find(function(it){ return it.lbl === item; });
-            if (found) document.getElementById(found.id).checked = true;
-          });
-        }
-        status.textContent = '✅ 辨識完成！請確認並補充修改後儲存';
-        status.style.color = 'var(--gr)';
-        toast('✅ 單據辨識完成，請確認資料！');
-      } catch(e) {
-        status.textContent = '⚠️ 辨識結果無法解析，請手動填寫';
-        status.style.color = 'var(--rd)';
-        if (txt) document.getElementById('m-supplement').value = txt;
-      }
-    })
-    .catch(function(e) {
-      status.textContent = '❌ 辨識失敗：' + e.message;
-      status.style.color = 'var(--rd)';
-    });
-  };
-  reader.readAsDataURL(file);
-}
-
-function saveMaint() {
-  var date = document.getElementById('m-date').value;
-  var km   = parseFloat(document.getElementById('m-km').value)||0;
-  var shop = document.getElementById('m-shop').value.trim();
-  var cost = parseFloat(document.getElementById('m-cost').value)||0;
-  var note = document.getElementById('m-note').value.trim();
-  var supplement = document.getElementById('m-supplement') ? document.getElementById('m-supplement').value.trim() : '';
-  if (supplement) note = note ? note + '\n補充：' + supplement : '補充：' + supplement;
-  var otherItems = document.getElementById('m-other-items').value.trim();
-  if (!date) { toast('⚠️ 請選擇保養日期'); return; }
-  var items = MAINT_ITEMS.filter(function(it){ return document.getElementById(it.id).checked; }).map(function(it){ return it.lbl; });
-  if (otherItems) otherItems.split(/[,，、]/).forEach(function(s){ if(s.trim()) items.push(s.trim()); });
-  if (!items.length) { toast('⚠️ 請至少勾選一個保養項目'); return; }
-  var editId = document.getElementById('m-edit-id').textContent.trim();
-  var recs = getMaintRecs();
-  if (editId) {
-    for (var i=0; i<recs.length; i++) {
-      if (String(recs[i].id) === editId) { recs[i] = {id: recs[i].id, date:date, km:km, items:items, shop:shop, cost:cost, note:note}; break; }
-    }
-    toast('✅ 記錄已更新！');
-  } else {
-    recs.push({id: Date.now(), date:date, km:km, items:items, shop:shop, cost:cost, note:note});
-    recs.sort(function(a,b){ return new Date(b.date)-new Date(a.date); });
-    toast('✅ 保養記錄已儲存！');
-  }
-  saveMaintRecs(recs); clearMaintForm(); renderMaint();
-}
-
-function editMaint(id) {
-  var recs = getMaintRecs();
-  var rec = recs.find(function(r){ return String(r.id)===String(id); });
-  if (!rec) return;
-  document.getElementById('m-date').value = rec.date;
-  document.getElementById('m-km').value   = rec.km || '';
-  document.getElementById('m-shop').value = rec.shop || '';
-  document.getElementById('m-cost').value = rec.cost || '';
-  document.getElementById('m-note').value = rec.note || '';
-  document.getElementById('m-edit-id').textContent = id;
-  document.getElementById('maint-form-title').textContent = '✏️ 修改保養記錄';
-  MAINT_ITEMS.forEach(function(it){ document.getElementById(it.id).checked = false; });
-  var otherArr = [];
-  (rec.items || []).forEach(function(item) {
-    var found = MAINT_ITEMS.find(function(it){ return it.lbl === item; });
-    if (found) document.getElementById(found.id).checked = true;
-    else otherArr.push(item);
-  });
-  document.getElementById('m-other-items').value = otherArr.join('、');
-  document.getElementById('maint-form-card').scrollIntoView({behavior:'smooth'});
-}
-
-function deleteMaint(id) {
-  if (!confirm('確定刪除此保養記錄？')) return;
-  var recs = getMaintRecs().filter(function(r){ return String(r.id)!==String(id); });
-  saveMaintRecs(recs); renderMaint(); toast('🗑️ 記錄已刪除');
-}
-
-function clearMaintForm() {
-  document.getElementById('m-date').value = today.toISOString().split('T')[0];
-  document.getElementById('m-km').value = '';
-  document.getElementById('m-shop').value = '';
-  document.getElementById('m-cost').value = '';
-  document.getElementById('m-note').value = '';
-  document.getElementById('m-other-items').value = '';
-  document.getElementById('m-edit-id').textContent = '';
-  document.getElementById('maint-form-title').textContent = '🔧 新增保養記錄';
-  MAINT_ITEMS.forEach(function(it){ document.getElementById(it.id).checked = false; });
-  var sup = document.getElementById('m-supplement'); if(sup) sup.value = '';
-  var status = document.getElementById('m-photo-status'); if(status){ status.style.display='none'; status.textContent=''; status.style.color=''; }
-  var prev = document.getElementById('m-photo-preview'); if(prev) prev.style.display='none';
-  var ph = document.getElementById('m-photo'); if(ph) ph.value='';
-}
-
-function renderMaint() {
-  var recs = getMaintRecs();
-  var el = document.getElementById('maint-list');
-  var kmInfo = document.getElementById('maint-km-info');
-  if (recs.length > 0) {
-    var sorted = recs.slice().sort(function(a,b){ return (b.km||0)-(a.km||0); });
-    kmInfo.textContent = '最高里程 ' + (sorted[0].km||0).toLocaleString('zh-TW') + ' km';
-  } else { kmInfo.textContent = ''; }
-  if (!recs.length) { el.innerHTML = '<div class="empty">尚無保養記錄<br><span style="font-size:12px;color:#aaa">翻拍單據後填寫上方表單</span></div>'; return; }
-  el.innerHTML = recs.map(function(r) {
-    var d = new Date(r.date+'T00:00:00');
-    var ds = d.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
-    var itemPills = (r.items||[]).map(function(item){
-      var it = MAINT_ITEMS.find(function(x){ return x.lbl===item; });
-      return '<span style="display:inline-flex;align-items:center;gap:3px;background:rgba(26,138,58,.12);color:var(--gr);border-radius:5px;padding:2px 8px;font-size:11px;font-weight:700;margin:2px 2px">'+(it?it.icon:'🔧')+' '+item+'</span>';
-    }).join('');
-    return '<div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:0 1px 6px rgba(15,171,142,.08)">' +
-      '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">' +
-        '<div><div style="font-size:14px;font-weight:700;color:#2A2A2A">'+ds+'</div>' +
-        '<div style="font-size:12px;color:#aaa;margin-top:2px">'+(r.km?'📍 '+r.km.toLocaleString('zh-TW')+' km':'')+(r.shop?' ｜ 🏪 '+r.shop:'')+'</div></div>' +
-        '<div style="display:flex;gap:6px">' +
-          '<button onclick="editMaint('+r.id+')" style="background:var(--bl);color:#fff;border:none;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent">✏️ 修改</button>' +
-          '<button onclick="deleteMaint('+r.id+')" style="background:var(--rd);color:#fff;border:none;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent">🗑️</button>' +
-        '</div></div>' +
-      '<div style="margin-bottom:8px">'+itemPills+'</div>' +
-      (r.cost?'<div style="font-size:13px;color:var(--rd);font-weight:700;margin-bottom:4px">💰 費用：NT$ '+r.cost.toLocaleString('zh-TW')+'</div>':'')+
-      (r.note?'<div style="font-size:12px;color:#888;background:var(--mid);border-radius:6px;padding:7px 10px;margin-top:4px">📝 '+r.note+'</div>':'')+
-    '</div>';
-  }).join('');
-}
 
 function dlHTML() {
   var html = document.documentElement.outerHTML;
@@ -2808,7 +2540,6 @@ function initApp() {
   renderAnnual();
   renderExpList();
   renderInspect();
-  clearMaintForm();
   renderParttime();
 }
 
@@ -2872,22 +2603,18 @@ function initApp() {
 
     Promise.all([
       window._firebaseGet(window._firebaseRef('taxi/records')),
-      window._firebaseGet(window._firebaseRef('taxi/maint')),
       window._firebaseGet(window._firebaseRef('taxi/parttime'))
     ]).then(function(snaps) {
       _taxiRecs  = snaps[0].exists() ? toArray(snaps[0].val()) : (JSON.parse(localStorage.getItem('taxi_records')||'[]'));
-      _maintRecs = snaps[1].exists() ? toArray(snaps[1].val()) : (JSON.parse(localStorage.getItem('maint_records')||'[]'));
-      _ptRecs    = snaps[2].exists() ? toArray(snaps[2].val()) : (JSON.parse(localStorage.getItem('parttime_recs')||'[]'));
+      _ptRecs    = snaps[1].exists() ? toArray(snaps[1].val()) : (JSON.parse(localStorage.getItem('parttime_recs')||'[]'));
       // 若本地有資料但雲端沒有，自動上傳
       if (!snaps[0].exists() && _taxiRecs.length)  window._firebaseSet(window._firebaseRef('taxi/records'),  _taxiRecs);
-      if (!snaps[1].exists() && _maintRecs.length) window._firebaseSet(window._firebaseRef('taxi/maint'),   _maintRecs);
-      if (!snaps[2].exists() && _ptRecs.length)    window._firebaseSet(window._firebaseRef('taxi/parttime'),_ptRecs);
+      if (!snaps[1].exists() && _ptRecs.length)    window._firebaseSet(window._firebaseRef('taxi/parttime'),_ptRecs);
       startApp();
     }).catch(function(e) {
       // Firebase 讀取失敗，降級用本地資料
       console.warn('Firebase read failed, using local:', e);
       _taxiRecs  = JSON.parse(localStorage.getItem('taxi_records')||'[]');
-      _maintRecs = JSON.parse(localStorage.getItem('maint_records')||'[]');
       _ptRecs    = JSON.parse(localStorage.getItem('parttime_recs')||'[]');
       startApp();
     });
@@ -2897,7 +2624,6 @@ function initApp() {
   setTimeout(function() {
     if (!_fbReady) {
       _taxiRecs  = JSON.parse(localStorage.getItem('taxi_records')||'[]');
-      _maintRecs = JSON.parse(localStorage.getItem('maint_records')||'[]');
       _ptRecs    = JSON.parse(localStorage.getItem('parttime_recs')||'[]');
       startApp();
     }
