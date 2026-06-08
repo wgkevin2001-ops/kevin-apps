@@ -808,7 +808,9 @@ tbody td:last-child  { padding-right: 14px; }
   #export-panel { right:0; }
 
   /* cal-header */
-  .cal-header { padding:16px 32px 14px 210px !important; display:flex; align-items:center; gap:24px; }
+  .cal-header { padding:16px 32px 0 210px !important; display:block; }
+  .cal-hrow1 { display:flex; align-items:center; gap:24px; padding-bottom:12px; }
+  .site-nav-bar { margin: 0 -32px 0 -210px; padding: 0 32px 0 210px; }
   .cal-hrow1 { flex:1; margin-bottom:0; }
   .cal-htitles .cal-main { font-size:22px; }
   .cal-hdate strong { font-size:17px; }
@@ -1041,7 +1043,7 @@ tbody td:last-child  { padding-right: 14px; }
   * { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
   .topnav, .toolbar, .op-btn, .add-btn, .icon-btn,
   .modal-bg, #del-overlay, #toast, #fb-loading,
-  .plan-toggle, .fab-wrap { display:none !important; }
+  .plan-toggle, .fab-wrap, .site-nav-bar { display:none !important; }
   body { background:#fff; font-size:11pt; }
   .page { display:block !important; padding:16pt 0; max-width:100%; }
   #page-cheng, #page-niu { page-break-after:always; }
@@ -1096,7 +1098,54 @@ tbody td:last-child  { padding-right: 14px; }
   border-bottom: 1px solid rgba(14,159,142,.15);
   position: sticky; top: 0; z-index: 100;
   box-shadow: 0 1px 3px rgba(0,0,0,.05);
-  padding: 14px 16px 12px;
+  padding: 14px 16px 0;
+}
+/* ── 快速導覽列 ── */
+.site-nav-bar {
+  display: flex; align-items: center; gap: 0;
+  border-top: 1px solid rgba(14,159,142,.10);
+  margin: 10px -16px 0;
+  padding: 0 16px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.site-nav-bar::-webkit-scrollbar { display: none; }
+.site-nav-home {
+  display: flex; align-items: center; gap: 4px;
+  padding: 7px 12px 7px 0;
+  font-size: 12px; font-weight: 800;
+  color: var(--coral, #0E9F8E);
+  text-decoration: none;
+  white-space: nowrap;
+  border-right: 1px solid rgba(14,159,142,.18);
+  margin-right: 8px;
+  flex-shrink: 0;
+  letter-spacing: .03em;
+}
+.site-nav-home:hover { color: #0a7a6e; }
+.site-nav-links {
+  display: flex; gap: 0; overflow-x: auto;
+  scrollbar-width: none;
+}
+.site-nav-links::-webkit-scrollbar { display: none; }
+.site-nav-link {
+  display: flex; align-items: center;
+  padding: 7px 11px;
+  font-size: 11.5px; font-weight: 600;
+  color: #6B7280;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 0;
+  flex-shrink: 0;
+  transition: color .15s, background .15s;
+  border-bottom: 2px solid transparent;
+  margin-bottom: -1px;
+}
+.site-nav-link:hover { color: var(--coral, #0E9F8E); background: rgba(14,159,142,.05); }
+.site-nav-link.site-nav-active {
+  color: var(--coral, #0E9F8E);
+  font-weight: 800;
+  border-bottom-color: var(--coral, #0E9F8E);
 }
 .cal-hrow1 { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
 .cal-htitles .cal-sub { font-size:10.5px; color:#8592A3; letter-spacing:.06em; text-transform:uppercase; font-weight:500; font-family:'Noto Sans TC',sans-serif; }
@@ -1239,6 +1288,20 @@ tbody td:last-child  { padding-right: 14px; }
     <div class="cal-hdate">
       <strong id="cal-hdr-today"></strong>
       <span id="cal-hdr-wd"></span>
+    </div>
+  </div>
+  <!-- 快速導覽列 -->
+  <div class="site-nav-bar">
+    <a class="site-nav-home" href="index.html" title="回到首頁">🏠 首頁</a>
+    <div class="site-nav-links">
+      <a class="site-nav-link" href="2026行事曆.html">📅 行事曆</a>
+      <a class="site-nav-link" href="計程車營收彙總.html">🚖 營收彙總</a>
+      <a class="site-nav-link" href="汽機車管理.html">🏍️ 車輛管理</a>
+      <a class="site-nav-link site-nav-active" href="呈貝目前持股.html">📈 持股報告</a>
+      <a class="site-nav-link" href="doc-viewer.html">📂 文件管理</a>
+      <a class="site-nav-link" href="contracts.html">📋 合約管理</a>
+      <a class="site-nav-link" href="menu.html">🪿 鵝店食譜</a>
+      <a class="site-nav-link" href="goose-pos.html">🧾 訂餐系統</a>
     </div>
   </div>
 </header>
@@ -3780,6 +3843,8 @@ window.addEventListener('holdings-ready', function() {
   updateNiuSummary();
   renderAllCards();
   if (typeof planRender === 'function') planRender();
+  // 載入後自動推送最新配息到行事曆
+  setTimeout(() => { if (typeof window.pushDividendSync === 'function') window.pushDividendSync(true); }, 1000);
 });
 
 /* ══ INIT ══ */
@@ -3910,45 +3975,64 @@ function applyHoldings(data) {
 }
 
 /* ══ 推送配息資料到行事曆 ══ */
-window.pushDividendSync = async function() {
+window.pushDividendSync = async function(silent) {
   try {
-    const { getDatabase, ref, set } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js');
-    const { initializeApp, getApps } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js');
-    // 重用已初始化的 app
+    if (typeof window._fbDb === 'undefined') {
+      if (!silent && typeof showToast === 'function') showToast('⚠ Firebase 未連線，無法推送');
+      return;
+    }
+
+    // 先從持股表格同步最新現況股數到 planEtfs
+    const heldMap = {};
+    document.querySelectorAll('#page-cheng tr[data-code]').forEach(tr => {
+      const code = tr.dataset.code;
+      const shares = parseFloat(tr.dataset.shares) || 0;
+      if (!heldMap[code]) heldMap[code] = 0;
+      heldMap[code] += shares;
+    });
+    planEtfs.forEach(e => {
+      if (heldMap[e.id] !== undefined && heldMap[e.id] > 0) e.held = heldMap[e.id];
+    });
+
+    // 建立每月配息資料（用現況股數）
     const monthlyDiv = {};
-    const MONTH_NAMES = ['一','二','三','四','五','六','七','八','九','十','十一','十二'];
     for (let m = 1; m <= 12; m++) {
       const items = [];
       planEtfs.forEach(e => {
-        if (!e.divPu || !e.divM.length) return;
+        if (!e.divPu || !e.divM || !e.divM.length) return;
         if (!e.divM.includes(m)) return;
+        const dp = (e.divByM && e.divByM[m]) ? e.divByM[m] : e.divPu;
+        const held = e.held || 0;
+        if (held <= 0 || !dp) return;
         items.push({
-          code:   e.id,
-          name:   e.name,
-          shares: e.held,
-          amt:    Math.round(e.divPu * e.held),
-          type:   '配',
-          exMonth: e.exM && e.exM.length ? e.exM[e.divM.indexOf(m)] : null
+          code:    e.id,
+          name:    e.name,
+          shares:  held,
+          amt:     Math.round(dp * held),
+          divPu:   dp,
+          dist:    e.dist || '配息',
+          exMonth: (e.exM && e.exM.length && e.divM.indexOf(m) >= 0)
+                   ? e.exM[e.divM.indexOf(m) % e.exM.length] : null
         });
       });
       if (items.length) monthlyDiv[m] = items;
     }
-    if (typeof fbDb !== 'undefined') {
-      const { ref: dbRef, set: dbSet } = { ref: (db,p)=>({ db, path:p }), set: async()=>{} };
-      // 用全域 db（Firebase module 已載入）
-      if (typeof window._fbDb !== 'undefined') {
-        const { ref: r2, set: s2 } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js');
-        await s2(r2(window._fbDb, 'holdings/dividendSync'), { monthlyDiv, syncedAt: Date.now() });
-        if(typeof showToast==='function') showToast('📅 配息資料已推送至行事曆');
-      }
-    }
-  } catch(e) { console.error(e); if(typeof showToast==='function') showToast('⚠ 推送失敗：' + e.message); }
+
+    const { ref: r2, set: s2 } = await import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js');
+    await s2(r2(window._fbDb, 'holdings/dividendSync'), { monthlyDiv, syncedAt: Date.now() });
+    if (!silent && typeof showToast === 'function') showToast('📅 配息資料已同步至行事曆');
+  } catch(e) {
+    console.error('pushDividendSync:', e);
+    if (!silent && typeof showToast === 'function') showToast('⚠ 推送失敗：' + e.message);
+  }
 };
 
 window.fbSaveHoldings = async function() {
   try {
     await set(ref(db,'holdings/portfolios'), collectHoldings());
     if(typeof showToast==='function') showToast('☁️ 已同步至雲端');
+    // 同步更新配息資料到行事曆
+    if (typeof window.pushDividendSync === 'function') window.pushDividendSync(true);
   } catch(e) { if(typeof showToast==='function') showToast('⚠ 同步失敗：'+e.message); }
 };
 
