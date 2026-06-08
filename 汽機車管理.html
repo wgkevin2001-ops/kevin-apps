@@ -385,9 +385,9 @@ textarea{resize:vertical;min-height:60px}
 <!-- ══ 車險 ══ -->
 <div class="pane" id="pane-insurance">
 
-  <!-- 到期倒數總覽 -->
+  <!-- 到期倒數總覽（依車輛切換）-->
   <div class="card t-vc" id="ins-countdown-card">
-    <div class="slbl">⏰ 保險到期倒數</div>
+    <div class="slbl" id="ins-countdown-title">⏰ 保險到期倒數</div>
     <div id="ins-countdown-list"></div>
   </div>
 
@@ -540,14 +540,51 @@ textarea{resize:vertical;min-height:60px}
 
   </div>
 
-  <!-- ── MXB-9535 機車保險（空白可填）── -->
+  <!-- ── MXB-9535 機車保險 ── -->
   <div class="ins-section" id="ins-moto" style="display:none">
-    <div class="card" style="border:1.5px dashed rgba(14,159,142,.3);background:rgba(14,159,142,.03);text-align:center;padding:24px 16px">
-      <div style="font-size:32px;margin-bottom:8px">🏍️</div>
-      <div style="font-size:15px;font-weight:700;color:var(--teal);margin-bottom:6px">MXB-9535 機車保險</div>
-      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.8">強制險、第三責任險資料<br>可在此記錄備查</div>
-      <button onclick="showMotoInsForm()" style="background:var(--teal);color:#fff;border:none;border-radius:9px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">➕ 新增機車保險資料</button>
+
+    <!-- 強制責任險（富邦）MXB-9535 -->
+    <div class="ins-block">
+      <div class="ins-block-hdr" ondblclick="toggleIns(this)" ontouchstart="insHandleTouchStart(event,this)" ontouchend="insHandleTouchEnd(event,this)">
+        <div>
+          <div class="ins-block-title">🔴 強制汽車責任保險</div>
+          <div class="ins-block-sub">富邦產物保險股份有限公司｜MXB-9535</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="ins-exp-badge" id="ins-badge-moto-compulsory"></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="ins-block-hint">點兩下展開細項 ▾</div>
+      <div class="ins-block-body">
+        <div class="ins-row"><span>保險證號碼</span><span style="font-size:11px;font-family:'DM Mono',monospace">050025KME0102136</span></div>
+        <div class="ins-row"><span>查詢編號</span><span style="font-size:11px;font-family:'DM Mono',monospace">052025021301075</span></div>
+        <div class="ins-row"><span>被保險人（車主）</span><span>王介呈</span></div>
+        <div class="ins-row"><span>車輛種類</span><span>普通重型機車</span></div>
+        <div class="ins-row"><span>廠牌型式</span><span>Sym三陽（國產）｜125 cc</span></div>
+        <div class="ins-row"><span>引擎／車身號碼</span><span style="font-family:'DM Mono',monospace">DY763855</span></div>
+        <div class="ins-row"><span>原始發照年份</span><span>民國 108 年</span></div>
+        <div class="ins-row exp"><span>保險期間</span><span>114/03/08 → 116/03/08（24個月）</span></div>
+        <div class="ins-divider"></div>
+        <div style="background:rgba(14,159,142,.07);border:1px solid rgba(14,159,142,.2);border-radius:8px;padding:9px 12px;margin-bottom:10px;font-size:12px;color:#555;line-height:1.8">
+          ✅ 本張強制險效期 <b>2年</b>，至 <b>116/03/08（2027/03/08）</b> 到期<br>
+          📌 查詢日期：2025/02/13　總經理：賴榮崇
+        </div>
+        <a href="tel:0800009888" class="ins-call-btn" style="background:rgba(224,85,85,.07);border-color:rgba(224,85,85,.2)">
+          <span style="font-size:20px">📞</span>
+          <div><div style="font-weight:700;font-size:13px">富邦產險 理賠／道路救援</div><div style="font-size:11px;opacity:.8">0800-009-888（免費24H）</div></div>
+        </a>
+      </div>
     </div>
+
+    <!-- 第三責任險（空白，可新增）-->
+    <div class="card" style="border:1.5px dashed rgba(14,159,142,.3);background:rgba(14,159,142,.03);text-align:center;padding:20px 16px;margin-bottom:10px">
+      <div style="font-size:26px;margin-bottom:6px">🔵</div>
+      <div style="font-size:14px;font-weight:700;color:var(--teal);margin-bottom:4px">第三人責任險</div>
+      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.8">尚未加入任意險資料<br>可使用下方表單新增</div>
+      <button onclick="showMotoInsForm()" style="background:var(--teal);color:#fff;border:none;border-radius:9px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">➕ 新增機車保險資料</button>
+    </div>
+
     <div id="moto-ins-form" style="display:none">
       <div class="card t-vc">
         <div class="slbl">🏍️ 機車保險資料</div>
@@ -803,182 +840,148 @@ function go(name){
 // ══════════════════════════════════════════
 // 車險頁
 // ══════════════════════════════════════════
-// 保險到期資料（計程車固定資料）
-var INS_POLICIES = [
-  {
-    name:    '強制責任險（富邦）',
-    exp:     '2027-04-25',
-    suggest: 30,
-    badge:   'ins-badge-compulsory',
-    icon:    '🔴',
-    how:     '洽富邦產險業務或至監理站',
-    tel:     '0800-009-888',
-    note:    '逾期不得上路，且驗車時必須有效',
-    coverage:[
-      { name:'每人死亡、殘廢給付', amount:'200萬（最高）', note:'依殘廢等級給付' },
-      { name:'每人醫療給付',       amount:'20萬（最高）',  note:'實支實付' },
-      { name:'保單號碼',           amount:'051026KCA0002048', note:'' },
-      { name:'保險期間',           amount:'115/04/25 → 116/04/25', note:'' },
-      { name:'被保險人',           amount:'青宮交通股份有限公司', note:'' }
-    ]
-  },
-  {
-    name:    '第三責任險（新安）',
-    exp:     '2027-05-03',
-    suggest: 30,
-    badge:   'ins-badge-third',
-    icon:    '🔵',
-    how:     '洽業務員李孝寬 0926-888-178 辦理續保',
-    tel:     '0926-888-178',
-    note:    '續保可沿用本保單號，經辦：Y61031E011 榮勝多元',
-    coverage:[
-      { name:'31 第三人傷害（每人）',  amount:'100萬',  note:'自負額 10,000｜保費 7,151' },
-      { name:'31 第三人傷害（每事故）',amount:'200萬',  note:'自負額同上' },
-      { name:'32 第三人財損（每事故）',amount:'30萬',   note:'自負額 10,000｜保費 4,872' },
-      { name:'56 駕駛人醫療實支實付',  amount:'20萬',   note:'無自負額｜保費 756' },
-      { name:'56 駕駛人身故失能',      amount:'200萬',  note:'無自負額' },
-      { name:'30 超額責任',            amount:'300萬',  note:'無自負額｜保費 5,276' },
-      { name:'238 道路救援（每事故）',  amount:'3萬',    note:'不限拖吊里程｜保費 992' },
-      { name:'任意險總保費',           amount:'NT$ 19,047', note:'' },
-      { name:'保單號碼',               amount:'17000 第15V9005830號', note:'' },
-      { name:'保險期間',               amount:'115/05/03 → 116/05/03', note:'' }
-    ]
-  },
-  {
-    name:    '乘客險（新安）',
-    exp:     '2026-09-30',
-    suggest: 60,
-    badge:   'ins-badge-passenger',
-    icon:    '🟢',
-    how:     '洽新安東京海上，需同步更新車行公司',
-    tel:     '0800-050-119',
-    note:    '計程車營業必備，請儘速續保',
-    coverage:[
-      { name:'保障項目',  amount:'旅客運送業責任保險', note:'' },
-      { name:'每人死亡',  amount:'500萬',  note:'' },
-      { name:'每人失能',  amount:'500萬',  note:'依等級' },
-      { name:'每人醫療',  amount:'500萬',  note:'傷害醫療費用' },
-      { name:'保單號碼',  amount:'02014CT000531', note:'' },
-      { name:'被保險人',  amount:'青宮交通股份有限公司', note:'' },
-      { name:'保險期間',  amount:'115/09/30 → 116/09/30', note:'' }
-    ]
-  }
-];
+// ══ 保險資料（依車輛分組）══
+var INS_DATA = {
+  moto: [
+    {
+      name:'強制責任險（富邦）', exp:'2027-03-08', suggest:30, icon:'🔴',
+      badge:'ins-badge-moto-compulsory',
+      how:'洽富邦產險或至監理站辦理', tel:'0800-009-888',
+      note:'逾期不得上路，且驗車時必須有效',
+      coverage:[
+        {name:'每人死亡、殘廢給付', amount:'200萬（最高）', note:'依殘廢等級'},
+        {name:'每人醫療給付',       amount:'20萬（最高）',  note:'實支實付'},
+        {name:'保險證號碼', amount:'050025KME0102136', note:''},
+        {name:'保險期間',   amount:'114/03/08 → 116/03/08（24個月）', note:''},
+        {name:'車主',       amount:'王介呈', note:''},
+        {name:'廠牌型式',   amount:'Sym三陽 125cc', note:'引擎號碼：DY763855'}
+      ]
+    }
+  ],
+  car: [
+    {
+      name:'強制責任險（富邦）', exp:'2027-04-25', suggest:30, icon:'🔴',
+      badge:'ins-badge-compulsory',
+      how:'洽富邦產險業務或至監理站', tel:'0800-009-888',
+      note:'逾期不得上路，且驗車時必須有效',
+      coverage:[
+        {name:'每人死亡、殘廢給付', amount:'200萬（最高）', note:'依殘廢等級'},
+        {name:'每人醫療給付',       amount:'20萬（最高）',  note:'實支實付'},
+        {name:'保險證號碼', amount:'051026KCA0002048', note:''},
+        {name:'保險期間',   amount:'115/04/25 → 116/04/25', note:''},
+        {name:'被保險人',   amount:'青宮交通股份有限公司', note:''}
+      ]
+    },
+    {
+      name:'第三責任險（新安）', exp:'2027-05-03', suggest:30, icon:'🔵',
+      badge:'ins-badge-third',
+      how:'洽業務員李孝寬 0926-888-178 辦理續保', tel:'0926-888-178',
+      note:'續保可沿用本保單號，經辦：Y61031E011 榮勝多元',
+      coverage:[
+        {name:'31 第三人傷害（每人）',   amount:'100萬', note:'自負額 10,000｜保費 7,151'},
+        {name:'31 第三人傷害（每事故）', amount:'200萬', note:'自負額同上'},
+        {name:'32 第三人財損（每事故）', amount:'30萬',  note:'自負額 10,000｜保費 4,872'},
+        {name:'56 駕駛人醫療實支實付',  amount:'20萬',  note:'無自負額｜保費 756'},
+        {name:'56 駕駛人身故失能',      amount:'200萬', note:'無自負額'},
+        {name:'30 超額責任',            amount:'300萬', note:'無自負額｜保費 5,276'},
+        {name:'238 道路救援（每事故）',  amount:'3萬',   note:'不限拖吊里程｜保費 992'},
+        {name:'任意險總保費', amount:'NT$ 19,047', note:''},
+        {name:'保單號碼',     amount:'17000 第15V9005830號', note:''},
+        {name:'保險期間',     amount:'115/05/03 → 116/05/03', note:''}
+      ]
+    },
+    {
+      name:'乘客險（新安）', exp:'2026-09-30', suggest:60, icon:'🟢',
+      badge:'ins-badge-passenger',
+      how:'洽新安東京海上，需同步更新車行公司', tel:'0800-050-119',
+      note:'計程車營業必備，請儘速續保',
+      coverage:[
+        {name:'保障項目', amount:'旅客運送業責任保險', note:''},
+        {name:'每人死亡', amount:'500萬', note:''},
+        {name:'每人失能', amount:'500萬', note:'依等級'},
+        {name:'每人醫療', amount:'500萬', note:'傷害醫療費用'},
+        {name:'保單號碼', amount:'02014CT000531', note:''},
+        {name:'被保險人', amount:'青宮交通股份有限公司', note:''},
+        {name:'保險期間', amount:'115/09/30 → 116/09/30', note:''}
+      ]
+    }
+  ]
+};
 
 // 倒數卡雙擊展開
-var _cdTapTimer = null, _cdTapTarget = null;
-function cdHandleTouchStart(e, el){
-  if(_cdTapTimer && _cdTapTarget === el){
-    clearTimeout(_cdTapTimer); _cdTapTimer=null; _cdTapTarget=null;
-    toggleCdDetail(el); e.preventDefault();
-  } else {
-    _cdTapTarget = el;
-    _cdTapTimer = setTimeout(function(){ _cdTapTimer=null; _cdTapTarget=null; }, 350);
-  }
+var _cdTapTimer=null, _cdTapTarget=null;
+function cdHandleTouchStart(e,el){
+  if(_cdTapTimer&&_cdTapTarget===el){ clearTimeout(_cdTapTimer);_cdTapTimer=null;_cdTapTarget=null;toggleCdDetail(el);e.preventDefault(); }
+  else{ _cdTapTarget=el; _cdTapTimer=setTimeout(function(){_cdTapTimer=null;_cdTapTarget=null;},350); }
 }
 function toggleCdDetail(card){
-  var detail = card.querySelector('.cd-detail');
-  var hint   = card.querySelector('.cd-hint');
-  if(!detail) return;
-  var open = detail.style.display === 'block';
-  detail.style.display = open ? 'none' : 'block';
-  if(hint) hint.textContent = open ? '點兩下查看保障內容 ▾' : '點兩下收合 ▴';
-  card.style.borderWidth = open ? '1.5px' : '2px';
+  var detail=card.querySelector('.cd-detail'), hint=card.querySelector('.cd-hint'); if(!detail) return;
+  var open=detail.style.display==='block'; detail.style.display=open?'none':'block';
+  if(hint) hint.textContent=open?'點兩下查看保障內容 ▾':'點兩下收合 ▴';
+}
+function buildCdCard(p,now){
+  var exp=new Date(p.exp+'T00:00:00'), diff=Math.round((exp-now)/86400000);
+  var sugDate=new Date(exp); sugDate.setDate(sugDate.getDate()-p.suggest);
+  var sugDiff=Math.round((sugDate-now)/86400000);
+  var expired=diff<0, urgent=!expired&&diff<=14, soon=!expired&&!urgent&&diff<=p.suggest;
+  var color=expired||urgent?'var(--red)':soon?'var(--orange)':'var(--teal)';
+  var bg=expired?'rgba(224,85,85,.1)':urgent?'rgba(224,85,85,.07)':soon?'rgba(230,126,0,.07)':'rgba(14,159,142,.06)';
+  var border=expired?'rgba(224,85,85,.4)':urgent?'rgba(224,85,85,.3)':soon?'rgba(230,126,0,.3)':'rgba(14,159,142,.25)';
+  var statusLabel=expired?'⚠️ 已過期 '+Math.abs(diff)+' 天':diff===0?'🚨 今天到期！':urgent?'🚨 緊急！'+diff+' 天後到期':soon?'⏰ '+diff+' 天後到期（建議辦理）':'✅ '+diff+' 天後到期';
+  var sugLabel=expired?'<span style="color:var(--red);font-weight:700">請立即辦理！</span>':sugDiff<=0?'<span style="color:var(--orange);font-weight:700">現在即可辦理</span>':'<span style="color:#555">建議 '+sugDate.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'})+' 前辦理（'+sugDiff+' 天後）</span>';
+  var coverageHtml=(p.coverage||[]).map(function(c){
+    return '<div style="display:grid;grid-template-columns:1fr auto;gap:6px;padding:6px 10px;background:rgba(255,255,255,.7);border-radius:7px;margin-bottom:3px;font-size:12px;align-items:center"><div><span style="color:var(--muted)">'+c.name+'</span>'+(c.note?'<div style="font-size:10px;color:#aaa;margin-top:1px">'+c.note+'</div>':'')+'</div><span style="font-weight:900;color:var(--text);text-align:right;white-space:nowrap">'+c.amount+'</span></div>';
+  }).join('');
+  return '<div style="background:'+bg+';border:1.5px solid '+border+';border-radius:11px;padding:12px 14px;margin-bottom:8px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent" ondblclick="toggleCdDetail(this)" ontouchstart="cdHandleTouchStart(event,this)" ontouchend="">'+
+    '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px"><div style="font-size:14px;font-weight:900;color:var(--text)">'+p.icon+' '+p.name+'</div><div style="font-size:12px;font-weight:900;color:'+color+';text-align:right;flex-shrink:0;margin-left:8px">'+statusLabel+'</div></div>'+
+    '<div style="display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12px;margin-bottom:8px">'+
+      '<span style="color:var(--muted)">到期日</span><span style="font-weight:700;font-family:'DM Mono',monospace">'+p.exp+'</span>'+
+      '<span style="color:var(--muted)">辦理時機</span><span>'+sugLabel+'</span>'+
+      '<span style="color:var(--muted)">辦理方式</span><span style="color:#444">'+p.how+'</span>'+
+      (p.note?'<span style="color:var(--muted)">注意事項</span><span style="color:#888;font-size:11px">'+p.note+'</span>':'')+
+    '</div>'+
+    '<div class="cd-hint" style="font-size:10px;color:var(--muted);text-align:center;margin-bottom:6px;font-family:'DM Mono',monospace;opacity:.65">點兩下查看保障內容 ▾</div>'+
+    '<div class="cd-detail" style="display:none;border-top:1px dashed rgba(14,159,142,.2);padding-top:10px;margin-top:4px"><div style="font-size:11px;font-weight:700;color:'+color+';letter-spacing:.06em;margin-bottom:6px">🛡️ 保障內容</div>'+coverageHtml+'</div>'+
+    '<a href="tel:'+p.tel.replace(/-/g,'')+'" onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:8px;background:'+color+';color:#fff;border-radius:8px;padding:9px 13px;text-decoration:none;font-size:13px;font-weight:700;margin-top:8px;-webkit-tap-highlight-color:transparent"><span style="font-size:16px">📞</span> 立即聯繫辦理　'+p.tel+'</a>'+
+  '</div>';
 }
 
 function renderInsurance(){
-  var now = new Date(); now.setHours(0,0,0,0);
+  var now=new Date(); now.setHours(0,0,0,0);
+  var vc=cur(), policies=INS_DATA[_curVeh]||[];
 
-  // ── 到期倒數總覽卡（雙點展開保障細節）──
-  var cdList = document.getElementById('ins-countdown-list');
+  // 倒數卡標題依車輛
+  var title=document.getElementById('ins-countdown-title');
+  if(title) title.textContent='⏰ '+vc.icon+' '+vc.plate+' 保險到期倒數';
+
+  // 倒數卡內容
+  var cdList=document.getElementById('ins-countdown-list');
   if(cdList){
-    cdList.innerHTML = INS_POLICIES.map(function(p, idx){
-      var exp     = new Date(p.exp+'T00:00:00');
-      var diff    = Math.round((exp - now) / 86400000);
-      var sugDate = new Date(exp); sugDate.setDate(sugDate.getDate() - p.suggest);
-      var sugDiff = Math.round((sugDate - now) / 86400000);
-
-      var expired = diff < 0;
-      var urgent  = !expired && diff <= 14;
-      var soon    = !expired && !urgent && diff <= p.suggest;
-      var color   = expired||urgent ? 'var(--red)' : soon ? 'var(--orange)' : 'var(--teal)';
-      var bg      = expired ? 'rgba(224,85,85,.1)' : urgent ? 'rgba(224,85,85,.07)' : soon ? 'rgba(230,126,0,.07)' : 'rgba(14,159,142,.06)';
-      var border  = expired ? 'rgba(224,85,85,.4)' : urgent ? 'rgba(224,85,85,.3)' : soon ? 'rgba(230,126,0,.3)' : 'rgba(14,159,142,.25)';
-
-      var statusLabel = expired ? '⚠️ 已過期 '+Math.abs(diff)+' 天'
-        : diff===0 ? '🚨 今天到期！'
-        : urgent   ? '🚨 緊急！'+diff+' 天後到期'
-        : soon     ? '⏰ '+diff+' 天後到期（建議辦理）'
-        :            '✅ '+diff+' 天後到期';
-
-      var sugLabel = expired
-        ? '<span style="color:var(--red);font-weight:700">請立即辦理！</span>'
-        : sugDiff<=0
-          ? '<span style="color:var(--orange);font-weight:700">現在即可辦理</span>'
-          : '<span style="color:#555">建議 '+sugDate.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'})+' 前辦理（'+sugDiff+' 天後）</span>';
-
-      // 保障細節 HTML
-      var coverageHtml = (p.coverage||[]).map(function(c){
-        return '<div style="display:grid;grid-template-columns:1fr auto;gap:6px;padding:6px 10px;background:rgba(255,255,255,.7);border-radius:7px;margin-bottom:3px;font-size:12px;align-items:center">'+
-          '<div>'+
-            '<span style="color:var(--muted)">'+c.name+'</span>'+
-            (c.note?'<div style="font-size:10px;color:#aaa;margin-top:1px">'+c.note+'</div>':'')+
-          '</div>'+
-          '<span style="font-weight:900;color:var(--text);text-align:right;white-space:nowrap">'+c.amount+'</span>'+
-        '</div>';
-      }).join('');
-
-      return '<div style="background:'+bg+';border:1.5px solid '+border+';border-radius:11px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color .2s;user-select:none;-webkit-tap-highlight-color:transparent"'+
-        ' ondblclick="toggleCdDetail(this)"'+
-        ' ontouchstart="cdHandleTouchStart(event,this)"'+
-        ' ontouchend=""'+
-        '>'+
-        // 標題列
-        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">'+
-          '<div style="font-size:14px;font-weight:900;color:var(--text)">'+p.icon+' '+p.name+'</div>'+
-          '<div style="font-size:12px;font-weight:900;color:'+color+';text-align:right;flex-shrink:0;margin-left:8px">'+statusLabel+'</div>'+
-        '</div>'+
-        // 基本資訊
-        '<div style="display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12px;margin-bottom:8px">'+
-          '<span style="color:var(--muted)">到期日</span>'+
-          '<span style="font-weight:700;font-family:\'DM Mono\',monospace">'+p.exp+'</span>'+
-          '<span style="color:var(--muted)">辦理時機</span>'+
-          '<span>'+sugLabel+'</span>'+
-          '<span style="color:var(--muted)">辦理方式</span>'+
-          '<span style="color:#444">'+p.how+'</span>'+
-          (p.note?'<span style="color:var(--muted)">注意事項</span><span style="color:#888;font-size:11px">'+p.note+'</span>':'')+
-        '</div>'+
-        // 雙擊提示
-        '<div class="cd-hint" style="font-size:10px;color:var(--muted);text-align:center;margin-bottom:6px;font-family:\'DM Mono\',monospace;opacity:.65">點兩下查看保障內容 ▾</div>'+
-        // 保障細節（預設隱藏）
-        '<div class="cd-detail" style="display:none;border-top:1px dashed rgba(14,159,142,.2);padding-top:10px;margin-top:4px">'+
-          '<div style="font-size:11px;font-weight:700;color:'+color+';letter-spacing:.06em;margin-bottom:6px">🛡️ 保障內容</div>'+
-          coverageHtml+
-        '</div>'+
-        // 撥打按鈕
-        '<a href="tel:'+p.tel.replace(/-/g,'')+'" onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:8px;background:'+color+';color:#fff;border-radius:8px;padding:9px 13px;text-decoration:none;font-size:13px;font-weight:700;margin-top:8px;-webkit-tap-highlight-color:transparent">'+
-          '<span style="font-size:16px">📞</span> 立即聯繫辦理　'+p.tel+
-        '</a>'+
-      '</div>';
-    }).join('');
+    cdList.innerHTML=policies.length
+      ? policies.map(function(p){ return buildCdCard(p,now); }).join('')
+      : '<div style="text-align:center;color:var(--muted);padding:16px;font-size:13px">尚無保險資料，可使用下方表單新增</div>';
   }
 
-  // 徽章更新
-  INS_POLICIES.forEach(function(p){
-    var badge = document.getElementById(p.badge); if(!badge) return;
-    var exp   = new Date(p.exp+'T00:00:00');
-    var diff  = Math.round((exp - now) / 86400000);
-    if(diff < 0){          badge.textContent='已過期';      badge.style.cssText='background:rgba(224,85,85,.18);color:var(--red);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
-    else if(diff <= 14){   badge.textContent='緊急 '+diff+'天'; badge.style.cssText='background:rgba(224,85,85,.18);color:var(--red);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
-    else if(diff <= 60){   badge.textContent=diff+'天';     badge.style.cssText='background:rgba(230,126,0,.15);color:var(--orange);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
-    else{                  badge.textContent=diff+'天';     badge.style.cssText='background:rgba(14,159,142,.12);color:var(--teal);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
+  // 所有徽章更新
+  var ALL_BADGES=[
+    {badge:'ins-badge-compulsory',      exp:'2027-04-25'},
+    {badge:'ins-badge-third',           exp:'2027-05-03'},
+    {badge:'ins-badge-passenger',       exp:'2026-09-30'},
+    {badge:'ins-badge-moto-compulsory', exp:'2027-03-08'}
+  ];
+  ALL_BADGES.forEach(function(b){
+    var el=document.getElementById(b.badge); if(!el) return;
+    var diff=Math.round((new Date(b.exp+'T00:00:00')-now)/86400000);
+    if(diff<0){        el.textContent='已過期';        el.style.cssText='background:rgba(224,85,85,.18);color:var(--red);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px';}
+    else if(diff<=14){ el.textContent='緊急 '+diff+'天'; el.style.cssText='background:rgba(224,85,85,.18);color:var(--red);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px';}
+    else if(diff<=60){ el.textContent=diff+'天';       el.style.cssText='background:rgba(230,126,0,.15);color:var(--orange);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px';}
+    else{              el.textContent=diff+'天';       el.style.cssText='background:rgba(14,159,142,.12);color:var(--teal);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px';}
   });
 
-  // 依目前車輛顯示對應保險區塊
-  document.getElementById('ins-car') .style.display = _curVeh==='car'  ? 'block' : 'none';
-  document.getElementById('ins-moto').style.display = _curVeh==='moto' ? 'block' : 'none';
+  // 依車輛顯示對應保險區塊
+  document.getElementById('ins-car') .style.display=_curVeh==='car'  ?'block':'none';
+  document.getElementById('ins-moto').style.display=_curVeh==='moto' ?'block':'none';
 
-  // 機車保險記錄
   renderMotoInsList();
 }
 
@@ -1662,6 +1665,19 @@ function migrateFromTaxi(){
       _data.car.maint    = s[3].exists()?toArr(s[3].val()):(JSON.parse(localStorage.getItem('maint_car')||'[]'));
       _data.car.vehicle  = s[4].exists()?(s[4].val()||{}):(JSON.parse(localStorage.getItem('vehicle_car')||'{}'));
       _data.car.remind   = s[5].exists()?(s[5].val()||{km:5000,month:6}):(JSON.parse(localStorage.getItem('remind_car')||'{"km":5000,"month":6}'));
+      // 若機車 vehicle 尚無資料，自動填入強制險保險證預設值
+      if(!s[1].exists() && !Object.keys(_data.moto.vehicle).length){
+        _data.moto.vehicle = {
+          model:  'Sym三陽 125cc（普通重型機車）',
+          plate:  'MXB-9535',
+          year:   '2019',
+          color:  '',
+          km:     '',
+          note:   '引擎／車身號碼：DY763855\n原始發照年份：民國108年\n強制險：050025KME0102136（114/03/08–116/03/08）\n車主：王介呈'
+        };
+        window._firebaseSet(window._firebaseRef('bike/moto/vehicle'), _data.moto.vehicle);
+        localStorage.setItem('vehicle_moto', JSON.stringify(_data.moto.vehicle));
+      }
       // 若汽車 vehicle 尚無資料，自動填入行車執照預設值
       if(!s[4].exists() && !Object.keys(_data.car.vehicle).length){
         _data.car.vehicle = {
