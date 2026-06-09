@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
 <title>呈貝持股報告</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -861,42 +861,100 @@ tbody td:last-child  { padding-right: 14px; }
   .sc-meta-val { font-size:15px; }
   .sc-pnl { font-size:15px; }
 
-  /* 表格 → 卡片列 */
-  .tbl-wrap { overflow-x:visible; }
-  table { font-size:15.5px; min-width:0; width:100%; }
-  table thead { display:none; }
-  table tbody tr {
-    display:flex; flex-wrap:wrap; align-items:flex-start;
-    padding:14px 16px 12px;
-    border-top:1px solid var(--gray-100);
-    gap:3px 0; position:relative;
+  /* 手機版：固定寬度表格，4欄填滿螢幕 */
+  .tbl-wrap {
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0 0 4px;
   }
-  table tbody tr:first-child { border-top:none; }
-  table tbody td { display:block; padding:0; text-align:left !important; border:none; }
-  table tbody td:first-child { width:100%; padding:0 56px 8px 0; }
-  table tbody td:nth-child(2),
-  table tbody td:nth-child(3),
-  table tbody td:nth-child(4) { width:33.33%; font-size:15px; padding-bottom:3px; }
-  table tbody td:nth-child(2)::before { content:'現價'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
-  table tbody td:nth-child(3)::before { content:'均價'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
-  table tbody td:nth-child(4)::before { content:'股數'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
-  table tbody td:nth-child(5),
-  table tbody td:nth-child(6) { width:50%; margin-top:10px; }
-  table tbody td:nth-child(5)::before { content:'損益'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
-  table tbody td:nth-child(6)::before { content:'報酬率'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
-  table tbody td:last-child { position:absolute; top:14px; right:14px; width:auto; display:flex; gap:6px; }
-  /* 美股 */
-  table tbody tr[data-us-code] td:nth-child(1) { width:100%; padding:0 56px 8px 0; }
-  table tbody tr[data-us-code] td:nth-child(2),
-  table tbody tr[data-us-code] td:nth-child(3),
-  table tbody tr[data-us-code] td:nth-child(4) { width:33.33%; font-size:15px; }
-  table tbody tr[data-us-code] td:nth-child(2)::before { content:'現價USD'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
-  table tbody tr[data-us-code] td:nth-child(3)::before { content:'均價TWD'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
-  table tbody tr[data-us-code] td:nth-child(4)::before { content:'持股數'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
-  table tbody tr[data-us-code] td:nth-child(5) { width:50%; margin-top:10px; }
-  table tbody tr[data-us-code] td:nth-child(5)::before { content:'損益TWD'; font-size:12px; color:var(--gray-400); font-weight:700; display:block; margin-bottom:3px; }
-  table tbody tr[data-us-code] td:nth-child(6) { width:50%; margin-top:10px; }
-  table tbody tr[data-us-code] td:last-child { position:absolute; top:14px; right:14px; width:auto; display:flex; gap:6px; }
+  .tbl-wrap table {
+    width: 100%;
+    min-width: 0;
+    font-size: 13.5px;
+    table-layout: fixed;
+  }
+  /* 手機版：只顯示 商品(1) 現價(3) 損益(5) 報酬率(6)，均價/股數/付出成本/市值點擊查看 */
+  .tbl-wrap table thead th:nth-child(2),
+  .tbl-wrap table thead th:nth-child(4),
+  .tbl-wrap table thead th:nth-child(7),
+  .tbl-wrap table thead th:nth-child(8),
+  .tbl-wrap table thead th:nth-child(9),
+  .tbl-wrap table tbody td:nth-child(2),
+  .tbl-wrap table tbody td:nth-child(4),
+  .tbl-wrap table tbody td:nth-child(7),
+  .tbl-wrap table tbody td:nth-child(8),
+  .tbl-wrap table tbody td:nth-child(9),
+  .tbl-wrap table tfoot td:nth-child(2),
+  .tbl-wrap table tfoot td:nth-child(4),
+  .tbl-wrap table tfoot td:nth-child(7),
+  .tbl-wrap table tfoot td:nth-child(8),
+  .tbl-wrap table tfoot td:nth-child(9) { display: none; }
+  /* 欄寬：商品36% 現價18% 損益24% 報酬率22% */
+  .tbl-wrap table thead th:nth-child(1),
+  .tbl-wrap table tbody td:nth-child(1),
+  .tbl-wrap table tfoot td:nth-child(1) { width: 36%; padding-left: 12px; }
+  .tbl-wrap table thead th:nth-child(3),
+  .tbl-wrap table tbody td:nth-child(3),
+  .tbl-wrap table tfoot td:nth-child(3) { width: 18%; text-align: right; }
+  .tbl-wrap table thead th:nth-child(5),
+  .tbl-wrap table tbody td:nth-child(5),
+  .tbl-wrap table tfoot td:nth-child(5) { width: 24%; text-align: right; }
+  .tbl-wrap table thead th:nth-child(6),
+  .tbl-wrap table tbody td:nth-child(6),
+  .tbl-wrap table tfoot td:nth-child(6) { width: 22%; text-align: right; padding-right: 8px; }
+  /* 行點擊提示 */
+  .tbl-wrap table tbody tr[data-code],
+  .tbl-wrap table tbody tr[data-us-code] {
+    cursor: pointer;
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-touch-callout: none;
+    min-height: 48px;
+  }
+  /* 確保隱藏的 td 不影響 tr 點擊 */
+  .tbl-wrap table tbody td { pointer-events: auto; }
+  .tbl-wrap table tbody tr[data-code]:active,
+  .tbl-wrap table tbody tr[data-us-code]:active { background: #e8fdf5; }
+
+  .tbl-wrap table thead th {
+    font-size: 11.5px;
+    padding: 8px 2px;
+    white-space: nowrap;
+    letter-spacing: 0;
+  }
+  .tbl-wrap table thead th:first-child { text-align: left; }
+  .tbl-wrap table tbody td {
+    padding: 11px 2px;
+    white-space: nowrap;
+  }
+  .tbl-wrap table tbody td:first-child {
+    white-space: normal;
+    word-break: keep-all;
+    line-height: 1.35;
+  }
+  .tbl-wrap table tfoot td {
+    padding: 8px 2px !important;
+    font-size: 13px !important;
+  }
+  .tbl-wrap table tfoot td:first-child { padding-left: 14px !important; }
+  .tbl-wrap table tfoot td div { display: none; }
+
+  /* 美股：隱藏持股數(4)、付出成本(7)、市值(8) */
+  .tbl-wrap table tbody tr[data-us-code] td:nth-child(4),
+  .tbl-wrap table tbody tr[data-us-code] td:nth-child(7),
+  .tbl-wrap table tbody tr[data-us-code] td:nth-child(8) { display: none; }
+  .tbl-wrap table tbody tr[data-us-code] td:nth-child(5) {
+    width: 15%; text-align: right;
+  }
+
+  .sname { font-size: 12.5px; font-weight: 700; }
+  .scode { font-size: 11px; color: #999; }
+  .mono { font-size: 13.5px; }
+  .rate-pill { font-size: 11px; padding: 2px 4px; border-radius: 5px; white-space: nowrap; }
+  .pnl-up, .pnl-down { font-size: 13px; font-weight: 800; }
+  .etf-tag { display: none; }  /* 手機版隱藏 ETF 標籤 */
+  /* 行間分隔線更明顯 */
+  .tbl-wrap table tbody tr { border-bottom: 1px solid #f0f0f0; }
 
   /* 圓餅圖 */
   .pie-wrap { margin:0 auto; }
@@ -914,6 +972,15 @@ tbody td:last-child  { padding-right: 14px; }
   /* 存股計畫 */
   .plan-toggle { width:100%; }
   .plan-toggle-btn { flex:1; padding:9px 12px; font-size:14px; }
+  /* 存股計畫表格手機版 */
+  #plan-table { min-width:620px; font-size:11.5px; }
+  #plan-table thead th { font-size:9px; padding:5px 7px; }
+  #plan-table tbody td { padding:6px 7px; }
+  #plan-table tfoot td { padding:6px 7px; }
+  /* 配息月曆表格手機版 */
+  #cal-table { min-width:700px; font-size:11px; }
+  #cal-table thead th { font-size:9px; padding:5px 6px; }
+  #cal-table tbody td { padding:5px 6px; }
   .month-hdr { padding:14px 16px; }
   .month-num { font-size:24px; }
   .month-name { font-size:17px; }
@@ -1388,31 +1455,32 @@ tbody td:last-child  { padding-right: 14px; }
     <div class="tbl-wrap">
       <table id="tbl-katai">
         <thead style="cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)"><tr>
-          <th style="text-align:left">商品</th>
-          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
-          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
+          <th style="text-align:left;cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)">商品</th>
+          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">均價</th>
+          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">現價</th>
           <th data-col="3" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股數</th>
-          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">市價</th>
-          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">成交均價</th>
+          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
+          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
           <th data-col="6" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">付出成本</th>
           <th data-col="7" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股票市值</th>
           <th style="text-align:center;width:60px">操作</th>
         </tr></thead>
         <tbody data-section="國泰">
-          <tr data-code="00631L" data-avg="23.48" data-shares="170"><td><div class="stock-name-wrap"><span class="sname">元大台灣50正2 <span class="etf-tag">ETF</span></span><span class="scode">00631L</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">170</td><td class="live-price-cell">—</td><td class="mono">23.48</td><td class="mono cost-cell">3,992</td><td class="mono mkt-cell">3,992</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00830"  data-avg="54.13" data-shares="60"><td><div class="stock-name-wrap"><span class="sname">國泰費城半導體 <span class="etf-tag">ETF</span></span><span class="scode">00830</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">60</td><td class="live-price-cell">—</td><td class="mono">54.13</td><td class="mono cost-cell">3,992</td><td class="mono mkt-cell">3,992</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00861"  data-avg="68.64" data-shares="80"><td><div class="stock-name-wrap"><span class="sname">元大全球未來通訊 <span class="etf-tag">ETF</span></span><span class="scode">00861</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">80</td><td class="live-price-cell">—</td><td class="mono">68.64</td><td class="mono cost-cell">5,491</td><td class="mono mkt-cell">5,491</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00876"  data-avg="67.72" data-shares="50"><td><div class="stock-name-wrap"><span class="sname">元大全球5G <span class="etf-tag">ETF</span></span><span class="scode">00876</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">50</td><td class="live-price-cell">—</td><td class="mono">67.72</td><td class="mono cost-cell">3,386</td><td class="mono mkt-cell">3,386</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00893"  data-avg="44.73" data-shares="30"><td><div class="stock-name-wrap"><span class="sname">國泰智能電動車 <span class="etf-tag">ETF</span></span><span class="scode">00893</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">30</td><td class="live-price-cell">—</td><td class="mono">44.73</td><td class="mono cost-cell">1,342</td><td class="mono mkt-cell">1,342</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00910"  data-avg="64.60" data-shares="120"><td><div class="stock-name-wrap"><span class="sname">第一金太空衛星 <span class="etf-tag">ETF</span></span><span class="scode">00910</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">120</td><td class="live-price-cell">—</td><td class="mono">64.60</td><td class="mono cost-cell">7,752</td><td class="mono mkt-cell">7,752</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00911"  data-avg="63.83" data-shares="35"><td><div class="stock-name-wrap"><span class="sname">兆豐洲際半導體 <span class="etf-tag">ETF</span></span><span class="scode">00911</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td class="mono">35</td><td class="live-price-cell">—</td><td class="mono">63.83</td><td class="mono cost-cell">2,234</td><td class="mono mkt-cell">2,234</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00920"  data-avg="25.10" data-shares="230"><td><div class="stock-name-wrap"><span class="sname">富邦ESG綠色電力 <span class="etf-tag">ETF</span></span><span class="scode">00920</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">230</td><td class="live-price-cell">—</td><td class="mono">25.10</td><td class="mono cost-cell">5,773</td><td class="mono mkt-cell">5,773</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00941"  data-avg="21.69" data-shares="159"><td><div class="stock-name-wrap"><span class="sname">中信上游半導體 <span class="etf-tag">ETF</span></span><span class="scode">00941</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">159</td><td class="live-price-cell">—</td><td class="mono">21.69</td><td class="mono cost-cell">3,449</td><td class="mono mkt-cell">3,449</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00988A" data-avg="21.50" data-shares="20"><td><div class="stock-name-wrap"><span class="sname">主動統一全球創新 <span class="etf-tag">ETF</span></span><span class="scode">00988A</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">20</td><td class="live-price-cell">—</td><td class="mono">21.50</td><td class="mono cost-cell">430</td><td class="mono mkt-cell">430</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="2308"   data-avg="1980"  data-shares="1"><td><div class="stock-name-wrap"><span class="sname">台達電</span><span class="scode">2308</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">1</td><td class="live-price-cell">—</td><td class="mono">1,980</td><td class="mono cost-cell">430</td><td class="mono mkt-cell">430</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="2313"   data-avg="213.68" data-shares="22"><td><div class="stock-name-wrap"><span class="sname">華通</span><span class="scode">2313</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">22</td><td class="live-price-cell">—</td><td class="mono">213.68</td><td class="mono cost-cell">4,701</td><td class="mono mkt-cell">4,701</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="2449"   data-avg="274.90" data-shares="280"><td><div class="stock-name-wrap"><span class="sname">京元電子</span><span class="scode">2449</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">280</td><td class="live-price-cell">—</td><td class="mono">274.90</td><td class="mono cost-cell">76,972</td><td class="mono mkt-cell">76,972</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="3665"   data-avg="1976.36" data-shares="11"><td><div class="stock-name-wrap"><span class="sname">貿聯-KY</span><span class="scode">3665</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">11</td><td class="live-price-cell">—</td><td class="mono">1,976.36</td><td class="mono cost-cell">21,740</td><td class="mono mkt-cell">21,740</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00631L" data-avg="23.48" data-shares="170" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">元大台灣50正2 <span class="etf-tag">ETF</span></span><span class="scode">00631L</span></div></td><td class="mono">23.48</td><td class="live-price-cell">—</td><td class="mono">170</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">3,992</td><td class="mono mkt-cell">3,992</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00830"  data-avg="54.13" data-shares="60"><td><div class="stock-name-wrap"><span class="sname">國泰費城半導體 <span class="etf-tag">ETF</span></span><span class="scode">00830</span></div></td><td class="mono">54.13</td><td class="live-price-cell">—</td><td class="mono">60</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">3,992</td><td class="mono mkt-cell">3,992</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00861"  data-avg="68.64" data-shares="80"><td><div class="stock-name-wrap"><span class="sname">元大全球未來通訊 <span class="etf-tag">ETF</span></span><span class="scode">00861</span></div></td><td class="mono">68.64</td><td class="live-price-cell">—</td><td class="mono">80</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">5,491</td><td class="mono mkt-cell">5,491</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00876"  data-avg="67.72" data-shares="50"><td><div class="stock-name-wrap"><span class="sname">元大全球5G <span class="etf-tag">ETF</span></span><span class="scode">00876</span></div></td><td class="mono">67.72</td><td class="live-price-cell">—</td><td class="mono">50</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">3,386</td><td class="mono mkt-cell">3,386</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00893"  data-avg="44.73" data-shares="30"><td><div class="stock-name-wrap"><span class="sname">國泰智能電動車 <span class="etf-tag">ETF</span></span><span class="scode">00893</span></div></td><td class="mono">44.73</td><td class="live-price-cell">—</td><td class="mono">30</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">1,342</td><td class="mono mkt-cell">1,342</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00910"  data-avg="64.60" data-shares="120"><td><div class="stock-name-wrap"><span class="sname">第一金太空衛星 <span class="etf-tag">ETF</span></span><span class="scode">00910</span></div></td><td class="mono">67.95</td><td class="live-price-cell">—</td><td class="mono">280</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">7,752</td><td class="mono mkt-cell">7,752</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00911"  data-avg="63.83" data-shares="35"><td><div class="stock-name-wrap"><span class="sname">兆豐洲際半導體 <span class="etf-tag">ETF</span></span><span class="scode">00911</span></div></td><td class="mono">63.83</td><td class="live-price-cell">—</td><td class="mono">35</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td class="mono cost-cell">2,234</td><td class="mono mkt-cell">2,234</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00920"  data-avg="25.10" data-shares="230"><td><div class="stock-name-wrap"><span class="sname">富邦ESG綠色電力 <span class="etf-tag">ETF</span></span><span class="scode">00920</span></div></td><td class="mono">25.10</td><td class="live-price-cell">—</td><td class="mono">230</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">5,773</td><td class="mono mkt-cell">5,773</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00941"  data-avg="21.69" data-shares="159"><td><div class="stock-name-wrap"><span class="sname">中信上游半導體 <span class="etf-tag">ETF</span></span><span class="scode">00941</span></div></td><td class="mono">21.69</td><td class="live-price-cell">—</td><td class="mono">159</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">3,449</td><td class="mono mkt-cell">3,449</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="0052" data-avg="59.90" data-shares="20" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">富邦科技</span><span class="scode">0052</span></div></td><td class="mono">59.90</td><td class="live-price-cell">—</td><td class="mono">20</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">1,198</td><td class="mono mkt-cell">1,198</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+                    <tr data-code="00988A" data-avg="20.60" data-shares="50" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">主動統一全球創新 <span class="etf-tag">ETF</span></span><span class="scode">00988A</span></div></td><td class="mono">20.60</td><td class="live-price-cell">—</td><td class="mono">50</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">1,030</td><td class="mono mkt-cell">1,030</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="2308"   data-avg="1980"  data-shares="1"><td><div class="stock-name-wrap"><span class="sname">台達電</span><span class="scode">2308</span></div></td><td class="mono">1,980</td><td class="live-price-cell">—</td><td class="mono">1</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">430</td><td class="mono mkt-cell">430</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="2313"   data-avg="213.68" data-shares="22"><td><div class="stock-name-wrap"><span class="sname">華通</span><span class="scode">2313</span></div></td><td class="mono">213.68</td><td class="live-price-cell">—</td><td class="mono">22</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">4,701</td><td class="mono mkt-cell">4,701</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="2449"   data-avg="274.90" data-shares="280"><td><div class="stock-name-wrap"><span class="sname">京元電子</span><span class="scode">2449</span></div></td><td class="mono">274.90</td><td class="live-price-cell">—</td><td class="mono">280</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">76,972</td><td class="mono mkt-cell">76,972</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="3665"   data-avg="1976.36" data-shares="11"><td><div class="stock-name-wrap"><span class="sname">貿聯-KY</span><span class="scode">3665</span></div></td><td class="mono">1,976.36</td><td class="live-price-cell">—</td><td class="mono">11</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">21,740</td><td class="mono mkt-cell">21,740</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -1429,22 +1497,21 @@ tbody td:last-child  { padding-right: 14px; }
     <div class="tbl-wrap">
       <table>
         <thead style="cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)"><tr>
-          <th style="text-align:left">商品</th>
-          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
-          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
+          <th style="text-align:left;cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)">商品</th>
+          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">均價</th>
+          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">現價</th>
           <th data-col="3" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股數</th>
-          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">市價</th>
-          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">成交均價</th>
+          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
+          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
           <th data-col="6" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">付出成本</th>
           <th data-col="7" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股票市值</th>
           <th style="text-align:center;width:60px">操作</th>
         </tr></thead>
         <tbody data-section="富邦">
-          <tr data-code="00878"  data-avg="13.84" data-shares="48005"><td><div class="stock-name-wrap"><span class="sname">國泰永續高股息 <span class="etf-tag">ETF</span></span><span class="scode">00878</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">48,005</td><td class="live-price-cell">—</td><td class="mono">13.84</td><td class="mono cost-cell">664,389</td><td class="mono mkt-cell">664,389</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00400A" data-avg="10.78" data-shares="520"><td><div class="stock-name-wrap"><span class="sname">主動國泰動能高息 <span class="etf-tag">ETF</span></span><span class="scode">00400A</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">520</td><td class="live-price-cell">—</td><td class="mono">10.78</td><td class="mono cost-cell">5,606</td><td class="mono mkt-cell">5,606</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00403A" data-avg="10.03" data-shares="395"><td><div class="stock-name-wrap"><span class="sname">主動統一升級50 <span class="etf-tag">ETF</span></span><span class="scode">00403A</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">395</td><td class="live-price-cell">—</td><td class="mono">10.03</td><td class="mono cost-cell">3,962</td><td class="mono mkt-cell">3,962</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00918"  data-avg="22.67" data-shares="6020"><td><div class="stock-name-wrap"><span class="sname">大華優利高填息30 <span class="etf-tag">ETF</span></span><span class="scode">00918</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">6,020</td><td class="live-price-cell">—</td><td class="mono">22.67</td><td class="mono cost-cell">5,606</td><td class="mono mkt-cell">5,606</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00999A" data-avg="10.10" data-shares="645"><td><div class="stock-name-wrap"><span class="sname">主動野村臺灣高息 <span class="etf-tag">ETF</span></span><span class="scode">00999A</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">645</td><td class="live-price-cell">—</td><td class="mono">10.10</td><td class="mono cost-cell">6,514</td><td class="mono mkt-cell">6,514</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00878"  data-avg="13.84" data-shares="48005"><td><div class="stock-name-wrap"><span class="sname">國泰永續高股息 <span class="etf-tag">ETF</span></span><span class="scode">00878</span></div></td><td class="mono">13.84</td><td class="live-price-cell">—</td><td class="mono">48,005</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">664,389</td><td class="mono mkt-cell">664,389</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00400A" data-avg="11.27" data-shares="600" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">主動國泰動能高息 <span class="etf-tag">ETF</span></span><span class="scode">00400A</span></div></td><td class="mono">11.27</td><td class="live-price-cell">—</td><td class="mono">600</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">6,762</td><td class="mono mkt-cell">6,762</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00403A" data-avg="10.10" data-shares="540" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">主動統一升級50 <span class="etf-tag">ETF</span></span><span class="scode">00403A</span></div></td><td class="mono">10.10</td><td class="live-price-cell">—</td><td class="mono">540</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">5,454</td><td class="mono mkt-cell">5,454</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00918"  data-avg="22.67" data-shares="6020"><td><div class="stock-name-wrap"><span class="sname">大華優利高填息30 <span class="etf-tag">ETF</span></span><span class="scode">00918</span></div></td><td class="mono">22.67</td><td class="live-price-cell">—</td><td class="mono">6,020</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">5,606</td><td class="mono mkt-cell">5,606</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
 
         </tbody>
       </table>
@@ -1462,19 +1529,19 @@ tbody td:last-child  { padding-right: 14px; }
     <div class="tbl-wrap">
       <table>
         <thead style="cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)"><tr>
-          <th style="text-align:left">商品</th>
-          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
-          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
+          <th style="text-align:left;cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)">商品</th>
+          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">均價</th>
+          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">現價</th>
           <th data-col="3" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股數</th>
-          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">市價</th>
-          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">成交均價</th>
+          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
+          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
           <th data-col="6" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">付出成本</th>
           <th data-col="7" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股票市值</th>
           <th style="text-align:center;width:60px">操作</th>
         </tr></thead>
         <tbody data-section="永豐">
-          <tr data-code="00981B" data-avg="9.17"  data-shares="20000"><td><div class="stock-name-wrap"><span class="sname">第一金優選非投債 <span class="etf-tag">ETF</span></span><span class="scode">00981B</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td class="mono">20,000</td><td class="live-price-cell">—</td><td class="mono">9.17</td><td class="mono cost-cell">6,514</td><td class="mono mkt-cell">6,514</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00981D" data-avg="10.33" data-shares="20000"><td><div class="stock-name-wrap"><span class="sname">主動中信非投等債 <span class="etf-tag">ETF</span></span><span class="scode">00981D</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td class="mono">20,000</td><td class="live-price-cell">—</td><td class="mono">10.33</td><td class="mono cost-cell">206,600</td><td class="mono mkt-cell">206,600</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00981B" data-avg="9.63" data-shares="20000" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">第一金優選非投債 <span class="etf-tag">ETF</span></span><span class="scode">00981B</span></div></td><td class="mono">9.63</td><td class="live-price-cell">—</td><td class="mono">20,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">192,600</td><td class="mono mkt-cell">192,600</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
+          <tr data-code="00981D" data-avg="10.32" data-shares="20000" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">主動中信非投等債 <span class="etf-tag">ETF</span></span><span class="scode">00981D</span></div></td><td class="mono">10.32</td><td class="live-price-cell">—</td><td class="mono">20,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">206,400</td><td class="mono mkt-cell">206,400</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -1491,22 +1558,23 @@ tbody td:last-child  { padding-right: 14px; }
     <div class="tbl-wrap">
       <table>
         <thead style="cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)"><tr>
-          <th style="text-align:left">代號</th>
-          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益(TWD)</th>
-          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
+          <th style="text-align:left;cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)">代號</th>
+          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">均價(TWD)</th>
+          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">現價(USD)</th>
           <th data-col="3" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">持股數</th>
-          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">現價(USD)</th>
-          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">均價(TWD)</th>
+          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益(TWD)</th>
+          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
           <th data-col="6" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">付出成本(TWD)</th>
           <th data-col="7" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股票市值(TWD)</th>
           <th style="text-align:center;width:60px">操作</th>
         </tr></thead>
         <tbody data-section="美股">
-          <tr data-us-code="GEV"   data-us-shares="0.375"  data-us-avg="1033.76"  data-us-pnl="-34"    data-us-rate="-8.69%"  data-us-price="943.92"><td><span class="sname">GEV</span></td><td class="mono">943.92</td><td class="mono">1,033.76</td><td class="mono">0.375</td><td class="pnl-down">-34</td><td><span class="rate-pill down">-8.69%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
-          <tr data-us-code="MU"    data-us-shares="0.0642" data-us-avg="755.61"   data-us-pnl="+12"    data-us-rate="+25.39%" data-us-price="947.47"><td><span class="sname">MU</span></td><td class="mono">947.47</td><td class="mono">755.61</td><td class="mono">0.0642</td><td class="pnl-up">+12</td><td><span class="rate-pill up">+25.39%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
-          <tr data-us-code="NVDA"  data-us-shares="1.833"  data-us-avg="211.73"   data-us-pnl="-8"     data-us-rate="-2.12%"  data-us-price="207.24"><td><span class="sname">NVDA</span></td><td class="mono">207.24</td><td class="mono">211.73</td><td class="mono">1.833</td><td class="pnl-down">-8</td><td><span class="rate-pill down">-2.12%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
-          <tr data-us-code="SATL"  data-us-shares="29.3446" data-us-avg="8.54"    data-us-pnl="-44"    data-us-rate="-17.6%"  data-us-price="7.04"><td><span class="sname">SATL</span></td><td class="mono">7.04</td><td class="mono">8.54</td><td class="mono">29.3446</td><td class="pnl-down">-44</td><td><span class="rate-pill down">-17.6%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
-          <tr data-us-code="TSM"   data-us-shares="0.264"  data-us-avg="367.46"   data-us-pnl="+16"    data-us-rate="+16.79%" data-us-price="429.16"><td><span class="sname">TSM</span></td><td class="mono">429.16</td><td class="mono">367.46</td><td class="mono">0.264</td><td class="pnl-up">+16</td><td><span class="rate-pill up">+16.79%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
+          <tr data-us-code="AVGO"  data-us-shares="0.121" data-us-avg="400.91"   data-us-pnl="-2"     data-us-rate="-0.37%"  data-us-price="388.36" onclick="openStockDetail(this)"><td><span class="sname">AVGO</span></td><td class="mono">400.91</td><td class="mono">388.36</td><td class="mono">0.121</td><td class="pnl-down">-2</td><td><span class="rate-pill down">-0.37%</span></td><td class="mono cost-cell">49</td><td class="mono mkt-cell">1,509</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEditUs(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delUsRow(this)">🗑</button></td></tr>
+                    <tr data-us-code="GEV"   data-us-shares="0.375"  data-us-avg="1033.76"  data-us-pnl="-48"    data-us-rate="-12.35%" data-us-price="906.14" onclick="openStockDetail(this)"><td><span class="sname">GEV</span></td><td class="mono">1,033.76</td><td class="mono">943.92</td><td class="mono">0.375</td><td class="pnl-down">-34</td><td><span class="rate-pill down">-8.69%</span></td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEditUs(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delUsRow(this)">🗑</button></td></tr>
+          <tr data-us-code="MU"    data-us-shares="0.0642" data-us-avg="755.61"   data-us-pnl="+11"    data-us-rate="+23.68%" data-us-price="934.50" onclick="openStockDetail(this)"><td><span class="sname">MU</span></td><td class="mono">755.61</td><td class="mono">947.47</td><td class="mono">0.0642</td><td class="pnl-up">+12</td><td><span class="rate-pill up">+25.39%</span></td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEditUs(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delUsRow(this)">🗑</button></td></tr>
+          <tr data-us-code="NVDA"  data-us-shares="2.064"  data-us-avg="211.53"   data-us-pnl="-12"    data-us-rate="-2.66%"  data-us-price="205.89" onclick="openStockDetail(this)"><td><span class="sname">NVDA</span></td><td class="mono">211.73</td><td class="mono">207.24</td><td class="mono">1.833</td><td class="pnl-down">-8</td><td><span class="rate-pill down">-2.12%</span></td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEditUs(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delUsRow(this)">🗑</button></td></tr>
+          <tr data-us-code="SATL"  data-us-shares="29.3446" data-us-avg="8.54"    data-us-pnl="-64"    data-us-rate="-25.44%" data-us-price="6.37" onclick="openStockDetail(this)"><td><span class="sname">SATL</span></td><td class="mono">8.54</td><td class="mono">7.04</td><td class="mono">29.3446</td><td class="pnl-down">-44</td><td><span class="rate-pill down">-17.6%</span></td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEditUs(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delUsRow(this)">🗑</button></td></tr>
+          <tr data-us-code="TSM"   data-us-shares="0.264"  data-us-avg="367.46"   data-us-pnl="+16"    data-us-rate="+15.99%" data-us-price="426.23" onclick="openStockDetail(this)"><td><span class="sname">TSM</span></td><td class="mono">367.46</td><td class="mono">429.16</td><td class="mono">0.264</td><td class="pnl-up">+16</td><td><span class="rate-pill up">+16.79%</span></td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEditUs(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delUsRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -1637,21 +1705,21 @@ tbody td:last-child  { padding-right: 14px; }
     <div class="tbl-wrap">
       <table>
         <thead style="cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)"><tr>
-          <th style="text-align:left">商品</th>
-          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
-          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
+          <th style="text-align:left;cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)">商品</th>
+          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">均價</th>
+          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">現價</th>
           <th data-col="3" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股數</th>
-          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">市價</th>
-          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">成交均價</th>
+          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
+          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
           <th data-col="6" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">付出成本</th>
           <th data-col="7" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股票市值</th>
         </tr></thead>
         <tbody data-section="妞高息">
-          <tr data-code="00878"  data-avg="14.50" data-shares="6000"><td><div class="stock-name-wrap"><span class="sname">國泰永續高股息 <span class="etf-tag">ETF</span></span><span class="scode">00878</span></div></td><td class="live-price-cell">—</td><td class="mono">14.50</td><td class="mono">6,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td></tr>
-          <tr data-code="00882"  data-avg="14.00" data-shares="2000"><td><div class="stock-name-wrap"><span class="sname">中信中國高股息 <span class="etf-tag">ETF</span></span><span class="scode">00882</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">2,000</td><td class="live-price-cell">—</td><td class="mono">14.00</td><td class="mono cost-cell">28,000</td><td class="mono mkt-cell">28,000</td></tr>
-          <tr data-code="00918"  data-avg="22.65" data-shares="5000"><td><div class="stock-name-wrap"><span class="sname">大華優利高填息30 <span class="etf-tag">ETF</span></span><span class="scode">00918</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">5,000</td><td class="live-price-cell">—</td><td class="mono">22.65</td><td class="mono cost-cell">113,250</td><td class="mono mkt-cell">113,250</td></tr>
-          <tr data-code="00991A" data-avg="9.67"  data-shares="3000"><td><div class="stock-name-wrap"><span class="sname">主動復華未來50 <span class="etf-tag">ETF</span></span><span class="scode">00991A</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">3,000</td><td class="live-price-cell">—</td><td class="mono">9.67</td><td class="mono cost-cell">29,010</td><td class="mono mkt-cell">29,010</td></tr>
-          <tr data-code="00403A" data-avg="10.00" data-shares="10000"><td><div class="stock-name-wrap"><span class="sname">主動統一升級50 <span class="etf-tag">ETF</span></span><span class="scode">00403A</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">10,000</td><td class="live-price-cell">—</td><td class="mono">10.00</td><td class="mono cost-cell">100,000</td><td class="mono mkt-cell">100,000</td></tr>
+          <tr data-code="00878"  data-avg="14.50" data-shares="6000"><td><div class="stock-name-wrap"><span class="sname">國泰永續高股息 <span class="etf-tag">ETF</span></span><span class="scode">00878</span></div></td><td class="mono">14.50</td><td class="live-price-cell">—</td><td class="mono">6,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td></tr>
+          <tr data-code="00882"  data-avg="14.00" data-shares="2000"><td><div class="stock-name-wrap"><span class="sname">中信中國高股息 <span class="etf-tag">ETF</span></span><span class="scode">00882</span></div></td><td class="mono">14.00</td><td class="live-price-cell">—</td><td class="mono">2,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">28,000</td><td class="mono mkt-cell">28,000</td></tr>
+          <tr data-code="00918"  data-avg="22.65" data-shares="5000"><td><div class="stock-name-wrap"><span class="sname">大華優利高填息30 <span class="etf-tag">ETF</span></span><span class="scode">00918</span></div></td><td class="mono">22.65</td><td class="live-price-cell">—</td><td class="mono">5,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">113,250</td><td class="mono mkt-cell">113,250</td></tr>
+          <tr data-code="00991A" data-avg="9.67"  data-shares="3000"><td><div class="stock-name-wrap"><span class="sname">主動復華未來50 <span class="etf-tag">ETF</span></span><span class="scode">00991A</span></div></td><td class="mono">9.67</td><td class="live-price-cell">—</td><td class="mono">3,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">29,010</td><td class="mono mkt-cell">29,010</td></tr>
+          <tr data-code="00403A" data-avg="10.00" data-shares="10000" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">主動統一升級50 <span class="etf-tag">ETF</span></span><span class="scode">00403A</span></div></td><td class="mono">10.00</td><td class="live-price-cell">—</td><td class="mono">10,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono cost-cell">100,000</td><td class="mono mkt-cell">100,000</td></tr>
         </tbody>
       </table>
     </div>
@@ -1666,12 +1734,12 @@ tbody td:last-child  { padding-right: 14px; }
     <div class="tbl-wrap">
       <table>
         <thead style="cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)"><tr>
-          <th style="text-align:left">商品</th>
-          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
-          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
+          <th style="text-align:left;cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)">商品</th>
+          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">均價</th>
+          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">現價</th>
           <th data-col="3" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股數</th>
-          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">市價</th>
-          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">成交均價</th>
+          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
+          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
           <th data-col="6" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">付出成本</th>
           <th data-col="7" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股票市值</th>
         </tr></thead>
@@ -1690,19 +1758,19 @@ tbody td:last-child  { padding-right: 14px; }
     <div class="tbl-wrap">
       <table>
         <thead style="cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)"><tr>
-          <th style="text-align:left">商品</th>
-          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
-          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
+          <th style="text-align:left;cursor:pointer" data-col="0" data-type="name" onclick="sortTbl(this)">商品</th>
+          <th data-col="1" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">均價</th>
+          <th data-col="2" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">現價</th>
           <th data-col="3" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股數</th>
-          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">市價</th>
-          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">成交均價</th>
+          <th data-col="4" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">損益</th>
+          <th data-col="5" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">報酬率</th>
           <th data-col="6" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">付出成本</th>
           <th data-col="7" data-type="num" onclick="sortTbl(this)" style="cursor:pointer">股票市值</th>
         </tr></thead>
         <tbody data-section="妞債券">
-          <tr data-code="00696B" data-avg="41.49" data-shares="3000"><td><div class="stock-name-wrap"><span class="sname">富邦美債20年 <span class="etf-tag">ETF</span></span><span class="scode">00696B</span></div></td><td class="pnl-down">-34,680</td><td class="live-rate"><span class="rate-pill down">-27.85%</span></td><td class="mono">3,000</td><td class="live-price-cell">29.93</td><td class="mono">41.49</td><td class="mono cost-cell">124,470</td><td class="mono mkt-cell">89,790</td></tr>
-          <tr data-code="00724B" data-avg="41.66" data-shares="1000"><td><div class="stock-name-wrap"><span class="sname">群益投資級金融債 <span class="etf-tag">ETF</span></span><span class="scode">00724B</span></div></td><td class="pnl-down">-8,150</td><td class="live-rate"><span class="rate-pill down">-19.56%</span></td><td class="mono">1,000</td><td class="live-price-cell">33.51</td><td class="mono">41.66</td><td class="mono cost-cell">41,660</td><td class="mono mkt-cell">33,510</td></tr>
-          <tr data-code="—" data-avg="41.84" data-shares="1000"><td><div class="stock-name-wrap"><span class="sname">台新新光庚特二</span><span class="scode">—</span></div></td><td class="pnl-down">-916</td><td><span class="rate-pill down">-2.19%</span></td><td class="mono">1,000</td><td class="live-price-cell">41.10</td><td class="mono">41.84</td><td class="mono cost-cell">41,840</td><td class="mono mkt-cell">41,100</td></tr>
+          <tr data-code="00696B" data-avg="41.49" data-shares="3000" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">富邦美債20年 <span class="etf-tag">ETF</span></span><span class="scode">00696B</span></div></td><td class="pnl-down">-34,680</td><td class="live-rate"><span class="rate-pill down">-27.85%</span></td><td class="mono">3,000</td><td class="live-price-cell">29.93</td><td class="mono">41.49</td><td class="mono cost-cell">124,470</td><td class="mono mkt-cell">89,790</td></tr>
+          <tr data-code="00724B" data-avg="41.66" data-shares="1000" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">群益投資級金融債 <span class="etf-tag">ETF</span></span><span class="scode">00724B</span></div></td><td class="pnl-down">-8,150</td><td class="live-rate"><span class="rate-pill down">-19.56%</span></td><td class="mono">1,000</td><td class="live-price-cell">33.51</td><td class="mono">41.66</td><td class="mono cost-cell">41,660</td><td class="mono mkt-cell">33,510</td></tr>
+          <tr data-code="—" data-avg="41.84" data-shares="1000" onclick="openStockDetail(this)"><td><div class="stock-name-wrap"><span class="sname">台新新光庚特二</span><span class="scode">—</span></div></td><td class="pnl-down">-916</td><td><span class="rate-pill down">-2.19%</span></td><td class="mono">1,000</td><td class="live-price-cell">41.10</td><td class="mono">41.84</td><td class="mono cost-cell">41,840</td><td class="mono mkt-cell">41,100</td></tr>
         </tbody>
       </table>
     </div>
@@ -1990,7 +2058,7 @@ tbody td:last-child  { padding-right: 14px; }
         <div class="preset-item" onclick="pickPreset(0)"><span class="preset-dot" style="background:#0E9F8E"></span><span class="preset-code">00878</span><span class="preset-name">國泰永續高股息</span><span class="preset-tag">季配</span></div>
         <div class="preset-item" onclick="pickPreset(1)"><span class="preset-dot" style="background:#4ECDC4"></span><span class="preset-code">00918</span><span class="preset-name">大華優利高填息30</span><span class="preset-tag">季配</span></div>
         <div class="preset-item" onclick="pickPreset(2)"><span class="preset-dot" style="background:#FF9E9E"></span><span class="preset-code">00400A</span><span class="preset-name">主動國泰動能高息</span><span class="preset-tag">待定</span></div>
-        <div class="preset-item" onclick="pickPreset(3)"><span class="preset-dot" style="background:#FFEAA7"></span><span class="preset-code">00999A</span><span class="preset-name">主動野村臺灣高息</span><span class="preset-tag">待定</span></div>
+        <div class="preset-item" onclick="pickPreset(3)"><span class="preset-dot" style="background:#FFEAA7"></span><span class="preset-code">00406A</span><span class="preset-name">主動中信台灣收益</span><span class="preset-tag">月配（待首配）</span></div>
         <div class="preset-item" onclick="pickPreset(4)"><span class="preset-dot" style="background:#96CEB4"></span><span class="preset-code">00403A</span><span class="preset-name">主動統一升級50</span><span class="preset-tag">待定</span></div>
         <div class="preset-item" onclick="pickPreset(5)"><span class="preset-dot" style="background:#45B7D1"></span><span class="preset-code">00981B</span><span class="preset-name">第一金優選非投債</span><span class="preset-tag">月配</span></div>
         <div class="preset-item" onclick="pickPreset(6)"><span class="preset-dot" style="background:#DDA0DD"></span><span class="preset-code">00981D</span><span class="preset-name">主動中信非投等債</span><span class="preset-tag">月配</span></div>
@@ -2176,14 +2244,25 @@ const TW_SUFFIX = {
   '00920':'00920.TW','00941':'00941.TW','00988A':'00988A.TWO',
   '00696B':'00696B.TWO','00724B':'00724B.TWO',
   // 台股 ETF（上櫃 .TWO）
-  '00403A':'00403A.TWO','00400A':'00400A.TWO','00999A':'00999A.TWO',
+  '00403A':'00403A.TWO','00400A':'00400A.TWO','00406A':'00406A.TWO',
   '00882':'00882.TWO','00991A':'00991A.TWO',
   '00981B':'00981B.TWO','00981D':'00981D.TWO',
   // 個股
-  '2308':'2308.TW','2313':'2313.TW','2324':'2324.TW','2449':'2449.TW',
+  '0052':'0052.TW','2308':'2308.TW','2313':'2313.TW','2324':'2324.TW','2449':'2449.TW',
   '2542':'2542.TW','3665':'3665.TW',
 };
-const FALLBACK = { '00981B': 9.17, '00981D': 10.32, '00696B': 29.93, '00724B': 33.51 }; // 00696B & 00724B 參考價 2026/05/28
+const FALLBACK = {
+  // 債券ETF（較穩定，適合用參考價）
+  '00981B': 9.63, '00981D': 10.32, '00696B': 29.93, '00724B': 33.51,
+  // 台股ETF 截圖參考價 2026/06/10
+  '00631L': 35.44, '00830': 91.75, '00861': 90.80, '00876': 92.85,
+  '00893': 45.75, '00910': 70.80, '00911': 61.80, '00920': 26.16,
+  '00941': 25.72, '00988A': 21.50, '00878': 32.31, '00918': 30.88,
+  '00400A': 14.63, '00403A': 10.41,
+  // 個股
+  '2308': 1980, '2313': 213.68, '2449': 274.90, '3665': 1976.36,
+  '0052': 60.15,
+}; // 參考價 2026/06/10，報價失敗時使用
 
 const fmt2 = n => n.toLocaleString('zh-TW',{minimumFractionDigits:2,maximumFractionDigits:2});
 const fmtI = n => Math.round(n).toLocaleString('zh-TW');
@@ -2236,11 +2315,12 @@ async function fetchPrices() {
       const map = await res.json();
       allRows.forEach(tr => { if (map[tr.dataset.code] != null) { applyPrice(tr, map[tr.dataset.code]); n++; } });
     } catch(e) {
-      console.warn('台股報價失敗:', e);
+      console.warn('台股報價失敗:', e.message);
     }
   }
 
   // ── 美股 ──
+  // 欄位順序：代號(0)|均價TWD(1)|現價USD(2)|股數(3)|損益TWD(4)|報酬率(5)|付出成本(6)|市值(7)|操作(8)
   if (usCodes.length) {
     try {
       const usRes = await Promise.race([
@@ -2248,7 +2328,6 @@ async function fetchPrices() {
         new Promise((_, r) => setTimeout(() => r(new Error('timeout')), 15000))
       ]);
       const usMap = await usRes.json();
-      console.log('美股報價回傳:', JSON.stringify(usMap));
       const usdTwd = usMap['USD_TWD'] || usMap['USDTWD'] || 32.5;
       usRows.forEach(tr => {
         const code = tr.dataset.usCode;
@@ -2265,9 +2344,11 @@ async function fetchPrices() {
         tr.dataset.usPnl   = pnlTwd;
         tr.dataset.usRate  = (isPos?'+':'')+pct+'%';
         const tds = tr.querySelectorAll('td');
-        if (tds[1]) tds[1].textContent = priceUsd;
-        if (tds[4]) { tds[4].textContent = (isPos?'+':'')+pnlTwd.toLocaleString('zh-TW'); tds[4].className = isPos?'pnl-up':'pnl-down'; }
-        if (tds[5]) { tds[5].innerHTML = `<span class="rate-pill ${isPos?'up':'down'}">${(isPos?'+':'')+pct}%</span>`; }
+        if (tds[2]) tds[2].textContent = priceUsd;                                                                    // 現價USD
+        if (tds[4]) { tds[4].textContent = (isPos?'+':'')+pnlTwd.toLocaleString('zh-TW'); tds[4].className = isPos?'pnl-up':'pnl-down'; }  // 損益
+        if (tds[5]) { tds[5].innerHTML = `<span class="rate-pill ${isPos?'up':'down'}">${(isPos?'+':'')+pct}%</span>`; }                    // 報酬率
+        const mktTwd = Math.round(priceUsd * usdTwd * shares);
+        if (tds[7]) tds[7].textContent = mktTwd.toLocaleString('zh-TW');                                              // 市值
         n++;
       });
     } catch(e) {
@@ -2279,58 +2360,9 @@ async function fetchPrices() {
   document.querySelectorAll('.page-footer').forEach(el => {
     el.textContent = `✅ 已更新 ${n} 檔 · ${now.toLocaleTimeString('zh-TW',{hour:'2-digit',minute:'2-digit'})} · 僅供參考`;
   });
-
-    // 直接計算呈的台股摘要（不透過函數，確保 DOM 已更新）
-    let cMkt=0, cPnl=0, cCost=0;
-    document.querySelectorAll('#page-cheng tr[data-code]').forEach(tr => {
-      const p = parseFloat((tr.querySelector('.live-price-cell')||{}).textContent||'') || 0;
-      const avg = parseFloat(tr.dataset.avg)||0, sh = parseFloat(tr.dataset.shares)||0;
-      if (p > 0) { cMkt += p*sh; cPnl += (p-avg)*sh; cCost += avg*sh; }
-      else { cMkt += avg*sh; cCost += avg*sh; }
-    });
-    let usPnl=0;
-    document.querySelectorAll('#page-cheng tr[data-us-code]').forEach(tr => { usPnl += parseFloat((tr.dataset.usPnl||'').replace(/,/g,''))||0; });
-    const cGrand = cPnl+usPnl, cPos = cGrand>=0;
-    const cPct = cCost>0 ? (cPnl/cCost*100).toFixed(2) : null;
-    const tv = document.getElementById('cheng-total-val');
-    const pv = document.getElementById('cheng-pnl');
-    const pr = document.getElementById('cheng-pnl-rate');
-    const sub = document.getElementById('cheng-total-sub');
-    const cnt = document.getElementById('cheng-count');
-    if (tv) tv.textContent = Math.round(cMkt).toLocaleString('zh-TW');
-    if (sub) sub.textContent = 'TWD';
-    if (pv) { pv.textContent = (cPos?'+':'')+Math.round(cGrand).toLocaleString('zh-TW'); pv.className='sum-value '+(cPos?'up':'down'); }
-    if (pr) { pr.textContent = cPct ? (cPos?'+':'')+cPct+'%' : 'TWD'; pr.className='sum-rate '+(cPos?'up':'down'); }
-    if (cnt) cnt.textContent = document.querySelectorAll('#page-cheng tr[data-code]').length + document.querySelectorAll('#page-cheng tr[data-us-code]').length;
-
-    // 直接計算妞的摘要
-    let nMkt=0, nPnl=0, nCost=0;
-    document.querySelectorAll('#page-niu tr[data-code]').forEach(tr => {
-      const p = parseFloat((tr.querySelector('.live-price-cell')||{}).textContent||'') || 0;
-      const avg = parseFloat(tr.dataset.avg)||0, sh = parseFloat(tr.dataset.shares)||0;
-      if (p > 0) { nMkt += p*sh; nPnl += (p-avg)*sh; nCost += avg*sh; }
-      else { nMkt += avg*sh; nCost += avg*sh; }
-    });
-    const nPos = nPnl>=0, nPct = nCost>0 ? (nPnl/nCost*100).toFixed(2) : null;
-    const ntv = document.getElementById('niu-total-val');
-    const npv = document.getElementById('niu-pnl');
-    const npr = document.getElementById('niu-pnl-rate');
-    const nsub = document.getElementById('niu-total-sub');
-    const ncnt = document.getElementById('niu-count');
-    if (ntv) ntv.textContent = Math.round(nMkt).toLocaleString('zh-TW');
-    if (nsub) nsub.textContent = 'TWD';
-    if (npv) { npv.textContent = (nPos?'+':'')+Math.round(nPnl).toLocaleString('zh-TW'); npv.className='sum-value '+(nPos?'up':'down'); }
-    if (npr) { npr.textContent = nPct ? (nPos?'+':'')+nPct+'%' : 'TWD'; npr.className='sum-rate '+(nPos?'up':'down'); }
-    if (ncnt) ncnt.textContent = document.querySelectorAll('#page-niu tr[data-code]').length;
-
-    renderLossCard('cheng');
-    renderLossCard('niu');
-    updateUsPieChart();
-    updateTwPieChart();
-    updateFbPieChart();
-    updateYfPieChart();
-    renderAllCards();
+  renderSectionFooters();
 }
+
 
 /* ══ STOCK CARD SORT STATE ══ */
 const _sortState = {
@@ -2580,26 +2612,50 @@ function renderSectionFooters() {
 
     // 根據欄數排列：商品(1)|損益|報酬率|股數|-|均價|付出成本|股票市值|操作
     // col index:       0    1    2     3   4   5    6         7       8
+    const pnlFormula   = `各股（市價－均價）×股數 加總`;
+    const rateFormula  = `損益合計 ÷ 付出成本合計 × 100%`;
+    const costFormula  = `各股 均價 × 股數 加總`;
+    const mktFormula   = `各股 市價 × 股數 加總（市價未載入時＝付出成本）`;
+
     let cells = '';
     for (let i = 0; i < thCount; i++) {
       if (i === 0) {
-        cells += `<td style="text-align:left;padding:7px 14px;font-size:11px;font-weight:700;color:#c8d6e5">${count} 檔合計</td>`;
-      } else if (i === 1) {
-        // 損益
-        cells += `<td class="mono ${pnlCls}" style="padding:7px 8px;font-weight:700">${pnlStr}</td>`;
-      } else if (i === 2) {
-        // 報酬率
-        cells += `<td style="padding:7px 8px"><span class="rate-pill ${rateCls}" style="font-weight:800">${rateStr}</span></td>`;
-      } else if (i === thCount - 2 && hasOp) {
-        // 付出成本
-        cells += `<td class="mono" style="padding:7px 8px;color:#FFB3B3;font-weight:700">${totalCost > 0 ? Math.round(totalCost).toLocaleString() : '—'}</td>`;
-      } else if (i === thCount - 1 && hasOp) {
-        // 操作欄 → 顯示股票市值
-        cells += `<td class="mono" style="padding:7px 8px;color:#90EE90;font-weight:700;text-align:right">${totalMkt > 0 ? Math.round(totalMkt).toLocaleString() : '—'}</td>`;
-      } else if (i === thCount - 1 && !hasOp) {
-        cells += `<td class="mono" style="padding:7px 8px;color:#90EE90;font-weight:700">${totalMkt > 0 ? Math.round(totalMkt).toLocaleString() : '—'}</td>`;
-      } else if (i === thCount - 2 && !hasOp) {
-        cells += `<td class="mono" style="padding:7px 8px;color:#FFB3B3;font-weight:700">${totalCost > 0 ? Math.round(totalCost).toLocaleString() : '—'}</td>`;
+        cells += `<td style="text-align:left;padding:7px 14px;font-size:11px;font-weight:700;color:#c8d6e5">
+          ${count} 檔合計
+          <div style="font-size:9px;opacity:.55;font-weight:400;margin-top:2px;letter-spacing:.02em">
+            🔴付出成本＝均價×股數&nbsp;&nbsp;🟢市值＝市價×股數
+          </div>
+        </td>`;
+      } else if (i === 4) {
+        cells += `<td class="mono ${pnlCls}" style="padding:7px 8px;font-weight:700" title="${pnlFormula}">
+          ${pnlStr}
+          <div style="font-size:9px;opacity:.5;font-weight:400">市價－均價×股數</div>
+        </td>`;
+      } else if (i === 5) {
+        cells += `<td style="padding:7px 8px" title="${rateFormula}">
+          <span class="rate-pill ${rateCls}" style="font-weight:800">${rateStr}</span>
+          <div style="font-size:9px;opacity:.5;margin-top:3px">損益÷成本</div>
+        </td>`;
+      } else if (i === 6) {
+        cells += `<td class="mono" style="padding:7px 8px;color:#FFB3B3;font-weight:700" title="${costFormula}">
+          ${totalCost > 0 ? Math.round(totalCost).toLocaleString() : '—'}
+          <div style="font-size:9px;opacity:.6;font-weight:400">均價×股數</div>
+        </td>`;
+      } else if (i === 7) {
+        cells += `<td class="mono" style="padding:7px 8px;color:#90EE90;font-weight:700;text-align:right" title="${mktFormula}">
+          ${totalMkt > 0 ? Math.round(totalMkt).toLocaleString() : '—'}
+          <div style="font-size:9px;opacity:.6;font-weight:400">市價×股數</div>
+        </td>`;
+      } else if (i === 99) {
+        cells += `<td class="mono" style="padding:7px 8px;color:#90EE90;font-weight:700" title="${mktFormula}">
+          ${totalMkt > 0 ? Math.round(totalMkt).toLocaleString() : '—'}
+          <div style="font-size:9px;opacity:.6;font-weight:400">市價×股數</div>
+        </td>`;
+      } else if (i === 99) {
+        cells += `<td class="mono" style="padding:7px 8px;color:#FFB3B3;font-weight:700" title="${costFormula}">
+          ${totalCost > 0 ? Math.round(totalCost).toLocaleString() : '—'}
+          <div style="font-size:9px;opacity:.6;font-weight:400">均價×股數</div>
+        </td>`;
       } else {
         cells += `<td style="padding:7px 8px"></td>`;
       }
@@ -2629,13 +2685,15 @@ function renderSectionFooters() {
     const pnlStr  = (totalPnl >= 0 ? '+' : '') + Math.round(totalPnl).toLocaleString();
     const rate    = totalCost > 0 ? (totalPnl / totalCost * 100) : 0;
     const rateStr = (rate >= 0 ? '+' : '') + rate.toFixed(2) + '%';
+    // 美股欄位：代號(0)|均價TWD(1)|現價USD(2)|股數(3)|損益(4)|報酬率(5)|付出成本(6)|市值(7)|操作(8)
     let cells = '';
     for (let i = 0; i < thCount; i++) {
-      if (i === 0)             cells += `<td style="text-align:left;padding:7px 14px;font-size:11px;font-weight:700;color:#c8d6e5">${count} 檔合計</td>`;
-      else if (i === 1)        cells += `<td class="mono ${pnlCls}" style="padding:7px 8px;font-weight:700">${pnlStr}</td>`;
-      else if (i === 2)        cells += `<td style="padding:7px 8px"><span class="rate-pill ${rate>=0?'up':'down'}" style="font-weight:800">${rateStr}</span></td>`;
-      else if (i === thCount-2) cells += `<td class="mono" style="padding:7px 8px;color:#FFB3B3;font-weight:700">${totalCost > 0 ? Math.round(totalCost).toLocaleString() : '—'}</td>`;
-      else if (i === thCount-1) cells += `<td class="mono" style="padding:7px 8px;color:#90EE90;font-weight:700;text-align:right">${totalMkt > 0 ? Math.round(totalMkt).toLocaleString() : '—'}</td>`;
+      if (i === 0)  cells += `<td style="text-align:left;padding:7px 14px;font-size:11px;font-weight:700;color:#c8d6e5">${count} 檔合計<div style="font-size:9px;opacity:.5;font-weight:400;margin-top:2px">🔴付出成本＝均價×股數&nbsp;🟢市值＝市價×32×股數</div></td>`;
+      else if (i === 4) cells += `<td class="mono ${pnlCls}" style="padding:7px 8px;font-weight:700">${pnlStr}<div style="font-size:9px;opacity:.5;font-weight:400">損益合計</div></td>`;
+      else if (i === 5) cells += `<td style="padding:7px 8px"><span class="rate-pill ${rate>=0?'up':'down'}" style="font-weight:800">${rateStr}</span><div style="font-size:9px;opacity:.5;margin-top:3px">損益÷成本</div></td>`;
+      else if (i === 6) cells += `<td class="mono" style="padding:7px 8px;color:#FFB3B3;font-weight:700">${totalCost > 0 ? Math.round(totalCost).toLocaleString() : '—'}<div style="font-size:9px;opacity:.6;font-weight:400">均價×股數</div></td>`;
+      else if (i === 7) cells += `<td class="mono" style="padding:7px 8px;color:#90EE90;font-weight:700">${totalMkt > 0 ? Math.round(totalMkt).toLocaleString() : '—'}<div style="font-size:9px;opacity:.6;font-weight:400">市價×32×股數</div></td>`;
+      else if (i === 8) cells += `<td style="padding:7px 8px"></td>`;
       else cells += `<td style="padding:7px 8px"></td>`;
     }
     tfoot.innerHTML = `<tr style="background:#1a1a2e;color:#c8d6e5">${cells}</tr>`;
@@ -2662,14 +2720,14 @@ function renderSectionFooters() {
     const pnlStr  = (totPnl >= 0 ? '+' : '') + Math.round(totPnl).toLocaleString();
     const rate    = totInvest > 0 ? (totPnl / totInvest * 100) : 0;
     const rateStr = (rate >= 0 ? '+' : '') + rate.toFixed(2) + '%';
-    let cells = `<td style="text-align:left;padding:7px 14px;font-size:11px;font-weight:700;color:#c8d6e5">${count} 筆合計</td>`;
-    cells += `<td class="mono ${pnlCls}" style="padding:7px 8px;font-weight:700">${pnlStr}</td>`;
-    cells += `<td style="padding:7px 8px"><span class="rate-pill ${rate>=0?'up':'down'}" style="font-weight:800">${rateStr}</span></td>`;
-    cells += `<td style="padding:7px 8px"></td>`;  // 單位數
-    cells += `<td class="mono" style="padding:7px 8px;color:#90EE90;font-weight:700">${totNav.toLocaleString()}</td>`;
-    cells += `<td class="mono pnl-up" style="padding:7px 8px;font-weight:700">${totDiv.toLocaleString()}</td>`;
-    cells += `<td class="mono" style="padding:7px 8px;color:#FFB3B3;font-weight:700">${totInvest.toLocaleString()}</td>`;
-    cells += `<td class="mono" style="padding:7px 8px;color:#90EE90;font-weight:700">${(totNav+totDiv).toLocaleString()}</td>`;
+    let cells = `<td style="text-align:left;padding:7px 14px;font-size:11px;font-weight:700;color:#c8d6e5">${count} 筆合計<div style="font-size:9px;opacity:.5;font-weight:400;margin-top:2px">🔴投資金額＝實際投入本金&nbsp;🟢總回收＝現值＋累計配息</div></td>`;
+    cells += `<td class="mono ${pnlCls}" style="padding:7px 8px;font-weight:700" title="現值＋累計配息－投資金額">${pnlStr}<div style="font-size:9px;opacity:.5;font-weight:400">現值＋配息－本金</div></td>`;
+    cells += `<td style="padding:7px 8px" title="損益÷投資金額×100%"><span class="rate-pill ${rate>=0?'up':'down'}" style="font-weight:800">${rateStr}</span><div style="font-size:9px;opacity:.5;margin-top:3px">損益÷本金</div></td>`;
+    cells += `<td style="padding:7px 8px"></td>`;
+    cells += `<td class="mono" style="padding:7px 8px;color:#90EE90;font-weight:700" title="各筆基金參考現值加總">${totNav.toLocaleString()}<div style="font-size:9px;opacity:.6;font-weight:400">參考現值合計</div></td>`;
+    cells += `<td class="mono pnl-up" style="padding:7px 8px;font-weight:700" title="各筆基金歷年累計配息加總">${totDiv.toLocaleString()}<div style="font-size:9px;opacity:.6;font-weight:400">配息合計</div></td>`;
+    cells += `<td class="mono" style="padding:7px 8px;color:#FFB3B3;font-weight:700" title="各筆基金實際投入本金加總">${totInvest.toLocaleString()}<div style="font-size:9px;opacity:.6;font-weight:400">投入本金合計</div></td>`;
+    cells += `<td class="mono" style="padding:7px 8px;color:#90EE90;font-weight:700" title="參考現值＋累計配息">${(totNav+totDiv).toLocaleString()}<div style="font-size:9px;opacity:.6;font-weight:400">現值＋配息</div></td>`;
     for (let i = 8; i < thCount; i++) cells += `<td style="padding:7px 8px"></td>`;
     tfoot.innerHTML = `<tr style="background:#1a1a2e;color:#c8d6e5">${cells}</tr>`;
   }
@@ -3100,7 +3158,7 @@ window.saveEdit = function() {
     _editTr.dataset.note = note;
     _editTr.querySelector('.sname').innerHTML = name + etfTag + noteTag;
     const tds = _editTr.querySelectorAll('td');
-    tds[2].textContent = avg; tds[3].textContent = shares.toLocaleString('zh-TW');
+    tds[1].textContent = avg; tds[3].textContent = shares.toLocaleString('zh-TW');  // 均價(1), 股數(3)
   } else {
     const section = document.getElementById('e-section').value;
     const tbody = document.querySelector(`tbody[data-section="${section}"]`);
@@ -3108,7 +3166,7 @@ window.saveEdit = function() {
     const tr = document.createElement('tr');
     tr.dataset.code = code; tr.dataset.shares = shares; tr.dataset.avg = avg; tr.dataset.note = note;
     const costVal = Math.round(parseFloat(avg) * shares);
-    tr.innerHTML = `<td><div class="stock-name-wrap"><span class="sname">${name}${etfTag}${noteTag}</span><span class="scode">${code}</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">${shares.toLocaleString()}</td><td class="live-price-cell">—</td><td class="mono">${avg}</td><td class="mono cost-cell">${costVal.toLocaleString()}</td><td class="mono mkt-cell">${costVal.toLocaleString()}</td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td>`;
+    tr.innerHTML = `<td><div class="stock-name-wrap"><span class="sname">${name}${etfTag}${noteTag}</span><span class="scode">${code}</span></div></td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td class="mono">${shares.toLocaleString()}</td><td class="live-price-cell">—</td><td class="mono">${avg}</td><td class="mono cost-cell">${costVal.toLocaleString()}</td><td class="mono mkt-cell">${costVal.toLocaleString()}</td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEdit(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delRow(this)">🗑</button></td>`;
     tbody.appendChild(tr);
   }
   closeEdit();
@@ -3156,8 +3214,8 @@ window.saveUs = function() {
     _usEditTr.dataset.usPnl = pnl; _usEditTr.dataset.usRate = rate;
     const tds = _usEditTr.querySelectorAll('td');
     tds[0].querySelector('.sname').textContent = code;
-    tds[1].textContent = price || '—';
-    tds[2].textContent = avg || '—';
+    tds[1].textContent = avg || '—';    // 均價TWD
+    tds[2].textContent = price || '—';  // 現價USD
     tds[3].textContent = shares;
     tds[4].className = pnlCls; tds[4].textContent = pnl || '—';
     const sp = tds[5].querySelector('span') || document.createElement('span');
@@ -3167,7 +3225,7 @@ window.saveUs = function() {
     const tbody = document.querySelector('tbody[data-section="美股"]');
     const tr = document.createElement('tr');
     Object.assign(tr.dataset, {usCode:code, usShares:shares, usAvg:avg, usPrice:price, usPnl:pnl, usRate:rate});
-    tr.innerHTML = `<td><span class="sname">${code}</span></td><td class="mono">${price||'—'}</td><td class="mono">${avg||'—'}</td><td class="mono">${shares}</td><td class="${pnlCls}">${pnl||'—'}</td><td><span class="rate-pill ${rateCls}">${rate||'—'}</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td>`;
+    tr.innerHTML = `<td><span class="sname">${code}</span></td><td class="mono">${price||'—'}</td><td class="mono">${avg||'—'}</td><td class="mono">${shares}</td><td class="${pnlCls}">${pnl||'—'}</td><td><span class="rate-pill ${rateCls}">${rate||'—'}</span></td><td style="text-align:center"><button class="op-btn" onclick="event.stopPropagation();openEditUs(this)">✏️</button> <button class="op-btn del" onclick="event.stopPropagation();delUsRow(this)">🗑</button></td>`;
     tbody.appendChild(tr);
     document.getElementById('cnt-us').textContent = tbody.querySelectorAll('tr').length + ' 檔';
   }
@@ -3186,17 +3244,17 @@ window.delUsRow    = btn => { const tr = btn.closest('tr'); const code = tr.data
 
 /* ══ 存股計畫 ══ */
 const MONTH_NAMES = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
-const ETF_COLORS  = { '00878':'#0E9F8E','00918':'#4ECDC4','00981D':'#DDA0DD','00981B':'#45B7D1','00400A':'#FF9E9E','00999A':'#FFEAA7','00403A':'#96CEB4' };
+const ETF_COLORS  = { '00878':'#0E9F8E','00918':'#4ECDC4','00981D':'#DDA0DD','00981B':'#45B7D1','00400A':'#FF9E9E','00406A':'#F4A261','00403A':'#96CEB4' };
 // divM = 實際發放月（非除息月）
 // 00878 國泰永續高股息：除息2/5/8/11 → 發放3/6/9/12
 // 00918 大華優利高填息30：除息3/6/9/12 → 發放4/7/10/1
 let planEtfs = [
-  { id:'00878',  name:'國泰永續高股息',  color:'#0E9F8E', held:48005, target:60000, divM:[3,6,9,12], divPu:0.66, divByM:{3:0.66,6:0.66,9:0.66,12:0.66}, dist:'季配', exM:[2,5,8,11] },
-  { id:'00918',  name:'大華優利高填息30',color:'#4ECDC4', held:6020,  target:60000, divM:[4,7,10,1],  divPu:0.62, divByM:{4:0.62,7:0.62,10:0.62,1:0.62},  dist:'季配', exM:[3,6,9,12] },
-  { id:'00981D', name:'主動中信非投等債',color:'#DDA0DD', held:20000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, divByM:{1:0.070,2:0.070,3:0.070,4:0.070,5:0.070,6:0.070,7:0.070,8:0.070,9:0.070,10:0.070,11:0.070,12:0.070}, dist:'月配', exM:[] },
-  { id:'00981B', name:'第一金優選非投債',color:'#45B7D1', held:20000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.063, divByM:{1:0.063,2:0.063,3:0.063,4:0.063,5:0.063,6:0.063,7:0.063,8:0.063,9:0.063,10:0.063,11:0.063,12:0.063}, dist:'月配', exM:[] },
-  { id:'00400A', name:'主動國泰動能高息',color:'#FF9E9E', held:8520,  target:30000, divM:[], divPu:0, divByM:{}, dist:'待定', exM:[] },
-  { id:'00999A', name:'主動野村臺灣高息',color:'#FFEAA7', held:5645,  target:30000, divM:[], divPu:0, divByM:{}, dist:'待定', exM:[] },
+  { id:'00878',  name:'國泰永續高股息',   color:'#0E9F8E', held:48005, target:60000, divM:[3,6,9,12],              divPu:0.66,  divByM:{3:0.66,6:0.66,9:0.66,12:0.66},                                                                                                                                   dist:'季配', exM:[2,5,8,11] },
+  { id:'00918',  name:'大華優利高填息30',  color:'#4ECDC4', held:6020,  target:60000, divM:[4,7,10,1],              divPu:0.62,  divByM:{4:0.62,7:0.62,10:0.62,1:0.62},                                                                                                                                   dist:'季配', exM:[3,6,9,12] },
+  { id:'00981D', name:'主動中信非投等債',  color:'#DDA0DD', held:20000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, divByM:{1:0.070,2:0.070,3:0.070,4:0.070,5:0.070,6:0.070,7:0.070,8:0.070,9:0.070,10:0.070,11:0.070,12:0.070}, dist:'月配', exM:[] },
+  { id:'00981B', name:'第一金優選非投債',  color:'#45B7D1', held:20000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.063, divByM:{1:0.063,2:0.063,3:0.063,4:0.063,5:0.063,6:0.063,7:0.063,8:0.063,9:0.063,10:0.063,11:0.063,12:0.063}, dist:'月配', exM:[] },
+  { id:'00400A', name:'主動國泰動能高息',  color:'#FF9E9E', held:600,   target:30000, divM:[], divPu:0, divByM:{}, dist:'待定', exM:[] },
+  { id:'00403A', name:'主動統一升級50',    color:'#96CEB4', held:540,   target:30000, divM:[], divPu:0, divByM:{}, dist:'待定', exM:[] },
 ];
 let _planMode = 'target';
 
@@ -3309,14 +3367,14 @@ function saveQuickTarget() {
 
 /* 常用 ETF 預設清單 */
 const PLAN_PRESETS = [
-  { id:'00878',  name:'國泰永續高股息',   color:'#0E9F8E', target:60000, divM:[3,6,9,12],              divPu:0.66,  divByM:{3:0.66,6:0.66,9:0.66,12:0.66}, dist:'季配', exM:[2,5,8,11] },
-  { id:'00918',  name:'大華優利高填息30', color:'#4ECDC4', target:60000, divM:[4,7,10,1],              divPu:0.62,  divByM:{4:0.62,7:0.62,10:0.62,1:0.62},  dist:'季配', exM:[3,6,9,12] },
-  { id:'00400A', name:'主動國泰動能高息', color:'#FF9E9E', target:30000, divM:[],                      divPu:0,     divByM:{}, dist:'待定', exM:[] },
-  { id:'00999A', name:'主動野村臺灣高息', color:'#FFEAA7', target:30000, divM:[],                      divPu:0,     divByM:{}, dist:'待定', exM:[] },
-  { id:'00403A', name:'主動統一升級50',   color:'#96CEB4', target:30000, divM:[],                      divPu:0,     divByM:{}, dist:'待定', exM:[] },
-  { id:'00981B', name:'第一金優選非投債', color:'#45B7D1', target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.063, divByM:{1:0.063,2:0.063,3:0.063,4:0.063,5:0.063,6:0.063,7:0.063,8:0.063,9:0.063,10:0.063,11:0.063,12:0.063}, dist:'月配', exM:[] },
-  { id:'00981D', name:'主動中信非投等債', color:'#DDA0DD', target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, divByM:{1:0.070,2:0.070,3:0.070,4:0.070,5:0.070,6:0.070,7:0.070,8:0.070,9:0.070,10:0.070,11:0.070,12:0.070}, dist:'月配', exM:[] },
-];
+  { id:'00878',  name:'國泰永續高股息',   color:'#0E9F8E', target:60000, divM:[3,6,9,12],              divPu:0.66,  divByM:{3:0.66,6:0.66,9:0.66,12:0.66},              dist:'季配', exM:[2,5,8,11] },
+  { id:'00918',  name:'大華優利高填息30',  color:'#4ECDC4', target:60000, divM:[4,7,10,1],              divPu:0.62,  divByM:{4:0.62,7:0.62,10:0.62,1:0.62},              dist:'季配', exM:[3,6,9,12] },
+  { id:'00400A', name:'主動國泰動能高息',  color:'#FF9E9E', target:30000, divM:[], divPu:0, divByM:{}, dist:'待定', exM:[] },
+  { id:'00403A', name:'主動統一升級50',    color:'#96CEB4', target:30000, divM:[], divPu:0, divByM:{}, dist:'待定', exM:[] },
+  { id:'00406A', name:'主動中信台灣收益',  color:'#F4A261', target:30000, divM:[], divPu:0, divByM:{}, dist:'月配（待首配）', exM:[] },
+  { id:'00981B', name:'第一金優選非投債',  color:'#45B7D1', target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.063, divByM:{1:0.063,2:0.063,3:0.063,4:0.063,5:0.063,6:0.063,7:0.063,8:0.063,9:0.063,10:0.063,11:0.063,12:0.063}, dist:'月配', exM:[] },
+  { id:'00981D', name:'主動中信非投等債',  color:'#DDA0DD', target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, divByM:{1:0.070,2:0.070,3:0.070,4:0.070,5:0.070,6:0.070,7:0.070,8:0.070,9:0.070,10:0.070,11:0.070,12:0.070}, dist:'月配', exM:[] },
+]
 
 function planAddRow() {
   // 顯示預設選擇 modal
@@ -3467,9 +3525,9 @@ function planRender() {
     </div>`;
     const dotStyle = `display:inline-block;width:8px;height:8px;border-radius:50%;background:${e.color};margin-right:5px;flex-shrink:0`;
     return `<tr>
-      <td><div class="stock-name-wrap">
+      <td><div class="stock-name-wrap2" onclick="openEtfInfo('${e.id}')" style="cursor:pointer" title="點擊查看ETF詳情">
         <span class="sname"><span style="${dotStyle}"></span>${e.name}</span>
-        <span class="scode">${e.id}</span>
+        <span class="scode">${e.id} ℹ️</span>
       </div></td>
       <td class="mono" style="font-size:11px">${e.dist || '—'}</td>
       <td class="mono">${e.divPu ? e.divPu.toFixed(3) : '—'}</td>
@@ -3833,7 +3891,36 @@ function printPDF() {
 window.updateChengSummary = updateChengSummary;
 window.updateNiuSummary   = updateNiuSummary;
 
-// 監聽 Firebase 觸發的刷新事件
+// 持股表格行點擊 → 詳情彈窗
+(function() {
+  let _scrolled = false;
+
+  document.addEventListener('touchmove', function() {
+    _scrolled = true;
+  }, { passive: true });
+
+  document.addEventListener('touchstart', function() {
+    _scrolled = false;
+  }, { passive: true });
+
+  document.addEventListener('touchend', function(e) {
+    if (_scrolled) return;
+    const tr = e.target.closest('tr[data-code], tr[data-us-code]');
+    if (!tr) return;
+    if (e.target.closest('.op-btn, button, a')) return;
+    openStockDetail(tr);
+  }, { passive: true });
+
+  // 電腦版 click
+  document.addEventListener('click', function(e) {
+    if ('ontouchstart' in window) return;
+    const tr = e.target.closest('tr[data-code], tr[data-us-code]');
+    if (!tr) return;
+    if (e.target.closest('.op-btn, button, a')) return;
+    openStockDetail(tr);
+  });
+})();
+
 window.addEventListener('holdings-ready', function() {
   updateTwPieChart();
   updateFbPieChart();
@@ -3875,6 +3962,100 @@ setTimeout(() => { renderLossCard('cheng'); renderLossCard('niu'); }, 700);
 setTimeout(renderAllCards, 800);
 
 </script>
+
+<!-- ══ ETF 詳情 Modal ══ -->
+<div id="etf-info-modal" onclick="if(event.target===this)closeEtfInfo()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:900;align-items:center;justify-content:center">
+  <div style="background:#fff;border-radius:18px;width:min(460px,94vw);max-height:88vh;overflow-y:auto;box-shadow:0 24px 60px rgba(0,0,0,.3)">
+    <div style="background:#1a1a2e;padding:16px 18px;border-radius:18px 18px 0 0;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span id="etf-info-dot" style="display:inline-block;width:14px;height:14px;border-radius:50%"></span>
+        <div>
+          <div id="etf-info-name" style="font-size:15px;font-weight:800;color:#fff"></div>
+          <div id="etf-info-code" style="font-size:11px;color:#8899aa;font-family:'DM Mono',monospace;margin-top:1px"></div>
+        </div>
+      </div>
+      <button onclick="closeEtfInfo()" style="background:none;border:none;color:#8899aa;font-size:20px;cursor:pointer">✕</button>
+    </div>
+    <div style="padding:16px 18px;display:flex;flex-direction:column;gap:10px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+        <div style="background:#f7f9fc;border-radius:10px;padding:10px 12px">
+          <div style="font-size:10px;color:#888;margin-bottom:3px">發行投信</div>
+          <div id="etf-info-issuer" style="font-size:13px;font-weight:700;color:#1a1a2e"></div>
+        </div>
+        <div style="background:#f7f9fc;border-radius:10px;padding:10px 12px">
+          <div style="font-size:10px;color:#888;margin-bottom:3px">ETF類型</div>
+          <div id="etf-info-type" style="font-size:12px;font-weight:700;color:#1a1a2e"></div>
+        </div>
+        <div style="background:#e8fdf5;border-radius:10px;padding:10px 12px">
+          <div style="font-size:10px;color:#888;margin-bottom:3px">配息方式</div>
+          <div id="etf-info-dist" style="font-size:13px;font-weight:800;color:#0E9F8E"></div>
+        </div>
+        <div style="background:#f7f9fc;border-radius:10px;padding:10px 12px">
+          <div style="font-size:10px;color:#888;margin-bottom:3px">除息月份</div>
+          <div id="etf-info-ex" style="font-size:12px;font-weight:600;color:#1a1a2e"></div>
+        </div>
+      </div>
+      <div style="background:#f7f9fc;border-radius:10px;padding:10px 12px">
+        <div style="font-size:10px;color:#888;margin-bottom:3px">發放時間</div>
+        <div id="etf-info-pay" style="font-size:12px;font-weight:600;color:#1a1a2e"></div>
+      </div>
+      <div style="background:#f0f4ff;border-radius:10px;padding:12px">
+        <div style="font-size:10px;color:#888;margin-bottom:5px;font-weight:700">📋 投資策略</div>
+        <div id="etf-info-strategy" style="font-size:12px;line-height:1.7;color:#333"></div>
+      </div>
+      <div style="background:#fff8e1;border-radius:10px;padding:12px;border-left:3px solid #F4A261">
+        <div style="font-size:10px;color:#888;margin-bottom:5px;font-weight:700">💡 備注</div>
+        <div id="etf-info-note" style="font-size:12px;line-height:1.7;color:#555"></div>
+      </div>
+      <a id="etf-info-link" href="#" target="_blank" style="display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;background:#1a1a2e;color:#fff;border-radius:10px;text-decoration:none;font-size:13px;font-weight:700">
+        🔗 前往官方網站
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 持股詳情 Modal ══ -->
+<div id="stock-detail-modal" onclick="if(event.target===this)closeStockDetail()" style="display:none;position:fixed;left:0;right:0;bottom:0;top:0;background:rgba(0,0,0,.45);z-index:9999;align-items:flex-end;justify-content:center">
+  <div style="background:#fff;border-radius:18px 18px 0 0;width:100%;max-width:480px;box-shadow:0 -8px 40px rgba(0,0,0,.18);padding-bottom:env(safe-area-inset-bottom)">
+    <div style="background:#1a1a2e;padding:14px 18px;border-radius:18px 18px 0 0;display:flex;align-items:center;justify-content:space-between">
+      <div>
+        <div id="sd-code" style="font-size:11px;color:#8899aa;font-family:'DM Mono',monospace"></div>
+        <div id="sd-name" style="font-size:16px;font-weight:800;color:#fff;margin-top:2px"></div>
+      </div>
+      <button onclick="closeStockDetail()" style="background:none;border:none;color:#8899aa;font-size:22px;cursor:pointer;line-height:1">✕</button>
+    </div>
+    <div style="padding:16px 18px;display:grid;grid-template-columns:1fr 1fr;gap:12px">
+      <div style="background:#f7f9fc;border-radius:12px;padding:12px 14px">
+        <div style="font-size:10px;color:#888;margin-bottom:4px">買入均價</div>
+        <div id="sd-avg" style="font-size:20px;font-weight:800;color:#1a1a2e;font-family:'DM Mono',monospace"></div>
+      </div>
+      <div style="background:#f7f9fc;border-radius:12px;padding:12px 14px">
+        <div style="font-size:10px;color:#888;margin-bottom:4px">持有股數</div>
+        <div id="sd-shares" style="font-size:20px;font-weight:800;color:#1a1a2e;font-family:'DM Mono',monospace"></div>
+      </div>
+      <div style="background:#f0fff8;border-radius:12px;padding:12px 14px">
+        <div style="font-size:10px;color:#888;margin-bottom:4px">付出成本</div>
+        <div id="sd-cost" style="font-size:18px;font-weight:800;color:#0E9F8E;font-family:'DM Mono',monospace"></div>
+      </div>
+      <div style="background:#f0fff8;border-radius:12px;padding:12px 14px">
+        <div style="font-size:10px;color:#888;margin-bottom:4px">股票市值</div>
+        <div id="sd-mkt" style="font-size:18px;font-weight:800;color:#0E9F8E;font-family:'DM Mono',monospace"></div>
+      </div>
+      <div id="sd-pnl-box" style="background:#f7f9fc;border-radius:12px;padding:12px 14px">
+        <div style="font-size:10px;color:#888;margin-bottom:4px">損益</div>
+        <div id="sd-pnl" style="font-size:20px;font-weight:800;font-family:'DM Mono',monospace"></div>
+      </div>
+      <div style="background:#f7f9fc;border-radius:12px;padding:12px 14px">
+        <div style="font-size:10px;color:#888;margin-bottom:4px">報酬率</div>
+        <div id="sd-rate" style="font-size:20px;font-weight:800;font-family:'DM Mono',monospace"></div>
+      </div>
+    </div>
+    <div style="padding:0 18px 16px;display:flex;gap:10px">
+      <button onclick="openEdit(window._sdTr);closeStockDetail()" style="flex:1;padding:12px;background:#f0f4ff;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;color:#4A9FBE">✏️ 編輯</button>
+      <button onclick="closeStockDetail()" style="flex:1;padding:12px;background:#1a1a2e;border:none;border-radius:10px;font-size:14px;font-weight:700;cursor:pointer;color:#fff">關閉</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ 配息公式 Modal ══ -->
 <div id="cal-formula-modal" onclick="if(event.target===this)closeCalFormula()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:800;align-items:center;justify-content:center">
@@ -3941,12 +4122,16 @@ function applyHoldings(data) {
   if (!data) return;
   // 還原存股計畫
   if (data.planEtfs && Array.isArray(data.planEtfs) && data.planEtfs.length > 0) {
-    planEtfs = data.planEtfs.map(e => ({
-      id:e.id, name:e.name, color:e.color||'#CCCCCC',
-      held:0,
-      target:e.target||0, divM:e.divM||[], divPu:e.divPu||0,
-      divByM:e.divByM||{}, dist:e.dist||'待定', exM:e.exM||[]
-    }));
+    // 去重（以最後出現的為準）+ 將 00999A 自動轉換為 00406A
+    const seenIds = {};
+    data.planEtfs.forEach(e => {
+      const id = e.id === '00999A' ? '00406A' : e.id;
+      const name = e.id === '00999A' ? '主動中信台灣收益' : e.name;
+      seenIds[id] = { id, name, color:e.color||'#CCCCCC',
+        held:0, target:e.target||0, divM:e.divM||[], divPu:e.divPu||0,
+        divByM:e.divByM||{}, dist:e.dist||'待定', exM:e.exM||[] };
+    });
+    planEtfs = Object.values(seenIds);
     // 還原後重新渲染計畫頁
     if (typeof planRender === 'function') setTimeout(planRender, 300);
   }
@@ -3959,17 +4144,14 @@ function applyHoldings(data) {
         const usCode = code.replace(/^US_/,'');
         const tr = panelEl.querySelector(`tr[data-us-code="${usCode}"]`);
         if(!tr) return;
-        if(d.shares!==undefined){tr.dataset.usShares=d.shares;const sc=tr.querySelector('.mono:nth-child(4)');if(sc)sc.textContent=d.shares;}
-        if(d.avg!==undefined){tr.dataset.usAvg=d.avg;const tds=tr.querySelectorAll('td');if(tds[2])tds[2].textContent=d.avg||'—';}
-        if(d.price!==undefined){tr.dataset.usPrice=d.price;const tds=tr.querySelectorAll('td');if(tds[1])tds[1].textContent=d.price||'—';}
-        if(d.pnl!==undefined){tr.dataset.usPnl=d.pnl;const tds=tr.querySelectorAll('td');if(tds[4]){const isPos=String(d.pnl).indexOf('-')===-1;tds[4].className=isPos?'pnl-up':'pnl-down';tds[4].textContent=d.pnl;}}
-        if(d.rate!==undefined){tr.dataset.usRate=d.rate;const tds=tr.querySelectorAll('td');if(tds[5]){const sp=tds[5].querySelector('span');if(sp){const isPos=String(d.pnl||'').indexOf('-')===-1;sp.className='rate-pill '+(isPos?'up':'down');sp.textContent=d.rate;}}}
-        return;
+        // 美股：只更新股數（均價以 HTML 為準）
+        if(d.shares!==undefined){ tr.dataset.usShares=d.shares; }
+        return;return;
       }
       const tr = panelEl.querySelector(`tr[data-code="${code}"]`);
       if(!tr) return;
-      if(d.shares!==undefined){tr.dataset.shares=d.shares;const sc=tr.querySelector('td:nth-child(4)');if(sc)sc.textContent=parseFloat(d.shares).toLocaleString('zh-TW');}
-      if(d.avg!==undefined){tr.dataset.avg=d.avg;const ac=tr.querySelector('td:nth-child(3)');if(ac)ac.textContent=d.avg;}
+      // 台股：只更新股數（均價以 HTML 為準，不從 Firebase 覆蓋）
+      if(d.shares!==undefined){ tr.dataset.shares=d.shares; }
     });
   });
 }
@@ -4041,6 +4223,23 @@ window.fbLoadHoldings = async function() {
     const snap = await get(ref(db,'holdings/portfolios'));
     if(snap.exists()) {
       applyHoldings(snap.val());
+      // 股數更新到 DOM（均價不動，保留 HTML 原始值）
+      document.querySelectorAll('tr[data-code]').forEach(tr => {
+        const avg = parseFloat(tr.dataset.avg);
+        const shares = parseFloat(tr.dataset.shares);
+        const tds = tr.querySelectorAll('td');
+        if(shares && tds[3]) tds[3].textContent = shares.toLocaleString('zh-TW');
+        if(avg && shares) {
+          const cost = Math.round(avg * shares);
+          if(tds[6]) tds[6].textContent = cost.toLocaleString('zh-TW');
+          if(tds[7]) tds[7].textContent = cost.toLocaleString('zh-TW');
+        }
+      });
+      document.querySelectorAll('tr[data-us-code]').forEach(tr => {
+        const shares = parseFloat(tr.dataset.usShares);
+        const tds = tr.querySelectorAll('td');
+        if(shares && tds[3]) tds[3].textContent = shares;
+      });
       if(typeof fetchPrices==='function') fetchPrices();
       if(typeof showToast==='function') showToast('☁️ 已從雲端載入');
     } else {
@@ -4055,6 +4254,88 @@ rmLoading();
 setTimeout(() => window.dispatchEvent(new Event('holdings-ready')), 200);
 setTimeout(() => window.dispatchEvent(new Event('holdings-ready')), 1000);
 if(typeof fetchPrices==='function') fetchPrices();
+
+/* ══ ETF 詳情資料庫 ══ */
+const ETF_INFO = {
+  '00878': { fullName:'國泰永續高股息ETF', issuer:'國泰投信', type:'被動型・高股息', dist:'季配', exMonths:'2、5、8、11月', payMonths:'3、6、9、12月', strategy:'追蹤MSCI Taiwan ESG永續高股息精選指數，篩選符合ESG標準且高股息的台灣股票。', note:'適合長期存股，配息穩定，以永續概念股為主。', link:'https://www.cathaysite.com.tw/fund/tw/ETF/00878', color:'#0E9F8E' },
+  '00918': { fullName:'大華優利高填息30 ETF', issuer:'大華投信', type:'被動型・高填息', dist:'季配', exMonths:'3、6、9、12月', payMonths:'4、7、10月及隔年1月', strategy:'追蹤特選臺灣優利高填息30指數，選取填息能力強的高股息股票30檔。', note:'強調填息率，優先選擇歷史填息成功率高的個股。', link:'https://www.dahuafund.com.tw/', color:'#4ECDC4' },
+  '00981D': { fullName:'主動中信非投等債ETF', issuer:'中國信託投信', type:'主動型・債券', dist:'月配', exMonths:'每月除息', payMonths:'每月發放', strategy:'主動管理非投資等級（高收益）債券ETF，由專業經理人動態調整持債組合。', note:'非投資等級債風險較高，配息率相對較高，適合接受較高風險的固定收益需求者。', link:'https://www.ctbcinvestments.com/', color:'#DDA0DD' },
+  '00981B': { fullName:'第一金優選非投債ETF', issuer:'第一金投信', type:'主動型・債券', dist:'月配', exMonths:'每月除息', payMonths:'每月發放', strategy:'主動篩選非投資等級債券，由經理人依市場情況動態調整，目標提供穩定月配現金流。', note:'月配債券ETF，適合追求固定收益者，需注意利率與信用風險。', link:'https://www.firsttrust.com.tw/', color:'#45B7D1' },
+  '00400A': { fullName:'主動國泰動能高息ETF', issuer:'國泰投信', type:'主動型・高股息', dist:'月配（配息待公告）', exMonths:'每月（待公告）', payMonths:'每月（待公告）', strategy:'主動式高股息ETF，結合動能因子與高股息策略，由國泰投信經理人主動選股，目標每月配息。', note:'新型主動月配ETF，尚無足夠歷史配息記錄，配息金額由經理人每月評估決定。', link:'https://www.cathaysite.com.tw/', color:'#FF9E9E' },
+  '00403A': { fullName:'主動統一升級50 ETF', issuer:'統一投信', type:'主動型・成長', dist:'配息待公告', exMonths:'待公告', payMonths:'待公告', strategy:'在台股前200大權值股中主動選取具市值翻倍潛力的精英企業，追求超越大盤的超額報酬。', note:'成長導向主動ETF，強調資本利得，配息為輔。', link:'https://www.utf.com.tw/', color:'#96CEB4' },
+  '00406A': { fullName:'主動中信台灣收益成長ETF', issuer:'中國信託投信', type:'主動型・月配・掩護性買權', dist:'月配（首配預計2026年8月）', exMonths:'每月初（預計8月起）', payMonths:'每月15日收益評價，後續營業日發放', strategy:'三重收益：①主動選股股利②資本利得③掩護性買權（Covered Call）權利金。持有台股同時賣出買權，以權利金增加配息來源，在橫盤震盪市況特別有利。', note:'⚠️ 台灣首檔納入掩護性買權策略的主動型ETF。2026年5/26~28募集，首配預計2026年8月。上漲行情中因賣出買權會犧牲部分漲幅，但可獲權利金補償。', link:'https://www.ctbcinvestments.com/act/202605_00406A/index.html', color:'#F4A261' },
+};
+
+function openEtfInfo(code) {
+  const info = ETF_INFO[code];
+  if (!info) return;
+  const modal = document.getElementById('etf-info-modal');
+  document.getElementById('etf-info-name').textContent     = info.fullName;
+  document.getElementById('etf-info-code').textContent     = code;
+  document.getElementById('etf-info-issuer').textContent   = info.issuer;
+  document.getElementById('etf-info-type').textContent     = info.type;
+  document.getElementById('etf-info-dist').textContent     = info.dist;
+  document.getElementById('etf-info-ex').textContent       = info.exMonths;
+  document.getElementById('etf-info-pay').textContent      = info.payMonths;
+  document.getElementById('etf-info-strategy').textContent = info.strategy;
+  document.getElementById('etf-info-note').textContent     = info.note;
+  document.getElementById('etf-info-link').href            = info.link;
+  document.getElementById('etf-info-dot').style.background = info.color;
+  modal.style.display = 'flex';
+}
+/* ══ 持股詳情 Modal（手機版點擊） ══ */
+function openStockDetail(tr) {
+  console.log('openStockDetail called', tr?.dataset?.code);
+  if (!tr) return;
+  window._sdTr = tr;
+
+  const isUs = !!tr.dataset.usCode;
+
+  const nameEl = tr.querySelector('.sname');
+  const clone  = nameEl ? nameEl.cloneNode(true) : null;
+  if (clone) clone.querySelectorAll('.etf-tag').forEach(t => t.remove());
+  const name   = clone ? clone.textContent.trim() : '';
+  const code   = isUs ? tr.dataset.usCode : tr.dataset.code;
+
+  const avg    = isUs ? tr.dataset.usAvg    : tr.dataset.avg;
+  const shares = isUs ? tr.dataset.usShares : tr.dataset.shares;
+
+  const costEl = tr.querySelector('.cost-cell');
+  const mktEl  = tr.querySelector('.mkt-cell');
+  const pnlEl  = tr.querySelector('.live-pnl, .pnl-up, .pnl-down');
+  const rateEl = tr.querySelector('.live-rate span, .rate-pill');
+
+  const cost   = costEl ? costEl.textContent.trim() : '—';
+  const mkt    = mktEl  ? mktEl.textContent.trim()  : '—';
+  const pnl    = pnlEl  ? pnlEl.textContent.trim()  : '—';
+  const rate   = rateEl ? rateEl.textContent.trim()  : '—';
+
+  document.getElementById('sd-code').textContent   = code;
+  document.getElementById('sd-name').textContent   = name;
+  document.getElementById('sd-avg').textContent    = avg ? Number(avg).toLocaleString() : '—';
+  document.getElementById('sd-shares').textContent = shares ? Number(shares).toLocaleString() : '—';
+  document.getElementById('sd-cost').textContent   = cost;
+  document.getElementById('sd-mkt').textContent    = mkt;
+  document.getElementById('sd-pnl').textContent    = pnl;
+  document.getElementById('sd-rate').textContent   = rate;
+
+  const pnlBox = document.getElementById('sd-pnl-box');
+  const isPos  = pnl.startsWith('+');
+  const isNeg  = pnl.startsWith('-');
+  document.getElementById('sd-pnl').style.color = isPos ? '#0E9F8E' : isNeg ? '#E74C3C' : '#555';
+  document.getElementById('sd-rate').style.color = isPos ? '#0E9F8E' : isNeg ? '#E74C3C' : '#555';
+
+  const sdModal = document.getElementById('stock-detail-modal');
+  sdModal.style.cssText = 'display:flex;position:fixed;left:0;right:0;bottom:0;top:0;background:rgba(0,0,0,.45);z-index:9999;align-items:flex-end;justify-content:center';
+}
+function closeStockDetail() {
+  document.getElementById('stock-detail-modal').style.display = 'none';
+}
+
+function closeEtfInfo() {
+  document.getElementById('etf-info-modal').style.display = 'none';
+}
+
 </script>
 
 </body>
