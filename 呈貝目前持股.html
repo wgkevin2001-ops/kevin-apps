@@ -741,6 +741,246 @@ tbody td:last-child  { padding-right: 14px; }
   .cal-hrow1 { flex:1; margin-bottom:0; }
   .cal-htitles .cal-main { font-size:22px; }
   .cal-hdate strong { font-size:17px; }
+
+  /* ══ 桌機深色主題（參照手機版風格）══ */
+  body { background: #0D1117; color: #E8EDF4; }
+
+  /* Header & Nav */
+  .cal-header { background: #161B22; border-bottom-color: #21262D; }
+  .cal-main { color: #E8EDF4 !important; }
+  .cal-sub { color: #8B949E; }
+  #cal-hdr-today { color: #58A6FF; }
+  #cal-hdr-wd { color: #8B949E; }
+
+  .cal-nav-tabs { background: #161B22 !important; border-right-color: #21262D !important; }
+  .cal-nav-tab { color: #8B949E !important; }
+  .cal-nav-tab.active { color: #58A6FF !important; background: rgba(31,111,235,.15) !important; border-left-color: #1F6FEB !important; }
+  .cal-nav-tab:hover:not(.active) { color: #C9D1D9 !important; background: #21262D !important; }
+  .cal-nav-tabs::before { color: #58A6FF !important; border-bottom-color: rgba(88,166,255,.15) !important; }
+
+  /* Summary cards */
+  .summary-row { gap: 10px; }
+  .sum-card { background: #161B22; border-color: #21262D; box-shadow: none; }
+  .sum-card.highlight { background: #1C2128; border-color: #388BFD; }
+  .sum-label { color: #8B949E; }
+  .sum-value { color: #E8EDF4; }
+  .sum-card.highlight .sum-label { color: #8B949E; }
+  .sum-card.highlight .sum-value { color: #E8EDF4; }
+  .sum-card.highlight .sum-rate { background: rgba(31,111,235,.2); color: #79C0FF; }
+  .sum-rate.up { color: #F85149; background: rgba(248,81,73,.12); }
+  .sum-rate.down { color: #3FB950; background: rgba(63,185,80,.12); }
+
+  /* Section cards */
+  .section-card { background: #161B22; border-color: #21262D; box-shadow: none; }
+  .section-hdr { background: #1C2128; border-bottom-color: #21262D; }
+  .section-title { color: #C9D1D9; }
+  .section-badge { background: #21262D; color: #8B949E; border-color: #30363D; }
+
+  /* Sort bar */
+  .sort-bar { background: #161B22; border-bottom-color: #21262D; }
+  .sort-lbl { color: #8B949E; }
+  .sort-chip { background: #21262D; color: #8B949E; border-color: #30363D; }
+  .sort-chip.active { background: #1F6FEB; color: #fff; border-color: #1F6FEB; }
+  .sort-dir { background: #21262D; color: #8B949E; border-color: #30363D; }
+  .sort-dir:hover { background: #30363D; }
+
+  /* App rows - stock list */
+  .app-row-hdr { background: #1C2128; border-color: #21262D; color: #8B949E; }
+  .app-row-list { background: #0D1117; }
+  .app-row { background: #0D1117; border-bottom-color: #161B22; }
+  .app-row:hover { background: #161B22; }
+  .app-fullname { color: #E8EDF4; }
+  .app-code { color: #8B949E; }
+  .app-price-val { color: #C9D1D9; }
+  .app-avg-val { color: #8B949E; }
+  .app-shares { color: #6E7681; }
+  .app-up { color: #F85149; }
+  .app-dn { color: #3FB950; }
+  .app-etf { background: rgba(31,111,235,.2); color: #79C0FF; }
+  .app-note { background: rgba(210,153,34,.15); color: #E3B341; }
+  .app-chg { color: #8B949E; }
+
+  /* Tables */
+  thead th { background: #1C2128; color: #8B949E; border-bottom-color: #21262D; }
+  tbody tr { border-top-color: #21262D; }
+  tbody tr:hover { background: #161B22; }
+  tbody td { color: #C9D1D9; }
+  .sname { color: #E8EDF4; }
+  .scode { color: #8B949E; }
+  .mono { color: #C9D1D9; }
+  .pnl-up { color: #F85149; }
+  .pnl-down { color: #3FB950; }
+  .rate-pill.up { background: rgba(248,81,73,.12); color: #F85149; }
+  .rate-pill.down { background: rgba(63,185,80,.12); color: #3FB950; }
+  .live-price-cell { color: #C9D1D9; }
+  .etf-tag { background: rgba(31,111,235,.2); color: #79C0FF; }
+  .note-badge { background: rgba(210,153,34,.15); color: #E3B341; border-color: rgba(210,153,34,.3); }
+
+  /* Stock cards */
+  .stock-card:hover { background: #161B22; }
+  .sc-name { color: #E8EDF4; }
+  .sc-name:hover { color: #58A6FF; }
+  .sc-code { color: #8B949E; }
+  .sc-rate.up { color: #F85149; }
+  .sc-rate.down { color: #3FB950; }
+  .sc-meta-label { color: #8B949E; }
+  .sc-meta-val { color: #C9D1D9; }
+  .sc-pnl.up { color: #F85149; }
+  .sc-pnl.down { color: #3FB950; }
+  .sc-meta-break { background: #21262D; }
+  .stock-card::after { background: linear-gradient(90deg, #1F6FEB 0%, #0E9F8E 60%, transparent 100%); }
+
+  /* Pie chart area */
+  .chart-toggle-row { background: transparent; }
+  .chart-tab { background: #21262D; border-color: #30363D; color: #8B949E; }
+  .chart-tab.active { background: #1F6FEB; border-color: #1F6FEB; color: #fff; }
+  .chart-tab:hover:not(.active) { background: #30363D; }
+  .chart-row { background: transparent; }
+  .legend-item { border-bottom-color: #21262D; }
+  .legend-name { color: #C9D1D9; }
+  .legend-pct { color: #8B949E; }
+  .legend-rate.up { color: #F85149; }
+  .legend-rate.down { color: #3FB950; }
+  .rank-item { border-bottom-color: #21262D; }
+  .rank-name { color: #C9D1D9; }
+  .rank-rate { color: #8B949E; }
+
+  /* Loss card */
+  .loss-card { background: #1C0A0A; border-color: #3D1A1A; }
+  .loss-name { color: #E8EDF4; }
+  .loss-code { color: #8B949E; }
+  .loss-row { border-bottom-color: #21262D; }
+  .loss-hdr { border-bottom-color: #3D1A1A; }
+  .loss-empty { color: #6E7681; }
+  .loss-pnl { color: #F85149; }
+  .loss-pill { background: rgba(248,81,73,.12); color: #F85149; }
+
+  /* Page background */
+  .page { background: #0D1117; }
+
+  /* Edit buttons */
+  .op-btn { background: #21262D; color: #8B949E; border-color: #30363D; }
+  .op-btn:hover { background: #30363D; color: #C9D1D9; }
+  .op-btn.del { color: #F85149; border-color: #3D1A1A; }
+  .op-btn.del:hover { background: #2D1B1B; }
+  .add-btn { background: #1F6FEB; color: #fff; border-color: #1F6FEB; }
+  .add-btn:hover { opacity: .85; }
+
+  /* Modals */
+  .modal-bg { background: rgba(0,0,0,.8); }
+  .modal-box { background: #161B22; border-color: #21262D; color: #E8EDF4; }
+  .modal-title { color: #C9D1D9; }
+
+  /* FAB & export panel */
+  #export-panel { background: #161B22; border-color: #21262D; }
+  .ep-title { color: #58A6FF; }
+  .ep-subtitle { color: #8B949E; }
+  .ep-divider { background: #21262D; }
+  .epbtn { background: #21262D; border-color: #30363D; color: #8B949E; }
+  .epbtn:hover { background: #1F6FEB; border-color: #1F6FEB; color: #fff; }
+  .epbtn.full { border-color: #1F6FEB; color: #79C0FF; }
+  .epbtn.cloud { border-color: #1F6FEB; color: #58A6FF; }
+
+  /* Toast */
+  #toast { background: #1C2128; color: #E8EDF4; border-color: #21262D; }
+
+  /* page-toolbar */
+  .ptb-btn { background: #21262D; border-color: #30363D; color: #8B949E; }
+  .ptb-btn:hover { background: #1F6FEB; border-color: #1F6FEB; color: #fff; }
+
+  /* Plan page */
+  #page-plan { background: #0D1117; }
+  #page-plan .plan-sum-row .sum-card { background: #161B22; border-color: #21262D; }
+  #page-plan .sum-label { color: #8B949E; }
+  #page-plan .sum-value { color: #E8EDF4; }
+  #page-plan .plan-toggle { background: #161B22; border-color: #21262D; }
+  #page-plan .plan-toggle-btn { color: #8B949E; }
+  #page-plan .plan-toggle-btn.active { background: #1C2128; color: #58A6FF; box-shadow: none; border-color: #388BFD; }
+  #page-plan .plan-edit-btn { background: #21262D; color: #8B949E; border-color: #30363D; }
+  #page-plan .plan-edit-btn:hover { background: #1F6FEB; color: #fff; border-color: #1F6FEB; }
+  #page-plan .plan-etf-row { background: #161B22; border-color: #21262D; }
+  #page-plan .plan-etf-row .row-hdr { color: #E8EDF4; }
+  #page-plan .plan-field-grid label { color: #8B949E; }
+  #page-plan .plan-field-grid input,
+  #page-plan .plan-field-grid select { background: #0D1117; border-color: #30363D; color: #E8EDF4; }
+  #page-plan .plan-progress-card { background: #161B22; border-color: #21262D; box-shadow: none; }
+  #page-plan .plan-progress-name { color: #E8EDF4; }
+  #page-plan .plan-progress-pct { color: #58A6FF; }
+  #page-plan .plan-bar-bg { background: #21262D; }
+  #page-plan .plan-stat-label { color: #8B949E; }
+  #page-plan .plan-stat-val { color: #C9D1D9; }
+  #page-plan .plan-stat-val.need { color: #F85149; }
+  #page-plan .plan-stat-val.done { color: #3FB950; }
+  #page-plan .plan-progress-total { background: linear-gradient(135deg, #1F6FEB, #0E9F8E); }
+  #page-plan .section-card { background: #161B22; border-color: #21262D; box-shadow: none; }
+  #page-plan .section-hdr { background: #1C2128; border-bottom-color: #21262D; }
+  #page-plan .section-title { color: #C9D1D9; }
+  #page-plan .section-badge { background: #21262D; color: #8B949E; border-color: #30363D; }
+  #page-plan .add-btn { background: #1F6FEB; border-color: #1F6FEB; color: #fff; }
+
+  /* Plan month cards */
+  .month-grid { background: #0D1117; }
+  .month-card { background: #161B22; border-color: #21262D; box-shadow: none; }
+  .month-card.top { border-color: #1F6FEB; border-width: 2px; }
+  .month-hdr { background: #161B22; }
+  .month-num { color: #30363D; }
+  .month-card.top .month-num { color: #58A6FF; }
+  .month-name { color: #E8EDF4; }
+  .month-sub { color: #8B949E; }
+  .month-total { color: #58A6FF; }
+  .month-total.zero { color: #6E7681; }
+  .month-badge { background: rgba(31,111,235,.2); color: #79C0FF; }
+  .month-rows { border-top-color: #21262D; }
+  .month-row { border-bottom-color: #21262D; }
+  .etf-id { color: #8B949E; }
+  .etf-nm { color: #C9D1D9; }
+  .etf-formula { background: #1C2128; border-color: #30363D; color: #8B949E; }
+  .etf-formula .op { color: #6E7681; }
+  .etf-formula .result { color: #58A6FF; }
+  .etf-exlabel { color: #6E7681; }
+  .etf-amt { color: #58A6FF; }
+  .no-income { color: #6E7681; border-top-color: #21262D; }
+  .month-bar { background: #21262D; }
+  .month-bar-fill { background: #1F6FEB; opacity: .5; }
+  .month-card.top .month-bar-fill { opacity: 1; }
+
+  /* 妞的持股 dark */
+  #page-niu { background: #0D1117; }
+  #page-niu .section-card { background: #161B22; border-color: #21262D; box-shadow: none; }
+  #page-niu .section-hdr { background: #1C2128; border-bottom-color: #21262D; }
+  #page-niu .section-title { color: #C9D1D9; }
+  #page-niu .section-badge { background: #21262D; color: #8B949E; border-color: #30363D; }
+  #page-niu .sum-card { background: #161B22; border-color: #21262D; }
+  #page-niu .sum-card.highlight { background: #1C2128; border-color: #388BFD; }
+  #page-niu .sum-label { color: #8B949E; }
+  #page-niu .sum-value { color: #E8EDF4; }
+  #page-niu .sort-bar { background: #1A1E24; border-bottom-color: #21262D; }
+  #page-niu .sort-chip { background: #21262D; color: #8B949E; border-color: #30363D; }
+  #page-niu .sort-chip.active { background: #1F6FEB; color: #fff; border-color: #1F6FEB; }
+  #page-niu .app-row-list { background: #0D1117; }
+  #page-niu .app-row { background: #0D1117; border-bottom-color: #161B22; }
+  #page-niu .app-row:hover { background: #161B22; }
+  #page-niu .app-row-hdr { background: #1C2128; border-color: #21262D; color: #8B949E; }
+  .fund-card { background: #161B22 !important; border-color: #21262D !important; box-shadow: none !important; }
+  .fund-name { color: #E8EDF4 !important; }
+  .fund-code { color: #8B949E !important; }
+  .fund-stat-label { color: #8B949E !important; }
+  .fund-stat-val { color: #C9D1D9 !important; }
+  .fund-stat-val.up { color: #F85149 !important; }
+  .fund-stat-val.down { color: #3FB950 !important; }
+  .fund-footer { color: #6E7681 !important; }
+
+  /* Page footer */
+  .page-footer { color: #6E7681; }
+
+  /* 呈的持股 dark overrides for desktop */
+  #page-cheng .section-card { background: #1A1E24; border-color: #2A3040; }
+  #page-cheng .section-hdr { background: #20252C; border-bottom-color: #2A3040; }
+  #page-cheng .sort-bar { background: #1A1E24; border-bottom-color: #2A3040; }
+  #page-cheng .sort-chip { background: #20252C; color: #8A95A8; border-color: #2A3040; }
+  #page-cheng .sort-chip.active { background: #1F6FEB; color: #fff; border-color: #1F6FEB; }
+  #page-cheng .loss-card { background: #1E1A1A; border-color: #3D2020; }
+  #page-cheng .loss-hdr { border-bottom-color: #3D2020; }
 }
 
 /* ══════════════════════════════════════════
@@ -752,6 +992,32 @@ tbody td:last-child  { padding-right: 14px; }
   .section-hdr { padding:12px 16px 10px; }
   table { font-size:13.5px; }
   .month-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:10px; }
+
+  /* 平板深色主題 */
+  body { background: #0D1117; color: #E8EDF4; }
+  .cal-header { background: #161B22; border-bottom-color: #21262D; }
+  .cal-nav-tabs { background: #161B22; border-bottom-color: #21262D; }
+  .cal-nav-tab { color: #8B949E; }
+  .cal-nav-tab.active { color: #58A6FF; border-bottom-color: #58A6FF; }
+  .sum-card { background: #161B22; border-color: #21262D; box-shadow: none; }
+  .sum-card.highlight { background: #1C2128; border-color: #388BFD; }
+  .sum-label { color: #8B949E; }
+  .sum-value { color: #E8EDF4; }
+  .section-card { background: #161B22; border-color: #21262D; box-shadow: none; }
+  .section-hdr { background: #1C2128; border-bottom-color: #21262D; }
+  .section-title { color: #C9D1D9; }
+  .section-badge { background: #21262D; color: #8B949E; }
+  .sort-bar { background: #161B22; border-bottom-color: #21262D; }
+  .sort-chip { background: #21262D; color: #8B949E; border-color: #30363D; }
+  .sort-chip.active { background: #1F6FEB; color: #fff; border-color: #1F6FEB; }
+  .page { background: #0D1117; }
+  .month-card { background: #161B22; border-color: #21262D; }
+  .month-name { color: #E8EDF4; }
+  .month-total { color: #58A6FF; }
+  thead th { background: #1C2128; color: #8B949E; }
+  tbody tr:hover { background: #161B22; }
+  .pnl-up { color: #F85149; }
+  .pnl-down { color: #3FB950; }
 }
 
 /* ══════════════════════════════════════════
@@ -1005,39 +1271,39 @@ tbody td:last-child  { padding-right: 14px; }
 
 /* ══ 行事曆風格 Top Bar ══ */
 .cal-header {
-  background: #fff;
-  border-bottom: 1px solid rgba(14,159,142,.15);
+  background: #161B22;
+  border-bottom: 1px solid #21262D;
   position: sticky; top: 0; z-index: 100;
-  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
   padding: 14px 16px 12px;
 }
 .cal-hrow1 { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
-.cal-htitles .cal-sub { font-size:10.5px; color:#8592A3; letter-spacing:.06em; text-transform:uppercase; font-weight:500; font-family:'Noto Sans TC',sans-serif; }
-.cal-htitles .cal-main { font-size:18px; font-weight:900; color:#0E9F8E; letter-spacing:-.3px; margin-top:3px; font-family:'Plus Jakarta Sans',sans-serif; }
-.cal-hdate { text-align:right; font-size:11px; color:#8592A3; }
-.cal-hdate strong { display:block; font-size:15px; font-weight:800; color:#111827; margin-top:1px; font-family:'DM Mono',monospace; }
+.cal-htitles .cal-sub { font-size:10.5px; color:#8B949E; letter-spacing:.06em; text-transform:uppercase; font-weight:500; font-family:'Noto Sans TC',sans-serif; }
+.cal-htitles .cal-main { font-size:18px; font-weight:900; color:#58A6FF; letter-spacing:-.3px; margin-top:3px; font-family:'Plus Jakarta Sans',sans-serif; }
+.cal-hdate { text-align:right; font-size:11px; color:#8B949E; }
+.cal-hdate strong { display:block; font-size:15px; font-weight:800; color:#58A6FF; margin-top:1px; font-family:'DM Mono',monospace; }
 
 /* Nav tabs 行事曆風格 */
 .cal-nav-tabs {
   display: flex; gap: 3px;
-  background: #fff;
-  border-bottom: 1px solid rgba(14,159,142,.15);
+  background: #161B22;
+  border-bottom: 1px solid #21262D;
   padding: 0 12px;
   overflow-x: auto; -webkit-overflow-scrolling: touch;
   position: sticky; top: 0; z-index: 90;
-  box-shadow: 0 1px 3px rgba(0,0,0,.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,.2);
 }
 .cal-nav-tabs::-webkit-scrollbar { display:none; }
 .cal-nav-tab {
   flex: 0 0 auto; padding: 12px 16px;
   border: none; border-bottom: 2px solid transparent; margin-bottom: -1px;
-  background: transparent; color: #8592A3;
+  background: transparent; color: #8B949E;
   font-family: 'Noto Sans TC', sans-serif;
   font-size: 13px; font-weight: 600;
   cursor: pointer; white-space: nowrap; transition: all .18s;
 }
-.cal-nav-tab.active { color: #0E9F8E; border-bottom-color: #0E9F8E; font-weight: 700; }
-.cal-nav-tab:hover:not(.active) { color: #4B5563; background: rgba(14,159,142,.07); border-radius: 8px 8px 0 0; }
+.cal-nav-tab.active { color: #58A6FF; border-bottom-color: #58A6FF; font-weight: 700; }
+.cal-nav-tab:hover:not(.active) { color: #C9D1D9; background: #21262D; border-radius: 8px 8px 0 0; }
 
 /* ══ 桌機：Sidebar（完全比照行事曆）══ */
 @media(min-width:900px) {
@@ -1045,23 +1311,25 @@ tbody td:last-child  { padding-right: 14px; }
   .cal-header {
     padding: 16px 32px 14px 212px;
     display: flex; align-items: center; gap: 24px;
+    background: #161B22;
+    border-bottom-color: #21262D;
   }
   .cal-hrow1 { flex:1; margin-bottom:0; }
-  .cal-htitles .cal-main { font-size:22px; }
+  .cal-htitles .cal-main { font-size:22px; color: #58A6FF; }
   .cal-hdate { white-space:nowrap; }
-  .cal-hdate strong { font-size:17px; }
+  .cal-hdate strong { font-size:17px; color: #58A6FF; }
 
   /* Sidebar nav */
   .cal-nav-tabs {
     position: fixed; left:0; top:0; bottom:0; width:196px;
     flex-direction: column; align-items: stretch;
     padding: 0 10px 24px;
-    border-right: 1px solid rgba(14,159,142,.14);
+    border-right: 1px solid #21262D;
     border-bottom: none;
     overflow-y: auto; overflow-x: hidden;
-    box-shadow: 2px 0 12px rgba(0,0,0,.04);
+    box-shadow: 2px 0 12px rgba(0,0,0,.3);
     gap: 3px; z-index: 150;
-    background: #fff;
+    background: #161B22;
   }
   /* Sidebar 頂部 logo（行事曆風格）*/
   .cal-nav-tabs::before {
@@ -1069,9 +1337,9 @@ tbody td:last-child  { padding-right: 14px; }
     display: block;
     font-family: 'Plus Jakarta Sans', sans-serif;
     font-size: 16px; font-weight: 900;
-    color: #0E9F8E; letter-spacing: -.3px;
+    color: #58A6FF; letter-spacing: -.3px;
     padding: 28px 14px 20px;
-    border-bottom: 1px solid rgba(14,159,142,.12);
+    border-bottom: 1px solid #21262D;
     margin-bottom: 8px;
     flex-shrink: 0;
   }
@@ -1082,10 +1350,10 @@ tbody td:last-child  { padding-right: 14px; }
     text-align: left; font-size: 13.5px;
   }
   .cal-nav-tab.active {
-    border-bottom: none; border-left-color: #0E9F8E;
-    background: rgba(14,159,142,.1); color: #0E9F8E; font-weight: 800;
+    border-bottom: none; border-left-color: #1F6FEB;
+    background: rgba(31,111,235,.15); color: #58A6FF; font-weight: 800;
   }
-  .cal-nav-tab:hover:not(.active) { border-radius:10px; border-left-color:transparent; background: rgba(14,159,142,.05); }
+  .cal-nav-tab:hover:not(.active) { border-radius:10px; border-left-color:transparent; background: #21262D; color: #C9D1D9; }
 }
 
 /* ══ 手機：頂部 Tab Bar（完全比照行事曆）══ */
@@ -2188,6 +2456,10 @@ tbody td:last-child  { padding-right: 14px; }
     </div>
 
     <div class="ep-divider"></div>
+    <div class="ep-subtitle">🤖 AI 智能辨識</div>
+    <button class="epbtn full" onclick="openScanModal();closePanel()" style="border-color:#58A6FF;color:#58A6FF">📸 掃描券商庫存截圖</button>
+
+    <div class="ep-divider"></div>
     <div class="ep-subtitle">📤 匯出 / 列印</div>
     <div class="ep-btn-row">
       <button class="epbtn" onclick="exportExcel();closePanel()">📊<br>Excel</button>
@@ -2201,6 +2473,75 @@ tbody td:last-child  { padding-right: 14px; }
     <button class="epbtn full" onclick="pushDividendSync();closePanel()" style="margin-top:4px">📲 同步配息到行事曆</button>
   </div>
   <button class="fab fab-main" onclick="togglePanel()" id="fab-main-btn" title="功能選單">⚡</button>
+</div>
+
+<!-- ══ AI 掃描 Modal ══ -->
+<div id="scan-modal-bg" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.85);z-index:5000;display:none;align-items:center;justify-content:center;padding:16px">
+  <div id="scan-modal-box" style="background:#161B22;border:1px solid #21262D;border-radius:18px;width:100%;max-width:620px;max-height:92vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.6)">
+    <!-- Header -->
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:18px 20px 14px;border-bottom:1px solid #21262D">
+      <div>
+        <div style="font-size:11px;color:#8B949E;letter-spacing:.08em;text-transform:uppercase;font-weight:600;margin-bottom:4px">AI 智能辨識</div>
+        <div style="font-size:17px;font-weight:800;color:#E8EDF4">📸 掃描券商庫存截圖</div>
+      </div>
+      <button onclick="closeScanModal()" style="background:#21262D;border:none;border-radius:8px;width:32px;height:32px;font-size:16px;cursor:pointer;color:#8B949E">✕</button>
+    </div>
+
+    <!-- Step 1: 選帳號 + 上傳 -->
+    <div id="scan-step1" style="padding:18px 20px">
+      <div style="font-size:12px;color:#8B949E;margin-bottom:10px;font-weight:600">① 選擇要更新的帳號</div>
+      <div id="scan-section-picker" style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px"></div>
+
+      <div style="font-size:12px;color:#8B949E;margin-bottom:10px;font-weight:600">② 上傳券商庫存截圖</div>
+      <label id="scan-drop-zone" for="scan-file-input" style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;border:2px dashed #30363D;border-radius:12px;padding:32px 20px;cursor:pointer;transition:all .2s;background:#0D1117">
+        <div style="font-size:36px">📷</div>
+        <div style="font-size:14px;font-weight:600;color:#C9D1D9">點擊上傳 或 拖曳圖片至此</div>
+        <div style="font-size:12px;color:#8B949E">支援 PNG、JPG、WEBP，建議截取完整庫存列表</div>
+        <input type="file" id="scan-file-input" accept="image/*" style="display:none" onchange="onScanFileSelected(this)">
+      </label>
+
+      <div id="scan-preview-wrap" style="display:none;margin-top:14px;position:relative">
+        <img id="scan-preview-img" style="width:100%;border-radius:10px;border:1px solid #30363D;max-height:280px;object-fit:contain;background:#0D1117">
+        <button onclick="clearScanFile()" style="position:absolute;top:8px;right:8px;background:rgba(0,0,0,.7);border:none;border-radius:6px;color:#fff;padding:4px 8px;cursor:pointer;font-size:12px">✕ 重選</button>
+      </div>
+
+      <button id="scan-analyze-btn" onclick="runScanAnalysis()" style="display:none;width:100%;margin-top:16px;padding:13px;background:#1F6FEB;border:none;border-radius:10px;color:#fff;font-size:14px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:opacity .15s">
+        🤖 開始 AI 辨識
+      </button>
+    </div>
+
+    <!-- Step 2: 分析中 -->
+    <div id="scan-step2" style="display:none;padding:48px 20px;text-align:center">
+      <div style="font-size:48px;margin-bottom:16px">🤖</div>
+      <div style="font-size:16px;font-weight:700;color:#E8EDF4;margin-bottom:8px">AI 辨識中...</div>
+      <div id="scan-loading-msg" style="font-size:13px;color:#8B949E">正在分析截圖中的持股資料</div>
+      <div style="margin-top:20px;height:4px;background:#21262D;border-radius:2px;overflow:hidden">
+        <div id="scan-progress-bar" style="height:100%;background:#1F6FEB;border-radius:2px;width:0%;transition:width .4s"></div>
+      </div>
+    </div>
+
+    <!-- Step 3: 辨識結果確認 -->
+    <div id="scan-step3" style="display:none;padding:0 20px 20px">
+      <div style="padding:14px 0 10px;border-bottom:1px solid #21262D;margin-bottom:14px">
+        <div style="font-size:13px;font-weight:800;color:#E8EDF4">③ 確認辨識結果</div>
+        <div style="font-size:11px;color:#8B949E;margin-top:3px">請核對以下變更，確認後套用至持股</div>
+      </div>
+
+      <!-- 統計列 -->
+      <div id="scan-stats-row" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px"></div>
+
+      <!-- 變更列表 -->
+      <div id="scan-diff-list" style="display:flex;flex-direction:column;gap:6px;max-height:320px;overflow-y:auto"></div>
+
+      <!-- 錯誤訊息 -->
+      <div id="scan-error-box" style="display:none;margin-top:12px;padding:12px 14px;background:rgba(248,81,73,.1);border:1px solid rgba(248,81,73,.3);border-radius:10px;font-size:13px;color:#F85149"></div>
+
+      <div style="display:flex;gap:8px;margin-top:16px">
+        <button onclick="closeScanModal()" style="flex:1;padding:12px;background:#21262D;border:1px solid #30363D;border-radius:10px;color:#8B949E;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif">取消</button>
+        <button onclick="applyScanChanges()" id="scan-apply-btn" style="flex:2;padding:12px;background:#238636;border:none;border-radius:10px;color:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif">✅ 套用變更</button>
+      </div>
+    </div>
+  </div>
 </div>
 <div id="toast"></div>
 
@@ -2331,7 +2672,7 @@ function sortTbl(th) {
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbwhnX5LYECYdJCi9sw5lbtTSdClZ9Wm8r8L9OVCynI8Ex_tX_4Kpu3sP2tFxuwNIQI1pA/exec';
 const TW_SUFFIX = {
   // 台股 ETF（上市 .TW）
-  '00631L':'00631L.TW','00830':'00830.TW','00861':'00861.TW','00876':'00876.TW',
+  '0052':'0052.TW','0053':'0053.TW','00631L':'00631L.TW','00830':'00830.TW','00861':'00861.TW','00876':'00876.TW',
   '00878':'00878.TW','00893':'00893.TW','00910':'00910.TW','00911':'00911.TW','00918':'00918.TW',
   '00920':'00920.TW','00941':'00941.TW','00988A':'00988A.TWO',
   '00696B':'00696B.TWO','00724B':'00724B.TWO',
@@ -3737,6 +4078,380 @@ setTimeout(updateNiuSummary, 550);
 setTimeout(updateChengSummary, 600);
 setTimeout(() => { renderLossCard('cheng'); renderLossCard('niu'); }, 700);
 setTimeout(renderAllCards, 800);
+
+/* ══════════════════════════════════════════
+   AI 券商截圖辨識功能
+══════════════════════════════════════════ */
+let _scanSelectedSection = null;
+let _scanFileBase64 = null;
+let _scanPendingChanges = null;
+
+function openScanModal() {
+  const bg = document.getElementById('scan-modal-bg');
+  bg.style.display = 'flex';
+  // 初始化 section picker
+  const picker = document.getElementById('scan-section-picker');
+  const sections = [...new Set(
+    [...document.querySelectorAll('tbody[data-section]')]
+      .filter(tb => tb.closest('#page-cheng'))
+      .map(tb => tb.dataset.section)
+      .filter(s => s !== '美股')
+  )];
+  picker.innerHTML = sections.map(s => `
+    <button onclick="selectScanSection('${s}',this)"
+      style="padding:8px 16px;border:1.5px solid #30363D;border-radius:20px;background:#21262D;color:#8B949E;font-size:13px;font-weight:600;cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all .15s">
+      ${s}
+    </button>`).join('');
+  // 預選第一個
+  if (sections.length) {
+    const firstBtn = picker.querySelector('button');
+    if (firstBtn) selectScanSection(sections[0], firstBtn);
+  }
+  resetScanSteps();
+}
+
+function selectScanSection(section, btn) {
+  _scanSelectedSection = section;
+  document.querySelectorAll('#scan-section-picker button').forEach(b => {
+    b.style.background = '#21262D';
+    b.style.color = '#8B949E';
+    b.style.borderColor = '#30363D';
+  });
+  btn.style.background = 'rgba(31,111,235,.2)';
+  btn.style.color = '#58A6FF';
+  btn.style.borderColor = '#1F6FEB';
+}
+
+function closeScanModal() {
+  document.getElementById('scan-modal-bg').style.display = 'none';
+  clearScanFile();
+  resetScanSteps();
+}
+
+function resetScanSteps() {
+  document.getElementById('scan-step1').style.display = 'block';
+  document.getElementById('scan-step2').style.display = 'none';
+  document.getElementById('scan-step3').style.display = 'none';
+  document.getElementById('scan-preview-wrap').style.display = 'none';
+  document.getElementById('scan-analyze-btn').style.display = 'none';
+  document.getElementById('scan-file-input').value = '';
+  _scanFileBase64 = null;
+  _scanPendingChanges = null;
+}
+
+function clearScanFile() {
+  document.getElementById('scan-preview-wrap').style.display = 'none';
+  document.getElementById('scan-analyze-btn').style.display = 'none';
+  document.getElementById('scan-file-input').value = '';
+  _scanFileBase64 = null;
+}
+
+function onScanFileSelected(input) {
+  const file = input.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const dataUrl = e.target.result;
+    _scanFileBase64 = dataUrl.split(',')[1];
+    document.getElementById('scan-preview-img').src = dataUrl;
+    document.getElementById('scan-preview-wrap').style.display = 'block';
+    document.getElementById('scan-analyze-btn').style.display = 'block';
+  };
+  reader.readAsDataURL(file);
+}
+
+// 拖曳上傳
+document.addEventListener('DOMContentLoaded', () => {
+  const dz = document.getElementById('scan-drop-zone');
+  if (!dz) return;
+  dz.addEventListener('dragover', e => { e.preventDefault(); dz.style.borderColor = '#1F6FEB'; dz.style.background = '#1a2030'; });
+  dz.addEventListener('dragleave', () => { dz.style.borderColor = '#30363D'; dz.style.background = '#0D1117'; });
+  dz.addEventListener('drop', e => {
+    e.preventDefault();
+    dz.style.borderColor = '#30363D'; dz.style.background = '#0D1117';
+    const file = e.dataTransfer.files[0];
+    if (file && file.type.startsWith('image/')) {
+      const input = document.getElementById('scan-file-input');
+      const dt = new DataTransfer(); dt.items.add(file); input.files = dt.files;
+      onScanFileSelected(input);
+    }
+  });
+});
+
+async function runScanAnalysis() {
+  if (!_scanFileBase64) { showToast('⚠ 請先上傳截圖'); return; }
+  if (!_scanSelectedSection) { showToast('⚠ 請選擇帳號'); return; }
+
+  // 切換到 step2
+  document.getElementById('scan-step1').style.display = 'none';
+  document.getElementById('scan-step2').style.display = 'block';
+
+  // 進度條動畫
+  const bar = document.getElementById('scan-progress-bar');
+  const msgs = ['正在識別截圖中的股票代號...','分析持股數量與均價...','比對現有持股資料...','整理變更清單...'];
+  let prog = 0;
+  const progInterval = setInterval(() => {
+    prog = Math.min(prog + Math.random() * 18, 88);
+    bar.style.width = prog + '%';
+    document.getElementById('scan-loading-msg').textContent = msgs[Math.floor(prog/25)] || msgs[3];
+  }, 400);
+
+  // 取得目前該帳號的持股
+  const currentHoldings = [];
+  document.querySelectorAll(`tbody[data-section="${_scanSelectedSection}"] tr[data-code]`).forEach(tr => {
+    const nm = tr.querySelector('.sname').cloneNode(true);
+    nm.querySelectorAll('span').forEach(s => s.remove());
+    currentHoldings.push({
+      code: tr.dataset.code,
+      name: nm.textContent.trim(),
+      shares: tr.dataset.shares,
+      avg: tr.dataset.avg
+    });
+  });
+
+  const systemPrompt = `你是一個台灣券商庫存截圖辨識助手。請從圖片中提取所有持股資料。
+
+回傳格式必須是純 JSON，不要有任何 markdown 或說明文字，格式如下：
+{
+  "holdings": [
+    { "code": "代號", "name": "名稱", "shares": 數字, "avg": 數字 }
+  ]
+}
+
+注意事項：
+1. code 是股票代號（例如 00878、0052、2330），可能在圖片中以「代號」「股票代號」「標的代號」等欄位呈現
+2. shares 是庫存股數（整數），對應「庫存股數」「持股數量」「股數」等欄位
+3. avg 是平均成本 / 均價（可能是「平均成本」「均價」「庫存均價」）
+4. 如果看不清楚某欄位，avg 填 0
+5. name 如果圖片中沒有，填空字串
+6. 只回傳 JSON，不要任何解釋`;
+
+  const userPrompt = `這是我的券商（${_scanSelectedSection}帳號）庫存截圖。
+目前系統中該帳號的持股為：
+${JSON.stringify(currentHoldings, null, 2)}
+
+請辨識截圖中所有持股的代號、名稱、股數、均價，回傳 JSON。`;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-20250514',
+        max_tokens: 2000,
+        system: systemPrompt,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: 'image/png', data: _scanFileBase64 } },
+            { type: 'text', text: userPrompt }
+          ]
+        }]
+      })
+    });
+
+    clearInterval(progInterval);
+    bar.style.width = '100%';
+
+    const data = await res.json();
+    const rawText = data.content?.find(b => b.type === 'text')?.text || '';
+
+    // 解析 JSON
+    let parsed;
+    try {
+      const clean = rawText.replace(/```json|```/g, '').trim();
+      parsed = JSON.parse(clean);
+    } catch {
+      throw new Error('AI 回傳格式錯誤，請重試\n\n原始回傳：' + rawText.slice(0, 200));
+    }
+
+    const scanHoldings = parsed.holdings || [];
+    if (!scanHoldings.length) throw new Error('截圖中未辨識到任何持股，請確認截圖清晰度');
+
+    // 計算 diff
+    _scanPendingChanges = buildDiff(currentHoldings, scanHoldings);
+
+    setTimeout(() => {
+      document.getElementById('scan-step2').style.display = 'none';
+      renderScanStep3(_scanPendingChanges, scanHoldings.length);
+    }, 400);
+
+  } catch (err) {
+    clearInterval(progInterval);
+    document.getElementById('scan-step2').style.display = 'none';
+    document.getElementById('scan-step3').style.display = 'block';
+    document.getElementById('scan-diff-list').innerHTML = '';
+    document.getElementById('scan-stats-row').innerHTML = '';
+    const errBox = document.getElementById('scan-error-box');
+    errBox.style.display = 'block';
+    errBox.textContent = '❌ 辨識失敗：' + err.message;
+    document.getElementById('scan-apply-btn').disabled = true;
+    document.getElementById('scan-apply-btn').style.opacity = '.4';
+  }
+}
+
+function buildDiff(current, scanned) {
+  const changes = [];
+  const currentMap = {};
+  current.forEach(h => { currentMap[h.code] = h; });
+  const scannedMap = {};
+  scanned.forEach(h => { scannedMap[h.code] = h; });
+
+  // 掃描圖中有的 → 更新或新增
+  scanned.forEach(s => {
+    const c = currentMap[s.code];
+    if (!c) {
+      changes.push({ type: 'add', code: s.code, name: s.name, shares: s.shares, avg: s.avg });
+    } else {
+      const sharesChanged = String(c.shares) !== String(s.shares);
+      const avgChanged = parseFloat(c.avg) !== parseFloat(s.avg) && s.avg > 0;
+      if (sharesChanged || avgChanged) {
+        changes.push({
+          type: 'update', code: s.code, name: s.name || c.name,
+          oldShares: c.shares, newShares: s.shares,
+          oldAvg: c.avg, newAvg: s.avg > 0 ? s.avg : c.avg,
+          sharesChanged, avgChanged
+        });
+      }
+    }
+  });
+
+  // 目前有、圖中沒有 → 賣出
+  current.forEach(c => {
+    if (!scannedMap[c.code]) {
+      changes.push({ type: 'delete', code: c.code, name: c.name, shares: c.shares, avg: c.avg });
+    }
+  });
+
+  return changes;
+}
+
+function renderScanStep3(changes, totalScanned) {
+  document.getElementById('scan-step3').style.display = 'block';
+
+  const adds    = changes.filter(c => c.type === 'add').length;
+  const updates = changes.filter(c => c.type === 'update').length;
+  const deletes = changes.filter(c => c.type === 'delete').length;
+
+  document.getElementById('scan-stats-row').innerHTML = `
+    <div style="background:#1C2128;border:1px solid #21262D;border-radius:10px;padding:10px 12px;text-align:center">
+      <div style="font-size:10px;color:#8B949E;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">截圖辨識</div>
+      <div style="font-size:20px;font-weight:800;color:#E8EDF4">${totalScanned} 檔</div>
+    </div>
+    <div style="background:#1C2128;border:1px solid #21262D;border-radius:10px;padding:10px 12px;text-align:center">
+      <div style="font-size:10px;color:#8B949E;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">有變更</div>
+      <div style="font-size:20px;font-weight:800;color:${changes.length?'#F0B429':'#3FB950'}">${changes.length} 項</div>
+    </div>
+    <div style="background:#1C2128;border:1px solid #21262D;border-radius:10px;padding:10px 12px;text-align:center">
+      <div style="font-size:10px;color:#8B949E;margin-bottom:4px;text-transform:uppercase;letter-spacing:.05em">帳號</div>
+      <div style="font-size:14px;font-weight:800;color:#58A6FF">${_scanSelectedSection}</div>
+    </div>`;
+
+  const errBox = document.getElementById('scan-error-box');
+  errBox.style.display = 'none';
+  const applyBtn = document.getElementById('scan-apply-btn');
+
+  if (changes.length === 0) {
+    document.getElementById('scan-diff-list').innerHTML = `
+      <div style="text-align:center;padding:32px 0;color:#8B949E;font-size:14px">
+        ✅ 截圖與現有資料完全一致，無需更新
+      </div>`;
+    applyBtn.disabled = true;
+    applyBtn.style.opacity = '.4';
+    applyBtn.textContent = '✅ 無需變更';
+    return;
+  }
+
+  applyBtn.disabled = false;
+  applyBtn.style.opacity = '1';
+  applyBtn.textContent = `✅ 套用 ${changes.length} 項變更`;
+
+  const typeConfig = {
+    add:    { bg:'rgba(35,134,54,.12)',  border:'rgba(35,134,54,.3)',  label:'新增', color:'#3FB950', icon:'＋' },
+    update: { bg:'rgba(210,153,34,.1)',  border:'rgba(210,153,34,.3)', label:'更新', color:'#E3B341', icon:'↻' },
+    delete: { bg:'rgba(248,81,73,.1)',   border:'rgba(248,81,73,.3)',  label:'賣出', color:'#F85149', icon:'✕' }
+  };
+
+  document.getElementById('scan-diff-list').innerHTML = changes.map(c => {
+    const cfg = typeConfig[c.type];
+    let detail = '';
+    if (c.type === 'add') {
+      detail = `<span style="color:#8B949E;font-size:11px">${c.shares} 股 · 均價 ${c.avg||'—'}</span>`;
+    } else if (c.type === 'update') {
+      const sp = c.sharesChanged ? `股數 <span style="color:#F85149">${c.oldShares}</span> → <span style="color:#3FB950">${c.newShares}</span>` : '';
+      const ap = c.avgChanged ? `均價 <span style="color:#F85149">${c.oldAvg}</span> → <span style="color:#3FB950">${c.newAvg}</span>` : '';
+      detail = `<span style="font-size:11px;color:#8B949E">${[sp,ap].filter(Boolean).join(' · ')}</span>`;
+    } else if (c.type === 'delete') {
+      detail = `<span style="color:#8B949E;font-size:11px">圖中未出現 · 視為賣出（${c.shares} 股）</span>`;
+    }
+    return `
+      <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;background:${cfg.bg};border:1px solid ${cfg.border};border-radius:10px">
+        <div style="width:26px;height:26px;border-radius:50%;background:${cfg.color};display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:#fff;flex-shrink:0">${cfg.icon}</div>
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
+            <span style="font-size:13px;font-weight:700;color:#E8EDF4">${c.name || c.code}</span>
+            <span style="font-family:'DM Mono',monospace;font-size:11px;color:#8B949E">${c.code}</span>
+            <span style="font-size:10px;font-weight:700;padding:1px 6px;border-radius:4px;background:${cfg.bg};color:${cfg.color};border:1px solid ${cfg.border}">${cfg.label}</span>
+          </div>
+          <div style="margin-top:3px">${detail}</div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+function applyScanChanges() {
+  if (!_scanPendingChanges || !_scanPendingChanges.length) return;
+  const section = _scanSelectedSection;
+  const tbody = document.querySelector(`tbody[data-section="${section}"]`);
+  if (!tbody) { showToast('⚠ 找不到帳號區段'); return; }
+
+  let applied = 0;
+  _scanPendingChanges.forEach(c => {
+    if (c.type === 'delete') {
+      const tr = tbody.querySelector(`tr[data-code="${c.code}"]`);
+      if (tr) { tr.remove(); applied++; }
+
+    } else if (c.type === 'update') {
+      const tr = tbody.querySelector(`tr[data-code="${c.code}"]`);
+      if (tr) {
+        if (c.sharesChanged) {
+          tr.dataset.shares = c.newShares;
+          const tds = tr.querySelectorAll('td');
+          if (tds[3]) tds[3].textContent = Number(c.newShares).toLocaleString('zh-TW');
+        }
+        if (c.avgChanged) {
+          tr.dataset.avg = c.newAvg;
+          const tds = tr.querySelectorAll('td');
+          if (tds[2]) tds[2].textContent = c.newAvg;
+        }
+        applied++;
+      }
+
+    } else if (c.type === 'add') {
+      // 不在 TW_SUFFIX 裡的新代號也要加上去
+      if (c.code && !TW_SUFFIX[c.code]) {
+        TW_SUFFIX[c.code] = c.code + '.TW';
+      }
+      const tr = document.createElement('tr');
+      tr.dataset.code = c.code;
+      tr.dataset.shares = c.shares;
+      tr.dataset.avg = c.avg || 0;
+      const isEtf = /^[0-9]{5}[A-Z]?$/.test(c.code) || c.code.startsWith('00');
+      const etfTag = isEtf ? ' <span class="etf-tag">ETF</span>' : '';
+      tr.innerHTML = `<td><div class="stock-name-wrap"><span class="sname">${c.name || c.code}${etfTag}</span><span class="scode">${c.code}</span></div></td><td class="live-price-cell">—</td><td class="mono">${c.avg||0}</td><td class="mono">${Number(c.shares).toLocaleString()}</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td>`;
+      tbody.appendChild(tr);
+      applied++;
+    }
+  });
+
+  closeScanModal();
+  showToast(`✅ 已套用 ${applied} 項變更`);
+
+  // 重新渲染並更新股價
+  if (typeof renderAllCards === 'function') renderAllCards();
+  if (typeof fetchPrices === 'function') fetchPrices();
+  if (typeof fbSaveHoldings === 'function') fbSaveHoldings();
+}
 
 </script>
 
