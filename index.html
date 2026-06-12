@@ -344,6 +344,22 @@ body::before {
 .exp-det-contact a { color: var(--teal); font-weight: 700; text-decoration: none; }
 .exp-arrow-icon { font-size: 12px; color: #30363D; flex-shrink: 0; transition: transform .2s; }
 .exp-arrow-icon.open { transform: rotate(90deg); }
+
+/* ── 同步按鈕 ── */
+#news-sync-btn {
+  display: none;
+  width: 100%; margin-top: 10px; padding: 11px;
+  background: linear-gradient(135deg, #1F6FEB, #58A6FF);
+  color: #fff; border: none; border-radius: 12px;
+  font-family: 'Noto Sans TC', sans-serif; font-size: 14px; font-weight: 700;
+  cursor: pointer; box-shadow: 0 4px 14px rgba(31,111,235,.3);
+  transition: all .2s; letter-spacing: .04em;
+}
+#news-sync-btn:hover { opacity: .9; transform: translateY(-1px); }
+#news-sync-btn:active { transform: scale(.98); }
+
+/* ── 到期提醒展開詳情底色修正 ── */
+.exp-det-section .exp-det-title { color: var(--muted); }
 </style>
 
 
@@ -928,7 +944,7 @@ function renderExpiryList() {
       var clItems = item.checklist.map(function(c, ci) {
         var checked = saved[ci] ? 'checked' : '';
         var doneStyle = saved[ci] ? 'text-decoration:line-through;color:#bbb;' : '';
-        return '<label style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:#F7F9F9;border-radius:9px;cursor:pointer;font-size:13px;line-height:1.4">'
+        return '<label style="display:flex;align-items:center;gap:10px;padding:8px 10px;background:#1C2128;border:1px solid #21262D;border-radius:9px;cursor:pointer;font-size:13px;line-height:1.4;color:#E8EDF4">'
           + '<input type="checkbox" '+checked+' onchange="saveExpCheck('+item.idx+','+ci+',this.checked)" style="width:18px;height:18px;accent-color:#0E9F8E;flex-shrink:0">'
           + '<span style="'+doneStyle+'">'+c+'</span>'
           + '</label>';
@@ -961,7 +977,7 @@ function renderExpiryList() {
       + '<div class="exp-detail" id="exp-detail-'+item.idx+'">'
       +   '<div class="exp-det-section">'
       +     '<div class="exp-det-title">📌 說明</div>'
-      +     '<div style="font-size:13px;color:#555;line-height:1.6;background:#F7F9F9;border-radius:8px;padding:8px 10px">'+item.note+'</div>'
+      +     '<div style="font-size:13px;color:#8B949E;line-height:1.6;background:#1C2128;border:1px solid #21262D;border-radius:8px;padding:8px 10px">'+item.note+'</div>'
       +   '</div>'
       +   (stepsHtml ? '<div class="exp-det-section"><div class="exp-det-title">📋 辦理步驟</div><div class="exp-det-steps">'+stepsHtml+'</div></div>' : '')
       +   (docsHtml  ? '<div class="exp-det-section"><div class="exp-det-title">📁 所需文件</div><div class="exp-det-docs">'+docsHtml+'</div></div>' : '')
