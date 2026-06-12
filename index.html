@@ -360,11 +360,33 @@ body::before {
 
 /* ── 到期提醒展開詳情底色修正 ── */
 .exp-det-section .exp-det-title { color: var(--muted); }
+
+/* ── Top Bar ── */
+.top-bar{display:flex;align-items:center;gap:4px;background:#0A0E14;border-bottom:1px solid #1C2128;padding:0 16px;height:48px;position:sticky;top:0;z-index:200;overflow-x:auto;scrollbar-width:none}
+.top-bar::-webkit-scrollbar{display:none}
+.top-bar-link{display:flex;align-items:center;gap:6px;color:#6E7681;font-size:13px;font-weight:700;text-decoration:none;padding:6px 13px;border-radius:8px;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.top-bar-link:hover{color:#C9D1D9;background:#161B22}
+.top-bar-link.active{color:#58A6FF;background:rgba(88,166,255,.1)}
+.top-bar-divider{width:1px;height:22px;background:#21262D;flex-shrink:0;margin:0 4px}
 </style>
 
 
 </head>
 <body>
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a class="top-bar-link active" href="index.html">🏠 首頁</a>
+  <div class="top-bar-divider"></div>
+  <a class="top-bar-link" href="2026行事曆.html">📅 行事曆</a>
+  <a class="top-bar-link" href="計程車營收彙總.html">🚖 計程車彙總</a>
+  <a class="top-bar-link" href="汽機車管理.html">🏍️ 汽機車管理</a>
+  <a class="top-bar-link" href="呈貝目前持股.html">📈 持股</a>
+  <a class="top-bar-link" href="doc-viewer.html">📂 文件</a>
+  <a class="top-bar-link" href="contracts.html">📋 合約</a>
+  <a class="top-bar-link" href="menu.html">🪿 菜單</a>
+  <a class="top-bar-link" href="goose-pos.html">🧾 點餐</a>
+</div>
+
 
 <!-- ── 登入畫面 ── -->
 <div id="login-screen">

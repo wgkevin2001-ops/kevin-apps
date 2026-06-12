@@ -46,7 +46,16 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .hstat-div{width:1px;background:rgba(14,159,142,.2);align-self:stretch;margin:6px 0}
 
 /* ── NAV ── */
-.nav-tabs{display:flex;gap:3px;background:var(--card);border-bottom:1px solid var(--bdr);padding:0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:0;z-index:90;box-shadow:0 1px 3px rgba(0,0,0,.05);-webkit-overflow-scrolling:touch}
+/* ── Top Bar (app 快速連結) ── */
+.top-bar{display:flex;align-items:center;gap:4px;background:#0A0E14;border-bottom:1px solid #1C2128;padding:0 16px;height:48px;position:sticky;top:0;z-index:200;overflow-x:auto;scrollbar-width:none}
+.top-bar::-webkit-scrollbar{display:none}
+.top-bar-link{display:flex;align-items:center;gap:6px;color:#6E7681;font-size:13px;font-weight:700;text-decoration:none;padding:6px 13px;border-radius:8px;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.top-bar-link:hover{color:#C9D1D9;background:#161B22}
+.top-bar-link.active{color:#58A6FF;background:rgba(88,166,255,.1)}
+.top-bar-divider{width:1px;height:22px;background:#21262D;flex-shrink:0;margin:0 4px}
+
+/* ── NAV TABS (mobile default) ── */
+.nav-tabs{display:flex;gap:3px;background:var(--card);border-bottom:1px solid var(--bdr);padding:0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:48px;z-index:90;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .nav-tabs::-webkit-scrollbar{display:none}
 .nav-tab{flex:0 0 auto;padding:12px 14px;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:transparent;color:var(--ink-light);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .18s}
 .nav-tab.active{color:var(--y);border-bottom-color:var(--y);font-weight:700;background:var(--y-light)}
@@ -439,22 +448,38 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   .hstat-lbl{font-size:10.5px;margin-top:0;color:#8B949E}
   .hstat-div{width:1px;height:auto;margin:0;align-self:stretch;background:#21262D}
 
-  /* ── 頂部 nav（不用側邊欄）── */
-  .nav-tabs{background:#161B22;border-bottom:1px solid #21262D;border-right:none;
-    position:sticky;top:64px;left:auto;bottom:auto;width:auto;
-    flex-direction:row;align-items:stretch;
-    padding:0 24px;overflow-x:auto;overflow-y:visible;
-    box-shadow:none;gap:2px;z-index:90;height:auto}
-  .nav-tab{padding:13px 18px;border-bottom:2px solid transparent;border-left:none;
-    margin-bottom:-1px;border-radius:0;text-align:left;font-size:13.5px;
-    color:#8B949E;background:transparent}
-  .nav-tab.active{border-bottom-color:#58A6FF;border-left:none;
-    background:rgba(88,166,255,.1);color:#58A6FF;font-weight:700}
-  .nav-tab:hover:not(.active){background:#21262D;border-radius:6px 6px 0 0;border-left-color:transparent}
+  /* ── 桌機側邊欄 nav ── */
+  .top-bar{top:0;height:40px;padding:0 24px}
+  .nav-tabs{
+    position:fixed;left:0;top:40px;bottom:0;width:200px;
+    flex-direction:column;align-items:stretch;
+    padding:16px 10px 24px;
+    background:#161B22;
+    border-right:1px solid #21262D;
+    border-bottom:none;
+    overflow-y:auto;overflow-x:hidden;
+    box-shadow:2px 0 12px rgba(0,0,0,.2);
+    gap:3px;z-index:90;height:auto;
+    scrollbar-width:none;
+  }
+  .nav-tabs::-webkit-scrollbar{display:none}
+  .nav-tab{
+    padding:11px 14px;text-align:left;
+    border-bottom:none;border-left:3px solid transparent;
+    margin-bottom:0;border-radius:9px;
+    font-size:13.5px;color:#8B949E;background:transparent;
+    white-space:nowrap;
+  }
+  .nav-tab.active{
+    border-bottom:none;border-left-color:#58A6FF;
+    background:rgba(88,166,255,.1);color:#58A6FF;font-weight:800;
+  }
+  .nav-tab:hover:not(.active){background:#21262D;border-left-color:transparent;border-radius:9px}
 
-  /* ── content（無需左移）── */
-  .section{padding-left:0}
+  /* ── content 讓出側邊欄空間 ── */
+  .section{padding-left:200px}
   .content{padding:28px 40px 60px;max-width:1100px}
+  .main-header{padding-left:224px}
 
   /* ── 卡片深色 ── */
   .focus-item{background:#161B22;border-color:#21262D}
@@ -599,7 +624,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 @media(max-width:599px){
   /* nav 頂部固定 tab bar */
   .nav-tabs{
-    position:fixed;top:0;left:0;right:0;bottom:auto;
+    position:fixed;top:48px;left:0;right:0;bottom:auto;
     display:flex;flex-direction:row;
     overflow-x:auto;
     padding:0 2px;
@@ -634,7 +659,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   .main-header{top:54px;padding:10px 12px 8px}
 
   /* section 往下推，讓出 nav(54) + header(~70) 空間 */
-  .section{padding-top:124px}
+  .section{padding-top:160px}
   .content{padding:12px 12px 24px}
   .htitles .main{font-size:16px}
   .hdate strong{font-size:13px}
@@ -808,6 +833,20 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 <body>
 
 <!-- HEADER -->
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a class="top-bar-link" href="index.html">🏠 首頁</a>
+  <div class="top-bar-divider"></div>
+  <a class="top-bar-link active" href="2026行事曆.html">📅 行事曆</a>
+  <a class="top-bar-link" href="計程車營收彙總.html">🚖 計程車彙總</a>
+  <a class="top-bar-link" href="汽機車管理.html">🏍️ 汽機車管理</a>
+  <a class="top-bar-link" href="呈貝目前持股.html">📈 持股</a>
+  <a class="top-bar-link" href="doc-viewer.html">📂 文件</a>
+  <a class="top-bar-link" href="contracts.html">📋 合約</a>
+  <a class="top-bar-link" href="menu.html">🪿 菜單</a>
+  <a class="top-bar-link" href="goose-pos.html">🧾 點餐</a>
+</div>
+
 <header class="main-header">
   <div class="hrow1">
     <div class="htitles">
@@ -816,7 +855,12 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     </div>
     <div class="hdate"><strong id="hdr-today"></strong><span id="hdr-wd"></span></div>
   </div>
-  <div class="hstats">
+  <div style="display:flex;gap:3px;background:rgba(255,255,255,.07);border-radius:10px;padding:3px;flex-shrink:0">
+        <button onclick="setSelYear(2026)" id="yr-btn-2026" style="padding:5px 10px;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;background:#1F6FEB;color:#fff">2026</button>
+        <button onclick="setSelYear(2027)" id="yr-btn-2027" style="padding:5px 10px;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;background:transparent;color:rgba(255,255,255,.5)">2027</button>
+        <button onclick="setSelYear(2028)" id="yr-btn-2028" style="padding:5px 10px;border:none;border-radius:8px;font-family:inherit;font-size:12px;font-weight:800;cursor:pointer;background:transparent;color:rgba(255,255,255,.5)">2028</button>
+      </div>
+      <div class="hstats">
     <div class="hstat"><span class="hstat-num" id="hstat-appt">—</span><span class="hstat-lbl">未來回診</span></div>
     <div class="hstat-div"></div>
     <div class="hstat"><span class="hstat-num" id="hstat-bp">—</span><span class="hstat-lbl">最近血壓</span></div>
@@ -1054,7 +1098,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 <!-- ══ 年度開銷 ══ -->
 <div id="sec-exp" class="section"><div class="content">
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
-    <div style="font-size:16px;font-weight:900;color:var(--ink)">📊 2026 年度開銷記錄</div>
+    <div style="font-size:16px;font-weight:900;color:var(--ink)" id="exp-year-title">📊 2026 年度開銷記錄</div>
     <button onclick="expExportCSV()" style="background:var(--gr);color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">⬇️ 匯出CSV</button>
   </div>
 
@@ -1239,6 +1283,20 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
       </div>
       <button class="exp-add-btn" onclick="addIncRecord()">新增收入</button>
     </div>
+
+    <!-- 📈 配息月份手動輸入 -->
+    <div class="exp-add-form" style="margin-top:12px">
+      <div class="exp-add-title" style="display:flex;align-items:center;justify-content:space-between">
+        <span>📈 月配息收入設定</span>
+        <span style="font-size:11px;font-weight:600;color:var(--ink-light)">各月實際入帳金額</span>
+      </div>
+      <div id="div-month-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px"></div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+        <button class="exp-add-btn" onclick="saveDivInput()" style="flex:1;min-width:100px">💾 儲存配息</button>
+        <button onclick="clearAllDiv()" style="background:var(--bg);border:1px solid var(--bdr);border-radius:10px;padding:10px 14px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink-light)">全部清除</button>
+      </div>
+      <div id="div-save-msg" style="display:none;margin-top:8px;font-size:12px;font-weight:700;color:var(--gr);text-align:center">✅ 已儲存，已更新收支計算</div>
+    </div>
   </div>
 
 </div></div>
@@ -1398,6 +1456,7 @@ function switchSec(id){
 
 // ═══ SYNC: 看診→月曆 ═══
 let curYear=2026,curMonth=4; // 0-indexed
+let selYear=2026; // 全域選擇年份（開銷/收入/配息/重點）
 
 function goToAppt(dateStr){
   // dateStr = "2026-05-09"
@@ -1813,7 +1872,7 @@ let ccRecords = JSON.parse(localStorage.getItem('cc_records')||'null') || [
   {id:Date.now()+3, cardId:6, year:2026, month:5, amount:5007,  status:'pending', note:'玉山5月'},
   {id:Date.now()+4, cardId:1, year:2026, month:4, amount:18628, status:'paid',    note:'國泰4月'},
 ];
-let ccYear=(new Date()).getFullYear(), ccMonth=(new Date()).getMonth()+1;
+let ccYear=selYear, ccMonth=(new Date()).getMonth()+1;
 
 
 // ── 信用卡記錄同步到年度開銷 ──
@@ -2212,7 +2271,7 @@ function updateFocusMonthLabel(){
   if(el) el.textContent = focusViewMonth + '月';
   const curM = new Date().getMonth() + 1;
   if(hint){
-    hint.textContent = focusViewMonth === curM ? '2026年（本月）' : '2026年';
+    hint.textContent = focusViewMonth === curM ? selYear+'年（本月）' : selYear+'年';
     hint.style.color = focusViewMonth === curM ? 'var(--gr)' : 'var(--ink-light)';
   }
 }
@@ -2221,36 +2280,49 @@ function updateFocusMonthLabel(){
 let focusCustomItems = JSON.parse(localStorage.getItem('focus_custom')||'[]');
 function saveFocusCustom(){ localStorage.setItem('focus_custom', JSON.stringify(focusCustomItems)); }
 
-// 全部 items = 當月 ITEMS + custom
+// 全部 items = 當月 ITEMS（僅2026）+ custom（按年份）
 function allFocusItems(){
-  return [...getCurrentFocusItems(), ...focusCustomItems];
+  const builtIn = selYear===2026 ? getCurrentFocusItems() : [];
+  const custom = focusCustomItems.filter(it=>!it.year || it.year===selYear);
+  return [...builtIn, ...custom];
 }
 
 // status: 'done' | 'doing' | 'pending'
-let focusStatus = JSON.parse(localStorage.getItem('focus_status')||'null') || {};
+let _rawFocusStatus = JSON.parse(localStorage.getItem('focus_status')||'null') || {};
+// 相容舊版：flat {id:status} → nested {2026:{id:status}}
+let focusStatus;
+if(_rawFocusStatus && typeof Object.values(_rawFocusStatus)[0] === 'object'){
+  focusStatus = _rawFocusStatus;
+} else {
+  focusStatus = {2026: _rawFocusStatus, 2027:{}, 2028:{}};
+}
+if(!focusStatus[2027]) focusStatus[2027]={};
+if(!focusStatus[2028]) focusStatus[2028]={};
+
 let focusSortMode = 'cat'; // 'cat' | 'date' | 'status'
 
-// Initialize default statuses for built-in items
+// Initialize default statuses for built-in items (只針對2026)
 [...FOCUS_ITEMS_INIT, ...FOCUS_ITEMS_JUNE, ...FOCUS_ITEMS_JULY, ...FOCUS_ITEMS_AUGUST,
  ...FOCUS_ITEMS_SEPT, ...FOCUS_ITEMS_OCT, ...FOCUS_ITEMS_NOV, ...FOCUS_ITEMS_DEC].forEach(it=>{
-  if(!(it.id in focusStatus)) focusStatus[it.id] = it.initStatus;
+  if(!(it.id in focusStatus[2026])) focusStatus[2026][it.id] = it.initStatus;
 });
 
+function getFocusStatus(id){ return (focusStatus[selYear]||{})[id]||'pending'; }
+function setFocusStatus(id,val){ if(!focusStatus[selYear])focusStatus[selYear]={}; focusStatus[selYear][id]=val; }
 function saveFocusStatus(){ localStorage.setItem('focus_status', JSON.stringify(focusStatus)); }
 
 function cycleFocusStatus(id){
-  const cur = focusStatus[id]||'pending';
+  const cur = getFocusStatus(id);
   const next = cur==='pending'?'doing': cur==='doing'?'done':'pending';
-  focusStatus[id]=next;
+  setFocusStatus(id,next);
   saveFocusStatus();
   renderFocus();
 }
 
 function deleteFocusItem(id){
-  // can only delete custom items
   focusCustomItems = focusCustomItems.filter(it=>it.id!==id);
   saveFocusCustom();
-  delete focusStatus[id];
+  if(focusStatus[selYear]) delete focusStatus[selYear][id];
   saveFocusStatus();
   renderFocus();
 }
@@ -2270,10 +2342,10 @@ function addFocusItem(){
     else sortDate = dateVal.slice(0,5);
   }
   const id = 'cu'+ Date.now();
-  const newItem = {id, cat: CAT_LABELS[catKey]||'📌 其他事項', catKey, sortDate, text, note, badge:'fb-warn', badgeText:'⏳', initStatus:'pending', isCustom:true};
+  const newItem = {id, year:selYear, cat: CAT_LABELS[catKey]||'📌 其他事項', catKey, sortDate, text, note, badge:'fb-warn', badgeText:'⏳', initStatus:'pending', isCustom:true};
   focusCustomItems.push(newItem);
   saveFocusCustom();
-  focusStatus[id] = 'pending';
+  setFocusStatus(id,'pending');
   saveFocusStatus();
   // clear form
   document.getElementById('fi-text').value='';
@@ -2296,7 +2368,7 @@ function renderFocus(){
   // count stats
   let cntDone=0,cntDoing=0,cntPending=0;
   items_all.forEach(it=>{
-    const s=focusStatus[it.id]||'pending';
+    const s=getFocusStatus(it.id);
     if(s==='done')cntDone++;else if(s==='doing')cntDoing++;else cntPending++;
   });
   document.getElementById('focus-stats').innerHTML=
@@ -2304,7 +2376,7 @@ function renderFocus(){
     `<span class="fstat-box fstat-doing">🔵 進行中 ${cntDoing}</span>`+
     `<span class="fstat-box fstat-pending">○ 待辦 ${cntPending}</span>`;
 
-  let items = items_all.map(it=>({...it, status: focusStatus[it.id]||'pending'}));
+  let items = items_all.map(it=>({...it, status: getFocusStatus(it.id)}));
   const CAT_ORDER=['finance','medical','kids','family','routine','custom'];
 
   function groupByCat(list){
@@ -2492,27 +2564,40 @@ const EXP_SEED = [
 ];
 
 const INC_SEED = [
-  ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'i'+m,month:m,year:2026,amt:28000,src:'🏠 租金收入'})),
-  // ── 呈的股票配息（估算）──
-  // 00878 國泰永續高股息：季配，發放月為 3、6、9、12 月（除息 2、5、8、11）
-  {id:'div878q1',month:3, year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q1配息'},
-  {id:'div878q2',month:6, year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q2配息'},
-  {id:'div878q3',month:9, year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q3配息'},
-  {id:'div878q4',month:12,year:2026,amt:31680,src:'📈 00878 國泰永續高股息 Q4配息'},
-  // 00918 大華優利高填息30：季配，除息3/6/9/12月 → 發放4/7/10/1月
-  {id:'div918q1',month:4, year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q1配息（除息3月）'},
-  {id:'div918q2',month:7, year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q2配息（除息6月）'},
-  {id:'div918q3',month:10,year:2026,amt:3720,src:'📈 00918 大華優利高填息30 Q3配息（除息9月）'},
-  {id:'div918q4',month:1, year:2027,amt:3720,src:'📈 00918 大華優利高填息30 Q4配息（除息12月）'},
-  // 00981B 第一金優選非投債：月配息，每股約0.062元 × 19,000股 ≈ 1,178元/月
-  ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'div981B_'+m,month:m,year:2026,amt:1178,src:'📈 00981B 第一金優選非投債 月配息'})),
-  // 00981D 主動中信非投等債：月配息，每股約0.070元 × 19,000股 ≈ 1,330元/月
-  ...[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'div981D_'+m,month:m,year:2026,amt:1330,src:'📈 00981D 主動中信非投等債 月配息'})),
-  // 個股配息已移除（矽力6415、仁寶2324、華通2313、京元電2449、萬潤6187）
+  ...[2026,2027,2028].flatMap(yr=>[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>({id:'i'+yr+'_'+m,month:m,year:yr,amt:28000,src:'🏠 租金收入'}))),
 ];
+
+// ── 配息紀錄（月別手動輸入，獨立儲存）──
+const DIV_MONTH_SEED = {1:0,2:0,3:0,4:0,5:0,6:0,7:0,8:0,9:0,10:0,11:0,12:0};
+const DIV_SEED = {2026:{...DIV_MONTH_SEED},2027:{...DIV_MONTH_SEED},2028:{...DIV_MONTH_SEED}};
+let _rawDiv = JSON.parse(localStorage.getItem('div_records')||'null');
+// 舊版格式相容（flat {1:x,...} → nested {2026:{1:x,...},...}）
+if(_rawDiv && typeof _rawDiv[1] !== 'undefined'){
+  let _old = _rawDiv;
+  _rawDiv = {2026:{...DIV_MONTH_SEED},2027:{...DIV_MONTH_SEED},2028:{...DIV_MONTH_SEED}};
+  for(let _m=1;_m<=12;_m++) _rawDiv[2026][_m] = _old[_m]||0;
+}
+let divRecords = _rawDiv || {2026:{...DIV_MONTH_SEED},2027:{...DIV_MONTH_SEED},2028:{...DIV_MONTH_SEED}};
+if(!divRecords[2027]) divRecords[2027] = {...DIV_MONTH_SEED};
+if(!divRecords[2028]) divRecords[2028] = {...DIV_MONTH_SEED};
+function saveDivRecords(){ localStorage.setItem('div_records', JSON.stringify(divRecords)); }
+
+// 將配息 inject 進 incRecords（不重複，按年份）
+function syncDivToInc(){
+  incRecords = incRecords.filter(r=>!r.id.startsWith('__div_'));
+  [2026,2027,2028].forEach(function(yr){
+    var yd = divRecords[yr]||{};
+    for(var m=1;m<=12;m++){
+      if(yd[m] && yd[m]>0){
+        incRecords.push({id:'__div_'+yr+'_'+m,month:m,year:yr,amt:yd[m],src:'📈 月配息收入'});
+      }
+    }
+  });
+}
 
 let expRecords = JSON.parse(localStorage.getItem('exp_records')||'null') || EXP_SEED;
 let incRecords = JSON.parse(localStorage.getItem('inc_records')||'null') || INC_SEED;
+syncDivToInc(); // 把配息資料注入 incRecords
 let expViewTab = 'overview';
 let expCurMonth = new Date().getMonth()+1;
 let expFilterCat = 'all'; // 'all' or one of EXP_CATS
@@ -2537,7 +2622,7 @@ function setExpMonthFilter(m){
 }
 
 function saveExpRecords(){ localStorage.setItem('exp_records', JSON.stringify(expRecords)); }
-function saveIncRecords(){ localStorage.setItem('inc_records', JSON.stringify(incRecords)); }
+function saveIncRecords(){ localStorage.setItem('inc_records', JSON.stringify(incRecords.filter(r=>!r.id.startsWith('__div_')))); }
 
 function expFmt(n){ return n===0?'—':'NT$'+Math.round(n).toLocaleString(); }
 
@@ -2569,18 +2654,101 @@ function addExpRecord(){
   renderExp();
 }
 
+function saveDivInline(){
+  if(!divRecords[selYear]) divRecords[selYear]={};
+  for(var m=1;m<=12;m++){
+    var el=document.getElementById('div-il-'+m);
+    if(el) divRecords[selYear][m]=(+el.value||0);
+  }
+  saveDivRecords();
+  syncDivToInc();
+  saveIncRecords();
+  renderExpOverview();
+  renderExpMonth();
+  // 同步到 Firebase
+  var btn = document.getElementById('div-save-btn');
+  if(btn){ btn.textContent='☁️ 儲存中...'; btn.disabled=true; }
+  (window.fbCalSave ? window.fbCalSave() : Promise.resolve())
+    .then(function(){
+      var msg=document.getElementById('div-inline-msg');
+      if(msg){ msg.textContent='✅ 已儲存並同步雲端'; msg.style.opacity='1'; setTimeout(function(){msg.style.opacity='0';},2500); }
+      if(btn){ btn.textContent='💾 儲存配息'; btn.disabled=false; }
+    })
+    .catch(function(){
+      var msg=document.getElementById('div-inline-msg');
+      if(msg){ msg.textContent='⚠ 已存本機，雲端失敗'; msg.style.color='#E3B341'; msg.style.opacity='1'; setTimeout(function(){msg.style.opacity='0';msg.style.color='#6ed888';},2500); }
+      if(btn){ btn.textContent='💾 儲存配息'; btn.disabled=false; }
+    });
+}
+
+function setSelYear(y){
+  selYear = y;
+  [2026,2027,2028].forEach(function(yr){
+    var btn = document.getElementById('yr-btn-'+yr);
+    if(!btn) return;
+    btn.style.background = yr===y ? '#1F6FEB' : 'transparent';
+    btn.style.color = yr===y ? '#fff' : 'rgba(255,255,255,.5)';
+  });
+  // 同步 divRecords → 切換年份的配息資料
+  syncDivToInc();
+  // 重新渲染相關頁面
+  try{ renderFocus(); }catch(e){}
+  try{ renderExp(); }catch(e){}
+  ccYear = y;
+  try{ renderCC(); }catch(e){}
+}
+
 function addIncRecord(){
   const month=+document.getElementById('exp-inc-month').value;
   const amt=+document.getElementById('exp-inc-amount').value||0;
   if(!amt){alert('請輸入金額');return;}
   const src=document.getElementById('exp-inc-src').value.trim()||'收入';
   if(month===0){
-    for(let m=1;m<=12;m++) incRecords.push({id:'i'+Date.now()+m,month:m,year:2026,amt,src});
+    for(let m=1;m<=12;m++) incRecords.push({id:'i'+selYear+'_'+Date.now()+m,month:m,year:selYear,amt,src});
   } else {
-    incRecords.push({id:'i'+Date.now(),month,year:2026,amt,src});
+    incRecords.push({id:'i'+selYear+'_'+Date.now(),month,year:selYear,amt,src});
   }
   saveIncRecords();
   ['exp-inc-amount','exp-inc-src'].forEach(id=>document.getElementById(id).value='');
+  renderExp();
+}
+
+// ── 配息月份輸入介面 ──
+function renderDivGrid(){
+  const grid = document.getElementById('div-month-grid');
+  if(!grid) return;
+  const mNames = ['','1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+  grid.innerHTML = [1,2,3,4,5,6,7,8,9,10,11,12].map(m=>`
+    <div style="display:flex;flex-direction:column;gap:4px">
+      <label style="font-size:11px;font-weight:700;color:var(--ink-light)">${mNames[m]}</label>
+      <input type="number" id="div-inp-${m}"
+        value="${divRecords[m]||''}"
+        placeholder="0"
+        style="background:var(--bg);border:1.5px solid var(--bdr);border-radius:8px;color:var(--ink);font-family:inherit;font-size:13px;padding:7px 9px;outline:none;width:100%;transition:border-color .15s"
+        onfocus="this.style.borderColor='var(--y)'" onblur="this.style.borderColor='var(--bdr)'"/>
+    </div>`).join('');
+}
+
+function saveDivInput(){
+  for(let m=1;m<=12;m++){
+    const el = document.getElementById('div-inp-'+m);
+    divRecords[m] = el ? (+el.value||0) : 0;
+  }
+  saveDivRecords();
+  syncDivToInc();
+  renderExp();
+  // show saved message
+  const msg = document.getElementById('div-save-msg');
+  if(msg){ msg.style.display='block'; setTimeout(()=>msg.style.display='none', 2500); }
+}
+
+function clearAllDiv(){
+  if(!confirm('確定清除所有月配息資料？')) return;
+  if(!divRecords[selYear]) divRecords[selYear]={};
+  for(let m=1;m<=12;m++) divRecords[selYear][m]=0;
+  saveDivRecords();
+  syncDivToInc();
+  renderDivGrid();
   renderExp();
 }
 
@@ -2606,22 +2774,24 @@ function setExpCatFilter(cat){
 }
 
 function renderExpOverview(){
-  const recs = expRecords;
+  var t=document.getElementById('exp-year-title');
+  if(t) t.textContent='📊 '+selYear+' 年度開銷記錄';
+  const recs = expRecords.filter(r=>r.date&&r.date.startsWith(String(selYear)));
   const totalExp = recs.reduce((s,r)=>s+r.amt,0);
-  const totalInc = incRecords.reduce((s,r)=>s+r.amt,0);
-  const divInc   = incRecords.filter(r=>r.src&&r.src.includes('配息')).reduce((s,r)=>s+r.amt,0);
+  const totalInc = incRecords.filter(r=>r.year===selYear).reduce((s,r)=>s+r.amt,0);
+  const divInc   = incRecords.filter(r=>r.year===selYear&&r.src&&r.src.includes('配息')).reduce((s,r)=>s+r.amt,0);
   const salaryInc= totalInc - divInc;
   const balance = totalInc - totalExp;
   const now = new Date();
   const curM = now.getMonth()+1;
   const monthExp = recs.filter(r=>+r.date.slice(5,7)===curM).reduce((s,r)=>s+r.amt,0);
-  const monthInc = incRecords.filter(r=>r.month===curM).reduce((s,r)=>s+r.amt,0);
-  const monthDiv = incRecords.filter(r=>r.month===curM&&r.src&&r.src.includes('配息')).reduce((s,r)=>s+r.amt,0);
+  const monthInc = incRecords.filter(r=>r.year===selYear&&r.month===curM).reduce((s,r)=>s+r.amt,0);
+  const monthDiv = incRecords.filter(r=>r.year===selYear&&r.month===curM&&r.src&&r.src.includes('配息')).reduce((s,r)=>s+r.amt,0);
 
   document.getElementById('exp-summary-grid').innerHTML=`
     <div class="exp-sum-box"><div class="exp-sum-lbl">年度總支出</div><div class="exp-sum-val" style="color:var(--rd);font-size:16px">${expFmt(totalExp)}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">年度總收入</div><div class="exp-sum-val" style="color:var(--gr);font-size:16px">${expFmt(totalInc)}</div></div>
-    <div class="exp-sum-box"><div class="exp-sum-lbl">股票配息收入</div><div class="exp-sum-val" style="color:#1a6ea8;font-size:16px">${expFmt(divInc)}</div><div class="exp-sum-sub">呈年度估算</div></div>
+    <div class="exp-sum-box"><div class="exp-sum-lbl">股票配息收入</div><div class="exp-sum-val" style="color:#1a6ea8;font-size:16px">${expFmt(divInc)}</div><div class="exp-sum-sub">實際入帳</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">年度結餘</div><div class="exp-sum-val" style="color:${balance>=0?'var(--gr)':'var(--rd)'};font-size:16px">${expFmt(Math.abs(balance))}<span style="font-size:11px">${balance>=0?' ▲':' ▼'}</span></div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">本月支出</div><div class="exp-sum-val" style="font-size:16px">${expFmt(monthExp)}</div><div class="exp-sum-sub">${curM}月</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">本月配息</div><div class="exp-sum-val" style="color:#1a6ea8;font-size:16px">${monthDiv>0?expFmt(monthDiv):'—'}</div><div class="exp-sum-sub">${curM}月${monthDiv>0?'入帳':'無配息'}</div></div>`;
@@ -2651,7 +2821,7 @@ function renderExpOverview(){
       ${window._lastDivSync ? `<span style="font-size:10px;font-weight:600;opacity:.6;margin-left:6px">📈 配息已同步 ${new Date(window._lastDivSync).toLocaleDateString('zh-TW',{month:'numeric',day:'numeric'})}</span>` : ''}
     </div>
     <div class="exp-income-row"><span class="exp-income-lbl">🏠 租金等固定收入</span><span class="exp-income-val">NT$${salaryInc.toLocaleString()}</span></div>
-    <div class="exp-income-row"><span class="exp-income-lbl">📈 呈股票配息（估算）</span><span class="exp-income-val" style="color:#6ed888">NT$${divInc.toLocaleString()}</span></div>
+    <div class="exp-income-row"><span class="exp-income-lbl">📈 月配息收入（實際）</span><span class="exp-income-val" style="color:#6ed888">NT$${divInc.toLocaleString()}</span></div>
     <div style="height:1px;background:rgba(255,255,255,.2);margin:4px 0 6px"></div>
     <div class="exp-income-row"><span class="exp-income-lbl" style="font-weight:900">年度總收入</span><span class="exp-income-val">NT$${totalInc.toLocaleString()}</span></div>
     <div class="exp-income-row"><span class="exp-income-lbl">年度總支出</span><span class="exp-income-val">NT$${totalExp.toLocaleString()}</span></div>
@@ -2662,29 +2832,52 @@ function renderExpOverview(){
         <div style="font-size:11px;font-weight:900;opacity:.8;letter-spacing:.08em;text-transform:uppercase">📅 配息月份明細</div>
         <div style="font-size:12px;background:rgba(255,255,255,.12);padding:2px 10px;border-radius:8px;opacity:.8">${window.divOpen===false?'▼ 展開':'▲ 收合'}</div>
       </div>
-      ${window.divOpen===false ? '' : `
-      <div style="display:flex;gap:4px;flex-wrap:wrap;margin-bottom:8px">
-        <button onclick="event.stopPropagation();window.divM=0;renderExpOverview()" style="padding:3px 9px;border-radius:10px;border:none;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;background:${(window.divM||0)===0?'#6ed888':'rgba(255,255,255,.15)'};color:${(window.divM||0)===0?'#1a3a1a':'#fff'}">全部</button>
-        ${[1,2,3,4,5,6,7,8,9,10,11,12].map(m=>{
-          const hasDivs=incRecords.some(r=>r.month===m&&r.src&&r.src.includes('配息'));
-          if(!hasDivs)return '';
-          const active=(window.divM||0)===m;
-          return '<button onclick="event.stopPropagation();window.divM='+m+';renderExpOverview()" style="padding:3px 9px;border-radius:10px;border:none;font-size:11px;font-weight:800;cursor:pointer;font-family:inherit;background:'+(active?'#6ed888':'rgba(255,255,255,.15)')+';color:'+(active?'#1a3a1a':'#fff')+'">'+m+'月</button>';
-        }).join('')}
-      </div>
-      ${divRows}
-      <div style="font-size:11px;opacity:.5;margin-top:8px;line-height:1.7">
-        ※ 依存股計劃持股計算（2026/05/16更新）：<br>
-        　00878 50張 × $0.42 = 季配 $21,000（3,6,9,12月）<br>
-        　00918 6張 × $0.62 = 季配 $3,720（4,7,10月+隔年1月）<br>
-        　00981B 15張 × $0.072 = 月配 $1,080<br>
-        　00981D 15張 × $0.070 = 月配 $1,050<br>
-        　00400A 10張 × $0.075 = 月配 $750（7月起）<br>
-        　00996A 11張 × $0.15 = 季配 $1,650（6,9,12月）<br>
-        ※ 00999A、00403A 尚未配息，待公告後補入<br>
-        ※ 個股（矽力、仁寶、華通等）配息資料已移除
-      </div>`}
+      ${window.divOpen===false ? '' : '<div id="div-inline-wrap"></div>'}
     </div>`;
+
+  // 填充配息月份輸入格（純 DOM，避免模板字串引號衝突）
+  (function(){
+    var wrap = document.getElementById('div-inline-wrap');
+    if(!wrap) return;
+    wrap.innerHTML = '';
+    var now = new Date().getMonth()+1;
+    // 12格 grid
+    var grid = document.createElement('div');
+    grid.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px';
+    for(var m=1;m<=12;m++){
+      var yd = divRecords[selYear]||{}; var amt = yd[m]||0;
+      var isNow = (m===now);
+      var cell = document.createElement('div');
+      cell.style.cssText = 'display:flex;flex-direction:column;gap:3px';
+      var lbl = document.createElement('label');
+      lbl.style.cssText = 'font-size:10px;font-weight:700;opacity:.6;text-align:center';
+      lbl.textContent = m+'月';
+      var inp = document.createElement('input');
+      inp.type = 'number'; inp.id = 'div-il-'+m;
+      inp.value = (divRecords[selYear]&&divRecords[selYear][m]) ? divRecords[selYear][m] : ''; inp.placeholder = '0';
+      inp.style.cssText = 'background:rgba(255,255,255,.08);border:1.5px solid '+(isNow?'rgba(110,216,136,.5)':'rgba(255,255,255,.15)')+';border-radius:7px;color:#fff;font-family:inherit;font-size:13px;font-weight:700;padding:6px 5px;text-align:center;outline:none;width:100%';
+      (function(input, now_border, def_border){
+        input.addEventListener('focus', function(){ this.style.borderColor='#6ed888'; });
+        input.addEventListener('blur',  function(){ this.style.borderColor=def_border; });
+      })(inp, 'rgba(110,216,136,.5)', isNow?'rgba(110,216,136,.5)':'rgba(255,255,255,.15)');
+      cell.appendChild(lbl); cell.appendChild(inp);
+      grid.appendChild(cell);
+    }
+    wrap.appendChild(grid);
+    // 儲存按鈕列
+    var row = document.createElement('div');
+    row.style.cssText = 'display:flex;gap:8px;align-items:center';
+    var btn = document.createElement('button');
+    btn.textContent = '💾 儲存配息'; btn.id = 'div-save-btn';
+    btn.style.cssText = 'flex:1;padding:9px;background:#1a4a2a;border:1px solid #6ed888;border-radius:9px;color:#6ed888;font-family:inherit;font-size:13px;font-weight:900;cursor:pointer';
+    btn.onclick = function(e){ e.stopPropagation(); saveDivInline(); };
+    var msg = document.createElement('span');
+    msg.id = 'div-inline-msg';
+    msg.textContent = '✅ 已儲存';
+    msg.style.cssText = 'font-size:11px;color:#6ed888;font-weight:700;opacity:0;transition:opacity .3s';
+    row.appendChild(btn); row.appendChild(msg);
+    wrap.appendChild(row);
+  })();
 
   // category bars
   const catTotals={};
@@ -2737,12 +2930,12 @@ function renderExpOverview(){
 
 function renderExpMonth(){
   const m=expCurMonth;
-  document.getElementById('exp-mlbl').textContent=`2026年 ${m}月`;
+  document.getElementById('exp-mlbl').textContent=`${selYear}年 ${m}月`;
   document.getElementById('exp-month-title').textContent=`${m}月 開銷明細`;
-  const recs=expRecords.filter(r=>+r.date.slice(5,7)===m);
+  const recs=expRecords.filter(r=>r.date&&r.date.startsWith(String(selYear))&&+r.date.slice(5,7)===m);
   const total=recs.reduce((s,r)=>s+r.amt,0);
-  const incTotal=incRecords.filter(r=>r.month===m).reduce((s,r)=>s+r.amt,0);
-  const divTotal=incRecords.filter(r=>r.month===m&&r.src&&r.src.includes('配息')).reduce((s,r)=>s+r.amt,0);
+  const incTotal=incRecords.filter(r=>r.year===selYear&&r.month===m).reduce((s,r)=>s+r.amt,0);
+  const divTotal=incRecords.filter(r=>r.year===selYear&&r.month===m&&r.src&&r.src.includes('配息')).reduce((s,r)=>s+r.amt,0);
   const balance=incTotal-total;
   document.getElementById('exp-month-total').textContent=expFmt(total);
   document.getElementById('exp-month-summary').innerHTML=`
@@ -2756,6 +2949,7 @@ function renderExpMonth(){
 }
 
 function renderExp(){
+  renderDivGrid();
   if(expViewTab==='overview') renderExpOverview();
   else if(expViewTab==='month') renderExpMonth();
 }
@@ -2991,6 +3185,7 @@ function collectAllData() {
     cc_records:   JSON.parse(localStorage.getItem('cc_records') || 'null'),
     exp_records:  JSON.parse(localStorage.getItem('exp_records') || 'null'),
     inc_records:  JSON.parse(localStorage.getItem('inc_records') || 'null'),
+    div_records:  JSON.parse(localStorage.getItem('div_records') || 'null'),
     focus_custom: JSON.parse(localStorage.getItem('focus_custom') || '[]'),
     focus_status: JSON.parse(localStorage.getItem('focus_status') || 'null'),
   };
@@ -2999,7 +3194,7 @@ function collectAllData() {
 // ── 把 Firebase 資料寫回 localStorage 並重新渲染 ──
 async function applyAllData(data) {
   if (!data) return;
-  const keys = ['appts','bp','meds','cc_data','cc_records','exp_records','inc_records','focus_custom','focus_status'];
+  const keys = ['appts','bp','meds','cc_data','cc_records','exp_records','inc_records','div_records','focus_custom','focus_status'];
   keys.forEach(k => {
     if (data[k] !== undefined && data[k] !== null) {
       localStorage.setItem(k, JSON.stringify(data[k]));
@@ -3023,8 +3218,18 @@ async function applyAllData(data) {
     localStorage.setItem('exp_records', JSON.stringify(expRecords));
   }
   if (data.inc_records)  { incRecords = data.inc_records; }
+  if (data.div_records)  { divRecords = data.div_records; saveDivRecords(); syncDivToInc(); }
   if (data.focus_custom) { focusCustomItems = data.focus_custom; }
-  if (data.focus_status) { focusStatus = data.focus_status; }
+  if (data.focus_status) {
+    var fs = data.focus_status;
+    if(fs && typeof Object.values(fs)[0]==='object'){
+      focusStatus=fs;
+    } else {
+      focusStatus={2026:fs,2027:{},2028:{}};
+    }
+    if(!focusStatus[2027])focusStatus[2027]={};
+    if(!focusStatus[2028])focusStatus[2028]={};
+  }
 
   // ── Firebase 載入後，補上 HTML 裡新增的工作重點項目（Firebase 沒有的）──
   const allMonthItems = [
@@ -3038,7 +3243,7 @@ async function applyAllData(data) {
     ...(FOCUS_ITEMS_BY_MONTH[12]||[]),
   ];
   allMonthItems.forEach(it => {
-    if(!(it.id in focusStatus)) focusStatus[it.id] = it.initStatus;
+    if(!(it.id in (focusStatus[2026]||{}))) { if(!focusStatus[2026])focusStatus[2026]={}; focusStatus[2026][it.id]=it.initStatus; }
   });
   localStorage.setItem('focus_status', JSON.stringify(focusStatus));
 
@@ -3129,7 +3334,7 @@ async function loadDividendSync() {
         newDivRecs.push({
           id: 'fb_sync_' + item.code + '_' + m,
           month: m,
-          year: 2026,
+          year: selYear,
           amt: item.amt,
           src: `📈 ${item.code} ${item.name} ${distLabel}（${exInfo}${divPuInfo}${lots}張）`,
           cat: '📈 股票配息'

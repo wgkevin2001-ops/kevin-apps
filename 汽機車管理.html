@@ -3,13 +3,13 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>汽機車管理</title>
+<title>保養管理</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
   --teal:#0E9F8E;--teal2:#2AB5A5;--teal-dk:#0A7A65;
-  --bg:#F0F6F6;--card:#FFFFFF;--mid:#EDF7F5;
-  --text:#1A2E2C;--muted:#7AADA6;--border:rgba(14,159,142,.22);
+  --bg:#0D1117;--card:#161B22;--mid:#1C2128;
+  --text:#E8EDF4;--muted:#8B949E;--border:#21262D;
   --shadow:rgba(14,159,142,.15);--red:#E05555;--orange:#E67E00;--blue:#1A6EA8;
   /* 車輛主色（動態切換）*/
   --vc:#0E9F8E;--vc2:#2AB5A5;--vc-lt:rgba(14,159,142,.1);
@@ -18,7 +18,7 @@
 body{background:var(--bg);font-family:'Noto Sans TC',sans-serif;color:var(--text);min-height:100vh;padding:0 0 80px}
 
 /* ── 頂部 Header ── */
-.top-header{background:#fff;border-bottom:1px solid var(--border);padding:0 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(14,159,142,.1)}
+.top-header{background:#161B22;border-bottom:1px solid #21262D;padding:0 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(14,159,142,.1)}
 .hrow{display:flex;align-items:center;justify-content:space-between;padding:12px 0 10px}
 .hsub{font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-family:'DM Mono',monospace;font-weight:600}
 .hmain{font-size:19px;font-weight:900;color:var(--vc);margin-top:2px;letter-spacing:-.3px;transition:color .3s}
@@ -29,7 +29,7 @@ body{background:var(--bg);font-family:'Noto Sans TC',sans-serif;color:var(--text
 .vehicle-switcher{display:flex;gap:6px;padding:8px 0 10px;border-top:1px solid rgba(14,159,142,.1)}
 .vsw-btn{
   flex:1;padding:9px 10px;border:2px solid var(--border);border-radius:11px;
-  background:#fff;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;
+  background:#1C2128;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;
   display:flex;flex-direction:column;align-items:center;gap:2px;
 }
 .vsw-btn.active{border-color:var(--vc);background:var(--vc-lt)}
@@ -39,7 +39,7 @@ body{background:var(--bg);font-family:'Noto Sans TC',sans-serif;color:var(--text
 .vsw-btn.active .vsw-plate{color:var(--vc)}
 
 /* ── Tab Bar ── */
-.tab-bar{display:flex;background:#fff;border-bottom:1px solid var(--border);padding:0 4px;position:sticky;top:142px;z-index:90;box-shadow:0 1px 6px rgba(0,0,0,.05);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab-bar{display:flex;background:#161B22;border-bottom:1px solid #21262D;padding:0 4px;position:sticky;top:142px;z-index:90;box-shadow:0 1px 6px rgba(0,0,0,.05);overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tab-bar::-webkit-scrollbar{display:none}
 .tab-btn{flex:1 0 auto;padding:11px 12px;border:none;border-bottom:2.5px solid transparent;background:transparent;color:var(--muted);font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:5px;-webkit-tap-highlight-color:transparent}
 .tab-btn.active{color:var(--vc);border-bottom-color:var(--vc);font-weight:700;background:var(--vc-lt)}
@@ -111,7 +111,7 @@ textarea{resize:vertical;min-height:60px}
 .m-pills{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px}
 .m-pill{display:inline-flex;align-items:center;gap:3px;background:rgba(14,159,142,.12);color:var(--vc);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700}
 .m-cost{font-size:14px;font-weight:700;color:var(--red);margin-bottom:5px}
-.m-note{font-size:12px;color:#666;background:var(--mid);border-radius:7px;padding:8px 10px;margin-top:4px;border-left:3px solid var(--vc)}
+.m-note{font-size:12px;color:#8B949E;background:var(--mid);border-radius:7px;padding:8px 10px;margin-top:4px;border-left:3px solid var(--vc)}
 .empty-msg{text-align:center;color:var(--muted);font-size:14px;padding:32px 16px;font-family:'DM Mono',monospace;line-height:2}
 
 /* ── Filter ── */
@@ -127,7 +127,7 @@ textarea{resize:vertical;min-height:60px}
 .chart-bar-wrap{background:var(--mid);border-radius:11px;padding:12px;margin-bottom:8px}
 .chart-title{font-size:11px;color:var(--muted);margin-bottom:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
 .chart-row{display:flex;align-items:center;gap:8px;margin-bottom:7px}
-.chart-lbl{font-size:12px;color:#555;width:64px;flex-shrink:0;text-align:right}
+.chart-lbl{font-size:12px;color:#8B949E;width:64px;flex-shrink:0;text-align:right}
 .chart-bar-bg{flex:1;background:rgba(14,159,142,.12);border-radius:100px;height:10px;overflow:hidden}
 .chart-bar{height:100%;background:linear-gradient(90deg,var(--teal-dk),var(--teal));border-radius:100px;transition:width .5s ease}
 .chart-val{font-size:11px;color:var(--vc);font-weight:700;width:52px;flex-shrink:0;text-align:right;font-family:'DM Mono',monospace}
@@ -139,7 +139,7 @@ textarea{resize:vertical;min-height:60px}
 .annual-month-title{font-size:14px;font-weight:700}
 .annual-month-meta{font-size:12px;color:var(--muted);margin-top:2px}
 .annual-month-cost{font-size:16px;font-weight:900;color:var(--red)}
-.arrow{font-size:12px;color:#bbb;transition:transform .25s;flex-shrink:0}
+.arrow{font-size:12px;color:#6E7681;transition:transform .25s;flex-shrink:0}
 .arrow.open{transform:rotate(90deg);color:var(--vc)}
 
 /* ── Vehicle Info Card ── */
@@ -176,7 +176,7 @@ textarea{resize:vertical;min-height:60px}
 .ins-divider{height:1px;background:var(--border);margin:10px 0}
 .ins-call-btn{display:flex;align-items:center;gap:10px;background:rgba(14,159,142,.08);border:1px solid rgba(14,159,142,.2);border-radius:10px;padding:11px 13px;text-decoration:none;color:var(--text);-webkit-tap-highlight-color:transparent;transition:opacity .15s}
 .ins-call-btn:active{opacity:.75}
-.ins-note-box{background:var(--mid);border-radius:10px;padding:10px 12px;font-size:12px;color:#555;line-height:1.7}
+.ins-note-box{background:var(--mid);border-radius:10px;padding:10px 12px;font-size:12px;color:#8B949E;line-height:1.7}
 .ins-coverage{border-radius:8px;padding:8px 10px;margin-bottom:4px}
 .ins-coverage.blue{background:rgba(26,110,168,.06);border:1px solid rgba(26,110,168,.15)}
 .ins-coverage.green{background:rgba(26,122,58,.06);border:1px solid rgba(26,122,58,.15)}
@@ -184,78 +184,265 @@ textarea{resize:vertical;min-height:60px}
 .ins-coverage.gray{background:rgba(100,100,100,.05);border:1px solid rgba(100,100,100,.15)}
 .ins-cov-name{font-size:12px;font-weight:700;color:var(--text);margin-bottom:5px}
 .ins-cov-row{display:grid;grid-template-columns:1fr 70px 60px 46px;gap:4px;font-size:11px;align-items:center;margin-bottom:3px}
-.ins-cov-row span:first-child{color:#666}
+.ins-cov-row span:first-child{color:#8B949E}
 
 /* RWD */
-@media(max-width:599px){body{padding:0 0 80px}.pane{padding:12px 12px 20px}.tab-bar{top:148px}}
+@media(max-width:599px){body{padding:0 0 80px}.pane{padding:12px 12px 20px}.tab-bar{top:224px}}
 @media(min-width:900px){
-  body{padding:0 0 80px 220px}
-  .tab-bar{position:fixed;left:0;top:0;bottom:0;width:210px;flex-direction:column;align-items:stretch;padding:180px 10px 24px;border-right:1px solid var(--border);border-bottom:none;overflow-y:auto;overflow-x:hidden;height:100vh;gap:3px;z-index:150;background:#fff;box-shadow:2px 0 12px rgba(0,0,0,.04)}
-  .tab-btn{padding:11px 14px;border-bottom:none;border-left:3px solid transparent;border-radius:10px;justify-content:flex-start;font-size:13.5px;margin-bottom:2px}
-  .tab-btn.active{border-bottom:none;border-left-color:var(--vc);background:var(--vc-lt);color:var(--vc);font-weight:800}
-  .top-header{padding:0 32px 0 240px}
+  body{padding:48px 0 80px 220px}
+  .tab-bar{
+    position:fixed;left:0;top:48px;bottom:0;width:200px;
+    flex-direction:column;align-items:stretch;
+    padding:0 10px 24px;
+    border-right:1px solid #21262D;border-bottom:none;
+    overflow-y:auto;overflow-x:hidden;
+    box-shadow:2px 0 12px rgba(0,0,0,.3);
+    gap:3px;z-index:150;background:#161B22;
+  }
+  .tab-bar::before{
+    content:'🚗 保養管理';
+    display:block;
+    font-family:'Plus Jakarta Sans','Noto Sans TC',sans-serif;
+    font-size:16px;font-weight:900;
+    color:#58A6FF;letter-spacing:-.3px;
+    padding:28px 14px 20px;
+    border-bottom:1px solid #21262D;
+    margin-bottom:8px;
+    flex-shrink:0;
+  }
+  .tab-btn{
+    padding:12px 14px;
+    border:none;border-left:3px solid transparent;
+    border-radius:10px;
+    justify-content:flex-start;font-size:13.5px;font-weight:600;
+    margin-bottom:2px;color:#8B949E;
+    background:transparent;
+  }
+  .tab-btn:hover:not(.active){background:#21262D !important;color:#C9D1D9 !important;border-left-color:transparent}
+  .tab-btn.active{
+    border-left-color:#1F6FEB;
+    background:rgba(31,111,235,.15) !important;
+    color:#58A6FF !important;font-weight:800;
+  }
+  .top-header{padding:0 32px 0 224px;top:38px}
+  body{padding-left:200px}
 }
 
-/* ── 快速導覽列 ── */
-.site-nav-bar {
-  display: flex; align-items: center;
-  border-top: 1px solid rgba(14,159,142,.10);
-  overflow-x: auto; scrollbar-width: none;
-  background: #fff;
+/* ── App Top Bar ── */
+.app-top-bar{display:flex;align-items:center;gap:4px;background:#0A0E14;border-bottom:1px solid #1C2128;padding:0 16px;height:48px;position:sticky;top:0;z-index:9999;overflow-x:auto;scrollbar-width:none}
+.app-top-bar::-webkit-scrollbar{display:none}
+.app-top-bar-link{display:flex;align-items:center;gap:6px;color:#6E7681;font-size:13px;font-weight:700;text-decoration:none;padding:6px 13px;border-radius:8px;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.app-top-bar-link:hover{color:#C9D1D9;background:#161B22}
+.app-top-bar-link.active{color:#58A6FF;background:rgba(88,166,255,.1)}
+.app-top-bar-divider{width:1px;height:22px;background:#21262D;flex-shrink:0;margin:0 4px}
+
+/* ══════════════════════════════════════
+   全域深藍深色主題（呈貝持股風格）
+══════════════════════════════════════ */
+:root {
+  --dark-bg:     #0D1117;
+  --dark-card:   #161B22;
+  --dark-card2:  #1C2128;
+  --dark-bdr:    #21262D;
+  --dark-bdr2:   #30363D;
+  --dark-ink:    #E8EDF4;
+  --dark-mid:    #C9D1D9;
+  --dark-muted:  #8B949E;
+  --dark-faint:  #6E7681;
+  --dark-blue:   #1F6FEB;
+  --dark-blue-lt:#58A6FF;
+  --dark-blue-hl:#79C0FF;
+  --dark-green:  #3FB950;
+  --dark-red:    #F85149;
+  --dark-yellow: #E3B341;
 }
-.site-nav-bar::-webkit-scrollbar { display: none; }
-.site-nav-home {
-  display: flex; align-items: center; gap: 4px;
-  padding: 7px 12px;
-  font-size: 12px; font-weight: 800;
-  color: #0E9F8E; text-decoration: none;
-  white-space: nowrap;
-  border-right: 1px solid rgba(14,159,142,.18);
-  margin-right: 4px; flex-shrink: 0;
+body {
+  background: #0D1117 !important;
+  color: #E8EDF4 !important;
 }
-.site-nav-home:hover { color: #0a7a6e; }
-.site-nav-links { display: flex; overflow-x: auto; scrollbar-width: none; }
-.site-nav-links::-webkit-scrollbar { display: none; }
-.site-nav-link {
-  display: flex; align-items: center;
-  padding: 7px 11px;
-  font-size: 11.5px; font-weight: 600;
-  color: #6B7280; text-decoration: none;
-  white-space: nowrap; flex-shrink: 0;
-  border-bottom: 2px solid transparent;
-  transition: color .15s, background .15s;
+/* 所有卡片、面板、section */
+.card, .section-card, .sum-card, .panel, .pane,
+[class*="-card"], [class*="-panel"], [class*="-box"],
+[class*="-form"], [class*="-wrap"]:not(.toast):not(#pw-overlay):not(#pw-box) {
+  background: #161B22 !important;
+  border-color: #21262D !important;
+  color: #E8EDF4 !important;
 }
-.site-nav-link:hover { color: #0E9F8E; background: rgba(14,159,142,.05); }
-.site-nav-link.site-nav-active {
-  color: #0E9F8E; font-weight: 800;
-  border-bottom-color: #0E9F8E;
+/* Header */
+header, .top-header, .cal-header, .topnav, .cal-hrow1,
+[class*="header"]:not(.section-hdr):not(.app-top-bar) {
+  background: #161B22 !important;
+  border-color: #21262D !important;
+  color: #E8EDF4 !important;
 }
-@media print { .site-nav-bar { display: none !important; } }
+/* Section headers / table headers */
+.section-hdr, .card-hdr, [class*="-hdr"]:not(.cal-hrow1),
+thead, thead th {
+  background: #1C2128 !important;
+  border-color: #21262D !important;
+  color: #8B949E !important;
+}
+/* Tables */
+table { border-color: #21262D !important; }
+tbody tr { border-color: #21262D !important; color: #C9D1D9 !important; }
+tbody tr:hover { background: #1C2128 !important; }
+tbody td { color: #C9D1D9 !important; border-color: #21262D !important; }
+/* Inputs / selects / textareas */
+input:not([type=checkbox]):not([type=radio]):not([type=range]),
+select, textarea {
+  background: #0D1117 !important;
+  border-color: #30363D !important;
+  color: #E8EDF4 !important;
+}
+input:focus, select:focus, textarea:focus {
+  border-color: #58A6FF !important;
+  outline: none !important;
+}
+/* Buttons */
+button:not(.app-top-bar-link):not([class*="active"]):not([class*="primary"]):not([class*="add"]):not([class*="vsw-btn"]) {
+  background: #21262D !important;
+  border-color: #30363D !important;
+  color: #8B949E !important;
+}
+/* 主要按鈕（含 active）保持顏色 */
+button[class*="active"], button[class*="primary"],
+button[class*="add-btn"], button[class*="save"],
+.tab-btn.active, .nav-tab.active, .topnav-tab.active,
+.cal-nav-tab.active {
+  background: rgba(31,111,235,.15) !important;
+  color: #58A6FF !important;
+  border-color: #1F6FEB !important;
+}
+/* Modal */
+.modal, .modal-box, [class*="modal"]:not(.modal-bg) {
+  background: #1C2128 !important;
+  border-color: #21262D !important;
+  color: #E8EDF4 !important;
+}
+.modal-bg, [class*="-overlay"] {
+  background: rgba(0,0,0,.8) !important;
+}
+/* 白色文字覆蓋 */
+p, span, label, div, h1, h2, h3, h4, h5, td, th, li {
+  color: inherit;
+}
+/* 邊框線 */
+hr, [class*="-divider"], [class*="-sep"] {
+  background: #21262D !important;
+  border-color: #21262D !important;
+}
+/* Scrollbar */
+* { scrollbar-color: #30363D #0D1117; }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: #0D1117; }
+::-webkit-scrollbar-thumb { background: #30363D; border-radius: 3px; }
+
+/* ══ 深藍主題全局覆蓋（所有裝置）══ */
+body { background: #0D1117 !important; color: #E8EDF4 !important; }
+* { box-sizing: border-box; }
+
+/* 背景 */
+.bg-white, [style*="background:#fff"], [style*="background: #fff"],
+[style*="background:#FFF"], [style*="background:white"],
+[style*="background: white"] { background: #161B22 !important; }
+
+/* 所有卡片類 */
+.card, .panel, .pane, .section-card, .sum-card, .sum-box,
+.warn-item, .note-item, .info-box, .detail-box,
+[class*="-card"]:not(.app-top-bar-link),
+[class*="-panel"]:not(.app-top-bar),
+[class*="-box"]:not(#pw-box):not(.pw-box),
+[class*="-form"], [class*="-wrap"]:not(.toast):not([id*="overlay"]):not([id*="pw"]) {
+  background: #161B22 !important;
+  border-color: #21262D !important;
+  color: #E8EDF4 !important;
+}
+/* 較淡的次卡片 */
+[class*="-hdr"]:not(.app-top-bar):not(header),
+[class*="-head"]:not(header),
+[class*="section-hdr"], [class*="card-hdr"],
+thead, thead th {
+  background: #1C2128 !important;
+  color: #8B949E !important;
+  border-color: #21262D !important;
+}
+/* Header / Nav */
+header, .top-header, .cal-header, .topnav,
+.tab-bar, .nav-tabs, .cal-nav-tabs {
+  background: #161B22 !important;
+  border-color: #21262D !important;
+}
+/* Tables */
+table { border-color: #21262D !important; }
+tbody tr { border-color: #21262D !important; }
+tbody tr:hover { background: #1C2128 !important; }
+tbody td, tbody th { color: #C9D1D9 !important; border-color: #21262D !important; }
+/* Inputs */
+input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=color]),
+select, textarea {
+  background: #0D1117 !important;
+  border-color: #30363D !important;
+  color: #E8EDF4 !important;
+}
+input::placeholder, textarea::placeholder { color: #6E7681 !important; }
+input:focus, select:focus, textarea:focus {
+  border-color: #58A6FF !important;
+  outline: none !important;
+  box-shadow: 0 0 0 3px rgba(88,166,255,.15) !important;
+}
+/* Modals */
+[class*="modal"]:not([class*="bg"]):not([class*="overlay"]) {
+  background: #1C2128 !important;
+  border-color: #21262D !important;
+  color: #E8EDF4 !important;
+}
+[class*="modal-bg"], [class*="modal-overlay"], [class*="-overlay"]:not(#pw-overlay) {
+  background: rgba(0,0,0,.85) !important;
+}
+/* 按鈕通用 */
+button:not(.app-top-bar-link):not([class*="active"]):not(.vsw-btn.active):not([class*="add-btn"]):not([class*="save"]):not([class*="primary"]):not([class*="del"]) {
+  background: #21262D !important;
+  border-color: #30363D !important;
+  color: #8B949E !important;
+}
+button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
+/* Active tabs */
+.tab-btn.active, .nav-tab.active, .topnav-tab.active,
+.cal-nav-tab.active, [class*="-tab"].active, [class*="-btn"].active {
+  background: rgba(31,111,235,.15) !important;
+  color: #58A6FF !important;
+  border-color: #1F6FEB !important;
+}
+/* Muted text */
+[class*="muted"], [class*="sub"], [class*="lbl"]:not(label),
+[class*="meta"], [class*="-date"]:not(input) { color: #8B949E !important; }
+/* Scrollbar */
+* { scrollbar-color: #30363D #0D1117; }
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #0D1117; }
+::-webkit-scrollbar-thumb { background: #30363D; border-radius: 3px; }
 </style>
 </head>
 <body>
-<div style="position:sticky;top:0;z-index:999;box-shadow:0 1px 3px rgba(0,0,0,.08)">
-  <!-- 快速導覽列 -->
-  <div class="site-nav-bar">
-    <a class="site-nav-home" href="index.html" title="回到首頁">🏠 首頁</a>
-    <div class="site-nav-links">
-      <a class="site-nav-link" href="2026行事曆.html">📅 行事曆</a>
-      <a class="site-nav-link" href="計程車營收彙總.html">🚖 營收彙總</a>
-      <a class="site-nav-link site-nav-active" href="汽機車管理.html">🏍️ 車輛管理</a>
-      <a class="site-nav-link" href="呈貝目前持股.html">📈 持股報告</a>
-      <a class="site-nav-link" href="doc-viewer.html">📂 文件管理</a>
-      <a class="site-nav-link" href="contracts.html">📋 合約管理</a>
-      <a class="site-nav-link" href="menu.html">🪿 鵝店食譜</a>
-      <a class="site-nav-link" href="goose-pos.html">🧾 訂餐系統</a>
-    </div>
-  </div>
-</div>
 
 <!-- Top Header -->
+<div class="app-top-bar">
+  <a class="app-top-bar-link" href="index.html">🏠 首頁</a>
+  <div class="app-top-bar-divider"></div>
+  <a class="app-top-bar-link" href="2026行事曆.html">📅 行事曆</a>
+  <a class="app-top-bar-link" href="計程車營收彙總.html">🚖 計程車彙總</a>
+  <a class="app-top-bar-link active" href="汽機車管理.html">🏍️ 汽機車管理</a>
+  <a class="app-top-bar-link" href="呈貝目前持股.html">📈 持股</a>
+  <a class="app-top-bar-link" href="doc-viewer.html">📂 文件</a>
+  <a class="app-top-bar-link" href="contracts.html">📋 合約</a>
+  <a class="app-top-bar-link" href="menu.html">🪿 菜單</a>
+  <a class="app-top-bar-link" href="goose-pos.html">🧾 點餐</a>
+</div>
+
 <header class="top-header">
   <div class="hrow">
     <div>
-      <div class="hsub" id="hdr-sub">汽機車管理</div>
+      <div class="hsub" id="hdr-sub">保養管理系統</div>
       <div class="hmain" id="hdr-main">🏍️ 保養紀錄</div>
     </div>
     <div class="hdate-wrap">
@@ -415,9 +602,9 @@ textarea{resize:vertical;min-height:60px}
 
   <div class="card t-red">
     <div class="slbl">⚠️ 資料管理</div>
-    <div style="background:linear-gradient(135deg,#E6F4F2,#D4EDEA);border:1.5px solid rgba(14,159,142,.35);border-radius:10px;padding:13px;margin-bottom:12px">
+    <div style="background:linear-gradient(135deg,#1C2128,#D4EDEA);border:1.5px solid rgba(14,159,142,.35);border-radius:10px;padding:13px;margin-bottom:12px">
       <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px"><span style="font-size:20px">☁️</span><div style="font-size:14px;font-weight:900;color:var(--teal)">資料已儲存於 Firebase 雲端</div></div>
-      <div style="font-size:12px;color:#4A7A75;line-height:1.8">
+      <div style="font-size:12px;color:#8B949E;line-height:1.8">
         📱 換手機、清快取皆不影響資料<br>
         🔄 多裝置開啟同一 HTML 可即時同步<br>
         💾 機車路徑：<code style="background:rgba(14,159,142,.12);padding:1px 5px;border-radius:4px;font-size:10px">bike/moto/maint</code>　汽車路徑：<code style="background:rgba(14,159,142,.12);padding:1px 5px;border-radius:4px;font-size:10px">bike/car/maint</code>
@@ -439,17 +626,166 @@ textarea{resize:vertical;min-height:60px}
 
   <!-- 到期倒數總覽 -->
   <div class="card t-vc" id="ins-countdown-card">
-    <div class="slbl" id="ins-countdown-title">⏰ 保險到期倒數</div>
+    <div class="slbl">⏰ 保險到期倒數</div>
     <div id="ins-countdown-list"></div>
   </div>
 
-  <!-- ── 機車：新增任意險表單 ── -->
-  <div id="ins-moto-extra" style="display:none">
-    <div class="card" style="border:1.5px dashed rgba(14,159,142,.3);background:rgba(14,159,142,.03);text-align:center;padding:18px 16px;margin-bottom:10px">
-      <div style="font-size:26px;margin-bottom:6px">🔵</div>
-      <div style="font-size:14px;font-weight:700;color:var(--teal);margin-bottom:4px">第三人責任險</div>
-      <div style="font-size:12px;color:var(--muted);margin-bottom:12px;line-height:1.8">尚未加入任意險資料<br>可使用下方表單新增</div>
-      <button onclick="showMotoInsForm()" style="background:var(--teal);color:#fff;border:none;border-radius:9px;padding:9px 18px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">➕ 新增機車保險資料</button>
+  <!-- ── TDZ-0950 計程車保險 ── -->
+  <div class="ins-section" id="ins-car">
+
+    <!-- 強制責任險（富邦）-->
+    <div class="ins-block">
+      <div class="ins-block-hdr" ondblclick="toggleIns(this)" ontouchstart="insHandleTouchStart(event,this)" ontouchend="insHandleTouchEnd(event,this)">
+        <div>
+          <div class="ins-block-title">🔴 強制汽車責任保險</div>
+          <div class="ins-block-sub">富邦產物保險股份有限公司｜TDZ-0950</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="ins-exp-badge" id="ins-badge-compulsory"></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="ins-block-hint">點兩下展開細項 ▾</div>
+      <div class="ins-block-body">
+        <div class="ins-row"><span>保險證號碼</span><span style="font-size:11px;font-family:'DM Mono',monospace">051026KCA0002048</span></div>
+        <div class="ins-row"><span>查詢編號</span><span style="font-size:11px;font-family:'DM Mono',monospace">052026030236522</span></div>
+        <div class="ins-row"><span>被保險人（車主）</span><span>青宮交通股份有限公司</span></div>
+        <div class="ins-row"><span>車輛種類</span><span>營業小客車｜民國113年原始發照</span></div>
+        <div class="ins-row"><span>廠牌型式</span><span>國瑞（國產）｜1798 cc</span></div>
+        <div class="ins-row"><span>引擎／車身號碼</span><span style="font-size:11px;font-family:'DM Mono',monospace">2ZRX706989</span></div>
+        <div class="ins-row exp"><span>保險期間</span><span>115/04/25 → 116/04/25（12個月）</span></div>
+        <div class="ins-row"><span>係數等級</span><span>2</span></div>
+        <div class="ins-divider"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+          <a href="tel:0800009888" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:12px 8px;background:rgba(224,85,85,.07);border-color:rgba(224,85,85,.2)">
+            <span style="font-size:20px">📞</span>
+            <div style="font-weight:700;font-size:12px;margin-top:3px">富邦產險 理賠／道路救援</div>
+            <div style="font-size:11px;opacity:.8">0800-009-888（免費24H）</div>
+          </a>
+          <div class="ins-note-box" style="text-align:center">
+            <div style="font-size:11px;font-weight:700;margin-bottom:4px">富邦指定拖吊</div>
+            <div style="font-size:11px;line-height:1.8">全鋒：0800-013-013<br>行遍天下：0800-071-111</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 第三責任險（新安東京）-->
+    <div class="ins-block">
+      <div class="ins-block-hdr" ondblclick="toggleIns(this)" ontouchstart="insHandleTouchStart(event,this)" ontouchend="insHandleTouchEnd(event,this)">
+        <div>
+          <div class="ins-block-title">🔵 第三人責任險（任意險）</div>
+          <div class="ins-block-sub">新安東京海上產物保險｜TDZ-0950</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="ins-exp-badge" id="ins-badge-third"></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="ins-block-hint">點兩下展開細項 ▾</div>
+      <div class="ins-block-body">
+        <div class="ins-row"><span>保單號碼</span><span style="font-size:11px;font-family:'DM Mono',monospace">17000 第15V9005830號</span></div>
+        <div class="ins-row"><span>續保單號碼</span><span style="font-size:11px;font-family:'DM Mono',monospace">17000 第14V9006690號</span></div>
+        <div class="ins-row"><span>被保險人</span><span>青宮交通股份有限公司（王介呈）</span></div>
+        <div class="ins-row"><span>要保人</span><span>王介呈</span></div>
+        <div class="ins-row"><span>被保險人地址</span><span style="font-size:11px">新北市板橋區文化路一段52巷14號4樓</span></div>
+        <div class="ins-row exp"><span>保險期間</span><span>115/05/03 → 116/05/03</span></div>
+        <div class="ins-row"><span>車種</span><span>15 計程車（營業）</span></div>
+        <div class="ins-row"><span>廠牌型式</span><span>國瑞 09116100｜1798 C.C.</span></div>
+        <div class="ins-row"><span>引擎號碼</span><span style="font-family:'DM Mono',monospace">2ZRX706989</span></div>
+        <div class="ins-row"><span>製造年份</span><span>西元 2020 年（民國 113/04 發照）</span></div>
+        <div class="ins-row"><span>乘載數</span><span>5.0 人</span></div>
+        <div class="ins-divider"></div>
+        <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:6px;letter-spacing:.06em">📋 承保內容（新台幣）</div>
+        <div style="display:grid;grid-template-columns:1fr 72px 52px 44px;gap:3px;font-size:10px;color:var(--muted);padding:3px 6px;margin-bottom:4px">
+          <span>險種</span><span style="text-align:center">保額</span><span style="text-align:center">自負額</span><span style="text-align:right">保費</span>
+        </div>
+        <div class="ins-coverage blue">
+          <div class="ins-cov-name" style="color:#8B949E">31 第三人傷害責任險 (V)</div>
+          <div class="ins-cov-row"><span>每一個人傷害</span><b>100萬</b><span style="color:var(--red)">10,000</span><b style="color:var(--orange)">7,151</b></div>
+          <div class="ins-cov-row"><span>每一意外事故之傷害</span><b>200萬</b><span style="color:var(--muted)">同上</span><span style="color:var(--muted)">—</span></div>
+        </div>
+        <div class="ins-coverage blue" style="opacity:.85">
+          <div class="ins-cov-name" style="color:#8B949E">32 第三人財損責任險 (V)</div>
+          <div class="ins-cov-row"><span>每一意外事故之財損</span><b>30萬</b><span style="color:var(--red)">10,000</span><b style="color:var(--orange)">4,872</b></div>
+        </div>
+        <div class="ins-coverage green">
+          <div class="ins-cov-name" style="color:#8B949E">56 第三人責任附加駕駛人傷害險</div>
+          <div class="ins-cov-row"><span>傷害醫療－實支實付型</span><b>20萬</b><span style="color:var(--teal)">無</span><b style="color:var(--orange)">756</b></div>
+          <div class="ins-cov-row"><span>失能或死亡保險金</span><b>200萬</b><span style="color:var(--teal)">無</span><span style="color:var(--muted)">—</span></div>
+          <div style="font-size:10px;color:#8B949E;margin-top:3px">被保人：王介呈（F124741102）受益人：本人</div>
+        </div>
+        <div class="ins-coverage orange">
+          <div class="ins-cov-name" style="color:#8B949E">30 汽車超額責任險保障型</div>
+          <div class="ins-cov-row"><span>超額責任</span><b>300萬</b><span style="color:var(--teal)">無</span><b style="color:var(--orange)">5,276</b></div>
+        </div>
+        <div class="ins-coverage gray">
+          <div class="ins-cov-name">238 道路救援費用附加條款</div>
+          <div class="ins-cov-row"><span>每一事故</span><b>3萬</b><span style="color:var(--teal)">無</span><b style="color:var(--orange)">992</b></div>
+          <div class="ins-cov-row"><span>拖吊里程不限公里</span><b>保險期間</b><span>15萬km</span><span>—</span></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:rgba(230,126,0,.12);border:1px solid rgba(230,126,0,.3);border-radius:8px;margin-top:6px">
+          <div>
+            <div style="font-size:13px;font-weight:700;color:var(--orange)">任意險總保費</div>
+            <div style="font-size:10px;color:var(--muted);margin-top:1px">附加丙式條款・續保約定附加條款</div>
+          </div>
+          <span style="font-size:18px;font-weight:900;color:var(--orange)">NT$ 19,047</span>
+        </div>
+        <div class="ins-divider"></div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <a href="tel:0800050119" class="ins-call-btn">
+            <span style="font-size:18px">📞</span>
+            <div><div style="font-weight:700;font-size:13px">新安東京海上 客服／道路救援</div><div style="font-size:11px;opacity:.8">0800-050-119（免費24H）</div></div>
+          </a>
+          <a href="tel:0926888178" class="ins-call-btn" style="background:rgba(14,159,142,.05)">
+            <span style="font-size:18px">📱</span>
+            <div><div style="font-weight:700;font-size:13px">業務員 李孝寬（榮勝保代）</div><div style="font-size:11px;opacity:.8">0926-888-178</div></div>
+          </a>
+        </div>
+        <div style="background:#0D1117;border:1px solid rgba(230,126,0,.2);border-radius:8px;padding:8px 11px;margin-top:8px;font-size:11px;color:#8B949E;line-height:1.8">
+          📌 經辦代號：Y61031E011 榮勝多元　管理人：宋釗柔<br>
+          📌 報價單號：0015CVQ0302015801　列印日：115/03/02
+        </div>
+      </div>
+    </div>
+
+    <!-- 乘客險 -->
+    <div class="ins-block">
+      <div class="ins-block-hdr" ondblclick="toggleIns(this)" ontouchstart="insHandleTouchStart(event,this)" ontouchend="insHandleTouchEnd(event,this)">
+        <div>
+          <div class="ins-block-title">🟢 旅客運送業責任保險（乘客險）</div>
+          <div class="ins-block-sub">新安東京海上產物保險｜TDZ-0950</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <div class="ins-exp-badge" id="ins-badge-passenger"></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="ins-block-hint">點兩下展開細項 ▾</div>
+      <div class="ins-block-body">
+        <div class="ins-row"><span>保單號碼</span><span style="font-size:11px;font-family:'DM Mono',monospace">02014CT000531</span></div>
+        <div class="ins-row"><span>被保險人</span><span>青宮交通股份有限公司</span></div>
+        <div class="ins-row"><span>車行／駕駛人</span><span>青宮交通股份有限公司</span></div>
+        <div class="ins-row"><span>車牌號碼</span><span style="font-weight:900;color:var(--orange)">TDZ-0950</span></div>
+        <div class="ins-row exp"><span>保險期間</span><span>115/09/30 → 116/09/30</span></div>
+        <div class="ins-row green"><span>保險金額</span><span style="color:#8B949E;font-weight:900">每人死亡／失能／醫療 500萬</span></div>
+        <div class="ins-divider"></div>
+        <a href="tel:0800050119" class="ins-call-btn">
+          <span style="font-size:18px">📞</span>
+          <div><div style="font-weight:700;font-size:13px">新安東京海上 客服專線</div><div style="font-size:11px;opacity:.8">0800-050-119（免費）</div></div>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── MXB-9535 機車保險（空白可填）── -->
+  <div class="ins-section" id="ins-moto" style="display:none">
+    <div class="card" style="border:1.5px dashed rgba(14,159,142,.3);background:rgba(14,159,142,.03);text-align:center;padding:24px 16px">
+      <div style="font-size:32px;margin-bottom:8px">🏍️</div>
+      <div style="font-size:15px;font-weight:700;color:var(--teal);margin-bottom:6px">MXB-9535 機車保險</div>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:14px;line-height:1.8">強制險、第三責任險資料<br>可在此記錄備查</div>
+      <button onclick="showMotoInsForm()" style="background:var(--teal);color:#fff;border:none;border-radius:9px;padding:10px 20px;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit">➕ 新增機車保險資料</button>
     </div>
     <div id="moto-ins-form" style="display:none">
       <div class="card t-vc">
@@ -457,7 +793,7 @@ textarea{resize:vertical;min-height:60px}
         <div class="fg">
           <div class="two">
             <div class="field"><label>保險公司</label><input type="text" id="mi-company" placeholder="例：新安東京海上"></div>
-            <div class="field"><label>險種</label><input type="text" id="mi-type" placeholder="例：第三責任險"></div>
+            <div class="field"><label>險種</label><input type="text" id="mi-type" placeholder="例：強制責任險"></div>
           </div>
           <div class="field"><label>保單號碼</label><input type="text" id="mi-policy"></div>
           <div class="two">
@@ -478,49 +814,63 @@ textarea{resize:vertical;min-height:60px}
   </div>
 
   <!-- ── 道路救援 & 緊急電話（共用）── -->
-  <div class="card" style="border-top:3px solid var(--red);margin-top:4px">
-    <div class="slbl">🆘 道路救援 ＆ 緊急電話</div>
-    <div style="background:rgba(224,85,85,.07);border:1px solid rgba(224,85,85,.15);border-radius:8px;padding:10px 12px;margin-bottom:12px;font-size:12px;color:#666;line-height:1.9">
-      🚨 <b style="color:var(--red)">事故先撥 110（警察）或 119（救護）</b><br>
-      ⚠️ 國道故障 → 先撥保險公司申告再處理拖吊<br>
-      📌 計程車載客時保險業者<b>不提供免費道路救援</b>
+  <div class="ins-block">
+    <div class="ins-block-hdr" ondblclick="toggleIns(this)" ontouchstart="insHandleTouchStart(event,this)" ontouchend="insHandleTouchEnd(event,this)">
+      <div>
+        <div class="ins-block-title">🆘 道路救援 ＆ 緊急電話</div>
+        <div class="ins-block-sub">事故時優先撥打</div>
+      </div>
+      <span class="arrow">▶</span>
     </div>
-    <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.06em">📞 保單道路救援</div>
-    <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
-      <a href="tel:0800009888" class="ins-call-btn" style="background:rgba(224,85,85,.06);border-color:rgba(224,85,85,.2)">
-        <span style="font-size:18px">📞</span>
-        <div><div style="font-weight:700;font-size:13px">富邦產險（強制責任險）</div><div style="font-size:11px;opacity:.8">0800-009-888｜MXB-9535 & TDZ-0950</div></div>
-      </a>
-      <a href="tel:0800050119" class="ins-call-btn">
-        <span style="font-size:18px">📞</span>
-        <div><div style="font-weight:700;font-size:13px">新安東京海上（第三責任險）</div><div style="font-size:11px;opacity:.8">0800-050-119｜TDZ-0950</div></div>
-      </a>
-    </div>
-    <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.06em">🚛 拖吊業者</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px">
-      <a href="tel:0800013013" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px">
-        <span style="font-size:18px">🚛</span><div style="font-weight:700;font-size:12px;margin-top:3px">全鋒道路救援</div><div style="font-size:11px;opacity:.8">0800-013-013</div>
-      </a>
-      <a href="tel:0800071111" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px">
-        <span style="font-size:18px">🚛</span><div style="font-weight:700;font-size:12px;margin-top:3px">行遍天下</div><div style="font-size:11px;opacity:.8">0800-071-111</div>
-      </a>
-    </div>
-    <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.06em">🚨 緊急電話</div>
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-      <a href="tel:110" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px;background:rgba(26,110,168,.08);border-color:rgba(26,110,168,.2)">
-        <span style="font-size:22px">👮</span><div style="font-weight:900;font-size:16px">110</div><div style="font-size:11px;opacity:.8">警察報案</div>
-      </a>
-      <a href="tel:119" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px;background:rgba(224,85,85,.08);border-color:rgba(224,85,85,.2)">
-        <span style="font-size:22px">🚑</span><div style="font-weight:900;font-size:16px">119</div><div style="font-size:11px;opacity:.8">救護車</div>
-      </a>
-      <a href="tel:1968" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px">
-        <span style="font-size:22px">🛣️</span><div style="font-weight:900;font-size:16px">1968</div><div style="font-size:11px;opacity:.8">國道救援</div>
-      </a>
-      <a href="tel:0800066666" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px">
-        <span style="font-size:22px">🏠</span><div style="font-weight:700;font-size:12px">0800-066-666</div><div style="font-size:11px;opacity:.8">台電停電</div>
-      </a>
+    <div class="ins-block-hint">點兩下展開細項 ▾</div>
+    <div class="ins-block-body">
+      <div style="background:rgba(224,85,85,.08);border:1px solid rgba(224,85,85,.2);border-radius:8px;padding:10px 12px;margin-bottom:10px;font-size:12px;color:#8B949E;line-height:1.8">
+        🚨 <b style="color:var(--red)">事故現場先撥 110（警察）或 119（救護）</b><br>
+        ⚠️ 國道高速公路故障 → 先撥保險公司申告，再由拖吊處理<br>
+        📌 計程車載客時，保險業者<b>不提供免費道路救援</b>（僅限空車）
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.06em">🛡️ 保單道路救援（優先撥打）</div>
+      <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+        <a href="tel:0800050119" class="ins-call-btn">
+          <span style="font-size:20px">📞</span>
+          <div><div style="font-weight:700;font-size:13px">新安東京海上（第三責任險）</div><div style="font-size:11px;opacity:.8">0800-050-119｜115/05/03–116/05/03</div></div>
+        </a>
+        <a href="tel:0800009888" class="ins-call-btn" style="background:rgba(224,85,85,.08);border-color:rgba(224,85,85,.2)">
+          <span style="font-size:20px">📞</span>
+          <div><div style="font-weight:700;font-size:13px">富邦產物保險（強制責任險）</div><div style="font-size:11px;opacity:.8">0800-009-888｜115/04/25–116/04/25</div></div>
+        </a>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.06em">🔧 拖吊業者</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px">
+        <a href="tel:0800013013" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px">
+          <span style="font-size:16px">🚛</span>
+          <div style="font-weight:700;font-size:12px;margin-top:3px">全鋒道路救援</div>
+          <div style="font-size:11px;opacity:.8">0800-013-013（按1拖吊）</div>
+        </a>
+        <a href="tel:0800071111" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px">
+          <span style="font-size:16px">🚛</span>
+          <div style="font-weight:700;font-size:12px;margin-top:3px">行遍天下</div>
+          <div style="font-size:11px;opacity:.8">0800-071-111（24H）</div>
+        </a>
+      </div>
+      <div style="font-size:11px;font-weight:700;color:var(--muted);margin-bottom:8px;letter-spacing:.06em">🚨 緊急聯絡電話</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <a href="tel:110" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px;background:rgba(26,110,168,.08);border-color:rgba(26,110,168,.2)">
+          <span style="font-size:22px">👮</span><div style="font-weight:900;font-size:15px">110</div><div style="font-size:11px;opacity:.8">警察報案</div>
+        </a>
+        <a href="tel:119" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px;background:rgba(224,85,85,.08);border-color:rgba(224,85,85,.2)">
+          <span style="font-size:22px">🚑</span><div style="font-weight:900;font-size:15px">119</div><div style="font-size:11px;opacity:.8">救護車</div>
+        </a>
+        <a href="tel:1968" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px">
+          <span style="font-size:22px">🛣️</span><div style="font-weight:900;font-size:15px">1968</div><div style="font-size:11px;opacity:.8">國道救援</div>
+        </a>
+        <a href="tel:0800066666" class="ins-call-btn" style="flex-direction:column;align-items:center;text-align:center;padding:10px 8px">
+          <span style="font-size:22px">🏠</span><div style="font-weight:700;font-size:12px">0800-066-666</div><div style="font-size:11px;opacity:.8">台電停電</div>
+        </a>
+      </div>
     </div>
   </div>
+
 </div>
 
 <div class="toast" id="toast"></div>
@@ -693,73 +1043,66 @@ function go(name){
 // 車險頁
 // ══════════════════════════════════════════
 // 保險到期資料（計程車固定資料）
-// ── 保險資料依車輛分組 ──
-var INS_DATA = {
-  moto: [
-    {
-      name:'強制責任險（富邦）', exp:'2027-03-08', suggest:30, icon:'🔴',
-      badge:'ins-badge-moto-compulsory',
-      how:'洽富邦產險或至監理站辦理', tel:'0800-009-888',
-      note:'逾期不得上路，且驗車時必須有效',
-      coverage:[
-        { name:'每人死亡、殘廢給付', amount:'200萬（最高）', note:'依殘廢等級' },
-        { name:'每人醫療給付',       amount:'20萬（最高）',  note:'實支實付' },
-        { name:'保險證號碼', amount:'050025KME0102136', note:'' },
-        { name:'保險期間',   amount:'114/03/08 → 116/03/08（24個月）', note:'' },
-        { name:'車主',       amount:'王介呈', note:'' },
-        { name:'廠牌型式',   amount:'Sym三陽 125cc', note:'引擎號碼：DY763855' }
-      ]
-    }
-  ],
-  car: [
-    {
-      name:'強制責任險（富邦）', exp:'2027-04-25', suggest:30, icon:'🔴',
-      badge:'ins-badge-compulsory',
-      how:'洽富邦產險業務或至監理站', tel:'0800-009-888',
-      note:'逾期不得上路，且驗車時必須有效',
-      coverage:[
-        { name:'每人死亡、殘廢給付', amount:'200萬（最高）', note:'依殘廢等級給付' },
-        { name:'每人醫療給付',       amount:'20萬（最高）',  note:'實支實付' },
-        { name:'保單號碼',           amount:'051026KCA0002048', note:'' },
-        { name:'保險期間',           amount:'115/04/25 → 116/04/25', note:'' },
-        { name:'被保險人',           amount:'青宮交通股份有限公司', note:'' }
-      ]
-    },
-    {
-      name:'第三責任險（新安）', exp:'2027-05-03', suggest:30, icon:'🔵',
-      badge:'ins-badge-third',
-      how:'洽業務員李孝寬 0926-888-178 辦理續保', tel:'0926-888-178',
-      note:'續保可沿用本保單號，經辦：Y61031E011 榮勝多元',
-      coverage:[
-        { name:'31 第三人傷害（每人）',  amount:'100萬',  note:'自負額 10,000｜保費 7,151' },
-        { name:'31 第三人傷害（每事故）',amount:'200萬',  note:'自負額同上' },
-        { name:'32 第三人財損（每事故）',amount:'30萬',   note:'自負額 10,000｜保費 4,872' },
-        { name:'56 駕駛人醫療實支實付',  amount:'20萬',   note:'無自負額｜保費 756' },
-        { name:'56 駕駛人身故失能',      amount:'200萬',  note:'無自負額' },
-        { name:'30 超額責任',            amount:'300萬',  note:'無自負額｜保費 5,276' },
-        { name:'238 道路救援（每事故）',  amount:'3萬',    note:'不限拖吊里程｜保費 992' },
-        { name:'任意險總保費',           amount:'NT$ 19,047', note:'' },
-        { name:'保單號碼',               amount:'17000 第15V9005830號', note:'' },
-        { name:'保險期間',               amount:'115/05/03 → 116/05/03', note:'' }
-      ]
-    },
-    {
-      name:'乘客險（新安）', exp:'2026-09-30', suggest:60, icon:'🟢',
-      badge:'ins-badge-passenger',
-      how:'洽新安東京海上，需同步更新車行公司', tel:'0800-050-119',
-      note:'計程車營業必備，請儘速續保',
-      coverage:[
-        { name:'保障項目',  amount:'旅客運送業責任保險', note:'' },
-        { name:'每人死亡',  amount:'500萬',  note:'' },
-        { name:'每人失能',  amount:'500萬',  note:'依等級' },
-        { name:'每人醫療',  amount:'500萬',  note:'傷害醫療費用' },
-        { name:'保單號碼',  amount:'02014CT000531', note:'' },
-        { name:'被保險人',  amount:'青宮交通股份有限公司', note:'' },
-        { name:'保險期間',  amount:'115/09/30 → 116/09/30', note:'' }
-      ]
-    }
-  ]
-};
+var INS_POLICIES = [
+  {
+    name:    '強制責任險（富邦）',
+    exp:     '2027-04-25',
+    suggest: 30,
+    badge:   'ins-badge-compulsory',
+    icon:    '🔴',
+    how:     '洽富邦產險業務或至監理站',
+    tel:     '0800-009-888',
+    note:    '逾期不得上路，且驗車時必須有效',
+    coverage:[
+      { name:'每人死亡、殘廢給付', amount:'200萬（最高）', note:'依殘廢等級給付' },
+      { name:'每人醫療給付',       amount:'20萬（最高）',  note:'實支實付' },
+      { name:'保單號碼',           amount:'051026KCA0002048', note:'' },
+      { name:'保險期間',           amount:'115/04/25 → 116/04/25', note:'' },
+      { name:'被保險人',           amount:'青宮交通股份有限公司', note:'' }
+    ]
+  },
+  {
+    name:    '第三責任險（新安）',
+    exp:     '2027-05-03',
+    suggest: 30,
+    badge:   'ins-badge-third',
+    icon:    '🔵',
+    how:     '洽業務員李孝寬 0926-888-178 辦理續保',
+    tel:     '0926-888-178',
+    note:    '續保可沿用本保單號，經辦：Y61031E011 榮勝多元',
+    coverage:[
+      { name:'31 第三人傷害（每人）',  amount:'100萬',  note:'自負額 10,000｜保費 7,151' },
+      { name:'31 第三人傷害（每事故）',amount:'200萬',  note:'自負額同上' },
+      { name:'32 第三人財損（每事故）',amount:'30萬',   note:'自負額 10,000｜保費 4,872' },
+      { name:'56 駕駛人醫療實支實付',  amount:'20萬',   note:'無自負額｜保費 756' },
+      { name:'56 駕駛人身故失能',      amount:'200萬',  note:'無自負額' },
+      { name:'30 超額責任',            amount:'300萬',  note:'無自負額｜保費 5,276' },
+      { name:'238 道路救援（每事故）',  amount:'3萬',    note:'不限拖吊里程｜保費 992' },
+      { name:'任意險總保費',           amount:'NT$ 19,047', note:'' },
+      { name:'保單號碼',               amount:'17000 第15V9005830號', note:'' },
+      { name:'保險期間',               amount:'115/05/03 → 116/05/03', note:'' }
+    ]
+  },
+  {
+    name:    '乘客險（新安）',
+    exp:     '2026-09-30',
+    suggest: 60,
+    badge:   'ins-badge-passenger',
+    icon:    '🟢',
+    how:     '洽新安東京海上，需同步更新車行公司',
+    tel:     '0800-050-119',
+    note:    '計程車營業必備，請儘速續保',
+    coverage:[
+      { name:'保障項目',  amount:'旅客運送業責任保險', note:'' },
+      { name:'每人死亡',  amount:'500萬',  note:'' },
+      { name:'每人失能',  amount:'500萬',  note:'依等級' },
+      { name:'每人醫療',  amount:'500萬',  note:'傷害醫療費用' },
+      { name:'保單號碼',  amount:'02014CT000531', note:'' },
+      { name:'被保險人',  amount:'青宮交通股份有限公司', note:'' },
+      { name:'保險期間',  amount:'115/09/30 → 116/09/30', note:'' }
+    ]
+  }
+];
 
 // 倒數卡雙擊展開
 var _cdTapTimer = null, _cdTapTarget = null;
@@ -784,85 +1127,95 @@ function toggleCdDetail(card){
 
 function renderInsurance(){
   var now = new Date(); now.setHours(0,0,0,0);
-  var vc = cur();
-  var policies = INS_DATA[_curVeh] || [];
 
-  // ── 倒數卡標題依車輛 ──
-  var titleEl = document.getElementById('ins-countdown-title');
-  if(titleEl) titleEl.textContent = '⏰ ' + vc.icon + ' ' + vc.plate + ' 保險到期倒數';
-
-  // ── 倒數總覽（只顯示當前車輛保單）──
+  // ── 到期倒數總覽卡（雙點展開保障細節）──
   var cdList = document.getElementById('ins-countdown-list');
   if(cdList){
-    if(!policies.length){
-      cdList.innerHTML = '<div style="text-align:center;color:var(--muted);padding:16px;font-size:13px">尚無保險資料</div>';
-    } else {
-      cdList.innerHTML = policies.map(function(p){
-        var exp     = new Date(p.exp+'T00:00:00');
-        var diff    = Math.round((exp - now) / 86400000);
-        var sugDate = new Date(exp); sugDate.setDate(sugDate.getDate() - p.suggest);
-        var sugDiff = Math.round((sugDate - now) / 86400000);
-        var expired = diff < 0, urgent = !expired && diff <= 14, soon = !expired && !urgent && diff <= p.suggest;
-        var color   = expired||urgent ? 'var(--red)' : soon ? 'var(--orange)' : 'var(--teal)';
-        var bg      = expired ? 'rgba(224,85,85,.1)' : urgent ? 'rgba(224,85,85,.07)' : soon ? 'rgba(230,126,0,.07)' : 'rgba(14,159,142,.06)';
-        var border  = expired ? 'rgba(224,85,85,.4)' : urgent ? 'rgba(224,85,85,.3)' : soon ? 'rgba(230,126,0,.3)' : 'rgba(14,159,142,.25)';
-        var statusLabel = expired ? '⚠️ 已過期 '+Math.abs(diff)+' 天'
-          : diff===0 ? '🚨 今天到期！'
-          : urgent   ? '🚨 緊急！'+diff+' 天後到期'
-          : soon     ? '⏰ '+diff+' 天後到期（建議辦理）'
-          :            '✅ '+diff+' 天後到期';
-        var sugLabel = expired
-          ? '<span style="color:var(--red);font-weight:700">請立即辦理！</span>'
-          : sugDiff<=0
-            ? '<span style="color:var(--orange);font-weight:700">現在即可辦理</span>'
-            : '<span style="color:#555">建議 '+sugDate.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'})+' 前辦理（'+sugDiff+' 天後）</span>';
-        var coverageHtml = (p.coverage||[]).map(function(c){
-          return '<div style="display:grid;grid-template-columns:1fr auto;gap:6px;padding:6px 10px;background:rgba(255,255,255,.7);border-radius:7px;margin-bottom:3px;font-size:12px;align-items:center">'+
-            '<div><span style="color:var(--muted)">'+c.name+'</span>'+(c.note?'<div style="font-size:10px;color:#aaa;margin-top:1px">'+c.note+'</div>':'')+
-            '</div><span style="font-weight:900;color:var(--text);text-align:right;white-space:nowrap">'+c.amount+'</span></div>';
-        }).join('');
-        return '<div style="background:'+bg+';border:1.5px solid '+border+';border-radius:11px;padding:12px 14px;margin-bottom:8px;cursor:pointer;user-select:none;-webkit-tap-highlight-color:transparent"'+
-          ' ondblclick="toggleCdDetail(this)" ontouchstart="cdHandleTouchStart(event,this)" ontouchend="">'+
-          '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">'+
-            '<div style="font-size:14px;font-weight:900;color:var(--text)">'+p.icon+' '+p.name+'</div>'+
-            '<div style="font-size:12px;font-weight:900;color:'+color+';text-align:right;flex-shrink:0;margin-left:8px">'+statusLabel+'</div>'+
+    cdList.innerHTML = INS_POLICIES.map(function(p, idx){
+      var exp     = new Date(p.exp+'T00:00:00');
+      var diff    = Math.round((exp - now) / 86400000);
+      var sugDate = new Date(exp); sugDate.setDate(sugDate.getDate() - p.suggest);
+      var sugDiff = Math.round((sugDate - now) / 86400000);
+
+      var expired = diff < 0;
+      var urgent  = !expired && diff <= 14;
+      var soon    = !expired && !urgent && diff <= p.suggest;
+      var color   = expired||urgent ? 'var(--red)' : soon ? 'var(--orange)' : 'var(--teal)';
+      var bg      = expired ? 'rgba(224,85,85,.1)' : urgent ? 'rgba(224,85,85,.07)' : soon ? 'rgba(230,126,0,.07)' : 'rgba(14,159,142,.06)';
+      var border  = expired ? 'rgba(224,85,85,.4)' : urgent ? 'rgba(224,85,85,.3)' : soon ? 'rgba(230,126,0,.3)' : 'rgba(14,159,142,.25)';
+
+      var statusLabel = expired ? '⚠️ 已過期 '+Math.abs(diff)+' 天'
+        : diff===0 ? '🚨 今天到期！'
+        : urgent   ? '🚨 緊急！'+diff+' 天後到期'
+        : soon     ? '⏰ '+diff+' 天後到期（建議辦理）'
+        :            '✅ '+diff+' 天後到期';
+
+      var sugLabel = expired
+        ? '<span style="color:var(--red);font-weight:700">請立即辦理！</span>'
+        : sugDiff<=0
+          ? '<span style="color:var(--orange);font-weight:700">現在即可辦理</span>'
+          : '<span style="color:#8B949E">建議 '+sugDate.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'})+' 前辦理（'+sugDiff+' 天後）</span>';
+
+      // 保障細節 HTML
+      var coverageHtml = (p.coverage||[]).map(function(c){
+        return '<div style="display:grid;grid-template-columns:1fr auto;gap:6px;padding:6px 10px;background:rgba(255,255,255,.7);border-radius:7px;margin-bottom:3px;font-size:12px;align-items:center">'+
+          '<div>'+
+            '<span style="color:var(--muted)">'+c.name+'</span>'+
+            (c.note?'<div style="font-size:10px;color:#6E7681;margin-top:1px">'+c.note+'</div>':'')+
           '</div>'+
-          '<div style="display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12px;margin-bottom:8px">'+
-            '<span style="color:var(--muted)">到期日</span><span style="font-weight:700;font-family:\'DM Mono\',monospace">'+p.exp+'</span>'+
-            '<span style="color:var(--muted)">辦理時機</span><span>'+sugLabel+'</span>'+
-            '<span style="color:var(--muted)">辦理方式</span><span style="color:#444">'+p.how+'</span>'+
-            (p.note?'<span style="color:var(--muted)">注意事項</span><span style="color:#888;font-size:11px">'+p.note+'</span>':'')+
-          '</div>'+
-          '<div class="cd-hint" style="font-size:10px;color:var(--muted);text-align:center;margin-bottom:6px;font-family:\'DM Mono\',monospace;opacity:.65">點兩下查看保障內容 ▾</div>'+
-          '<div class="cd-detail" style="display:none;border-top:1px dashed rgba(14,159,142,.2);padding-top:10px;margin-top:4px">'+
-            '<div style="font-size:11px;font-weight:700;color:'+color+';letter-spacing:.06em;margin-bottom:6px">🛡️ 保障內容</div>'+coverageHtml+
-          '</div>'+
-          '<a href="tel:'+p.tel.replace(/-/g,'')+'" onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:8px;background:'+color+';color:#fff;border-radius:8px;padding:9px 13px;text-decoration:none;font-size:13px;font-weight:700;margin-top:8px;-webkit-tap-highlight-color:transparent">'+
-            '<span style="font-size:16px">📞</span> 立即聯繫辦理　'+p.tel+'</a>'+
+          '<span style="font-weight:900;color:var(--text);text-align:right;white-space:nowrap">'+c.amount+'</span>'+
         '</div>';
       }).join('');
-    }
+
+      return '<div style="background:'+bg+';border:1.5px solid '+border+';border-radius:11px;padding:12px 14px;margin-bottom:8px;cursor:pointer;transition:border-color .2s;user-select:none;-webkit-tap-highlight-color:transparent"'+
+        ' ondblclick="toggleCdDetail(this)"'+
+        ' ontouchstart="cdHandleTouchStart(event,this)"'+
+        ' ontouchend=""'+
+        '>'+
+        // 標題列
+        '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">'+
+          '<div style="font-size:14px;font-weight:900;color:var(--text)">'+p.icon+' '+p.name+'</div>'+
+          '<div style="font-size:12px;font-weight:900;color:'+color+';text-align:right;flex-shrink:0;margin-left:8px">'+statusLabel+'</div>'+
+        '</div>'+
+        // 基本資訊
+        '<div style="display:grid;grid-template-columns:auto 1fr;gap:3px 10px;font-size:12px;margin-bottom:8px">'+
+          '<span style="color:var(--muted)">到期日</span>'+
+          '<span style="font-weight:700;font-family:\'DM Mono\',monospace">'+p.exp+'</span>'+
+          '<span style="color:var(--muted)">辦理時機</span>'+
+          '<span>'+sugLabel+'</span>'+
+          '<span style="color:var(--muted)">辦理方式</span>'+
+          '<span style="color:#444">'+p.how+'</span>'+
+          (p.note?'<span style="color:var(--muted)">注意事項</span><span style="color:#6E7681;font-size:11px">'+p.note+'</span>':'')+
+        '</div>'+
+        // 雙擊提示
+        '<div class="cd-hint" style="font-size:10px;color:var(--muted);text-align:center;margin-bottom:6px;font-family:\'DM Mono\',monospace;opacity:.65">點兩下查看保障內容 ▾</div>'+
+        // 保障細節（預設隱藏）
+        '<div class="cd-detail" style="display:none;border-top:1px dashed rgba(14,159,142,.2);padding-top:10px;margin-top:4px">'+
+          '<div style="font-size:11px;font-weight:700;color:'+color+';letter-spacing:.06em;margin-bottom:6px">🛡️ 保障內容</div>'+
+          coverageHtml+
+        '</div>'+
+        // 撥打按鈕
+        '<a href="tel:'+p.tel.replace(/-/g,'')+'" onclick="event.stopPropagation()" style="display:flex;align-items:center;gap:8px;background:'+color+';color:#fff;border-radius:8px;padding:9px 13px;text-decoration:none;font-size:13px;font-weight:700;margin-top:8px;-webkit-tap-highlight-color:transparent">'+
+          '<span style="font-size:16px">📞</span> 立即聯繫辦理　'+p.tel+
+        '</a>'+
+      '</div>';
+    }).join('');
   }
 
-  // ── 所有徽章更新 ──
-  var ALL_BADGES = [
-    {badge:'ins-badge-compulsory',      exp:'2027-04-25'},
-    {badge:'ins-badge-third',           exp:'2027-05-03'},
-    {badge:'ins-badge-passenger',       exp:'2026-09-30'},
-    {badge:'ins-badge-moto-compulsory', exp:'2027-03-08'}
-  ];
-  ALL_BADGES.forEach(function(b){
-    var el = document.getElementById(b.badge); if(!el) return;
-    var diff = Math.round((new Date(b.exp+'T00:00:00') - now) / 86400000);
-    if(diff < 0){        el.textContent='已過期';        el.style.cssText='background:rgba(224,85,85,.18);color:var(--red);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
-    else if(diff <= 14){ el.textContent='緊急 '+diff+'天'; el.style.cssText='background:rgba(224,85,85,.18);color:var(--red);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
-    else if(diff <= 60){ el.textContent=diff+'天';       el.style.cssText='background:rgba(230,126,0,.15);color:var(--orange);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
-    else{                el.textContent=diff+'天';       el.style.cssText='background:rgba(14,159,142,.12);color:var(--teal);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
+  // 徽章更新
+  INS_POLICIES.forEach(function(p){
+    var badge = document.getElementById(p.badge); if(!badge) return;
+    var exp   = new Date(p.exp+'T00:00:00');
+    var diff  = Math.round((exp - now) / 86400000);
+    if(diff < 0){          badge.textContent='已過期';      badge.style.cssText='background:rgba(224,85,85,.18);color:var(--red);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
+    else if(diff <= 14){   badge.textContent='緊急 '+diff+'天'; badge.style.cssText='background:rgba(224,85,85,.18);color:var(--red);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
+    else if(diff <= 60){   badge.textContent=diff+'天';     badge.style.cssText='background:rgba(230,126,0,.15);color:var(--orange);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
+    else{                  badge.textContent=diff+'天';     badge.style.cssText='background:rgba(14,159,142,.12);color:var(--teal);font-size:11px;font-weight:700;padding:3px 9px;border-radius:20px'; }
   });
 
-  // ── 依車輛顯示對應保險區塊 ──
-  var motoExtra = document.getElementById('ins-moto-extra');
-  if(motoExtra) motoExtra.style.display = _curVeh==='moto' ? 'block' : 'none';
+  // 依目前車輛顯示對應保險區塊
+  document.getElementById('ins-car') .style.display = _curVeh==='car'  ? 'block' : 'none';
+  document.getElementById('ins-moto').style.display = _curVeh==='moto' ? 'block' : 'none';
 
   // 機車保險記錄
   renderMotoInsList();
@@ -1238,7 +1591,7 @@ function renderStats(){
     var monthRows=Object.keys(yd.months).sort(function(a,b){return b.localeCompare(a);}).map(function(m){
       var md=yd.months[m];
       return '<div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:7px;font-size:12px;margin-bottom:4px">'+
-        '<span style="color:#555">'+m+'</span><span style="color:var(--muted)">'+md.count+'次</span>'+
+        '<span style="color:#8B949E">'+m+'</span><span style="color:var(--muted)">'+md.count+'次</span>'+
         '<span style="font-weight:700;color:var(--red)">NT$ '+md.cost.toLocaleString('zh-TW')+'</span></div>';
     }).join('');
     return '<div class="annual-month" onclick="toggleAnnual(this)">'+
@@ -1288,9 +1641,9 @@ function renderRemindStatus(v, rm){
   el.innerHTML='<div style="background:var(--mid);border:1px solid var(--border);border-radius:10px;padding:12px">'+
     '<div style="font-size:12px;font-weight:700;color:var(--vc);margin-bottom:8px">🔔 機油更換狀況</div>'+
     '<div style="display:flex;flex-direction:column;gap:5px;font-size:13px">'+
-    '<div style="display:flex;justify-content:space-between"><span style="color:#555">上次換油</span><span style="font-weight:700">'+last.date+' ／ '+lastKm.toLocaleString('zh-TW')+' km</span></div>'+
-    '<div style="display:flex;justify-content:space-between"><span style="color:#555">建議下次換油里程</span><span style="font-weight:700;color:'+urgColor+'">'+nextKm.toLocaleString('zh-TW')+' km（剩 '+kmLeft.toLocaleString('zh-TW')+' km）</span></div>'+
-    '<div style="display:flex;justify-content:space-between"><span style="color:#555">建議下次換油日期</span><span style="font-weight:700;color:'+urgColor+'">'+nextDate.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'})+'（剩約 '+moLeft+' 月）</span></div>'+
+    '<div style="display:flex;justify-content:space-between"><span style="color:#8B949E">上次換油</span><span style="font-weight:700">'+last.date+' ／ '+lastKm.toLocaleString('zh-TW')+' km</span></div>'+
+    '<div style="display:flex;justify-content:space-between"><span style="color:#8B949E">建議下次換油里程</span><span style="font-weight:700;color:'+urgColor+'">'+nextKm.toLocaleString('zh-TW')+' km（剩 '+kmLeft.toLocaleString('zh-TW')+' km）</span></div>'+
+    '<div style="display:flex;justify-content:space-between"><span style="color:#8B949E">建議下次換油日期</span><span style="font-weight:700;color:'+urgColor+'">'+nextDate.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'})+'（剩約 '+moLeft+' 月）</span></div>'+
     '</div></div>';
 }
 function saveVehicle(){
@@ -1391,7 +1744,7 @@ function exportPDF(){
       '<td>'+(r.shop||'—')+'</td>'+
       '<td>'+(r.items||[]).join('、')+'</td>'+
       '<td style="text-align:right;color:#C0392B;font-weight:700">'+(r.cost?'NT$ '+r.cost.toLocaleString('zh-TW'):'—')+'</td>'+
-      '<td style="font-size:10px;color:#666">'+(r.note||'').replace(/\n/g,' ')+'</td>'+
+      '<td style="font-size:10px;color:#8B949E">'+(r.note||'').replace(/\n/g,' ')+'</td>'+
     '</tr>';
   }).join('');
 
@@ -1401,22 +1754,22 @@ function exportPDF(){
   'body{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;font-size:12px;color:#1A2E2C;margin:0;padding:16px 20px;background:#fff}'+
   '.hdr{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0E9F8E;padding-bottom:10px;margin-bottom:14px}'+
   '.hdr-title{font-size:20px;font-weight:900;color:#0E9F8E}'+
-  '.hdr-sub{font-size:12px;color:#666;margin-top:3px}'+
-  '.hdr-meta{text-align:right;font-size:11px;color:#888}'+
+  '.hdr-sub{font-size:12px;color:#8B949E;margin-top:3px}'+
+  '.hdr-meta{text-align:right;font-size:11px;color:#6E7681}'+
   '.stat-row{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap}'+
-  '.stat-box{background:#EDF7F5;border:1px solid rgba(14,159,142,.25);border-radius:8px;padding:8px 14px;text-align:center;min-width:80px}'+
+  '.stat-box{background:#1C2128;border:1px solid rgba(14,159,142,.25);border-radius:8px;padding:8px 14px;text-align:center;min-width:80px}'+
   '.stat-lbl{font-size:10px;color:#7AADA6;margin-bottom:3px}'+
   '.stat-val{font-size:14px;font-weight:900;color:#0E9F8E}'+
   'table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:14px}'+
   'th{background:#0E9F8E;color:#fff;padding:6px 8px;text-align:left;font-weight:700}'+
-  'td{padding:5px 8px;border-bottom:1px solid #E6F4F2;vertical-align:top}'+
+  'td{padding:5px 8px;border-bottom:1px solid #1C2128;vertical-align:top}'+
   'tr:nth-child(even) td{background:#F5FCFB}'+
   'tr:last-child td{border-bottom:2px solid #0E9F8E}'+
-  '.footer{font-size:10px;color:#aaa;text-align:center;border-top:1px solid #eee;padding-top:8px;margin-top:10px}'+
-  '.veh-info{background:#EDF7F5;border-radius:8px;padding:9px 14px;margin-bottom:14px;font-size:11px;display:flex;gap:20px;flex-wrap:wrap}'+
+  '.footer{font-size:10px;color:#6E7681;text-align:center;border-top:1px solid #eee;padding-top:8px;margin-top:10px}'+
+  '.veh-info{background:#1C2128;border-radius:8px;padding:9px 14px;margin-bottom:14px;font-size:11px;display:flex;gap:20px;flex-wrap:wrap}'+
   '.veh-item{display:flex;flex-direction:column;gap:2px}'+
   '.veh-lbl{font-size:10px;color:#7AADA6}'+
-  '.veh-val{font-weight:700;color:#1A2E2C}'+
+  '.veh-val{font-weight:700;color:#E8EDF4}'+
   '@media print{body{padding:8px 12px}.hdr-title{font-size:17px}table{font-size:10px}th,td{padding:4px 6px}}'+
   '</style></head><body>'+
 
@@ -1506,86 +1859,76 @@ function migrateFromTaxi(){
 </script>
 
 <!-- ── Firebase 啟動 ── -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 <script>
 (function(){
   var loadDiv=document.createElement('div');
   loadDiv.id='fb-loading';
-  loadDiv.style.cssText='position:fixed;inset:0;z-index:999999;background:#F0F6F6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px';
-  loadDiv.innerHTML='<div style="font-size:48px">☁️</div><div style="font-size:16px;font-weight:700;color:#0E9F8E">連接雲端資料庫中...</div><div id="fb-load-msg" style="font-size:13px;color:#aaa">請稍候</div>';
+  loadDiv.style.cssText='position:fixed;inset:0;z-index:999999;background:#0D1117;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px';
+  loadDiv.innerHTML='<div style="font-size:48px">☁️</div><div style="font-size:16px;font-weight:700;color:#0E9F8E">連接雲端資料庫中...</div><div id="fb-load-msg" style="font-size:13px;color:#6E7681">請稍候</div>';
   document.body.appendChild(loadDiv);
 
-  // ── Firebase compat 初始化（同步，不需要 module import）──
-  var cfg={apiKey:"AIzaSyDmkQFhE3N-oID3AM57FH08AvxRB-uPz1Q",authDomain:"kevin-apps-3f0d8.firebaseapp.com",databaseURL:"https://kevin-apps-3f0d8-default-rtdb.firebaseio.com",projectId:"kevin-apps-3f0d8",storageBucket:"kevin-apps-3f0d8.firebasestorage.app",messagingSenderId:"218848020635",appId:"1:218848020635:web:3d9758d7f5a4b9b2e29e3e"};
-  firebase.initializeApp(cfg);
-  var db=firebase.database();
-  window._firebaseDB=db;
-  window._firebaseRef=function(p){ return db.ref(p); };
-  window._firebaseGet=function(r){ return r.once('value'); };
-  window._firebaseSet=function(r,v){ return r.set(v); };
+  var script=document.createElement('script');
+  script.type='module';
+  script.textContent=[
+    'import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";',
+    'import { getDatabase, ref, get, set } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";',
+    'var cfg={apiKey:"AIzaSyDmkQFhE3N-oID3AM57FH08AvxRB-uPz1Q",authDomain:"kevin-apps-3f0d8.firebaseapp.com",databaseURL:"https://kevin-apps-3f0d8-default-rtdb.firebaseio.com",projectId:"kevin-apps-3f0d8",storageBucket:"kevin-apps-3f0d8.firebasestorage.app",messagingSenderId:"218848020635",appId:"1:218848020635:web:3d9758d7f5a4b9b2e29e3e"};',
+    'var app=initializeApp(cfg);var db=getDatabase(app);',
+    'window._firebaseDB=db;window._firebaseRef=function(p){return ref(db,p);};window._firebaseGet=get;window._firebaseSet=set;',
+    'window.dispatchEvent(new Event("firebase-ready"));'
+  ].join('\n');
+  document.head.appendChild(script);
 
   function toArr(val){ if(!val) return []; if(Array.isArray(val)) return val.filter(function(x){return x!=null;}); if(typeof val==='object') return Object.keys(val).sort(function(a,b){return a-b;}).map(function(k){return val[k];}).filter(function(x){return x!=null;}); return []; }
 
-  var msg=document.getElementById('fb-load-msg'); if(msg) msg.textContent='載入資料中...';
+  window.addEventListener('firebase-ready',function(){
+    var msg=document.getElementById('fb-load-msg'); if(msg) msg.textContent='載入資料中...';
 
-  // 並行讀取兩台車的所有資料（maint / vehicle / remind）
-  Promise.all([
-    window._firebaseGet(window._firebaseRef('bike/moto/maint')),
-    window._firebaseGet(window._firebaseRef('bike/moto/vehicle')),
-    window._firebaseGet(window._firebaseRef('bike/moto/remind')),
-    window._firebaseGet(window._firebaseRef('bike/car/maint')),
-    window._firebaseGet(window._firebaseRef('bike/car/vehicle')),
-    window._firebaseGet(window._firebaseRef('bike/car/remind'))
-  ]).then(function(s){
-    // 機車
-    _data.moto.maint   = s[0].exists()?toArr(s[0].val()):(JSON.parse(localStorage.getItem('maint_moto')||'[]'));
-    _data.moto.vehicle = s[1].exists()?(s[1].val()||{}):(JSON.parse(localStorage.getItem('vehicle_moto')||'{}'));
-    _data.moto.remind  = s[2].exists()?(s[2].val()||{km:3000,month:6}):(JSON.parse(localStorage.getItem('remind_moto')||'{"km":3000,"month":6}'));
-    // 汽車
-    _data.car.maint    = s[3].exists()?toArr(s[3].val()):(JSON.parse(localStorage.getItem('maint_car')||'[]'));
-    _data.car.vehicle  = s[4].exists()?(s[4].val()||{}):(JSON.parse(localStorage.getItem('vehicle_car')||'{}'));
-    _data.car.remind   = s[5].exists()?(s[5].val()||{km:5000,month:6}):(JSON.parse(localStorage.getItem('remind_car')||'{"km":5000,"month":6}'));
-    // 若機車 vehicle 尚無資料，自動填入強制險保險證預設值
-    if(!s[1].exists() && !Object.keys(_data.moto.vehicle).length){
-      _data.moto.vehicle = {
-        model:  'Sym三陽 125cc（普通重型機車）',
-        plate:  'MXB-9535',
-        year:   '2019',
-        color:  '',
-        km:     '',
-        note:   '引擎／車身號碼：DY763855\n原始發照年份：民國108年\n強制險：050025KME0102136（114/03/08–116/03/08）\n車主：王介呈'
-      };
-      window._firebaseSet(window._firebaseRef('bike/moto/vehicle'), _data.moto.vehicle);
-      localStorage.setItem('vehicle_moto', JSON.stringify(_data.moto.vehicle));
-    }
-    // 若汽車 vehicle 尚無資料，自動填入行車執照預設值
-    if(!s[4].exists() && !Object.keys(_data.car.vehicle).length){
-      _data.car.vehicle = {
-        model:  '國瑞 ZWE211L-GEXVBR（油電）',
-        plate:  'TDZ-0950',
-        year:   '2020',
-        color:  '黑',
-        km:     '',
-        note:   '引擎號碼：2ZRX706989\n車身號碼：ZWE211~0009529\n車主：青宮交通股份有限公司\n駕駛人：王介呈\n排氣量：1798 cc\n驗車有效日期：116.04.29'
-      };
-      window._firebaseSet(window._firebaseRef('bike/car/vehicle'), _data.car.vehicle);
-      localStorage.setItem('vehicle_car', JSON.stringify(_data.car.vehicle));
-    }
-    // 本地有資料但雲端沒有，自動上傳
-    if(!s[0].exists()&&_data.moto.maint.length)   window._firebaseSet(window._firebaseRef('bike/moto/maint'),   _data.moto.maint);
-    if(!s[3].exists()&&_data.car.maint.length)    window._firebaseSet(window._firebaseRef('bike/car/maint'),    _data.car.maint);
-    startApp();
-  }).catch(function(e){
-    console.warn('Firebase read failed:',e);
-    _data.moto.maint  =JSON.parse(localStorage.getItem('maint_moto')||'[]');
-    _data.moto.vehicle=JSON.parse(localStorage.getItem('vehicle_moto')||'{}');
-    _data.moto.remind =JSON.parse(localStorage.getItem('remind_moto')||'{"km":3000,"month":6}');
-    _data.car.maint   =JSON.parse(localStorage.getItem('maint_car')||'[]');
-    _data.car.vehicle =JSON.parse(localStorage.getItem('vehicle_car')||'{}');
-    if(!Object.keys(_data.car.vehicle).length){ _data.car.vehicle={model:'國瑞 ZWE211L-GEXVBR（油電）',plate:'TDZ-0950',year:'2020',color:'黑',km:'',note:'引擎號碼：2ZRX706989\n車身號碼：ZWE211~0009529\n車主：青宮交通股份有限公司\n駕駛人：王介呈\n排氣量：1798 cc\n驗車有效日期：116.04.29'}; localStorage.setItem('vehicle_car',JSON.stringify(_data.car.vehicle)); }
-    _data.car.remind  =JSON.parse(localStorage.getItem('remind_car')||'{"km":5000,"month":6}');
-    startApp();
+    // 並行讀取兩台車的所有資料（maint / vehicle / remind）
+    Promise.all([
+      window._firebaseGet(window._firebaseRef('bike/moto/maint')),
+      window._firebaseGet(window._firebaseRef('bike/moto/vehicle')),
+      window._firebaseGet(window._firebaseRef('bike/moto/remind')),
+      window._firebaseGet(window._firebaseRef('bike/car/maint')),
+      window._firebaseGet(window._firebaseRef('bike/car/vehicle')),
+      window._firebaseGet(window._firebaseRef('bike/car/remind'))
+    ]).then(function(s){
+      // 機車
+      _data.moto.maint   = s[0].exists()?toArr(s[0].val()):(JSON.parse(localStorage.getItem('maint_moto')||'[]'));
+      _data.moto.vehicle = s[1].exists()?(s[1].val()||{}):(JSON.parse(localStorage.getItem('vehicle_moto')||'{}'));
+      _data.moto.remind  = s[2].exists()?(s[2].val()||{km:3000,month:6}):(JSON.parse(localStorage.getItem('remind_moto')||'{"km":3000,"month":6}'));
+      // 汽車
+      _data.car.maint    = s[3].exists()?toArr(s[3].val()):(JSON.parse(localStorage.getItem('maint_car')||'[]'));
+      _data.car.vehicle  = s[4].exists()?(s[4].val()||{}):(JSON.parse(localStorage.getItem('vehicle_car')||'{}'));
+      _data.car.remind   = s[5].exists()?(s[5].val()||{km:5000,month:6}):(JSON.parse(localStorage.getItem('remind_car')||'{"km":5000,"month":6}'));
+      // 若汽車 vehicle 尚無資料，自動填入行車執照預設值
+      if(!s[4].exists() && !Object.keys(_data.car.vehicle).length){
+        _data.car.vehicle = {
+          model:  '國瑞 ZWE211L-GEXVBR（油電）',
+          plate:  'TDZ-0950',
+          year:   '2020',
+          color:  '黑',
+          km:     '',
+          note:   '引擎號碼：2ZRX706989\n車身號碼：ZWE211~0009529\n車主：青宮交通股份有限公司\n駕駛人：王介呈\n排氣量：1798 cc\n驗車有效日期：116.04.29'
+        };
+        window._firebaseSet(window._firebaseRef('bike/car/vehicle'), _data.car.vehicle);
+        localStorage.setItem('vehicle_car', JSON.stringify(_data.car.vehicle));
+      }
+      // 本地有資料但雲端沒有，自動上傳
+      if(!s[0].exists()&&_data.moto.maint.length)   window._firebaseSet(window._firebaseRef('bike/moto/maint'),   _data.moto.maint);
+      if(!s[3].exists()&&_data.car.maint.length)    window._firebaseSet(window._firebaseRef('bike/car/maint'),    _data.car.maint);
+      startApp();
+    }).catch(function(e){
+      console.warn('Firebase read failed:',e);
+      _data.moto.maint  =JSON.parse(localStorage.getItem('maint_moto')||'[]');
+      _data.moto.vehicle=JSON.parse(localStorage.getItem('vehicle_moto')||'{}');
+      _data.moto.remind =JSON.parse(localStorage.getItem('remind_moto')||'{"km":3000,"month":6}');
+      _data.car.maint   =JSON.parse(localStorage.getItem('maint_car')||'[]');
+      _data.car.vehicle =JSON.parse(localStorage.getItem('vehicle_car')||'{}');
+      if(!Object.keys(_data.car.vehicle).length){ _data.car.vehicle={model:'國瑞 ZWE211L-GEXVBR（油電）',plate:'TDZ-0950',year:'2020',color:'黑',km:'',note:'引擎號碼：2ZRX706989\n車身號碼：ZWE211~0009529\n車主：青宮交通股份有限公司\n駕駛人：王介呈\n排氣量：1798 cc\n驗車有效日期：116.04.29'}; localStorage.setItem('vehicle_car',JSON.stringify(_data.car.vehicle)); }
+      _data.car.remind  =JSON.parse(localStorage.getItem('remind_car')||'{"km":5000,"month":6}');
+      startApp();
+    });
   });
 
   setTimeout(function(){
