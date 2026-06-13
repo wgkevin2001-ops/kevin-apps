@@ -298,7 +298,9 @@ select option{background:#0D1117}
   font-size:14px;
   font-weight:700;
   padding:10px 12px;
-  background:#D4EDEA;
+  background:#161B22;
+  border:1px solid rgba(88,166,255,.25);
+  color:#58A6FF;
   border-radius:8px;
   margin-bottom:6px;
   cursor:pointer;
@@ -306,7 +308,7 @@ select option{background:#0D1117}
   justify-content:space-between;
   align-items:center;
 }
-.hitems{margin-bottom:10px}
+.hitems{margin-bottom:10px;background:#0D1117}
 
 
 /* ── 快速導覽列 ── */
@@ -668,7 +670,7 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
 <div class="pane" id="pane-history">
 
   <!-- Firebase 雲端說明 -->
-  <div style="background:linear-gradient(135deg,#1C2128,#D4EDEA);border:1.5px solid rgba(15,171,142,.35);border-radius:14px;padding:16px;margin-bottom:12px">
+  <div style="background:#1C2128;border:1.5px solid rgba(15,171,142,.35);border-radius:14px;padding:16px;margin-bottom:12px">
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
       <span style="font-size:22px">☁️</span>
       <div>
@@ -2731,6 +2733,7 @@ function initApp() {
       {date:'2026-06-04', uber:3231, t55688:1255, metro:0,   lingo:0,    fuel:0,   park:200},
       {date:'2026-06-05', uber:7879, t55688:220,  metro:255, lingo:0,    fuel:938, park:200},
     ];
+
     var recs = getRecs();
     juneData.forEach(function(row, idx){
       var exists = recs.some(function(r){ return r.date === row.date; });
@@ -2745,6 +2748,53 @@ function initApp() {
       if (row.lingo)   inc_detail.lingo   = row.lingo;
       recs.push({
         id: 1700000200000 + idx,
+        date: row.date,
+        shift: 'day',
+        inc: inc,
+        inc_detail: inc_detail,
+        fuel: row.fuel,
+        park: row.park,
+        fee: 0,
+        misc: 0,
+        exp: exp,
+        net: net,
+        note: ''
+      });
+    });
+    saveRecs(recs);
+    try { localStorage.setItem(SEED_KEY, '1'); } catch(e){}
+  })();
+
+  // ── 寫入 6月資料 (2026-06-06 ~ 2026-06-13) ──
+  (function seedJuneData2(){
+    var SEED_KEY = 'june2026_seeded_v2';
+    try { if (localStorage.getItem(SEED_KEY)) return; } catch(e){ return; }
+    var juneData = [
+      // date, uber, t55688(台灣大), metro(大都會), lingo(LineGo), bolt, fuel, park
+      {date:'2026-06-06', uber:4729, t55688:580,  metro:0,   lingo:0, bolt:0,   fuel:0,   park:200},
+      {date:'2026-06-07', uber:918,  t55688:780,  metro:0,   lingo:0, bolt:0,   fuel:0,   park:200},
+      {date:'2026-06-08', uber:4094, t55688:320,  metro:144, lingo:0, bolt:0,   fuel:0,   park:200},
+      {date:'2026-06-09', uber:1526, t55688:0,    metro:0,   lingo:0, bolt:0,   fuel:0,   park:200},
+      {date:'2026-06-10', uber:2567, t55688:1025, metro:473, lingo:0, bolt:116, fuel:0,   park:200},
+      {date:'2026-06-11', uber:2480, t55688:1300, metro:0,   lingo:0, bolt:814, fuel:721, park:200},
+      {date:'2026-06-12', uber:4684, t55688:0,    metro:0,   lingo:0, bolt:0,   fuel:0,   park:200},
+      {date:'2026-06-13', uber:4108, t55688:655,  metro:0,   lingo:0, bolt:0,   fuel:0,   park:200},
+    ];
+    var recs = getRecs();
+    juneData.forEach(function(row, idx){
+      var exists = recs.some(function(r){ return r.date === row.date; });
+      if (exists) return;
+      var inc = row.uber + row.t55688 + row.metro + row.lingo + row.bolt;
+      var exp = row.fuel + row.park;
+      var net = inc - exp;
+      var inc_detail = {};
+      if (row.uber)    inc_detail.uber    = row.uber;
+      if (row.t55688)  inc_detail.t55688  = row.t55688;
+      if (row.metro)   inc_detail.metro   = row.metro;
+      if (row.lingo)   inc_detail.lingo   = row.lingo;
+      if (row.bolt)    inc_detail.bolt    = row.bolt;
+      recs.push({
+        id: 1700000300000 + idx,
         date: row.date,
         shift: 'day',
         inc: inc,
