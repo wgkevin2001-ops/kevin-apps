@@ -3715,14 +3715,16 @@ async function fetchPrices() {
         if (usMap[code] == null) return;
         const priceUsd = parseFloat(usMap[code]);
         if (isNaN(priceUsd) || priceUsd <= 0) return;
-        const avgTwd   = parseFloat(tr.dataset.usAvg) || 0;
+        const avgUsd   = parseFloat(tr.dataset.usAvg) || 0;
         const shares   = parseFloat(tr.dataset.usShares) || 0;
-        const priceTwd = Math.round(priceUsd * usdTwd * 100) / 100;
-        const pnlTwd   = Math.round((priceTwd - avgTwd) * shares);
-        const pct      = avgTwd > 0 ? ((priceTwd - avgTwd) / avgTwd * 100).toFixed(2) : '0.00';
-        const isPos    = pnlTwd >= 0;
+        // 損益用 USD 計算，再換算 TWD 顯示
+        const pnlUsd   = (priceUsd - avgUsd) * shares;
+        const pnlTwd   = Math.round(pnlUsd * usdTwd);
+        // 報酬率直接用 USD 對 USD
+        const pct      = avgUsd > 0 ? ((priceUsd - avgUsd) / avgUsd * 100).toFixed(2) : '0.00';
+        const isPos    = pnlUsd >= 0;
         tr.dataset.usPrice = priceUsd;
-        tr.dataset.usPnl   = pnlTwd;
+        tr.dataset.usPnl   = (isPos?'+':'')+pnlTwd;
         tr.dataset.usRate  = (isPos?'+':'')+pct+'%';
         const tds = tr.querySelectorAll('td');
         if (tds[1]) tds[1].textContent = priceUsd;
@@ -3983,7 +3985,7 @@ function renderUsCards() {
   const usHdr = `<div class="app-row-hdr">
     <span>股票名稱</span>
     <span>現價(USD)</span>
-    <span>買入均價<br><small>(TWD)</small></span>
+    <span>買入均價<br><small>(USD)</small></span>
     <span>損益(TWD)<br><small>報酬率</small></span>
   </div>`;
   const usRows = items.map(d => {
