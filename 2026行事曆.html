@@ -3308,6 +3308,9 @@ async function loadFromFirebase() {
 
     // ── 從 Firebase 讀取存股計劃配息資料 ──
     loadDividendSync();
+
+    // ── 從計程車營收讀取月份收入 ──
+    loadTaxiMonthlyIncome();
   }
 }
 
@@ -3361,6 +3364,65 @@ async function loadDividendSync() {
 
   } catch(e) {
     console.warn('配息同步讀取失敗：', e.message);
+  }
+}
+
+// ── 從計程車營收同步月份收入 ──
+async function loadTaxiMonthlyIncome() {
+  try {
+    const snap = await get(ref(db, 'taxi/monthly_income'));
+    if (!snap.exists()) return;
+
+    const data = snap.val();
+    if (!data || !data.monthly) return;
+
+    const year = data.year || 2026;
+    const monthly = data.monthly;
+
+    // 移除舊的計程車收入記錄
+    incRecords = incRecords.filter(r => !r.id.startsWith('__taxi_'));
+
+    // 注入新的月份收入
+    let count = 0;
+    for (let m = 1; m <= 12; m++) {
+      const mData = monthly[m];
+      if (!mData) continue;
+
+      // 計程車收入
+      if (mData.taxi > 0) {
+        incRecords.push({
+          id: '__taxi_' + year + '_' + m,
+          month: m, year,
+          amt: Math.round(mData.taxi),
+          src: '🚕 計程車月收入'
+        });
+        count++;
+      }
+
+      // 兼職收入（十金鵝等）
+      if (mData.parttime > 0) {
+        incRecords.push({
+          id: '__pt_' + year + '_' + m,
+          month: m, year,
+          amt: Math.round(mData.parttime),
+          src: '🪿 十金鵝兼職收入'
+        });
+        count++;
+      }
+    }
+
+    // 更新 localStorage
+    try { localStorage.setItem('inc_records', JSON.stringify(incRecords.filter(r => !r.id.startsWith('__div_') && !r.id.startsWith('__taxi_') && !r.id.startsWith('__pt_')))); } catch(e) {}
+
+    // 重新渲染
+    try { renderExpOverview(); } catch(e) {}
+    try { renderExpMonth(); } catch(e) {}
+
+    const t = new Date(data.syncedAt || Date.now());
+    showFbToast('🚕 計程車月收入已同步（' + count + ' 筆，' + (t.getMonth()+1) + '/' + t.getDate() + '）');
+
+  } catch(e) {
+    console.warn('計程車收入同步失敗：', e.message);
   }
 }
 
