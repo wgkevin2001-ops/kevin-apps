@@ -2490,26 +2490,17 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     <button class="ocr-close" onclick="closeOcr()">✕</button>
   </div>
   <div class="ocr-body">
-    <!-- API Key 設定 -->
-    <div id="ocr-apikey-section" style="margin-bottom:14px">
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-        <span style="font-size:12px;font-weight:700;color:#8B949E">🔑 Anthropic API Key</span>
-        <span id="ocr-key-status" style="font-size:11px;padding:2px 8px;border-radius:6px;background:#21262D;color:#6E7681">未設定</span>
+    <!-- API Key 狀態提示 -->
+    <div id="ocr-apikey-section" style="margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;background:#161B22;border:1px solid #21262D;border-radius:10px;padding:10px 14px">
+      <div style="display:flex;align-items:center;gap:8px">
+        <span style="font-size:13px">🔑</span>
+        <span id="ocr-key-status" style="font-size:12px;color:#8B949E">檢查中...</span>
       </div>
-      <div style="display:flex;gap:8px">
-        <input id="ocr-apikey-input" type="password"
-          placeholder="sk-ant-api03-..."
-          style="flex:1;padding:9px 12px;border:1.5px solid #30363D;border-radius:10px;
-                 background:#0D1117;color:#E8EDF4;font-size:13px;font-family:monospace">
-        <button onclick="ocrSaveKey()"
-          style="padding:9px 14px;background:#0E9F8E;color:#fff;border:none;
-                 border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">
-          儲存
-        </button>
-      </div>
-      <div style="font-size:11px;color:#6E7681;margin-top:5px">
-        Key 只存在你的裝置，不會上傳。前往 <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:#58A6FF">console.anthropic.com</a> 取得。
-      </div>
+      <button onclick="closeOcr();openApiKey()"
+        style="font-size:12px;padding:5px 12px;background:#21262D;border:1px solid #30363D;
+               border-radius:8px;color:#58A6FF;cursor:pointer;font-weight:600;white-space:nowrap">
+        ⚙️ 設定
+      </button>
     </div>
 
     <div class="ocr-upload-area" id="ocr-drop">
@@ -5669,7 +5660,21 @@ function ocrUpdateKeyStatus() {
 }
 
 /* ── 開關 ── */
-function openOcr()  { document.getElementById('ocr-overlay').classList.add('open'); ocrUpdateKeyStatus(); }
+function openOcr() {
+  document.getElementById('ocr-overlay').classList.add('open');
+  // 更新 key 狀態顯示
+  const key = getApiKey ? getApiKey() : localStorage.getItem('chengbei_claude_key') || '';
+  const statusEl = document.getElementById('ocr-key-status');
+  if (statusEl) {
+    if (key) {
+      statusEl.textContent = '✅ API Key 已設定（' + key.slice(0,10) + '...）';
+      statusEl.style.color = '#3FB950';
+    } else {
+      statusEl.textContent = '⚠ 尚未設定 API Key';
+      statusEl.style.color = '#F85149';
+    }
+  }
+}
 function closeOcr() {
   document.getElementById('ocr-overlay').classList.remove('open');
   ocrClearImg();
