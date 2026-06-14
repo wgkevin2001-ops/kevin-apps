@@ -1100,6 +1100,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
     <div style="font-size:16px;font-weight:900;color:var(--ink)" id="exp-year-title">📊 2026 年度開銷記錄</div>
     <button onclick="expExportCSV()" style="background:var(--gr);color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">⬇️ 匯出CSV</button>
+    </div>
   </div>
 
   <!-- 分頁：總覽 / 各月明細 -->
@@ -1150,9 +1151,9 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 
   <!-- 月度明細 -->
   <div id="exp-month" style="display:none">
-    <div class="exp-month-nav">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 12px">
       <button class="exp-mnbtn" onclick="expChangeMonth(-1)">‹</button>
-      <div class="exp-mlbl" id="exp-mlbl"></div>
+      <div class="exp-mlbl" id="exp-mlbl" style="min-width:120px;text-align:center"></div>
       <button class="exp-mnbtn" onclick="expChangeMonth(1)">›</button>
     </div>
     <div class="exp-summary-grid" id="exp-month-summary"></div>
@@ -2939,8 +2940,8 @@ function renderExpMonth(){
   const balance=incTotal-total;
   document.getElementById('exp-month-total').textContent=expFmt(total);
   document.getElementById('exp-month-summary').innerHTML=`
-    <div class="exp-sum-box"><div class="exp-sum-lbl">本月支出</div><div class="exp-sum-val" style="color:var(--rd)">${expFmt(total)}</div></div>
-    <div class="exp-sum-box"><div class="exp-sum-lbl">本月收入</div><div class="exp-sum-val" style="color:var(--gr)">${expFmt(incTotal)}</div></div>
+    <div class="exp-sum-box" onclick="showMonthExpDetail(m)" style="cursor:pointer"><div class="exp-sum-lbl">本月支出 <span style="font-size:9px;opacity:.5">▶ 明細</span></div><div class="exp-sum-val" style="color:var(--rd)">${expFmt(total)}</div></div>
+    <div class="exp-sum-box" onclick="showMonthIncDetail(m)" style="cursor:pointer"><div class="exp-sum-lbl">本月收入 <span style="font-size:9px;opacity:.5">▶ 明細</span></div><div class="exp-sum-val" style="color:var(--gr)">${expFmt(incTotal)}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">股票配息</div><div class="exp-sum-val" style="color:#1a6ea8">${divTotal>0?expFmt(divTotal):'—'}</div><div class="exp-sum-sub">${divTotal>0?'本月入帳':'本月無配息'}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">本月結餘</div><div class="exp-sum-val" style="color:${balance>=0?'var(--gr)':'var(--rd)'}">${balance>=0?'+':''}${expFmt(Math.abs(balance))}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">筆數</div><div class="exp-sum-val">${recs.length}</div><div class="exp-sum-sub">筆</div></div>`;
@@ -3308,9 +3309,6 @@ async function loadFromFirebase() {
 
     // ── 從 Firebase 讀取存股計劃配息資料 ──
     loadDividendSync();
-
-    // ── 從計程車營收讀取月份收入 ──
-    loadTaxiMonthlyIncome();
   }
 }
 
@@ -3367,70 +3365,44 @@ async function loadDividendSync() {
   }
 }
 
-// ── 從計程車營收同步月份收入 ──
-async function loadTaxiMonthlyIncome() {
-  try {
-    const snap = await get(ref(db, 'taxi/monthly_income'));
-    if (!snap.exists()) return;
-
-    const data = snap.val();
-    if (!data || !data.monthly) return;
-
-    const year = data.year || 2026;
-    const monthly = data.monthly;
-
-    // 移除舊的計程車收入記錄
-    incRecords = incRecords.filter(r => !r.id.startsWith('__taxi_'));
-
-    // 注入新的月份收入
-    let count = 0;
-    for (let m = 1; m <= 12; m++) {
-      const mData = monthly[m];
-      if (!mData) continue;
-
-      // 計程車收入
-      if (mData.taxi > 0) {
-        incRecords.push({
-          id: '__taxi_' + year + '_' + m,
-          month: m, year,
-          amt: Math.round(mData.taxi),
-          src: '🚕 計程車月收入'
-        });
-        count++;
-      }
-
-      // 兼職收入（十金鵝等）
-      if (mData.parttime > 0) {
-        incRecords.push({
-          id: '__pt_' + year + '_' + m,
-          month: m, year,
-          amt: Math.round(mData.parttime),
-          src: '🪿 十金鵝兼職收入'
-        });
-        count++;
-      }
-    }
-
-    // 更新 localStorage
-    try { localStorage.setItem('inc_records', JSON.stringify(incRecords.filter(r => !r.id.startsWith('__div_') && !r.id.startsWith('__taxi_') && !r.id.startsWith('__pt_')))); } catch(e) {}
-
-    // 重新渲染
-    try { renderExpOverview(); } catch(e) {}
-    try { renderExpMonth(); } catch(e) {}
-
-    const t = new Date(data.syncedAt || Date.now());
-    showFbToast('🚕 計程車月收入已同步（' + count + ' 筆，' + (t.getMonth()+1) + '/' + t.getDate() + '）');
-
-  } catch(e) {
-    console.warn('計程車收入同步失敗：', e.message);
-  }
-}
-
 // 5 秒超時保護
 setTimeout(removeLoading, 5000);
 
 loadFromFirebase();
 </script>
 
+
+<div id="month-exp-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)" onclick="if(event.target===this)this.style.display='none'">
+  <div style="position:absolute;bottom:0;left:0;right:0;max-height:85vh;background:var(--bg);border-radius:20px 20px 0 0;overflow:hidden;display:flex;flex-direction:column">
+    <div style="width:40px;height:4px;background:#ccc;border-radius:2px;margin:12px auto 0"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px">
+      <div><div id="mem-title" style="font-size:17px;font-weight:900;color:var(--ink)"></div><div id="mem-total" style="font-size:13px;color:var(--rd);font-weight:700;margin-top:2px"></div></div>
+      <button onclick="document.getElementById('month-exp-modal').style.display='none'" style="background:var(--mid);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer">✕</button>
+    </div>
+    <div id="mem-cat-bar" style="display:flex;gap:6px;padding:0 16px 10px;flex-wrap:wrap"></div>
+    <div style="overflow-y:auto;padding:0 16px 24px;flex:1">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="border-bottom:2px solid var(--bdr)"><th style="text-align:left;padding:6px 4px;font-size:11px;color:var(--ink-light)">日期</th><th style="text-align:left;padding:6px 4px;font-size:11px;color:var(--ink-light)">類別</th><th style="text-align:right;padding:6px 4px;font-size:11px;color:var(--ink-light)">金額</th><th style="text-align:left;padding:6px 4px;font-size:11px;color:var(--ink-light)">備註</th></tr></thead>
+        <tbody id="mem-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<div id="month-inc-modal" style="display:none;position:fixed;inset:0;z-index:9001;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)" onclick="if(event.target===this)this.style.display='none'">
+  <div style="position:absolute;bottom:0;left:0;right:0;max-height:85vh;background:var(--bg);border-radius:20px 20px 0 0;overflow:hidden;display:flex;flex-direction:column">
+    <div style="width:40px;height:4px;background:#ccc;border-radius:2px;margin:12px auto 0"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px">
+      <div><div id="mim-title" style="font-size:17px;font-weight:900;color:var(--ink)"></div><div id="mim-total" style="font-size:13px;color:var(--gr);font-weight:700;margin-top:2px"></div></div>
+      <button onclick="document.getElementById('month-inc-modal').style.display='none'" style="background:var(--mid);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer">✕</button>
+    </div>
+    <div id="mim-cat-bar" style="display:flex;gap:6px;padding:0 16px 10px;flex-wrap:wrap"></div>
+    <div style="overflow-y:auto;padding:0 16px 24px;flex:1">
+      <table style="width:100%;border-collapse:collapse;font-size:13px">
+        <thead><tr style="border-bottom:2px solid var(--bdr)"><th style="text-align:left;padding:6px 4px;font-size:11px;color:var(--ink-light)">月份</th><th style="text-align:left;padding:6px 4px;font-size:11px;color:var(--ink-light)">來源</th><th style="text-align:right;padding:6px 4px;font-size:11px;color:var(--ink-light)">金額</th></tr></thead>
+        <tbody id="mim-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
 </body>
 </html>
