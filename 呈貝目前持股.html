@@ -1192,6 +1192,9 @@ tbody td:last-child  { padding-right: 14px; }
   border-radius: 14px; padding: 13px 13px 10px;
   box-shadow: 0 6px 24px rgba(0,0,0,.12);
   min-width: 210px;
+  max-height: 80vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 #export-panel.open { display: flex; }
 
@@ -3410,7 +3413,9 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
   <div id="export-panel">
     <div class="ep-title">📋 功能選單</div>
     <div class="ep-divider"></div>
-    <button class="epbtn full" onclick="openOcr();closePanel()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(88,166,255,.12);border-color:#58A6FF;color:#58A6FF;margin-bottom:6px">📸 截圖更新股數</button>
+    <div class="ep-subtitle">📷 截圖辨識</div>
+    <button class="epbtn full" onclick="openOcr();closePanel()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(88,166,255,.18);border-color:#58A6FF;color:#58A6FF;font-size:15px;padding:14px;font-weight:800">📸 上傳券商截圖更新股數</button>
+    <div class="ep-divider"></div>
     <button class="epbtn full" onclick="openBatch();closePanel()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(14,159,142,.15);border-color:#0E9F8E;color:#0E9F8E;margin-bottom:4px">⚡ 快速更新持股</button>
 
     <div class="ep-subtitle">💾 資料同步</div>
