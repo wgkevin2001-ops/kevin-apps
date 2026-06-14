@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0E9F8E">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="呈貝持股">
+<link rel="apple-touch-icon" href="icon-192.png">
 <title>呈の持股</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -13,11 +19,11 @@
   --coral-bg: #1C2128;
   --pink:     #A0DDD8;
   --green:    #2ECC71;
-  --green-bg: #EAFAF1;
+  --green-bg: rgba(46,204,113,.12);
   --red:      #E74C3C;
-  --red-bg:   #FDEDEC;
+  --red-bg:   rgba(231,76,60,.12);
   --gray-50:  #0D1117;
-  --gray-100: #161B22;
+  --gray-100: #21262D;
   --gray-200: #E4E8EE;
   --gray-400: #8592A3;
   --gray-600: #4B5563;
@@ -218,15 +224,15 @@ tbody td:last-child  { padding-right: 14px; }
 .etf-tag {
   display: inline-block;
   font-size: 9px; font-weight: 600;
-  background: #EEF2FF; color: #6366F1;
+  background: rgba(99,102,241,.18); color: #A5B4FC;
   padding: 1px 5px; border-radius: 3px;
   margin-left: 4px; vertical-align: middle;
 }
 .note-badge {
   display: inline-block;
   font-size: 9px; font-weight: 700;
-  background: rgba(227,179,65,.15); color: #E3B341;
-  border: 1px solid #FDE68A;
+  background: rgba(227,179,65,.12); color: #E3B341;
+  border: 1px solid rgba(253,230,138,.3);
   padding: 1px 6px; border-radius: 3px;
   margin-left: 4px; vertical-align: middle;
   letter-spacing: .02em;
@@ -512,7 +518,7 @@ tbody td:last-child  { padding-right: 14px; }
 #del-box .del-msg  { font-size:14px; font-weight:600; color:var(--gray-800); margin-bottom:20px; line-height:1.5; }
 .del-btns { display:flex; gap:10px; }
 .del-btns button { flex:1; padding:11px; border-radius:9px; border:none; font-size:13px; font-weight:700; cursor:pointer; }
-.del-btns .cancel-del { background:var(--gray-100); color:var(--gray-600); }
+.del-btns .cancel-del { background:#21262D; color:#8B949E; }
 .del-btns .ok-del    { background:var(--red); color:#fff; }
 
 /* ── TOAST ── */
@@ -539,7 +545,7 @@ tbody td:last-child  { padding-right: 14px; }
   display: grid; grid-template-columns: repeat(3,1fr); gap:12px; margin-bottom:14px;
 }
 .plan-toggle {
-  display: flex; background:var(--gray-100); border-radius:10px; padding:3px;
+  display: flex; background:#1C2128; border-radius:10px; padding:3px;
   margin-bottom:14px; width:fit-content;
 }
 .plan-toggle-btn {
@@ -547,7 +553,7 @@ tbody td:last-child  { padding-right: 14px; }
   font-family:'Noto Sans TC',sans-serif; font-size:12.5px; font-weight:600;
   color:var(--gray-500,#6B7280); border-radius:8px; cursor:pointer; transition:all .18s;
 }
-.plan-toggle-btn.active { background:var(--white); color:var(--coral); box-shadow:var(--shadow-sm); }
+.plan-toggle-btn.active { background:#21262D; color:var(--coral); box-shadow:var(--shadow-sm); }
 /* 基金卡片 */
 .fund-card {
   background:#161B22; border:1px solid var(--gray-200); border-radius:var(--radius);
@@ -572,32 +578,33 @@ tbody td:last-child  { padding-right: 14px; }
 /* plan edit modal rows */
 .plan-etf-row {
   display:flex; flex-direction:column; gap:8px;
-  border:1px solid var(--gray-200); border-radius:10px;
-  padding:12px; margin-bottom:10px; background:#fafafa; position:relative;
+  border:1px solid #30363D; border-radius:12px;
+  padding:14px 12px 12px; margin-bottom:12px; background:#1C2128; position:relative;
+  box-shadow: 0 2px 8px rgba(0,0,0,.3);
 }
-.plan-etf-row .row-hdr { display:flex; align-items:center; gap:8px; margin-bottom:4px; }
+.plan-etf-row .row-hdr { display:flex; align-items:center; gap:8px; margin-bottom:4px; color:#C9D1D9; }
 .plan-etf-row .row-del { position:absolute; top:10px; right:10px; background:none; border:none;
   font-size:16px; cursor:pointer; color:#e57; padding:2px 6px; border-radius:6px; }
 .plan-etf-row .row-del:hover { background:rgba(248,81,73,.12); }
 .plan-field-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-.plan-field-grid label { font-size:11px; font-weight:600; color:var(--gray-500); display:block; margin-bottom:3px; }
+.plan-field-grid label { font-size:11px; font-weight:600; color:#8B949E; display:block; margin-bottom:3px; }
 .plan-field-grid input, .plan-field-grid select {
-  width:100%; padding:6px 8px; border:1px solid var(--gray-200);
+  width:100%; padding:6px 8px; border:1px solid #30363D;
   border-radius:7px; font-size:13px; font-family:'Noto Sans TC',sans-serif;
-  box-sizing:border-box; background:#161B22;
+  box-sizing:border-box; background:#0D1117; color:#E8EDF4;
 }
 .plan-months-check { display:flex; flex-wrap:wrap; gap:6px; margin-top:4px; }
 .plan-months-check label { display:flex; align-items:center; gap:3px; font-size:12px;
-  background:#161B22; border:1px solid var(--gray-200); border-radius:6px; padding:3px 7px; cursor:pointer; }
+  background:#0D1117; border:1px solid #30363D; border-radius:6px; padding:3px 7px; cursor:pointer; color:#C9D1D9; }
 .plan-months-check input[type=checkbox] { accent-color:var(--coral); width:13px; height:13px; }
 /* per-month dividend grid */
 .plan-months-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:6px; }
 .plan-month-cell { display:flex; flex-direction:column; gap:3px; }
 .plan-month-lbl { display:flex; align-items:center; gap:4px; font-size:12px;
-  background:#161B22; border:1px solid var(--gray-200); border-radius:6px;
-  padding:4px 6px; cursor:pointer; }
+  background:#0D1117; border:1px solid #30363D; border-radius:6px;
+  padding:4px 6px; cursor:pointer; color:#C9D1D9; }
 .plan-month-lbl input[type=checkbox] { accent-color:var(--coral); width:13px; height:13px; }
-.plan-month-div { width:100%; padding:4px 6px; border:1px solid #ffd0c0;
+.plan-month-div { width:100%; padding:4px 6px; border:1px solid #1F4F3A;
   border-radius:6px; font-size:12px; text-align:center; box-sizing:border-box;
   font-family:'Noto Sans TC',sans-serif; background:rgba(14,159,142,.12); color:var(--coral); font-weight:600; }
 /* 預算資金 & 完成度 */
@@ -624,14 +631,15 @@ tbody td:last-child  { padding-right: 14px; }
 /* preset picker */
 .preset-item {
   display:flex; align-items:center; gap:10px;
-  padding:10px 12px; border:1.5px solid var(--gray-200);
-  border-radius:10px; cursor:pointer; background:#161B22; transition:all .15s;
+  padding:10px 12px; border:1.5px solid #30363D;
+  border-radius:10px; cursor:pointer; background:#1C2128; transition:all .15s;
+  color:#C9D1D9;
 }
 .preset-item:hover { border-color:var(--coral); background:rgba(14,159,142,.1); }
 .preset-dot { width:12px; height:12px; border-radius:50%; flex-shrink:0; }
-.preset-code { font-size:12px; font-weight:700; color:var(--gray-500); min-width:52px; }
-.preset-name { font-size:14px; font-weight:600; flex:1; }
-.preset-tag { font-size:11px; background:#f0faf7; color:#0E9F8E; border-radius:6px; padding:2px 7px; white-space:nowrap; }
+.preset-code { font-size:12px; font-weight:700; color:#8B949E; min-width:52px; }
+.preset-name { font-size:14px; font-weight:600; flex:1; color:#C9D1D9; }
+.preset-tag { font-size:11px; background:rgba(14,159,142,.2); color:#0E9F8E; border-radius:6px; padding:2px 7px; white-space:nowrap; }
 .month-grid { display:flex; flex-direction:column; gap:10px; }
 .month-card {
   background:var(--white); border:1px solid var(--gray-200);
@@ -1982,9 +1990,147 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
 ::-webkit-scrollbar { width: 5px; height: 5px; }
 ::-webkit-scrollbar-track { background: #0D1117; }
 ::-webkit-scrollbar-thumb { background: #30363D; border-radius: 3px; }
+
+/* ══ PIN 密碼鎖 ══ */
+#pw-overlay {
+  position: fixed; inset: 0; z-index: 99999;
+  background: #0D1117;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 0;
+  transition: opacity .35s ease;
+}
+#pw-overlay.unlocked {
+  opacity: 0; pointer-events: none;
+}
+.pw-logo {
+  font-size: 52px; margin-bottom: 8px;
+  filter: drop-shadow(0 0 18px rgba(14,159,142,.5));
+  animation: pw-float 3s ease-in-out infinite;
+}
+@keyframes pw-float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.pw-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px; font-weight: 900;
+  color: #E8EDF4; letter-spacing: -.5px;
+  margin-bottom: 4px;
+}
+.pw-sub {
+  font-size: 13px; color: #6E7681;
+  margin-bottom: 36px; font-weight: 500;
+}
+.pw-dots {
+  display: flex; gap: 14px;
+  margin-bottom: 32px;
+}
+.pw-dot {
+  width: 14px; height: 14px; border-radius: 50%;
+  border: 2px solid #30363D;
+  background: transparent;
+  transition: all .18s;
+}
+.pw-dot.filled {
+  background: #0E9F8E;
+  border-color: #0E9F8E;
+  box-shadow: 0 0 10px rgba(14,159,142,.6);
+}
+.pw-dot.error {
+  background: #F85149;
+  border-color: #F85149;
+  box-shadow: 0 0 10px rgba(248,81,73,.6);
+  animation: pw-shake .4s ease;
+}
+@keyframes pw-shake {
+  0%,100% { transform: translateX(0); }
+  20%      { transform: translateX(-6px); }
+  40%      { transform: translateX(6px); }
+  60%      { transform: translateX(-4px); }
+  80%      { transform: translateX(4px); }
+}
+.pw-keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 72px);
+  grid-template-rows: repeat(4, 72px);
+  gap: 10px;
+}
+.pw-key {
+  width: 72px; height: 72px; border-radius: 50%;
+  border: 1.5px solid #21262D;
+  background: #161B22;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 22px; font-weight: 700;
+  color: #E8EDF4; cursor: pointer;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 1px;
+  transition: all .12s;
+  user-select: none; -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.pw-key:hover { background: #1C2128; border-color: #30363D; }
+.pw-key:active { background: #0E9F8E22; border-color: #0E9F8E; transform: scale(.93); }
+.pw-key .pw-key-sub {
+  font-size: 8px; font-weight: 600;
+  color: #6E7681; letter-spacing: .08em;
+  text-transform: uppercase; line-height: 1;
+}
+.pw-key.pw-del { font-size: 20px; }
+.pw-key.pw-del:active { border-color: #F85149; }
+.pw-key.pw-empty { border: none; background: transparent; cursor: default; }
+.pw-key.pw-empty:hover { background: transparent; }
+.pw-key.pw-empty:active { transform: none; }
+.pw-error-msg {
+  margin-top: 20px; font-size: 13px;
+  color: #F85149; font-weight: 600;
+  min-height: 20px; transition: opacity .2s;
+  opacity: 0;
+}
+.pw-error-msg.show { opacity: 1; }
+.pw-attempts {
+  margin-top: 8px; font-size: 11px;
+  color: #6E7681;
+}
+@media(max-width:400px) {
+  .pw-keypad { grid-template-columns: repeat(3, 66px); grid-template-rows: repeat(4, 66px); gap: 8px; }
+  .pw-key { width: 66px; height: 66px; font-size: 20px; }
+}
 </style>
 </head>
 <body>
+
+<!-- ══ PIN 密碼鎖覆蓋層 ══ -->
+<div id="pw-overlay">
+  <div class="pw-logo">📈</div>
+  <div class="pw-title">呈貝持股</div>
+  <div class="pw-sub">請輸入 PIN 碼解鎖</div>
+  <div class="pw-dots">
+    <div class="pw-dot" id="pw-d0"></div>
+    <div class="pw-dot" id="pw-d1"></div>
+    <div class="pw-dot" id="pw-d2"></div>
+    <div class="pw-dot" id="pw-d3"></div>
+    <div class="pw-dot" id="pw-d4"></div>
+  </div>
+  <div class="pw-keypad">
+    <button class="pw-key" onclick="pwKey('1')">1</button>
+    <button class="pw-key" onclick="pwKey('2')">2<div class="pw-key-sub">ABC</div></button>
+    <button class="pw-key" onclick="pwKey('3')">3<div class="pw-key-sub">DEF</div></button>
+    <button class="pw-key" onclick="pwKey('4')">4<div class="pw-key-sub">GHI</div></button>
+    <button class="pw-key" onclick="pwKey('5')">5<div class="pw-key-sub">JKL</div></button>
+    <button class="pw-key" onclick="pwKey('6')">6<div class="pw-key-sub">MNO</div></button>
+    <button class="pw-key" onclick="pwKey('7')">7<div class="pw-key-sub">PQRS</div></button>
+    <button class="pw-key" onclick="pwKey('8')">8<div class="pw-key-sub">TUV</div></button>
+    <button class="pw-key" onclick="pwKey('9')">9<div class="pw-key-sub">WXYZ</div></button>
+    <button class="pw-key pw-empty" disabled></button>
+    <button class="pw-key" onclick="pwKey('0')">0</button>
+    <button class="pw-key pw-del" onclick="pwDel()">⌫</button>
+  </div>
+  <div class="pw-error-msg" id="pw-error">密碼錯誤，請重試</div>
+  <div class="pw-attempts" id="pw-attempts"></div>
+</div>
+
 <div class="app-top-bar">
   <a class="app-top-bar-link" href="index.html">🏠 首頁</a>
   <div class="app-top-bar-divider"></div>
@@ -2061,7 +2207,7 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     <div class="sum-card">
       <div class="sum-label">持股檔數</div>
       <div class="sum-value" id="cheng-count">—</div>
-      <span class="sum-rate up" style="background:var(--gray-100);color:var(--gray-600);">台股＋美股</span>
+      <span class="sum-rate up" style="background:#21262D;color:#8B949E;">台股＋美股</span>
     </div>
     <div class="sum-card highlight">
       <div class="sum-label">未實現損益</div>
@@ -2283,7 +2429,7 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     <div class="sum-card">
       <div class="sum-label">持股檔數</div>
       <div class="sum-value" id="niu-count">—</div>
-      <span class="sum-rate up" style="background:var(--gray-100);color:var(--gray-600);">檔</span>
+      <span class="sum-rate up" style="background:#21262D;color:#8B949E;">檔</span>
     </div>
     <div class="sum-card highlight">
       <div class="sum-label">台股未實現損益</div>
@@ -2296,12 +2442,12 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     <div class="sum-card">
       <div class="sum-label">基金現值合計</div>
       <div class="sum-value" id="niu-fund-nav">—</div>
-      <span class="sum-rate" style="background:var(--gray-100);color:var(--gray-600);">TWD</span>
+      <span class="sum-rate" style="background:#21262D;color:#8B949E;">TWD</span>
     </div>
     <div class="sum-card">
       <div class="sum-label">基金筆數</div>
       <div class="sum-value" id="niu-fund-cnt2">—</div>
-      <span class="sum-rate" style="background:var(--gray-100);color:var(--gray-600);">筆</span>
+      <span class="sum-rate" style="background:#21262D;color:#8B949E;">筆</span>
     </div>
     <div class="sum-card highlight" style="background:linear-gradient(135deg,#0E9F8E,#4ECDC4)">
       <div class="sum-label">基金預估損益</div>
@@ -2726,7 +2872,7 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
         <div class="preset-item" onclick="pickPreset(4)"><span class="preset-dot" style="background:#96CEB4"></span><span class="preset-code">00403A</span><span class="preset-name">主動統一升級50</span><span class="preset-tag">待定</span></div>
         <div class="preset-item" onclick="pickPreset(5)"><span class="preset-dot" style="background:#45B7D1"></span><span class="preset-code">00981B</span><span class="preset-name">第一金優選非投債</span><span class="preset-tag">月配</span></div>
         <div class="preset-item" onclick="pickPreset(6)"><span class="preset-dot" style="background:#DDA0DD"></span><span class="preset-code">00981D</span><span class="preset-name">主動中信非投等債</span><span class="preset-tag">月配</span></div>
-        <div class="preset-item" onclick="pickPreset('custom')" style="border-style:dashed;color:#8B949E"><span class="preset-dot" style="background:#ccc"></span><span class="preset-code">自訂</span><span class="preset-name">手動輸入</span><span class="preset-tag" style="background:#f5f5f5;color:#8B949E">—</span></div>
+        <div class="preset-item" onclick="pickPreset('custom')" style="border-style:dashed;color:#8B949E"><span class="preset-dot" style="background:#30363D"></span><span class="preset-code">自訂</span><span class="preset-name">手動輸入</span><span class="preset-tag" style="background:rgba(139,148,158,.15);color:#8B949E">—</span></div>
       </div>
     </div>
   </div>
@@ -2739,9 +2885,10 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
       <div class="modal-title">✏️ 編輯存股計畫</div>
       <button class="modal-close" onclick="closePlanEdit()">✕</button>
     </div>
-    <div class="modal-body" id="plan-edit-body" style="padding:0 4px;max-height:65vh;overflow-y:auto"></div>
+    <div style="padding:6px 16px 5px;background:#0D1117;font-size:11.5px;color:#8B949E;display:flex;align-items:center;gap:6px;border-bottom:1px solid #21262D"><span>📋</span><span id="plan-edit-count"></span><span style="margin-left:auto;opacity:.7">↕ 上下滑動切換 ETF</span></div>
+    <div class="modal-body" id="plan-edit-body" style="padding:8px 4px;max-height:72vh;overflow-y:auto;-webkit-overflow-scrolling:touch"></div>
     <div class="modal-footer" style="justify-content:space-between;flex-wrap:wrap;gap:8px">
-      <button class="btn-cancel" onclick="planAddRow()" style="background:#f0faf7;color:#0E9F8E;border:1.5px solid #0E9F8E">＋ 新增 ETF</button>
+      <button class="btn-cancel" onclick="planAddRow()" style="background:rgba(14,159,142,.15);color:#0E9F8E;border:1.5px solid #0E9F8E">＋ 新增 ETF</button>
       <div style="display:flex;gap:8px">
         <button class="btn-cancel" onclick="closePlanEdit()">取消</button>
         <button class="btn-save" onclick="savePlanEdit()">💾 儲存</button>
@@ -2777,6 +2924,11 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     <button class="epbtn full" onclick="switchPage('plan');planExport();closePanel()">📊 匯出配息 Excel</button>
     <button class="epbtn full" onclick="calExport();closePanel()">📅 下載 .ics 行事曆</button>
     <button class="epbtn full" onclick="pushDividendSync();closePanel()" style="margin-top:4px">📲 同步配息到行事曆</button>
+
+    <div class="ep-divider"></div>
+    <div class="ep-subtitle">📱 App</div>
+    <button class="epbtn full" id="pwa-install-btn" onclick="installPWA();closePanel()" style="display:none;align-items:center;justify-content:center;gap:6px;background:rgba(14,159,142,.15);border-color:#0E9F8E;color:#0E9F8E">📲 安裝到主畫面</button>
+    <button class="epbtn full" id="pwa-ios-hint" onclick="installPWA();closePanel()" style="display:flex;align-items:center;justify-content:center;gap:6px">📱 加到主畫面</button>
   </div>
   <button class="fab fab-main" onclick="togglePanel()" id="fab-main-btn" title="功能選單">⚡</button>
 </div>
@@ -3907,6 +4059,8 @@ function closePlanEdit() {
 }
 function renderPlanEditBody() {
   const body = document.getElementById('plan-edit-body');
+  const countEl = document.getElementById("plan-edit-count");
+  if (countEl) countEl.textContent = `共 ${planEtfs.length} 檔 ETF`;
   body.innerHTML = planEtfs.map((e, i) => {
     const divByM = e.divByM || {};
     const monthsHtml = MONTH_LABELS.map((ml, mi) => {
@@ -3926,9 +4080,10 @@ function renderPlanEditBody() {
     return `
     <div class="plan-etf-row" id="plan-row-${i}">
       <button class="row-del" onclick="planDelRow(${i})" title="刪除">🗑</button>
-      <div class="row-hdr">
+      <div class="row-hdr" style="display:flex;align-items:center;gap:8px;border-bottom:1px solid #21262D;padding-bottom:8px;margin-bottom:8px">
+        <span style="font-size:10px;font-weight:700;background:#21262D;color:#8B949E;padding:2px 7px;border-radius:4px;flex-shrink:0">${i+1}／${planEtfs.length}</span>
         <div class="etf-dot" style="background:${e.color};width:12px;height:12px;border-radius:50%;flex-shrink:0"></div>
-        <strong style="font-size:14px">${e.name}</strong>
+        <strong style="font-size:14px;color:#E8EDF4">${e.name}</strong>
         <span style="font-size:12px;color:#6E7681">${e.id}</span>
       </div>
       <div class="plan-field-grid">
@@ -4550,6 +4705,166 @@ window.rmLoading = function() {
 setTimeout(rmLoading, 100);
 setTimeout(() => window.dispatchEvent(new Event('holdings-ready')), 200);
 if(typeof fetchPrices==='function') fetchPrices();
+</script>
+
+
+<!-- ══ PWA Service Worker 註冊 ══ -->
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw.js')
+      .then(reg => console.log('SW 已註冊:', reg.scope))
+      .catch(err => console.log('SW 註冊失敗:', err));
+  });
+}
+
+// 安裝提示（Android Chrome）
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  // 顯示自訂安裝按鈕
+  const btn = document.getElementById('pwa-install-btn');
+  if (btn) btn.style.display = 'flex';
+});
+window.addEventListener('appinstalled', () => {
+  const btn = document.getElementById('pwa-install-btn');
+  if (btn) btn.style.display = 'none';
+  deferredPrompt = null;
+  if (typeof showToast === 'function') showToast('✅ 已加到主畫面！');
+});
+function installPWA() {
+  if (!deferredPrompt) {
+    if (typeof showToast === 'function') showToast('📱 iOS：請點 Safari 分享 → 加入主畫面');
+    return;
+  }
+  deferredPrompt.prompt();
+  deferredPrompt.userChoice.then(r => {
+    if (r.outcome === 'accepted') {
+      if (typeof showToast === 'function') showToast('🎉 正在安裝到主畫面...');
+    }
+    deferredPrompt = null;
+  });
+}
+</script>
+
+<!-- ══ PIN 密碼鎖 JS ══ -->
+<script>
+(function() {
+  // ★ 在這裡設定你的 PIN 碼（預設 1234，請改成自己的）
+  const CORRECT_PIN = '55688';
+  const SESSION_KEY = 'chengbei_unlocked';
+  const MAX_ATTEMPTS = 5;
+  const LOCKOUT_MS   = 60 * 1000; // 錯誤5次鎖定1分鐘
+
+  let input = '';
+  let attempts = parseInt(sessionStorage.getItem('pw_attempts') || '0');
+  let lockUntil = parseInt(sessionStorage.getItem('pw_lock_until') || '0');
+
+  // 本次 session 已解鎖 → 直接跳過
+  if (sessionStorage.getItem(SESSION_KEY) === 'yes') {
+    document.getElementById('pw-overlay').style.display = 'none';
+    return;
+  }
+
+  // 檢查鎖定狀態
+  function checkLock() {
+    const now = Date.now();
+    if (lockUntil > now) {
+      const sec = Math.ceil((lockUntil - now) / 1000);
+      document.getElementById('pw-attempts').textContent = `鎖定中，請等待 ${sec} 秒`;
+      setTimeout(checkLock, 1000);
+      // 停用所有按鍵
+      document.querySelectorAll('.pw-key').forEach(k => k.disabled = true);
+    } else {
+      document.querySelectorAll('.pw-key').forEach(k => k.disabled = false);
+      document.getElementById('pw-attempts').textContent =
+        attempts > 0 ? `剩餘嘗試次數：${MAX_ATTEMPTS - attempts}` : '';
+    }
+  }
+  checkLock();
+
+  // 更新小圓點
+  function updateDots() {
+    for (let i = 0; i < 5; i++) {
+      const d = document.getElementById('pw-d' + i);
+      d.classList.toggle('filled', i < input.length);
+      d.classList.remove('error');
+    }
+  }
+
+  // 輸入數字
+  window.pwKey = function(n) {
+    if (Date.now() < lockUntil) return;
+    if (input.length >= 5) return;
+    input += n;
+    updateDots();
+    if (input.length === 5) {
+      setTimeout(verify, 120);
+    }
+  };
+
+  // 刪除
+  window.pwDel = function() {
+    if (Date.now() < lockUntil) return;
+    input = input.slice(0, -1);
+    updateDots();
+    hideError();
+  };
+
+  function verify() {
+    if (input === CORRECT_PIN) {
+      // 正確 → 解鎖
+      sessionStorage.setItem(SESSION_KEY, 'yes');
+      sessionStorage.removeItem('pw_attempts');
+      sessionStorage.removeItem('pw_lock_until');
+      const overlay = document.getElementById('pw-overlay');
+      overlay.classList.add('unlocked');
+      setTimeout(() => overlay.style.display = 'none', 380);
+    } else {
+      // 錯誤 → 抖動
+      attempts++;
+      sessionStorage.setItem('pw_attempts', attempts);
+      showError();
+      // 圓點變紅
+      for (let i = 0; i < 5; i++) {
+        document.getElementById('pw-d' + i).classList.add('error');
+      }
+      setTimeout(() => {
+        input = '';
+        updateDots();
+      }, 500);
+
+      if (attempts >= MAX_ATTEMPTS) {
+        lockUntil = Date.now() + LOCKOUT_MS;
+        sessionStorage.setItem('pw_lock_until', lockUntil);
+        attempts = 0;
+        sessionStorage.setItem('pw_attempts', '0');
+        document.getElementById('pw-error').textContent = '嘗試次數過多，鎖定 60 秒';
+        checkLock();
+      } else {
+        document.getElementById('pw-attempts').textContent =
+          `剩餘嘗試次數：${MAX_ATTEMPTS - attempts}`;
+      }
+    }
+  }
+
+  function showError() {
+    const el = document.getElementById('pw-error');
+    el.textContent = '密碼錯誤，請重試';
+    el.classList.add('show');
+  }
+  function hideError() {
+    document.getElementById('pw-error').classList.remove('show');
+  }
+
+  // 鍵盤支援
+  document.addEventListener('keydown', e => {
+    if (document.getElementById('pw-overlay').style.display === 'none') return;
+    if (e.key >= '0' && e.key <= '9') pwKey(e.key);
+    if (e.key === 'Backspace') pwDel();
+  });
+})();
 </script>
 
 </body>
