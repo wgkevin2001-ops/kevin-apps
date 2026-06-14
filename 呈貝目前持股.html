@@ -2366,9 +2366,119 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
 }
 .ocr-error.show { display:block; }
 
+
+/* ══ API Key 設定 ══ */
+#apikey-modal {
+  position:fixed; inset:0; z-index:99997;
+  background:rgba(0,0,0,.88);
+  display:none; align-items:center; justify-content:center;
+  padding:20px;
+}
+#apikey-modal.open { display:flex; }
+.apikey-box {
+  background:#161B22; border:1px solid #30363D;
+  border-radius:18px; padding:28px 24px;
+  width:100%; max-width:420px;
+  box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+.apikey-logo { font-size:36px; text-align:center; margin-bottom:10px; }
+.apikey-title {
+  font-size:17px; font-weight:800; color:#E8EDF4;
+  text-align:center; margin-bottom:4px;
+}
+.apikey-sub {
+  font-size:12px; color:#6E7681; text-align:center;
+  margin-bottom:22px; line-height:1.6;
+}
+.apikey-label {
+  font-size:11px; font-weight:700; color:#8B949E;
+  letter-spacing:.06em; text-transform:uppercase;
+  margin-bottom:6px;
+}
+.apikey-input-wrap { position:relative; margin-bottom:8px; }
+.apikey-input-wrap input {
+  width:100%; padding:12px 44px 12px 14px;
+  background:#0D1117; border:1.5px solid #30363D;
+  border-radius:10px; color:#E8EDF4; font-size:13px;
+  font-family:'DM Mono', monospace;
+  box-sizing:border-box; outline:none;
+  transition:border-color .15s;
+}
+.apikey-input-wrap input:focus { border-color:#58A6FF; }
+.apikey-toggle {
+  position:absolute; right:12px; top:50%;
+  transform:translateY(-50%);
+  background:none; border:none; color:#6E7681;
+  cursor:pointer; font-size:16px; padding:4px;
+}
+.apikey-hint {
+  font-size:11px; color:#6E7681; margin-bottom:20px;
+  line-height:1.6;
+}
+.apikey-hint a { color:#58A6FF; text-decoration:none; }
+.apikey-status {
+  font-size:12px; margin-bottom:14px;
+  padding:8px 12px; border-radius:8px;
+  display:none;
+}
+.apikey-status.ok  { display:block; background:rgba(63,185,80,.12); color:#3FB950; border:1px solid rgba(63,185,80,.25); }
+.apikey-status.err { display:block; background:rgba(248,81,73,.12); color:#F85149; border:1px solid rgba(248,81,73,.25); }
+.apikey-btns { display:flex; gap:10px; }
+.apikey-save {
+  flex:1; padding:12px; background:#0E9F8E; color:#fff;
+  border:none; border-radius:10px; font-size:14px;
+  font-weight:800; cursor:pointer; transition:opacity .15s;
+}
+.apikey-save:hover { opacity:.88; }
+.apikey-cancel {
+  padding:12px 16px; background:#21262D; color:#8B949E;
+  border:1px solid #30363D; border-radius:10px;
+  font-size:14px; font-weight:600; cursor:pointer;
+}
+.apikey-saved-bar {
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(63,185,80,.08); border:1px solid rgba(63,185,80,.2);
+  border-radius:10px; padding:10px 14px; margin-bottom:16px;
+}
+.apikey-saved-txt { font-size:12px; color:#3FB950; font-weight:600; }
+.apikey-saved-key { font-size:11px; color:#6E7681; font-family:'DM Mono',monospace; }
+.apikey-clear { font-size:12px; color:#F85149; background:none; border:none; cursor:pointer; }
+
 </style>
 </head>
 <body>
+
+<!-- ══ API Key 設定 Modal ══ -->
+<div id="apikey-modal">
+  <div class="apikey-box">
+    <div class="apikey-logo">🔑</div>
+    <div class="apikey-title">設定 Claude API Key</div>
+    <div class="apikey-sub">用於截圖辨識功能<br>Key 只存在你的手機，不會上傳到任何地方</div>
+
+    <div class="apikey-saved-bar" id="apikey-saved-bar" style="display:none">
+      <div>
+        <div class="apikey-saved-txt">✅ API Key 已設定</div>
+        <div class="apikey-saved-key" id="apikey-saved-preview"></div>
+      </div>
+      <button class="apikey-clear" onclick="apiKeyClear()">🗑 清除</button>
+    </div>
+
+    <div class="apikey-label">Anthropic API Key</div>
+    <div class="apikey-input-wrap">
+      <input type="password" id="apikey-input" placeholder="sk-ant-api03-...">
+      <button class="apikey-toggle" onclick="apiKeyToggle()" id="apikey-eye">👁</button>
+    </div>
+    <div class="apikey-hint">
+      到 <a href="https://console.anthropic.com/keys" target="_blank">console.anthropic.com/keys</a> 取得 API Key<br>
+      ⚠ 請勿將此網頁分享給他人，Key 存在本機 localStorage
+    </div>
+    <div class="apikey-status" id="apikey-status"></div>
+    <div class="apikey-btns">
+      <button class="apikey-cancel" onclick="closeApiKey()">取消</button>
+      <button class="apikey-save" onclick="apiKeySave()">💾 儲存</button>
+    </div>
+  </div>
+</div>
 
 <!-- ══ 截圖辨識更新 ══ -->
 <div id="ocr-overlay">
@@ -2377,6 +2487,28 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     <button class="ocr-close" onclick="closeOcr()">✕</button>
   </div>
   <div class="ocr-body">
+    <!-- API Key 設定 -->
+    <div id="ocr-apikey-section" style="margin-bottom:14px">
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+        <span style="font-size:12px;font-weight:700;color:#8B949E">🔑 Anthropic API Key</span>
+        <span id="ocr-key-status" style="font-size:11px;padding:2px 8px;border-radius:6px;background:#21262D;color:#6E7681">未設定</span>
+      </div>
+      <div style="display:flex;gap:8px">
+        <input id="ocr-apikey-input" type="password"
+          placeholder="sk-ant-api03-..."
+          style="flex:1;padding:9px 12px;border:1.5px solid #30363D;border-radius:10px;
+                 background:#0D1117;color:#E8EDF4;font-size:13px;font-family:monospace">
+        <button onclick="ocrSaveKey()"
+          style="padding:9px 14px;background:#0E9F8E;color:#fff;border:none;
+                 border-radius:10px;font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap">
+          儲存
+        </button>
+      </div>
+      <div style="font-size:11px;color:#6E7681;margin-top:5px">
+        Key 只存在你的裝置，不會上傳。前往 <a href="https://console.anthropic.com/settings/keys" target="_blank" style="color:#58A6FF">console.anthropic.com</a> 取得。
+      </div>
+    </div>
+
     <div class="ocr-upload-area" id="ocr-drop">
       <input type="file" id="ocr-file-input" accept="image/*" onchange="ocrHandleFile(this.files[0])">
       <div class="ocr-upload-icon">📸</div>
@@ -3302,6 +3434,9 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     <button class="epbtn full" onclick="calExport();closePanel()">📅 下載 .ics 行事曆</button>
     <button class="epbtn full" onclick="pushDividendSync();closePanel()" style="margin-top:4px">📲 同步配息到行事曆</button>
 
+    <div class="ep-divider"></div>
+    <div class="ep-subtitle">⚙️ 設定</div>
+    <button class="epbtn full" id="fab-apikey-btn" onclick="openApiKey();closePanel()" style="display:flex;align-items:center;justify-content:center;gap:6px">🔑 設定 API Key</button>
     <div class="ep-divider"></div>
     <div class="ep-subtitle">📱 App</div>
     <button class="epbtn full" id="pwa-install-btn" onclick="installPWA();closePanel()" style="display:none;align-items:center;justify-content:center;gap:6px;background:rgba(14,159,142,.15);border-color:#0E9F8E;color:#0E9F8E">📲 安裝到主畫面</button>
@@ -5434,7 +5569,12 @@ async function batchOcr() {
   try {
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': ocrGetKey(),
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1000,
@@ -5489,8 +5629,40 @@ async function batchOcr() {
 
 <!-- ══ 截圖 OCR 更新 JS ══ -->
 <script>
+
+/* ── API Key 管理 ── */
+function ocrGetKey() {
+  return localStorage.getItem('anthropic_ocr_key') || '';
+}
+function ocrSaveKey() {
+  const val = document.getElementById('ocr-apikey-input').value.trim();
+  if (!val.startsWith('sk-')) {
+    if (typeof showToast === 'function') showToast('⚠ Key 格式不對，應以 sk- 開頭');
+    return;
+  }
+  localStorage.setItem('anthropic_ocr_key', val);
+  ocrUpdateKeyStatus();
+  if (typeof showToast === 'function') showToast('✅ API Key 已儲存');
+}
+function ocrUpdateKeyStatus() {
+  const key = ocrGetKey();
+  const el = document.getElementById('ocr-key-status');
+  if (!el) return;
+  if (key && key.startsWith('sk-')) {
+    el.textContent = '✅ 已設定';
+    el.style.background = 'rgba(63,185,80,.15)';
+    el.style.color = '#3FB950';
+    // 遮蔽顯示
+    document.getElementById('ocr-apikey-input').placeholder = key.slice(0,12) + '••••••••••••';
+  } else {
+    el.textContent = '未設定';
+    el.style.background = '#21262D';
+    el.style.color = '#6E7681';
+  }
+}
+
 /* ── 開關 ── */
-function openOcr()  { document.getElementById('ocr-overlay').classList.add('open'); }
+function openOcr()  { document.getElementById('ocr-overlay').classList.add('open'); ocrUpdateKeyStatus(); }
 function closeOcr() {
   document.getElementById('ocr-overlay').classList.remove('open');
   ocrClearImg();
@@ -5535,6 +5707,15 @@ function ocrHandleFile(file) {
 
 /* ── 呼叫 Claude API 分析圖片 ── */
 async function ocrAnalyze(dataUrl) {
+  // 檢查 API key
+  const key = ocrGetKey();
+  if (!key || !key.startsWith('sk-')) {
+    const errEl = document.getElementById('ocr-error');
+    errEl.textContent = '⚠ 請先輸入並儲存 Anthropic API Key（頁面上方）';
+    errEl.classList.add('show');
+    document.getElementById('ocr-apikey-input').focus();
+    return;
+  }
   // 顯示 loading
   document.getElementById('ocr-result').classList.remove('show');
   document.getElementById('ocr-apply-bar').classList.remove('show');
@@ -5703,6 +5884,116 @@ function ocrApply() {
     showToast(`✅ 已更新 ${updated} 筆${skipped > 0 ? `，${skipped} 筆未找到對應` : ''}`);
   }
 }
+</script>
+
+
+<!-- ══ API Key JS ══ -->
+<script>
+const APIKEY_STORAGE = 'chengbei_claude_key';
+
+/* ── 開關 ── */
+function openApiKey() {
+  apikeyRefreshUI();
+  document.getElementById('apikey-modal').classList.add('open');
+}
+function closeApiKey() {
+  document.getElementById('apikey-modal').classList.remove('open');
+  document.getElementById('apikey-input').value = '';
+  document.getElementById('apikey-status').className = 'apikey-status';
+}
+
+/* ── 顯示/隱藏 ── */
+function apiKeyToggle() {
+  const inp = document.getElementById('apikey-input');
+  const eye = document.getElementById('apikey-eye');
+  if (inp.type === 'password') { inp.type = 'text'; eye.textContent = '🙈'; }
+  else { inp.type = 'password'; eye.textContent = '👁'; }
+}
+
+/* ── 取得 key ── */
+function getApiKey() {
+  return localStorage.getItem(APIKEY_STORAGE) || '';
+}
+
+/* ── 清除 key ── */
+function apiKeyClear() {
+  localStorage.removeItem(APIKEY_STORAGE);
+  apikeyRefreshUI();
+  if (typeof showToast === 'function') showToast('🗑 API Key 已清除');
+}
+
+/* ── 儲存 key ── */
+function apiKeySave() {
+  const val = document.getElementById('apikey-input').value.trim();
+  if (!val) {
+    apikeySetStatus('err', '⚠ 請輸入 API Key');
+    return;
+  }
+  if (!val.startsWith('sk-ant-')) {
+    apikeySetStatus('err', '⚠ 格式不對，應以 sk-ant- 開頭');
+    return;
+  }
+  localStorage.setItem(APIKEY_STORAGE, val);
+  apikeySetStatus('ok', '✅ 已儲存到本機');
+  apikeyRefreshUI();
+  setTimeout(closeApiKey, 1200);
+  if (typeof showToast === 'function') showToast('✅ API Key 已儲存');
+}
+
+function apikeySetStatus(type, msg) {
+  const el = document.getElementById('apikey-status');
+  el.className = 'apikey-status ' + type;
+  el.textContent = msg;
+}
+
+/* ── 更新 UI 顯示目前狀態 ── */
+function apikeyRefreshUI() {
+  const key = getApiKey();
+  const bar = document.getElementById('apikey-saved-bar');
+  const preview = document.getElementById('apikey-saved-preview');
+  const fabBtn = document.getElementById('fab-apikey-btn');
+  if (key) {
+    bar.style.display = 'flex';
+    preview.textContent = key.slice(0, 14) + '...' + key.slice(-4);
+    if (fabBtn) {
+      fabBtn.style.borderColor = '#3FB950';
+      fabBtn.style.color = '#3FB950';
+      fabBtn.textContent = '✅ API Key 已設定';
+    }
+  } else {
+    bar.style.display = 'none';
+    if (fabBtn) {
+      fabBtn.style.borderColor = '';
+      fabBtn.style.color = '';
+      fabBtn.textContent = '🔑 設定 API Key';
+    }
+  }
+}
+
+/* ── 啟動時更新 FAB 按鈕狀態 ── */
+document.addEventListener('DOMContentLoaded', apikeyRefreshUI);
+
+/* ── OCR 分析時自動帶入 key ── */
+// 覆寫 ocrAnalyze 的 fetch，自動加入 header
+const _origFetch = window.fetch;
+window.fetch = function(url, opts) {
+  if (typeof url === 'string' && url.includes('api.anthropic.com')) {
+    const key = getApiKey();
+    if (key) {
+      opts = opts || {};
+      opts.headers = Object.assign({}, opts.headers, {
+        'x-api-key': key,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-calls': 'true'
+      });
+    } else {
+      // 沒設 key → 提示去設定
+      openApiKey();
+      return Promise.reject(new Error('請先設定 API Key'));
+    }
+  }
+  return _origFetch.apply(this, [url, opts]);
+};
 </script>
 
 </body>
