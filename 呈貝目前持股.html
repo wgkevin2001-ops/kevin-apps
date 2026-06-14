@@ -5569,7 +5569,7 @@ async function batchOcr() {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': ocrGetKey(),
+        'x-api-key': getApiKey(),
         'anthropic-version': '2023-06-01',
         'anthropic-dangerous-direct-browser-access': 'true'
       },
@@ -5629,34 +5629,10 @@ async function batchOcr() {
 <script>
 
 /* ── API Key 管理 ── */
-function ocrGetKey() {
-  return localStorage.getItem('anthropic_ocr_key') || '';
-}
-function ocrSaveKey() {
-  const val = document.getElementById('ocr-apikey-input').value.trim();
-  if (!val.startsWith('sk-')) {
-    if (typeof showToast === 'function') showToast('⚠ Key 格式不對，應以 sk- 開頭');
-    return;
-  }
   localStorage.setItem('anthropic_ocr_key', val);
   ocrUpdateKeyStatus();
   if (typeof showToast === 'function') showToast('✅ API Key 已儲存');
 }
-function ocrUpdateKeyStatus() {
-  const key = ocrGetKey();
-  const el = document.getElementById('ocr-key-status');
-  if (!el) return;
-  if (key && key.startsWith('sk-')) {
-    el.textContent = '✅ 已設定';
-    el.style.background = 'rgba(63,185,80,.15)';
-    el.style.color = '#3FB950';
-    // 遮蔽顯示
-    document.getElementById('ocr-apikey-input').placeholder = key.slice(0,12) + '••••••••••••';
-  } else {
-    el.textContent = '未設定';
-    el.style.background = '#21262D';
-    el.style.color = '#6E7681';
-  }
 }
 
 /* ── 開關 ── */
@@ -5720,12 +5696,12 @@ function ocrHandleFile(file) {
 /* ── 呼叫 Claude API 分析圖片 ── */
 async function ocrAnalyze(dataUrl) {
   // 檢查 API key
-  const key = ocrGetKey();
+  const key = getApiKey();
   if (!key || !key.startsWith('sk-')) {
     const errEl = document.getElementById('ocr-error');
-    errEl.textContent = '⚠ 請先輸入並儲存 Anthropic API Key（頁面上方）';
+    errEl.textContent = '⚠ 請先設定 API Key（點右下角 ⚡ → 🔑 設定 API Key）';
     errEl.classList.add('show');
-    document.getElementById('ocr-apikey-input').focus();
+    closeOcr(); openApiKey();
     return;
   }
   // 顯示 loading
