@@ -2097,9 +2097,317 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
   .pw-keypad { grid-template-columns: repeat(3, 66px); grid-template-rows: repeat(4, 66px); gap: 8px; }
   .pw-key { width: 66px; height: 66px; font-size: 20px; }
 }
+
+/* ══ 批次更新面板 ══ */
+#batch-modal-bg {
+  display:none; position:fixed; inset:0; z-index:6000;
+  background:rgba(0,0,0,.85); backdrop-filter:blur(4px);
+  align-items:flex-end; justify-content:center; padding:0;
+}
+#batch-modal-bg.on { display:flex; }
+#batch-box {
+  background:#161B22; border-radius:20px 20px 0 0;
+  width:100%; max-width:560px;
+  max-height:90vh; overflow-y:auto;
+  box-shadow:0 -8px 40px rgba(0,0,0,.5);
+  animation:slideUp .28s ease both;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+@keyframes slideUp { from{transform:translateY(60px);opacity:0} to{transform:none;opacity:1} }
+.batch-hdr {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:18px 20px 12px;
+  border-bottom:1px solid #21262D;
+  position:sticky; top:0; background:#161B22; z-index:1;
+}
+.batch-title { font-size:16px; font-weight:800; color:#E8EDF4; }
+.batch-close { background:#21262D; border:none; border-radius:8px; width:32px; height:32px; font-size:16px; color:#8B949E; cursor:pointer; }
+.batch-body  { padding:16px 20px 20px; display:flex; flex-direction:column; gap:14px; }
+
+.batch-tabs { display:flex; gap:6px; }
+.batch-tab  {
+  flex:1; padding:9px 8px; border:1.5px solid #30363D;
+  border-radius:10px; background:#1C2128;
+  font-family:'Noto Sans TC',sans-serif; font-size:13px; font-weight:600;
+  color:#8B949E; cursor:pointer; transition:all .15s; text-align:center;
+}
+.batch-tab.active { background:rgba(14,159,142,.15); border-color:#0E9F8E; color:#0E9F8E; }
+
+.batch-hint {
+  background:#1C2128; border:1px solid #30363D; border-radius:10px;
+  padding:10px 14px; font-size:12px; color:#8B949E; line-height:1.7;
+}
+.batch-hint code {
+  font-family:'DM Mono',monospace; color:#58A6FF;
+  background:#0D1117; padding:1px 5px; border-radius:4px; font-size:11.5px;
+}
+.batch-hint b { color:#C9D1D9; }
+
+.batch-textarea {
+  width:100%; min-height:160px;
+  background:#0D1117; border:1.5px solid #30363D; border-radius:12px;
+  color:#E8EDF4; font-family:'DM Mono',monospace; font-size:13.5px;
+  padding:12px 14px; resize:vertical; outline:none; line-height:1.8;
+  transition:border-color .15s;
+}
+.batch-textarea:focus { border-color:#0E9F8E; box-shadow:0 0 0 3px rgba(14,159,142,.12); }
+.batch-textarea::placeholder { color:#4A5568; }
+
+.batch-preview {
+  display:none; flex-direction:column; gap:6px;
+}
+.batch-preview.show { display:flex; }
+.batch-preview-title { font-size:11.5px; font-weight:700; color:#8B949E; letter-spacing:.05em; text-transform:uppercase; }
+.batch-preview-list { display:flex; flex-direction:column; gap:4px; max-height:200px; overflow-y:auto; }
+.batch-item {
+  display:flex; align-items:center; gap:10px;
+  padding:8px 12px; border-radius:8px; background:#1C2128;
+  font-size:13px;
+}
+.batch-item.ok  { border-left:3px solid #0E9F8E; }
+.batch-item.err { border-left:3px solid #F85149; background:#1C0A0A; }
+.batch-item.new { border-left:3px solid #58A6FF; }
+.batch-item-code { font-family:'DM Mono',monospace; font-weight:700; color:#E8EDF4; min-width:70px; }
+.batch-item-info { flex:1; color:#8B949E; font-size:12px; }
+.batch-item-status { font-size:11px; font-weight:700; }
+.batch-item.ok  .batch-item-status { color:#0E9F8E; }
+.batch-item.err .batch-item-status { color:#F85149; }
+.batch-item.new .batch-item-status { color:#58A6FF; }
+
+.batch-footer { display:flex; gap:8px; padding-top:4px; }
+.batch-btn-parse {
+  flex:1; padding:13px; background:#1C2128; border:1.5px solid #30363D;
+  border-radius:12px; color:#C9D1D9;
+  font-family:'Noto Sans TC',sans-serif; font-size:14px; font-weight:700;
+  cursor:pointer; transition:all .15s;
+}
+.batch-btn-parse:hover { border-color:#8B949E; }
+.batch-btn-apply {
+  flex:2; padding:13px; background:#0E9F8E; border:none;
+  border-radius:12px; color:#fff;
+  font-family:'Noto Sans TC',sans-serif; font-size:14px; font-weight:800;
+  cursor:pointer; transition:opacity .15s; opacity:.5; pointer-events:none;
+}
+.batch-btn-apply.ready { opacity:1; pointer-events:auto; }
+.batch-btn-apply.ready:hover { opacity:.88; }
+
+@media(min-width:600px){
+  #batch-modal-bg { align-items:center; padding:16px; }
+  #batch-box { border-radius:20px; max-height:85vh; }
+}
+
+/* ══ 拍照辨識面板 ══ */
+.batch-upload-zone {
+  border: 2px dashed #30363D; border-radius: 14px;
+  padding: 28px 16px; text-align: center;
+  cursor: pointer; transition: all .2s;
+  background: #0D1117; position: relative;
+}
+.batch-upload-zone:hover, .batch-upload-zone.drag { border-color: #0E9F8E; background: rgba(14,159,142,.06); }
+.batch-upload-zone input[type=file] { position:absolute; inset:0; opacity:0; cursor:pointer; width:100%; height:100%; }
+.batch-upload-icon { font-size: 36px; margin-bottom: 8px; }
+.batch-upload-label { font-size: 14px; font-weight: 700; color: #C9D1D9; margin-bottom: 4px; }
+.batch-upload-sub { font-size: 12px; color: #6E7681; }
+
+.batch-img-preview {
+  display:none; border-radius: 12px; overflow: hidden;
+  border: 1px solid #30363D; position: relative;
+}
+.batch-img-preview.show { display: block; }
+.batch-img-preview img { width: 100%; display: block; max-height: 240px; object-fit: contain; background: #0D1117; }
+.batch-img-change {
+  position: absolute; top: 8px; right: 8px;
+  background: rgba(0,0,0,.7); border: 1px solid #30363D;
+  border-radius: 8px; padding: 5px 10px;
+  font-size: 12px; color: #C9D1D9; cursor: pointer;
+}
+
+.batch-ocr-btn {
+  width: 100%; padding: 14px; border: none; border-radius: 12px;
+  background: linear-gradient(135deg, #0E9F8E, #0D8A7A);
+  color: #fff; font-family: 'Noto Sans TC', sans-serif;
+  font-size: 15px; font-weight: 800; cursor: pointer;
+  transition: opacity .15s; display: flex; align-items: center;
+  justify-content: center; gap: 8px;
+}
+.batch-ocr-btn:disabled { opacity: .45; cursor: not-allowed; }
+.batch-ocr-btn:not(:disabled):hover { opacity: .88; }
+
+.batch-ocr-status {
+  display: none; align-items: center; gap: 10px;
+  padding: 12px 14px; background: #1C2128; border-radius: 10px;
+  font-size: 13px; color: #8B949E;
+}
+.batch-ocr-status.show { display: flex; }
+.batch-ocr-spinner {
+  width: 18px; height: 18px; border-radius: 50%;
+  border: 2.5px solid #30363D; border-top-color: #0E9F8E;
+  animation: spin .8s linear infinite; flex-shrink: 0;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ══ 截圖更新 OCR ══ */
+#ocr-overlay {
+  position:fixed; inset:0; z-index:99998;
+  background:rgba(0,0,0,.92);
+  display:none; flex-direction:column;
+  align-items:center; justify-content:flex-start;
+  padding: 0 0 40px;
+  overflow-y:auto;
+}
+#ocr-overlay.open { display:flex; }
+.ocr-header {
+  width:100%; max-width:520px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:16px 20px 12px;
+  border-bottom:1px solid #21262D;
+  position:sticky; top:0; background:#0D1117; z-index:2;
+}
+.ocr-title { font-size:16px; font-weight:800; color:#E8EDF4; }
+.ocr-close {
+  width:32px; height:32px; border-radius:50%;
+  background:#21262D; border:none; color:#8B949E;
+  font-size:18px; cursor:pointer; display:flex;
+  align-items:center; justify-content:center;
+}
+.ocr-body { width:100%; max-width:520px; padding:20px; }
+
+/* 上傳區 */
+.ocr-upload-area {
+  border:2px dashed #30363D; border-radius:16px;
+  padding:32px 20px; text-align:center;
+  cursor:pointer; transition:all .2s;
+  background:#161B22; position:relative;
+}
+.ocr-upload-area:hover, .ocr-upload-area.drag { border-color:#0E9F8E; background:rgba(14,159,142,.06); }
+.ocr-upload-icon { font-size:40px; margin-bottom:10px; }
+.ocr-upload-label { font-size:15px; font-weight:700; color:#E8EDF4; margin-bottom:4px; }
+.ocr-upload-sub { font-size:12px; color:#6E7681; }
+#ocr-file-input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+
+/* 預覽圖 */
+.ocr-preview { display:none; margin-top:14px; position:relative; }
+.ocr-preview img { width:100%; border-radius:10px; border:1px solid #30363D; }
+.ocr-preview-close {
+  position:absolute; top:8px; right:8px;
+  background:rgba(0,0,0,.7); border:none; color:#fff;
+  border-radius:50%; width:28px; height:28px; font-size:16px;
+  cursor:pointer; display:flex; align-items:center; justify-content:center;
+}
+
+/* 分析狀態 */
+.ocr-status {
+  display:none; margin-top:16px;
+  background:#161B22; border:1px solid #21262D;
+  border-radius:12px; padding:16px;
+  text-align:center;
+}
+.ocr-status.show { display:block; }
+.ocr-spinner {
+  width:32px; height:32px; border-radius:50%;
+  border:3px solid #21262D;
+  border-top-color:#0E9F8E;
+  animation:spin .8s linear infinite;
+  margin:0 auto 10px;
+}
+@keyframes spin { to { transform:rotate(360deg); } }
+.ocr-status-text { font-size:13px; color:#8B949E; }
+
+/* 辨識結果 */
+.ocr-result { display:none; margin-top:16px; }
+.ocr-result.show { display:block; }
+.ocr-result-header {
+  display:flex; align-items:center; justify-content:space-between;
+  margin-bottom:10px;
+}
+.ocr-result-title { font-size:13px; font-weight:700; color:#0E9F8E; }
+.ocr-result-broker { font-size:11px; color:#6E7681; background:#21262D; padding:2px 8px; border-radius:6px; }
+.ocr-table { width:100%; border-collapse:collapse; font-size:13px; }
+.ocr-table th {
+  background:#1C2128; color:#8B949E; font-size:11px;
+  padding:7px 10px; text-align:left; font-weight:600;
+}
+.ocr-table td { padding:8px 10px; border-bottom:1px solid #21262D; color:#C9D1D9; vertical-align:middle; }
+.ocr-table tr:last-child td { border:none; }
+.ocr-table .code { font-weight:700; color:#58A6FF; font-size:12px; }
+.ocr-table .shares { font-weight:700; color:#E8EDF4; }
+.ocr-match-yes { color:#3FB950; font-size:12px; }
+.ocr-match-no  { color:#F85149; font-size:12px; }
+.ocr-match-new { color:#E3B341; font-size:12px; }
+
+/* 套用按鈕 */
+.ocr-apply-bar {
+  display:none; position:sticky; bottom:0;
+  background:#0D1117; border-top:1px solid #21262D;
+  padding:14px 20px; gap:10px;
+  width:100%; max-width:520px;
+}
+.ocr-apply-bar.show { display:flex; }
+.ocr-apply-btn {
+  flex:1; padding:13px;
+  background:#0E9F8E; color:#fff;
+  border:none; border-radius:12px;
+  font-size:15px; font-weight:800;
+  cursor:pointer; transition:opacity .15s;
+}
+.ocr-apply-btn:hover { opacity:.88; }
+.ocr-cancel-btn {
+  padding:13px 18px;
+  background:#21262D; color:#8B949E;
+  border:1px solid #30363D; border-radius:12px;
+  font-size:14px; font-weight:600;
+  cursor:pointer;
+}
+.ocr-error {
+  display:none; margin-top:14px;
+  background:rgba(248,81,73,.1); border:1px solid rgba(248,81,73,.3);
+  border-radius:10px; padding:14px;
+  color:#F85149; font-size:13px; text-align:center;
+}
+.ocr-error.show { display:block; }
+
 </style>
 </head>
 <body>
+
+<!-- ══ 截圖辨識更新 ══ -->
+<div id="ocr-overlay">
+  <div class="ocr-header">
+    <div class="ocr-title">📷 截圖更新持股</div>
+    <button class="ocr-close" onclick="closeOcr()">✕</button>
+  </div>
+  <div class="ocr-body">
+    <div class="ocr-upload-area" id="ocr-drop">
+      <input type="file" id="ocr-file-input" accept="image/*" onchange="ocrHandleFile(this.files[0])">
+      <div class="ocr-upload-icon">📸</div>
+      <div class="ocr-upload-label">上傳券商截圖</div>
+      <div class="ocr-upload-sub">支援 國泰・富邦・口袋存股<br>點擊選擇或直接拖曳圖片</div>
+    </div>
+    <div class="ocr-preview" id="ocr-preview">
+      <img id="ocr-preview-img" src="" alt="預覽">
+      <button class="ocr-preview-close" onclick="ocrClearImg()">✕</button>
+    </div>
+    <div class="ocr-status" id="ocr-status">
+      <div class="ocr-spinner"></div>
+      <div class="ocr-status-text" id="ocr-status-text">Claude 正在分析截圖...</div>
+    </div>
+    <div class="ocr-error" id="ocr-error"></div>
+    <div class="ocr-result" id="ocr-result">
+      <div class="ocr-result-header">
+        <div class="ocr-result-title" id="ocr-result-title">✅ 辨識完成</div>
+        <div class="ocr-result-broker" id="ocr-result-broker"></div>
+      </div>
+      <table class="ocr-table">
+        <thead><tr><th>代號／名稱</th><th>辨識股數</th><th>目前股數</th><th>狀態</th></tr></thead>
+        <tbody id="ocr-result-body"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="ocr-apply-bar" id="ocr-apply-bar">
+    <button class="ocr-cancel-btn" onclick="closeOcr()">取消</button>
+    <button class="ocr-apply-btn" onclick="ocrApply()">✅ 套用更新</button>
+  </div>
+</div>
 
 <!-- ══ PIN 密碼鎖覆蓋層 ══ -->
 <div id="pw-overlay">
@@ -2898,11 +3206,80 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
 </div>
 
 
+
+<!-- ══ 批次更新持股 Modal ══ -->
+<div id="batch-modal-bg" onclick="if(event.target===this)closeBatch()">
+  <div id="batch-box">
+    <div class="batch-hdr">
+      <div class="batch-title">⚡ 快速更新持股</div>
+      <button class="batch-close" onclick="closeBatch()">✕</button>
+    </div>
+    <div class="batch-body">
+
+      <div class="batch-tabs">
+        <button class="batch-tab active" id="btab-tw" onclick="switchBatchTab('tw')">🇹🇼 台股</button>
+        <button class="batch-tab" id="btab-us" onclick="switchBatchTab('us')">🇺🇸 美股</button>
+        <button class="batch-tab" id="btab-ocr" onclick="switchBatchTab('ocr')">📷 拍照辨識</button>
+      </div>
+
+      <div class="batch-hint" id="batch-hint-tw">
+        <b>格式：</b>每行一檔，空格或 Tab 分隔<br>
+        <code>代號　均價　股數</code><br>
+        範例：<code>00878　13.84　48005</code><br>
+        <code>2449　274.5　100</code><br>
+        ※ 直接從截圖手動輸入，或複製證券 App 的文字貼上
+      </div>
+      <div class="batch-hint" style="display:none" id="batch-hint-us">
+        <b>格式：</b>每行一檔，空格或 Tab 分隔<br>
+        <code>代號　均價(TWD)　股數</code><br>
+        範例：<code>NVDA　209.71　2.7758</code><br>
+        <code>TSM　384.46　0.3785</code>
+      </div>
+
+      <div id="batch-ocr-zone" style="display:none;flex-direction:column;gap:12px">
+        <div class="batch-upload-zone" id="batch-drop-zone">
+          <input type="file" accept="image/*" capture="environment" id="batch-file-input" onchange="batchFileSelected(this)">
+          <div class="batch-upload-icon">📷</div>
+          <div class="batch-upload-label">點擊拍照 / 選擇截圖</div>
+          <div class="batch-upload-sub">支援 JPG、PNG，可直接拍券商螢幕</div>
+        </div>
+        <div class="batch-img-preview" id="batch-img-preview">
+          <img id="batch-preview-img" src="" alt="">
+          <button class="batch-img-change" onclick="document.getElementById('batch-file-input').click()">🔄 換張圖</button>
+        </div>
+        <div class="batch-ocr-status" id="batch-ocr-status">
+          <div class="batch-ocr-spinner"></div>
+          <span id="batch-ocr-msg">AI 辨識中，請稍候...</span>
+        </div>
+        <button class="batch-ocr-btn" id="batch-ocr-btn" onclick="batchOcr()" disabled>
+          🤖 AI 辨識持股資料
+        </button>
+      </div>
+
+      <textarea class="batch-textarea" id="batch-ta"
+        placeholder="00878  13.84  48005&#10;00918  22.67  6020&#10;2449   274.5  100"></textarea>
+
+      <div class="batch-preview" id="batch-preview">
+        <div class="batch-preview-title">📋 預覽變更</div>
+        <div class="batch-preview-list" id="batch-preview-list"></div>
+      </div>
+
+      <div class="batch-footer" id="batch-footer-btns">
+        <button class="batch-btn-parse" onclick="batchParse()">🔍 解析預覽</button>
+        <button class="batch-btn-apply" id="batch-apply-btn" onclick="batchApply()">✅ 套用更新</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- ── FAB 浮動功能面板 ── -->
 <div class="fab-wrap">
   <div id="export-panel">
     <div class="ep-title">📋 功能選單</div>
     <div class="ep-divider"></div>
+    <button class="epbtn full" onclick="openOcr();closePanel()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(88,166,255,.12);border-color:#58A6FF;color:#58A6FF;margin-bottom:6px">📸 截圖更新股數</button>
+    <button class="epbtn full" onclick="openBatch();closePanel()" style="display:flex;align-items:center;justify-content:center;gap:6px;background:rgba(14,159,142,.15);border-color:#0E9F8E;color:#0E9F8E;margin-bottom:4px">⚡ 快速更新持股</button>
 
     <div class="ep-subtitle">💾 資料同步</div>
     <div class="ep-btn-row">
@@ -4865,6 +5242,467 @@ function installPWA() {
     if (e.key === 'Backspace') pwDel();
   });
 })();
+</script>
+
+
+<script>
+/* ══ 批次更新持股 JS ══ */
+let _batchTab = 'tw';
+let _batchParsed = [];
+
+function openBatch() {
+  document.getElementById('batch-modal-bg').classList.add('on');
+  document.getElementById('batch-ta').focus();
+}
+function closeBatch() {
+  document.getElementById('batch-modal-bg').classList.remove('on');
+  _batchParsed = [];
+  document.getElementById('batch-preview').classList.remove('show');
+  document.getElementById('batch-apply-btn').classList.remove('ready');
+  document.getElementById('batch-ta').value = '';
+}
+function switchBatchTab(tab) {
+  _batchTab = tab;
+  document.getElementById('btab-tw').classList.toggle('active', tab==='tw');
+  document.getElementById('btab-us').classList.toggle('active', tab==='us');
+  document.getElementById('btab-ocr').classList.toggle('active', tab==='ocr');
+  document.getElementById('batch-hint-tw').style.display = tab==='tw' ? '' : 'none';
+  document.getElementById('batch-hint-us').style.display = tab==='us' ? '' : 'none';
+  // textarea 和 ocr zone 互斥
+  document.getElementById('batch-ta').style.display = tab==='ocr' ? 'none' : '';
+  document.getElementById('batch-ocr-zone').style.display = tab==='ocr' ? 'flex' : 'none';
+  // 解析/套用按鈕
+  document.getElementById('batch-footer-btns').style.display = tab==='ocr' ? 'none' : '';
+  if (tab !== 'ocr') {
+    document.getElementById('batch-ta').placeholder =
+      tab === 'tw'
+        ? '00878  13.84  48005\n00918  22.67  6020\n2449   274.5  100'
+        : 'NVDA   209.71  2.7758\nTSM    384.46  0.3785\nMU     830.62  0.1166';
+  }
+  _batchParsed = [];
+  document.getElementById('batch-preview').classList.remove('show');
+  document.getElementById('batch-apply-btn').classList.remove('ready');
+}
+
+function batchParse() {
+  const lines = document.getElementById('batch-ta').value
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => l && !l.startsWith('#') && !l.startsWith('//'));
+
+  _batchParsed = [];
+  const listEl = document.getElementById('batch-preview-list');
+  listEl.innerHTML = '';
+
+  lines.forEach(line => {
+    // 支援空格、Tab、全形空格、逗號分隔
+    const parts = line.split(/[\s,，\t　]+/).filter(Boolean);
+    if (parts.length < 3) {
+      _batchParsed.push({ err: true, raw: line, msg: '格式錯誤（需要3個欄位）' });
+      return;
+    }
+    const [code, avg, shares] = parts;
+    const avgN = parseFloat(avg);
+    const sharesN = parseFloat(shares.replace(/,/g, ''));
+    if (!code || isNaN(avgN) || isNaN(sharesN) || avgN <= 0 || sharesN < 0) {
+      _batchParsed.push({ err: true, raw: line, msg: '數值無效' });
+      return;
+    }
+
+    // 查找對應的 tr
+    const attr = _batchTab === 'tw' ? 'data-code' : 'data-us-code';
+    const tr = document.querySelector(`tr[${attr}="${code.toUpperCase()}"], tr[${attr}="${code}"]`);
+
+    if (tr) {
+      const oldAvg = parseFloat(tr.dataset.avg || tr.dataset.usAvg || 0);
+      const oldShares = parseFloat((tr.dataset.shares || tr.dataset.usShares || '0').replace(/,/g,''));
+      _batchParsed.push({ ok:true, code, avg:avgN, shares:sharesN, tr, oldAvg, oldShares });
+    } else {
+      _batchParsed.push({ err:true, raw:line, code, msg:`找不到 ${code}（此代號不在持股清單中）` });
+    }
+  });
+
+  // 渲染預覽
+  _batchParsed.forEach(item => {
+    const div = document.createElement('div');
+    if (item.err) {
+      div.className = 'batch-item err';
+      div.innerHTML = `<span class="batch-item-code">${item.code||'?'}</span><span class="batch-item-info">${item.raw||''}</span><span class="batch-item-status">❌ ${item.msg}</span>`;
+    } else {
+      const avgChanged = Math.abs(item.avg - item.oldAvg) > 0.001;
+      const sharesChanged = Math.abs(item.shares - item.oldShares) > 0.0001;
+      const changed = avgChanged || sharesChanged;
+      div.className = 'batch-item ok';
+      let info = '';
+      if (avgChanged) info += `均價 ${item.oldAvg} → <b style="color:#E8EDF4">${item.avg}</b>　`;
+      if (sharesChanged) info += `股數 ${item.oldShares.toLocaleString()} → <b style="color:#E8EDF4">${item.shares.toLocaleString()}</b>`;
+      if (!changed) info = '<span style="color:#6E7681">無變動</span>';
+      div.innerHTML = `<span class="batch-item-code">${item.code}</span><span class="batch-item-info">${info}</span><span class="batch-item-status">${changed?'✏️ 更新':'—'}</span>`;
+    }
+    listEl.appendChild(div);
+  });
+
+  document.getElementById('batch-preview').classList.add('show');
+  const hasOk = _batchParsed.some(i => i.ok);
+  document.getElementById('batch-apply-btn').classList.toggle('ready', hasOk);
+}
+
+function batchApply() {
+  if (!_batchParsed.length) return;
+  let count = 0;
+
+  _batchParsed.forEach(item => {
+    if (!item.ok || !item.tr) return;
+    const tr = item.tr;
+
+    if (_batchTab === 'tw') {
+      tr.dataset.avg    = item.avg;
+      tr.dataset.shares = item.shares;
+      // 更新顯示欄位（第3欄=均價, 第4欄=股數）
+      const tds = tr.querySelectorAll('td');
+      if (tds[2]) tds[2].textContent = item.avg;
+      if (tds[3]) tds[3].textContent = item.shares.toLocaleString();
+    } else {
+      tr.dataset.usAvg    = item.avg;
+      tr.dataset.usShares = item.shares;
+      const tds = tr.querySelectorAll('td');
+      if (tds[2]) tds[2].textContent = item.avg;
+      if (tds[3]) tds[3].textContent = item.shares;
+    }
+    count++;
+  });
+
+  // 重新計算損益、圖表
+  if (typeof fetchPrices === 'function') fetchPrices();
+  if (typeof updateChengSummary === 'function') updateChengSummary();
+  if (typeof updateNiuSummary === 'function') updateNiuSummary();
+  if (typeof renderAllCards === 'function') renderAllCards();
+  if (typeof updateTwPieChart === 'function') updateTwPieChart();
+  if (typeof updateUsPieChart === 'function') updateUsPieChart();
+  if (typeof planRender === 'function') planRender();
+
+  closeBatch();
+  if (typeof showToast === 'function') showToast(`✅ 已更新 ${count} 檔持股`);
+}
+</script>
+
+
+<script>
+/* ══ 拍照辨識 JS ══ */
+let _ocrImageB64 = null;
+let _ocrImageType = 'image/jpeg';
+
+function batchFileSelected(input) {
+  const file = input.files[0];
+  if (!file) return;
+  _ocrImageType = file.type || 'image/jpeg';
+  const reader = new FileReader();
+  reader.onload = e => {
+    _ocrImageB64 = e.target.result.split(',')[1];
+    document.getElementById('batch-preview-img').src = e.target.result;
+    document.getElementById('batch-img-preview').classList.add('show');
+    document.getElementById('batch-ocr-btn').disabled = false;
+    document.getElementById('batch-drop-zone').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+}
+
+async function batchOcr() {
+  if (!_ocrImageB64) return;
+  const statusEl = document.getElementById('batch-ocr-status');
+  const msgEl    = document.getElementById('batch-ocr-msg');
+  const btn      = document.getElementById('batch-ocr-btn');
+
+  // 判斷目前是台股還是美股 tab（ocr 模式從圖片判斷）
+  // 用上一個 tab 的設定，預設台股
+  const isTw = _batchTab === 'ocr' || _batchTab === 'tw';
+
+  statusEl.classList.add('show');
+  msgEl.textContent = 'AI 辨識中，請稍候...';
+  btn.disabled = true;
+
+  const systemPrompt = isTw
+    ? `你是股票持股辨識助手。請從圖片中的「證券-現貨損益查詢彙總」或庫存表格，
+辨識每一檔股票的：股票代號、成交均價（付出成本/成交均價欄）、持股股數（本日餘額）。
+只回傳 JSON 陣列，格式如下，不要任何說明文字：
+[{"code":"00878","avg":13.84,"shares":48005},{"code":"2449","avg":274.5,"shares":100}]
+代號從股票名稱旁的數字代號取得，均價取「成交均價」欄，股數取「本日餘額」欄。`
+    : `你是美股持股辨識助手。請從圖片辨識每一檔美股的：股票代號、平均成本（台幣）、持股股數（可含小數）。
+只回傳 JSON 陣列，格式如下，不要任何說明文字：
+[{"code":"NVDA","avg":209.71,"shares":2.7758},{"code":"TSM","avg":384.46,"shares":0.3785}]`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: systemPrompt,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: _ocrImageType, data: _ocrImageB64 } },
+            { type: 'text', text: '請辨識這張截圖中的所有持股資料，只回傳 JSON。' }
+          ]
+        }]
+      })
+    });
+
+    const data = await resp.json();
+    const raw = data.content?.find(c => c.type === 'text')?.text || '';
+
+    // 解析 JSON
+    const jsonMatch = raw.match(/\[[\s\S]*\]/);
+    if (!jsonMatch) throw new Error('AI 無法辨識表格，請確認截圖清晰');
+
+    const parsed = JSON.parse(jsonMatch[0]);
+    if (!parsed.length) throw new Error('辨識結果為空');
+
+    // 把結果填入 textarea 並切換回手動模式讓使用者確認
+    const lines = parsed.map(r => `${r.code}  ${r.avg}  ${r.shares}`).join('\n');
+    document.getElementById('batch-ta').value = lines;
+
+    msgEl.textContent = `✅ 辨識完成！找到 ${parsed.length} 檔，請確認後套用`;
+    document.getElementById('batch-ocr-spinner') && (document.getElementById('batch-ocr-spinner').style.display = 'none');
+
+    // 切換到文字模式讓使用者看結果
+    _batchTab = isTw ? 'tw' : 'us';
+    document.getElementById('batch-ta').style.display = '';
+    document.getElementById('batch-ocr-zone').style.display = 'none';
+    document.getElementById('batch-footer-btns').style.display = '';
+    document.getElementById('btab-tw').classList.toggle('active', isTw);
+    document.getElementById('btab-us').classList.toggle('active', !isTw);
+    document.getElementById('btab-ocr').classList.remove('active');
+
+    // 自動解析預覽
+    setTimeout(batchParse, 100);
+
+  } catch(err) {
+    msgEl.textContent = '❌ ' + (err.message || '辨識失敗，請重試');
+  } finally {
+    btn.disabled = false;
+  }
+}
+</script>
+
+
+<!-- ══ 截圖 OCR 更新 JS ══ -->
+<script>
+/* ── 開關 ── */
+function openOcr()  { document.getElementById('ocr-overlay').classList.add('open'); }
+function closeOcr() {
+  document.getElementById('ocr-overlay').classList.remove('open');
+  ocrClearImg();
+}
+
+/* ── 清除圖片 ── */
+function ocrClearImg() {
+  document.getElementById('ocr-preview').style.display = 'none';
+  document.getElementById('ocr-preview-img').src = '';
+  document.getElementById('ocr-file-input').value = '';
+  document.getElementById('ocr-status').classList.remove('show');
+  document.getElementById('ocr-result').classList.remove('show');
+  document.getElementById('ocr-apply-bar').classList.remove('show');
+  document.getElementById('ocr-error').classList.remove('show');
+  window._ocrData = null;
+}
+
+/* ── 拖曳支援 ── */
+const ocrDrop = document.getElementById('ocr-drop');
+ocrDrop.addEventListener('dragover', e => { e.preventDefault(); ocrDrop.classList.add('drag'); });
+ocrDrop.addEventListener('dragleave', () => ocrDrop.classList.remove('drag'));
+ocrDrop.addEventListener('drop', e => {
+  e.preventDefault(); ocrDrop.classList.remove('drag');
+  const f = e.dataTransfer.files[0];
+  if (f && f.type.startsWith('image/')) ocrHandleFile(f);
+});
+
+/* ── 處理圖片 ── */
+function ocrHandleFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const b64 = e.target.result; // data:image/...;base64,...
+    // 預覽
+    document.getElementById('ocr-preview-img').src = b64;
+    document.getElementById('ocr-preview').style.display = 'block';
+    // 送分析
+    ocrAnalyze(b64);
+  };
+  reader.readAsDataURL(file);
+}
+
+/* ── 呼叫 Claude API 分析圖片 ── */
+async function ocrAnalyze(dataUrl) {
+  // 顯示 loading
+  document.getElementById('ocr-result').classList.remove('show');
+  document.getElementById('ocr-apply-bar').classList.remove('show');
+  document.getElementById('ocr-error').classList.remove('show');
+  document.getElementById('ocr-status').classList.add('show');
+  document.getElementById('ocr-status-text').textContent = 'Claude 正在分析截圖...';
+
+  // 取出 base64
+  const [header, b64data] = dataUrl.split(',');
+  const mediaType = header.match(/:(.*?);/)[1];
+
+  // 收集目前持股清單（供對照）
+  const holdings = ocrGetCurrentHoldings();
+
+  const prompt = `你是台灣股票持股辨識專家。請分析這張券商 App 截圖，辨識出所有持股的「股票代號（或名稱）」和「持有股數」。
+
+截圖可能來自以下券商：
+- 口袋存股（美股）：格式為「CSCO / 0.8121股」，股數為小數
+- 富邦/國泰台股：格式為表格，有「本日餘額」或「庫存股數」欄位
+- 板橋永豐台股：格式為「即時庫存」欄位
+
+請回傳 JSON，格式如下（不要加任何說明文字）：
+{
+  "broker": "券商名稱",
+  "stocks": [
+    { "code": "股票代號或英文代碼", "name": "股票名稱（若有）", "shares": 數字 }
+  ]
+}
+
+目前系統持股清單供對照（可能需要比對）：
+${JSON.stringify(holdings)}
+
+注意：
+- shares 必須是數字（美股可有小數）
+- 若截圖為美股，code 為英文如 CSCO、NVDA
+- 若截圖為台股，code 為數字如 00878、2449
+- 只回傳 JSON，不要有任何其他文字`;
+
+  try {
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: mediaType, data: b64data } },
+            { type: 'text', text: prompt }
+          ]
+        }]
+      })
+    });
+
+    if (!resp.ok) throw new Error('API 回應錯誤 ' + resp.status);
+    const data = await resp.json();
+    const text = data.content.find(b => b.type === 'text')?.text || '';
+
+    // 解析 JSON
+    let parsed;
+    try {
+      const clean = text.replace(/```json|```/g, '').trim();
+      parsed = JSON.parse(clean);
+    } catch(e) {
+      throw new Error('無法解析辨識結果，請換張截圖試試');
+    }
+
+    ocrShowResult(parsed, holdings);
+  } catch(err) {
+    document.getElementById('ocr-status').classList.remove('show');
+    const errEl = document.getElementById('ocr-error');
+    errEl.textContent = '⚠ ' + (err.message || '分析失敗，請重試');
+    errEl.classList.add('show');
+  }
+}
+
+/* ── 取得目前持股 ── */
+function ocrGetCurrentHoldings() {
+  const list = [];
+  document.querySelectorAll('[data-code]').forEach(el => {
+    const code = el.dataset.code;
+    const sharesEl = el.querySelector('[data-field="shares"], .shares-val, [data-shares]');
+    const shares = sharesEl ? parseFloat(sharesEl.textContent) || 0 : 0;
+    const nameEl = el.querySelector('.stock-name, [data-name]');
+    if (code) list.push({ code, name: nameEl?.textContent?.trim() || '', shares });
+  });
+  // 也抓美股
+  document.querySelectorAll('[data-us-code]').forEach(el => {
+    const code = el.dataset.usCode;
+    if (code) list.push({ code, name: '', shares: 0, us: true });
+  });
+  return list;
+}
+
+/* ── 顯示辨識結果 ── */
+function ocrShowResult(parsed, currentHoldings) {
+  document.getElementById('ocr-status').classList.remove('show');
+  document.getElementById('ocr-result-broker').textContent = parsed.broker || '券商';
+  document.getElementById('ocr-result-title').textContent = `✅ 辨識到 ${parsed.stocks?.length || 0} 筆持股`;
+
+  const currentMap = {};
+  currentHoldings.forEach(h => { currentMap[h.code] = h.shares; });
+
+  const tbody = document.getElementById('ocr-result-body');
+  tbody.innerHTML = (parsed.stocks || []).map(s => {
+    const cur = currentMap[s.code];
+    let statusHtml = '';
+    if (cur === undefined) {
+      statusHtml = '<span class="ocr-match-new">🆕 新增</span>';
+    } else if (Math.abs(cur - s.shares) < 0.0001) {
+      statusHtml = '<span class="ocr-match-yes">✓ 相同</span>';
+    } else {
+      statusHtml = `<span class="ocr-match-no">↑ 更新</span>`;
+    }
+    const curTxt = cur !== undefined ? cur : '—';
+    return `<tr>
+      <td><span class="code">${s.code}</span><br><span style="font-size:11px;color:#6E7681">${s.name || ''}</span></td>
+      <td class="shares">${s.shares}</td>
+      <td style="color:#8B949E">${curTxt}</td>
+      <td>${statusHtml}</td>
+    </tr>`;
+  }).join('');
+
+  window._ocrData = parsed;
+  document.getElementById('ocr-result').classList.add('show');
+  document.getElementById('ocr-apply-bar').classList.add('show');
+}
+
+/* ── 套用更新 ── */
+function ocrApply() {
+  const data = window._ocrData;
+  if (!data || !data.stocks) return;
+
+  let updated = 0, skipped = 0;
+
+  data.stocks.forEach(s => {
+    // 嘗試找對應的 DOM 元素（台股）
+    const rowTw = document.querySelector(`[data-code="${s.code}"]`);
+    if (rowTw) {
+      // 找股數輸入欄或顯示欄
+      const inp = rowTw.querySelector('input[data-field="shares"], input.shares-input, [data-field="held"]');
+      if (inp) { inp.value = s.shares; inp.dispatchEvent(new Event('change')); updated++; return; }
+      // 嘗試直接更新 data attribute
+      rowTw.dataset.shares = s.shares;
+      updated++;
+      return;
+    }
+    // 嘗試美股
+    const rowUs = document.querySelector(`[data-us-code="${s.code}"]`);
+    if (rowUs) {
+      const inp = rowUs.querySelector('input');
+      if (inp) { inp.value = s.shares; inp.dispatchEvent(new Event('change')); updated++; return; }
+      updated++;
+      return;
+    }
+    skipped++;
+  });
+
+  // 更新後重新計算
+  if (typeof calcSummary === 'function') calcSummary();
+  if (typeof renderAllCards === 'function') renderAllCards();
+
+  closeOcr();
+  if (typeof showToast === 'function') {
+    showToast(`✅ 已更新 ${updated} 筆${skipped > 0 ? `，${skipped} 筆未找到對應` : ''}`);
+  }
+}
 </script>
 
 </body>
