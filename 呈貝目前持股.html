@@ -5628,13 +5628,6 @@ async function batchOcr() {
 <!-- ══ 截圖 OCR 更新 JS ══ -->
 <script>
 
-/* ── API Key 管理 ── */
-  localStorage.setItem('anthropic_ocr_key', val);
-  ocrUpdateKeyStatus();
-  if (typeof showToast === 'function') showToast('✅ API Key 已儲存');
-}
-}
-
 /* ── 開關 ── */
 function openOcr() {
   document.getElementById('ocr-overlay').classList.add('open');
@@ -5743,9 +5736,23 @@ ${JSON.stringify(holdings)}
 - 只回傳 JSON，不要有任何其他文字`;
 
   try {
+    const apiKey = getApiKey();
+    if (!apiKey) {
+      document.getElementById('ocr-status').classList.remove('show');
+      const errEl = document.getElementById('ocr-error');
+      errEl.textContent = '⚠ 請先設定 API Key（點右下角 ⚡ → 🔑 設定 API Key）';
+      errEl.classList.add('show');
+      setTimeout(() => { closeOcr(); openApiKey(); }, 1500);
+      return;
+    }
     const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
         model: 'claude-sonnet-4-6',
         max_tokens: 1000,
@@ -5972,7 +5979,7 @@ window.fetch = function(url, opts) {
       opts.headers = Object.assign({}, opts.headers, {
         'x-api-key': key,
         'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-calls': 'true'
+        'anthropic-dangerous-direct-browser-access': 'true'
       });
     } else {
       // 沒設 key → 提示去設定
