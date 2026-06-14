@@ -1721,6 +1721,135 @@ tbody td:last-child  { padding-right: 14px; }
   .fund-footer { color: #6E7681 !important; }
 }
 
+/* ══ 重點摘要橫幅 ══ */
+.summary-banner {
+  background: linear-gradient(135deg, #0D1F2D 0%, #0F2337 50%, #0A1A28 100%);
+  border-bottom: 1px solid #1C3A52;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+.summary-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, #0E9F8E, #58A6FF, #0E9F8E);
+  background-size: 200% 100%;
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
+.summary-banner-inner {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 10px 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.sb-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.sb-content { flex: 1; min-width: 0; }
+.sb-label {
+  font-size: 10px; font-weight: 700;
+  color: #58A6FF;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  display: flex; align-items: center; gap: 6px;
+}
+.sb-label-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #0E9F8E;
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+.sb-text {
+  font-size: 13px; font-weight: 500;
+  color: #C9D1D9;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+.sb-text .highlight-green { color: #3FB950; font-weight: 700; }
+.sb-text .highlight-red   { color: #F85149; font-weight: 700; }
+.sb-text .highlight-blue  { color: #58A6FF; font-weight: 700; }
+.sb-text .highlight-teal  { color: #0E9F8E; font-weight: 700; }
+.sb-meta {
+  font-size: 10.5px; color: #6E7681;
+  margin-top: 5px;
+  display: flex; align-items: center; gap: 8px;
+}
+.sb-edit-btn {
+  flex-shrink: 0;
+  padding: 6px 12px;
+  background: rgba(88,166,255,.1);
+  border: 1px solid rgba(88,166,255,.3);
+  border-radius: 8px;
+  color: #58A6FF;
+  font-size: 12px; font-weight: 600;
+  cursor: pointer;
+  transition: all .18s;
+  white-space: nowrap;
+  align-self: center;
+}
+.sb-edit-btn:hover { background: rgba(88,166,255,.2); border-color: #58A6FF; }
+/* 編輯區 */
+.sb-editor {
+  display: none;
+  background: #0D1117;
+  border-top: 1px solid #21262D;
+  padding: 12px 20px 14px;
+}
+.sb-editor.open { display: block; }
+.sb-editor-inner { max-width: 860px; margin: 0 auto; }
+.sb-editor textarea {
+  width: 100%;
+  min-height: 90px;
+  background: #161B22;
+  border: 1.5px solid #30363D;
+  border-radius: 10px;
+  color: #E8EDF4;
+  font-size: 13px;
+  font-family: 'Noto Sans TC', sans-serif;
+  padding: 10px 12px;
+  resize: vertical;
+  outline: none;
+  line-height: 1.6;
+  box-sizing: border-box;
+}
+.sb-editor textarea:focus { border-color: #58A6FF; }
+.sb-editor-btns {
+  display: flex; gap: 8px; margin-top: 8px; justify-content: flex-end;
+}
+.sb-save-btn {
+  padding: 7px 16px;
+  background: #0E9F8E; color: #fff;
+  border: none; border-radius: 8px;
+  font-size: 13px; font-weight: 700;
+  cursor: pointer; transition: opacity .15s;
+}
+.sb-save-btn:hover { opacity: .85; }
+.sb-cancel-btn {
+  padding: 7px 14px;
+  background: #21262D; color: #8B949E;
+  border: 1px solid #30363D; border-radius: 8px;
+  font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all .15s;
+}
+.sb-cancel-btn:hover { background: #30363D; }
+@media(max-width:599px) {
+  .summary-banner-inner { padding: 10px 14px; gap: 8px; }
+  .sb-text { font-size: 12.5px; }
+  .sb-edit-btn { padding: 5px 10px; font-size: 11.5px; }
+}
+@media(min-width:900px) {
+  .summary-banner-inner { padding: 12px 32px 12px 212px; }
+  .sb-editor-inner { padding: 0 12px 0 192px; }
+}
+
 /* ── App Top Bar ── */
 .app-top-bar{display:flex;align-items:center;gap:4px;background:#0A0E14;border-bottom:1px solid #1C2128;padding:0 16px;height:48px;position:sticky;top:0;z-index:9999;overflow-x:auto;scrollbar-width:none}
 .app-top-bar::-webkit-scrollbar{display:none}
@@ -1883,6 +2012,33 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     </div>
   </div>
 </header>
+
+<!-- ══ 重點摘要橫幅 ══ -->
+<div class="summary-banner" id="summary-banner">
+  <div class="summary-banner-inner">
+    <div class="sb-icon">💡</div>
+    <div class="sb-content">
+      <div class="sb-label">
+        <span class="sb-label-dot"></span>
+        今日重點摘要
+      </div>
+      <div class="sb-text" id="sb-text-display">載入中...</div>
+      <div class="sb-meta" id="sb-meta">
+        <span id="sb-updated-time"></span>
+      </div>
+    </div>
+    <button class="sb-edit-btn" onclick="toggleSbEditor()">✏️ 更新摘要</button>
+  </div>
+  <div class="sb-editor" id="sb-editor">
+    <div class="sb-editor-inner">
+      <textarea id="sb-textarea" placeholder="在此輸入今日重點摘要...&#10;&#10;例：&#10;• 最大贏家：00878 國泰永續高股息，獲利 +84.8萬元（+127.68%）&#10;• 美股今日：MU +18.18%，TSM +10.26% 表現亮眼&#10;• 注意：SATL -18.94%、GEV -9.01% 持續虧損"></textarea>
+      <div class="sb-editor-btns">
+        <button class="sb-cancel-btn" onclick="toggleSbEditor()">取消</button>
+        <button class="sb-save-btn" onclick="saveSbSummary()">💾 儲存摘要</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- 行事曆風格 Nav -->
 <nav class="cal-nav-tabs">
@@ -4309,9 +4465,76 @@ function applyNewGasUrl() {
 
 </script>
 
-<!-- ══ Firebase ══ -->
-<script>
-// Firebase stub - runs offline
+/* ══ 重點摘要橫幅 JS ══ */
+const SB_KEY = 'chengbei_summary_v1';
+
+function sbLoad() {
+  try {
+    const raw = localStorage.getItem(SB_KEY);
+    if (raw) {
+      const obj = JSON.parse(raw);
+      sbRender(obj.text, obj.time);
+    } else {
+      // 預設摘要
+      const defaultText =
+        '📌 最大贏家：00878 國泰永續高股息，持有 48,005 股，獲利 +84.8萬元（+127.68%）\n' +
+        '📉 美股整體小虧 -2,323 元；SATL -18.94%、GEV -9.01% 拖累最大\n' +
+        '✅ 亮點：MU +18.18%、TSM +10.26%、00830 +47.03%、00876 +32.51% 表現強勁\n' +
+        '💰 台股 ETF 整體獲利 +5,762～+11,405 元，報酬率約 6.22%～12.31%';
+      sbRender(defaultText, null);
+    }
+  } catch(e) {
+    document.getElementById('sb-text-display').textContent = '點擊「更新摘要」輸入今日重點';
+  }
+}
+
+function sbRender(text, time) {
+  const el = document.getElementById('sb-text-display');
+  // 彩色標記
+  let html = text
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/\+[\d,.]+%?/g, m => `<span class="highlight-green">${m}</span>`)
+    .replace(/-[\d,.]+%/g,  m => `<span class="highlight-red">${m}</span>`)
+    .replace(/(00878|MU|TSM|00830|00876|00631L|00941)/g, m => `<span class="highlight-blue">${m}</span>`)
+    .replace(/(SATL|GEV)/g,  m => `<span class="highlight-red">${m}</span>`);
+  el.innerHTML = html;
+
+  if (time) {
+    const d = new Date(time);
+    const fmt = `${d.getFullYear()}/${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    document.getElementById('sb-updated-time').textContent = `更新於 ${fmt}`;
+  } else {
+    document.getElementById('sb-updated-time').textContent = '點擊「更新摘要」可隨時修改';
+  }
+}
+
+function toggleSbEditor() {
+  const ed = document.getElementById('sb-editor');
+  const ta = document.getElementById('sb-textarea');
+  const isOpen = ed.classList.toggle('open');
+  if (isOpen) {
+    // 載入現有內容到 textarea（去 HTML）
+    const display = document.getElementById('sb-text-display');
+    ta.value = display.innerText || display.textContent;
+    ta.focus();
+  }
+}
+
+function saveSbSummary() {
+  const ta = document.getElementById('sb-textarea');
+  const text = ta.value.trim();
+  if (!text) { if(typeof showToast==='function') showToast('⚠ 請輸入摘要內容'); return; }
+  const now = new Date().toISOString();
+  try { localStorage.setItem(SB_KEY, JSON.stringify({ text, time: now })); } catch(e){}
+  sbRender(text, now);
+  document.getElementById('sb-editor').classList.remove('open');
+  if(typeof showToast==='function') showToast('✅ 摘要已更新');
+}
+
+// 初始化
+document.addEventListener('DOMContentLoaded', sbLoad);
+
+
 window._fbDb = null;
 window.fbSaveHoldings = function() { 
   if(typeof showToast==='function') showToast('⚠ 雲端功能未啟用'); 
