@@ -655,12 +655,18 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     color:#58A6FF;background:rgba(88,166,255,.1);font-weight:800;
   }
 
-  /* header 往下推，讓出 nav 空間，並緊湊顯示 */
-  .main-header{top:54px;padding:10px 12px 8px}
+  /* nav-tabs 是 fixed，header 要留出 54px 讓位 */
+  .main-header{
+    position:sticky;
+    top:102px;
+    margin-top:54px;
+    padding:10px 12px 8px;
+    z-index:80;
+  }
 
-  /* section 往下推，讓出 nav(54) + header(~70) 空間 */
-  .section{padding-top:160px}
-  .content{padding:12px 12px 24px}
+  /* section 不需要額外 padding-top */
+  .section{padding-top:0}
+  .content{padding:12px 12px 80px}
   .htitles .main{font-size:16px}
   .hdate strong{font-size:13px}
   .hstats{gap:0}
@@ -1151,7 +1157,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 
   <!-- 月度明細 -->
   <div id="exp-month" style="display:none">
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 12px">
+    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 12px;width:100%">
       <button class="exp-mnbtn" onclick="expChangeMonth(-1)">‹</button>
       <div class="exp-mlbl" id="exp-mlbl" style="min-width:120px;text-align:center"></div>
       <button class="exp-mnbtn" onclick="expChangeMonth(1)">›</button>
