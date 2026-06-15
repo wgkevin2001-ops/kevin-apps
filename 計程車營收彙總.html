@@ -698,7 +698,7 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     <div style="font-size:11px;color:#8B949E;margin-bottom:10px">雲端資料已安全，以下為額外匯出留存用</div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:7px">
       <button class="btn gr sm" onclick="exportExcel()">📊 匯出 Excel</button>
-      <button class="btn sm" style="background:#1a6ea8;color:#fff" onclick="syncMonthlyIncomeToFirebase();alert('✅ 月份收入已同步到行事曆年度收支！')">📅 同步到行事曆</button>
+      <button class="btn sm" onclick="syncMonthlyIncomeToFirebase();alert('✅ 月份收入已同步到行事曆！')" style="background:#1a6ea8;color:#fff">📅 同步到行事曆</button>
       <button class="btn sm" onclick="exportJSON()" style="background:#7AADA6">💾 下載 JSON</button>
     </div>
     <input type="file" id="xl-in" accept=".xlsx,.xls" style="display:none" onchange="importExcel(this)">
@@ -1619,39 +1619,6 @@ function savePtRecs(recs) {
   if (_db && window._firebaseSet) window._firebaseSet(window._firebaseRef('taxi/parttime'), recs).catch(function(e){console.warn('fb save err',e);});
   localStorage.setItem('parttime_recs', JSON.stringify(recs));
   syncMonthlyIncomeToFirebase(); // 兼職更新時也同步
-}
-
-// ── 月份收入同步到行事曆（寫入 Firebase taxi/monthly_income）──
-function syncMonthlyIncomeToFirebase() {
-  if (!_db || !window._firebaseSet) return;
-  var months = {};
-  for (var i = 1; i <= 12; i++) months[i] = {taxi:0, parttime:0, total:0};
-
-  // 計算計程車月份收入
-  _taxiRecs.forEach(function(r) {
-    var m = parseInt((r.date||'').split('-')[1]);
-    if (m >= 1 && m <= 12) months[m].taxi += r.inc || 0;
-  });
-
-  // 計算兼職月份收入
-  _ptRecs.forEach(function(r) {
-    var m = parseInt((r.month||'').split('-')[1]);
-    if (m >= 1 && m <= 12) months[m].parttime += r.amount || 0;
-  });
-
-  // 計算合計
-  for (var i = 1; i <= 12; i++) {
-    months[i].total = months[i].taxi + months[i].parttime;
-  }
-
-  var payload = {
-    syncedAt: new Date().toISOString(),
-    year: 2026,
-    monthly: months
-  };
-
-  window._firebaseSet(window._firebaseRef('taxi/monthly_income'), payload)
-    .catch(function(e){ console.warn('月收入同步失敗:', e); });
 }
 
 // ── 計算 ──
@@ -2904,6 +2871,33 @@ function initApp() {
     renderAnnual();
   }
 })();
+
+// ── 月份收入同步到行事曆（寫入 Firebase taxi/monthly_income）──
+function syncMonthlyIncomeToFirebase() {
+  if (!_db || !window._firebaseSet) return;
+  var months = {};
+  for (var i = 1; i <= 12; i++) months[i] = {taxi:0, parttime:0};
+
+  _taxiRecs.forEach(function(r) {
+    var m = parseInt((r.date||'').split('-')[1]);
+    if (m >= 1 && m <= 12) months[m].taxi += (r.inc || 0);
+  });
+
+  _ptRecs.forEach(function(r) {
+    var m = parseInt((r.month||'').split('-')[1]);
+    if (m >= 1 && m <= 12) months[m].parttime += (r.amount || 0);
+  });
+
+  var payload = {
+    syncedAt: new Date().toISOString(),
+    year: 2026,
+    monthly: months
+  };
+
+  window._firebaseSet(window._firebaseRef('taxi/monthly_income'), payload)
+    .then(function(){ console.log('✅ 月份收入已同步到行事曆'); })
+    .catch(function(e){ console.warn('月收入同步失敗:', e); });
+}
 </script>
 
 

@@ -655,18 +655,12 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     color:#58A6FF;background:rgba(88,166,255,.1);font-weight:800;
   }
 
-  /* nav-tabs 是 fixed，header 要留出 54px 讓位 */
-  .main-header{
-    position:sticky;
-    top:102px;
-    margin-top:54px;
-    padding:10px 12px 8px;
-    z-index:80;
-  }
+  /* header 往下推，讓出 nav 空間，並緊湊顯示 */
+  .main-header{top:54px;padding:10px 12px 8px}
 
-  /* section 不需要額外 padding-top */
-  .section{padding-top:0}
-  .content{padding:12px 12px 80px}
+  /* section 往下推，讓出 nav(54) + header(~70) 空間 */
+  .section{padding-top:160px}
+  .content{padding:12px 12px 24px}
   .htitles .main{font-size:16px}
   .hdate strong{font-size:13px}
   .hstats{gap:0}
@@ -1106,7 +1100,6 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px">
     <div style="font-size:16px;font-weight:900;color:var(--ink)" id="exp-year-title">📊 2026 年度開銷記錄</div>
     <button onclick="expExportCSV()" style="background:var(--gr);color:#fff;border:none;border-radius:9px;padding:7px 14px;font-size:12px;font-weight:800;cursor:pointer;font-family:inherit">⬇️ 匯出CSV</button>
-    </div>
   </div>
 
   <!-- 分頁：總覽 / 各月明細 -->
@@ -1157,9 +1150,9 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 
   <!-- 月度明細 -->
   <div id="exp-month" style="display:none">
-    <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin:8px 0 12px;width:100%">
+    <div class="exp-month-nav">
       <button class="exp-mnbtn" onclick="expChangeMonth(-1)">‹</button>
-      <div class="exp-mlbl" id="exp-mlbl" style="min-width:120px;text-align:center"></div>
+      <div class="exp-mlbl" id="exp-mlbl"></div>
       <button class="exp-mnbtn" onclick="expChangeMonth(1)">›</button>
     </div>
     <div class="exp-summary-grid" id="exp-month-summary"></div>
@@ -1455,14 +1448,14 @@ function switchSec(id){
   document.getElementById("sec-"+id).classList.add("active");
   const idx={focus:0,cal:1,appt:2,bp:3,med:4,cc:5,exp:6}[id];
   document.querySelectorAll(".nav-tab")[idx]?.classList.add("active");
-  if(id==="cal"){renderCal();syncFocusToCalMonth();}
+  if(id==="cal"){renderCal();}
   if(id==="appt")renderAppts();
   if(id==="focus")renderFocus();
   if(id==="exp")renderExp();
 }
 
 // ═══ SYNC: 看診→月曆 ═══
-let curYear=2026,curMonth=4; // 0-indexed
+let curYear=new Date().getFullYear(), curMonth=new Date().getMonth();
 let selYear=2026; // 全域選擇年份（開銷/收入/配息/重點）
 
 function goToAppt(dateStr){
@@ -2309,8 +2302,7 @@ if(!focusStatus[2028]) focusStatus[2028]={};
 let focusSortMode = 'cat'; // 'cat' | 'date' | 'status'
 
 // Initialize default statuses for built-in items (只針對2026)
-[...FOCUS_ITEMS_INIT, ...FOCUS_ITEMS_JUNE, ...FOCUS_ITEMS_JULY, ...FOCUS_ITEMS_AUGUST,
- ...FOCUS_ITEMS_SEPT, ...FOCUS_ITEMS_OCT, ...FOCUS_ITEMS_NOV, ...FOCUS_ITEMS_DEC].forEach(it=>{
+[...FOCUS_ITEMS_INIT,...FOCUS_ITEMS_JUNE,...FOCUS_ITEMS_JULY,...FOCUS_ITEMS_AUGUST,...FOCUS_ITEMS_SEPT,...FOCUS_ITEMS_OCT,...FOCUS_ITEMS_NOV,...FOCUS_ITEMS_DEC].forEach(it=>{
   if(!(it.id in focusStatus[2026])) focusStatus[2026][it.id] = it.initStatus;
 });
 
@@ -2946,8 +2938,8 @@ function renderExpMonth(){
   const balance=incTotal-total;
   document.getElementById('exp-month-total').textContent=expFmt(total);
   document.getElementById('exp-month-summary').innerHTML=`
-    <div class="exp-sum-box" onclick="showMonthExpDetail(m)" style="cursor:pointer"><div class="exp-sum-lbl">本月支出 <span style="font-size:9px;opacity:.5">▶ 明細</span></div><div class="exp-sum-val" style="color:var(--rd)">${expFmt(total)}</div></div>
-    <div class="exp-sum-box" onclick="showMonthIncDetail(m)" style="cursor:pointer"><div class="exp-sum-lbl">本月收入 <span style="font-size:9px;opacity:.5">▶ 明細</span></div><div class="exp-sum-val" style="color:var(--gr)">${expFmt(incTotal)}</div></div>
+    <div class="exp-sum-box" onclick="mShowExp(expCurMonth)" style="cursor:pointer;-webkit-tap-highlight-color:rgba(255,255,255,.15)"><div class="exp-sum-lbl">本月支出 <span style="opacity:.6;font-size:11px">▶ 明細</span></div><div class="exp-sum-val" style="color:var(--rd)">${expFmt(total)}</div></div>
+    <div class="exp-sum-box" onclick="mShowInc(expCurMonth)" style="cursor:pointer;-webkit-tap-highlight-color:rgba(255,255,255,.15)"><div class="exp-sum-lbl">本月收入 <span style="opacity:.6;font-size:11px">▶ 明細</span></div><div class="exp-sum-val" style="color:var(--gr)">${expFmt(incTotal)}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">股票配息</div><div class="exp-sum-val" style="color:#1a6ea8">${divTotal>0?expFmt(divTotal):'—'}</div><div class="exp-sum-sub">${divTotal>0?'本月入帳':'本月無配息'}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">本月結餘</div><div class="exp-sum-val" style="color:${balance>=0?'var(--gr)':'var(--rd)'}">${balance>=0?'+':''}${expFmt(Math.abs(balance))}</div></div>
     <div class="exp-sum-box"><div class="exp-sum-lbl">筆數</div><div class="exp-sum-val">${recs.length}</div><div class="exp-sum-sub">筆</div></div>`;
@@ -2977,6 +2969,59 @@ function expExportCSV(){
 // ═══ 初始化 renderCC() ═══
 renderCC();
 
+
+// ── 從計程車營收同步月份收入 ──
+async function loadTaxiMonthlyIncome() {
+  try {
+    const snap = await get(ref(db, 'taxi/monthly_income'));
+    if (!snap.exists()) return;
+
+    const data = snap.val();
+    if (!data || !data.monthly) return;
+
+    const year = data.year || 2026;
+    const monthly = data.monthly;
+
+    // 移除舊的計程車收入記錄
+    incRecords = incRecords.filter(r => !r.id || (!r.id.startsWith('__taxi_') && !r.id.startsWith('__pt_')));
+
+    // 注入新的月份收入
+    let count = 0;
+    for (let m = 1; m <= 12; m++) {
+      const mData = monthly[m];
+      if (!mData) continue;
+
+      if (mData.taxi > 0) {
+        incRecords.push({
+          id: '__taxi_' + year + '_' + m,
+          month: m, year,
+          amt: Math.round(mData.taxi),
+          src: '🚕 計程車月收入'
+        });
+        count++;
+      }
+
+      if (mData.parttime > 0) {
+        incRecords.push({
+          id: '__pt_' + year + '_' + m,
+          month: m, year,
+          amt: Math.round(mData.parttime),
+          src: '🪿 十金鵝兼職收入'
+        });
+        count++;
+      }
+    }
+
+    try { renderExpOverview(); } catch(e) {}
+    try { renderExpMonth();    } catch(e) {}
+
+    const t = new Date(data.syncedAt || Date.now());
+    showFbToast('🚕 計程車月收入已同步（' + count + ' 筆・' + (t.getMonth()+1) + '/' + t.getDate() + '）');
+
+  } catch(e) {
+    console.warn('計程車收入同步失敗：', e.message);
+  }
+}
 </script>
 
 <!-- 備份浮動按鈕 -->
@@ -3206,7 +3251,19 @@ async function applyAllData(data) {
     if (data[k] !== undefined && data[k] !== null) {
       localStorage.setItem(k, JSON.stringify(data[k]));
     }
-  });
+  })
+
+  // ── inc_records 從 Firebase 載入後，移除舊配息（loadDividendSync 會重新加入最新配息）──
+  if (data['inc_records']) {
+    const cleanInc = data['inc_records'].filter(r => {
+      const src = r.src || '';
+      const id = r.id || '';
+      // 移除所有配息相關（避免與 loadDividendSync 重複）
+      return !src.includes('配息') && !id.startsWith('fb_sync_') && !id.startsWith('__div_');
+    });
+    incRecords = cleanInc;
+    localStorage.setItem('inc_records', JSON.stringify(cleanInc));
+  };
 
   // 重新載入各模組資料
   if (data.appts)        { appointments = data.appts; }
@@ -3315,6 +3372,9 @@ async function loadFromFirebase() {
 
     // ── 從 Firebase 讀取存股計劃配息資料 ──
     loadDividendSync();
+
+    // ── 從計程車營收同步月份收入 ──
+    loadTaxiMonthlyIncome();
   }
 }
 
@@ -3352,7 +3412,7 @@ async function loadDividendSync() {
     if (newDivRecs.length === 0) return;
 
     // 移除舊配息，加入新同步配息
-    incRecords = incRecords.filter(r => !r.src || !r.src.includes('配息'));
+    incRecords = incRecords.filter(r => { const src=r.src||''; const id=r.id||''; return !src.includes('配息') && !id.startsWith('fb_sync_') && !id.startsWith('__div_'); });
     incRecords = [...incRecords, ...newDivRecs];
     try { localStorage.setItem('inc_records', JSON.stringify(incRecords)); } catch(e) {}
 
@@ -3372,43 +3432,119 @@ async function loadDividendSync() {
 }
 
 // 5 秒超時保護
-setTimeout(removeLoading, 5000);
+if(location.protocol==="file:"||location.hostname==="localhost"){setTimeout(removeLoading,300);}else{setTimeout(removeLoading,5000);}
 
 loadFromFirebase();
 </script>
 
 
-<div id="month-exp-modal" style="display:none;position:fixed;inset:0;z-index:9000;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)" onclick="if(event.target===this)this.style.display='none'">
-  <div style="position:absolute;bottom:0;left:0;right:0;max-height:85vh;background:var(--bg);border-radius:20px 20px 0 0;overflow:hidden;display:flex;flex-direction:column">
-    <div style="width:40px;height:4px;background:#ccc;border-radius:2px;margin:12px auto 0"></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px">
-      <div><div id="mem-title" style="font-size:17px;font-weight:900;color:var(--ink)"></div><div id="mem-total" style="font-size:13px;color:var(--rd);font-weight:700;margin-top:2px"></div></div>
-      <button onclick="document.getElementById('month-exp-modal').style.display='none'" style="background:var(--mid);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer">✕</button>
+<!-- ══ 支出/收入明細 Modal ══ -->
+<div id="mExpMod" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,.8);justify-content:flex-end;flex-direction:column">
+  <div style="background:#1a1d2e;border-radius:20px 20px 0 0;max-height:88vh;display:flex;flex-direction:column">
+    <div style="width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin:14px auto 0;flex-shrink:0"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 18px 8px;flex-shrink:0">
+      <div>
+        <div id="mExpT" style="font-size:18px;font-weight:900;color:#fff"></div>
+        <div id="mExpS" style="font-size:13px;color:#ef5350;margin-top:3px;font-weight:700"></div>
+      </div>
+      <button onclick="document.getElementById('mExpMod').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0">✕</button>
     </div>
-    <div id="mem-cat-bar" style="display:flex;gap:6px;padding:0 16px 10px;flex-wrap:wrap"></div>
-    <div style="overflow-y:auto;padding:0 16px 24px;flex:1">
-      <table style="width:100%;border-collapse:collapse;font-size:13px">
-        <thead><tr style="border-bottom:2px solid var(--bdr)"><th style="text-align:left;padding:6px 4px;font-size:11px;color:var(--ink-light)">日期</th><th style="text-align:left;padding:6px 4px;font-size:11px;color:var(--ink-light)">類別</th><th style="text-align:right;padding:6px 4px;font-size:11px;color:var(--ink-light)">金額</th><th style="text-align:left;padding:6px 4px;font-size:11px;color:var(--ink-light)">備註</th></tr></thead>
-        <tbody id="mem-tbody"></tbody>
+    <div id="mExpCats" style="display:flex;gap:6px;padding:0 16px 10px;flex-wrap:wrap;flex-shrink:0"></div>
+    <div style="overflow-y:auto;padding:0 14px 40px;flex:1">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;color:#ddd">
+        <thead><tr style="border-bottom:2px solid rgba(255,255,255,.1)">
+          <th style="text-align:left;padding:8px 5px;font-size:11px;opacity:.5;font-weight:700">日期</th>
+          <th style="text-align:left;padding:8px 5px;font-size:11px;opacity:.5;font-weight:700">類別</th>
+          <th style="text-align:right;padding:8px 5px;font-size:11px;opacity:.5;font-weight:700">金額</th>
+          <th style="text-align:left;padding:8px 5px;font-size:11px;opacity:.5;font-weight:700">備註</th>
+        </tr></thead>
+        <tbody id="mExpBody"></tbody>
       </table>
     </div>
   </div>
 </div>
-<div id="month-inc-modal" style="display:none;position:fixed;inset:0;z-index:9001;background:rgba(0,0,0,.6);backdrop-filter:blur(3px)" onclick="if(event.target===this)this.style.display='none'">
-  <div style="position:absolute;bottom:0;left:0;right:0;max-height:85vh;background:var(--bg);border-radius:20px 20px 0 0;overflow:hidden;display:flex;flex-direction:column">
-    <div style="width:40px;height:4px;background:#ccc;border-radius:2px;margin:12px auto 0"></div>
-    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 18px 10px">
-      <div><div id="mim-title" style="font-size:17px;font-weight:900;color:var(--ink)"></div><div id="mim-total" style="font-size:13px;color:var(--gr);font-weight:700;margin-top:2px"></div></div>
-      <button onclick="document.getElementById('month-inc-modal').style.display='none'" style="background:var(--mid);border:none;border-radius:50%;width:32px;height:32px;font-size:16px;cursor:pointer">✕</button>
+
+<div id="mIncMod" onclick="if(event.target===this)this.style.display='none'" style="display:none;position:fixed;top:0;left:0;right:0;bottom:0;z-index:99999;background:rgba(0,0,0,.8);justify-content:flex-end;flex-direction:column">
+  <div style="background:#1a1d2e;border-radius:20px 20px 0 0;max-height:88vh;display:flex;flex-direction:column">
+    <div style="width:40px;height:4px;background:rgba(255,255,255,.2);border-radius:2px;margin:14px auto 0;flex-shrink:0"></div>
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 18px 8px;flex-shrink:0">
+      <div>
+        <div id="mIncT" style="font-size:18px;font-weight:900;color:#fff"></div>
+        <div id="mIncS" style="font-size:13px;color:#4caf50;margin-top:3px;font-weight:700"></div>
+      </div>
+      <button onclick="document.getElementById('mIncMod').style.display='none'" style="background:rgba(255,255,255,.15);border:none;border-radius:50%;width:36px;height:36px;color:#fff;font-size:20px;cursor:pointer;flex-shrink:0">✕</button>
     </div>
-    <div id="mim-cat-bar" style="display:flex;gap:6px;padding:0 16px 10px;flex-wrap:wrap"></div>
-    <div style="overflow-y:auto;padding:0 16px 24px;flex:1">
-      <table style="width:100%;border-collapse:collapse;font-size:13px">
-        <thead><tr style="border-bottom:2px solid var(--bdr)"><th style="text-align:left;padding:6px 4px;font-size:11px;color:var(--ink-light)">月份</th><th style="text-align:left;padding:6px 4px;font-size:11px;color:var(--ink-light)">來源</th><th style="text-align:right;padding:6px 4px;font-size:11px;color:var(--ink-light)">金額</th></tr></thead>
-        <tbody id="mim-tbody"></tbody>
+    <div id="mIncCats" style="display:flex;gap:6px;padding:0 16px 10px;flex-wrap:wrap;flex-shrink:0"></div>
+    <div style="overflow-y:auto;padding:0 14px 40px;flex:1">
+      <table style="width:100%;border-collapse:collapse;font-size:13px;color:#ddd">
+        <thead><tr style="border-bottom:2px solid rgba(255,255,255,.1)">
+          <th style="text-align:left;padding:8px 5px;font-size:11px;opacity:.5;font-weight:700">月份</th>
+          <th style="text-align:left;padding:8px 5px;font-size:11px;opacity:.5;font-weight:700">來源</th>
+          <th style="text-align:right;padding:8px 5px;font-size:11px;opacity:.5;font-weight:700">金額</th>
+        </tr></thead>
+        <tbody id="mIncBody"></tbody>
       </table>
     </div>
   </div>
 </div>
+
+<script>
+// ── 支出/收入明細 Modal ──
+var _mE={r:[],t:0,c:[],f:'all'}, _mI={r:[],t:0,tp:[],f:'all',yr:2026};
+
+function mGetT(r){
+  if(!r||!r.src)return '💰其他';
+  return r.src.includes('租金')?'🏠租金':r.src.includes('配息')?'📈配息':r.src.includes('計程車')?'🚕計程車':r.src.includes('兼職')?'🪿兼職':'💰其他';
+}
+
+function mShowExp(m){
+  var yr=typeof selYear!=='undefined'?selYear:2026;
+  var all=typeof expRecords!=='undefined'?expRecords:[];
+  _mE.r=all.filter(function(r){return r.date&&r.date.startsWith(String(yr))&&+r.date.slice(5,7)===+m;}).sort(function(a,b){return a.date>b.date?1:-1;});
+  _mE.t=_mE.r.reduce(function(s,r){return s+r.amt;},0);
+  _mE.c=[]; _mE.r.forEach(function(r){if(_mE.c.indexOf(r.cat)<0)_mE.c.push(r.cat);}); _mE.f='all';
+  document.getElementById('mExpT').textContent=yr+'年 '+m+'月 支出明細';
+  mDrawExp();
+  var el=document.getElementById('mExpMod');
+  el.style.display='flex';
+}
+function mDrawExp(){
+  var rows=_mE.f==='all'?_mE.r:_mE.r.filter(function(r){return r.cat===_mE.f;});
+  var ft=rows.reduce(function(s,r){return s+r.amt;},0);
+  document.getElementById('mExpS').textContent='共'+rows.length+'筆・NT$'+ft.toLocaleString()+(_mE.f!=='all'?'／總$'+_mE.t.toLocaleString():'');
+  var h='<button data-v="all" onclick="mExpFil(this)" style="padding:5px 12px;border-radius:20px;border:none;font-size:12px;font-weight:800;cursor:pointer;margin:2px;background:'+(_mE.f==='all'?'#ffb300':'rgba(255,255,255,.15)')+';color:'+(_mE.f==='all'?'#000':'#fff')+'">全部</button>';
+  _mE.c.forEach(function(cat){h+='<button data-v="'+cat+'" onclick="mExpFil(this)" style="padding:5px 12px;border-radius:20px;border:none;font-size:12px;font-weight:800;cursor:pointer;margin:2px;background:'+(_mE.f===cat?'#ffb300':'rgba(255,255,255,.15)')+';color:'+(_mE.f===cat?'#000':'#fff')+'">'+cat+'</button>';});
+  document.getElementById('mExpCats').innerHTML=h;
+  var t='';
+  rows.forEach(function(r){t+='<tr style="border-bottom:1px solid rgba(255,255,255,.08)"><td style="padding:10px 5px;opacity:.7;white-space:nowrap;font-size:12px">'+r.date.slice(5).replace('-','/')+'</td><td style="padding:10px 5px"><span style="background:rgba(255,255,255,.12);padding:2px 8px;border-radius:8px;font-size:11px">'+r.cat+'</span></td><td style="padding:10px 5px;text-align:right;font-weight:800;color:#ef5350;white-space:nowrap">NT$'+r.amt.toLocaleString()+'</td><td style="padding:10px 5px;opacity:.65;font-size:12px">'+(r.note||r.pay||'—')+'</td></tr>';});
+  document.getElementById('mExpBody').innerHTML=t||'<tr><td colspan="4" style="text-align:center;padding:28px;opacity:.5">本月尚無支出記錄</td></tr>';
+}
+function mExpFil(btn){_mE.f=btn.dataset.v;mDrawExp();}
+
+function mShowInc(m){
+  var yr=typeof selYear!=='undefined'?selYear:2026;
+  var all=typeof incRecords!=='undefined'?incRecords:[];
+  _mI.yr=yr; _mI.r=all.filter(function(r){return r.year===yr&&r.month===+m;}); 
+  _mI.t=_mI.r.reduce(function(s,r){return s+r.amt;},0);
+  _mI.tp=[]; _mI.r.forEach(function(r){var t=mGetT(r);if(_mI.tp.indexOf(t)<0)_mI.tp.push(t);}); _mI.f='all';
+  document.getElementById('mIncT').textContent=yr+'年 '+m+'月 收入明細';
+  mDrawInc();
+  var el=document.getElementById('mIncMod');
+  el.style.display='flex';
+}
+function mDrawInc(){
+  var rows=_mI.f==='all'?_mI.r:_mI.r.filter(function(r){return mGetT(r)===_mI.f;});
+  var ft=rows.reduce(function(s,r){return s+r.amt;},0);
+  document.getElementById('mIncS').textContent='共'+rows.length+'筆・NT$'+ft.toLocaleString()+(_mI.f!=='all'?'／總$'+_mI.t.toLocaleString():'');
+  var h='<button data-v="all" onclick="mIncFil(this)" style="padding:5px 12px;border-radius:20px;border:none;font-size:12px;font-weight:800;cursor:pointer;margin:2px;background:'+(_mI.f==='all'?'#4caf50':'rgba(255,255,255,.15)')+';color:'+(_mI.f==='all'?'#000':'#fff')+'">全部</button>';
+  _mI.tp.forEach(function(t){h+='<button data-v="'+t+'" onclick="mIncFil(this)" style="padding:5px 12px;border-radius:20px;border:none;font-size:12px;font-weight:800;cursor:pointer;margin:2px;background:'+(_mI.f===t?'#4caf50':'rgba(255,255,255,.15)')+';color:'+(_mI.f===t?'#000':'#fff')+'">'+t+'</button>';});
+  document.getElementById('mIncCats').innerHTML=h;
+  var t='';
+  rows.forEach(function(r){t+='<tr style="border-bottom:1px solid rgba(255,255,255,.08)"><td style="padding:10px 5px;opacity:.7;white-space:nowrap;font-size:12px">'+_mI.yr+'/'+String(r.month).padStart(2,'0')+'</td><td style="padding:10px 5px;font-size:12px">'+(r.src||'—')+'</td><td style="padding:10px 5px;text-align:right;font-weight:800;color:#4caf50;white-space:nowrap">+NT$'+r.amt.toLocaleString()+'</td></tr>';});
+  document.getElementById('mIncBody').innerHTML=t||'<tr><td colspan="3" style="text-align:center;padding:28px;opacity:.5">本月尚無收入記錄</td></tr>';
+}
+function mIncFil(btn){_mI.f=btn.dataset.v;mDrawInc();}
+</script>
+
 </body>
 </html>
