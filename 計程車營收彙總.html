@@ -58,8 +58,7 @@ body{background:#0D1117;color:#E8EDF4;font-family:'Noto Sans TC',sans-serif;min-
 .hdr p{font-size:15px;color:#888;margin-top:4px}
 
 /* TABS */
-.tabs{display:flex;gap:4px;margin-bottom:14px;background:#1C2128;border-radius:12px;padding:5px;overflow-x:auto;-webkit-overflow-scrolling:touch}
-.tabs::-webkit-scrollbar{display:none}
+/* .tabs handled by layout CSS */
 .tab{flex:0 0 auto;padding:9px 11px;border:none;border-radius:8px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;background:transparent;color:#999;white-space:nowrap;-webkit-tap-highlight-color:transparent;transition:all .2s}
 .tab.on{background:var(--y);color:#fff;box-shadow:0 2px 8px rgba(26,110,168,.35)}
 .pane{display:none}
@@ -192,9 +191,105 @@ select option{background:#1C2128;color:#E8EDF4}
 }
 .hitems{margin-bottom:10px}
 
+
+.top-bar{display:flex;align-items:center;gap:4px;background:#0A0E14;border-bottom:1px solid #1C2128;padding:0 16px;height:48px;position:sticky;top:0;z-index:200;overflow-x:auto;scrollbar-width:none}
+.top-bar::-webkit-scrollbar{display:none}
+.top-bar-link{display:flex;align-items:center;gap:6px;color:#6E7681;font-size:13px;font-weight:700;text-decoration:none;padding:6px 13px;border-radius:8px;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.top-bar-link:hover{color:#C9D1D9;background:#161B22}
+.top-bar-link.active{color:#58A6FF;background:rgba(88,166,255,.1)}
+.top-bar-divider{width:1px;height:22px;background:#21262D;flex-shrink:0;margin:0 4px}
+
+/* ── Layout ── */
+.app-layout { display: flex; min-height: calc(100vh - 48px); }
+
+/* Sidebar: desktop only */
+.sidebar {
+  display: none;
+}
+
+/* Horizontal tabs: mobile default */
+.tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 14px;
+  background: #1C2128;
+  border-radius: 12px;
+  padding: 5px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+
+@media (min-width: 768px) {
+  /* Show sidebar, hide horizontal tabs */
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    width: 180px;
+    flex-shrink: 0;
+    background: #0A0E14;
+    border-right: 1px solid #1C2128;
+    padding: 16px 10px;
+    position: sticky;
+    top: 48px;
+    height: calc(100vh - 48px);
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+  .sidebar::-webkit-scrollbar { display: none; }
+  .sidebar .tab {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 11px 14px;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 10px;
+    text-align: left;
+    background: transparent;
+    color: #6E7681;
+    border: none;
+    cursor: pointer;
+    transition: all .15s;
+    flex-shrink: 0;
+  }
+  .sidebar .tab:hover { color: #C9D1D9; background: #161B22; }
+  .sidebar .tab.on {
+    background: rgba(26,110,168,.18);
+    color: #58A6FF;
+    border-left: 3px solid #1A6EA8;
+  }
+  .sidebar .tab-icon { font-size: 18px; flex-shrink: 0; }
+  .content-area { flex: 1; min-width: 0; padding: 0 20px; }
+  .tabs { display: none !important; }
+}
+
+@media (max-width: 767px) {
+  .sidebar { display: none !important; }
+  .content-area { padding: 0; }
+}
+
 </style>
 </head>
 <body>
+<!-- TOP BAR -->
+<div class="top-bar">
+  <a class="top-bar-link" href="index.html">🏠 首頁</a>
+  <div class="top-bar-divider"></div>
+  <a class="top-bar-link" href="2026行事曆.html">📅 行事曆</a>
+  <a class="top-bar-link active" href="計程車營收彙總_new.html">🚖 計程車彙總</a>
+  <a class="top-bar-link" href="汽機車管理.html">🏍️ 汽機車管理</a>
+  <a class="top-bar-link" href="呈貝目前持股.html">📈 持股</a>
+  <a class="top-bar-link" href="doc-viewer.html">📂 文件</a>
+  <a class="top-bar-link" href="contracts.html">📋 合約</a>
+  <a class="top-bar-link" href="menu.html">🪿 菜單</a>
+  <a class="top-bar-link" href="goose-pos.html">🧾 點餐</a>
+</div>
+
+
 
 <!-- 密碼遮罩 -->
 <div id="pw-overlay">
@@ -217,6 +312,18 @@ select option{background:#1C2128;color:#E8EDF4}
   <p id="today-txt"></p>
 </div>
 
+<div class="app-layout">
+<nav class="sidebar">
+  <button class="tab on" onclick="go('daily')"><span class="tab-icon">📝</span>輸入</button>
+  <button class="tab" onclick="go('history')"><span class="tab-icon">📋</span>記錄</button>
+  <button class="tab" onclick="go('annual')"><span class="tab-icon">📊</span>年度</button>
+  <button class="tab" onclick="go('export')"><span class="tab-icon">📤</span>匯出</button>
+  <button class="tab" onclick="go('inspect')"><span class="tab-icon">🔔</span>審驗</button>
+  <button class="tab" onclick="go('query')"><span class="tab-icon">🔍</span>查詢</button>
+  <button class="tab" onclick="go('maint')"><span class="tab-icon">🔧</span>保養</button>
+  <button class="tab" onclick="go('parttime')"><span class="tab-icon">💼</span>兼職</button>
+</nav>
+<div class="content-area">
 <div class="tabs">
   <button class="tab on" onclick="go('daily')">📝 輸入</button>
   <button class="tab" onclick="go('history')">📋 記錄</button>
@@ -1244,6 +1351,7 @@ select option{background:#1C2128;color:#E8EDF4}
 
 </div>
 
+</div></div><!-- /content-area /app-layout -->
 <div id="dl-bar" style="position:fixed;bottom:0;left:0;right:0;background:var(--y);z-index:9998;display:flex;align-items:center;justify-content:center;padding:10px 16px;box-shadow:0 -2px 12px rgba(26,110,168,.25)">
   <span style="color:#fff;font-size:13px;font-weight:700;margin-right:10px">📥 下載 HTML 檔案</span>
   <button onclick="dlHTML()" style="background:#161B22;color:var(--y);border:1px solid #21262D;border-radius:8px;padding:8px 18px;font-size:13px;font-weight:900;cursor:pointer;-webkit-tap-highlight-color:transparent">⬇ 下載</button>
@@ -1263,8 +1371,14 @@ function go(name) {
   for (var i = 0; i < panes.length; i++) panes[i].style.display = 'none';
   document.getElementById('pane-' + name).style.display = 'block';
   var tabs = document.querySelectorAll('.tab');
-  for (var j = 0; j < tabs.length; j++) tabs[j].classList.remove('active');
-  event.currentTarget.classList.add('active');
+  for (var j = 0; j < tabs.length; j++) tabs[j].classList.remove('on');
+  // sync both horizontal tabs and sidebar tabs
+  var allBtns = document.querySelectorAll('.tab');
+  for (var k = 0; k < allBtns.length; k++) {
+    if (allBtns[k].getAttribute('onclick') && allBtns[k].getAttribute('onclick').indexOf("'" + name + "'") !== -1) {
+      allBtns[k].classList.add('on');
+    }
+  }
   if (name === 'inspect') renderInspect();
   if (name === 'maint') renderMaint();
 }
