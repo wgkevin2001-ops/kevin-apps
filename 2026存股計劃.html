@@ -7,28 +7,28 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=DM+Mono:wght@400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 <style>
 :root {
-  --bg:      #fdf8ed;
-  --bg2:     #faf3e0;
-  --card:    rgba(255,248,210,0.80);
-  --card2:   rgba(255,243,190,0.60);
-  --border:  rgba(200,160,40,0.18);
-  --border2: rgba(200,160,40,0.38);
-  --text:    #4a3700;
-  --muted:   #a07c20;
-  --muted2:  #c8a84b;
-  --accent:  #c08000;
-  --accent2: #e6a800;
-  --lime:    #7a9e00;
-  --mint:    #d4a017;
-  --teal:    #b07800;
-  --sky:     #e8c040;
-  --gold:    #d4860a;
-  --blue:    #6080c0;
-  --purple:  #9060b0;
-  --orange:  #c06010;
-  --yellow:  #e6b800;
-  --red:     #c04040;
-  --pink:    #c06090;
+  --bg:      #0D1117;
+  --bg2:     #0D1117;
+  --card:    #161B22;
+  --card2:   #1C2128;
+  --border:  #21262D;
+  --border2: #30363D;
+  --text:    #E8EDF4;
+  --muted:   #8B949E;
+  --muted2:  #C9D1D9;
+  --accent:  #0E9F8E;
+  --accent2: #2AB5A5;
+  --lime:    #2ECC71;
+  --mint:    #58EFCC;
+  --teal:    #0E9F8E;
+  --sky:     #58A6FF;
+  --gold:    #F5A623;
+  --blue:    #58A6FF;
+  --purple:  #BC8CFF;
+  --orange:  #E6A800;
+  --yellow:  #F5A623;
+  --red:     #E05555;
+  --pink:    #F778BA;
 }
 * { box-sizing:border-box; margin:0; padding:0; }
 html { font-size:17px; }
@@ -771,7 +771,7 @@ function saveData(){
 </script>
 
 <!-- ══ Firebase 雲端同步 ══ -->
-<div id="fb-etf-loading" style="position:fixed;inset:0;z-index:999999;background:#fdf8ed;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
+<div id="fb-etf-loading" style="position:fixed;inset:0;z-index:999999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px">
   <div style="font-size:48px">☁️</div>
   <div style="font-size:17px;font-weight:700;color:#c08000">連接雲端資料庫中...</div>
   <div style="font-size:13px;color:#aaa">載入存股資料，請稍候</div>

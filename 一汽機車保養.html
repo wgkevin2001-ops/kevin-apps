@@ -8,17 +8,17 @@
 <style>
 :root{
   --teal:#0E9F8E;--teal2:#2AB5A5;--teal-dk:#0A7A65;
-  --bg:#F0F6F6;--card:#FFFFFF;--mid:#EDF7F5;
-  --text:#1A2E2C;--muted:#7AADA6;--border:rgba(14,159,142,.22);
-  --shadow:rgba(14,159,142,.15);--red:#E05555;--orange:#E67E00;--blue:#1A6EA8;
+  --bg:#0D1117;--card:#161B22;--mid:#1C2128;
+  --text:#E8EDF4;--muted:#8B949E;--border:#21262D;
+  --shadow:rgba(14,159,142,.15);--red:#E05555;--orange:#E67E00;--blue:#58A6FF;
   /* 車輛主色（動態切換）*/
-  --vc:#0E9F8E;--vc2:#2AB5A5;--vc-lt:rgba(14,159,142,.1);
+  --vc:#0E9F8E;--vc2:#2AB5A5;--vc-lt:rgba(14,159,142,.15);
 }
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:var(--bg);font-family:'Noto Sans TC',sans-serif;color:var(--text);min-height:100vh;padding:0 0 80px}
 
 /* ── 頂部 Header ── */
-.top-header{background:#fff;border-bottom:1px solid var(--border);padding:0 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(14,159,142,.1)}
+.top-header{background:var(--card);border-bottom:1px solid var(--border);padding:0 16px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(14,159,142,.1)}
 .hrow{display:flex;align-items:center;justify-content:space-between;padding:12px 0 10px}
 .hsub{font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;font-family:'DM Mono',monospace;font-weight:600}
 .hmain{font-size:19px;font-weight:900;color:var(--vc);margin-top:2px;letter-spacing:-.3px;transition:color .3s}
@@ -29,7 +29,7 @@ body{background:var(--bg);font-family:'Noto Sans TC',sans-serif;color:var(--text
 .vehicle-switcher{display:flex;gap:6px;padding:8px 0 10px;border-top:1px solid rgba(14,159,142,.1)}
 .vsw-btn{
   flex:1;padding:9px 10px;border:2px solid var(--border);border-radius:11px;
-  background:#fff;cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;
+  background:var(--card);cursor:pointer;transition:all .2s;-webkit-tap-highlight-color:transparent;
   display:flex;flex-direction:column;align-items:center;gap:2px;
 }
 .vsw-btn.active{border-color:var(--vc);background:var(--vc-lt)}
@@ -39,7 +39,7 @@ body{background:var(--bg);font-family:'Noto Sans TC',sans-serif;color:var(--text
 .vsw-btn.active .vsw-plate{color:var(--vc)}
 
 /* ── Tab Bar ── */
-.tab-bar{display:flex;background:#fff;border-bottom:1px solid var(--border);padding:0 4px;position:sticky;top:142px;z-index:90;box-shadow:0 1px 6px rgba(0,0,0,.05);overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tab-bar{display:flex;background:var(--card);border-bottom:1px solid var(--border);padding:0 4px;position:sticky;top:142px;z-index:90;box-shadow:0 1px 6px rgba(0,0,0,.05);overflow-x:auto;-webkit-overflow-scrolling:touch}
 .tab-bar::-webkit-scrollbar{display:none}
 .tab-btn{flex:1 0 auto;padding:11px 12px;border:none;border-bottom:2.5px solid transparent;background:transparent;color:var(--muted);font-family:'Noto Sans TC',sans-serif;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .18s;display:flex;align-items:center;justify-content:center;gap:5px;-webkit-tap-highlight-color:transparent}
 .tab-btn.active{color:var(--vc);border-bottom-color:var(--vc);font-weight:700;background:var(--vc-lt)}
@@ -190,7 +190,7 @@ textarea{resize:vertical;min-height:60px}
 @media(max-width:599px){body{padding:0 0 80px}.pane{padding:12px 12px 20px}.tab-bar{top:148px}}
 @media(min-width:900px){
   body{padding:0 0 80px 220px}
-  .tab-bar{position:fixed;left:0;top:0;bottom:0;width:210px;flex-direction:column;align-items:stretch;padding:180px 10px 24px;border-right:1px solid var(--border);border-bottom:none;overflow-y:auto;overflow-x:hidden;height:100vh;gap:3px;z-index:150;background:#fff;box-shadow:2px 0 12px rgba(0,0,0,.04)}
+  .tab-bar{position:fixed;left:0;top:0;bottom:0;width:210px;flex-direction:column;align-items:stretch;padding:180px 10px 24px;border-right:1px solid var(--border);border-bottom:none;overflow-y:auto;overflow-x:hidden;height:100vh;gap:3px;z-index:150;background:var(--card);box-shadow:2px 0 12px rgba(0,0,0,.04)}
   .tab-btn{padding:11px 14px;border-bottom:none;border-left:3px solid transparent;border-radius:10px;justify-content:flex-start;font-size:13.5px;margin-bottom:2px}
   .tab-btn.active{border-bottom:none;border-left-color:var(--vc);background:var(--vc-lt);color:var(--vc);font-weight:800}
   .top-header{padding:0 32px 0 240px}
@@ -503,7 +503,7 @@ textarea{resize:vertical;min-height:60px}
             <div><div style="font-weight:700;font-size:13px">業務員 李孝寬（榮勝保代）</div><div style="font-size:11px;opacity:.8">0926-888-178</div></div>
           </a>
         </div>
-        <div style="background:#FFF8ED;border:1px solid rgba(230,126,0,.2);border-radius:8px;padding:8px 11px;margin-top:8px;font-size:11px;color:#666;line-height:1.8">
+        <div style="background:rgba(230,126,0,.12);border:1px solid rgba(230,126,0,.25);border-radius:8px;padding:8px 11px;margin-top:8px;font-size:11px;color:#666;line-height:1.8">
           📌 經辦代號：Y61031E011 榮勝多元　管理人：宋釗柔<br>
           📌 報價單號：0015CVQ0302015801　列印日：115/03/02
         </div>
@@ -1512,25 +1512,25 @@ function exportPDF(){
   var html = '<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8">'+
   '<title>保養記錄報表 '+vc.plate+'</title>'+
   '<style>'+
-  'body{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;font-size:12px;color:#1A2E2C;margin:0;padding:16px 20px;background:#fff}'+
+  'body{font-family:"PingFang TC","Microsoft JhengHei","Noto Sans TC",sans-serif;font-size:12px;color:var(--text,#E8EDF4);margin:0;padding:16px 20px;background:var(--card)}'+
   '.hdr{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #0E9F8E;padding-bottom:10px;margin-bottom:14px}'+
   '.hdr-title{font-size:20px;font-weight:900;color:#0E9F8E}'+
   '.hdr-sub{font-size:12px;color:#666;margin-top:3px}'+
   '.hdr-meta{text-align:right;font-size:11px;color:#888}'+
   '.stat-row{display:flex;gap:12px;margin-bottom:14px;flex-wrap:wrap}'+
-  '.stat-box{background:#EDF7F5;border:1px solid rgba(14,159,142,.25);border-radius:8px;padding:8px 14px;text-align:center;min-width:80px}'+
+  '.stat-box{background:var(--mid);border:1px solid rgba(14,159,142,.25);border-radius:8px;padding:8px 14px;text-align:center;min-width:80px}'+
   '.stat-lbl{font-size:10px;color:#7AADA6;margin-bottom:3px}'+
   '.stat-val{font-size:14px;font-weight:900;color:#0E9F8E}'+
   'table{width:100%;border-collapse:collapse;font-size:11px;margin-bottom:14px}'+
   'th{background:#0E9F8E;color:#fff;padding:6px 8px;text-align:left;font-weight:700}'+
   'td{padding:5px 8px;border-bottom:1px solid #E6F4F2;vertical-align:top}'+
-  'tr:nth-child(even) td{background:#F5FCFB}'+
+  'tr:nth-child(even) td{background:rgba(14,159,142,.07)}'+
   'tr:last-child td{border-bottom:2px solid #0E9F8E}'+
   '.footer{font-size:10px;color:#aaa;text-align:center;border-top:1px solid #eee;padding-top:8px;margin-top:10px}'+
-  '.veh-info{background:#EDF7F5;border-radius:8px;padding:9px 14px;margin-bottom:14px;font-size:11px;display:flex;gap:20px;flex-wrap:wrap}'+
+  '.veh-info{background:var(--mid);border-radius:8px;padding:9px 14px;margin-bottom:14px;font-size:11px;display:flex;gap:20px;flex-wrap:wrap}'+
   '.veh-item{display:flex;flex-direction:column;gap:2px}'+
   '.veh-lbl{font-size:10px;color:#7AADA6}'+
-  '.veh-val{font-weight:700;color:#1A2E2C}'+
+  '.veh-val{font-weight:700;color:var(--text,#E8EDF4)}'+
   '@media print{body{padding:8px 12px}.hdr-title{font-size:17px}table{font-size:10px}th,td{padding:4px 6px}}'+
   '</style></head><body>'+
 
@@ -1624,7 +1624,7 @@ function migrateFromTaxi(){
 (function(){
   var loadDiv=document.createElement('div');
   loadDiv.id='fb-loading';
-  loadDiv.style.cssText='position:fixed;inset:0;z-index:999999;background:#F0F6F6;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px';
+  loadDiv.style.cssText='position:fixed;inset:0;z-index:999999;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px';
   loadDiv.innerHTML='<div style="font-size:48px">☁️</div><div style="font-size:16px;font-weight:700;color:#0E9F8E">連接雲端資料庫中...</div><div id="fb-load-msg" style="font-size:13px;color:#aaa">請稍候</div>';
   document.body.appendChild(loadDiv);
 

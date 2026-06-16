@@ -8,14 +8,14 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --y:#0E9F8E;--y-light:rgba(14,159,142,.1);--y-mid:rgba(14,159,142,.22);
-  --rd:#CC2222;--bl:#1A6EA8;--or:#C07A1A;--gr:#1A8A3A;
-  --bg:#F0F6F6;--card:#FFFFFF;--mid:#E6F5F3;--bdr:rgba(14,159,142,.16);
-  --ink:#111827;--ink-mid:#4B5563;--ink-light:#8592A3;
+  --y:#0E9F8E;--y-light:rgba(14,159,142,.12);--y-mid:rgba(14,159,142,.22);
+  --rd:#E05555;--bl:#58A6FF;--or:#E6A800;--gr:#2ECC71;
+  --bg:#0D1117;--card:#161B22;--mid:#1C2128;--bdr:#21262D;
+  --ink:#E8EDF4;--ink-mid:#C9D1D9;--ink-light:#8B949E;
 }
 *{box-sizing:border-box}
 body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jakarta Sans','PingFang TC','Microsoft JhengHei',sans-serif;min-height:100vh;font-size:16px;-webkit-font-smoothing:antialiased}
-.main-header{background:#fff;padding:14px 16px 12px;border-bottom:1px solid rgba(14,159,142,.15);position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.main-header{background:var(--card);padding:14px 16px 12px;border-bottom:1px solid rgba(14,159,142,.15);position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .hrow1{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .htitles .sub{font-size:10.5px;color:var(--ink-light);letter-spacing:.06em;text-transform:uppercase;font-weight:500}
 .htitles .main{font-size:18px;font-weight:900;color:var(--y);letter-spacing:-.3px;margin-top:3px;font-family:'Plus Jakarta Sans',sans-serif}
@@ -26,7 +26,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .hstat-num{font-size:20px;font-weight:900;line-height:1;color:var(--ink);font-family:'Plus Jakarta Sans',sans-serif}
 .hstat-lbl{font-size:10px;color:var(--ink-light);letter-spacing:.04em;font-weight:600}
 .hstat-div{width:1px;background:rgba(14,159,142,.2);align-self:stretch;margin:6px 0}
-.nav-tabs{display:flex;gap:3px;background:#fff;border-bottom:1px solid rgba(14,159,142,.15);padding:0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:0;z-index:90;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.nav-tabs{display:flex;gap:3px;background:var(--card);border-bottom:1px solid rgba(14,159,142,.15);padding:0 12px;overflow-x:auto;-webkit-overflow-scrolling:touch;position:sticky;top:0;z-index:90;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .nav-tabs::-webkit-scrollbar{display:none}
 .nav-tab{flex:0 0 auto;padding:12px 14px;border:none;border-bottom:2px solid transparent;margin-bottom:-1px;background:transparent;color:var(--ink-light);font-family:inherit;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .18s}
 .nav-tab.active{color:var(--y);border-bottom-color:var(--y);font-weight:700}
@@ -34,7 +34,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .section{display:none}.section.active{display:block}
 .content{padding:14px 14px 80px;max-width:860px;margin:0 auto}
 .sum-row{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
-.sum-card{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+.sum-card{background:var(--card);border:1px solid rgba(14,159,142,.15);border-radius:12px;padding:14px 16px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
 .sum-card.hl{background:var(--y);border-color:var(--y)}
 .sum-lbl{font-size:11px;font-weight:600;color:var(--ink-light);letter-spacing:.05em;text-transform:uppercase;margin-bottom:5px}
 .sum-card.hl .sum-lbl{color:rgba(255,255,255,.8)}
@@ -42,7 +42,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .sum-card.hl .sum-val{color:#fff}
 .sum-tag{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;font-weight:600;padding:2px 7px;border-radius:4px;margin-top:4px;background:var(--mid);color:var(--y)}
 .sum-card.hl .sum-tag{background:rgba(255,255,255,.2);color:#fff}
-.sec-card{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);margin-bottom:14px;overflow:hidden}
+.sec-card{background:var(--card);border:1px solid rgba(14,159,142,.15);border-radius:12px;box-shadow:0 1px 4px rgba(0,0,0,.05);margin-bottom:14px;overflow:hidden}
 .sec-card-hdr{padding:13px 16px 10px;border-bottom:1px solid rgba(14,159,142,.1);display:flex;align-items:center;gap:9px}
 .sec-card-title{font-size:14px;font-weight:800;color:var(--ink);flex:1}
 .sec-card-badge{font-family:'DM Mono',monospace;font-size:11px;background:var(--mid);color:var(--y);padding:2px 9px;border-radius:20px;font-weight:600}
@@ -78,21 +78,21 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .progress-track{height:5px;background:rgba(14,159,142,.15);border-radius:3px;overflow:hidden}
 .progress-fill{height:100%;border-radius:3px;transition:width .5s ease}
 .ci-actions{display:flex;gap:7px}
-.ci-act-btn{flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--bdr);background:#fff;font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink-mid);cursor:pointer;transition:all .15s}
+.ci-act-btn{flex:1;padding:8px 10px;border-radius:8px;border:1px solid var(--bdr);background:var(--card);font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink-mid);cursor:pointer;transition:all .15s}
 .ci-act-btn:hover{background:var(--y-light);border-color:var(--y);color:var(--y)}
 .ci-act-btn.del:hover{background:rgba(204,34,34,.07);border-color:rgba(204,34,34,.3);color:var(--rd)}
 .empty-state{text-align:center;padding:28px 16px;color:var(--ink-light);font-size:13px}
 .empty-state .emoji{font-size:28px;margin-bottom:8px}
-.add-form{background:#fff;border:1px solid rgba(14,159,142,.15);border-radius:12px;padding:14px 16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.add-form{background:var(--card);border:1px solid rgba(14,159,142,.15);border-radius:12px;padding:14px 16px;margin-bottom:12px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .add-form-title{font-size:13.5px;font-weight:800;color:var(--y);margin-bottom:10px}
 .form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:7px;margin-bottom:10px}
 .form-group{display:flex;flex-direction:column;gap:4px}
 .form-label{font-size:12px;color:#777;font-weight:700}
 .form-input,.form-select{background:var(--mid);border:1.5px solid rgba(14,159,142,.2);border-radius:9px;color:var(--ink);font-family:inherit;font-size:13.5px;padding:9px 11px;outline:none;transition:border-color .15s;width:100%}
-.form-input:focus,.form-select:focus{border-color:var(--y);background:#fff}
+.form-input:focus,.form-select:focus{border-color:var(--y);background:var(--card)}
 .btn-add{background:var(--y);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:inherit;transition:opacity .15s}
 .btn-add:hover{opacity:.88}
-.btn-cancel-sm{background:#fff;color:var(--ink-mid);border:1px solid var(--bdr);border-radius:10px;padding:10px 14px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
+.btn-cancel-sm{background:var(--card);color:var(--ink-mid);border:1px solid var(--bdr);border-radius:10px;padding:10px 14px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit}
 .monthly-panel{background:linear-gradient(135deg,#063d38,#0a5c54);color:#fff;border-radius:12px;padding:14px 16px;margin-bottom:14px}
 .monthly-title{font-size:12px;font-weight:700;opacity:.75;letter-spacing:.05em;margin-bottom:8px}
 .monthly-total{font-size:28px;font-weight:900;font-family:'Plus Jakarta Sans',monospace;color:#7ef5ec;margin-top:4px}
@@ -103,7 +103,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .cat-bar-fill{height:100%;border-radius:4px;transition:width .5s ease}
 .cat-bar-amt{font-size:13px;font-weight:800;color:var(--ink);min-width:70px;text-align:right;font-family:'DM Mono',monospace}
 .ptb{display:flex;gap:7px;flex-wrap:wrap;margin:0 0 12px}
-.ptb-btn{display:flex;align-items:center;gap:4px;padding:7px 13px;background:#fff;border:1.5px solid rgba(14,159,142,.25);border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--ink-mid);cursor:pointer;white-space:nowrap;transition:all .15s}
+.ptb-btn{display:flex;align-items:center;gap:4px;padding:7px 13px;background:var(--card);border:1.5px solid rgba(14,159,142,.25);border-radius:9px;font-family:inherit;font-size:12.5px;font-weight:600;color:var(--ink-mid);cursor:pointer;white-space:nowrap;transition:all .15s}
 .ptb-btn:hover,.ptb-btn.active{background:var(--y-light);border-color:var(--y);color:var(--y)}
 #toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%) translateY(12px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:9px;font-size:13px;font-weight:700;opacity:0;transition:all .25s;z-index:700;pointer-events:none;white-space:nowrap}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -117,7 +117,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   .hstat-num{font-size:22px}
   .hstat-lbl{font-size:11px;margin-top:0}
   .hstat-div{width:1px;height:auto;margin:0;align-self:stretch}
-  .nav-tabs{position:fixed;left:0;top:0;bottom:0;width:190px;flex-direction:column;align-items:stretch;padding:80px 10px 24px;background:#fff;border-right:1px solid rgba(14,159,142,.14);border-bottom:none;overflow-y:auto;overflow-x:hidden;box-shadow:2px 0 12px rgba(0,0,0,.04);gap:3px;z-index:150}
+  .nav-tabs{position:fixed;left:0;top:0;bottom:0;width:190px;flex-direction:column;align-items:stretch;padding:80px 10px 24px;background:var(--card);border-right:1px solid rgba(14,159,142,.14);border-bottom:none;overflow-y:auto;overflow-x:hidden;box-shadow:2px 0 12px rgba(0,0,0,.04);gap:3px;z-index:150}
   .nav-tab{padding:11px 14px;border-bottom:none;border-left:3px solid transparent;margin-bottom:0;border-radius:10px;text-align:left;font-size:13.5px}
   .nav-tab.active{border-bottom:none;border-left-color:var(--y);background:var(--y-light);color:var(--y);font-weight:800}
   .nav-tab:hover:not(.active){border-radius:10px;border-left-color:transparent}
@@ -138,7 +138,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   .sum-row{grid-template-columns:repeat(3,1fr)}
 }
 @media(max-width:767px){
-  .nav-tabs{position:fixed;top:0;left:0;right:0;bottom:auto;display:flex;flex-direction:row;overflow-x:auto;padding:0 2px;background:#fff;border-bottom:1px solid rgba(14,159,142,.15);border-top:none;box-shadow:0 2px 10px rgba(0,0,0,.07);z-index:200;-webkit-overflow-scrolling:touch;height:62px;align-items:stretch;gap:0}
+  .nav-tabs{position:fixed;top:0;left:0;right:0;bottom:auto;display:flex;flex-direction:row;overflow-x:auto;padding:0 2px;background:var(--card);border-bottom:1px solid rgba(14,159,142,.15);border-top:none;box-shadow:0 2px 10px rgba(0,0,0,.07);z-index:200;-webkit-overflow-scrolling:touch;height:62px;align-items:stretch;gap:0}
   .nav-tabs::-webkit-scrollbar{display:none}
   .nav-tab{flex:1 0 auto;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6px 10px 4px;font-size:12px;font-weight:600;border-top:none;border-bottom:3px solid transparent;margin-bottom:0;min-width:68px;max-width:100px;line-height:1.3;gap:1px;white-space:nowrap;text-align:center}
   .nav-tab.active{border-top:none;border-bottom-color:var(--y);color:var(--y);background:var(--y-light);font-weight:800}
@@ -187,7 +187,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   display: flex; align-items: center;
   border-top: 1px solid rgba(14,159,142,.10);
   overflow-x: auto; scrollbar-width: none;
-  background: #fff;
+  background:var(--card);
 }
 .site-nav-bar::-webkit-scrollbar { display: none; }
 .site-nav-home {
