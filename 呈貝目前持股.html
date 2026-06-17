@@ -3582,7 +3582,13 @@ function collectHoldings() {
     divByM: e.divByM, divM: e.divM, dist: e.dist, exM: e.exM
   })) : [];
 
-  return { tw, us, fb, yf, niu: niuRows, plan: planData, savedAt: new Date().toISOString() };
+  // 摘要
+  try {
+    const raw = localStorage.getItem('chengbei_summary_v1');
+    if (raw) data.summary = JSON.parse(raw);
+  } catch(e){}
+
+  return { tw, us, fb, yf, niu: niuRows, plan: planData, summary: data?.summary, savedAt: new Date().toISOString() };
 }
 
 /* ── 儲存到 Firebase ── */
@@ -3655,6 +3661,12 @@ window.fbLoadHoldings = async function() {
           if (p.exM)    planEtfs[idx].exM    = p.exM;
         }
       });
+    }
+
+    // 載入摘要
+    if (data.summary && data.summary.text) {
+      try { localStorage.setItem('chengbei_summary_v1', JSON.stringify(data.summary)); } catch(e){}
+      if (typeof sbRender === 'function') sbRender(data.summary.text, data.summary.time);
     }
 
     window.dispatchEvent(new Event('holdings-ready'));
@@ -5338,10 +5350,11 @@ function sbLoad() {
     } else {
       // 預設摘要
       const defaultText =
-        '📌 最大贏家：00878 國泰永續高股息，持有 48,005 股，獲利 +84.8萬元（+127.68%）\n' +
-        '📉 美股整體小虧 -2,323 元；SATL -18.94%、GEV -9.01% 拖累最大\n' +
-        '✅ 亮點：MU +18.18%、TSM +10.26%、00830 +47.03%、00876 +32.51% 表現強勁\n' +
-        '💰 台股 ETF 整體獲利 +5,762～+11,405 元，報酬率約 6.22%～12.31%';
+        '📌 最大贏家：00878 國泰永續高股息，持有 48,005 股，獲利 +92.8萬元（+139.71%）\n' +
+        '💹 台股亮點：00631L +33.3%、00830 +61.4%、00861 +32.88%、00876 +46.07%、00941 +29.18%\n' +
+        '🇺🇸 美股：MU +27.25%、TSM +14.28% 領漲；SATL -23.68%、GEV -0.13%、RDW -7.03% 拖累\n' +
+        '🆕 新增持股：KLAC 0.1971股、6285 啟碁 130股；貿聯-KY 已出清\n' +
+        '🏦 永豐：00981B 21張（均價9.09）、00981D 21張（均價10.21）月配息合計 2,793元/月';
       sbRender(defaultText, null);
     }
   } catch(e) {
@@ -5356,8 +5369,8 @@ function sbRender(text, time) {
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/\+[\d,.]+%?/g, m => `<span class="highlight-green">${m}</span>`)
     .replace(/-[\d,.]+%/g,  m => `<span class="highlight-red">${m}</span>`)
-    .replace(/(00878|MU|TSM|00830|00876|00631L|00941)/g, m => `<span class="highlight-blue">${m}</span>`)
-    .replace(/(SATL|GEV)/g,  m => `<span class="highlight-red">${m}</span>`);
+    .replace(/(00878|MU|TSM|00830|00876|00631L|00941|KLAC|6285|00861|00876)/g, m => `<span class="highlight-blue">${m}</span>`)
+    .replace(/(SATL|GEV|RDW)/g,  m => `<span class="highlight-red">${m}</span>`);
   el.innerHTML = html;
 
   if (time) {
@@ -5389,7 +5402,9 @@ function saveSbSummary() {
   try { localStorage.setItem(SB_KEY, JSON.stringify({ text, time: now })); } catch(e){}
   sbRender(text, now);
   document.getElementById('sb-editor').classList.remove('open');
-  if(typeof showToast==='function') showToast('✅ 摘要已更新');
+  // 同步到 Firebase
+  if (typeof fbSaveHoldings === 'function') fbSaveHoldings();
+  if(typeof showToast==='function') showToast('✅ 摘要已更新並同步雲端');
 }
 
 // 初始化
