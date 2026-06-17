@@ -3527,158 +3527,138 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
 
 <!-- ══ Firebase loading ══ -->
 <div id="fb-loading" style="display:none"></div>
-<script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
-import { getDatabase, ref, set, get, child } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+<!-- Firebase SDK (compat 版，支援全域呼叫) -->
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
+<script>
+(function() {
+  const firebaseConfig = {
+    apiKey: "AIzaSyDmkQFhE3N-oID3AM57FH08AvxRB-uPz1Q",
+    authDomain: "kevin-apps-3f0d8.firebaseapp.com",
+    databaseURL: "https://kevin-apps-3f0d8-default-rtdb.firebaseio.com",
+    projectId: "kevin-apps-3f0d8",
+    storageBucket: "kevin-apps-3f0d8.firebasestorage.app",
+    messagingSenderId: "218848020635",
+    appId: "1:218848020635:web:3d9758d7f5a4b9b2e29e3e"
+  };
 
-const firebaseConfig = {
-  apiKey: "AIzaSyDmkQFhE3N-oID3AM57FH08AvxRB-uPz1Q",
-  authDomain: "kevin-apps-3f0d8.firebaseapp.com",
-  databaseURL: "https://kevin-apps-3f0d8-default-rtdb.firebaseio.com",
-  projectId: "kevin-apps-3f0d8",
-  storageBucket: "kevin-apps-3f0d8.firebasestorage.app",
-  messagingSenderId: "218848020635",
-  appId: "1:218848020635:web:3d9758d7f5a4b9b2e29e3e"
-};
+  if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+  const db = firebase.database();
+  const HOLDINGS_PATH = 'chengbei/holdings';
 
-const app = initializeApp(firebaseConfig);
-const db  = getDatabase(app);
-const HOLDINGS_PATH = 'chengbei/holdings';
+  /* ── 收集目前所有持股 DOM 資料 ── */
+  function collectHoldings() {
+    const tw = [], us = [], fb = [], yf = [], niuRows = [];
 
-/* ── 收集目前所有持股 DOM 資料 ── */
-function collectHoldings() {
-  const tw = [], us = [], niu = [], yf = [], fb = [];
-
-  // 呈 台股（國泰/富邦以外）
-  document.querySelectorAll('#page-cheng tr[data-code]').forEach(tr => {
-    const sec = tr.closest('tbody')?.dataset?.section || '';
-    const obj = { code: tr.dataset.code, avg: tr.dataset.avg, shares: tr.dataset.shares, section: sec };
-    if (sec === '永豐') yf.push(obj);
-    else if (sec === '富邦') fb.push(obj);
-    else tw.push(obj);
-  });
-
-  // 呈 美股
-  document.querySelectorAll('#page-cheng tr[data-us-code]').forEach(tr => {
-    us.push({
-      code:   tr.dataset.usCode,
-      shares: tr.dataset.usShares,
-      avg:    tr.dataset.usAvg,
-      pnl:    tr.dataset.usPnl,
-      rate:   tr.dataset.usRate,
-      price:  tr.dataset.usPrice
+    document.querySelectorAll('#page-cheng tr[data-code]').forEach(tr => {
+      const sec = tr.closest('tbody')?.dataset?.section || '';
+      const obj = { code: tr.dataset.code, avg: tr.dataset.avg, shares: tr.dataset.shares, section: sec };
+      if (sec === '永豐') yf.push(obj);
+      else if (sec === '富邦') fb.push(obj);
+      else tw.push(obj);
     });
-  });
 
-  // 妞 台股
-  const niuRows = [];
-  document.querySelectorAll('#page-niu tr[data-code]').forEach(tr => {
-    niuRows.push({ code: tr.dataset.code, avg: tr.dataset.avg, shares: tr.dataset.shares });
-  });
+    document.querySelectorAll('#page-cheng tr[data-us-code]').forEach(tr => {
+      us.push({
+        code:   tr.dataset.usCode,
+        shares: tr.dataset.usShares,
+        avg:    tr.dataset.usAvg,
+        pnl:    tr.dataset.usPnl,
+        rate:   tr.dataset.usRate,
+        price:  tr.dataset.usPrice
+      });
+    });
 
-  // 存股計畫
-  const planData = typeof planEtfs !== 'undefined' ? planEtfs.map(e => ({
-    id: e.id, held: e.held, target: e.target, divPu: e.divPu,
-    divByM: e.divByM, divM: e.divM, dist: e.dist, exM: e.exM
-  })) : [];
+    document.querySelectorAll('#page-niu tr[data-code]').forEach(tr => {
+      niuRows.push({ code: tr.dataset.code, avg: tr.dataset.avg, shares: tr.dataset.shares });
+    });
 
-  // 摘要
-  try {
-    const raw = localStorage.getItem('chengbei_summary_v1');
-    if (raw) data.summary = JSON.parse(raw);
-  } catch(e){}
+    const planData = typeof planEtfs !== 'undefined' ? planEtfs.map(e => ({
+      id: e.id, held: e.held, target: e.target, divPu: e.divPu,
+      divByM: e.divByM, divM: e.divM, dist: e.dist, exM: e.exM
+    })) : [];
 
-  return { tw, us, fb, yf, niu: niuRows, plan: planData, summary: data?.summary, savedAt: new Date().toISOString() };
-}
+    let summary = null;
+    try {
+      const raw = localStorage.getItem('chengbei_summary_v1');
+      if (raw) summary = JSON.parse(raw);
+    } catch(e){}
 
-/* ── 儲存到 Firebase ── */
-window.fbSaveHoldings = async function() {
-  try {
-    const data = collectHoldings();
-    await set(ref(db, HOLDINGS_PATH), data);
-    if (typeof showToast === 'function') showToast('✅ 已同步雲端');
-  } catch(e) {
-    console.error('Firebase 儲存失敗', e);
-    if (typeof showToast === 'function') showToast('❌ 雲端儲存失敗：' + e.message);
+    return { tw, us, fb, yf, niu: niuRows, plan: planData, summary, savedAt: new Date().toISOString() };
   }
-};
 
-/* ── 從 Firebase 載入 ── */
-window.fbLoadHoldings = async function() {
-  try {
-    const snap = await get(child(ref(db), HOLDINGS_PATH));
-    if (!snap.exists()) return null;
-    const data = snap.val();
+  /* ── 儲存到 Firebase ── */
+  window.fbSaveHoldings = function() {
+    const data = collectHoldings();
+    db.ref(HOLDINGS_PATH).set(data)
+      .then(() => { if (typeof showToast === 'function') showToast('✅ 已同步雲端'); })
+      .catch(e => { if (typeof showToast === 'function') showToast('❌ 雲端儲存失敗：' + e.message); });
+  };
 
-    // 更新台股（國泰區）
-    (data.tw || []).forEach(d => {
-      const tr = document.querySelector(`#page-cheng tbody:not([data-section]) tr[data-code="${d.code}"],
-        #page-cheng tbody[data-section="國泰"] tr[data-code="${d.code}"]`);
-      if (tr) { tr.dataset.avg = d.avg; tr.dataset.shares = d.shares; }
-    });
+  /* ── 從 Firebase 載入 ── */
+  window.fbLoadHoldings = function() {
+    return db.ref(HOLDINGS_PATH).once('value').then(snap => {
+      if (!snap.exists()) return null;
+      const data = snap.val();
 
-    // 更新富邦區
-    (data.fb || []).forEach(d => {
-      const tr = document.querySelector(`#page-cheng tbody[data-section="富邦"] tr[data-code="${d.code}"]`);
-      if (tr) { tr.dataset.avg = d.avg; tr.dataset.shares = d.shares; }
-    });
-
-    // 更新永豐區
-    (data.yf || []).forEach(d => {
-      const tr = document.querySelector(`#page-cheng tbody[data-section="永豐"] tr[data-code="${d.code}"]`);
-      if (tr) { tr.dataset.avg = d.avg; tr.dataset.shares = d.shares; }
-    });
-
-    // 更新美股
-    (data.us || []).forEach(d => {
-      const tr = document.querySelector(`#page-cheng tr[data-us-code="${d.code}"]`);
-      if (tr) {
-        tr.dataset.usShares = d.shares;
-        tr.dataset.usAvg    = d.avg;
-        if (d.pnl)   tr.dataset.usPnl   = d.pnl;
-        if (d.rate)  tr.dataset.usRate  = d.rate;
-        if (d.price) tr.dataset.usPrice = d.price;
-      }
-    });
-
-    // 更新妞台股
-    (data.niu || []).forEach(d => {
-      const tr = document.querySelector(`#page-niu tr[data-code="${d.code}"]`);
-      if (tr) { tr.dataset.avg = d.avg; tr.dataset.shares = d.shares; }
-    });
-
-    // 更新存股計畫
-    if (data.plan && typeof planEtfs !== 'undefined') {
-      data.plan.forEach(p => {
-        const idx = planEtfs.findIndex(e => e.id === p.id);
-        if (idx >= 0) {
-          planEtfs[idx].held   = p.held   ?? planEtfs[idx].held;
-          planEtfs[idx].target = p.target ?? planEtfs[idx].target;
-          planEtfs[idx].divPu  = p.divPu  ?? planEtfs[idx].divPu;
-          if (p.divByM) planEtfs[idx].divByM = p.divByM;
-          if (p.divM)   planEtfs[idx].divM   = p.divM;
-          if (p.dist)   planEtfs[idx].dist   = p.dist;
-          if (p.exM)    planEtfs[idx].exM    = p.exM;
+      (data.tw || []).forEach(d => {
+        const tr = document.querySelector(`#page-cheng tr[data-code="${d.code}"]`);
+        if (tr && d.section !== '永豐' && d.section !== '富邦') {
+          tr.dataset.avg = d.avg; tr.dataset.shares = d.shares;
         }
       });
-    }
+      (data.fb || []).forEach(d => {
+        const tr = document.querySelector(`#page-cheng tbody[data-section="富邦"] tr[data-code="${d.code}"]`);
+        if (tr) { tr.dataset.avg = d.avg; tr.dataset.shares = d.shares; }
+      });
+      (data.yf || []).forEach(d => {
+        const tr = document.querySelector(`#page-cheng tbody[data-section="永豐"] tr[data-code="${d.code}"]`);
+        if (tr) { tr.dataset.avg = d.avg; tr.dataset.shares = d.shares; }
+      });
+      (data.us || []).forEach(d => {
+        const tr = document.querySelector(`#page-cheng tr[data-us-code="${d.code}"]`);
+        if (tr) {
+          tr.dataset.usShares = d.shares;
+          tr.dataset.usAvg    = d.avg;
+          if (d.pnl)   tr.dataset.usPnl   = d.pnl;
+          if (d.rate)  tr.dataset.usRate  = d.rate;
+          if (d.price) tr.dataset.usPrice = d.price;
+        }
+      });
+      (data.niu || []).forEach(d => {
+        const tr = document.querySelector(`#page-niu tr[data-code="${d.code}"]`);
+        if (tr) { tr.dataset.avg = d.avg; tr.dataset.shares = d.shares; }
+      });
+      if (data.plan && typeof planEtfs !== 'undefined') {
+        data.plan.forEach(p => {
+          const idx = planEtfs.findIndex(e => e.id === p.id);
+          if (idx >= 0) {
+            if (p.held   != null) planEtfs[idx].held   = p.held;
+            if (p.target != null) planEtfs[idx].target = p.target;
+            if (p.divPu  != null) planEtfs[idx].divPu  = p.divPu;
+            if (p.divByM) planEtfs[idx].divByM = p.divByM;
+            if (p.divM)   planEtfs[idx].divM   = p.divM;
+            if (p.dist)   planEtfs[idx].dist   = p.dist;
+            if (p.exM)    planEtfs[idx].exM    = p.exM;
+          }
+        });
+      }
+      if (data.summary && data.summary.text) {
+        try { localStorage.setItem('chengbei_summary_v1', JSON.stringify(data.summary)); } catch(e){}
+        if (typeof sbRender === 'function') sbRender(data.summary.text, data.summary.time);
+      }
 
-    // 載入摘要
-    if (data.summary && data.summary.text) {
-      try { localStorage.setItem('chengbei_summary_v1', JSON.stringify(data.summary)); } catch(e){}
-      if (typeof sbRender === 'function') sbRender(data.summary.text, data.summary.time);
-    }
+      window.dispatchEvent(new Event('holdings-ready'));
+      if (typeof showToast === 'function') showToast('☁️ 雲端資料已載入');
+      return data;
+    }).catch(e => {
+      console.error('Firebase 載入失敗', e);
+      return null;
+    });
+  };
 
-    window.dispatchEvent(new Event('holdings-ready'));
-    if (typeof showToast === 'function') showToast('☁️ 雲端資料已載入');
-    return data;
-  } catch(e) {
-    console.error('Firebase 載入失敗', e);
-    return null;
-  }
-};
-
-console.log('✅ Firebase 已初始化');
+  console.log('✅ Firebase compat 已初始化');
+})();
 </script>
 
 <script>
