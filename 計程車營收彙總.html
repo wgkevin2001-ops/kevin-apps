@@ -25,11 +25,11 @@ body{background:#0D1117;color:#E8EDF4;font-family:'Noto Sans TC',sans-serif;min-
 }
 #pw-icon{font-size:52px;margin-bottom:12px}
 #pw-title{font-size:22px;font-weight:900;color:var(--y);margin-bottom:4px;letter-spacing:.03em}
-#pw-sub{font-size:14px;color:#aaa;margin-bottom:24px}
+#pw-sub{font-size:14px;color:#C9D1D9;margin-bottom:24px}
 #pw-input{
   width:100%;padding:14px 16px;font-size:18px;font-family:inherit;
   background:#1C2128;border:2px solid rgba(26,110,168,.3);border-radius:12px;
-  color:#2A2A2A;outline:none;text-align:center;letter-spacing:.15em;
+  color:#E8EDF4;outline:none;text-align:center;letter-spacing:.15em;
   transition:border-color .2s;
 }
 #pw-input:focus{border-color:var(--y);box-shadow:0 0 0 3px rgba(26,110,168,.12)}
@@ -55,11 +55,11 @@ body{background:#0D1117;color:#E8EDF4;font-family:'Noto Sans TC',sans-serif;min-
 /* HEADER */
 .hdr{text-align:center;margin-bottom:20px}
 .hdr h1{font-size:26px;font-weight:900;color:var(--y);letter-spacing:.05em}
-.hdr p{font-size:15px;color:#888;margin-top:4px}
+.hdr p{font-size:15px;color:#C9D1D9;margin-top:4px}
 
 /* TABS */
 /* .tabs handled by layout CSS */
-.tab{flex:0 0 auto;padding:9px 11px;border:none;border-radius:8px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;background:transparent;color:#999;white-space:nowrap;-webkit-tap-highlight-color:transparent;transition:all .2s}
+.tab{flex:0 0 auto;padding:9px 11px;border:none;border-radius:8px;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;background:transparent;color:#C9D1D9;white-space:nowrap;-webkit-tap-highlight-color:transparent;transition:all .2s}
 .tab.on{background:var(--y);color:#fff;box-shadow:0 2px 8px rgba(26,110,168,.35)}
 .pane{display:none}
 .pane.on{display:block}
@@ -75,13 +75,13 @@ body{background:#0D1117;color:#E8EDF4;font-family:'Noto Sans TC',sans-serif;min-
 .fg{display:grid;gap:10px}
 .two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .field{display:flex;flex-direction:column;gap:5px}
-.field label{font-size:17px;color:#666;font-weight:600}
-.field input,.field select,.field textarea{background:var(--mid);border:1px solid rgba(26,110,168,.3);border-radius:9px;color:#2A2A2A;font-family:inherit;font-size:18px;padding:12px 13px;outline:none;width:100%;transition:border-color .2s}
+.field label{font-size:17px;color:#A0AAB8;font-weight:600}
+.field input,.field select,.field textarea{background:var(--mid);border:1px solid rgba(26,110,168,.3);border-radius:9px;color:#E8EDF4;font-family:inherit;font-size:18px;padding:12px 13px;outline:none;width:100%;transition:border-color .2s}
 .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--y);box-shadow:0 0 0 3px rgba(26,110,168,.12)}
 .field input[type=number]{-moz-appearance:textfield;padding-left:36px}
 .field input[type=number]::-webkit-inner-spin-button,.field input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
 .pfx{position:relative}
-.pfx::before{content:'NT$';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:11px;color:#999;pointer-events:none;z-index:1}
+.pfx::before{content:'NT$';position:absolute;left:11px;top:50%;transform:translateY(-50%);font-size:11px;color:#C9D1D9;pointer-events:none;z-index:1}
 textarea{resize:vertical;min-height:60px;padding:10px 12px!important}
 select option{background:#1C2128;color:#E8EDF4}
 
@@ -89,10 +89,10 @@ select option{background:#1C2128;color:#E8EDF4}
 .prow{display:grid;grid-template-columns:38px 1fr 110px;align-items:center;gap:8px;background:var(--mid);border:1px solid rgba(26,110,168,.18);border-radius:9px;padding:10px 11px}
 .picon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:900;color:#fff;flex-shrink:0}
 .pname{font-size:17px;font-weight:700;color:#E8EDF4}
-.psub{font-size:14px;color:#999;margin-top:1px}
+.psub{font-size:14px;color:#C9D1D9;margin-top:1px}
 .pin{position:relative}
-.pin::before{content:'NT$';position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:10px;color:#999;pointer-events:none}
-.pin input{width:115px;padding:10px 8px 10px 32px;font-size:17px;border-radius:8px;background:var(--wh);border:1px solid rgba(26,110,168,.3);color:#2A2A2A;font-family:inherit;outline:none}
+.pin::before{content:'NT$';position:absolute;left:9px;top:50%;transform:translateY(-50%);font-size:10px;color:#C9D1D9;pointer-events:none}
+.pin input{width:115px;padding:10px 8px 10px 32px;font-size:17px;border-radius:8px;background:var(--wh);border:1px solid rgba(26,110,168,.3);color:#E8EDF4;font-family:inherit;outline:none}
 .pin input:focus{border-color:var(--y)}
 .pin input[type=number]{-moz-appearance:textfield}
 .pin input[type=number]::-webkit-inner-spin-button,.pin input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none}
@@ -100,7 +100,7 @@ select option{background:#1C2128;color:#E8EDF4}
 /* SUMMARY ROWS */
 .srow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid rgba(26,110,168,.1)}
 .srow:last-child{border-bottom:none}
-.srow .lbl{font-size:16px;color:#666}
+.srow .lbl{font-size:16px;color:#A0AAB8}
 .srow .val{font-size:16px;font-weight:600}
 .val.g{color:var(--gr)}.val.r{color:var(--rd)}.val.y{color:var(--y);font-size:24px;font-weight:800}
 .dvdr{height:1px;background:rgba(26,110,168,.12);margin:4px 0}
@@ -118,45 +118,45 @@ select option{background:#1C2128;color:#E8EDF4}
 
 /* HISTORY */
 .hitem{background:var(--mid);border:1px solid rgba(26,110,168,.15);border-radius:9px;padding:12px 14px;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:9px;margin-bottom:8px}
-.hdate{font-size:13px;color:#888}
+.hdate{font-size:13px;color:#C9D1D9}
 .hinc{font-size:14px;color:var(--gr);font-weight:600}
-.hcost{font-size:12px;color:#aaa;margin-top:2px}
+.hcost{font-size:12px;color:#C9D1D9;margin-top:2px}
 .hnet{font-size:16px;font-weight:700;text-align:right}
 .pills{display:flex;flex-wrap:wrap;gap:3px;margin-top:2px}
 .pill{font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px}
-.empty{text-align:center;color:#aaa;font-size:16px;padding:24px 0}
+.empty{text-align:center;color:#C9D1D9;font-size:16px;padding:24px 0}
 
 /* MONTH GRID */
 .mgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .mcard{background:var(--mid);border:1px solid rgba(26,110,168,.15);border-radius:11px;padding:12px}
 .mcard.has{border-color:rgba(26,110,168,.3)}.mcard.cur{border-color:var(--y);box-shadow:0 0 0 2px rgba(26,110,168,.15)}
-.mname{font-size:15px;font-weight:700;color:#2A2A2A;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center}
+.mname{font-size:15px;font-weight:700;color:#E8EDF4;margin-bottom:5px;display:flex;justify-content:space-between;align-items:center}
 .mbdg{font-size:9px;background:var(--y);color:#fff;padding:1px 5px;border-radius:3px;font-weight:700}
 .mnet{font-size:17px;font-weight:700}
-.mdtl{font-size:12px;color:#888;margin-top:2px}
+.mdtl{font-size:12px;color:#C9D1D9;margin-top:2px}
 
 /* INSPECTION */
 .icard{background:var(--mid);border-radius:10px;padding:12px;margin-bottom:8px;border-left:3px solid #ccc}
 .icard.urg{border-left-color:var(--rd)}.icard.soon{border-left-color:#E67E00}.icard.ok{border-left-color:var(--gr)}
-.ittl{font-size:15px;font-weight:700;color:#2A2A2A;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
+.ittl{font-size:15px;font-weight:700;color:#E8EDF4;margin-bottom:4px;display:flex;justify-content:space-between;align-items:center}
 .ibdg{font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px}
 .ibdg.urg{background:var(--rd);color:#fff}.ibdg.soon{background:#E67E00;color:#fff}.ibdg.ok{background:var(--gr);color:#fff}.ibdg.done{background:#aaa;color:#fff}
-.idate{font-size:13px;color:#888;margin-bottom:5px}
+.idate{font-size:13px;color:#C9D1D9;margin-bottom:5px}
 .iwin{font-size:13px;color:var(--bl);font-weight:600;margin-bottom:4px}
-.idocs{font-size:13px;color:#666;line-height:1.8}
-.inote{font-size:12px;color:#999;margin-top:4px;font-style:italic}
+.idocs{font-size:13px;color:#A0AAB8;line-height:1.8}
+.inote{font-size:12px;color:#C9D1D9;margin-top:4px;font-style:italic}
 .iloc{font-size:12px;color:var(--bl);margin-top:4px}
 .cdbox{background:var(--mid);border:2px solid var(--rd);border-radius:12px;padding:14px;margin-bottom:14px;text-align:center}
 .cdnum{font-size:46px;font-weight:900}
-.cdlbl{font-size:15px;color:#888;margin-top:3px}
+.cdlbl{font-size:15px;color:#C9D1D9;margin-top:3px}
 
 /* QUERY LINKS */
 .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .qlink{display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--mid);border:1px solid var(--bdr);border-radius:10px;padding:14px 8px;text-decoration:none;-webkit-tap-highlight-color:transparent}
 .qlink:active{opacity:.7}
 .qicon{font-size:26px;margin-bottom:5px}
-.qname{font-size:14px;font-weight:700;color:#2A2A2A;text-align:center;line-height:1.4}
-.qsub{font-size:12px;color:#888;margin-top:3px}
+.qname{font-size:14px;font-weight:700;color:#E8EDF4;text-align:center;line-height:1.4}
+.qsub{font-size:12px;color:#C9D1D9;margin-top:3px}
 
 /* TOAST */
 .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(90px);background:var(--y);color:#fff;padding:12px 24px;border-radius:100px;font-size:15px;font-weight:700;transition:transform .35s cubic-bezier(.34,1.56,.64,1);z-index:9999;white-space:nowrap}
@@ -171,7 +171,7 @@ select option{background:#1C2128;color:#E8EDF4}
 /* MONTHLY STATS */
 .stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
 .stat-box{background:var(--mid);border-radius:9px;padding:11px;text-align:center}
-.stat-lbl{font-size:12px;color:#888;margin-bottom:3px}
+.stat-lbl{font-size:12px;color:#C9D1D9;margin-bottom:3px}
 .stat-val{font-size:16px;font-weight:700}
 
 /* 年月折疊 */
@@ -194,7 +194,7 @@ select option{background:#1C2128;color:#E8EDF4}
 
 .top-bar{display:flex;align-items:center;gap:4px;background:#0A0E14;border-bottom:1px solid #1C2128;padding:0 16px;height:48px;position:sticky;top:0;z-index:200;overflow-x:auto;scrollbar-width:none}
 .top-bar::-webkit-scrollbar{display:none}
-.top-bar-link{display:flex;align-items:center;gap:6px;color:#6E7681;font-size:13px;font-weight:700;text-decoration:none;padding:6px 13px;border-radius:8px;white-space:nowrap;transition:all .15s;flex-shrink:0}
+.top-bar-link{display:flex;align-items:center;gap:6px;color:#A0AAB8;font-size:13px;font-weight:700;text-decoration:none;padding:6px 13px;border-radius:8px;white-space:nowrap;transition:all .15s;flex-shrink:0}
 .top-bar-link:hover{color:#C9D1D9;background:#161B22}
 .top-bar-link.active{color:#58A6FF;background:rgba(88,166,255,.1)}
 .top-bar-divider{width:1px;height:22px;background:#21262D;flex-shrink:0;margin:0 4px}
@@ -320,7 +320,6 @@ select option{background:#1C2128;color:#E8EDF4}
   <button class="tab" onclick="go('export')"><span class="tab-icon">📤</span>匯出</button>
   <button class="tab" onclick="go('inspect')"><span class="tab-icon">🔔</span>審驗</button>
   <button class="tab" onclick="go('query')"><span class="tab-icon">🔍</span>查詢</button>
-  <button class="tab" onclick="go('maint')"><span class="tab-icon">🔧</span>保養</button>
   <button class="tab" onclick="go('parttime')"><span class="tab-icon">💼</span>兼職</button>
 </nav>
 <div class="content-area">
@@ -331,7 +330,6 @@ select option{background:#1C2128;color:#E8EDF4}
   <button class="tab" onclick="go('export')">📤 匯出</button>
   <button class="tab" onclick="go('inspect')">🔔 審驗</button>
   <button class="tab" onclick="go('query')">🔍 查詢</button>
-  <button class="tab" onclick="go('maint')">🔧 保養</button>
   <button class="tab" onclick="go('parttime')">💼 兼職</button>
 </div>
 
@@ -371,7 +369,7 @@ select option{background:#1C2128;color:#E8EDF4}
         <div class="field">
           <label style="display:flex;justify-content:space-between">🅿️ 停車費 <span id="park-badge" style="font-size:10px;background:var(--bl);color:#fff;padding:1px 6px;border-radius:3px;font-weight:700">自動</span></label>
           <div class="pfx"><input type="number" id="i-park" min="0" oninput="onPark()" style="border-color:rgba(26,110,168,.4)"></div>
-          <div id="park-hint" style="font-size:10px;color:#aaa;margin-top:2px">季均8,000÷91天≈88元/天</div>
+          <div id="park-hint" style="font-size:10px;color:#C9D1D9;margin-top:2px">季均8,000÷91天≈88元/天</div>
         </div>
       </div>
       <div class="two">
@@ -398,9 +396,9 @@ select option{background:#1C2128;color:#E8EDF4}
     <div class="srow"><span class="lbl" style="font-weight:700">📊 總支出</span><span class="val r" id="s-exp">-NT$ 0</span></div>
     <div class="dvdr"></div>
     <div class="srow" style="padding-top:12px"><span class="lbl" style="color:var(--y);font-weight:700;font-size:14px">🏆 今日實際淨利</span><span class="val y" id="s-net">NT$ 0</span></div>
-    <div style="font-size:12px;color:#888;margin-top:6px">利潤率</div>
+    <div style="font-size:12px;color:#C9D1D9;margin-top:6px">利潤率</div>
     <div class="pbar"><div class="pbar-fill" id="pbar"></div></div>
-    <div style="font-size:12px;color:#888;text-align:right;margin-top:3px" id="pbar-pct">0%</div>
+    <div style="font-size:12px;color:#C9D1D9;text-align:right;margin-top:3px" id="pbar-pct">0%</div>
 
     <!-- 本月累計 -->
     <div style="margin-top:14px;padding-top:14px;border-top:1px solid rgba(26,110,168,.15)">
@@ -448,21 +446,21 @@ select option{background:#1C2128;color:#E8EDF4}
       <button class="btn sm" onclick="copyJSON()" style="background:#888">📋 複製 JSON</button>
       <button class="btn sm" onclick="exportJSON()" style="background:#aaa">💾 下載 JSON</button>
     </div>
-    <div style="font-size:11px;color:#aaa;margin-top:9px;line-height:1.9;background:var(--mid);border-radius:8px;padding:9px 11px">
-      <div style="font-weight:700;color:#888;margin-bottom:4px">📌 備份方式說明</div>
+    <div style="font-size:11px;color:#C9D1D9;margin-top:9px;line-height:1.9;background:var(--mid);border-radius:8px;padding:9px 11px">
+      <div style="font-weight:700;color:#C9D1D9;margin-bottom:4px">📌 備份方式說明</div>
       <b style="color:#1A8A3A">📊 Excel 用途：</b>正式備份、每月月底備份、換版本搬資料，可用電腦 Excel/Google Sheets 開啟查看編輯<br>
       <b style="color:#1A6EA8">📋 JSON 用途：</b>換手機前快速備份、無法存檔時複製後傳給自己（LINE/Email 都可），離線狀態也能用，不需載入外部程式
       <div style="height:1px;background:rgba(26,110,168,.2);margin:8px 0"></div>
-      <div style="font-weight:700;color:#888;margin-bottom:4px">🔄 換新版本流程</div>
-      <div style="color:#666;line-height:2">
+      <div style="font-weight:700;color:#C9D1D9;margin-bottom:4px">🔄 換新版本流程</div>
+      <div style="color:#A0AAB8;line-height:2">
         ① 此頁按「📊 匯出 Excel」→ 存到 Google Drive<br>
         ② 下載新版 HTML → 存到手機本機<br>
         ③ Chrome 開啟新版 → 「📥 匯入 Excel」選擇剛才的檔案<br>
         ④ 確認營收＋保養記錄筆數正確 ✅<br>
         ⑤ 新版 HTML 也上傳 Google Drive 備份替換舊版
       </div>
-      <div style="margin-top:6px;color:#aaa">
-        ⚠️ Google Drive 內的 HTML <b style="color:#2A2A2A">不能直接開啟</b>，需先下載到手機再用 Chrome 開啟
+      <div style="margin-top:6px;color:#C9D1D9">
+        ⚠️ Google Drive 內的 HTML <b style="color:#E8EDF4">不能直接開啟</b>，需先下載到手機再用 Chrome 開啟
       </div>
     </div>
   </div>
@@ -478,10 +476,10 @@ select option{background:#1C2128;color:#E8EDF4}
   </div>
 
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <span style="font-size:12px;font-weight:700;color:#888;letter-spacing:.1em;text-transform:uppercase">📋 所有記錄</span>
+    <span style="font-size:12px;font-weight:700;color:#C9D1D9;letter-spacing:.1em;text-transform:uppercase">📋 所有記錄</span>
     <div style="display:flex;gap:8px">
       <button onclick="document.getElementById('import-box').style.display='block'" style="font-size:12px;color:var(--bl);background:none;border:none;cursor:pointer;font-weight:700;-webkit-tap-highlight-color:transparent">📥 JSON匯入</button>
-      <button onclick="clearAll()" style="font-size:12px;color:#aaa;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;text-decoration:underline">清除全部</button>
+      <button onclick="clearAll()" style="font-size:12px;color:#C9D1D9;background:none;border:none;cursor:pointer;-webkit-tap-highlight-color:transparent;text-decoration:underline">清除全部</button>
     </div>
   </div>
   <div id="hist-list"><div class="empty">尚無記錄</div></div>
@@ -492,13 +490,13 @@ select option{background:#1C2128;color:#E8EDF4}
   <div class="card t-y">
     <div class="slbl">2026 年度淨利彙總</div>
     <div style="background:var(--mid);border:1px solid var(--bdr);border-radius:12px;padding:16px;margin-bottom:14px;text-align:center">
-      <div style="font-size:12px;color:#888;margin-bottom:4px">2026 全年累計淨利</div>
+      <div style="font-size:12px;color:#C9D1D9;margin-bottom:4px">2026 全年累計淨利</div>
       <div style="font-size:34px;font-weight:900" id="y-net">NT$ 0</div>
-      <div style="font-size:12px;color:#aaa;margin-top:4px" id="y-sub">共 0 筆記錄</div>
+      <div style="font-size:12px;color:#C9D1D9;margin-top:4px" id="y-sub">共 0 筆記錄</div>
     </div>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
-      <div style="background:rgba(26,138,58,.08);border:1px solid rgba(26,138,58,.2);border-radius:9px;padding:11px;text-align:center"><div style="font-size:10px;color:#888;margin-bottom:3px">全年總收入</div><div style="font-size:15px;font-weight:700;color:var(--gr)" id="y-inc">NT$ 0</div></div>
-      <div style="background:rgba(204,34,34,.08);border:1px solid rgba(204,34,34,.2);border-radius:9px;padding:11px;text-align:center"><div style="font-size:10px;color:#888;margin-bottom:3px">全年總支出</div><div style="font-size:15px;font-weight:700;color:var(--rd)" id="y-exp">NT$ 0</div></div>
+      <div style="background:rgba(26,138,58,.08);border:1px solid rgba(26,138,58,.2);border-radius:9px;padding:11px;text-align:center"><div style="font-size:10px;color:#C9D1D9;margin-bottom:3px">全年總收入</div><div style="font-size:15px;font-weight:700;color:var(--gr)" id="y-inc">NT$ 0</div></div>
+      <div style="background:rgba(204,34,34,.08);border:1px solid rgba(204,34,34,.2);border-radius:9px;padding:11px;text-align:center"><div style="font-size:10px;color:#C9D1D9;margin-bottom:3px">全年總支出</div><div style="font-size:15px;font-weight:700;color:var(--rd)" id="y-exp">NT$ 0</div></div>
     </div>
     <div class="mgrid" id="mgrid"></div>
   </div>
@@ -508,7 +506,7 @@ select option{background:#1C2128;color:#E8EDF4}
 <div class="pane" id="pane-export">
   <div class="card t-bl">
     <div class="slbl">匯出至 2026_年度開銷記錄表</div>
-    <div style="background:rgba(26,110,168,.1);border:1px solid rgba(26,110,168,.2);border-radius:9px;padding:11px;margin-bottom:12px;font-size:11px;color:#888;line-height:1.8">1. 選擇月份 → 2. 點「產生內容」→ 3. 複製 → 4. 開啟 Google Sheet →「年度收入記錄」→「計程車月淨利」欄位貼上</div>
+    <div style="background:rgba(26,110,168,.1);border:1px solid rgba(26,110,168,.2);border-radius:9px;padding:11px;margin-bottom:12px;font-size:11px;color:#C9D1D9;line-height:1.8">1. 選擇月份 → 2. 點「產生內容」→ 3. 複製 → 4. 開啟 Google Sheet →「年度收入記錄」→「計程車月淨利」欄位貼上</div>
     <div class="field" style="margin-bottom:10px">
       <label>選擇匯出月份</label>
       <select id="exp-mo" style="padding-left:12px">
@@ -520,8 +518,8 @@ select option{background:#1C2128;color:#E8EDF4}
     </div>
     <button class="btn" style="margin-top:0;margin-bottom:12px" onclick="genExp()">🔄 產生匯出內容</button>
     <div id="exp-out" style="display:none">
-      <div style="font-size:12px;color:#666;margin-bottom:5px;font-weight:700">貼到 Google Sheet 的數值：</div>
-      <div id="exp-pre" style="background:var(--mid);border-radius:9px;padding:13px;font-size:13px;line-height:1.9;white-space:pre-wrap;color:#2A2A2A;border:1px solid rgba(26,110,168,.2)"></div>
+      <div style="font-size:12px;color:#A0AAB8;margin-bottom:5px;font-weight:700">貼到 Google Sheet 的數值：</div>
+      <div id="exp-pre" style="background:var(--mid);border-radius:9px;padding:13px;font-size:13px;line-height:1.9;white-space:pre-wrap;color:#E8EDF4;border:1px solid rgba(26,110,168,.2)"></div>
       <button class="btn bl" style="margin-top:9px" onclick="copyExp()">📋 一鍵複製</button>
       <div id="exp-guide" style="margin-top:12px"></div>
     </div>
@@ -544,11 +542,11 @@ select option{background:#1C2128;color:#E8EDF4}
       <div class="card t-rd">
     <div class="slbl">TDZ-0950 審驗到期總覽</div>
     <div class="cdbox">
-      <div style="font-size:12px;color:#888;margin-bottom:3px">⚠️ 最近到期項目</div>
+      <div style="font-size:12px;color:#C9D1D9;margin-bottom:3px">⚠️ 最近到期項目</div>
       <div style="font-size:14px;font-weight:700;color:var(--y);margin-bottom:5px" id="cd-name">—</div>
       <div class="cdnum" id="cd-days" style="color:var(--rd)">—</div>
       <div class="cdlbl">距離到期還有（天）</div>
-      <div style="font-size:12px;color:#aaa;margin-top:3px" id="cd-date"></div>
+      <div style="font-size:12px;color:#C9D1D9;margin-top:3px" id="cd-date"></div>
     </div>
     <div id="ilist"></div>
   </div>
@@ -566,21 +564,21 @@ select option{background:#1C2128;color:#E8EDF4}
     <div style="display:flex;flex-direction:column;gap:8px">
       <div class="icard ok" style="border-left:none;border-top:2px solid var(--y)">
         <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:5px">📋 執業登記證審驗（年審）</div>
-        <div style="font-size:12px;color:#666;line-height:1.9">✅ 身分證 正本<br>✅ 職業駕照 正本<br>✅ 執業登記證及副證 正本<br>✅ 行車執照 正本<br><span style="color:#aaa">＊換證加：2吋白底照片×2＋200元（需本人）</span></div>
+        <div style="font-size:12px;color:#A0AAB8;line-height:1.9">✅ 身分證 正本<br>✅ 職業駕照 正本<br>✅ 執業登記證及副證 正本<br>✅ 行車執照 正本<br><span style="color:#C9D1D9">＊換證加：2吋白底照片×2＋200元（需本人）</span></div>
         <div style="font-size:11px;color:var(--bl);margin-top:5px">📍 台北市警察局交通大隊｜愛國西路26號｜(02)2375-2100</div>
       </div>
       <div class="icard ok" style="border-left:none;border-top:2px solid var(--y)">
         <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:5px">📋 職業小客車駕照審驗（3年）</div>
-        <div style="font-size:12px;color:#666;line-height:1.9">✅ 身分證 正本<br>✅ 職業駕照 正本<br>✅ 體格檢查合格書（有效期3個月）<br>✅ 1吋彩色照片×2（到期1個月內才需要）<br><span style="color:#E67E00">⚠️ 體檢請提早2週，可至監理站對面診所</span></div>
+        <div style="font-size:12px;color:#A0AAB8;line-height:1.9">✅ 身分證 正本<br>✅ 職業駕照 正本<br>✅ 體格檢查合格書（有效期3個月）<br>✅ 1吋彩色照片×2（到期1個月內才需要）<br><span style="color:#E67E00">⚠️ 體檢請提早2週，可至監理站對面診所</span></div>
         <div style="font-size:11px;color:var(--bl);margin-top:5px">📍 臺北市區監理所｜八德路4段21號｜(02)2763-0155</div>
       </div>
       <div class="icard ok" style="border-left:none;border-top:2px solid var(--y)">
         <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:5px">📋 驗車（年驗；滿5年後半年驗）</div>
-        <div style="font-size:12px;color:#666;line-height:1.9">✅ 先續保強制險（必要）<br>✅ 行車執照、強制險保單<br><span style="color:#aaa">逾期罰900–1800元，逾期6個月註銷牌照</span></div>
+        <div style="font-size:12px;color:#A0AAB8;line-height:1.9">✅ 先續保強制險（必要）<br>✅ 行車執照、強制險保單<br><span style="color:#C9D1D9">逾期罰900–1800元，逾期6個月註銷牌照</span></div>
       </div>
       <div class="icard ok" style="border-left:none;border-top:2px solid var(--rd)">
         <div style="font-size:13px;font-weight:700;color:var(--rd);margin-bottom:5px">📋 驗錶（每2年）</div>
-        <div style="font-size:12px;color:#666;line-height:1.9">✅ 行車執照、計程車錶<br><span style="color:var(--rd)">⚠️ 逾期罰15,000–75,000元！</span><br>📍 士林檢驗場</div>
+        <div style="font-size:12px;color:#A0AAB8;line-height:1.9">✅ 行車執照、計程車錶<br><span style="color:var(--rd)">⚠️ 逾期罰15,000–75,000元！</span><br>📍 士林檢驗場</div>
       </div>
     </div>
   </div>
@@ -604,65 +602,65 @@ select option{background:#1C2128;color:#E8EDF4}
     <details style="margin-bottom:8px" open>
       <summary style="cursor:pointer;background:var(--mid);border-radius:8px;padding:11px 13px;font-size:14px;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;-webkit-tap-highlight-color:transparent">🛡️ 保單一｜團體福利意外保險 <span style="color:var(--gr);font-size:13px">100元/月</span></summary>
       <div style="border:1px solid rgba(26,110,168,.15);border-radius:0 0 8px 8px;padding:11px;margin-top:2px">
-        <div style="font-size:11px;color:#aaa;margin-bottom:7px">方案3.3-24｜意外事故適用，非疾病</div>
+        <div style="font-size:11px;color:#C9D1D9;margin-bottom:7px">方案3.3-24｜意外事故適用，非疾病</div>
         <div style="font-size:12px;font-weight:700;color:var(--y);margin-bottom:4px">身故失能</div>
         <div style="display:flex;flex-direction:column;gap:2px;margin-bottom:8px">
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#666">特定意外身故（含搭機）</span><span style="font-weight:700">300萬</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#666">特定意外身故（陸海/火災地震）</span><span style="font-weight:700">200萬</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#666">一般意外身故</span><span style="font-weight:700">100萬</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#666">一般意外失能（依等級）</span><span style="font-weight:700">5～100萬</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#666">重大燒燙傷（依等級）</span><span style="font-weight:700">15～100萬</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#A0AAB8">特定意外身故（含搭機）</span><span style="font-weight:700">300萬</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#A0AAB8">特定意外身故（陸海/火災地震）</span><span style="font-weight:700">200萬</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#A0AAB8">一般意外身故</span><span style="font-weight:700">100萬</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#A0AAB8">一般意外失能（依等級）</span><span style="font-weight:700">5～100萬</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#A0AAB8">重大燒燙傷（依等級）</span><span style="font-weight:700">15～100萬</span></div>
         </div>
         <div style="font-size:12px;font-weight:700;color:var(--y);margin-bottom:4px">意外醫療</div>
         <div style="display:flex;flex-direction:column;gap:2px">
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#666">住院日額（年最高120日）</span><span style="font-weight:700">1,000元/日</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#666">加護病房（年最高14日）</span><span style="font-weight:700">2,000元/日</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#666">意外醫療實支實付</span><span style="font-weight:700">10,000元</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#666">意外手術</span><span style="font-weight:700">2萬元</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#A0AAB8">住院日額（年最高120日）</span><span style="font-weight:700">1,000元/日</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#A0AAB8">加護病房（年最高14日）</span><span style="font-weight:700">2,000元/日</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#A0AAB8">意外醫療實支實付</span><span style="font-weight:700">10,000元</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px"><span style="color:#A0AAB8">意外手術</span><span style="font-weight:700">2萬元</span></div>
         </div>
       </div>
     </details>
     <details style="margin-bottom:8px">
       <summary style="cursor:pointer;background:var(--mid);border-radius:8px;padding:11px 13px;font-size:14px;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;-webkit-tap-highlight-color:transparent">🏥 保單二｜專屬團保 A 計畫 <span style="color:var(--bl);font-size:13px">本人300/眷屬200元/月</span></summary>
       <div style="border:1px solid rgba(26,110,168,.15);border-radius:0 0 8px 8px;padding:11px;margin-top:2px">
-        <div style="font-size:11px;color:#aaa;margin-bottom:7px">生效112.03.01｜限職業類別1-4類</div>
+        <div style="font-size:11px;color:#C9D1D9;margin-bottom:7px">生效112.03.01｜限職業類別1-4類</div>
         <div style="display:grid;grid-template-columns:1fr 60px 70px;gap:3px;margin-bottom:4px;padding:0 8px">
-          <div style="font-size:10px;color:#aaa">險種</div><div style="font-size:10px;color:var(--bl);text-align:center">本人</div><div style="font-size:10px;color:#888;text-align:center">配偶/子女</div>
+          <div style="font-size:10px;color:#C9D1D9">險種</div><div style="font-size:10px;color:var(--bl);text-align:center">本人</div><div style="font-size:10px;color:#C9D1D9;text-align:center">配偶/子女</div>
         </div>
         <div style="display:flex;flex-direction:column;gap:2px">
-          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#666">① 疾病身故（定期）</span><span style="color:var(--bl);font-weight:700;text-align:center">15萬</span><span style="color:#aaa;text-align:center">—</span></div>
-          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#666">② 罹患重大疾病</span><span style="color:var(--bl);font-weight:700;text-align:center">2萬</span><span style="font-weight:700;text-align:center">2萬</span></div>
-          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#666">③ 意外身故（傷害）</span><span style="color:var(--bl);font-weight:700;text-align:center">100萬</span><span style="font-weight:700;text-align:center">60萬</span></div>
-          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#666">④ 疾病住院（年最高90日）</span><span style="color:var(--bl);font-weight:700;text-align:center">500元</span><span style="font-weight:700;text-align:center">500元</span></div>
-          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#666">⑤ 傷害醫療實支實付</span><span style="color:var(--bl);font-weight:700;text-align:center">10,000</span><span style="font-weight:700;text-align:center">10,000</span></div>
-          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#666">⑥ 意外住院（年最高90日）</span><span style="color:var(--bl);font-weight:700;text-align:center">500元</span><span style="font-weight:700;text-align:center">500元</span></div>
-          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#666">⑦ 癌症住院（年最高90日）</span><span style="color:var(--bl);font-weight:700;text-align:center">500元</span><span style="font-weight:700;text-align:center">500元</span></div>
-          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#666">　手術治療金（非原位癌）</span><span style="color:var(--bl);font-weight:700;text-align:center">7,500</span><span style="font-weight:700;text-align:center">7,500</span></div>
+          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#A0AAB8">① 疾病身故（定期）</span><span style="color:var(--bl);font-weight:700;text-align:center">15萬</span><span style="color:#C9D1D9;text-align:center">—</span></div>
+          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#A0AAB8">② 罹患重大疾病</span><span style="color:var(--bl);font-weight:700;text-align:center">2萬</span><span style="font-weight:700;text-align:center">2萬</span></div>
+          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#A0AAB8">③ 意外身故（傷害）</span><span style="color:var(--bl);font-weight:700;text-align:center">100萬</span><span style="font-weight:700;text-align:center">60萬</span></div>
+          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#A0AAB8">④ 疾病住院（年最高90日）</span><span style="color:var(--bl);font-weight:700;text-align:center">500元</span><span style="font-weight:700;text-align:center">500元</span></div>
+          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#A0AAB8">⑤ 傷害醫療實支實付</span><span style="color:var(--bl);font-weight:700;text-align:center">10,000</span><span style="font-weight:700;text-align:center">10,000</span></div>
+          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#A0AAB8">⑥ 意外住院（年最高90日）</span><span style="color:var(--bl);font-weight:700;text-align:center">500元</span><span style="font-weight:700;text-align:center">500元</span></div>
+          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#A0AAB8">⑦ 癌症住院（年最高90日）</span><span style="color:var(--bl);font-weight:700;text-align:center">500元</span><span style="font-weight:700;text-align:center">500元</span></div>
+          <div style="display:grid;grid-template-columns:1fr 60px 70px;padding:5px 9px;background:var(--mid);border-radius:5px;font-size:12px;gap:3px"><span style="color:#A0AAB8">　手術治療金（非原位癌）</span><span style="color:var(--bl);font-weight:700;text-align:center">7,500</span><span style="font-weight:700;text-align:center">7,500</span></div>
         </div>
-        <div style="margin-top:7px;font-size:11px;color:#aaa">💡 意外＋定期身故合計最高115萬｜疾病＋意外住院合計1,000元/日</div>
+        <div style="margin-top:7px;font-size:11px;color:#C9D1D9">💡 意外＋定期身故合計最高115萬｜疾病＋意外住院合計1,000元/日</div>
       </div>
     </details>
     <details>
       <summary style="cursor:pointer;background:var(--mid);border-radius:8px;padding:11px 13px;font-size:14px;font-weight:700;list-style:none;display:flex;justify-content:space-between;align-items:center;-webkit-tap-highlight-color:transparent">🤝 保單三｜互助保險福利專案 <span style="color:#E67E00;font-size:12px">每年繳</span></summary>
       <div style="border:1px solid rgba(26,110,168,.15);border-radius:0 0 8px 8px;padding:11px;margin-top:2px">
-        <div style="font-size:11px;color:#aaa;margin-bottom:7px">承辦：興華保險經紀人（友聯產險）｜(02)2331-8288</div>
+        <div style="font-size:11px;color:#C9D1D9;margin-bottom:7px">承辦：興華保險經紀人（友聯產險）｜(02)2331-8288</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
           <div style="background:var(--mid);border-radius:7px;padding:9px;border-top:2px solid var(--gr)">
-            <div style="font-size:12px;font-weight:700;color:var(--gr);margin-bottom:6px;text-align:center">計畫一<br><span style="font-size:10px;color:#aaa;font-weight:400">一般會員</span></div>
+            <div style="font-size:12px;font-weight:700;color:var(--gr);margin-bottom:6px;text-align:center">計畫一<br><span style="font-size:10px;color:#C9D1D9;font-weight:400">一般會員</span></div>
             <div style="display:flex;flex-direction:column;gap:2px">
-              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#888">癌症身故（等待60天）</div><div style="font-weight:700">1萬元</div></div>
-              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#888">意外身故</div><div style="font-weight:700">12萬元</div></div>
-              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#888">疾病/意外住院（最長365日）</div><div style="font-weight:700">300元/日</div></div>
-              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#888">加護病房（最長45日）</div><div style="font-weight:700">600元/日</div></div>
+              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#C9D1D9">癌症身故（等待60天）</div><div style="font-weight:700">1萬元</div></div>
+              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#C9D1D9">意外身故</div><div style="font-weight:700">12萬元</div></div>
+              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#C9D1D9">疾病/意外住院（最長365日）</div><div style="font-weight:700">300元/日</div></div>
+              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#C9D1D9">加護病房（最長45日）</div><div style="font-weight:700">600元/日</div></div>
             </div>
           </div>
           <div style="background:var(--mid);border-radius:7px;padding:9px;border-top:2px solid #E67E00">
-            <div style="font-size:12px;font-weight:700;color:#E67E00;margin-bottom:6px;text-align:center">計畫二<br><span style="font-size:10px;color:#aaa;font-weight:400">曾罹重大疾病</span></div>
+            <div style="font-size:12px;font-weight:700;color:#E67E00;margin-bottom:6px;text-align:center">計畫二<br><span style="font-size:10px;color:#C9D1D9;font-weight:400">曾罹重大疾病</span></div>
             <div style="display:flex;flex-direction:column;gap:2px">
-              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#888">意外身故</div><div style="font-weight:700">15萬元</div></div>
-              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#888">意外住院（最長90日）</div><div style="font-weight:700">500元/日</div></div>
-              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#888">加護/燒燙傷（最長45日）</div><div style="font-weight:700">1,500元/日</div></div>
-              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#888">骨折未住院（最高1.5萬）</div><div style="font-weight:700">按程度給付</div></div>
+              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#C9D1D9">意外身故</div><div style="font-weight:700">15萬元</div></div>
+              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#C9D1D9">意外住院（最長90日）</div><div style="font-weight:700">500元/日</div></div>
+              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#C9D1D9">加護/燒燙傷（最長45日）</div><div style="font-weight:700">1,500元/日</div></div>
+              <div style="padding:4px 6px;background:#1C2128;border-radius:4px;font-size:11px"><div style="color:#C9D1D9">骨折未住院（最高1.5萬）</div><div style="font-weight:700">按程度給付</div></div>
             </div>
           </div>
         </div>
@@ -688,24 +686,24 @@ select option{background:#1C2128;color:#E8EDF4}
   <div style="background:rgba(26,110,168,.06);border:1px solid rgba(26,110,168,.2);border-radius:9px;padding:11px;margin-bottom:10px">
     <div style="font-size:12px;font-weight:700;color:var(--bl);margin-bottom:7px">📅 各期繳費總計</div>
     <div style="display:flex;flex-direction:column;gap:4px">
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">1月費總計</span><span style="font-weight:700;color:var(--bl)">26,310 元</span></div>
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">4月總計</span><span style="font-weight:700;color:var(--bl)">14,550 元</span></div>
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">7月份總計</span><span style="font-weight:700;color:var(--bl)">14,550 元</span></div>
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">11月份總計</span><span style="font-weight:700;color:var(--bl)">14,550 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">1月費總計</span><span style="font-weight:700;color:var(--bl)">26,310 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">4月總計</span><span style="font-weight:700;color:var(--bl)">14,550 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">7月份總計</span><span style="font-weight:700;color:var(--bl)">14,550 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">11月份總計</span><span style="font-weight:700;color:var(--bl)">14,550 元</span></div>
     </div>
   </div>
 
-  <div style="font-size:12px;font-weight:700;color:#666;margin-bottom:5px">明細項目（1月含整年費用）</div>
+  <div style="font-size:12px;font-weight:700;color:#A0AAB8;margin-bottom:5px">明細項目（1月含整年費用）</div>
   <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:12px">
-    <div style="background:rgba(26,110,168,.08);border:1px solid rgba(26,110,168,.2);border-radius:6px;padding:6px 10px;font-size:12px;color:#888;margin-bottom:2px">⚠️ 以下項目僅1月才有，其他期不含</div>
-    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--y)"><span style="color:#666">會費（整年一次，僅1月繳）</span><span style="font-weight:700">2,160 元</span></div>
-    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid #E07090"><span style="color:#666">團保一：呈貝（300元/人）整年一次收取</span><span style="font-weight:700">7,200 元</span></div>
-    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid #E07090"><span style="color:#666">團保三：呈貝（100元/人）整年一次收取</span><span style="font-weight:700">2,400 元</span></div>
-    <div style="background:rgba(26,110,168,.06);border-radius:6px;padding:6px 10px;font-size:12px;color:#888;margin-top:2px">以下為每3個月繳一次（1月／4月／7月／11月）</div>
-    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--bl)"><span style="color:#666">勞保費（29,500）每季繳</span><span style="font-weight:700;color:var(--bl)">固定 6,315 元</span></div>
-    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--gr)"><span style="color:#666">健保費－呈　每季繳</span><span style="font-weight:700;color:var(--gr)">固定 2,745 元</span></div>
-    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--gr)"><span style="color:#666">健保費－德　每季繳</span><span style="font-weight:700;color:var(--gr)">固定 2,745 元</span></div>
-    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--gr)"><span style="color:#666">健保費－宣　每季繳</span><span style="font-weight:700;color:var(--gr)">固定 2,745 元</span></div>
+    <div style="background:rgba(26,110,168,.08);border:1px solid rgba(26,110,168,.2);border-radius:6px;padding:6px 10px;font-size:12px;color:#C9D1D9;margin-bottom:2px">⚠️ 以下項目僅1月才有，其他期不含</div>
+    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--y)"><span style="color:#A0AAB8">會費（整年一次，僅1月繳）</span><span style="font-weight:700">2,160 元</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid #E07090"><span style="color:#A0AAB8">團保一：呈貝（300元/人）整年一次收取</span><span style="font-weight:700">7,200 元</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid #E07090"><span style="color:#A0AAB8">團保三：呈貝（100元/人）整年一次收取</span><span style="font-weight:700">2,400 元</span></div>
+    <div style="background:rgba(26,110,168,.06);border-radius:6px;padding:6px 10px;font-size:12px;color:#C9D1D9;margin-top:2px">以下為每3個月繳一次（1月／4月／7月／11月）</div>
+    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--bl)"><span style="color:#A0AAB8">勞保費（29,500）每季繳</span><span style="font-weight:700;color:var(--bl)">固定 6,315 元</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--gr)"><span style="color:#A0AAB8">健保費－呈　每季繳</span><span style="font-weight:700;color:var(--gr)">固定 2,745 元</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--gr)"><span style="color:#A0AAB8">健保費－德　每季繳</span><span style="font-weight:700;color:var(--gr)">固定 2,745 元</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--gr)"><span style="color:#A0AAB8">健保費－宣　每季繳</span><span style="font-weight:700;color:var(--gr)">固定 2,745 元</span></div>
   </div>
 
   <div style="height:1px;background:rgba(26,110,168,.15);margin-bottom:12px"></div>
@@ -716,30 +714,30 @@ select option{background:#1C2128;color:#E8EDF4}
   <div style="background:rgba(224,112,144,.06);border:1px solid rgba(224,112,144,.2);border-radius:9px;padding:11px;margin-bottom:10px">
     <div style="font-size:12px;font-weight:700;color:#E07090;margin-bottom:7px">📅 各期繳費總計</div>
     <div style="display:flex;flex-direction:column;gap:4px">
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">1月費總計</span><span style="font-weight:700;color:#E07090">11,025 元</span></div>
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">4月總計</span><span style="font-weight:700;color:#E07090">8,985 元</span></div>
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">7月份總計</span><span style="font-weight:700;color:#E07090">8,985 元</span></div>
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">11月份總計</span><span style="font-weight:700;color:#E07090">8,985 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">1月費總計</span><span style="font-weight:700;color:#E07090">11,025 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">4月總計</span><span style="font-weight:700;color:#E07090">8,985 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">7月份總計</span><span style="font-weight:700;color:#E07090">8,985 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">11月份總計</span><span style="font-weight:700;color:#E07090">8,985 元</span></div>
     </div>
   </div>
 
-  <div style="font-size:12px;font-weight:700;color:#666;margin-bottom:5px">明細項目（1月含整年費用）</div>
+  <div style="font-size:12px;font-weight:700;color:#A0AAB8;margin-bottom:5px">明細項目（1月含整年費用）</div>
   <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:12px">
-    <div style="background:rgba(224,112,144,.06);border-radius:6px;padding:6px 10px;font-size:12px;color:#888;margin-bottom:2px">⚠️ 以下僅1月才有，整年一次收取</div>
-    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--y)"><span style="color:#666">會費（整年一次，僅1月繳）</span><span style="font-weight:700">2,040 元</span></div>
-    <div style="background:rgba(26,110,168,.06);border-radius:6px;padding:6px 10px;font-size:12px;color:#888;margin-top:2px">以下為每3個月繳一次（1月／4月／7月／11月）</div>
-    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--bl)"><span style="color:#666">勞保費（29,500）每季繳</span><span style="font-weight:700;color:var(--bl)">固定 6,240 元</span></div>
-    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--gr)"><span style="color:#666">健保費　每季繳</span><span style="font-weight:700;color:var(--gr)">固定 2,745 元</span></div>
+    <div style="background:rgba(224,112,144,.06);border-radius:6px;padding:6px 10px;font-size:12px;color:#C9D1D9;margin-bottom:2px">⚠️ 以下僅1月才有，整年一次收取</div>
+    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--y)"><span style="color:#A0AAB8">會費（整年一次，僅1月繳）</span><span style="font-weight:700">2,040 元</span></div>
+    <div style="background:rgba(26,110,168,.06);border-radius:6px;padding:6px 10px;font-size:12px;color:#C9D1D9;margin-top:2px">以下為每3個月繳一次（1月／4月／7月／11月）</div>
+    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--bl)"><span style="color:#A0AAB8">勞保費（29,500）每季繳</span><span style="font-weight:700;color:var(--bl)">固定 6,240 元</span></div>
+    <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--mid);border-radius:6px;font-size:13px;border-left:3px solid var(--gr)"><span style="color:#A0AAB8">健保費　每季繳</span><span style="font-weight:700;color:var(--gr)">固定 2,745 元</span></div>
   </div>
 
   <!-- 合計 -->
   <div style="background:rgba(26,110,168,.08);border:1px solid rgba(26,110,168,.25);border-radius:9px;padding:12px">
     <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:8px">📊 家庭合計（呈＋貝）</div>
     <div style="display:flex;flex-direction:column;gap:4px">
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">1月總計（含年費/團保）</span><span style="font-weight:700;color:var(--y)">37,335 元</span></div>
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">4月總計</span><span style="font-weight:700;color:var(--y)">23,535 元</span></div>
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">7月份總計</span><span style="font-weight:700;color:var(--y)">23,535 元</span></div>
-      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#666">11月份總計</span><span style="font-weight:700;color:var(--y)">23,535 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">1月總計（含年費/團保）</span><span style="font-weight:700;color:var(--y)">37,335 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">4月總計</span><span style="font-weight:700;color:var(--y)">23,535 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">7月份總計</span><span style="font-weight:700;color:var(--y)">23,535 元</span></div>
+      <div style="display:flex;justify-content:space-between;padding:6px 10px;background:var(--card);border-radius:6px;font-size:13px"><span style="color:#A0AAB8">11月份總計</span><span style="font-weight:700;color:var(--y)">23,535 元</span></div>
     </div>
     <div style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(26,110,168,.15);display:flex;justify-content:space-between">
       <span style="font-size:14px;font-weight:700;color:var(--y)">全年總計</span>
@@ -758,10 +756,10 @@ select option{background:#1C2128;color:#E8EDF4}
     <div id="sub-vendor-panel" style="display:none;padding:0 12px 14px">
       <div style="background:var(--mid);border-radius:10px;padding:13px;margin-top:10px">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-          <div><div style="font-size:15px;font-weight:900">煌舜汽車維修中心</div><div style="font-size:11px;color:#888;margin-top:2px">鈑金烤漆・底盤・冷氣・產險理賠</div></div>
+          <div><div style="font-size:15px;font-weight:900">煌舜汽車維修中心</div><div style="font-size:11px;color:#C9D1D9;margin-top:2px">鈑金烤漆・底盤・冷氣・產險理賠</div></div>
           <div style="font-size:10px;font-weight:700;background:rgba(26,110,168,.15);color:var(--bl);padding:3px 7px;border-radius:5px">產物保險特約店</div>
         </div>
-        <div style="font-size:13px;color:#666;margin-bottom:9px">理賠接待：<b style="color:#2A2A2A">王嘉綺</b></div>
+        <div style="font-size:13px;color:#A0AAB8;margin-bottom:9px">理賠接待：<b style="color:#E8EDF4">王嘉綺</b></div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
           <a href="tel:0917665925" class="qlink" style="border-color:rgba(26,138,58,.25)"><span class="qicon">📱</span><span class="qname">王嘉綺<br>0917-665-925</span><span class="qsub">點擊撥打</span></a>
           <a href="tel:0282751229" class="qlink" style="border-color:rgba(26,110,168,.25)"><span class="qicon">☎️</span><span class="qname">公司<br>02-8275-1229</span><span class="qsub">點擊撥打</span></a>
@@ -780,10 +778,10 @@ select option{background:#1C2128;color:#E8EDF4}
       <!-- 55688 -->
       <div style="background:var(--mid);border-radius:10px;padding:13px;margin-top:10px;margin-bottom:8px;border-left:3px solid #E8001D">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
-          <div><div style="font-size:14px;font-weight:900">55688 台灣大車隊</div><div style="font-size:11px;color:#888;margin-top:1px">台北分公司</div></div>
+          <div><div style="font-size:14px;font-weight:900">55688 台灣大車隊</div><div style="font-size:11px;color:#C9D1D9;margin-top:1px">台北分公司</div></div>
           <div style="font-size:10px;font-weight:700;background:rgba(232,0,29,.12);color:#E8001D;padding:3px 7px;border-radius:5px">台灣第一大</div>
         </div>
-        <div style="font-size:12px;color:#666;margin-bottom:8px">台北市中山區長安東路2段162號2樓</div>
+        <div style="font-size:12px;color:#A0AAB8;margin-bottom:8px">台北市中山區長安東路2段162號2樓</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
           <a href="tel:0225160966" class="qlink" style="border-color:rgba(232,0,29,.2)"><span class="qicon">☎️</span><span class="qname">總公司<br>02-2516-0966</span><span class="qsub">點擊撥打</span></a>
           <a href="tel:55688" class="qlink" style="border-color:rgba(232,0,29,.2)"><span class="qicon">📱</span><span class="qname">手機直撥<br>55688</span><span class="qsub">叫車/客服</span></a>
@@ -794,10 +792,10 @@ select option{background:#1C2128;color:#E8EDF4}
       <!-- Uber 大慶 -->
       <div style="background:var(--mid);border-radius:10px;padding:13px;margin-bottom:8px;border-left:3px solid #111">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
-          <div><div style="font-size:14px;font-weight:900">Uber 大慶大車隊</div><div style="font-size:11px;color:#888;margin-top:1px">台灣都會公共交通股份有限公司</div></div>
+          <div><div style="font-size:14px;font-weight:900">Uber 大慶大車隊</div><div style="font-size:11px;color:#C9D1D9;margin-top:1px">台灣都會公共交通股份有限公司</div></div>
           <div style="font-size:10px;font-weight:700;background:rgba(255,255,255,.08);color:#C9D1D9;padding:3px 7px;border-radius:5px">Uber 合作車隊</div>
         </div>
-        <div style="font-size:12px;color:#666;margin-bottom:8px">台北市中正區和平西路二段21之1號1樓</div>
+        <div style="font-size:12px;color:#A0AAB8;margin-bottom:8px">台北市中正區和平西路二段21之1號1樓</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
           <a href="tel:0223014567" class="qlink" style="border-color:rgba(0,0,0,.15)"><span class="qicon">☎️</span><span class="qname">客服電話<br>02-2301-4567</span><span class="qsub">點擊撥打</span></a>
           <a href="https://dacitaxi.com.tw/" target="_blank" class="qlink" style="border-color:rgba(0,0,0,.15)"><span class="qicon">🌐</span><span class="qname">大慶官網</span><span class="qsub">dacitaxi.com.tw</span></a>
@@ -807,10 +805,10 @@ select option{background:#1C2128;color:#E8EDF4}
       <!-- 台北大都會 -->
       <div style="background:var(--mid);border-radius:10px;padding:13px;margin-bottom:8px;border-left:3px solid #003F8A">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
-          <div><div style="font-size:14px;font-weight:900">台北大都會車隊</div><div style="font-size:11px;color:#888;margin-top:1px">Metro Taxi｜手機直撥55178</div></div>
+          <div><div style="font-size:14px;font-weight:900">台北大都會車隊</div><div style="font-size:11px;color:#C9D1D9;margin-top:1px">Metro Taxi｜手機直撥55178</div></div>
           <div style="font-size:10px;font-weight:700;background:rgba(0,63,138,.12);color:#003F8A;padding:3px 7px;border-radius:5px">全台服務</div>
         </div>
-        <div style="font-size:12px;color:#666;margin-bottom:8px">24小時全天候派車服務</div>
+        <div style="font-size:12px;color:#A0AAB8;margin-bottom:8px">24小時全天候派車服務</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
           <a href="tel:55178" class="qlink" style="border-color:rgba(0,63,138,.2)"><span class="qicon">📱</span><span class="qname">手機直撥<br>55178</span><span class="qsub">叫車專線</span></a>
           <a href="tel:0244991780" class="qlink" style="border-color:rgba(0,63,138,.2)"><span class="qicon">☎️</span><span class="qname">市話<br>02-4499-178</span><span class="qsub">按7客服</span></a>
@@ -821,13 +819,13 @@ select option{background:#1C2128;color:#E8EDF4}
       <!-- 裕豐萬大幸福車隊 -->
       <div style="background:var(--mid);border-radius:10px;padding:13px;border-left:3px solid #1A8A3A">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:7px">
-          <div><div style="font-size:14px;font-weight:900">裕豐萬大幸福車隊</div><div style="font-size:11px;color:#888;margin-top:1px">裕豐計程車客運有限公司</div></div>
+          <div><div style="font-size:14px;font-weight:900">裕豐萬大幸福車隊</div><div style="font-size:11px;color:#C9D1D9;margin-top:1px">裕豐計程車客運有限公司</div></div>
           <div style="font-size:10px;font-weight:700;background:rgba(26,138,58,.12);color:#1A8A3A;padding:3px 7px;border-radius:5px">在地40年</div>
         </div>
-        <div style="font-size:12px;color:#666;margin-bottom:8px">
+        <div style="font-size:12px;color:#A0AAB8;margin-bottom:8px">
           萬大店：台北市萬華區萬大路33號1樓<br>
           中和店：中和區員山路502-8號（含保修廠）<br>
-          <span style="color:#aaa">週一至週五 09:00–18:00，週六日公休</span>
+          <span style="color:#C9D1D9">週一至週五 09:00–18:00，週六日公休</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
           <a href="https://lin.ee/0n1EVJB" target="_blank" class="qlink" style="border-color:rgba(26,138,58,.2)"><span class="qicon">💬</span><span class="qname">官方 LINE</span><span class="qsub">點擊開啟</span></a>
@@ -847,7 +845,7 @@ select option{background:#1C2128;color:#E8EDF4}
     </button>
     <div id="sub-fines-panel" style="display:none;padding:0 12px 14px">
 
-      <div style="background:rgba(204,34,34,.06);border:1px solid rgba(204,34,34,.15);border-radius:9px;padding:10px 12px;margin-top:10px;margin-bottom:12px;font-size:12px;color:#666;line-height:1.8">
+      <div style="background:rgba(204,34,34,.06);border:1px solid rgba(204,34,34,.15);border-radius:9px;padding:10px 12px;margin-top:10px;margin-bottom:12px;font-size:12px;color:#A0AAB8;line-height:1.8">
         ⚠️ 罰鍰金額依最新《道路交通管理處罰條例》（115年最新版）<br>
         📌 有未結清罰鍰 → <b style="color:var(--rd)">無法辦理審驗</b><br>
         📌 一年累積 <b style="color:var(--rd)">12點</b> → 吊扣駕照2個月｜累積 <b style="color:var(--rd)">6點</b> → 強制參加講習
@@ -857,25 +855,25 @@ select option{background:#1C2128;color:#E8EDF4}
       <div style="font-size:12px;font-weight:700;color:var(--rd);margin-bottom:6px;letter-spacing:.05em">🚕 計程車司機專屬違規</div>
       <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:14px">
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">未辦執業登記即執業</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,500–3,600</span><span style="font-size:10px;color:#aaa;white-space:nowrap">再違規吊照</span>
+          <span style="color:#444">未辦執業登記即執業</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,500–3,600</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">再違規吊照</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">未按時辦理執業登記年度查驗</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,200</span><span style="font-size:10px;color:#aaa;white-space:nowrap">逾6月廢止登記</span>
+          <span style="color:#444">未按時辦理執業登記年度查驗</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,200</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">逾6月廢止登記</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">執業登記證未放指定插座或遮蔽</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,500</span><span style="font-size:10px;color:#aaa;white-space:nowrap">—</span>
+          <span style="color:#444">執業登記證未放指定插座或遮蔽</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,500</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">—</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">拒載乘客（無正當理由）</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,500–3,000</span><span style="font-size:10px;color:#aaa;white-space:nowrap">記點1</span>
+          <span style="color:#444">拒載乘客（無正當理由）</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,500–3,000</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">記點1</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">繞路詐財</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">3,000–6,000</span><span style="font-size:10px;color:#aaa;white-space:nowrap">吊照</span>
+          <span style="color:#444">繞路詐財</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">3,000–6,000</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">吊照</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">計費表不用或以非合法計費表</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">3,000–6,000</span><span style="font-size:10px;color:#aaa;white-space:nowrap">吊照</span>
+          <span style="color:#444">計費表不用或以非合法計費表</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">3,000–6,000</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">吊照</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">計程車錶逾期未驗</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">15,000–75,000</span><span style="font-size:10px;color:#aaa;white-space:nowrap">⚠️ 高額</span>
+          <span style="color:#444">計程車錶逾期未驗</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">15,000–75,000</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">⚠️ 高額</span>
         </div>
       </div>
 
@@ -883,34 +881,34 @@ select option{background:#1C2128;color:#E8EDF4}
       <div style="font-size:12px;font-weight:700;color:#1A6EA8;margin-bottom:6px;letter-spacing:.05em">🚗 一般常見違規（司機也適用）</div>
       <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:14px">
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">闖紅燈</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,800–5,400</span><span style="font-size:10px;color:#aaa;white-space:nowrap">記點3</span>
+          <span style="color:#444">闖紅燈</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,800–5,400</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">記點3</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">未禮讓行人（行穿線）</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">2,400–6,000</span><span style="font-size:10px;color:#aaa;white-space:nowrap">記點3</span>
+          <span style="color:#444">未禮讓行人（行穿線）</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">2,400–6,000</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">記點3</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">違規停車</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">600–2,400</span><span style="font-size:10px;color:#aaa;white-space:nowrap">依地點</span>
+          <span style="color:#444">違規停車</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">600–2,400</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">依地點</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">超速（未達20km/h）</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,200–2,400</span><span style="font-size:10px;color:#aaa;white-space:nowrap">記點1</span>
+          <span style="color:#444">超速（未達20km/h）</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,200–2,400</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">記點1</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">超速（20–40km/h）</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,800–3,600</span><span style="font-size:10px;color:#aaa;white-space:nowrap">記點1</span>
+          <span style="color:#444">超速（20–40km/h）</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,800–3,600</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">記點1</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:rgba(204,34,34,.08);border-radius:6px;font-size:12px;gap:8px;align-items:center;border:1px solid rgba(204,34,34,.2)">
           <span style="color:#444">超速（40km/h以上）</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">6,000–36,000</span><span style="font-size:10px;color:var(--rd);white-space:nowrap">記點3</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">行駛中使用手機</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">3,000–6,000</span><span style="font-size:10px;color:#aaa;white-space:nowrap">記點3</span>
+          <span style="color:#444">行駛中使用手機</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">3,000–6,000</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">記點3</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">未繫安全帶</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,500–3,000</span><span style="font-size:10px;color:#aaa;white-space:nowrap">記點1</span>
+          <span style="color:#444">未繫安全帶</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">1,500–3,000</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">記點1</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">強行超車或不依序行駛</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">600–1,800</span><span style="font-size:10px;color:#aaa;white-space:nowrap">記點1</span>
+          <span style="color:#444">強行超車或不依序行駛</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">600–1,800</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">記點1</span>
         </div>
         <div style="display:grid;grid-template-columns:1fr auto auto;padding:7px 10px;background:var(--mid);border-radius:6px;font-size:12px;gap:8px;align-items:center">
-          <span style="color:#444">違規迴轉</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">600–1,200</span><span style="font-size:10px;color:#aaa;white-space:nowrap">記點1</span>
+          <span style="color:#444">違規迴轉</span><span style="color:var(--rd);font-weight:700;text-align:right;white-space:nowrap">600–1,200</span><span style="font-size:10px;color:#C9D1D9;white-space:nowrap">記點1</span>
         </div>
       </div>
 
@@ -928,11 +926,11 @@ select option{background:#1C2128;color:#E8EDF4}
       <!-- 記點說明 -->
       <div style="background:rgba(245,166,35,.1);border:1px solid rgba(26,110,168,.25);border-radius:8px;padding:10px 12px">
         <div style="font-size:12px;font-weight:700;color:var(--y);margin-bottom:6px">📊 違規記點重要提醒</div>
-        <div style="font-size:12px;color:#666;line-height:1.9">
-          • 記點期限：<b style="color:#2A2A2A">1年內</b>累積計算<br>
+        <div style="font-size:12px;color:#A0AAB8;line-height:1.9">
+          • 記點期限：<b style="color:#E8EDF4">1年內</b>累積計算<br>
           • 累積 <b style="color:var(--rd)">6點</b> → 強制自費參加道路安全講習<br>
           • 累積 <b style="color:var(--rd)">12點</b> → 吊扣駕照 2個月<br>
-          • 自費講習可抵點：<b style="color:#2A2A2A">每年最多2次</b>，每次抵1點<br>
+          • 自費講習可抵點：<b style="color:#E8EDF4">每年最多2次</b>，每次抵1點<br>
           • 逕行舉發（未當場取締）不記點
         </div>
       </div>
@@ -949,10 +947,10 @@ select option{background:#1C2128;color:#E8EDF4}
     <div id="sub-rescue-panel" style="display:none;padding:0 12px 14px">
 
       <!-- 緊急提示 -->
-      <div style="background:rgba(204,34,34,.08);border:1px solid rgba(204,34,34,.2);border-radius:9px;padding:11px 12px;margin-top:10px;margin-bottom:12px;font-size:13px;color:#666;line-height:1.8">
+      <div style="background:rgba(204,34,34,.08);border:1px solid rgba(204,34,34,.2);border-radius:9px;padding:11px 12px;margin-top:10px;margin-bottom:12px;font-size:13px;color:#A0AAB8;line-height:1.8">
         🚨 <b style="color:var(--rd)">事故現場先撥 110（警察）或 119（救護）</b><br>
         ⚠️ 國道高速公路故障 → 先撥保險公司申告，再由拖吊公司處理<br>
-        📌 <b style="color:#2A2A2A">TDZ-0950</b>｜車身號碼：2ZRX706989
+        📌 <b style="color:#E8EDF4">TDZ-0950</b>｜車身號碼：2ZRX706989
       </div>
 
       <!-- 你的保險道路救援 -->
@@ -963,7 +961,7 @@ select option{background:#1C2128;color:#E8EDF4}
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
           <div>
             <div style="font-size:14px;font-weight:900">新安東京海上</div>
-            <div style="font-size:11px;color:#888;margin-top:1px">第三責任險｜115/05/03–116/05/03</div>
+            <div style="font-size:11px;color:#C9D1D9;margin-top:1px">第三責任險｜115/05/03–116/05/03</div>
           </div>
           <div style="font-size:10px;font-weight:700;background:rgba(26,110,168,.12);color:var(--bl);padding:3px 7px;border-radius:5px">24H</div>
         </div>
@@ -973,8 +971,8 @@ select option{background:#1C2128;color:#E8EDF4}
             <span class="qname">客服／道路救援</span>
             <span class="qsub">0800-050-119（免費）</span>
           </a>
-          <div style="background:var(--mid);border-radius:10px;padding:11px 8px;font-size:11px;color:#666;line-height:1.7;text-align:center">
-            <div style="font-size:13px;font-weight:700;color:#2A2A2A;margin-bottom:4px">保單內含</div>
+          <div style="background:var(--mid);border-radius:10px;padding:11px 8px;font-size:11px;color:#A0AAB8;line-height:1.7;text-align:center">
+            <div style="font-size:13px;font-weight:700;color:#E8EDF4;margin-bottom:4px">保單內含</div>
             每事故限1次<br>同天限1次服務<br>台灣本島適用
           </div>
         </div>
@@ -985,7 +983,7 @@ select option{background:#1C2128;color:#E8EDF4}
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
           <div>
             <div style="font-size:14px;font-weight:900">富邦產物保險</div>
-            <div style="font-size:11px;color:#888;margin-top:1px">強制責任險｜115/04/25–116/04/25</div>
+            <div style="font-size:11px;color:#C9D1D9;margin-top:1px">強制責任險｜115/04/25–116/04/25</div>
           </div>
           <div style="font-size:10px;font-weight:700;background:rgba(204,34,34,.12);color:var(--rd);padding:3px 7px;border-radius:5px">24H</div>
         </div>
@@ -995,20 +993,20 @@ select option{background:#1C2128;color:#E8EDF4}
             <span class="qname">理賠／道路救援</span>
             <span class="qsub">0800-009-888（免費）</span>
           </a>
-          <div style="background:var(--mid);border-radius:10px;padding:11px 8px;font-size:11px;color:#666;line-height:1.7;text-align:center">
-            <div style="font-size:13px;font-weight:700;color:#2A2A2A;margin-bottom:4px">拖吊業者</div>
+          <div style="background:var(--mid);border-radius:10px;padding:11px 8px;font-size:11px;color:#A0AAB8;line-height:1.7;text-align:center">
+            <div style="font-size:13px;font-weight:700;color:#E8EDF4;margin-bottom:4px">拖吊業者</div>
             全鋒：0800-013-013<br>行遍天下：0800-071-111
           </div>
         </div>
       </div>
 
       <!-- 道路救援業者 -->
-      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:7px;letter-spacing:.05em">🔧 道路救援業者（自費或保險指定）</div>
+      <div style="font-size:12px;font-weight:700;color:#C9D1D9;margin-bottom:7px;letter-spacing:.05em">🔧 道路救援業者（自費或保險指定）</div>
       <div style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
         <div style="background:var(--mid);border-radius:9px;padding:11px 12px">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <div style="font-size:13px;font-weight:700">全鋒道路救援</div>
-            <div style="font-size:10px;color:#888">富邦指定業者</div>
+            <div style="font-size:10px;color:#C9D1D9">富邦指定業者</div>
           </div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
             <a href="tel:0800013013" class="qlink" style="padding:9px 6px;border-color:rgba(26,110,168,.2)">
@@ -1026,7 +1024,7 @@ select option{background:#1C2128;color:#E8EDF4}
         <div style="background:var(--mid);border-radius:9px;padding:11px 12px">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <div style="font-size:13px;font-weight:700">行遍天下道路救援</div>
-            <div style="font-size:10px;color:#888">富邦指定業者</div>
+            <div style="font-size:10px;color:#C9D1D9">富邦指定業者</div>
           </div>
           <a href="tel:0800071111" class="qlink" style="padding:9px 6px;border-color:rgba(26,110,168,.2)">
             <span class="qicon" style="font-size:18px">📞</span>
@@ -1037,7 +1035,7 @@ select option{background:#1C2128;color:#E8EDF4}
       </div>
 
       <!-- 緊急電話 -->
-      <div style="font-size:12px;font-weight:700;color:#888;margin-bottom:7px;letter-spacing:.05em">🚨 緊急聯絡電話</div>
+      <div style="font-size:12px;font-weight:700;color:#C9D1D9;margin-bottom:7px;letter-spacing:.05em">🚨 緊急聯絡電話</div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
         <a href="tel:110" class="qlink" style="border-color:rgba(26,110,168,.25);padding:12px 8px">
           <span class="qicon" style="font-size:24px">👮</span>
@@ -1062,9 +1060,9 @@ select option{background:#1C2128;color:#E8EDF4}
       </div>
 
       <!-- 注意事項 -->
-      <div style="margin-top:10px;background:rgba(245,166,35,.1);border:1px solid rgba(26,110,168,.2);border-radius:8px;padding:10px 12px;font-size:12px;color:#666;line-height:1.8">
+      <div style="margin-top:10px;background:rgba(245,166,35,.1);border:1px solid rgba(26,110,168,.2);border-radius:8px;padding:10px 12px;font-size:12px;color:#A0AAB8;line-height:1.8">
         <b style="color:var(--y)">⚠️ 計程車使用道路救援注意事項</b><br>
-        • 車內載客時，保險業者<b style="color:#2A2A2A">不提供免費道路救援</b>（僅限空車）<br>
+        • 車內載客時，保險業者<b style="color:#E8EDF4">不提供免費道路救援</b>（僅限空車）<br>
         • 使用前先打保險公司申告，不得自行叫拖吊後再請求退費<br>
         • 同一天同一服務項目限1次，超過自付費用<br>
         • 國道：先電保險公司申告 → 記下申告編號 → 再讓高公局拖吊
@@ -1085,27 +1083,27 @@ select option{background:#1C2128;color:#E8EDF4}
       <div style="background:rgba(26,110,168,.1);border:1px solid rgba(26,110,168,.2);border-radius:9px;padding:12px;margin-top:10px;margin-bottom:10px">
         <div style="font-size:13px;font-weight:700;color:var(--bl);margin-bottom:8px">📋 保單基本資料</div>
         <div style="display:flex;flex-direction:column;gap:4px;font-size:13px">
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">保險公司</span><span style="font-weight:700">新安東京海上產物保險</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">保單號碼</span><span style="font-weight:700;font-size:11px">17000 第15V9005830號</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">被保險人</span><span style="font-weight:700">青宮交通（王介呈）</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">要保人</span><span style="font-weight:700">王介呈</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:rgba(204,34,34,.06);border-radius:6px;border:1px solid rgba(204,34,34,.15)"><span style="color:#666">保險期間</span><span style="font-weight:700;color:var(--rd)">115/05/03 → 116/05/03</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">車牌號碼</span><span style="font-weight:900;color:var(--y)">TDZ-0950</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">車種</span><span style="font-weight:700">15 計程車</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">廠牌車型</span><span style="font-weight:700">國瑞 09116100</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">引擎/車身號碼</span><span style="font-weight:700;font-size:11px">2ZRX706989</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">排氣量</span><span style="font-weight:700">1798 CC</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">製造年份</span><span style="font-weight:700">西元 2020 年</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">乘載數</span><span style="font-weight:700">5.0 人</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">保險公司</span><span style="font-weight:700">新安東京海上產物保險</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">保單號碼</span><span style="font-weight:700;font-size:11px">17000 第15V9005830號</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">被保險人</span><span style="font-weight:700">青宮交通（王介呈）</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">要保人</span><span style="font-weight:700">王介呈</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:rgba(204,34,34,.06);border-radius:6px;border:1px solid rgba(204,34,34,.15)"><span style="color:#A0AAB8">保險期間</span><span style="font-weight:700;color:var(--rd)">115/05/03 → 116/05/03</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">車牌號碼</span><span style="font-weight:900;color:var(--y)">TDZ-0950</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">車種</span><span style="font-weight:700">15 計程車</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">廠牌車型</span><span style="font-weight:700">國瑞 09116100</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">引擎/車身號碼</span><span style="font-weight:700;font-size:11px">2ZRX706989</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">排氣量</span><span style="font-weight:700">1798 CC</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">製造年份</span><span style="font-weight:700">西元 2020 年</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">乘載數</span><span style="font-weight:700">5.0 人</span></div>
         </div>
       </div>
 
       <!-- 承保內容 -->
-      <div style="font-size:13px;font-weight:700;color:#2A2A2A;margin-bottom:7px">💰 承保內容（幣別：新台幣）</div>
+      <div style="font-size:13px;font-weight:700;color:#E8EDF4;margin-bottom:7px">💰 承保內容（幣別：新台幣）</div>
       <div style="display:flex;flex-direction:column;gap:4px;margin-bottom:12px">
 
         <!-- 欄位標題 -->
-        <div style="display:grid;grid-template-columns:1fr 80px 60px 50px;padding:5px 9px;font-size:11px;color:#aaa;gap:4px">
+        <div style="display:grid;grid-template-columns:1fr 80px 60px 50px;padding:5px 9px;font-size:11px;color:#C9D1D9;gap:4px">
           <span>險種</span><span style="text-align:center">保險金額</span><span style="text-align:center">自負額</span><span style="text-align:right">保費</span>
         </div>
 
@@ -1113,10 +1111,10 @@ select option{background:#1C2128;color:#E8EDF4}
         <div style="background:rgba(26,110,168,.06);border:1px solid rgba(26,110,168,.15);border-radius:8px;padding:8px 10px">
           <div style="font-size:13px;font-weight:700;color:var(--bl);margin-bottom:5px">31 第三人傷害責任險(V)</div>
           <div style="display:grid;grid-template-columns:1fr 80px 60px 50px;gap:4px;font-size:12px;align-items:center">
-            <span style="color:#666">每一個人傷害</span><span style="text-align:center;font-weight:700">100萬</span><span style="text-align:center;color:var(--rd);font-weight:700">10,000</span><span style="text-align:right;color:var(--y);font-weight:700">7,151</span>
+            <span style="color:#A0AAB8">每一個人傷害</span><span style="text-align:center;font-weight:700">100萬</span><span style="text-align:center;color:var(--rd);font-weight:700">10,000</span><span style="text-align:right;color:var(--y);font-weight:700">7,151</span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 80px 60px 50px;gap:4px;font-size:12px;align-items:center;margin-top:3px">
-            <span style="color:#666">每一意外事故之傷害</span><span style="text-align:center;font-weight:700">200萬</span><span style="text-align:center;color:#aaa">同上</span><span style="text-align:right;color:#aaa">—</span>
+            <span style="color:#A0AAB8">每一意外事故之傷害</span><span style="text-align:center;font-weight:700">200萬</span><span style="text-align:center;color:#C9D1D9">同上</span><span style="text-align:right;color:#C9D1D9">—</span>
           </div>
         </div>
 
@@ -1124,7 +1122,7 @@ select option{background:#1C2128;color:#E8EDF4}
         <div style="background:rgba(26,110,168,.04);border:1px solid rgba(26,110,168,.12);border-radius:8px;padding:8px 10px">
           <div style="font-size:13px;font-weight:700;color:var(--bl);margin-bottom:5px">32 第三人財損責任險(V)</div>
           <div style="display:grid;grid-template-columns:1fr 80px 60px 50px;gap:4px;font-size:12px;align-items:center">
-            <span style="color:#666">每一意外事故之財損</span><span style="text-align:center;font-weight:700">30萬</span><span style="text-align:center;color:var(--rd);font-weight:700">10,000</span><span style="text-align:right;color:var(--y);font-weight:700">4,872</span>
+            <span style="color:#A0AAB8">每一意外事故之財損</span><span style="text-align:center;font-weight:700">30萬</span><span style="text-align:center;color:var(--rd);font-weight:700">10,000</span><span style="text-align:right;color:var(--y);font-weight:700">4,872</span>
           </div>
         </div>
 
@@ -1132,10 +1130,10 @@ select option{background:#1C2128;color:#E8EDF4}
         <div style="background:rgba(26,138,58,.06);border:1px solid rgba(26,138,58,.15);border-radius:8px;padding:8px 10px">
           <div style="font-size:13px;font-weight:700;color:var(--gr);margin-bottom:5px">56 第三人責任附加駕駛人傷害險</div>
           <div style="display:grid;grid-template-columns:1fr 80px 60px 50px;gap:4px;font-size:12px;align-items:center">
-            <span style="color:#666">傷害醫療－實支實付型</span><span style="text-align:center;font-weight:700">20萬</span><span style="text-align:center;color:var(--gr);font-weight:700">無</span><span style="text-align:right;color:var(--y);font-weight:700">756</span>
+            <span style="color:#A0AAB8">傷害醫療－實支實付型</span><span style="text-align:center;font-weight:700">20萬</span><span style="text-align:center;color:var(--gr);font-weight:700">無</span><span style="text-align:right;color:var(--y);font-weight:700">756</span>
           </div>
           <div style="display:grid;grid-template-columns:1fr 80px 60px 50px;gap:4px;font-size:12px;align-items:center;margin-top:3px">
-            <span style="color:#666">身故失能</span><span style="text-align:center;font-weight:700">200萬</span><span style="text-align:center;color:var(--gr)">無</span><span style="text-align:right;color:#aaa">—</span>
+            <span style="color:#A0AAB8">身故失能</span><span style="text-align:center;font-weight:700">200萬</span><span style="text-align:center;color:var(--gr)">無</span><span style="text-align:right;color:#C9D1D9">—</span>
           </div>
         </div>
 
@@ -1143,15 +1141,15 @@ select option{background:#1C2128;color:#E8EDF4}
         <div style="background:rgba(26,110,168,.06);border:1px solid rgba(26,110,168,.18);border-radius:8px;padding:8px 10px">
           <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:5px">30 汽車超額責任險保障型</div>
           <div style="display:grid;grid-template-columns:1fr 80px 60px 50px;gap:4px;font-size:12px;align-items:center">
-            <span style="color:#666">超額責任</span><span style="text-align:center;font-weight:700">300萬</span><span style="text-align:center;color:var(--gr);font-weight:700">無</span><span style="text-align:right;color:var(--y);font-weight:700">5,276</span>
+            <span style="color:#A0AAB8">超額責任</span><span style="text-align:center;font-weight:700">300萬</span><span style="text-align:center;color:var(--gr);font-weight:700">無</span><span style="text-align:right;color:var(--y);font-weight:700">5,276</span>
           </div>
         </div>
 
         <!-- 238 道路救援 -->
         <div style="background:rgba(100,100,100,.05);border:1px solid rgba(100,100,100,.15);border-radius:8px;padding:8px 10px">
-          <div style="font-size:13px;font-weight:700;color:#555;margin-bottom:5px">238 道路救援費用附加條款</div>
+          <div style="font-size:13px;font-weight:700;color:#A0AAB8;margin-bottom:5px">238 道路救援費用附加條款</div>
           <div style="display:grid;grid-template-columns:1fr 80px 60px 50px;gap:4px;font-size:12px;align-items:center">
-            <span style="color:#666">每一事故</span><span style="text-align:center;font-weight:700">3萬</span><span style="text-align:center;color:var(--gr);font-weight:700">無</span><span style="text-align:right;color:var(--y);font-weight:700">992</span>
+            <span style="color:#A0AAB8">每一事故</span><span style="text-align:center;font-weight:700">3萬</span><span style="text-align:center;color:var(--gr);font-weight:700">無</span><span style="text-align:right;color:var(--y);font-weight:700">992</span>
           </div>
           <div style="font-size:11px;color:var(--gr);margin-top:4px">✅ 拖吊里程不限公里（保險期間 150,000）</div>
         </div>
@@ -1177,12 +1175,12 @@ select option{background:#1C2128;color:#E8EDF4}
       <div style="margin-top:12px;background:rgba(26,110,168,.1);border:1px solid rgba(26,110,168,.2);border-radius:9px;padding:12px">
         <div style="font-size:13px;font-weight:700;color:var(--bl);margin-bottom:8px">🧳 旅客運送業責任保險（乘客險）</div>
         <div style="display:flex;flex-direction:column;gap:4px;font-size:13px">
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">保單號碼</span><span style="font-weight:700;font-size:11px">02014CT000531</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:rgba(204,34,34,.06);border-radius:6px;border:1px solid rgba(204,34,34,.15)"><span style="color:#666">保險期間</span><span style="font-weight:700;color:var(--rd)">114/09/30 → 115/09/30</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">被保險人</span><span style="font-weight:700">青宮交通股份有限公司</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:rgba(26,138,58,.06);border-radius:6px;border:1px solid rgba(26,138,58,.15)"><span style="color:#666">保險金額</span><span style="font-weight:700;color:var(--gr)">每人死亡/失能/醫療 <b>500萬</b></span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">車牌號碼</span><span style="font-weight:900;color:var(--y)">TDZ-0950</span></div>
-          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#666">車行/駕駛人</span><span style="font-weight:700">青宮交通股份有限公司</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">保單號碼</span><span style="font-weight:700;font-size:11px">02014CT000531</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:rgba(204,34,34,.06);border-radius:6px;border:1px solid rgba(204,34,34,.15)"><span style="color:#A0AAB8">保險期間</span><span style="font-weight:700;color:var(--rd)">114/09/30 → 115/09/30</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">被保險人</span><span style="font-weight:700">青宮交通股份有限公司</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:rgba(26,138,58,.06);border-radius:6px;border:1px solid rgba(26,138,58,.15)"><span style="color:#A0AAB8">保險金額</span><span style="font-weight:700;color:var(--gr)">每人死亡/失能/醫療 <b>500萬</b></span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">車牌號碼</span><span style="font-weight:900;color:var(--y)">TDZ-0950</span></div>
+          <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px"><span style="color:#A0AAB8">車行/駕駛人</span><span style="font-weight:700">青宮交通股份有限公司</span></div>
         </div>
       </div>
 
@@ -1200,23 +1198,23 @@ select option{background:#1C2128;color:#E8EDF4}
         <div style="font-size:13px;font-weight:700;color:var(--y);margin-bottom:7px">📋 靠行公司資訊</div>
         <div style="display:flex;flex-direction:column;gap:4px;font-size:13px">
           <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px">
-            <span style="color:#666">公司名稱</span>
+            <span style="color:#A0AAB8">公司名稱</span>
             <span style="font-weight:700">青宮交通股份有限公司</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px">
-            <span style="color:#666">統一編號</span>
+            <span style="color:#A0AAB8">統一編號</span>
             <span style="font-weight:900;font-family:'DM Mono',monospace;color:var(--y);letter-spacing:.05em">30842394</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px">
-            <span style="color:#666">代表人</span>
+            <span style="color:#A0AAB8">代表人</span>
             <span style="font-weight:700">李坤昌</span>
           </div>
           <div style="display:flex;justify-content:space-between;padding:5px 9px;background:var(--card);border-radius:6px">
-            <span style="color:#666">地址</span>
+            <span style="color:#A0AAB8">地址</span>
             <span style="font-weight:700;font-size:12px">台北市中山區長安東路2段162號2樓</span>
           </div>
         </div>
-        <div style="font-size:11px;color:#aaa;margin-top:7px">⚠️ 查詢罰單時如需填寫車行/公司資訊，請使用以上資料</div>
+        <div style="font-size:11px;color:#C9D1D9;margin-top:7px">⚠️ 查詢罰單時如需填寫車行/公司資訊，請使用以上資料</div>
       </div>
 
       <!-- 罰單查詢 - 單一連結 -->
@@ -1228,9 +1226,9 @@ select option{background:#1C2128;color:#E8EDF4}
         </div>
       </a>
 
-      <div style="background:rgba(204,34,34,.06);border:1px solid rgba(204,34,34,.12);border-radius:8px;padding:10px 12px;margin-top:9px;font-size:13px;color:#666;line-height:1.8">
-        ⚠️ 有未結清罰鍰，<b style="color:#2A2A2A">無法辦理審驗</b><br>
-        🚗 車牌：<b style="color:#2A2A2A">TDZ-0950</b>
+      <div style="background:rgba(204,34,34,.06);border:1px solid rgba(204,34,34,.12);border-radius:8px;padding:10px 12px;margin-top:9px;font-size:13px;color:#A0AAB8;line-height:1.8">
+        ⚠️ 有未結清罰鍰，<b style="color:#E8EDF4">無法辦理審驗</b><br>
+        🚗 車牌：<b style="color:#E8EDF4">TDZ-0950</b>
       </div>
 
     </div>
@@ -1246,7 +1244,7 @@ select option{background:#1C2128;color:#E8EDF4}
 <div class="pane" id="pane-parttime">
   <div class="card">
     <div class="slbl">💼 兼職收入管理</div>
-    <div style="background:rgba(26,110,168,.1);border:1px solid rgba(26,110,168,.2);border-radius:9px;padding:10px;margin-bottom:14px;font-size:12px;color:#666">
+    <div style="background:rgba(26,110,168,.1);border:1px solid rgba(26,110,168,.2);border-radius:9px;padding:10px;margin-bottom:14px;font-size:12px;color:#A0AAB8">
       記錄十金鵝等兼職月薪，自動彙總至年度統計
     </div>
 
@@ -1255,19 +1253,19 @@ select option{background:#1C2128;color:#E8EDF4}
       <div style="font-weight:700;font-size:14px;margin-bottom:10px;color:#444">➕ 新增兼職收入</div>
       <div style="display:flex;flex-direction:column;gap:8px">
         <div style="display:flex;align-items:center;gap:8px">
-          <label style="font-size:12px;color:#666;width:50px;flex-shrink:0">年月</label>
+          <label style="font-size:12px;color:#A0AAB8;width:50px;flex-shrink:0">年月</label>
           <input type="month" id="pt-month" style="flex:1;padding:8px;border:1px solid var(--bdr);border-radius:7px;font-size:14px;background:var(--card)">
         </div>
         <div style="display:flex;align-items:center;gap:8px">
-          <label style="font-size:12px;color:#666;width:50px;flex-shrink:0">來源</label>
+          <label style="font-size:12px;color:#A0AAB8;width:50px;flex-shrink:0">來源</label>
           <input type="text" id="pt-source" value="十金鵝" style="flex:1;padding:8px;border:1px solid var(--bdr);border-radius:7px;font-size:14px;background:var(--card)" placeholder="雇主/來源">
         </div>
         <div style="display:flex;align-items:center;gap:8px">
-          <label style="font-size:12px;color:#666;width:50px;flex-shrink:0">金額</label>
+          <label style="font-size:12px;color:#A0AAB8;width:50px;flex-shrink:0">金額</label>
           <input type="number" id="pt-amount" style="flex:1;padding:8px;border:1px solid var(--bdr);border-radius:7px;font-size:14px;background:var(--card)" placeholder="月薪金額">
         </div>
         <div style="display:flex;align-items:center;gap:8px">
-          <label style="font-size:12px;color:#666;width:50px;flex-shrink:0">備註</label>
+          <label style="font-size:12px;color:#A0AAB8;width:50px;flex-shrink:0">備註</label>
           <input type="text" id="pt-note" style="flex:1;padding:8px;border:1px solid var(--bdr);border-radius:7px;font-size:14px;background:var(--card)" placeholder="選填">
         </div>
         <button onclick="addParttime()" style="background:var(--y);color:#fff;border:none;border-radius:8px;padding:10px;font-size:14px;font-weight:700;cursor:pointer;margin-top:4px">💾 儲存</button>
@@ -1285,7 +1283,7 @@ select option{background:#1C2128;color:#E8EDF4}
   </div>
 </div>
 
-<div class="pane" id="pane-maint">
+<div class="pane" id="pane-maint" style="display:none">
 
   <!-- 新增/編輯表單 -->
   <div class="card t-gr" id="maint-form-card">
@@ -1310,7 +1308,7 @@ select option{background:#1C2128;color:#E8EDF4}
           <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-ac" style="width:16px;height:16px;accent-color:var(--y)"> 冷氣保養</label>
           <label style="display:flex;align-items:center;gap:6px;background:var(--mid);border-radius:7px;padding:8px 10px;font-size:13px;cursor:pointer"><input type="checkbox" id="mc-wash" style="width:16px;height:16px;accent-color:var(--y)"> 洗車/美容</label>
         </div>
-        <div class="field"><label style="font-size:12px;color:#aaa">其他項目（手動輸入）</label><input type="text" id="m-other-items" placeholder="例：前輪軸承、雨刷..."></div>
+        <div class="field"><label style="font-size:12px;color:#C9D1D9">其他項目（手動輸入）</label><input type="text" id="m-other-items" placeholder="例：前輪軸承、雨刷..."></div>
       </div>
 
       <div class="two">
@@ -1329,7 +1327,7 @@ select option{background:#1C2128;color:#E8EDF4}
         <button onclick="document.getElementById('m-photo').click()" style="width:100%;background:var(--bl);color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent;display:flex;align-items:center;justify-content:center;gap:8px">
           <span>📷</span><span>拍攝保養單據 自動辨識</span>
         </button>
-        <div id="m-photo-status" style="font-size:11px;color:#aaa;margin-top:6px;text-align:center;display:none"></div>
+        <div id="m-photo-status" style="font-size:11px;color:#C9D1D9;margin-top:6px;text-align:center;display:none"></div>
         <div id="m-photo-preview" style="margin-top:8px;display:none"><img id="m-photo-img" style="width:100%;border-radius:7px;max-height:160px;object-fit:cover"></div>
       </div>
 
@@ -1344,10 +1342,10 @@ select option{background:#1C2128;color:#E8EDF4}
 
   <!-- 歷程列表 -->
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-    <span style="font-size:12px;font-weight:700;color:#888;letter-spacing:.1em;text-transform:uppercase">🔧 保養歷程</span>
+    <span style="font-size:12px;font-weight:700;color:#C9D1D9;letter-spacing:.1em;text-transform:uppercase">🔧 保養歷程</span>
     <span id="maint-km-info" style="font-size:12px;color:var(--bl);font-weight:700"></span>
   </div>
-  <div id="maint-list"><div class="empty">尚無保養記錄<br><span style="font-size:12px;color:#aaa">翻拍單據後填寫上方表單</span></div></div>
+  <div id="maint-list"><div class="empty">尚無保養記錄<br><span style="font-size:12px;color:#C9D1D9">翻拍單據後填寫上方表單</span></div></div>
 
 </div>
 
@@ -1564,8 +1562,8 @@ function renderHistory() {
       return '<div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:8px;box-shadow:0 1px 4px rgba(0,0,0,.06)">' +
         '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">' +
           '<div>' +
-            '<span style="font-size:14px;font-weight:700;color:#2A2A2A">' + ds + '</span>' +
-            '<span style="font-size:12px;color:#aaa">' + shiftTxt + '</span>' +
+            '<span style="font-size:14px;font-weight:700;color:#E8EDF4">' + ds + '</span>' +
+            '<span style="font-size:12px;color:#C9D1D9">' + shiftTxt + '</span>' +
           '</div>' +
           '<div style="display:flex;align-items:center;gap:8px">' +
             '<span style="font-size:15px;font-weight:900;color:' + (r.net >= 0 ? 'var(--gr)' : 'var(--rd)') + '">NT$ ' + Math.round(r.net).toLocaleString('zh-TW') + '</span>' +
@@ -1573,11 +1571,11 @@ function renderHistory() {
           '</div>' +
         '</div>' +
         '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;font-size:12px">' +
-          '<div style="background:var(--mid);border-radius:7px;padding:7px 9px"><div style="color:#888;margin-bottom:2px">收入</div><div style="font-weight:700">NT$ ' + Math.round(r.inc).toLocaleString('zh-TW') + '</div></div>' +
-          '<div style="background:var(--mid);border-radius:7px;padding:7px 9px"><div style="color:#888;margin-bottom:2px">支出</div><div style="font-weight:700;color:var(--rd)">NT$ ' + Math.round(r.exp).toLocaleString('zh-TW') + '</div></div>' +
-          '<div style="background:var(--mid);border-radius:7px;padding:7px 9px"><div style="color:#888;margin-bottom:2px">油費</div><div style="font-weight:700">NT$ ' + Math.round(r.fuel || 0).toLocaleString('zh-TW') + '</div></div>' +
+          '<div style="background:var(--mid);border-radius:7px;padding:7px 9px"><div style="color:#C9D1D9;margin-bottom:2px">收入</div><div style="font-weight:700">NT$ ' + Math.round(r.inc).toLocaleString('zh-TW') + '</div></div>' +
+          '<div style="background:var(--mid);border-radius:7px;padding:7px 9px"><div style="color:#C9D1D9;margin-bottom:2px">支出</div><div style="font-weight:700;color:var(--rd)">NT$ ' + Math.round(r.exp).toLocaleString('zh-TW') + '</div></div>' +
+          '<div style="background:var(--mid);border-radius:7px;padding:7px 9px"><div style="color:#C9D1D9;margin-bottom:2px">油費</div><div style="font-weight:700">NT$ ' + Math.round(r.fuel || 0).toLocaleString('zh-TW') + '</div></div>' +
         '</div>' +
-        (r.note ? '<div style="font-size:12px;color:#888;background:var(--mid);border-radius:6px;padding:7px 10px;margin-top:8px">📝 ' + r.note + '</div>' : '') +
+        (r.note ? '<div style="font-size:12px;color:#C9D1D9;background:var(--mid);border-radius:6px;padding:7px 10px;margin-top:8px">📝 ' + r.note + '</div>' : '') +
       '</div>';
     }).join('');
 
@@ -1633,13 +1631,13 @@ function renderParttime() {
   if (!list) return;
 
   if (recs.length === 0) {
-    list.innerHTML = '<div style="text-align:center;color:#aaa;padding:20px;font-size:13px">尚無記錄</div>';
+    list.innerHTML = '<div style="text-align:center;color:#C9D1D9;padding:20px;font-size:13px">尚無記錄</div>';
   } else {
     list.innerHTML = recs.slice().reverse().map(function(r) {
       return '<div style="display:flex;justify-content:space-between;align-items:center;background:var(--card);border:1px solid var(--bdr);border-radius:8px;padding:10px 12px;margin-bottom:6px">' +
         '<div>' +
           '<div style="font-size:13px;font-weight:700;color:#333">' + r.month + ' ' + r.source + '</div>' +
-          (r.note ? '<div style="font-size:11px;color:#aaa">' + r.note + '</div>' : '') +
+          (r.note ? '<div style="font-size:11px;color:#C9D1D9">' + r.note + '</div>' : '') +
         '</div>' +
         '<div style="display:flex;align-items:center;gap:10px">' +
           '<span style="font-size:16px;font-weight:900;color:var(--gr)">$' + r.amount.toLocaleString('zh-TW') + '</span>' +
@@ -1660,14 +1658,14 @@ function renderParttime() {
     });
     var years = Object.keys(byYear).sort();
     if (years.length === 0) {
-      annual.innerHTML = '<div style="color:#aaa;font-size:12px;text-align:center">尚無資料</div>';
+      annual.innerHTML = '<div style="color:#C9D1D9;font-size:12px;text-align:center">尚無資料</div>';
     } else {
       annual.innerHTML = years.map(function(y) {
         return '<div style="margin-bottom:8px">' +
-          '<div style="font-weight:700;font-size:13px;color:#555;margin-bottom:4px">' + y + ' 年　合計：<span style="color:var(--gr)">NT$ ' + byYear[y].toLocaleString('zh-TW') + '</span></div>' +
+          '<div style="font-weight:700;font-size:13px;color:#A0AAB8;margin-bottom:4px">' + y + ' 年　合計：<span style="color:var(--gr)">NT$ ' + byYear[y].toLocaleString('zh-TW') + '</span></div>' +
           Object.keys(byMonth).filter(function(m){ return m.startsWith(y); }).sort().map(function(m) {
             return '<div style="display:flex;justify-content:space-between;padding:4px 8px;background:var(--card);border-radius:6px;font-size:12px;margin-bottom:3px">' +
-              '<span style="color:#666">' + m + '</span>' +
+              '<span style="color:#A0AAB8">' + m + '</span>' +
               '<span style="font-weight:700;color:var(--bl)">NT$ ' + byMonth[m].toLocaleString('zh-TW') + '</span>' +
             '</div>';
           }).join('') +
@@ -1711,13 +1709,13 @@ function renderAnnual() {
     var marginColor = margin >= 50 ? 'var(--gr)' : margin >= 20 ? '#1A6EA8' : margin >= 0 ? 'var(--rd)' : 'var(--rd)';
     return '<div style="background:' + bg + ';border:1px solid ' + border + ';border-radius:10px;padding:11px;text-align:center">' +
       '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:5px">' +
-        '<span style="font-size:13px;font-weight:700;color:#888">' + name + ' 月</span>' +
-        '<span style="font-size:10px;color:#aaa">' + (d.days ? d.days + '天' : '—') + '</span>' +
+        '<span style="font-size:13px;font-weight:700;color:#C9D1D9">' + name + ' 月</span>' +
+        '<span style="font-size:10px;color:#C9D1D9">' + (d.days ? d.days + '天' : '—') + '</span>' +
       '</div>' +
       '<div style="font-size:17px;font-weight:900;color:' + color + ';margin-bottom:4px">NT$ ' + Math.round(d.net).toLocaleString('zh-TW') + '</div>' +
       (d.inc > 0 ? '<div style="display:inline-block;background:' + marginColor + ';color:#fff;border-radius:5px;padding:1px 8px;font-size:11px;font-weight:700;margin-bottom:5px">毛利 ' + margin.toFixed(1) + '%</div>' : '<div style="height:20px;margin-bottom:5px"></div>') +
-      '<div style="font-size:10px;color:#aaa">收 ' + Math.round(d.inc).toLocaleString('zh-TW') + '</div>' +
-      '<div style="font-size:10px;color:#aaa">支 ' + Math.round(d.exp).toLocaleString('zh-TW') + '</div>' +
+      '<div style="font-size:10px;color:#C9D1D9">收 ' + Math.round(d.inc).toLocaleString('zh-TW') + '</div>' +
+      '<div style="font-size:10px;color:#C9D1D9">支 ' + Math.round(d.exp).toLocaleString('zh-TW') + '</div>' +
     '</div>';
   }).join('');
 }
@@ -1845,10 +1843,10 @@ function renderExpList() {
     var margin = d.inc > 0 ? (d.net / d.inc * 100).toFixed(1) + '%' : '—';
     return '<div style="display:flex;justify-content:space-between;align-items:center;padding:9px 12px;background:var(--mid);border-radius:9px;margin-bottom:6px">' +
       '<div style="display:flex;align-items:center;gap:10px">' +
-        '<span style="font-size:13px;font-weight:700;color:#888;min-width:36px">' + name + '月</span>' +
-        (d.days ? '<span style="font-size:11px;color:#aaa">' + d.days + '天</span>' : '<span style="font-size:11px;color:#ccc">無記錄</span>') +
+        '<span style="font-size:13px;font-weight:700;color:#C9D1D9;min-width:36px">' + name + '月</span>' +
+        (d.days ? '<span style="font-size:11px;color:#C9D1D9">' + d.days + '天</span>' : '<span style="font-size:11px;color:#ccc">無記錄</span>') +
       '</div><div style="display:flex;align-items:center;gap:12px">' +
-        '<span style="font-size:11px;color:#aaa">毛利 ' + margin + '</span>' +
+        '<span style="font-size:11px;color:#C9D1D9">毛利 ' + margin + '</span>' +
         '<span style="font-size:14px;font-weight:900;color:' + color + '">NT$ ' + Math.round(d.net).toLocaleString('zh-TW') + '</span>' +
       '</div></div>';
   }).join('');
@@ -1915,12 +1913,12 @@ function renderInspect() {
     var label = diff <= 0 ? '已過期 ' + Math.abs(diff) + ' 天' : diff + ' 天後到期';
     return '<div style="background:' + bg + ';border:1px solid ' + color + ';border-radius:10px;padding:12px;margin-bottom:8px">' +
       '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:5px">' +
-        '<div style="font-size:13px;font-weight:700;color:#2A2A2A;flex:1">' + ins.name + '</div>' +
+        '<div style="font-size:13px;font-weight:700;color:#E8EDF4;flex:1">' + ins.name + '</div>' +
         '<div style="font-size:12px;font-weight:900;color:' + color + ';white-space:nowrap;margin-left:8px">' + label + '</div>' +
       '</div>' +
-      '<div style="font-size:11px;color:#888;margin-bottom:3px">到期日：<b style="color:#2A2A2A">' + ins.exp + '</b>｜' + ins.freq + '</div>' +
-      (ins.note ? '<div style="font-size:11px;color:#aaa;margin-bottom:3px">' + ins.note + '</div>' : '') +
-      (ins.tel ? '<a href="tel:' + ins.tel + '" style="display:inline-flex;align-items:center;gap:4px;background:rgba(26,110,168,.1);color:var(--bl);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700;text-decoration:none;margin-top:3px">📞 ' + ins.loc + '</a>' : '<div style="font-size:11px;color:#aaa;margin-top:3px">📍 ' + ins.loc + '</div>') +
+      '<div style="font-size:11px;color:#C9D1D9;margin-bottom:3px">到期日：<b style="color:#E8EDF4">' + ins.exp + '</b>｜' + ins.freq + '</div>' +
+      (ins.note ? '<div style="font-size:11px;color:#C9D1D9;margin-bottom:3px">' + ins.note + '</div>' : '') +
+      (ins.tel ? '<a href="tel:' + ins.tel + '" style="display:inline-flex;align-items:center;gap:4px;background:rgba(26,110,168,.1);color:var(--bl);border-radius:6px;padding:3px 9px;font-size:11px;font-weight:700;text-decoration:none;margin-top:3px">📞 ' + ins.loc + '</a>' : '<div style="font-size:11px;color:#C9D1D9;margin-top:3px">📍 ' + ins.loc + '</div>') +
     '</div>';
   }).join('');
 }
@@ -2096,7 +2094,7 @@ function renderMaint() {
     var sorted = recs.slice().sort(function(a,b){ return (b.km||0)-(a.km||0); });
     kmInfo.textContent = '最高里程 ' + (sorted[0].km||0).toLocaleString('zh-TW') + ' km';
   } else { kmInfo.textContent = ''; }
-  if (!recs.length) { el.innerHTML = '<div class="empty">尚無保養記錄<br><span style="font-size:12px;color:#aaa">翻拍單據後填寫上方表單</span></div>'; return; }
+  if (!recs.length) { el.innerHTML = '<div class="empty">尚無保養記錄<br><span style="font-size:12px;color:#C9D1D9">翻拍單據後填寫上方表單</span></div>'; return; }
   el.innerHTML = recs.map(function(r) {
     var d = new Date(r.date+'T00:00:00');
     var ds = d.toLocaleDateString('zh-TW',{year:'numeric',month:'2-digit',day:'2-digit'});
@@ -2106,15 +2104,15 @@ function renderMaint() {
     }).join('');
     return '<div style="background:var(--card);border:1px solid var(--bdr);border-radius:12px;padding:14px;margin-bottom:10px;box-shadow:0 1px 4px rgba(0,0,0,.06)">' +
       '<div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px">' +
-        '<div><div style="font-size:14px;font-weight:700;color:#2A2A2A">'+ds+'</div>' +
-        '<div style="font-size:12px;color:#aaa;margin-top:2px">'+(r.km?'📍 '+r.km.toLocaleString('zh-TW')+' km':'')+(r.shop?' ｜ 🏪 '+r.shop:'')+'</div></div>' +
+        '<div><div style="font-size:14px;font-weight:700;color:#E8EDF4">'+ds+'</div>' +
+        '<div style="font-size:12px;color:#C9D1D9;margin-top:2px">'+(r.km?'📍 '+r.km.toLocaleString('zh-TW')+' km':'')+(r.shop?' ｜ 🏪 '+r.shop:'')+'</div></div>' +
         '<div style="display:flex;gap:6px">' +
           '<button onclick="editMaint('+r.id+')" style="background:var(--bl);color:#fff;border:none;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent">✏️ 修改</button>' +
           '<button onclick="deleteMaint('+r.id+')" style="background:var(--rd);color:#fff;border:none;border-radius:7px;padding:6px 11px;font-size:12px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent">🗑️</button>' +
         '</div></div>' +
       '<div style="margin-bottom:8px">'+itemPills+'</div>' +
       (r.cost?'<div style="font-size:13px;color:var(--rd);font-weight:700;margin-bottom:4px">💰 費用：NT$ '+r.cost.toLocaleString('zh-TW')+'</div>':'')+
-      (r.note?'<div style="font-size:12px;color:#888;background:var(--mid);border-radius:6px;padding:7px 10px;margin-top:4px">📝 '+r.note+'</div>':'')+
+      (r.note?'<div style="font-size:12px;color:#C9D1D9;background:var(--mid);border-radius:6px;padding:7px 10px;margin-top:4px">📝 '+r.note+'</div>':'')+
     '</div>';
   }).join('');
 }
@@ -2437,7 +2435,7 @@ function initApp() {
   loadDiv.style.cssText = 'position:fixed;inset:0;z-index:999999;background:#0D1117;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px';
   loadDiv.innerHTML = '<div style="font-size:48px">☁️</div>' +
     '<div style="font-size:16px;font-weight:700;color:#1A6EA8">連接雲端資料庫中...</div>' +
-    '<div id="fb-load-msg" style="font-size:13px;color:#aaa">請稍候</div>';
+    '<div id="fb-load-msg" style="font-size:13px;color:#C9D1D9">請稍候</div>';
   document.body.appendChild(loadDiv);
 
   var fbMsg = document.getElementById('fb-load-msg');
