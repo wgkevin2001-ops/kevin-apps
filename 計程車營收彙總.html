@@ -1807,15 +1807,48 @@ function doImportJSON() {
   if (!txt) { toast('⚠️ 請先貼上 JSON'); return; }
   try {
     var data = JSON.parse(txt);
-    if (Array.isArray(data)) { saveRecs(data); }
-    else if (data.taxi_records) {
-      saveRecs(data.taxi_records);
-      if (data.maint_records) saveMaintRecs(data.maint_records);
+    var incoming = [];
+    var incomingMaint = null;
+    if (Array.isArray(data)) {
+      incoming = data;
+    } else if (data.taxi_records) {
+      incoming = data.taxi_records;
+      if (data.maint_records) incomingMaint = data.maint_records;
+    }
+    // ── 合併模式：保留舊資料，新資料補充進去 ──
+    var existing = getRecs();
+    // 用 date+inc 建立現有資料的 key set，避免重複
+    var existingKeys = {};
+    existing.forEach(function(r) {
+      var key = r.date + '_' + r.inc;
+      existingKeys[key] = true;
+    });
+    var added = 0;
+    incoming.forEach(function(r) {
+      var key = r.date + '_' + r.inc;
+      if (!existingKeys[key]) {
+        existing.push(r);
+        existingKeys[key] = true;
+        added++;
+      }
+    });
+    // 依日期排序
+    existing.sort(function(a,b){ return a.date.localeCompare(b.date); });
+    saveRecs(existing);
+    if (incomingMaint) {
+      var existingMaint = getMaintRecs();
+      var maintKeys = {};
+      existingMaint.forEach(function(r){ maintKeys[r.date+'_'+(r.cost||0)] = true; });
+      incomingMaint.forEach(function(r){
+        var key = r.date+'_'+(r.cost||0);
+        if (!maintKeys[key]) { existingMaint.push(r); maintKeys[key] = true; }
+      });
+      saveMaintRecs(existingMaint);
     }
     renderHistory(); renderAnnual(); renderMaint();
-    toast('✅ 匯入完成！共 ' + getRecs().length + ' 筆');
+    toast('✅ 合併完成！新增 ' + added + ' 筆，共 ' + getRecs().length + ' 筆');
     document.getElementById('import-box').style.display = 'none';
-  } catch(e) { toast('❌ JSON 格式錯誤'); }
+  } catch(e) { toast('❌ JSON 格式錯誤：' + e.message); }
 }
 function clearAll() {
   if (!confirm('確定清除全部記錄？此操作無法復原！')) return;
