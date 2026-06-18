@@ -2676,6 +2676,7 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
   <button class="cal-nav-tab active" onclick="switchPage('cheng')" id="tab-cheng">📊 呈的持股</button>
   <button class="cal-nav-tab" onclick="switchPage('niu')" id="tab-niu">💎 妞的持股</button>
   <button class="cal-nav-tab" onclick="switchPage('plan')" id="tab-plan">🌱 存股計畫</button>
+  <button class="cal-nav-tab" onclick="switchPage('bank')" id="tab-bank">🏦 銀行帳戶</button>
 </nav>
 
 <!-- ══ 呈的持股 PAGE ══ -->
@@ -3250,7 +3251,57 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
   <div class="page-footer">以最新公告配息金額計算 · 不構成投資建議</div>
 </div>
 
-<!-- ══ MODALS ══ -->
+<!-- ══ 銀行帳戶頁 ══ -->
+<div class="page" id="page-bank">
+  <div style="padding:16px 12px 4px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <h2 style="margin:0;font-size:17px;color:#E8EDF4">🏦 銀行帳戶</h2>
+      <button onclick="bankAddRow()" style="background:#1F6FEB;color:#fff;border:none;border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer">＋ 新增</button>
+    </div>
+    <!-- 總餘額 -->
+    <div id="bank-total-card" style="background:#161B22;border:1px solid #30363D;border-radius:12px;padding:14px 18px;margin-bottom:14px;display:flex;justify-content:space-between;align-items:center">
+      <span style="color:#8B949E;font-size:13px">總餘額（TWD 等值）</span>
+      <span id="bank-total" style="font-size:22px;font-weight:700;color:#58A6FF">計算中…</span>
+    </div>
+    <!-- 銀行列表 -->
+    <div id="bank-list"></div>
+  </div>
+  <div class="page-footer">匯率僅供參考 · 實際以各銀行為準</div>
+</div>
+
+<!-- 銀行帳戶 Edit Modal -->
+<div class="modal-bg" id="bank-modal" onclick="if(event.target===this)closeBankModal()">
+  <div class="modal-box">
+    <div class="modal-hdr">
+      <div class="modal-title" id="bank-modal-title">編輯帳戶</div>
+      <button class="modal-close" onclick="closeBankModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="field-row">
+        <div class="field"><label>銀行名稱</label><input id="bk-bank" placeholder="台灣銀行"></div>
+        <div class="field"><label>帳戶末4碼</label><input id="bk-acct" placeholder="8193" maxlength="6"></div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>帳戶類型</label><input id="bk-type" placeholder="活期儲蓄存款"></div>
+        <div class="field"><label>幣別</label>
+          <select id="bk-ccy" style="width:100%;padding:8px;background:#0D1117;color:#E8EDF4;border:1px solid #30363D;border-radius:6px;font-size:14px">
+            <option value="TWD">TWD 新台幣</option>
+            <option value="USD">USD 美元</option>
+            <option value="JPY">JPY 日圓</option>
+            <option value="EUR">EUR 歐元</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field"><label>餘額</label><input id="bk-bal" type="number" placeholder="0"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-cancel" onclick="closeBankModal()">取消</button>
+      <button class="btn-save" onclick="saveBankRow()">儲存</button>
+    </div>
+  </div>
+</div>
 <!-- 台股 Edit/Add -->
 <div class="modal-bg" id="edit-modal" onclick="if(event.target===this)closeEdit()">
   <div class="modal-box">
@@ -3584,7 +3635,13 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
       if (raw) summary = JSON.parse(raw);
     } catch(e){}
 
-    return { tw, us, fb, yf, niu: niuRows, plan: planData, summary, savedAt: new Date().toISOString() };
+    let bank = [];
+    try {
+      const raw = localStorage.getItem('chengbei_bank_v1');
+      if (raw) bank = JSON.parse(raw);
+    } catch(e){}
+
+    return { tw, us, fb, yf, niu: niuRows, plan: planData, summary, bank, savedAt: new Date().toISOString() };
   }
 
   /* ── 儲存到 Firebase ── */
@@ -3646,6 +3703,10 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
       if (data.summary && data.summary.text) {
         try { localStorage.setItem('chengbei_summary_v1', JSON.stringify(data.summary)); } catch(e){}
         if (typeof sbRender === 'function') sbRender(data.summary.text, data.summary.time);
+      }
+      if (data.bank && data.bank.length) {
+        try { localStorage.setItem('chengbei_bank_v1', JSON.stringify(data.bank)); } catch(e){}
+        if (typeof bankLoad === 'function') bankLoad();
       }
 
       window.dispatchEvent(new Event('holdings-ready'));
@@ -3742,12 +3803,155 @@ function renderLossCard(pageId) { return; // disabled
 }
 
 /* ══ PAGE SWITCH ══ */
+/* ══ 銀行帳戶 ══ */
+const USD_TWD = 32.5, JPY_TWD = 0.215, EUR_TWD = 36.5;
+
+const DEFAULT_BANKS = [
+  { bank:'聯邦銀行',   acct:'',     type:'活期儲蓄存款',           ccy:'TWD', bal:0 },
+  { bank:'臺灣銀行',   acct:'8193', type:'活期儲蓄存款',           ccy:'TWD', bal:7408 },
+  { bank:'臺灣銀行',   acct:'0324', type:'活期儲蓄存款',           ccy:'TWD', bal:252 },
+  { bank:'土地銀行',   acct:'0668', type:'數位存款',               ccy:'TWD', bal:9188 },
+  { bank:'土地銀行',   acct:'7661', type:'數位存款（外幣）',        ccy:'USD', bal:0 },
+  { bank:'彰化銀行',   acct:'9500', type:'台幣存摺存款',           ccy:'TWD', bal:15004 },
+  { bank:'台北富邦',   acct:'7713', type:'活期儲蓄存款',           ccy:'TWD', bal:140191 },
+  { bank:'台北富邦',   acct:'8420', type:'活期儲蓄存款',           ccy:'TWD', bal:46 },
+  { bank:'國泰世華',   acct:'5854', type:'數位存款帳戶1-1類',      ccy:'TWD', bal:145480 },
+  { bank:'永豐銀行',   acct:'8184', type:'外幣組合存款',           ccy:'USD', bal:0 },
+  { bank:'永豐銀行',   acct:'8186', type:'活期儲蓄存款',           ccy:'TWD', bal:1017 },
+  { bank:'台新銀行',   acct:'6949', type:'無摺綜活儲-數位三類',    ccy:'TWD', bal:342 },
+  { bank:'台新銀行',   acct:'6833', type:'RICHART三類',            ccy:'TWD', bal:0 },
+  { bank:'中國信託',   acct:'5798', type:'台幣活存帳戶',           ccy:'TWD', bal:76457 },
+];
+
+const BANK_KEY = 'chengbei_bank_v1';
+let bankData = [];
+let bankEditIdx = -1;
+
+function bankLoad() {
+  try {
+    const raw = localStorage.getItem(BANK_KEY);
+    bankData = raw ? JSON.parse(raw) : JSON.parse(JSON.stringify(DEFAULT_BANKS));
+  } catch(e) {
+    bankData = JSON.parse(JSON.stringify(DEFAULT_BANKS));
+  }
+  bankRender();
+}
+
+function bankSave() {
+  try { localStorage.setItem(BANK_KEY, JSON.stringify(bankData)); } catch(e){}
+  if (typeof fbSaveHoldings === 'function') fbSaveHoldings();
+}
+
+function toTWD(bal, ccy) {
+  if (ccy === 'TWD') return bal;
+  if (ccy === 'USD') return bal * USD_TWD;
+  if (ccy === 'JPY') return bal * JPY_TWD;
+  if (ccy === 'EUR') return bal * EUR_TWD;
+  return bal;
+}
+
+function bankRender() {
+  const list = document.getElementById('bank-list');
+  if (!list) return;
+
+  // 按銀行分組
+  const groups = {};
+  bankData.forEach((a, i) => {
+    if (!groups[a.bank]) groups[a.bank] = [];
+    groups[a.bank].push({ ...a, idx: i });
+  });
+
+  let total = 0;
+  bankData.forEach(a => { total += toTWD(a.bal || 0, a.ccy); });
+  document.getElementById('bank-total').textContent = 'TWD ' + Math.round(total).toLocaleString();
+
+  list.innerHTML = Object.entries(groups).map(([bankName, accts]) => {
+    const bankTotal = accts.reduce((s, a) => s + toTWD(a.bal || 0, a.ccy), 0);
+    const rows = accts.map(a => `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #21262D">
+        <div>
+          <div style="font-size:13px;color:#C9D1D9">${a.type}${a.acct ? ' <span style="color:#8B949E">…${a.acct}</span>' : ''}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px">
+          <div style="text-align:right">
+            <div style="font-size:15px;font-weight:600;color:#E8EDF4">${a.ccy} ${(a.bal||0).toLocaleString()}</div>
+            ${a.ccy !== 'TWD' ? `<div style="font-size:11px;color:#8B949E">≈ TWD ${Math.round(toTWD(a.bal||0,a.ccy)).toLocaleString()}</div>` : ''}
+          </div>
+          <div style="display:flex;gap:4px">
+            <button onclick="bankEditRow(${a.idx})" style="background:#21262D;border:1px solid #30363D;color:#8B949E;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer">✏️</button>
+            <button onclick="bankDelRow(${a.idx})" style="background:#21262D;border:1px solid #30363D;color:#F85149;border-radius:6px;padding:4px 8px;font-size:12px;cursor:pointer">🗑</button>
+          </div>
+        </div>
+      </div>`).join('');
+
+    return `
+      <div style="background:#161B22;border:1px solid #30363D;border-radius:12px;padding:12px 16px;margin-bottom:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+          <span style="font-size:15px;font-weight:600;color:#58A6FF">${bankName}</span>
+          <span style="font-size:13px;color:#8B949E">小計 TWD ${Math.round(bankTotal).toLocaleString()}</span>
+        </div>
+        ${rows}
+      </div>`;
+  }).join('');
+}
+
+function bankAddRow() {
+  bankEditIdx = -1;
+  document.getElementById('bank-modal-title').textContent = '新增帳戶';
+  document.getElementById('bk-bank').value = '';
+  document.getElementById('bk-acct').value = '';
+  document.getElementById('bk-type').value = '';
+  document.getElementById('bk-ccy').value = 'TWD';
+  document.getElementById('bk-bal').value = '';
+  document.getElementById('bank-modal').classList.add('open');
+}
+
+function bankEditRow(idx) {
+  bankEditIdx = idx;
+  const a = bankData[idx];
+  document.getElementById('bank-modal-title').textContent = '編輯帳戶';
+  document.getElementById('bk-bank').value = a.bank || '';
+  document.getElementById('bk-acct').value = a.acct || '';
+  document.getElementById('bk-type').value = a.type || '';
+  document.getElementById('bk-ccy').value = a.ccy || 'TWD';
+  document.getElementById('bk-bal').value = a.bal || 0;
+  document.getElementById('bank-modal').classList.add('open');
+}
+
+function bankDelRow(idx) {
+  if (!confirm(`確定刪除「${bankData[idx].bank} …${bankData[idx].acct}」？`)) return;
+  bankData.splice(idx, 1);
+  bankSave();
+  bankRender();
+}
+
+function saveBankRow() {
+  const obj = {
+    bank: document.getElementById('bk-bank').value.trim(),
+    acct: document.getElementById('bk-acct').value.trim(),
+    type: document.getElementById('bk-type').value.trim(),
+    ccy:  document.getElementById('bk-ccy').value,
+    bal:  parseFloat(document.getElementById('bk-bal').value) || 0
+  };
+  if (!obj.bank) { alert('請填寫銀行名稱'); return; }
+  if (bankEditIdx >= 0) bankData[bankEditIdx] = obj;
+  else bankData.push(obj);
+  bankSave();
+  bankRender();
+  closeBankModal();
+}
+
+function closeBankModal() {
+  document.getElementById('bank-modal').classList.remove('open');
+}
+
 function switchPage(p) {
   document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
   document.querySelectorAll('.cal-nav-tab').forEach(b => b.classList.remove('active'));
   document.getElementById('page-' + p).classList.add('active');
   document.getElementById('tab-' + p).classList.add('active');
   if (p === 'plan') planRender();
+  if (p === 'bank') bankRender();
 }
 
 /* ══ TOAST ══ */
@@ -5202,6 +5406,7 @@ window.addEventListener('holdings-ready', function() {
 
 /* ══ INIT ══ */
 switchPage('cheng');
+bankLoad();
 fetchPrices();
 setInterval(fetchPrices, 60000);
 renderAllCards();
