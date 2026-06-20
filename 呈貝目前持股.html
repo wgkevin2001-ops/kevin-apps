@@ -6083,15 +6083,6 @@ function ocrHandleFile(file) {
 
 /* ── 呼叫 Claude API 分析圖片 ── */
 async function ocrAnalyze(dataUrl) {
-  // 檢查 API key
-  const key = getApiKey();
-  if (!key || !key.startsWith('sk-')) {
-    const errEl = document.getElementById('ocr-error');
-    errEl.textContent = '⚠ 請先設定 API Key（點右下角 ⚡ → 🔑 設定 API Key）';
-    errEl.classList.add('show');
-    closeOcr(); openApiKey();
-    return;
-  }
   // 顯示 loading
   document.getElementById('ocr-result').classList.remove('show');
   document.getElementById('ocr-apply-bar').classList.remove('show');
@@ -6106,63 +6097,24 @@ async function ocrAnalyze(dataUrl) {
   // 收集目前持股清單（供對照）
   const holdings = ocrGetCurrentHoldings();
 
-  const prompt = `你是台灣股票持股辨識專家。請分析這張券商 App 截圖，辨識出所有持股的「股票代號（或名稱）」和「持有股數」。
-
-截圖可能來自以下券商：
-- 口袋存股（美股）：格式為「CSCO / 0.8121股」，股數為小數
-- 富邦/國泰台股：格式為表格，有「本日餘額」或「庫存股數」欄位
-- 板橋永豐台股：格式為「即時庫存」欄位
-
-請回傳 JSON，格式如下（不要加任何說明文字）：
-{
-  "broker": "券商名稱",
-  "stocks": [
-    { "code": "股票代號或英文代碼", "name": "股票名稱（若有）", "shares": 數字 }
-  ]
-}
-
-目前系統持股清單供對照（可能需要比對）：
-${JSON.stringify(holdings)}
-
-注意：
-- shares 必須是數字（美股可有小數）
-- 若截圖為美股，code 為英文如 CSCO、NVDA
-- 若截圖為台股，code 為數字如 00878、2449
-- 只回傳 JSON，不要有任何其他文字`;
+  const prompt = `你是台灣股票持股辨識專家。請分析這張券商 App 截圖，辨識出所有持股的「股票代號（或名稱）」和「持有股數」。\n\n截圖可能來自以下券商：\n- 口袋存股（美股）：格式為「CSCO / 0.8121股」，股數為小數\n- 富邦/國泰台股：格式為表格，有「本日餘額」或「庫存股數」欄位\n- 板橋永豐台股：格式為「即時庫存」欄位\n\n請回傳 JSON，格式如下（不要加任何說明文字）：\n{\n  "broker": "券商名稱",\n  "stocks": [\n    { "code": "股票代號或英文代碼", "name": "股票名稱（若有）", "shares": 數字 }\n  ]\n}\n\n目前系統持股清單供對照（可能需要比對）：\n${JSON.stringify(holdings)}\n\n注意：\n- shares 必須是數字（美股可有小數）\n- 若截圖為美股，code 為英文如 CSCO、NVDA\n- 若截圖為台股，code 為數字如 00878、2449\n- 只回傳 JSON，不要有任何其他文字`;
 
   try {
-    const apiKey = getApiKey();
-    if (!apiKey) {
-      document.getElementById('ocr-status').classList.remove('show');
-      const errEl = document.getElementById('ocr-error');
-      errEl.textContent = '⚠ 請先設定 API Key（點右下角 ⚡ → 🔑 設定 API Key）';
-      errEl.classList.add('show');
-      setTimeout(() => { closeOcr(); openApiKey(); }, 1500);
-      return;
-    }
-    const resp = await fetch('https://api.anthropic.com/v1/messages', {
+    // 透過 GAS proxy 呼叫 Claude（API Key 存在 GAS，不需在瀏覽器設定）
+    const resp = await fetch(GAS_URL, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-        'anthropic-dangerous-direct-browser-access': 'true'
-      },
+      headers: { 'Content-Type': 'text/plain' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-6',
-        max_tokens: 1000,
-        messages: [{
-          role: 'user',
-          content: [
-            { type: 'image', source: { type: 'base64', media_type: mediaType, data: b64data } },
-            { type: 'text', text: prompt }
-          ]
-        }]
+        content: [
+          { type: 'image', source: { type: 'base64', media_type: mediaType, data: b64data } },
+          { type: 'text', text: prompt }
+        ]
       })
     });
 
-    if (!resp.ok) throw new Error('API 回應錯誤 ' + resp.status);
+    if (!resp.ok) throw new Error('GAS 回應錯誤 ' + resp.status);
     const data = await resp.json();
+    if (data.error) throw new Error(data.error);
     const text = data.content.find(b => b.type === 'text')?.text || '';
 
     // 解析 JSON
