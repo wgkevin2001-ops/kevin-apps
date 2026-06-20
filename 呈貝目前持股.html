@@ -6112,9 +6112,14 @@ async function ocrAnalyze(dataUrl) {
       })
     });
 
-    if (!resp.ok) throw new Error('GAS 回應錯誤 ' + resp.status);
+    if (!resp.ok) {
+      let errMsg = 'GAS 回應錯誤 ' + resp.status;
+      try { const e = await resp.json(); errMsg = e.error || errMsg; } catch(x) {}
+      throw new Error(errMsg);
+    }
     const data = await resp.json();
-    if (data.error) throw new Error(data.error);
+    if (data.error) throw new Error(typeof data.error === 'string' ? data.error : JSON.stringify(data.error));
+    if (!data.content) throw new Error('GAS 回傳格式錯誤: ' + JSON.stringify(data).slice(0,100));
     const text = data.content.find(b => b.type === 'text')?.text || '';
 
     // 解析 JSON
@@ -6130,7 +6135,8 @@ async function ocrAnalyze(dataUrl) {
   } catch(err) {
     document.getElementById('ocr-status').classList.remove('show');
     const errEl = document.getElementById('ocr-error');
-    errEl.textContent = '⚠ ' + (err.message || '分析失敗，請重試');
+    const msg = err instanceof Error ? err.message : (typeof err === 'string' ? err : JSON.stringify(err));
+    errEl.textContent = '⚠ ' + (msg || '分析失敗，請重試');
     errEl.classList.add('show');
   }
 }
