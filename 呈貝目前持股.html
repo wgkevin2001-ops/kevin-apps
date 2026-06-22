@@ -94,7 +94,7 @@ body {
 .icon-btn:hover { background: #1C2128; }
 
 /* ── MAIN LAYOUT ── */
-.page { display: none; padding: 20px; max-width: 860px; margin: 0 auto; }
+.page { display: none; padding: 0 20px 20px; max-width: 860px; margin: 0 auto; }
 .page.active { display: block; }
 
 /* ── SUMMARY ROW ── */
@@ -995,7 +995,7 @@ tbody td:last-child  { padding-right: 14px; }
    TABLET (600px – 899px)
 ══════════════════════════════════════════ */
 @media(min-width:600px) and (max-width:899px){
-  .page { padding:16px 20px 60px; }
+  .page { padding:0 20px 60px; }
   .summary-row,.plan-sum-row { grid-template-columns:repeat(3,1fr); gap:10px; }
   .section-hdr { padding:12px 16px 10px; }
   table { font-size:13.5px; }
@@ -1032,9 +1032,11 @@ tbody td:last-child  { padding-right: 14px; }
    MOBILE (≤ 599px)  ── 字體 +20%
 ══════════════════════════════════════════ */
 @media(max-width:599px){
-  /* page 讓出 nav(50px) + header(~78px) */
-  .page { display:none; padding:14px 14px 34px; }
-  .page.active { display:block; padding-top:140px; }
+  /* page 讓出 sticky header + nav */
+  .page { display:none; padding:0 14px 34px; }
+  .page.active { display:block; }
+  .cal-nav-tabs { position: sticky; top: 0; z-index: 200; }
+  .cal-header { position: sticky; top: 0; z-index: 201; }
 
   /* 摘要 2欄，最後一張全寬 */
   .summary-row { grid-template-columns:1fr 1fr; gap:11px; }
@@ -1733,12 +1735,17 @@ tbody td:last-child  { padding-right: 14px; }
 }
 
 /* ══ 重點摘要橫幅 ══ */
+details[id="sb-details"] summary::-webkit-details-marker { display:none; }
+details[id="sb-details"][open] .sb-chevron-closed { display:none !important; }
+details[id="sb-details"][open] .sb-chevron-open { display:inline !important; }
+
 .summary-banner {
   background: linear-gradient(135deg, #0D1F2D 0%, #0F2337 50%, #0A1A28 100%);
   border-bottom: 1px solid #1C3A52;
   padding: 0;
   position: relative;
   overflow: hidden;
+  margin: 0 -20px;
 }
 .summary-banner::before {
   content: '';
@@ -1783,6 +1790,11 @@ tbody td:last-child  { padding-right: 14px; }
   color: #C9D1D9;
   line-height: 1.6;
   white-space: pre-wrap;
+  overflow: hidden;
+}
+#sb-body {
+  overflow: hidden;
+  transition: all .25s ease;
 }
 .sb-text .highlight-green { color: #3FB950; font-weight: 700; }
 .sb-text .highlight-red   { color: #F85149; font-weight: 700; }
@@ -2549,7 +2561,7 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     </div>
 
     <div class="ocr-upload-area" id="ocr-drop">
-      <input type="file" id="ocr-file-input" accept="image/*,image/jpeg,image/png,image/gif,image/webp" onchange="ocrHandleFile(this.files[0])">
+      <input type="file" id="ocr-file-input" accept="image/*" onchange="ocrHandleFile(this.files[0])">
       <div class="ocr-upload-icon">📸</div>
       <div class="ocr-upload-label">上傳券商截圖</div>
       <div class="ocr-upload-sub">支援 國泰・富邦・口袋存股<br>點擊選擇或直接拖曳圖片</div>
@@ -2645,30 +2657,6 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
 </div>
 
 <!-- ══ 重點摘要橫幅 ══ -->
-<div class="summary-banner" id="summary-banner">
-  <div class="summary-banner-inner">
-    <div class="sb-icon">💡</div>
-    <div class="sb-content">
-      <div class="sb-label">
-        <span class="sb-label-dot"></span>
-        今日重點摘要
-      </div>
-      <div class="sb-text" id="sb-text-display">載入中...</div>
-      <div class="sb-meta" id="sb-meta">
-        <span id="sb-updated-time"></span>
-      </div>
-    </div>
-    <button class="sb-edit-btn" onclick="toggleSbEditor()">✏️ 更新摘要</button>
-  </div>
-  <div class="sb-editor" id="sb-editor">
-    <div class="sb-editor-inner">
-      <textarea id="sb-textarea" placeholder="在此輸入今日重點摘要...&#10;&#10;例：&#10;• 最大贏家：00878 國泰永續高股息，獲利 +84.8萬元（+127.68%）&#10;• 美股今日：MU +18.18%，TSM +10.26% 表現亮眼&#10;• 注意：SATL -18.94%、GEV -9.01% 持續虧損"></textarea>
-      <div class="sb-editor-btns">
-        <button class="sb-cancel-btn" onclick="toggleSbEditor()">取消</button>
-        <button class="sb-save-btn" onclick="saveSbSummary()">💾 儲存摘要</button>
-      </div>
-    </div>
-  </div>
 </div>
 
 <!-- 行事曆風格 Nav -->
@@ -2683,8 +2671,63 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
 <div class="page active" id="page-cheng">
   <div class="print-header">呈貝持股報告 · 呈的持股</div>
 
+<div class="summary-banner" id="summary-banner">
+  <details id="sb-details">
+    <summary class="sb-header" style="display:flex;align-items:center;gap:12px;padding:10px 20px;cursor:pointer;user-select:none;list-style:none;outline:none;">
+      <div class="sb-icon">💡</div>
+      <div style="flex:1;">
+        <div class="sb-label"><span class="sb-label-dot"></span>今日重點摘要</div>
+      </div>
+      <span class="sb-chevron-closed" style="font-size:12px;color:#58A6FF;white-space:nowrap;">▶ 展開</span>
+      <span class="sb-chevron-open" style="font-size:12px;color:#58A6FF;white-space:nowrap;display:none;">▼ 收合</span>
+      <button class="sb-edit-btn" onclick="event.preventDefault();event.stopPropagation();toggleSbEditor()" style="margin-left:4px;">✏️</button>
+    </summary>
+    <div style="padding:0 20px 12px 44px;">
+      <div class="sb-text" id="sb-text-display"><span class="highlight-blue">📊 持股報酬率排行（高→低）2026/06/22</span><br>
+<br>
+<span style="color:#F0A500;font-weight:bold;">🇹🇼 台股</span><br>
+1 <span class="highlight-blue">00878</span> 國泰永續高股息 <span class="highlight-green">+145.84%</span>（48,005股）<br>
+2 <span class="highlight-blue">00830</span> 國泰費城半導體 <span class="highlight-green">+69.72%</span><br>
+3 <span class="highlight-blue">00876</span> 元大全球5G <span class="highlight-green">+52.67%</span><br>
+4 00918 大華優利高填息30 <span class="highlight-green">+49.55%</span>（永豐）<br>
+5 <span class="highlight-blue">00631L</span> 元大台灣50正2 <span class="highlight-green">+45.91%</span><br>
+6 <span class="highlight-blue">00861</span> 元大全球未來通訊 <span class="highlight-green">+37.11%</span><br>
+7 <span class="highlight-blue">00941</span> 中信上游半導體 <span class="highlight-green">+31.72%</span><br>
+8 2449 京元電子 <span class="highlight-green">+23.04%</span><br>
+9 00400A 主動國泰勤能高息 <span class="highlight-green">+17.93%</span>（永豐）<br>
+10 00988A 主動統一全球創新 <span class="highlight-green">+15.12%</span><br>
+11 00403A 主動統一升級50 <span class="highlight-green">+12.24%</span>（永豐）<br>
+12 0052 富邦科技 <span class="highlight-green">+8.76%</span><br>
+13 00920 富邦ESG <span class="highlight-green">+6.93%</span> ｜ 00911 兆豐洲際 <span class="highlight-green">+5.76%</span><br>
+14 00893 國泰智能電動車 <span class="highlight-green">+5.73%</span> ｜ 0053 元大電子 <span class="highlight-green">+5.37%</span><br>
+📉 台股虧損：00910 <span class="highlight-red">-3.98%</span> ｜ <span class="highlight-blue">6285</span> 啟碁 <span class="highlight-red">-1.64%</span><br>
+<br>
+<span style="color:#58A6FF;font-weight:bold;">🇺🇸 美股</span><br>
+1 <span class="highlight-blue">TSM</span> 台積電ADR <span class="highlight-green">+20.2%</span><br>
+2 <span class="highlight-blue">MU</span> 美光 <span class="highlight-green">+36.52%</span><br>
+3 <span class="highlight-blue">GEV</span> <span class="highlight-green">+7.35%</span><br>
+4 <span class="highlight-blue">AVGO</span> <span class="highlight-green">+6.97%</span><br>
+5 <span class="highlight-blue">KLAC</span> <span class="highlight-green">+5.92%</span><br>
+6 <span class="highlight-blue">NVDA</span> <span class="highlight-green">+0.58%</span> ｜ CSCO <span class="highlight-green">+0.3%</span><br>
+📉 美股虧損：<span class="highlight-red">RDW</span> <span class="highlight-red">-9.3%</span> ｜ <span class="highlight-red">SATL</span> <span class="highlight-red">-26.6%</span><br>
+<br>
+🔔 <span class="highlight-blue">即將除息</span>（7～8月預估）<br>
+📅 <span class="highlight-blue">00878</span> 國泰永續高股息　季配・下次除息約 <span class="highlight-green">8月</span>（Q2已配0.66元創新高）<br>
+📅 <span class="highlight-blue">00403A</span> 主動統一升級50　季配（2/5/8/11月）・下次除息約 <span class="highlight-green">8月</span><br>
+📅 00400A 主動國泰動能高息　<span class="highlight-green">月配</span>・每月除息（7月預計續配）<br>
+📅 00406A 主動中信台灣收益　<span class="highlight-green">月配</span>・6/11掛牌・<span class="highlight-green">8月首次配息</span><br>
+📅 00918 大華優利高填息30　季配（3/6/9/12月）・下次除息約 <span class="highlight-green">9月</span>（Q2已配1.26元）<br>
+⚠️ 00878 已於 5/19 除息・持有 48,005 股可領約 <span class="highlight-green">31,683元</span></div>
+      <div class="sb-meta" id="sb-meta" style="margin-top:4px;">
+        <span id="sb-updated-time">更新於 2026/06/22 15:12</span>
+      </div>
+    </div>
+  </details>
+</div>
+
+
   <!-- 摘要 -->
-  <div class="summary-row" style="margin-top:16px;">
+  <div class="summary-row" style="margin-top:12px;">
     <div class="sum-card">
       <div class="sum-label">總市值</div>
       <div class="sum-value" id="cheng-total-val">—</div>
@@ -2773,9 +2816,9 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
           <th style="text-align:center;width:70px">操作</th>
         </tr></thead>
         <tbody data-section="國泰">
-          <tr data-code="0052" data-avg="59.48" data-shares="120"><td><div class="stock-name-wrap"><span class="sname">富邦科技 <span class="etf-tag">ETF</span></span><span class="scode">0052</span></div></td><td class="live-price-cell">—</td><td class="mono">59.48</td><td class="mono">105</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="0053" data-avg="237.7" data-shares="10"><td><div class="stock-name-wrap"><span class="sname">元大電子 <span class="etf-tag">ETF</span></span><span class="scode">0053</span></div></td><td class="live-price-cell">—</td><td class="mono">237.7</td><td class="mono">10</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00631L" data-avg="28.07" data-shares="290"><td><div class="stock-name-wrap"><span class="sname">元大台灣50正2 <span class="etf-tag">ETF</span></span><span class="scode">00631L</span></div></td><td class="live-price-cell">—</td><td class="mono">28.07</td><td class="mono">290</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="0052" data-avg="59.84" data-shares="125"><td><div class="stock-name-wrap"><span class="sname">富邦科技 <span class="etf-tag">ETF</span></span><span class="scode">0052</span></div></td><td class="live-price-cell">—</td><td class="mono">59.84</td><td class="mono">125</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="0053" data-avg="238.36" data-shares="11"><td><div class="stock-name-wrap"><span class="sname">元大電子 <span class="etf-tag">ETF</span></span><span class="scode">0053</span></div></td><td class="live-price-cell">—</td><td class="mono">238.36</td><td class="mono">11</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00631L" data-avg="28.24" data-shares="295"><td><div class="stock-name-wrap"><span class="sname">元大台灣50正2 <span class="etf-tag">ETF</span></span><span class="scode">00631L</span></div></td><td class="live-price-cell">—</td><td class="mono">28.24</td><td class="mono">295</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00830" data-avg="59.1" data-shares="70"><td><div class="stock-name-wrap"><span class="sname">國泰費城半導體 <span class="etf-tag">ETF</span></span><span class="scode">00830</span></div></td><td class="live-price-cell">—</td><td class="mono">59.1</td><td class="mono">70</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00861" data-avg="70.93" data-shares="90"><td><div class="stock-name-wrap"><span class="sname">元大全球未來通訊 <span class="etf-tag">ETF</span></span><span class="scode">00861</span></div></td><td class="live-price-cell">—</td><td class="mono">70.93</td><td class="mono">90</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00876" data-avg="67.72" data-shares="50"><td><div class="stock-name-wrap"><span class="sname">元大全球5G <span class="etf-tag">ETF</span></span><span class="scode">00876</span></div></td><td class="live-price-cell">—</td><td class="mono">67.72</td><td class="mono">50</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
@@ -2783,11 +2826,11 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
           <tr data-code="00910" data-avg="67.95" data-shares="280"><td><div class="stock-name-wrap"><span class="sname">第一金太空衛星 <span class="etf-tag">ETF</span></span><span class="scode">00910</span></div></td><td class="live-price-cell">—</td><td class="mono">67.95</td><td class="mono">280</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00911" data-avg="63.83" data-shares="35"><td><div class="stock-name-wrap"><span class="sname">兆豐洲際半導體 <span class="etf-tag">ETF</span></span><span class="scode">00911</span></div></td><td class="live-price-cell">—</td><td class="mono">63.83</td><td class="mono">35</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00920" data-avg="25.1" data-shares="230"><td><div class="stock-name-wrap"><span class="sname">富邦ESG綠色電力 <span class="etf-tag">ETF</span></span><span class="scode">00920</span></div></td><td class="live-price-cell">—</td><td class="mono">25.1</td><td class="mono">230</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00941" data-avg="21.69" data-shares="159"><td><div class="stock-name-wrap"><span class="sname">中信上游半導體 <span class="etf-tag">ETF</span></span><span class="scode">00941</span></div></td><td class="live-price-cell">—</td><td class="mono">21.69</td><td class="mono">159</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00988A" data-avg="20.43" data-shares="365"><td><div class="stock-name-wrap"><span class="sname">主動統一全球創新 <span class="etf-tag">ETF</span></span><span class="scode">00988A</span></div></td><td class="live-price-cell">—</td><td class="mono">20.43</td><td class="mono">340</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00941" data-avg="21.9" data-shares="100"><td><div class="stock-name-wrap"><span class="sname">中信上游半導體 <span class="etf-tag">ETF</span></span><span class="scode">00941</span></div></td><td class="live-price-cell">—</td><td class="mono">21.9</td><td class="mono">100</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00988A" data-avg="20.56" data-shares="365"><td><div class="stock-name-wrap"><span class="sname">主動統一全球創新 <span class="etf-tag">ETF</span></span><span class="scode">00988A</span></div></td><td class="live-price-cell">—</td><td class="mono">20.56</td><td class="mono">365</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
         
           <tr data-code="2449" data-avg="274.5" data-shares="100"><td><div class="stock-name-wrap"><span class="sname">京元電子</span><span class="scode">2449</span></div></td><td class="live-price-cell">—</td><td class="mono">274.5</td><td class="mono">100</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="6285" data-avg="271" data-shares="130"><td><div class="stock-name-wrap"><span class="sname">啟碁</span><span class="scode">6285</span></div></td><td class="live-price-cell">—</td><td class="mono">271</td><td class="mono">130</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="6285" data-avg="271.45" data-shares="200"><td><div class="stock-name-wrap"><span class="sname">啟碁</span><span class="scode">6285</span></div></td><td class="live-price-cell">—</td><td class="mono">271.45</td><td class="mono">200</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -2818,8 +2861,8 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
           <th style="text-align:center;width:70px">操作</th>
         </tr></thead>
         <tbody data-section="富邦">
-          <tr data-code="00400A" data-avg="13.08" data-shares="1755"><td><div class="stock-name-wrap"><span class="sname">主動國泰勤能高息 <span class="etf-tag">ETF</span></span><span class="scode">00400A</span></div></td><td class="live-price-cell">—</td><td class="mono">13.97</td><td class="mono">675</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00403A" data-avg="10.08" data-shares="3825"><td><div class="stock-name-wrap"><span class="sname">主動統一升級50 <span class="etf-tag">ETF</span></span><span class="scode">00403A</span></div></td><td class="live-price-cell">—</td><td class="mono">10.08</td><td class="mono">3,690</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00400A" data-avg="15.57" data-shares="1770"><td><div class="stock-name-wrap"><span class="sname">主動國泰勤能高息 <span class="etf-tag">ETF</span></span><span class="scode">00400A</span></div></td><td class="live-price-cell">—</td><td class="mono">15.57</td><td class="mono">1770</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00403A" data-avg="11.38" data-shares="3850"><td><div class="stock-name-wrap"><span class="sname">主動統一升級50 <span class="etf-tag">ETF</span></span><span class="scode">00403A</span></div></td><td class="live-price-cell">—</td><td class="mono">11.38</td><td class="mono">3,850</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00878" data-avg="13.84" data-shares="48005"><td><div class="stock-name-wrap"><span class="sname">國泰永續高股息 <span class="etf-tag">ETF</span></span><span class="scode">00878</span></div></td><td class="live-price-cell">—</td><td class="mono">13.84</td><td class="mono">48,005</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00918" data-avg="22.67" data-shares="6020"><td><div class="stock-name-wrap"><span class="sname">大華優利高填息30 <span class="etf-tag">ETF</span></span><span class="scode">00918</span></div></td><td class="live-price-cell">—</td><td class="mono">22.67</td><td class="mono">6,020</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
         
@@ -2892,12 +2935,12 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
           <tr data-us-code="GEV" data-us-shares="0.375" data-us-avg="1033.76" data-us-pnl="-50.54" data-us-rate="-13.04%" data-us-price="899"><td><span class="sname">GEV</span></td><td class="mono">920.15</td><td class="mono">1033.76</td><td class="mono">0.375</td><td class="pnl-down">-42.6</td><td><span class="rate-pill down">-10.99%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
           <tr data-us-code="KLAC" data-us-shares="0.1971" data-us-avg="245.05" data-us-pnl="-0.83" data-us-rate="-1.73%" data-us-price="240.82"><td><span class="sname">KLAC</span></td><td class="mono">240.82</td><td class="mono">245.05</td><td class="mono">0.1971</td><td class="pnl-down">-0.83</td><td><span class="rate-pill down">-1.73%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
           <tr data-us-code="MU" data-us-shares="0.1166" data-us-avg="830.62" data-us-pnl="+8.66" data-us-rate="+8.94%" data-us-price="904.88"><td><span class="sname">MU</span></td><td class="mono">935.89</td><td class="mono">830.62</td><td class="mono">0.1166</td><td class="pnl-up">+11.57</td><td><span class="rate-pill up">+23.86%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
-          <tr data-us-code="NVDA" data-us-shares="3.241" data-us-avg="209.56" data-us-pnl="-7.12" data-us-rate="-1.05%" data-us-price="207.36"><td><span class="sname">NVDA</span></td><td class="mono">207.36</td><td class="mono">209.56</td><td class="mono">3.241</td><td class="pnl-down">-6.89</td><td><span class="rate-pill down">-1.58%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
+          <tr data-us-code="NVDA" data-us-shares="3.4738" data-us-avg="209.48" data-us-pnl="-7.12" data-us-rate="-1.05%" data-us-price="207.36"><td><span class="sname">NVDA</span></td><td class="mono">207.36</td><td class="mono">209.48</td><td class="mono">3.4738</td><td class="pnl-down">-6.89</td><td><span class="rate-pill down">-1.58%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
           <tr data-us-code="SATL" data-us-shares="36.4227" data-us-avg="8.22" data-us-pnl="-49.41" data-us-rate="-19.71%" data-us-price="6.86"><td><span class="sname">SATL</span></td><td class="mono">6.42</td><td class="mono">8.22</td><td class="mono">36.4227</td><td class="pnl-down">-62.32</td><td><span class="rate-pill down">-24.86%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
           <tr data-us-code="RDW" data-us-shares="3.0667" data-us-avg="15.82" data-us-pnl="-2.15" data-us-rate="-4.43%" data-us-price="15.12"><td><span class="sname">RDW</span></td><td class="mono">15.12</td><td class="mono">15.82</td><td class="mono">3.0667</td><td class="pnl-down">-2.15</td><td><span class="rate-pill down">-4.43%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
           <tr data-us-code="TSM" data-us-shares="0.3785" data-us-avg="384.46" data-us-pnl="+20.77" data-us-rate="+14.28%" data-us-price="439.35"><td><span class="sname">TSM</span></td><td class="mono">439.35</td><td class="mono">384.46</td><td class="mono">0.3785</td><td class="pnl-up">+15.96</td><td><span class="rate-pill up">+16.45%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
         
-          <tr data-us-code="CSCO" data-us-shares="2.0302" data-us-avg="119.51" data-us-pnl="-1.54" data-us-rate="-0.64%" data-us-price="118.75"><td><span class="sname">CSCO</span></td><td class="mono">118.75</td><td class="mono">119.51</td><td class="mono">2.0302</td><td class="pnl-up">+0.08</td><td><span class="rate-pill up">+0.16%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
+          <tr data-us-code="CSCO" data-us-shares="2.85" data-us-avg="119.18" data-us-pnl="-1.54" data-us-rate="-0.64%" data-us-price="118.75"><td><span class="sname">CSCO</span></td><td class="mono">118.75</td><td class="mono">119.18</td><td class="mono">2.85</td><td class="pnl-up">+0.08</td><td><span class="rate-pill up">+0.16%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
           </tbody>
       </table>
     </div>
@@ -3870,7 +3913,7 @@ function bankRender() {
     const rows = accts.map(a => `
       <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid #21262D">
         <div>
-          <div style="font-size:13px;color:#C9D1D9">${a.type}${a.acct ? ' <span style="color:#8B949E">…${a.acct}</span>' : ''}</div>
+          <div style="font-size:13px;color:#C9D1D9">${a.type}${a.acct ? ` <span style="color:#8B949E">…${a.acct}</span>` : ''}</div>
         </div>
         <div style="display:flex;align-items:center;gap:10px">
           <div style="text-align:right">
@@ -5524,23 +5567,52 @@ function applyNewGasUrl() {
 
 <script>
 /* ══ 重點摘要橫幅 JS ══ */
-const SB_KEY = 'chengbei_summary_v1';
+const SB_KEY = 'chengbei_summary_v20260622';
+// 清除舊版快取
+(function(){['chengbei_summary_v1','chengbei_summary_v2','chengbei_summary_v3'].forEach(k=>{try{localStorage.removeItem(k);}catch(e){}});})();
 
 function sbLoad() {
   try {
     const raw = localStorage.getItem(SB_KEY);
     if (raw) {
       const obj = JSON.parse(raw);
-      sbRender(obj.text, obj.time);
-    } else {
-      // 預設摘要
-      const defaultText =
-        '📌 最大贏家：00878 國泰永續高股息，持有 48,005 股，獲利 +92.8萬元（+139.71%）\n' +
-        '💹 台股亮點：00631L +33.3%、00830 +61.4%、00861 +32.88%、00876 +46.07%、00941 +29.18%\n' +
-        '🇺🇸 美股：MU +27.25%、TSM +14.28% 領漲；SATL -23.68%、GEV -0.13%、RDW -7.03% 拖累\n' +
-        '🆕 新增持股：KLAC 0.1971股、6285 啟碁 130股；貿聯-KY 已出清\n' +
-        '🏦 永豐：00981B 21張（均價9.09）、00981D 21張（均價10.21）月配息合計 2,793元/月';
-      sbRender(defaultText, null);
+      // 若快取是今天以前的舊資料，強制覆蓋
+      const cacheDate = obj.time ? obj.time.slice(0,10) : '';
+      if (cacheDate >= '2026-06-22') {
+        sbRender(obj.text, obj.time);
+        return;
+      }
+    }
+    // 寫入最新預設
+    const defaultText =
+        '📊 持股報酬率排行（高 → 低）2026/06/22\n' +
+        '1  00878 國泰永續高股息　+145.84%（48,005股）\n' +
+        '2  00830 國泰費城半導體　+69.72%\n' +
+        '3  00876 元大全球5G　+52.67%\n' +
+        '4  00918 大華優利高填息30　+49.55%（永豐）\n' +
+        '5  00631L 元大台灣50正2　+45.91%\n' +
+        '6  00861 元大全球未來通訊　+37.11%\n' +
+        '7  MU 美光　+36.52%\n' +
+        '8  00941 中信上游半導體　+31.72%\n' +
+        '9  2449 京元電子　+23.04%\n' +
+        '10 TSM 台積電ADR　+20.2%\n' +
+        '11 00400A 主動國泰勤能高息　+17.93%（永豐）\n' +
+        '12 00988A 主動統一全球創新　+15.12%\n' +
+        '13 00403A 主動統一升級50　+12.24%（永豐）\n' +
+        '14 0052 富邦科技　+8.76%\n' +
+        '15 AVGO　+6.97%\n' +
+        '16 GEV　+7.35%\n' +
+        '17 00920 富邦ESG綠色電力　+6.93%\n' +
+        '18 KLAC　+5.92%\n' +
+        '19 00911 兆豐洲際半導體　+5.76%\n' +
+        '20 00893 國泰智能電動車　+5.73%\n' +
+        '21 0053 元大電子　+5.37%\n' +
+        '22 NVDA　+0.58%\n' +
+        '23 CSCO　+0.3%\n' +
+        '📉 虧損：00910 -3.98%｜6285 啟碁 -1.64%｜RDW -9.3%｜SATL -26.6%';
+      const now = '2026-06-22T15:12:00.000Z';
+      try { localStorage.setItem(SB_KEY, JSON.stringify({ text: defaultText, time: now })); } catch(e){}
+      sbRender(defaultText, now);
     }
   } catch(e) {
     document.getElementById('sb-text-display').textContent = '點擊「更新摘要」輸入今日重點';
@@ -5565,6 +5637,15 @@ function sbRender(text, time) {
   } else {
     document.getElementById('sb-updated-time').textContent = '點擊「更新摘要」可隨時修改';
   }
+}
+
+function toggleSbBody() {
+  const body = document.getElementById('sb-body');
+  const chev = document.getElementById('sb-chevron');
+  if (!body) return;
+  const isOpen = body.style.display === 'block';
+  body.style.display = isOpen ? 'none' : 'block';
+  if (chev) chev.textContent = isOpen ? '▶ 展開' : '▼ 收合';
 }
 
 function toggleSbEditor() {
@@ -6083,6 +6164,15 @@ function ocrHandleFile(file) {
 
 /* ── 呼叫 Claude API 分析圖片 ── */
 async function ocrAnalyze(dataUrl) {
+  // 檢查 API key
+  const key = getApiKey();
+  if (!key || !key.startsWith('sk-')) {
+    const errEl = document.getElementById('ocr-error');
+    errEl.textContent = '⚠ 請先設定 API Key（點右下角 ⚡ → 🔑 設定 API Key）';
+    errEl.classList.add('show');
+    closeOcr(); openApiKey();
+    return;
+  }
   // 顯示 loading
   document.getElementById('ocr-result').classList.remove('show');
   document.getElementById('ocr-apply-bar').classList.remove('show');
@@ -6097,29 +6187,63 @@ async function ocrAnalyze(dataUrl) {
   // 收集目前持股清單（供對照）
   const holdings = ocrGetCurrentHoldings();
 
-  const prompt = `你是台灣股票持股辨識專家。請分析這張券商 App 截圖，辨識出所有持股的「股票代號（或名稱）」和「持有股數」。\n\n截圖可能來自以下券商：\n- 口袋存股（美股）：格式為「CSCO / 0.8121股」，股數為小數\n- 富邦/國泰台股：格式為表格，有「本日餘額」或「庫存股數」欄位\n- 板橋永豐台股：格式為「即時庫存」欄位\n\n請回傳 JSON，格式如下（不要加任何說明文字）：\n{\n  "broker": "券商名稱",\n  "stocks": [\n    { "code": "股票代號或英文代碼", "name": "股票名稱（若有）", "shares": 數字 }\n  ]\n}\n\n目前系統持股清單供對照（可能需要比對）：\n${JSON.stringify(holdings)}\n\n注意：\n- shares 必須是數字（美股可有小數）\n- 若截圖為美股，code 為英文如 CSCO、NVDA\n- 若截圖為台股，code 為數字如 00878、2449\n- 只回傳 JSON，不要有任何其他文字`;
+  const prompt = `你是台灣股票持股辨識專家。請分析這張券商 App 截圖，辨識出所有持股的「股票代號（或名稱）」和「持有股數」。
+
+截圖可能來自以下券商：
+- 口袋存股（美股）：格式為「CSCO / 0.8121股」，股數為小數
+- 富邦/國泰台股：格式為表格，有「本日餘額」或「庫存股數」欄位
+- 板橋永豐台股：格式為「即時庫存」欄位
+
+請回傳 JSON，格式如下（不要加任何說明文字）：
+{
+  "broker": "券商名稱",
+  "stocks": [
+    { "code": "股票代號或英文代碼", "name": "股票名稱（若有）", "shares": 數字 }
+  ]
+}
+
+目前系統持股清單供對照（可能需要比對）：
+${JSON.stringify(holdings)}
+
+注意：
+- shares 必須是數字（美股可有小數）
+- 若截圖為美股，code 為英文如 CSCO、NVDA
+- 若截圖為台股，code 為數字如 00878、2449
+- 只回傳 JSON，不要有任何其他文字`;
 
   try {
-    // 透過 GAS proxy 呼叫 Claude（API Key 存在 GAS，不需在瀏覽器設定）
-    const resp = await fetch(GAS_URL, {
+    const apiKey = getApiKey();
+    if (!apiKey) {
+      document.getElementById('ocr-status').classList.remove('show');
+      const errEl = document.getElementById('ocr-error');
+      errEl.textContent = '⚠ 請先設定 API Key（點右下角 ⚡ → 🔑 設定 API Key）';
+      errEl.classList.add('show');
+      setTimeout(() => { closeOcr(); openApiKey(); }, 1500);
+      return;
+    }
+    const resp = await fetch('https://api.anthropic.com/v1/messages', {
       method: 'POST',
-      headers: { 'Content-Type': 'text/plain' },
+      headers: {
+        'Content-Type': 'application/json',
+        'x-api-key': apiKey,
+        'anthropic-version': '2023-06-01',
+        'anthropic-dangerous-direct-browser-access': 'true'
+      },
       body: JSON.stringify({
-        content: [
-          { type: 'image', source: { type: 'base64', media_type: mediaType, data: b64data } },
-          { type: 'text', text: prompt }
-        ]
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        messages: [{
+          role: 'user',
+          content: [
+            { type: 'image', source: { type: 'base64', media_type: mediaType, data: b64data } },
+            { type: 'text', text: prompt }
+          ]
+        }]
       })
     });
 
-    if (!resp.ok) {
-      let errMsg = 'GAS 回應錯誤 ' + resp.status;
-      try { const e = await resp.json(); errMsg = e.error || errMsg; } catch(x) {}
-      throw new Error(errMsg);
-    }
+    if (!resp.ok) throw new Error('API 回應錯誤 ' + resp.status);
     const data = await resp.json();
-    if (data.error) throw new Error(typeof data.error === 'string' ? data.error : JSON.stringify(data.error));
-    if (!data.content) throw new Error('GAS 回傳格式錯誤: ' + JSON.stringify(data).slice(0,100));
     const text = data.content.find(b => b.type === 'text')?.text || '';
 
     // 解析 JSON
@@ -6135,8 +6259,7 @@ async function ocrAnalyze(dataUrl) {
   } catch(err) {
     document.getElementById('ocr-status').classList.remove('show');
     const errEl = document.getElementById('ocr-error');
-    const msg = err instanceof Error ? err.message : (typeof err === 'string' ? err : JSON.stringify(err));
-    errEl.textContent = '⚠ ' + (msg || '分析失敗，請重試');
+    errEl.textContent = '⚠ ' + (err.message || '分析失敗，請重試');
     errEl.classList.add('show');
   }
 }
