@@ -2450,6 +2450,130 @@ function initApp() {
     try { localStorage.setItem(SEED_KEY, '1'); } catch(e){}
   })();
 
+  // ── 寫入 6/15–6/22 實際記錄 ──
+  (function seedJun0615to0622(){
+    var SEED_KEY = 'jun2026_0615_0622_seeded_v1';
+    try { if (localStorage.getItem(SEED_KEY)) return; } catch(e){ return; }
+    var junData = [
+      // 6/15 (週一)：Uber $3,102 + 台灣大5趟$1,055 | 停車$150
+      {
+        id: 1750000000001,
+        date: '2026-06-15',
+        shift: '🕐 全天',
+        inc_detail: {meter:0, uber:3102, bolt:0, t55688:1055, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 0,
+        fee: 0,
+        park: 150,
+        note: 'Uber 14趟$3,102・台灣大5趟$1,055・停車$150'
+      },
+      // 6/16 (週二)：Uber $2,920 + 台灣大7趟$1,800 | 停車$150
+      {
+        id: 1750000000002,
+        date: '2026-06-16',
+        shift: '🕐 全天',
+        inc_detail: {meter:0, uber:2920, bolt:0, t55688:1800, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 0,
+        fee: 0,
+        park: 150,
+        note: 'Uber 10趟$2,920・台灣大7趟$1,800・停車$150'
+      },
+      // 6/17 (週三)：Uber $3,944 + 台灣大2趟$330 + Bolt毛$390(服務費$78淨$312) | 油費$1,010 停車$150
+      {
+        id: 1750000000003,
+        date: '2026-06-17',
+        shift: '🕐 全天',
+        inc_detail: {meter:0, uber:3944, bolt:390, t55688:330, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 1010,
+        fee: 78,
+        park: 150,
+        note: 'Uber 17趟$3,944・台灣大2趟$330・Bolt毛$390(服務費$78淨$312)・油費$1,010・停車$150'
+      },
+      // 6/18 (週四)：Uber $579 + 台灣大2趟$565 | 停車$150
+      {
+        id: 1750000000004,
+        date: '2026-06-18',
+        shift: '🕐 半天',
+        inc_detail: {meter:0, uber:579, bolt:0, t55688:565, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 0,
+        fee: 0,
+        park: 150,
+        note: 'Uber 3趟$579・台灣大2趟$565・停車$150'
+      },
+      // 6/19 (週五)：Uber $3,783 | 停車$150
+      {
+        id: 1750000000005,
+        date: '2026-06-19',
+        shift: '🕐 全天',
+        inc_detail: {meter:0, uber:3783, bolt:0, t55688:0, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 0,
+        fee: 0,
+        park: 150,
+        note: 'Uber 18趟$3,783・停車$150'
+      },
+      // 6/20 (週六)：Uber $1,606 + 台灣大1趟$225 | 停車$150
+      {
+        id: 1750000000006,
+        date: '2026-06-20',
+        shift: '🕐 半天',
+        inc_detail: {meter:0, uber:1606, bolt:0, t55688:225, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 0,
+        fee: 0,
+        park: 150,
+        note: 'Uber 5趟$1,606・台灣大1趟$225・停車$150'
+      },
+      // 6/21 (週日)：Uber $3,592 + 台灣大11趟$2,365 | 油費$1,065 停車$150
+      {
+        id: 1750000000007,
+        date: '2026-06-21',
+        shift: '🕐 全天',
+        inc_detail: {meter:0, uber:3592, bolt:0, t55688:2365, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 1065,
+        fee: 0,
+        park: 150,
+        note: 'Uber 11趟$3,592・台灣大11趟$2,365・油費$1,065・停車$150'
+      },
+      // 6/22 (週一)：台灣大2趟$375 + 大都會$266
+      {
+        id: 1750000000008,
+        date: '2026-06-22',
+        shift: '🕐 半天',
+        inc_detail: {meter:0, uber:0, bolt:0, t55688:375, metro:266, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 0,
+        fee: 0,
+        park: 150,
+        note: '台灣大2趟$375・大都會APP刷卡$266(等核款)・停車$150'
+      },
+    ];
+    var recs = getRecs();
+    var existDates = {};
+    recs.forEach(function(r){ existDates[r.date] = true; });
+    junData.forEach(function(row){
+      if (existDates[row.date]) return;
+      var inc = 0;
+      var ids = ['meter','uber','bolt','t55688','metro','lingo','panda','ubereats','other'];
+      ids.forEach(function(k){ inc += row.inc_detail[k] || 0; });
+      var park = row.park || 150;
+      var exp = park + row.fuel + row.fee + (row.misc || 0);
+      var net = inc - exp;
+      recs.push({
+        id: row.id,
+        date: row.date,
+        shift: row.shift,
+        inc: inc,
+        inc_detail: row.inc_detail,
+        fuel: row.fuel,
+        park: park,
+        fee: row.fee,
+        misc: 0,
+        exp: exp,
+        net: net,
+        note: row.note
+      });
+    });
+    saveRecs(recs);
+    try { localStorage.setItem(SEED_KEY, '1'); } catch(e){}
+  })();
+
   calc();
   renderHistory();
   renderAnnual();
