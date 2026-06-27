@@ -460,7 +460,7 @@ tbody td:last-child  { padding-right: 14px; }
   background: rgba(0,0,0,.35); backdrop-filter: blur(3px);
   z-index: 500; align-items: center; justify-content: center; padding: 16px;
 }
-.modal-bg.on { display: flex; }
+.modal-bg.on, .modal-bg.open { display: flex; }
 .modal-box {
   background: #161B22; border-radius: 16px;
   width: 100%; max-width: 400px;
@@ -2683,33 +2683,33 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
       <button class="sb-edit-btn" onclick="event.preventDefault();event.stopPropagation();toggleSbEditor()" style="margin-left:4px;">✏️</button>
     </summary>
     <div style="padding:0 20px 12px 44px;">
-      <div class="sb-text" id="sb-text-display"><span class="highlight-blue">📊 持股報酬率排行（高→低）2026/06/22</span><br>
+      <div class="sb-text" id="sb-text-display"><span class="highlight-blue">📊 持股報酬率排行（高→低）2026/06/27</span><br>
 <br>
 <span style="color:#F0A500;font-weight:bold;">🇹🇼 台股</span><br>
-1 <span class="highlight-blue">00878</span> 國泰永續高股息 <span class="highlight-green">+145.84%</span>（48,005股）<br>
-2 <span class="highlight-blue">00830</span> 國泰費城半導體 <span class="highlight-green">+69.72%</span><br>
-3 <span class="highlight-blue">00876</span> 元大全球5G <span class="highlight-green">+52.67%</span><br>
-4 00918 大華優利高填息30 <span class="highlight-green">+49.55%</span>（永豐）<br>
-5 <span class="highlight-blue">00631L</span> 元大台灣50正2 <span class="highlight-green">+45.91%</span><br>
-6 <span class="highlight-blue">00861</span> 元大全球未來通訊 <span class="highlight-green">+37.11%</span><br>
-7 <span class="highlight-blue">00941</span> 中信上游半導體 <span class="highlight-green">+31.72%</span><br>
-8 2449 京元電子 <span class="highlight-green">+23.04%</span><br>
-9 00400A 主動國泰勤能高息 <span class="highlight-green">+17.93%</span>（永豐）<br>
-10 00988A 主動統一全球創新 <span class="highlight-green">+15.12%</span><br>
-11 00403A 主動統一升級50 <span class="highlight-green">+12.24%</span>（永豐）<br>
-12 0052 富邦科技 <span class="highlight-green">+8.76%</span><br>
-13 00920 富邦ESG <span class="highlight-green">+6.93%</span> ｜ 00911 兆豐洲際 <span class="highlight-green">+5.76%</span><br>
-14 00893 國泰智能電動車 <span class="highlight-green">+5.73%</span> ｜ 0053 元大電子 <span class="highlight-green">+5.37%</span><br>
-📉 台股虧損：00910 <span class="highlight-red">-3.98%</span> ｜ <span class="highlight-blue">6285</span> 啟碁 <span class="highlight-red">-1.64%</span><br>
+1 <span class="highlight-blue">00878</span> 國泰永續高股息 <span class="highlight-green">+145.84%</span>（48,080股・<span class="highlight-green">+901,726元</span>）<br>
+2 <span class="highlight-blue">00830</span> 國泰費城半導體 <span class="highlight-green">+69.72%</span>（93股・<span class="highlight-green">+2,506元</span>）<br>
+3 <span class="highlight-blue">00876</span> 元大全球5G <span class="highlight-green">+52.67%</span>（50股・<span class="highlight-green">+1,647元</span>）<br>
+4 00918 大華優利高填息30 <span class="highlight-green">+49.55%</span>（富邦 6,045股・<span class="highlight-green">+58,107元</span>）<br>
+5 <span class="highlight-blue">00631L</span> 元大台灣50正2 <span class="highlight-green">+25.61%</span>（390股・<span class="highlight-green">+2,085元</span>）<br>
+6 <span class="highlight-blue">00861</span> 元大全球未來通訊 <span class="highlight-green">+37.11%</span>（108股・<span class="highlight-green">+2,072元</span>）<br>
+7 <span class="highlight-blue">00941</span> 中信上游半導體 <span class="highlight-green">+32.87%</span>（100股・<span class="highlight-green">+1,134元</span>）<br>
+8 2449 京元電子 <span class="highlight-green">+12.20%</span>（100股・<span class="highlight-green">+3,350元</span>）<br>
+9 00400A 主動國泰勤能高息 <span class="highlight-green">+6.41%</span>（富邦 1,935股・<span class="highlight-green">+1,653元</span>）<br>
+10 00988A 主動統一全球創新 <span class="highlight-green">+7.29%</span>（375股・<span class="highlight-green">+544元</span>）<br>
+11 00403A 主動統一升級50 <span class="highlight-green">+3.71%</span>（富邦 4,040股・<span class="highlight-green">+1,521元</span>）<br>
+12 0052 富邦科技 <span class="highlight-green">+1.88%</span>（165股・<span class="highlight-green">+134元</span>）<br>
+13 00920 富邦ESG <span class="highlight-green">+1.91%</span>（230股・<span class="highlight-green">+110元</span>）｜ 00911 兆豐洲際 <span class="highlight-green">+2.93%</span>（59股・<span class="highlight-green">+65元</span>）<br>
+14 00893 國泰智能電動車 <span class="highlight-green">+1.14%</span>（30股・<span class="highlight-green">+15元</span>）｜ 0053 元大電子 <span class="highlight-red">-2.4%</span>（11股・<span class="highlight-red">-63元</span>）<br>
+15 00406A 主動中信台灣收益 （富邦 12,165股・<span class="highlight-red">-1,925元</span>）｜ 00407A 主動凱基台灣 （富邦 5,000股・<span class="highlight-red">-1,312元</span>）<br>
+16 0051 元大中型100 （2股・<span class="highlight-green">+0元</span>）<br>
+📉 台股虧損：00910 <span class="highlight-red">-15.82%</span>（<span class="highlight-red">-3,013元</span>）｜ <span class="highlight-blue">6285</span> 啟碁 <span class="highlight-red">-12.74%</span>（225股・<span class="highlight-red">-7,727元</span>）<br>
 <br>
 <span style="color:#58A6FF;font-weight:bold;">🇺🇸 美股</span><br>
-1 <span class="highlight-blue">TSM</span> 台積電ADR <span class="highlight-green">+20.2%</span><br>
-2 <span class="highlight-blue">MU</span> 美光 <span class="highlight-green">+36.52%</span><br>
-3 <span class="highlight-blue">GEV</span> <span class="highlight-green">+7.35%</span><br>
-4 <span class="highlight-blue">AVGO</span> <span class="highlight-green">+6.97%</span><br>
-5 <span class="highlight-blue">KLAC</span> <span class="highlight-green">+5.92%</span><br>
-6 <span class="highlight-blue">NVDA</span> <span class="highlight-green">+0.58%</span> ｜ CSCO <span class="highlight-green">+0.3%</span><br>
-📉 美股虧損：<span class="highlight-red">RDW</span> <span class="highlight-red">-9.3%</span> ｜ <span class="highlight-red">SATL</span> <span class="highlight-red">-26.6%</span><br>
+1 <span class="highlight-blue">MU</span> 美光 <span class="highlight-green">+41.88%</span>（0.1166股・<span class="highlight-green">+40.51元</span>）<br>
+2 <span class="highlight-blue">TSM</span> 台積電ADR <span class="highlight-green">+12.81%</span>（0.3785股・<span class="highlight-green">+18.64元</span>）<br>
+3 <span class="highlight-blue">KLAC</span> <span class="highlight-green">+1.79%</span>（0.5966股・<span class="highlight-green">+2.6元</span>）<br>
+4 <span class="highlight-blue">GEV</span> <span class="highlight-green">+2.09%</span>（0.375股・<span class="highlight-green">+8.1元</span>）<br>
+📉 美股虧損：<span class="highlight-red">NVDA</span> <span class="highlight-red">-6.24%</span>（4.2118股・<span class="highlight-red">-54.48元</span>）｜ <span class="highlight-red">AVGO</span> <span class="highlight-red">-3.23%</span>（0.8842股・<span class="highlight-red">-10.97元</span>）｜ <span class="highlight-red">CSCO</span> <span class="highlight-red">-3.33%</span>（3.655股・<span class="highlight-red">-14.53元</span>）｜ <span class="highlight-red">MRVL</span> <span class="highlight-red">-2.7%</span>（0.1771股・<span class="highlight-red">-1.31元</span>）｜ <span class="highlight-red">SATL</span> <span class="highlight-red">-33.56%</span>（27.4227股・<span class="highlight-red">-65.03元</span>）<br>
 <br>
 🔔 <span class="highlight-blue">即將除息</span>（7～8月預估）<br>
 📅 <span class="highlight-blue">00878</span> 國泰永續高股息　季配・下次除息約 <span class="highlight-green">8月</span>（Q2已配0.66元創新高）<br>
@@ -2717,9 +2717,9 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
 📅 00400A 主動國泰動能高息　<span class="highlight-green">月配</span>・每月除息（7月預計續配）<br>
 📅 00406A 主動中信台灣收益　<span class="highlight-green">月配</span>・6/11掛牌・<span class="highlight-green">8月首次配息</span><br>
 📅 00918 大華優利高填息30　季配（3/6/9/12月）・下次除息約 <span class="highlight-green">9月</span>（Q2已配1.26元）<br>
-⚠️ 00878 已於 5/19 除息・持有 48,005 股可領約 <span class="highlight-green">31,683元</span></div>
+⚠️ 00878 已於 5/19 除息・持有 48,080 股可領約 <span class="highlight-green">31,733元</span></div>
       <div class="sb-meta" id="sb-meta" style="margin-top:4px;">
-        <span id="sb-updated-time">更新於 2026/06/22 15:12</span>
+        <span id="sb-updated-time">更新於 2026/06/27 08:45</span>
       </div>
     </div>
   </details>
@@ -2862,13 +2862,13 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
           <th style="text-align:center;width:70px">操作</th>
         </tr></thead>
         <tbody data-section="富邦">
-          <tr data-code="00400A" data-avg="15.57" data-shares="1935"><td><div class="stock-name-wrap"><span class="sname">主動國泰勤能高息 <span class="etf-tag">ETF</span></span><span class="scode">00400A</span></div></td><td class="live-price-cell">—</td><td class="mono">15.57</td><td class="mono">1770</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00400A" data-avg="15.57" data-shares="1935"><td><div class="stock-name-wrap"><span class="sname">主動國泰勤能高息 <span class="etf-tag">ETF</span></span><span class="scode">00400A</span></div></td><td class="live-price-cell">—</td><td class="mono">15.57</td><td class="mono">1935</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00403A" data-avg="11.38" data-shares="4040"><td><div class="stock-name-wrap"><span class="sname">主動統一升級50 <span class="etf-tag">ETF</span></span><span class="scode">00403A</span></div></td><td class="live-price-cell">—</td><td class="mono">11.38</td><td class="mono">4,040</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00878" data-avg="13.84" data-shares="48080"><td><div class="stock-name-wrap"><span class="sname">國泰永續高股息 <span class="etf-tag">ETF</span></span><span class="scode">00878</span></div></td><td class="live-price-cell">—</td><td class="mono">13.84</td><td class="mono">48,080</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00918" data-avg="22.67" data-shares="6045"><td><div class="stock-name-wrap"><span class="sname">大華優利高填息30 <span class="etf-tag">ETF</span></span><span class="scode">00918</span></div></td><td class="live-price-cell">—</td><td class="mono">22.67</td><td class="mono">6,045</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
         
           <tr data-code="00406A" data-avg="9.96" data-shares="12165"><td><div class="stock-name-wrap"><span class="sname">主動中信台灣收益成長 <span class="etf-tag">ETF</span></span><span class="scode">00406A</span></div></td><td class="live-price-cell">—</td><td class="mono">9.96</td><td class="mono">12,165</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
-          <tr data-code="00407A" data-avg="9.47" data-shares="5000"><td><div class="stock-name-wrap"><span class="sname">主動凱基台灣 <span class="etf-tag">ETF</span></span><span class="scode">00407A</span></div></td><td class="live-price-cell">—</td><td class="mono">9.47</td><td class="mono">5,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00407A" data-avg="9.7" data-shares="5000"><td><div class="stock-name-wrap"><span class="sname">主動凱基台灣 <span class="etf-tag">ETF</span></span><span class="scode">00407A</span></div></td><td class="live-price-cell">—</td><td class="mono">9.7</td><td class="mono">5,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
     </div>
@@ -2899,7 +2899,7 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
           <th style="text-align:center;width:70px">操作</th>
         </tr></thead>
         <tbody data-section="永豐">
-          <tr data-code="00981B" data-avg="9.09" data-shares="21000"><td><div class="stock-name-wrap"><span class="sname">第一金優選非投債 <span class="etf-tag">ETF</span></span><span class="scode">00981B</span></div></td><td class="live-price-cell">—</td><td class="mono">9.09</td><td class="mono">21,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
+          <tr data-code="00981B" data-avg="9.09" data-shares="22000"><td><div class="stock-name-wrap"><span class="sname">第一金優選非投債 <span class="etf-tag">ETF</span></span><span class="scode">00981B</span></div></td><td class="live-price-cell">—</td><td class="mono">9.09</td><td class="mono">22,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
           <tr data-code="00981D" data-avg="10.21" data-shares="21000"><td><div class="stock-name-wrap"><span class="sname">主動中信非投等債 <span class="etf-tag">ETF</span></span><span class="scode">00981D</span></div></td><td class="live-price-cell">—</td><td class="mono">10.21</td><td class="mono">21,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill down">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td></tr>
         </tbody>
       </table>
@@ -2938,7 +2938,7 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
           <tr data-us-code="KLAC" data-us-shares="0.5966" data-us-avg="243.4" data-us-pnl="+2.6" data-us-rate="+1.79%" data-us-price="247.76"><td><span class="sname">KLAC</span></td><td class="mono">247.76</td><td class="mono">243.4</td><td class="mono">0.5966</td><td class="pnl-up">+2.6</td><td><span class="rate-pill up">+1.79%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
           <tr data-us-code="MU" data-us-shares="0.1166" data-us-avg="830.62" data-us-pnl="+8.66" data-us-rate="+8.94%" data-us-price="904.88"><td><span class="sname">MU</span></td><td class="mono">935.89</td><td class="mono">830.62</td><td class="mono">0.1166</td><td class="pnl-up">+11.57</td><td><span class="rate-pill up">+23.86%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
           <tr data-us-code="NVDA" data-us-shares="4.2118" data-us-avg="207.31" data-us-pnl="-54.48" data-us-rate="-6.24%" data-us-price="194.37"><td><span class="sname">NVDA</span></td><td class="mono">194.37</td><td class="mono">207.31</td><td class="mono">4.2118</td><td class="pnl-down">-54.48</td><td><span class="rate-pill down">-6.24%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
-          <tr data-us-code="SATL" data-us-shares="27.4227" data-us-avg="8.22" data-us-pnl="-49.41" data-us-rate="-19.71%" data-us-price="6.86"><td><span class="sname">SATL</span></td><td class="mono">6.42</td><td class="mono">8.22</td><td class="mono">36.4227</td><td class="pnl-down">-62.32</td><td><span class="rate-pill down">-24.86%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
+          <tr data-us-code="SATL" data-us-shares="27.4227" data-us-avg="8.22" data-us-pnl="-49.41" data-us-rate="-19.71%" data-us-price="6.86"><td><span class="sname">SATL</span></td><td class="mono">6.42</td><td class="mono">8.22</td><td class="mono">27.4227</td><td class="pnl-down">-65.03</td><td><span class="rate-pill down">-33.56%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
           <tr data-us-code="MRVL" data-us-shares="0.1771" data-us-avg="273.97" data-us-pnl="-1.31" data-us-rate="-2.7%" data-us-price="266.57"><td><span class="sname">MRVL</span></td><td class="mono">266.57</td><td class="mono">273.97</td><td class="mono">0.1771</td><td class="pnl-down">-1.31</td><td><span class="rate-pill down">-2.7%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
           <tr data-us-code="TSM" data-us-shares="0.3785" data-us-avg="384.46" data-us-pnl="+20.77" data-us-rate="+14.28%" data-us-price="439.35"><td><span class="sname">TSM</span></td><td class="mono">439.35</td><td class="mono">384.46</td><td class="mono">0.3785</td><td class="pnl-up">+15.96</td><td><span class="rate-pill up">+16.45%</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td></tr>
         
@@ -2948,7 +2948,7 @@ button:hover:not(.app-top-bar-link):not([disabled]) { filter: brightness(1.2); }
     </div>
   </div>
 
-  <div class="page-footer" id="cheng-footer">資料更新時間 2026/05/23 · 僅供參考</div>
+  <div class="page-footer" id="cheng-footer">資料更新時間 2026/06/27 · 僅供參考</div>
 </div>
 
 <!-- ══ 妞的持股 PAGE ══ -->
@@ -3853,16 +3853,16 @@ const USD_TWD = 32.5, JPY_TWD = 0.215, EUR_TWD = 36.5;
 
 const DEFAULT_BANKS = [
   { bank:'聯邦銀行',   acct:'',     type:'活期儲蓄存款',           ccy:'TWD', bal:0 },
-  { bank:'臺灣銀行',   acct:'8193', type:'活期儲蓄存款',           ccy:'TWD', bal:7408 },
+  { bank:'臺灣銀行',   acct:'8193', type:'活期儲蓄存款',           ccy:'TWD', bal:7417 },
   { bank:'臺灣銀行',   acct:'0324', type:'活期儲蓄存款',           ccy:'TWD', bal:252 },
-  { bank:'土地銀行',   acct:'0668', type:'數位存款',               ccy:'TWD', bal:9188 },
+  { bank:'土地銀行',   acct:'0668', type:'數位存款',               ccy:'TWD', bal:9023 },
   { bank:'土地銀行',   acct:'7661', type:'數位存款（外幣）',        ccy:'USD', bal:0 },
-  { bank:'彰化銀行',   acct:'9500', type:'台幣存摺存款',           ccy:'TWD', bal:15004 },
-  { bank:'台北富邦',   acct:'7713', type:'活期儲蓄存款',           ccy:'TWD', bal:140191 },
-  { bank:'台北富邦',   acct:'8420', type:'活期儲蓄存款',           ccy:'TWD', bal:46 },
-  { bank:'國泰世華',   acct:'5854', type:'數位存款帳戶1-1類',      ccy:'TWD', bal:145480 },
+  { bank:'彰化銀行',   acct:'9500', type:'台幣存摺存款',           ccy:'TWD', bal:15046 },
+  { bank:'台北富邦',   acct:'7713', type:'活期儲蓄存款',           ccy:'TWD', bal:171648 },
+  { bank:'台北富邦',   acct:'8420', type:'活期儲蓄存款',           ccy:'TWD', bal:47 },
+  { bank:'國泰世華',   acct:'5854', type:'數位存款帳戶1-1類',      ccy:'TWD', bal:93745 },
   { bank:'永豐銀行',   acct:'8184', type:'外幣組合存款',           ccy:'USD', bal:0 },
-  { bank:'永豐銀行',   acct:'8186', type:'活期儲蓄存款',           ccy:'TWD', bal:1017 },
+  { bank:'永豐銀行',   acct:'8186', type:'活期儲蓄存款',           ccy:'TWD', bal:1018 },
   { bank:'台新銀行',   acct:'6949', type:'無摺綜活儲-數位三類',    ccy:'TWD', bal:342 },
   { bank:'台新銀行',   acct:'6833', type:'RICHART三類',            ccy:'TWD', bal:0 },
   { bank:'中國信託',   acct:'5798', type:'台幣活存帳戶',           ccy:'TWD', bal:76457 },
@@ -4034,18 +4034,17 @@ function sortTbl(th) {
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbxFXWp9OOk8YleozgrnY8rHWGs1ZFqFMCyBeFNP8h4YgCNTAO1FWmkBQX6xi8FtJV7B2g/exec';
 const TW_SUFFIX = {
   // 台股 ETF（上市 .TW）
-  '0052':'0052.TW','0053':'0053.TW',
+  '0051':'0051.TW','0052':'0052.TW','0053':'0053.TW',
   '00631L':'00631L.TW','00830':'00830.TW','00861':'00861.TW','00876':'00876.TW',
   '00878':'00878.TW','00893':'00893.TW','00910':'00910.TW','00911':'00911.TW','00918':'00918.TW',
   '00920':'00920.TW','00941':'00941.TW','00988A':'00988A.TWO',
   '00696B':'00696B.TWO','00724B':'00724B.TWO',
   // 台股 ETF（上櫃 .TWO）
-  '00403A':'00403A.TWO','00400A':'00400A.TWO','00406A':'00406A.TWO',
+  '00403A':'00403A.TWO','00400A':'00400A.TWO','00406A':'00406A.TWO','00407A':'00407A.TWO',
   '00882':'00882.TWO','00991A':'00991A.TWO',
   '00981B':'00981B.TW','00981D':'00981D.TW',
   // 個股
   '2308':'2308.TW','2313':'2313.TW','2324':'2324.TW','2449':'2449.TW','6285':'6285.TW',
-  '00406A':'00406A.TWO',
   '2542':'2542.TW','3665':'3665.TW',
 };
 const FALLBACK = { '00981B': 9.24, '00981D': 10.33, '00696B': 29.93, '00724B': 33.51 }; // 參考價 2026/06/18
@@ -4118,7 +4117,12 @@ async function fetchPrices() {
         map = await res.json();
       } catch(e2) { console.warn('台股報價失敗:', e2); }
     }
-    if (map) allRows.forEach(tr => { if (map[tr.dataset.code] != null) { applyPrice(tr, map[tr.dataset.code]); n++; } });
+    if (map) allRows.forEach(tr => {
+      const code = tr.dataset.code;
+      const fullCode = TW_SUFFIX[code];
+      const price = map[code] != null ? map[code] : (fullCode && map[fullCode] != null ? map[fullCode] : null);
+      if (price != null) { applyPrice(tr, price); n++; }
+    });
   }
 
   // ── 美股：JSONP → fallback fetch ──
@@ -4970,18 +4974,20 @@ window.delUsRow    = btn => { const tr = btn.closest('tr'); const code = tr.data
 
 /* ══ 存股計畫 ══ */
 const MONTH_NAMES = ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
-const ETF_COLORS  = { '00878':'#0E9F8E','00918':'#4ECDC4','00981D':'#DDA0DD','00981B':'#45B7D1','00400A':'#FF9E9E','00406A':'#58A6FF','00403A':'#96CEB4' };
+const ETF_COLORS  = { '00878':'#0E9F8E','00918':'#4ECDC4','00981D':'#DDA0DD','00981B':'#45B7D1','00400A':'#FF9E9E','00406A':'#58A6FF','00403A':'#96CEB4','00407A':'#FFB347' };
 // divM = 實際發放月（非除息月）
 // 00878 國泰永續高股息：除息2/5/8/11 → 發放3/6/9/12
 // 00918 大華優利高填息30：除息3/6/9/12 → 發放4/7/10/1
 // 00406A 主動中信台灣收益成長：月配，首次評價2026/7/15，首次除息預計8月，之後每月
 let planEtfs = [
-  { id:'00878',  name:'國泰永續高股息',      color:'#0E9F8E', held:48005, target:60000, divM:[3,6,9,12], divPu:0.66, divByM:{3:0.66,6:0.66,9:0.66,12:0.66}, dist:'季配', exM:[2,5,8,11] },
-  { id:'00918',  name:'大華優利高填息30',     color:'#4ECDC4', held:6020,  target:60000, divM:[4,7,10,1],  divPu:0.62, divByM:{4:0.62,7:0.62,10:0.62,1:0.62},  dist:'季配', exM:[3,6,9,12] },
+  { id:'00878',  name:'國泰永續高股息',      color:'#0E9F8E', held:48080, target:60000, divM:[3,6,9,12], divPu:0.66, divByM:{3:0.66,6:0.66,9:0.66,12:0.66}, dist:'季配', exM:[2,5,8,11] },
+  { id:'00918',  name:'大華優利高填息30',     color:'#4ECDC4', held:6045,  target:60000, divM:[4,7,10,1],  divPu:1.26, divByM:{4:1.26,7:1.26,10:1.26,1:1.26},  dist:'季配', exM:[3,6,9,12] },
   { id:'00981D', name:'主動中信非投等債',     color:'#DDA0DD', held:21000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.070, divByM:{1:0.070,2:0.070,3:0.070,4:0.070,5:0.070,6:0.070,7:0.070,8:0.070,9:0.070,10:0.070,11:0.070,12:0.070}, dist:'月配', exM:[] },
-  { id:'00981B', name:'第一金優選非投債',     color:'#45B7D1', held:21000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.063, divByM:{1:0.063,2:0.063,3:0.063,4:0.063,5:0.063,6:0.063,7:0.063,8:0.063,9:0.063,10:0.063,11:0.063,12:0.063}, dist:'月配', exM:[] },
-  { id:'00400A', name:'主動國泰動能高息',     color:'#FF9E9E', held:1675,  target:30000, divM:[], divPu:0, divByM:{}, dist:'待定', exM:[] },
-  { id:'00406A', name:'主動中信台灣收益成長', color:'#58A6FF', held:12000,  target:30000, divM:[8,9,10,11,12], divPu:0, divByM:{}, dist:'月配', exM:[] },
+  { id:'00981B', name:'第一金優選非投債',     color:'#45B7D1', held:22000, target:75000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.063, divByM:{1:0.063,2:0.063,3:0.063,4:0.063,5:0.063,6:0.063,7:0.063,8:0.063,9:0.063,10:0.063,11:0.063,12:0.063}, dist:'月配', exM:[] },
+  { id:'00400A', name:'主動國泰動能高息',     color:'#FF9E9E', held:1935,  target:30000, divM:[1,2,3,4,5,6,7,8,9,10,11,12], divPu:0.12, divByM:{1:0.12,2:0.12,3:0.12,4:0.12,5:0.12,6:0.12,7:0.12,8:0.12,9:0.12,10:0.12,11:0.12,12:0.12}, dist:'月配', exM:[] },
+  { id:'00406A', name:'主動中信台灣收益成長', color:'#58A6FF', held:12165, target:30000, divM:[8,9,10,11,12], divPu:0, divByM:{}, dist:'月配', exM:[] },
+  { id:'00403A', name:'主動統一升級50',       color:'#96CEB4', held:4040,  target:30000, divM:[2,5,8,11], divPu:0.12, divByM:{2:0.12,5:0.12,8:0.12,11:0.12}, dist:'季配', exM:[2,5,8,11] },
+  { id:'00407A', name:'主動凱基台灣',         color:'#FFB347', held:5000,  target:30000, divM:[], divPu:0, divByM:{}, dist:'不配息', exM:[] },
 ];
 let _planMode = 'target';
 
@@ -5462,6 +5468,181 @@ setTimeout(async () => {
   if (typeof fbLoadHoldings === 'function') {
     await fbLoadHoldings();
   }
+
+  // ══ 一次性校正腳本 2026/06/27 ══
+  // Firebase 載入完成後，強制覆寫正確股數，再存回雲端
+  const CORRECTIONS_KEY = 'chengbei_corrected_20260627j';
+  if (!localStorage.getItem(CORRECTIONS_KEY)) {
+
+    // 台股（永豐帳號）
+    const yfFixes = [
+      { code:'00981B', shares:'22000', avg:'9.09' },
+    ];
+    yfFixes.forEach(f => {
+      const tr = document.querySelector(`#page-cheng tr[data-code="${f.code}"]`);
+      if (tr) { tr.dataset.shares = f.shares; tr.dataset.avg = f.avg; }
+    });
+
+    // 台股（國泰帳號）
+    const twFixes = [
+      { code:'0051',   shares:'2',   avg:'149'    },
+      { code:'0052',   shares:'165',  avg:'59.84'  },
+      { code:'00631L', shares:'390',  avg:'28.24'  },
+      { code:'00830',  shares:'93',   avg:'59.1'   },
+      { code:'00861',  shares:'108',  avg:'70.93'  },
+      { code:'00911',  shares:'59',   avg:'63.83'  },
+      { code:'00988A', shares:'375',  avg:'20.56'  },
+      { code:'6285',   shares:'225',  avg:'271.45' },
+    ];
+    twFixes.forEach(f => {
+      const tr = document.querySelector(`#page-cheng tbody[data-section="國泰"] tr[data-code="${f.code}"]`);
+      if (tr) { tr.dataset.shares = f.shares; tr.dataset.avg = f.avg; }
+    });
+
+    // 台股（富邦帳號）
+    const fbFixes = [
+      { code:'00400A', shares:'1935',  avg:'15.57' },
+      { code:'00403A', shares:'4040',  avg:'11.38' },
+      { code:'00406A', shares:'12165', avg:'9.96'  },
+      { code:'00878',  shares:'48080', avg:'13.84' },
+      { code:'00918',  shares:'6045',  avg:'22.67' },
+    ];
+    fbFixes.forEach(f => {
+      const tr = document.querySelector(`#page-cheng tbody[data-section="富邦"] tr[data-code="${f.code}"]`);
+      if (tr) { tr.dataset.shares = f.shares; tr.dataset.avg = f.avg; }
+    });
+
+    // 新增 00407A（富邦）- 若不存在則動態建立
+    const fbTbody = document.querySelector('#page-cheng tbody[data-section="富邦"]');
+    if (fbTbody && !fbTbody.querySelector('tr[data-code="00407A"]')) {
+      const newTr = document.createElement('tr');
+      newTr.dataset.code = '00407A';
+      newTr.dataset.avg  = '9.7';
+      newTr.dataset.shares = '5000';
+      newTr.innerHTML = `<td><div class="stock-name-wrap"><span class="sname">主動凱基台灣 <span class="etf-tag">ETF</span></span><span class="scode">00407A</span></div></td><td class="live-price-cell">—</td><td class="mono">9.7</td><td class="mono">5,000</td><td class="live-pnl">—</td><td class="live-rate"><span class="rate-pill up">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEdit(this)">✏️</button> <button class="op-btn del" onclick="delRow(this)">🗑</button></td>`;
+      fbTbody.appendChild(newTr);
+    }
+
+    // 美股（口袋存股）
+    const usFixes = [
+      { code:'AVGO', shares:'0.8842', avg:'383.88', pnl:'-10.97', rate:'-3.23%', price:'371.48' },
+      { code:'CSCO', shares:'3.655',  avg:'119.49', pnl:'-14.53', rate:'-3.33%', price:'115.51' },
+      { code:'KLAC', shares:'0.5966', avg:'243.4',  pnl:'+2.6',   rate:'+1.79%', price:'247.76' },
+      { code:'NVDA', shares:'4.2118', avg:'207.31', pnl:'-54.48', rate:'-6.24%', price:'194.37' },
+      { code:'SATL', shares:'27.4227',avg:'8.22',   pnl:'-65.03', rate:'-33.56%',price:'4.695'  },
+    ];
+    usFixes.forEach(f => {
+      const tr = document.querySelector(`#page-cheng tr[data-us-code="${f.code}"]`);
+      if (tr) {
+        tr.dataset.usShares = f.shares;
+        tr.dataset.usAvg    = f.avg;
+        tr.dataset.usPnl    = f.pnl;
+        tr.dataset.usRate   = f.rate;
+        tr.dataset.usPrice  = f.price;
+      }
+    });
+
+    // 新增 MRVL（若不存在）
+    const usTbody = document.querySelector('#page-cheng tbody[data-section="美股"]');
+    if (usTbody && !usTbody.querySelector('tr[data-us-code="MRVL"]')) {
+      const newTr = document.createElement('tr');
+      newTr.dataset.usCode   = 'MRVL';
+      newTr.dataset.usShares = '0.1771';
+      newTr.dataset.usAvg    = '273.97';
+      newTr.innerHTML = `<td><span class="sname">MRVL</span></td><td class="mono">—</td><td class="mono">273.97</td><td class="mono">0.1771</td><td class="pnl-down">—</td><td><span class="rate-pill down">—</span></td><td style="text-align:center"><button class="op-btn" onclick="openEditUs(this)">✏️</button> <button class="op-btn del" onclick="delUsRow(this)">🗑</button></td>`;
+      usTbody.appendChild(newTr);
+    }
+
+    // 刪除 RDW（若還存在）
+    const rdwTr = document.querySelector('#page-cheng tr[data-us-code="RDW"]');
+    if (rdwTr) rdwTr.remove();
+
+    // 銀行帳戶餘額更新
+    const bankFixes = [
+      { acct:'8193', bal:7417 },
+      { acct:'0668', bal:9023 },
+      { acct:'9500', bal:15046 },
+      { acct:'7713', bal:171648 },
+      { acct:'8420', bal:47 },
+      { acct:'5854', bal:93745 },
+      { acct:'8186', bal:1018 },
+    ];
+    try {
+      const raw = localStorage.getItem('chengbei_bank_v1');
+      let bankArr = raw ? JSON.parse(raw) : [];
+      bankFixes.forEach(f => {
+        const item = bankArr.find(b => b.acct === f.acct);
+        if (item) item.bal = f.bal;
+      });
+      localStorage.setItem('chengbei_bank_v1', JSON.stringify(bankArr));
+      if (typeof bankLoad === 'function') bankLoad();
+    } catch(e) {}
+
+    // 強制清除所有舊摘要快取，寫入最新內容
+    const newSummary = {
+      text:
+        '🏆 正報酬前5名（台股）\n' +
+        '1️⃣ 00878 國泰永續高股息　+145.84%　+901,726元（48,080股）\n' +
+        '2️⃣ 00830 國泰費城半導體　+69.72%　+2,506元\n' +
+        '3️⃣ 00876 元大全球5G　+52.67%　+1,647元\n' +
+        '4️⃣ 00918 大華優利高填息30　+49.55%　+58,107元（富邦）\n' +
+        '5️⃣ 00631L 元大台灣50正2　+25.61%　+2,085元\n' +
+        '\n' +
+        '🏆 正報酬前5名（美股）\n' +
+        '1️⃣ MU 美光　+36.32%　+35.18USD≈+1,120元\n' +
+        '2️⃣ TSM 台積電ADR　+12.46%　+18.12USD≈+577元\n' +
+        '3️⃣ KLAC　+2.15%　+3.13USD≈+100元\n' +
+        '4️⃣ GEV　+1.1%　+4.28USD≈+136元\n' +
+        '\n' +
+        '📉 虧損股票（台股）\n' +
+        '1️⃣ 00910 第一金太空衛星　-15.82%（-3,013元）\n' +
+        '2️⃣ 6285 啟碁　-12.74%（-7,727元）\n' +
+        '3️⃣ 00407A 主動凱基台灣　-2.7%（-1,312元）\n' +
+        '4️⃣ 00406A 主動中信台灣收益　-1.59%（-1,925元）\n' +
+        '5️⃣ 0053 元大電子　-2.4%（-63元）\n' +
+        '\n' +
+        '📉 虧損股票（美股）匯率31.85\n' +
+        '1️⃣ SATL　-34.62%（-67.09USD≈-2,137元）\n' +
+        '2️⃣ NVDA　-7.13%（-62.23USD≈-1,982元）\n' +
+        '3️⃣ CSCO　-4.78%（-20.89USD≈-665元）\n' +
+        '4️⃣ AVGO　-4.91%（-16.68USD≈-531元）\n' +
+        '5️⃣ MRVL　-2.63%（-1.28USD≈-41元）\n' +
+        '\n' +
+        '💰 7月可領配息 ETF\n' +
+        '1️⃣ 00918 大華優利高填息30　1.26元×6,045股 ＝ 7,617元（富邦，7月發放）\n' +
+        '2️⃣ 00400A 主動國泰勤能高息　0.12元×1,935股 ＝ 232元（7/9除息・7/31發放）\n' +
+        '3️⃣ 00981B 第一金優選非投債　0.063元×22,000股 ＝ 1,386元\n' +
+        '4️⃣ 00981D 主動中信非投等債　0.070元×21,000股 ＝ 1,470元\n' +
+        '\n' +
+        '⚠️ 7月不配：00878（8月除息）｜00403A（8月除息）｜00406A（首配8月）｜00407A（不配息）\n' +
+        '7月合計　≈ 10,705元',
+      time: '2026-06-27T08:45:00.000Z'
+    };
+    ['chengbei_summary_v1','chengbei_summary_v2','chengbei_summary_v3',
+     'chengbei_summary_v20260622','chengbei_summary_v20260627j'].forEach(k => {
+      try { localStorage.removeItem(k); } catch(e) {}
+    });
+    try { localStorage.setItem('chengbei_summary_v20260627j', JSON.stringify(newSummary)); } catch(e) {}
+    if (typeof sbRender === 'function') sbRender(newSummary.text, newSummary.time);
+
+    // 存回 Firebase 並標記已完成
+    if (typeof fbSaveHoldings === 'function') {
+      fbSaveHoldings();
+      localStorage.setItem(CORRECTIONS_KEY, '1');
+      if (typeof showToast === 'function') showToast('✅ 持股資料已校正並同步雲端');
+    }
+
+    // 重新渲染卡片與摘要
+    if (typeof renderAllCards === 'function') renderAllCards();
+    if (typeof updateChengSummary === 'function') updateChengSummary();
+    if (typeof updateNiuSummary === 'function') updateNiuSummary();
+    if (typeof updateUsPieChart === 'function') updateUsPieChart();
+    if (typeof updateTwPieChart === 'function') updateTwPieChart();
+    if (typeof updateFbPieChart === 'function') updateFbPieChart();
+    if (typeof updateYfPieChart === 'function') updateYfPieChart();
+  }
+  // ══ 校正腳本結束 ══
+
 }, 800);
 updateFbPieChart();
 updateYfPieChart();
@@ -5569,53 +5750,61 @@ function applyNewGasUrl() {
 
 <script>
 /* ══ 重點摘要橫幅 JS ══ */
-const SB_KEY = 'chengbei_summary_v20260622';
+const SB_KEY = 'chengbei_summary_v20260627j';
 // 清除舊版快取
-(function(){['chengbei_summary_v1','chengbei_summary_v2','chengbei_summary_v3'].forEach(k=>{try{localStorage.removeItem(k);}catch(e){}});})();
+(function(){['chengbei_summary_v1','chengbei_summary_v2','chengbei_summary_v3','chengbei_summary_v20260622','chengbei_summary_v20260627','chengbei_summary_v20260627i'].forEach(k=>{try{localStorage.removeItem(k);}catch(e){}});})();
 
 function sbLoad() {
   try {
     const raw = localStorage.getItem(SB_KEY);
     if (raw) {
       const obj = JSON.parse(raw);
-      // 若快取是今天以前的舊資料，強制覆蓋
       const cacheDate = obj.time ? obj.time.slice(0,10) : '';
-      if (cacheDate >= '2026-06-22') {
+      if (cacheDate >= '2026-06-27') {
         sbRender(obj.text, obj.time);
         return;
       }
     }
-    // 寫入最新預設
+    // 最新預設摘要 2026/06/27
     const defaultText =
-        '📊 持股報酬率排行（高 → 低）2026/06/22\n' +
-        '1  00878 國泰永續高股息　+145.84%（48,005股）\n' +
-        '2  00830 國泰費城半導體　+69.72%\n' +
-        '3  00876 元大全球5G　+52.67%\n' +
-        '4  00918 大華優利高填息30　+49.55%（永豐）\n' +
-        '5  00631L 元大台灣50正2　+45.91%\n' +
-        '6  00861 元大全球未來通訊　+37.11%\n' +
-        '7  MU 美光　+36.52%\n' +
-        '8  00941 中信上游半導體　+31.72%\n' +
-        '9  2449 京元電子　+23.04%\n' +
-        '10 TSM 台積電ADR　+20.2%\n' +
-        '11 00400A 主動國泰勤能高息　+17.93%（永豐）\n' +
-        '12 00988A 主動統一全球創新　+15.12%\n' +
-        '13 00403A 主動統一升級50　+12.24%（永豐）\n' +
-        '14 0052 富邦科技　+8.76%\n' +
-        '15 AVGO　+6.97%\n' +
-        '16 GEV　+7.35%\n' +
-        '17 00920 富邦ESG綠色電力　+6.93%\n' +
-        '18 KLAC　+5.92%\n' +
-        '19 00911 兆豐洲際半導體　+5.76%\n' +
-        '20 00893 國泰智能電動車　+5.73%\n' +
-        '21 0053 元大電子　+5.37%\n' +
-        '22 NVDA　+0.58%\n' +
-        '23 CSCO　+0.3%\n' +
-        '📉 虧損：00910 -3.98%｜6285 啟碁 -1.64%｜RDW -9.3%｜SATL -26.6%';
-      const now = '2026-06-22T15:12:00.000Z';
-      try { localStorage.setItem(SB_KEY, JSON.stringify({ text: defaultText, time: now })); } catch(e){}
-      sbRender(defaultText, now);
-    }
+        '🏆 正報酬前5名（台股）\n' +
+        '1️⃣ 00878 國泰永續高股息　+145.84%　+901,726元（48,080股）\n' +
+        '2️⃣ 00830 國泰費城半導體　+69.72%　+2,506元\n' +
+        '3️⃣ 00876 元大全球5G　+52.67%　+1,647元\n' +
+        '4️⃣ 00918 大華優利高填息30　+49.55%　+58,107元（富邦）\n' +
+        '5️⃣ 00631L 元大台灣50正2　+25.61%　+2,085元\n' +
+        '\n' +
+        '🏆 正報酬前5名（美股）\n' +
+        '1️⃣ MU 美光　+36.32%　+35.18USD≈+1,120元\n' +
+        '2️⃣ TSM 台積電ADR　+12.46%　+18.12USD≈+577元\n' +
+        '3️⃣ KLAC　+2.15%　+3.13USD≈+100元\n' +
+        '4️⃣ GEV　+1.1%　+4.28USD≈+136元\n' +
+        '\n' +
+        '📉 虧損股票（台股）\n' +
+        '1️⃣ 00910 第一金太空衛星　-15.82%（-3,013元）\n' +
+        '2️⃣ 6285 啟碁　-12.74%（-7,727元）\n' +
+        '3️⃣ 00407A 主動凱基台灣　-2.7%（-1,312元）\n' +
+        '4️⃣ 00406A 主動中信台灣收益　-1.59%（-1,925元）\n' +
+        '5️⃣ 0053 元大電子　-2.4%（-63元）\n' +
+        '\n' +
+        '📉 虧損股票（美股）匯率31.85\n' +
+        '1️⃣ SATL　-34.62%（-67.09USD≈-2,137元）\n' +
+        '2️⃣ NVDA　-7.13%（-62.23USD≈-1,982元）\n' +
+        '3️⃣ CSCO　-4.78%（-20.89USD≈-665元）\n' +
+        '4️⃣ AVGO　-4.91%（-16.68USD≈-531元）\n' +
+        '5️⃣ MRVL　-2.63%（-1.28USD≈-41元）\n' +
+        '\n' +
+        '💰 7月可領配息 ETF\n' +
+        '1️⃣ 00918 大華優利高填息30　1.26元×6,045股 ＝ 7,617元（富邦，7月發放）\n' +
+        '2️⃣ 00400A 主動國泰勤能高息　0.12元×1,935股 ＝ 232元（7/9除息・7/31發放）\n' +
+        '3️⃣ 00981B 第一金優選非投債　0.063元×22,000股 ＝ 1,386元\n' +
+        '4️⃣ 00981D 主動中信非投等債　0.070元×21,000股 ＝ 1,470元\n' +
+        '\n' +
+        '⚠️ 7月不配：00878（8月除息）｜00403A（8月除息）｜00406A（首配8月）｜00407A（不配息）\n' +
+        '7月合計　≈ 10,705元';
+    const now = '2026-06-27T08:45:00.000Z';
+    try { localStorage.setItem(SB_KEY, JSON.stringify({ text: defaultText, time: now })); } catch(e){}
+    sbRender(defaultText, now);
   } catch(e) {
     document.getElementById('sb-text-display').textContent = '點擊「更新摘要」輸入今日重點';
   }
@@ -5628,8 +5817,8 @@ function sbRender(text, time) {
     .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
     .replace(/\+[\d,.]+%?/g, m => `<span class="highlight-green">${m}</span>`)
     .replace(/-[\d,.]+%/g,  m => `<span class="highlight-red">${m}</span>`)
-    .replace(/(00878|MU|TSM|00830|00876|00631L|00941|KLAC|6285|00861|00876)/g, m => `<span class="highlight-blue">${m}</span>`)
-    .replace(/(SATL|GEV|RDW)/g,  m => `<span class="highlight-red">${m}</span>`);
+    .replace(/(00878|00830|00876|00631L|00941|00918|00910|00406A|00403A|00400A|00988A|00911|00920|00893|0052|0053|0051|2449|6285|00861|00981B|00981D|00407A|MU|TSM|KLAC|GEV)/g, m => `<span class="highlight-blue">${m}</span>`)
+    .replace(/(SATL|RDW|NVDA|CSCO|AVGO|MRVL)/g,  m => `<span class="highlight-red">${m}</span>`);
   el.innerHTML = html;
 
   if (time) {
