@@ -3,7 +3,15 @@
 <head>
 <meta charset="UTF-8"/>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Plus+Jakarta+Sans:wght@700;800;900&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,viewport-fit=cover"/>
+<link rel="manifest" href="manifest-行事曆.json">
+<meta name="theme-color" content="#0D1117">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="2026行事曆">
+<link rel="apple-touch-icon" href="icon-行事曆-192.png">
+<link rel="icon" href="icon-行事曆-192.png">
 <title>2026 行事曆 × 健康管理</title>
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -31,6 +39,13 @@
   --dept-eye:#39C5CF;--dept-eye-bg:rgba(57,197,207,.15);
 }
 body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jakarta Sans','PingFang TC','Microsoft JhengHei',sans-serif;min-height:100vh;font-size:16px;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+
+/* ── 語音輸入麥克風按鈕 ── */
+.voice-mic-btn{position:absolute;right:4px;top:50%;transform:translateY(-50%);width:28px;height:28px;border:none;border-radius:50%;background:rgba(88,166,255,.15);color:var(--y,#58A6FF);font-size:14px;cursor:pointer;display:flex;align-items:center;justify-content:center;padding:0;transition:all .15s;z-index:2}
+.voice-mic-btn:hover{background:rgba(88,166,255,.28)}
+.voice-mic-btn.listening{background:rgba(248,81,73,.18);color:#F85149;animation:micPulse 1s infinite}
+@keyframes micPulse{0%,100%{box-shadow:0 0 0 0 rgba(248,81,73,.4)}50%{box-shadow:0 0 0 6px rgba(248,81,73,0)}}
+textarea.form-input ~ .voice-mic-btn{top:16px;transform:none}
 
 /* ── HEADER ── */
 .main-header{background:var(--card);color:var(--ink);padding:14px 16px 12px;border-bottom:1px solid rgba(14,159,142,.15);position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,.05)}
@@ -217,17 +232,18 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .bp-input{font-family:inherit;font-size:14px;font-weight:700;border:1px solid rgba(14,159,142,.3);border-radius:9px;padding:8px 10px;background:var(--bg);color:var(--ink);width:100%;outline:none}
 .bp-input:focus{border-color:var(--rd)}
 .bp-btn{background:var(--rd);color:#fff;border:none;border-radius:10px;padding:10px 18px;font-size:13px;font-weight:900;cursor:pointer;font-family:inherit}
-.bp-twrap{overflow-x:auto}
-.bp-table{width:100%;border-collapse:collapse;font-size:13px}
-.bp-table thead th{text-align:left;font-size:12px;color:#888;font-weight:700;padding:0 9px 8px;border-bottom:2px solid var(--bdr)}
+.bp-twrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.bp-table{width:100%;min-width:560px;border-collapse:collapse;font-size:13px}
+.bp-table thead th{text-align:left;font-size:12px;color:#888;font-weight:700;padding:0 9px 8px;border-bottom:2px solid var(--bdr);white-space:nowrap}
 .bp-table tbody tr{border-bottom:1px solid rgba(14,159,142,.1)}
 .bp-table tbody tr:hover{background:var(--card2)}
-.bp-table td{padding:10px 9px;vertical-align:middle}
+.bp-table td{padding:10px 9px;vertical-align:middle;white-space:nowrap}
 .bpmono{font-weight:800;font-size:14px}
 .bpst{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px}
 .bpdel{background:none;border:none;color:#ccc;cursor:pointer;font-size:15px;padding:3px 6px;border-radius:5px}
 .bpdel:hover{color:var(--rd)}
 .bpempty{text-align:center;padding:2rem;color:#aaa;font-size:14px}
+.tbl-swipe-hint{display:none;font-size:11px;color:var(--ink-light);margin-bottom:6px;align-items:center;gap:4px}
 
 /* MED */
 .med-panel{background:var(--card);border:1px solid var(--bdr);border-radius:14px;overflow:hidden;margin-bottom:14px}
@@ -241,11 +257,11 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .med-ilbl{font-size:12px;color:#666;font-weight:700}
 .med-input{font-family:inherit;font-size:14px;border:1px solid rgba(14,159,142,.3);border-radius:9px;padding:8px 10px;background:var(--bg);color:var(--ink);width:100%;outline:none}
 .med-input:focus{border-color:var(--bl)}
-.med-table{width:100%;border-collapse:collapse;font-size:13px}
-.med-table thead th{text-align:left;font-size:12px;color:#888;font-weight:700;padding:0 9px 8px;border-bottom:2px solid var(--bdr)}
+.med-table{width:100%;min-width:640px;border-collapse:collapse;font-size:13px}
+.med-table thead th{text-align:left;font-size:12px;color:#888;font-weight:700;padding:0 9px 8px;border-bottom:2px solid var(--bdr);white-space:nowrap}
 .med-table tbody tr{border-bottom:1px solid rgba(14,159,142,.1)}
 .med-table tbody tr:hover{background:var(--card2)}
-.med-table td{padding:10px 9px;vertical-align:middle}
+.med-table td{padding:10px 9px;vertical-align:middle;white-space:nowrap}
 .med-active{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:20px}
 .med-active.on{background:rgba(26,138,58,.12);color:var(--gr)}.med-active.off{background:#f0f0f0;color:#aaa}
 .med-toggle{background:none;border:1px solid var(--bdr);color:var(--ink-mid);cursor:pointer;font-size:12px;font-weight:700;padding:4px 9px;border-radius:6px;margin-right:4px;font-family:inherit}
@@ -270,12 +286,12 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .cc-sum-box{flex:1;min-width:85px;background:var(--mid);border-radius:10px;padding:9px 10px;text-align:center}
 .cc-sum-lbl{font-size:11px;color:var(--ink-light);font-weight:700;margin-bottom:3px}
 .cc-sum-val{font-size:18px;font-weight:900;color:var(--ink)}
-.cc-twrap{overflow-x:auto}
-.cc-table{width:100%;border-collapse:collapse;font-size:14px}
+.cc-twrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.cc-table{width:100%;min-width:600px;border-collapse:collapse;font-size:14px}
 .cc-table thead th{text-align:left;font-size:11px;font-weight:800;color:var(--ink-light);padding:8px 14px;border-bottom:2px solid var(--bdr);letter-spacing:.04em;white-space:nowrap}
 .cc-table tbody tr{border-bottom:1px solid rgba(14,159,142,.08);transition:background .15s}
 .cc-table tbody tr:hover{background:var(--card2)}
-.cc-table td{padding:11px 14px;vertical-align:middle}
+.cc-table td{padding:11px 14px;vertical-align:middle;white-space:nowrap}
 .cc-bank{font-size:15px;font-weight:800;color:var(--ink)}
 .cc-bank-sub{font-size:11px;color:var(--ink-light);margin-top:1px}
 .cc-amt{font-size:16px;font-weight:900;text-align:right}
@@ -314,11 +330,11 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
 .exp-panel-hdr{padding:11px 14px;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:space-between}
 .exp-panel-title{font-size:14px;font-weight:900}
 .exp-panel-amt{font-size:15px;font-weight:900}
-.exp-table{width:100%;border-collapse:collapse;font-size:13px}
+.exp-table{width:100%;min-width:520px;border-collapse:collapse;font-size:13px}
 .exp-table thead th{text-align:left;font-size:11px;color:#888;font-weight:800;padding:7px 12px;border-bottom:2px solid var(--bdr);white-space:nowrap;letter-spacing:.04em}
 .exp-table tbody tr{border-bottom:1px solid rgba(14,159,142,.08);transition:background .12s}
 .exp-table tbody tr:hover{background:var(--card2)}
-.exp-table td{padding:9px 12px;vertical-align:middle}
+.exp-table td{padding:9px 12px;vertical-align:middle;white-space:nowrap}
 .exp-cat-badge{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:10px;background:rgba(14,159,142,.1);color:#0a6b5e;white-space:nowrap}
 .exp-amt{font-size:14px;font-weight:900;text-align:right;white-space:nowrap}
 .exp-amt.zero{color:#ccc}
@@ -656,11 +672,12 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
   }
 
   /* header 往下推，讓出 nav 空間，並緊湊顯示 */
-  .main-header{top:54px;padding:10px 12px 8px}
+  .main-header{top:102px;padding:10px 12px 8px}
 
-  /* section 往下推，讓出 nav(54) + header(~70) 空間 */
-  .section{padding-top:160px}
+  /* section 內距交給 .content 本身處理即可，header 已用正常文件流讓出空間，不需再疊加大padding */
+  .section{padding-top:0}
   .content{padding:12px 12px 24px}
+  .tbl-swipe-hint{display:flex}
   .htitles .main{font-size:16px}
   .hdate strong{font-size:13px}
   .hstats{gap:0}
@@ -965,7 +982,11 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     <span class="leg-item" style="margin-left:4px"><span class="leg-dot" style="background:var(--gr)"></span>已完成</span>
   </div>
   <div class="add-form">
-    <div class="add-form-title">＋ 新增回診預約</div>
+    <div class="add-form-title" style="display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap">
+      <span>＋ 新增回診預約</span>
+      <button type="button" id="voice-quick-appt-btn" onclick="voiceQuickAddAppt()" style="background:rgba(88,166,255,.15);color:var(--y,#58A6FF);border:1px solid rgba(88,166,255,.35);border-radius:20px;padding:7px 14px;font-size:12.5px;font-weight:800;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px">🎤 語音快速新增</button>
+    </div>
+    <div id="voice-quick-appt-hint" style="display:none;font-size:12px;color:var(--ink-light);background:rgba(88,166,255,.08);border:1px solid rgba(88,166,255,.2);border-radius:9px;padding:8px 10px;margin-bottom:10px;line-height:1.6"></div>
     <div class="form-grid">
       <div class="form-group"><span class="form-label">日期</span><input type="date" class="form-input" id="appt-date"/></div>
       <div class="form-group"><span class="form-label">科別</span>
@@ -1007,6 +1028,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
         </div>
         <button class="bp-btn" onclick="addBP()">儲存記錄</button>
       </div>
+      <div class="tbl-swipe-hint">👉 表格可左右滑動查看完整欄位</div>
       <div class="bp-twrap">
         <table class="bp-table">
           <thead><tr><th>日期／時間</th><th>血壓</th><th>脈搏</th><th>狀態</th><th>備註</th><th></th></tr></thead>
@@ -1035,6 +1057,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
         </div>
         <button class="med-btn" onclick="addMed()">新增用藥</button>
       </div>
+      <div class="tbl-swipe-hint">👉 表格可左右滑動查看完整欄位</div>
       <div class="bp-twrap">
         <table class="med-table">
           <thead><tr><th>藥品名稱</th><th>劑量</th><th>頻率</th><th>開始</th><th>結束</th><th>狀態</th><th>備註</th><th></th></tr></thead>
@@ -1141,6 +1164,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
           <button id="mf-12" onclick="setExpMonthFilter(12)" style="padding:5px 11px;border-radius:12px;border:1px solid var(--bdr);font-size:12px;font-weight:700;cursor:pointer;font-family:inherit;background:var(--mid);color:var(--ink-mid)">12月</button>
         </div>
       </div>
+      <div class="tbl-swipe-hint">👉 表格可左右滑動查看完整欄位</div>
       <div style="overflow-x:auto"><table class="exp-table">
         <thead><tr><th>日期</th><th>類別</th><th>金額</th><th>付款方式</th><th>備註</th><th></th></tr></thead>
         <tbody id="exp-all-tbody"></tbody>
@@ -1158,6 +1182,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     <div class="exp-summary-grid" id="exp-month-summary"></div>
     <div class="exp-panel">
       <div class="exp-panel-hdr"><span class="exp-panel-title" id="exp-month-title"></span><span class="exp-panel-amt" id="exp-month-total"></span></div>
+      <div class="tbl-swipe-hint">👉 表格可左右滑動查看完整欄位</div>
       <div style="overflow-x:auto"><table class="exp-table">
         <thead><tr><th>日期</th><th>類別</th><th>金額</th><th>付款方式</th><th>備註</th><th></th></tr></thead>
         <tbody id="exp-month-tbody"></tbody>
@@ -1308,6 +1333,7 @@ body{background:var(--bg);color:var(--ink);font-family:'Noto Sans TC','Plus Jaka
     <div class="modal-title" id="mo-title"></div>
     <div class="modal-wd" id="mo-wd"></div>
     <div id="mo-events"></div>
+    <div id="mo-notes" style="margin-top:10px"></div>
     <button class="modal-close" onclick="document.getElementById('mo').classList.remove('open')">關閉</button>
   </div>
 </div>
@@ -1524,13 +1550,15 @@ function renderCal(){
     const hol=HOLIDAYS[key];
     const evts=CAL_EVT[key]||[];
     const meds=medDates[key]||[];
+    const notes=(dayNotes[key]||[]);
     let cls="cal-day"+(isToday?" today":"")+(hol?" holiday":"");
     const numCls="dnum"+(isSun?" sun":isSat?" sat":"");
 
-    // dots: gold for events, green for medical
+    // dots: gold for events, green for medical, purple for 記事
     const dots=[
       ...evts.slice(0,2).map(()=>`<div class="dot" style="background:var(--y)"></div>`),
-      ...meds.slice(0,2).map(()=>`<div class="dot" style="background:#1a8a3a"></div>`)
+      ...meds.slice(0,2).map(()=>`<div class="dot" style="background:#1a8a3a"></div>`),
+      ...notes.slice(0,1).map(()=>`<div class="dot" style="background:#D2A8FF"></div>`)
     ].slice(0,4).join("");
 
     html+=`<div class="${cls}" onclick="showDay('${key}',${d})">
@@ -1564,10 +1592,226 @@ function showDay(key,d,fromSync){
   });
   if(!html) html=`<div style="text-align:center;color:#aaa;padding:20px">今日無行程</div>`;
   document.getElementById("mo-events").innerHTML=html;
+  renderDayNotes(key);
   document.getElementById("mo").classList.add("open");
 }
 
 function closeMo(e){if(e.target===document.getElementById("mo"))document.getElementById("mo").classList.remove("open");}
+
+// ═══ 記事 (自由筆記，綁定日期) ═══
+let dayNotes=JSON.parse(localStorage.getItem("dayNotes")||"null")||{};
+function saveDayNotes(){localStorage.setItem("dayNotes",JSON.stringify(dayNotes));}
+
+function renderDayNotes(key){
+  const list=dayNotes[key]||[];
+  let h=`<div class="focus-ghdr" style="margin-top:14px"><span class="focus-gtitle">📝 記事</span><div class="focus-gline"></div></div>`;
+  if(list.length){
+    h+=list.map(n=>`<div class="focus-item"><div class="fbody"><div class="ftext" style="font-weight:500;font-size:13.5px">${n.text}</div><div class="fnote">${n.time||""}</div></div><button class="focus-del-btn" onclick="deleteDayNote('${key}',${n.id})">✕</button></div>`).join("");
+  }
+  h+=`<div class="focus-add-row" style="margin-top:6px">
+    <input class="focus-add-inp" id="daynote-inp" placeholder="輸入記事內容…" style="flex:1" onkeydown="if(event.key==='Enter')addDayNote('${key}')"/>
+    <button class="focus-sort-btn" onclick="addDayNote('${key}')" style="flex-shrink:0">新增</button>
+  </div>`;
+  document.getElementById("mo-notes").innerHTML=h;
+  attachMic("daynote-inp");
+}
+
+function addDayNote(key){
+  const inp=document.getElementById("daynote-inp");
+  const text=inp.value.trim();
+  if(!text)return;
+  if(!dayNotes[key])dayNotes[key]=[];
+  dayNotes[key].push({id:Date.now(),text,time:nowTime?nowTime():""});
+  saveDayNotes();
+  renderDayNotes(key);
+  renderCal();
+}
+
+function deleteDayNote(key,id){
+  if(!dayNotes[key])return;
+  dayNotes[key]=dayNotes[key].filter(n=>n.id!==id);
+  saveDayNotes();
+  renderDayNotes(key);
+  renderCal();
+}
+
+// ═══ 語音輸入 (Web Speech API) ═══
+function attachMic(id){
+  const el=document.getElementById(id);
+  if(!el||el.dataset.micReady)return;
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR)return; // 裝置/瀏覽器不支援語音輸入，安靜跳過
+  el.dataset.micReady="1";
+  const wrap=document.createElement("div");
+  wrap.style.position="relative";
+  // 保留原本 input 的 flex/width 版面設定，改套用到外層 wrapper，避免破版
+  if(el.style.flex){wrap.style.flex=el.style.flex;}
+  else if(el.style.width){wrap.style.width=el.style.width;}
+  else{wrap.style.width="100%";}
+  el.parentNode.insertBefore(wrap,el);
+  wrap.appendChild(el);
+  el.style.width="100%";
+  el.style.flex="";
+  el.style.paddingRight="34px";
+  const btn=document.createElement("button");
+  btn.type="button";
+  btn.className="voice-mic-btn";
+  btn.textContent="🎤";
+  btn.title="語音輸入";
+  wrap.appendChild(btn);
+  let recognizing=false,recognition=null;
+  btn.addEventListener("click",function(e){
+    e.preventDefault();e.stopPropagation();
+    if(recognizing){recognition&&recognition.stop();return;}
+    recognition=new SR();
+    recognition.lang="zh-TW";
+    recognition.interimResults=false;
+    recognition.maxAlternatives=1;
+    recognition.onstart=function(){recognizing=true;btn.classList.add("listening");btn.textContent="🔴";};
+    recognition.onend=function(){recognizing=false;btn.classList.remove("listening");btn.textContent="🎤";};
+    recognition.onerror=function(){recognizing=false;btn.classList.remove("listening");btn.textContent="🎤";};
+    recognition.onresult=function(ev){
+      const text=ev.results[0][0].transcript;
+      const cur=el.value;
+      el.value=cur?(cur+" "+text):text;
+      el.dispatchEvent(new Event("input"));
+      el.dispatchEvent(new Event("change"));
+    };
+    try{recognition.start();}catch(err){}
+  });
+}
+
+// 頁面載入後，為固定存在的輸入欄位掛上語音輸入按鈕
+document.addEventListener("DOMContentLoaded",function(){
+  ["appt-dept-name","appt-doctor","appt-room","appt-note","appt-outcome",
+   "bp-note",
+   "med-name","med-freq","med-note",
+   "cc-cycle","cc-debit",
+   "exp-pay","exp-note-inp","exp-inc-src",
+   "fi-text","fi-note"
+  ].forEach(attachMic);
+});
+
+// ═══ 語音快速新增看診預約：講一句話，自動拆解填入日期/科別/醫院/醫師/時段 ═══
+const APPT_DEPT_KEYWORDS=[
+  ["骨科","ortho"],["復健","rehab"],["精神","psych"],["身心","psych"],["心身","psych"],
+  ["新陳代謝","endo"],["內分泌","endo"],["神經","neuro"],["心臟","cardio"],
+  ["中醫","tcm"],["眼科","eye"]
+];
+function parseApptVoiceText(text){
+  const result={date:null,deptType:null,deptName:null,doctor:null,time:null,raw:text};
+  let remain=text;
+
+  // ── 日期 ──
+  const y=(typeof selYear!=="undefined"&&selYear)?selYear:new Date().getFullYear();
+  if(/今天/.test(text)){
+    result.date=today();
+  }else if(/明天/.test(text)){
+    const d=new Date();d.setDate(d.getDate()+1);
+    result.date=d.toISOString().slice(0,10);
+  }else if(/後天/.test(text)){
+    const d=new Date();d.setDate(d.getDate()+2);
+    result.date=d.toISOString().slice(0,10);
+  }else{
+    const m1=text.match(/(\d{1,2})[\/月](\d{1,2})日?/);
+    if(m1){
+      const mo=String(m1[1]).padStart(2,"0"), da=String(m1[2]).padStart(2,"0");
+      result.date=`${y}-${mo}-${da}`;
+    }
+  }
+
+  // ── 時段／時間 ──
+  const CN_NUM={"一":1,"二":2,"兩":2,"三":3,"四":4,"五":5,"六":6,"七":7,"八":8,"九":9,"十":10,"十一":11,"十二":12};
+  function cnToNum(s){
+    if(CN_NUM[s]!==undefined) return CN_NUM[s];
+    if(s.length===2&&s[0]==="十") return 10+(CN_NUM[s[1]]||0); // 十X -> 10+X
+    if(s.length===3&&s[1]==="十") return (CN_NUM[s[0]]||0)*10+(CN_NUM[s[2]]||0);
+    return null;
+  }
+  const tMatch=text.match(/(上午|早上|早晨|中午|下午|晚上|傍晚)?\s*(\d{1,2})[點:：](\d{1,2})?分?/);
+  const tMatchCN=text.match(/(上午|早上|早晨|中午|下午|晚上|傍晚)?\s*([一二三四五六七八九十]{1,3})點(半|(?:三十分?)|(?:\d{1,2}分))?/);
+  if(tMatch){
+    let hh=parseInt(tMatch[2],10);
+    const mm=tMatch[3]?String(tMatch[3]).padStart(2,"0"):"00";
+    const period=tMatch[1];
+    if(period&&/下午|晚上|傍晚/.test(period)&&hh<12) hh+=12;
+    result.time=`${String(hh).padStart(2,"0")}:${mm}`;
+  }else if(tMatchCN&&cnToNum(tMatchCN[2])!==null){
+    let hh=cnToNum(tMatchCN[2]);
+    const mm=tMatchCN[3]?(/半|三十/.test(tMatchCN[3])?"30":String(parseInt(tMatchCN[3],10)).padStart(2,"0")):"00";
+    const period=tMatchCN[1];
+    if(period&&/下午|晚上|傍晚/.test(period)&&hh<12) hh+=12;
+    result.time=`${String(hh).padStart(2,"0")}:${mm}`;
+  }else if(/早上|上午|早晨/.test(text)){
+    result.time="09:00";
+  }else if(/中午/.test(text)){
+    result.time="12:00";
+  }else if(/下午/.test(text)){
+    result.time="14:30";
+  }else if(/晚上|傍晚/.test(text)){
+    result.time="18:30";
+  }
+
+  // ── 醫院／診所名稱（優先抓「到／去／在」後面緊接的名稱，其次抓句首名稱，避免把贅字一起抓進來）──
+  let hospital="";
+  const hMatchA=text.match(/(?:到|去|在)\s*([\u4e00-\u9fa5]{2,6})(?:醫院|診所|醫療中心|醫療院所)/);
+  const hMatchB=text.match(/^([\u4e00-\u9fa5]{2,6})(?:醫院|診所|醫療中心|醫療院所)/);
+  if(hMatchA) hospital=hMatchA[1];
+  else if(hMatchB) hospital=hMatchB[1];
+
+  // ── 科別 ──
+  let deptKeyword="",deptType="other";
+  for(const [kw,type] of APPT_DEPT_KEYWORDS){
+    if(text.includes(kw)){deptKeyword=kw;deptType=type;break;}
+  }
+  result.deptType=deptType;
+  result.deptName=(hospital+deptKeyword)||deptKeyword||hospital||"";
+
+  // ── 醫師姓名（要求名字前面是句首或空白／逗號，避免把「看骨科」等贅字誤抓）──
+  const dMatch=text.match(/(?:^|\s|，|,)([\u4e00-\u9fa5]{1,4})\s*醫師/);
+  if(dMatch) result.doctor=dMatch[1]+" 醫師";
+
+  return result;
+}
+
+function voiceQuickAddAppt(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const btn=document.getElementById("voice-quick-appt-btn");
+  const hint=document.getElementById("voice-quick-appt-hint");
+  if(!SR){
+    if(hint){hint.style.display="block";hint.innerHTML="⚠️ 此瀏覽器不支援語音輸入，請改用手動填寫（或用 Chrome/Android 開啟並確認網址是 https）。";}
+    return;
+  }
+  const recognition=new SR();
+  recognition.lang="zh-TW";
+  recognition.interimResults=false;
+  recognition.maxAlternatives=1;
+  recognition.onstart=function(){
+    btn.textContent="🔴 聆聽中…請說「7/3 早上 板新醫院 骨科 董文慈醫師」";
+    btn.style.background="rgba(248,81,73,.18)";btn.style.color="#F85149";
+  };
+  const resetBtn=function(){
+    btn.textContent="🎤 語音快速新增";
+    btn.style.background="rgba(88,166,255,.15)";btn.style.color="var(--y,#58A6FF)";
+  };
+  recognition.onend=resetBtn;
+  recognition.onerror=resetBtn;
+  recognition.onresult=function(ev){
+    const text=ev.results[0][0].transcript;
+    const r=parseApptVoiceText(text);
+    const filled=[];
+    if(r.date){document.getElementById("appt-date").value=r.date;filled.push("📅 "+r.date);}
+    if(r.deptType){document.getElementById("appt-dept-type").value=r.deptType;}
+    if(r.deptName){document.getElementById("appt-dept-name").value=r.deptName;filled.push("🏥 "+r.deptName);}
+    if(r.doctor){document.getElementById("appt-doctor").value=r.doctor;filled.push("👨‍⚕️ "+r.doctor);}
+    if(r.time){document.getElementById("appt-time").value=r.time;filled.push("🕐 "+r.time);}
+    if(hint){
+      hint.style.display="block";
+      hint.innerHTML=`🎤 聽到：「${text}」<br>已自動填入：${filled.length?filled.join("　"):"（沒有辨識到明確資訊，請手動填寫）"}<br>請檢查下方欄位，確認無誤後按「新增預約」`;
+    }
+  };
+  try{recognition.start();}catch(err){resetBtn();}
+}
 
 // ═══ APPOINTMENTS ═══
 let appointments=JSON.parse(localStorage.getItem("appts")||"null")||INIT_APPTS;
@@ -1972,6 +2216,7 @@ function renderCC(){
     <div class="cc-sum-box"><div class="cc-sum-lbl">已繳</div><div class="cc-sum-val" style="color:var(--gr)">${ccFmt(totalPaid)}</div></div>
     <div class="cc-sum-box"><div class="cc-sum-lbl">卡片數</div><div class="cc-sum-val">${ccData.length}</div></div>
   </div>
+  <div class="tbl-swipe-hint">👉 表格可左右滑動查看完整欄位</div>
   <div class="cc-twrap">
   <table class="cc-table">
     <thead><tr>
@@ -3544,6 +3789,14 @@ function mDrawInc(){
   document.getElementById('mIncBody').innerHTML=t||'<tr><td colspan="3" style="text-align:center;padding:28px;opacity:.5">本月尚無收入記錄</td></tr>';
 }
 function mIncFil(btn){_mI.f=btn.dataset.v;mDrawInc();}
+</script>
+
+<script>
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('sw-行事曆.js').catch(() => {});
+  });
+}
 </script>
 
 </body>
