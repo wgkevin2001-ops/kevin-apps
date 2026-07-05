@@ -2698,6 +2698,97 @@ function initApp() {
     try { localStorage.setItem(SEED_KEY, '1'); } catch(e){}
   })();
 
+  // ── 寫入 6/30–7/04 實際記錄 ──
+  (function seedJun30to0704(){
+    var SEED_KEY = 'jun2026_0630_0704_seeded_v1';
+    try { if (localStorage.getItem(SEED_KEY)) return; } catch(e){ return; }
+    var wkData = [
+      // 6/30 (週二)：Uber $3,428 + 台灣大10趟$2,330 + Bolt實拿$180.8 | 悠遊卡加油(林森北路)$910 停車$200
+      {
+        id: 1751000000201,
+        date: '2026-06-30',
+        shift: '🕐 全天',
+        inc_detail: {meter:0, uber:3428, bolt:180.8, t55688:2330, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 910,
+        fee: 0,
+        park: 200,
+        note: 'Uber 18趟$3,428・台灣大10趟$2,330・Bolt實拿$180.8(收入$226-服務費$45.2)・悠遊卡加油(林森北路站)$910・停車$200'
+      },
+      // 7/01 (週三)：Uber $2,698 + 台灣大3趟$885 + Bolt實拿$95.2 | 全國現金加油(估)$500 停車$200
+      {
+        id: 1751000000202,
+        date: '2026-07-01',
+        shift: '🕐 全天',
+        inc_detail: {meter:0, uber:2698, bolt:95.2, t55688:885, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 500,
+        fee: 0,
+        park: 200,
+        note: 'Uber 11趟$2,698・台灣大3趟$885・Bolt實拿$95.2(收入$119-服務費$23.8)・全國現金加油(估)$500・停車$200'
+      },
+      // 7/02 (週四)：Uber $2,105 + 台灣大2趟$310 + Bolt實拿$1,436 + Line Go實拿$218 | 停車$200
+      {
+        id: 1751000000203,
+        date: '2026-07-02',
+        shift: '🕐 全天',
+        inc_detail: {meter:0, uber:2105, bolt:1436, t55688:310, metro:0, lingo:218, panda:0, ubereats:0, other:0},
+        fuel: 0,
+        fee: 0,
+        park: 200,
+        note: 'Uber 7趟$2,105・台灣大2趟$310・Bolt實拿$1,436(收入$1,745含活動$200-服務費$309)・Line Go實拿$218(車資$271-淨額)・停車$200'
+      },
+      // 7/03 (週五)：Uber $3,403 + 台灣大2趟$720 + Bolt實拿$148.8 | 悠遊卡加油(內湖麗山街)$475 停車$200
+      {
+        id: 1751000000204,
+        date: '2026-07-03',
+        shift: '🕐 全天',
+        inc_detail: {meter:0, uber:3403, bolt:148.8, t55688:720, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 475,
+        fee: 0,
+        park: 200,
+        note: 'Uber 17趟$3,403・台灣大2趟$720・Bolt實拿$148.8(收入$186-服務費$37.2)・悠遊卡加油(內湖麗山街站)$475・停車$200'
+      },
+      // 7/04 (週六)：Uber $5,242 + 台灣大1趟$200 | 全國現金加油(估)$500 停車$200
+      {
+        id: 1751000000205,
+        date: '2026-07-04',
+        shift: '🕐 全天',
+        inc_detail: {meter:0, uber:5242, bolt:0, t55688:200, metro:0, lingo:0, panda:0, ubereats:0, other:0},
+        fuel: 500,
+        fee: 0,
+        park: 200,
+        note: 'Uber 21趟$5,242・台灣大1趟$200・全國現金加油(估)$500・停車$200'
+      },
+    ];
+    var recs = getRecs();
+    var existDates = {};
+    recs.forEach(function(r){ existDates[r.date] = true; });
+    wkData.forEach(function(row){
+      if (existDates[row.date]) return;
+      var inc = 0;
+      var ids = ['meter','uber','bolt','t55688','metro','lingo','panda','ubereats','other'];
+      ids.forEach(function(k){ inc += row.inc_detail[k] || 0; });
+      var park = row.park || 150;
+      var exp = park + row.fuel + row.fee + (row.misc || 0);
+      var net = inc - exp;
+      recs.push({
+        id: row.id,
+        date: row.date,
+        shift: row.shift,
+        inc: inc,
+        inc_detail: row.inc_detail,
+        fuel: row.fuel,
+        park: park,
+        fee: row.fee,
+        misc: 0,
+        exp: exp,
+        net: net,
+        note: row.note
+      });
+    });
+    saveRecs(recs);
+    try { localStorage.setItem(SEED_KEY, '1'); } catch(e){}
+  })();
+
   calc();
   renderHistory();
   renderAnnual();
