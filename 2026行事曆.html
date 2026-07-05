@@ -131,6 +131,17 @@ textarea.form-input ~ .voice-mic-btn{top:16px;transform:none}
 .cal-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .cal-nbtn{background:var(--card);border:1px solid var(--bdr);border-radius:8px;color:var(--ink);font-size:18px;width:36px;height:36px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 .cal-mlbl{font-size:16px;font-weight:900;color:var(--y)}
+.cal-viewsw{display:flex;gap:6px;margin-bottom:10px}
+.cal-view-btn{flex:1;background:var(--card);border:1px solid var(--bdr);border-radius:9px;padding:8px 6px;font-size:12.5px;font-weight:700;color:var(--ink-mid);cursor:pointer;font-family:inherit;transition:all .15s}
+.cal-view-btn.active{background:var(--y);color:#fff;border-color:var(--y)}
+.agenda-day{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--bdr);cursor:pointer}
+.agenda-day:last-child{border-bottom:none}
+.agenda-day.agenda-today .agenda-dnum{background:var(--y);color:#fff}
+.agenda-daylbl{width:44px;flex-shrink:0;text-align:center;padding-top:2px}
+.agenda-dow{font-size:11px;font-weight:700;color:var(--ink-light)}
+.agenda-dnum{font-size:16px;font-weight:900;color:var(--ink);width:30px;height:30px;line-height:30px;border-radius:50%;margin:2px auto 0}
+.agenda-body{flex:1;min-width:0}
+.agenda-body.agenda-single{padding-top:2px}
 .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:2px}
 .cal-wd{text-align:center;font-size:11px;font-weight:700;color:var(--ink-light);padding:5px 0}
 .cal-day{min-height:50px;display:flex;flex-direction:column;align-items:center;padding:3px 1px 2px;border-radius:8px;cursor:pointer;position:relative;transition:background .15s;gap:1px}
@@ -960,12 +971,18 @@ textarea.form-input ~ .voice-mic-btn{top:16px;transform:none}
 <!-- ══ 月曆 ══ -->
 <div id="sec-cal" class="section"><div class="content">
   <div class="sync-note">🔗 綠色圓點＝看診日 · 點擊日期可查看看診詳情 · 點看診卡片可跳到月曆</div>
+  <div class="cal-viewsw">
+    <button class="cal-view-btn active" data-v="month" onclick="setCalView('month')">📅 月</button>
+    <button class="cal-view-btn" data-v="week" onclick="setCalView('week')">🗂️ 週</button>
+    <button class="cal-view-btn" data-v="day" onclick="setCalView('day')">📋 日</button>
+  </div>
   <div class="cal-nav">
-    <button class="cal-nbtn" onclick="changeMonth(-1)">‹</button>
+    <button class="cal-nbtn" onclick="calNav(-1)">‹</button>
     <div class="cal-mlbl" id="cal-lbl"></div>
-    <button class="cal-nbtn" onclick="changeMonth(1)">›</button>
+    <button class="cal-nbtn" onclick="calNav(1)">›</button>
   </div>
   <div class="cal-grid" id="cal-grid"></div>
+  <div id="cal-agenda" style="display:none"></div>
 </div></div>
 
 <!-- ══ 看診記錄 ══ -->
@@ -1388,53 +1405,77 @@ const CAL_EVT = {
   "2026-06-19":["🐉端午節"],
   "2026-06-20":["🔍查朋友車違規"],
   "2026-06-22":["⛽中油Pay"],"2026-06-29":["⛽中油Pay"],
-  // ── 7月 ──
+  // ── 7月 ── 🔗已同步Google行事曆
   "2026-07-04":["🧠精神科 林竺君醫師 08:30"],
-  "2026-07-06":["🚗車貸自扣","⛽中油Pay","📡中嘉網路費$909 Q3自扣"],
-  "2026-07-13":["⛽中油Pay"],
-  "2026-07-15":["🚗燃料稅繳費確認"],
-  "2026-07-20":["⛽中油Pay"],
+  "2026-07-05":["🔧中和冷氣安裝 12:00-14:00"],
+  "2026-07-06":["🚗車貸自扣","⛽中油Pay","📡中嘉網路費$909 Q3自扣","📚AI創意小物 08:30-16:30（穀保家商）","🎮2026 3C/運動/設計展最後一天（世貿）","🥛每週鮮奶兌換"],
+  "2026-07-07":["🧵毛線刺繡 08:55-12:00（樟樹國際）"],
+  "2026-07-08":["🍞超人麵包店 09:00-11:40（三民高中）"],
+  "2026-07-09":["📝不及格補考"],
+  "2026-07-11":["💦蘇澳冷泉免費潑水節"],
+  "2026-07-12":["📋中山國中編班公告","🧳宜蘭家庭旅遊（7/12–7/14）"],
+  "2026-07-13":["⛽中油Pay","🥛每週鮮奶兌換"],
+  "2026-07-15":["🚗燃料稅繳費確認","🚇鶯歌捷運免費試乘（6/30～8/16）"],
+  "2026-07-17":["🛒大潤發預購商品到貨（已付款）"],
+  "2026-07-20":["⛽中油Pay","🎺中山管樂暑訓 13:00-17:30（7/20–7/24）","🥛每週鮮奶兌換"],
+  "2026-07-22":["👗迪化街扮裝體驗（需預約）"],
   "2026-07-23":["📋職業駕照到期前60天換發提醒"],
+  "2026-07-24":["🎂阿德16歲生日","👁️德看眼科（散瞳劑）"],
+  "2026-07-25":["👕中山國中制服展售日","🥛每週鮮奶兌換","📚多媒體創意實驗中心課程預約（國家圖書館）"],
   "2026-07-27":["⛽中油Pay"],
-  // ── 8月 ──
-  "2026-08-01":["🧠精神科 林竺君醫師 08:30"],
+  "2026-07-30":["🎪全國技能競賽（南港展覽館，7/30–8/1）"],
+  // ── 8月 ── 🔗已同步Google行事曆
+  "2026-08-01":["🧠精神科 林竺君醫師 08:30","🛒家樂福799元加購（中信卡）","👨‍🎓阿德生活費 NT$4,000"],
   "2026-08-03":["⛽中油Pay"],"2026-08-06":["🚗車貸自扣"],
-  "2026-08-10":["⛽中油Pay"],"2026-08-17":["⛽中油Pay"],
-  "2026-08-21":["🚕計程車營登審驗提醒（開始）"],
+  "2026-08-10":["⛽中油Pay"],
+  "2026-08-12":["🌌三重天象：六星連珠・日全食・流星雨"],
+  "2026-08-17":["⛽中油Pay","🎺中山國中管樂暑訓（8/17–8/21）"],
+  "2026-08-20":["🏫中山國中新生訓練 07:30-11:50（夏季運動服）"],
+  "2026-08-21":["🚕計程車營登審驗提醒（開始）","🏫中山國中新生訓練（夏季制服）","🚕計程車執登查驗（中和警察大隊）"],
   "2026-08-22":["🪶執業登記證+職業駕照 到期前30天"],
-  "2026-08-24":["⛽中油Pay"],
-  "2026-08-31":["⛽中油Pay","🏥職業駕照審驗體檢（9月初辦理）"],
-  // ── 9月 ──
+  "2026-08-24":["⛽中油Pay","👁️德看眼科（散瞳劑）"],
+  "2026-08-31":["⛽中油Pay","🏥職業駕照審驗體檢（9月初辦理）","🏫開學（7:30前到校）"],
+  // ── 9月 ── 🔗已同步Google行事曆
+  "2026-09-01":["🛒家樂福799元加購（中信卡）","👨‍🎓阿德生活費 NT$4,000"],
   "2026-09-06":["🚗車貸自扣"],
   "2026-09-07":["⛽中油Pay","🚕計程車營登審驗（剩2週）"],
   "2026-09-10":["🔧車子驗重保養"],
   "2026-09-14":["⛽中油Pay"],
   "2026-09-20":["⚠️職業駕照審驗明日到期","🚕計程車營登明日到期"],
   "2026-09-21":["⚠️職業駕照到期‼️","🚕計程車營登到期‼️","⛽中油Pay"],
-  "2026-09-24":["🟡中秋節＋教師節連假（4天）"],
+  "2026-09-24":["🟡中秋節＋教師節連假（4天）","👁️德看眼科（散瞳劑）"],
+  "2026-09-25":["📚多媒體創意實驗中心課程預約"],
   "2026-09-28":["⛽中油Pay"],
   "2026-09-29":["📋準備執登審驗文件","📋驗車提前30天提醒（TDZ-0950）"],
-  // ── 10月 ──
+  // ── 10月 ── 🔗已同步Google行事曆
+  "2026-10-01":["👨‍🎓阿德生活費 NT$4,000","🛒家樂福799元加購（中信卡）21:00"],
   "2026-10-05":["⛽中油Pay"],"2026-10-06":["🚗車貸自扣"],
   "2026-10-07":["📡中嘉網路費$909 Q4自扣"],
   "2026-10-08":["🟡國慶日連假（3天）"],
   "2026-10-12":["⛽中油Pay"],"2026-10-19":["⛽中油Pay"],
-  "2026-10-24":["🟡台灣光復節連假（2天）"],
+  "2026-10-24":["🟡台灣光復節連假（2天）","👁️德看眼科（散瞳劑）"],
+  "2026-10-25":["📚多媒體創意實驗中心課程預約"],
   "2026-10-26":["⛽中油Pay"],
   "2026-10-29":["🚗Altis定期驗車 TDZ-0950"],
   "2026-10-30":["⚠️計程車執登有效期到期"],
   "2026-10-31":["⚠️計程車執業登記證換發到期","🏡地價稅繳納開始（截止11/30）"],
-  // ── 11月 ──
+  // ── 11月 ── 🔗已同步Google行事曆
+  "2026-11-01":["👨‍🎓阿德生活費 NT$4,000"],
   "2026-11-02":["⛽中油Pay"],"2026-11-06":["🚗車貸自扣"],
   "2026-11-09":["⛽中油Pay"],"2026-11-16":["⛽中油Pay"],
   "2026-11-23":["⛽中油Pay"],
+  "2026-11-24":["👁️德看眼科（散瞳劑）"],
+  "2026-11-25":["📚多媒體創意實驗中心課程預約"],
   "2026-11-29":["🔔地價稅繳納截止日"],
   "2026-11-30":["⛽中油Pay"],
-  // ── 12月 ──
+  // ── 12月 ── 🔗已同步Google行事曆
+  "2026-12-01":["👨‍🎓阿德生活費 NT$4,000"],
   "2026-12-06":["🚗車貸自扣"],
-  "2026-12-07":["⛽中油Pay"],"2026-12-14":["⛽中油Pay"],
+  "2026-12-07":["⛽中油Pay"],
+  "2026-12-14":["⛽中油Pay","🌠雙子座流星雨"],
   "2026-12-21":["⛽中油Pay"],
-  "2026-12-24":["🟡行憲紀念日連假（3天）"],
+  "2026-12-24":["🟡行憲紀念日連假（3天）","👁️德看眼科（散瞳劑）"],
+  "2026-12-25":["📚多媒體創意實驗中心課程預約"],
   "2026-12-28":["⛽中油Pay"],
 };
 
@@ -1474,7 +1515,7 @@ function switchSec(id){
   document.getElementById("sec-"+id).classList.add("active");
   const idx={focus:0,cal:1,appt:2,bp:3,med:4,cc:5,exp:6}[id];
   document.querySelectorAll(".nav-tab")[idx]?.classList.add("active");
-  if(id==="cal"){renderCal();}
+  if(id==="cal"){renderCalView();}
   if(id==="appt")renderAppts();
   if(id==="focus")renderFocus();
   if(id==="exp")renderExp();
@@ -1488,6 +1529,8 @@ function goToAppt(dateStr){
   // dateStr = "2026-05-09"
   const parts=dateStr.split("-");
   curYear=+parts[0]; curMonth=+parts[1]-1;
+  calViewMode='month';
+  document.querySelectorAll('.cal-view-btn').forEach(b=>b.classList.toggle('active',b.dataset.v==='month'));
   switchSec("cal");
   setTimeout(()=>{
     // highlight the day and open modal
@@ -1570,18 +1613,15 @@ function renderCal(){
   document.getElementById("cal-grid").innerHTML=html;
 }
 
-function showDay(key,d,fromSync){
-  document.getElementById("mo-title").textContent=`${curYear}年 ${MONTHS[curMonth+1]} ${d}日`;
-  document.getElementById("mo-wd").textContent=weekday(key);
-
+function buildDayEventsHtml(key){
   const evts=CAL_EVT[key]||[];
   const meds=appointments.filter(a=>a.date===key);
   const hol=HOLIDAYS[key];
+  const notes=dayNotes[key]||[];
   let html="";
   if(hol) html+=`<div class="mevent" style="border-left-color:#cc2222"><div class="mevent-name">🎌 ${hol}</div></div>`;
   evts.forEach(e=>html+=`<div class="mevent"><div class="mevent-name">${e}</div></div>`);
   meds.forEach(a=>{
-    const meta=DEPT[a.deptType]||DEPT.other;
     const isPast=a.date<today();
     html+=`<div class="mevent" style="border-left:3px solid var(--dept-${a.deptType});${isPast?"opacity:.6":""}">
       <div class="mevent-time">${a.time||"上午"} · ${a.room}</div>
@@ -1590,10 +1630,92 @@ function showDay(key,d,fromSync){
       ${a.note?`<div class="mevent-note">📋 ${a.note}</div>`:""}
     </div>`;
   });
+  notes.forEach(n=>html+=`<div class="mevent" style="border-left-color:#D2A8FF"><div class="mevent-name" style="font-size:13.5px">📝 ${n.text}</div>${n.time?`<div class="mevent-time">${n.time}</div>`:""}</div>`);
   if(!html) html=`<div style="text-align:center;color:#aaa;padding:20px">今日無行程</div>`;
-  document.getElementById("mo-events").innerHTML=html;
+  return html;
+}
+
+function showDay(key,d,fromSync){
+  document.getElementById("mo-title").textContent=`${curYear}年 ${MONTHS[curMonth+1]} ${d}日`;
+  document.getElementById("mo-wd").textContent=weekday(key);
+  document.getElementById("mo-events").innerHTML=buildDayEventsHtml(key);
   renderDayNotes(key);
   document.getElementById("mo").classList.add("open");
+}
+
+// ═══ 日/週/月 檢視切換（類似 Google 日曆） ═══
+let calViewMode='month';
+let calAnchor=new Date();
+
+function setCalView(mode){
+  calViewMode=mode;
+  document.querySelectorAll('.cal-view-btn').forEach(b=>b.classList.toggle('active',b.dataset.v===mode));
+  if(mode==='month'){
+    calAnchor=new Date(curYear,curMonth,Math.min(calAnchor.getDate()||1,28));
+  }
+  renderCalView();
+}
+
+function calNav(delta){
+  if(calViewMode==='month'){ changeMonth(delta); return; }
+  if(calViewMode==='week'){ calAnchor.setDate(calAnchor.getDate()+delta*7); }
+  else { calAnchor.setDate(calAnchor.getDate()+delta); }
+  curYear=calAnchor.getFullYear(); curMonth=calAnchor.getMonth();
+  renderCalView();
+  syncFocusToCalMonth();
+}
+
+function renderCalView(){
+  const gridEl=document.getElementById('cal-grid'), agendaEl=document.getElementById('cal-agenda');
+  if(calViewMode==='month'){
+    gridEl.style.display='grid'; agendaEl.style.display='none';
+    renderCal();
+  }else{
+    gridEl.style.display='none'; agendaEl.style.display='block';
+    if(calViewMode==='week') renderWeekAgenda(); else renderDayAgenda();
+  }
+}
+
+function startOfWeek(d){
+  const nd=new Date(d.getFullYear(),d.getMonth(),d.getDate());
+  nd.setDate(nd.getDate()-nd.getDay());
+  return nd;
+}
+
+function renderWeekAgenda(){
+  const start=startOfWeek(calAnchor);
+  const end=new Date(start); end.setDate(end.getDate()+6);
+  const sameMonth=start.getMonth()===end.getMonth();
+  document.getElementById('cal-lbl').textContent=sameMonth
+    ? `${start.getFullYear()}/${start.getMonth()+1}/${start.getDate()} － ${end.getDate()}`
+    : `${start.getMonth()+1}/${start.getDate()} － ${end.getMonth()+1}/${end.getDate()}`;
+  let html='';
+  for(let i=0;i<7;i++){
+    const d=new Date(start.getFullYear(),start.getMonth(),start.getDate()+i);
+    const key=dkey(d.getFullYear(),d.getMonth(),d.getDate());
+    const isToday=key===today();
+    html+=`<div class="agenda-day${isToday?' agenda-today':''}" onclick="jumpToDay('${key}')">
+      <div class="agenda-daylbl">
+        <div class="agenda-dow">${WDS_S[d.getDay()]}</div>
+        <div class="agenda-dnum">${d.getDate()}</div>
+      </div>
+      <div class="agenda-body">${buildDayEventsHtml(key)}</div>
+    </div>`;
+  }
+  document.getElementById('cal-agenda').innerHTML=html;
+}
+
+function renderDayAgenda(){
+  const key=dkey(calAnchor.getFullYear(),calAnchor.getMonth(),calAnchor.getDate());
+  document.getElementById('cal-lbl').textContent=`${calAnchor.getFullYear()}年 ${MONTHS[calAnchor.getMonth()+1]} ${calAnchor.getDate()}日 ${weekday(key)}`;
+  document.getElementById('cal-agenda').innerHTML=`<div class="agenda-body agenda-single">${buildDayEventsHtml(key)}</div>`;
+}
+
+function jumpToDay(key){
+  const p=key.split('-');
+  calAnchor=new Date(+p[0],+p[1]-1,+p[2]);
+  curYear=calAnchor.getFullYear(); curMonth=calAnchor.getMonth();
+  setCalView('day');
 }
 
 function closeMo(e){if(e.target===document.getElementById("mo"))document.getElementById("mo").classList.remove("open");}
