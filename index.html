@@ -1,0 +1,1571 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>呈代辦事項看板</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<style>
+  :root{
+    --paper:#F1EEE5;
+    --ink:#1C2B3A;
+    --ink-soft:#4A5A6A;
+    --taxi:#F5B700;
+    --taxi-deep:#C98F00;
+    --stamp:#B23A2F;
+    --line:#D8D2C2;
+    --card:#FFFFFF;
+    --done-bg:#EDEFE7;
+    --done-ink:#5C6B57;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--paper);
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(28,43,58,0.06) 1px, transparent 0);
+    background-size: 22px 22px;
+    color:var(--ink);
+    font-family:'Noto Sans TC', sans-serif;
+    min-height:100vh;
+    padding: 28px 20px 60px;
+  }
+
+  header{
+    max-width:1180px;
+    margin: 0 auto 20px;
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:14px;
+    border-bottom: 3px solid var(--ink);
+    padding-bottom:16px;
+  }
+  .title-block .eyebrow{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12px;
+    letter-spacing:.18em;
+    color:var(--taxi-deep);
+    font-weight:700;
+    margin-bottom:6px;
+  }
+  h1{
+    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;
+    font-weight:900;
+    font-size: clamp(28px,4vw,42px);
+    letter-spacing:.02em;
+    line-height:1.15;
+  }
+  .updated{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:13px;
+    color:var(--ink-soft);
+    text-align:right;
+  }
+  .updated b{color:var(--ink);}
+
+  .legend{
+    max-width:1180px;
+    margin:6px auto 16px;
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+  .legend span{display:flex; align-items:center; gap:6px;}
+  .legend i{width:10px;height:10px;border-radius:50%; display:inline-block;}
+  .legend .r{background:var(--stamp);}
+  .legend .a{background:var(--taxi);}
+  .legend .g{background:#5C8A6A;}
+  .legend .cat{cursor:pointer; -webkit-tap-highlight-color: transparent;}
+  .legend .cat:active{opacity:.7;}
+
+  .board{
+    max-width:1180px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap:22px;
+    align-items:start;
+  }
+  @media (max-width: 800px){
+    .board{grid-template-columns:1fr;}
+  }
+
+  .col{
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    min-height:60px;
+  }
+  .col-head{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding-bottom:10px;
+    border-bottom: 2px dashed var(--line);
+  }
+  .dot{
+    width:12px;height:12px;border-radius:50%;
+    flex:0 0 auto;
+  }
+  .col.todo .dot{background:var(--stamp);}
+  .col.done .dot{background:var(--done-ink);}
+  .dot-neutral{background:var(--done-ink);}
+  .ledger .col-head{border-bottom:2px dashed var(--line); margin-bottom:14px;}
+  .col-head h2{
+    font-size:16px;
+    font-weight:700;
+    letter-spacing:.03em;
+  }
+  .col-head .count{
+    margin-left:auto;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:2px 10px;
+  }
+
+  .card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:14px 44px 12px 14px;
+    position:relative;
+    box-shadow: 3px 3px 0 rgba(28,43,58,0.06);
+    transition: opacity .2s ease;
+  }
+  .card::before{
+    content:"";
+    position:absolute;
+    left:0; top:12px; bottom:12px;
+    width:4px;
+    background:var(--taxi);
+    border-radius:0 2px 2px 0;
+  }
+  .card.lvl-red::before{background:var(--stamp);}
+  .card.lvl-amber::before{background:var(--taxi);}
+  .card.lvl-green::before{background:#5C8A6A;}
+  .card.is-done::before{background:var(--done-ink);}
+
+  .card .check{
+    position:absolute;
+    top:14px; right:12px;
+    width:22px; height:22px;
+    border:2px solid var(--ink-soft);
+    border-radius:6px;
+    cursor:pointer;
+    background:var(--card);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .card .check::after{
+    content:"";
+    width:11px; height:6px;
+    border-left:3px solid var(--card);
+    border-bottom:3px solid var(--card);
+    transform: rotate(-45deg) translateY(-1px);
+    opacity:0;
+  }
+  .card.is-done{opacity:.55;}
+  .card.is-done .check{background:var(--done-ink); border-color:var(--done-ink);}
+  .card.is-done .check::after{opacity:1;}
+  .card.is-done h3{text-decoration: line-through;}
+
+  .card .cat{
+    display:inline-block;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:10px;
+    font-weight:700;
+    letter-spacing:.04em;
+    padding:2px 8px;
+    border-radius:3px;
+    margin-bottom:5px;
+  }
+  .cat-license{background:#E4EAF3; color:#2A4A7A;}
+  .cat-insurance{background:#F3E4EA; color:#8A2A55;}
+  .cat-vehicle{background:#E6F0E9; color:#2E6B47;}
+  .cat-tax{background:#FBEAD8; color:#A85B1E;}
+  .cat-fleet{background:#EEE6F5; color:#5B3C8A;}
+  .cat-fee{background:#FDF0CC; color:#8A6A0E;}
+  .cat-medical{background:#DCEEF2; color:#1E6B7A;}
+  .cat-maintenance{background:#EDE6D9; color:#7A5A2A;}
+
+  .card .tag{
+    display:block;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:10.5px;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    text-transform:uppercase;
+  }
+  .card h3{
+    font-size:16px;
+    font-weight:700;
+    margin:4px 0 7px;
+    line-height:1.35;
+  }
+  .card .date{
+    font-family:'Noto Sans Mono', monospace;
+    font-weight:700;
+    font-size:14px;
+    color:var(--ink);
+    display:flex;
+    align-items:baseline;
+    gap:8px;
+    margin-bottom:6px;
+  }
+  .card .days{
+    font-size:11px;
+    font-weight:700;
+    padding:2px 8px;
+    border-radius:20px;
+    background: rgba(245,183,0,0.22); color:var(--taxi-deep);
+  }
+  .card.lvl-red .days{background:rgba(178,58,47,0.14); color:var(--stamp);}
+  .card.lvl-red .date{color:var(--stamp);}
+  .card.lvl-green .days{background:rgba(92,138,106,0.16); color:#3E6B4C;}
+  .card.is-done .days{background: rgba(92,107,87,0.14); color:var(--done-ink);}
+
+  .card .done-date{
+    display:block;
+    margin-top:6px;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11px;
+    color:var(--done-ink);
+    font-weight:700;
+  }
+
+  .card p.note{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    margin-top:4px;
+  }
+  .card .docs{
+    margin-top:9px;
+    padding-top:7px;
+    border-top:1px dashed var(--line);
+    font-size:11.5px;
+    color:var(--ink-soft);
+    line-height:1.7;
+  }
+  .card .docs b{color:var(--ink);}
+
+  footer{
+    max-width:1180px;
+    margin:32px auto 0;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    border-top:1px solid var(--line);
+    padding-top:14px;
+    line-height:1.7;
+  }
+
+  .export-bar{
+    max-width:1180px;
+    margin:0 auto 18px;
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .export-btn{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12px;
+    font-weight:700;
+    letter-spacing:.03em;
+    border:1.5px solid var(--ink);
+    background:var(--card);
+    color:var(--ink);
+    border-radius:20px;
+    padding:7px 16px;
+    cursor:pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .export-btn:active{background:var(--ink); color:var(--card);}
+
+  .sync-bar{
+    max-width:1180px;
+    margin:0 auto 18px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:12px 14px;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  .sync-bar .sync-row{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:center;
+    margin-top:8px;
+  }
+  .sync-bar input[type=text]{
+    flex:1;
+    min-width:180px;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12px;
+    padding:6px 8px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .sync-btn{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11.5px;
+    font-weight:700;
+    border:1.5px solid var(--ink);
+    background:var(--card);
+    color:var(--ink);
+    border-radius:16px;
+    padding:5px 12px;
+    cursor:pointer;
+    -webkit-tap-highlight-color: transparent;
+    white-space:nowrap;
+  }
+  .sync-btn:active{background:var(--ink); color:var(--card);}
+  .sync-status{color:#3E6B4C; font-weight:700;}
+
+  .lock-overlay{
+    position:fixed;
+    inset:0;
+    background:var(--ink);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+    padding:24px;
+  }
+  .lock-box{
+    background:var(--card);
+    border-radius:8px;
+    padding:32px 28px;
+    max-width:320px;
+    width:100%;
+    text-align:center;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  }
+  .lock-box .lock-title{
+    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;
+    font-weight:900;
+    font-size:18px;
+    color:var(--ink);
+    margin-bottom:6px;
+  }
+  .lock-box .lock-sub{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-bottom:18px;
+  }
+  .lock-box input{
+    width:100%;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:20px;
+    letter-spacing:.3em;
+    text-align:center;
+    padding:10px;
+    border:2px solid var(--line);
+    border-radius:6px;
+    margin-bottom:12px;
+  }
+  .lock-box button{
+    width:100%;
+    font-family:'Noto Sans Mono', monospace;
+    font-weight:700;
+    font-size:14px;
+    padding:10px;
+    border:none;
+    border-radius:6px;
+    background:var(--ink);
+    color:#fff;
+    cursor:pointer;
+  }
+  .lock-box .lock-err{
+    color:var(--stamp);
+    font-size:12px;
+    margin-top:10px;
+    min-height:14px;
+    font-family:'Noto Sans Mono', monospace;
+  }
+
+  .help-box{
+    max-width:1180px;
+    margin:0 auto 18px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:4px 14px;
+  }
+  .help-box summary{
+    cursor:pointer;
+    padding:10px 0;
+    font-family:'Noto Sans Mono', monospace;
+    font-weight:700;
+    font-size:13px;
+    color:var(--ink);
+    -webkit-tap-highlight-color: transparent;
+  }
+  .help-box .help-content{
+    padding:4px 0 16px;
+    font-size:13px;
+    line-height:1.9;
+    color:var(--ink-soft);
+  }
+  .help-content h4{
+    font-size:13px;
+    color:var(--ink);
+    margin:14px 0 4px;
+  }
+  .help-content h4:first-child{margin-top:0;}
+  .help-content ol, .help-content ul{padding-left:20px;}
+  .help-content code{
+    background:var(--paper);
+    border:1px solid var(--line);
+    border-radius:3px;
+    padding:1px 6px;
+    font-family:'Noto Sans Mono', monospace;
+    color:var(--stamp);
+    font-weight:700;
+  }
+
+  .card.card-plain{
+    border:none;
+    box-shadow:none;
+    background:transparent;
+    padding:0 44px 0 0;
+    margin-bottom:18px;
+  }
+  .card.card-plain::before{display:none;}
+  .card.card-plain .check{top:2px;}
+
+  .ledger-divider{
+    max-width:1180px;
+    margin:36px auto 0;
+    height:4px;
+    border-radius:2px;
+    background: linear-gradient(90deg, var(--taxi), var(--stamp), var(--taxi));
+  }
+
+  .ledger{
+    max-width:1180px;
+    margin:20px auto 40px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:20px;
+  }
+  .ledger h2{
+    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;
+    font-size:19px;
+    font-weight:900;
+    margin-bottom:4px;
+  }
+  .ledger .ledger-sub{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    margin-bottom:16px;
+  }
+  .ledger-form{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    align-items:flex-end;
+    padding-bottom:16px;
+    margin-bottom:16px;
+    border-bottom:2px dashed var(--line);
+  }
+  .ledger-field{display:flex; flex-direction:column; gap:4px;}
+  .ledger-field label{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+  }
+  .ledger-field select, .ledger-field input{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:13px;
+    padding:7px 8px;
+    border:1px solid var(--line);
+    border-radius:4px;
+    background:var(--paper);
+    color:var(--ink);
+    min-width:88px;
+  }
+  .ledger-field input[type=number]{min-width:110px;}
+  .ledger-add-btn{
+    font-family:'Noto Sans Mono', monospace;
+    font-weight:700;
+    font-size:13px;
+    padding:8px 18px;
+    border:none;
+    border-radius:20px;
+    background:var(--ink);
+    color:#fff;
+    cursor:pointer;
+    height:34px;
+  }
+  .ledger-table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:12.5px;
+  }
+  .ledger-table th{
+    text-align:left;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:10.5px;
+    color:var(--ink-soft);
+    border-bottom:1px solid var(--line);
+    padding:6px 8px;
+  }
+  .ledger-table td{
+    padding:7px 8px;
+    border-bottom:1px solid var(--line);
+  }
+  .ledger-table tr:last-child td{border-bottom:none;}
+  .ledger-bank{
+    display:inline-block;
+    font-size:11px;
+    font-weight:700;
+    padding:1px 8px;
+    border-radius:12px;
+    background:var(--paper);
+    border:1px solid var(--line);
+  }
+  .ledger-del{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11px;
+    color:var(--stamp);
+    background:none;
+    border:none;
+    cursor:pointer;
+    text-decoration:underline;
+  }
+  .ledger-empty{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    padding:12px 0;
+  }
+  .ledger-list{
+    list-style:none;
+    padding:0;
+    margin:0;
+  }
+  .ledger-list-item{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    padding:9px 0;
+    border-bottom:1px solid var(--line);
+    font-size:13px;
+  }
+  .ledger-list-item:last-child{border-bottom:none;}
+  .ledger-list-main{
+    font-family:'Noto Sans Mono', monospace;
+    color:var(--ink);
+  }
+  .ledger-total{
+    margin-top:12px;
+    text-align:right;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:13px;
+    font-weight:700;
+    color:var(--ink);
+  }
+</style>
+</head>
+<body>
+
+<div class="lock-overlay" id="lock-overlay">
+  <div class="lock-box">
+    <div class="lock-title">🔒 呈代辦事項看板</div>
+    <div class="lock-sub">請輸入密碼</div>
+    <input type="password" id="lock-input" inputmode="numeric" maxlength="10" placeholder="••••••">
+    <button onclick="tryUnlock()">解鎖</button>
+    <div class="lock-err" id="lock-err"></div>
+  </div>
+</div>
+
+<header>
+  <div class="title-block">
+    <div class="eyebrow">TO-DO TRACKER · 呈代辦事項看板</div>
+    <h1>呈代辦事項看板</h1>
+  </div>
+  <div class="updated">資料更新日 <b>2026.07.16</b><br>勾選完成會記錄日期，可隨時匯出</div>
+</header>
+
+<div class="sync-bar" id="sync-panel">
+  <div id="sync-setup">
+    ☁️ 尚未設定跨裝置同步。第一次使用請按「建立同步網址」；如果是在別的裝置上、且已經有網址了，請貼上後按「連結」。
+    <div class="sync-row">
+      <button class="sync-btn" onclick="createSync()">建立同步網址</button>
+      <input type="text" id="sync-url-input" placeholder="貼上其他裝置的同步網址">
+      <button class="sync-btn" onclick="linkSync()">連結</button>
+    </div>
+  </div>
+  <div id="sync-active" style="display:none;">
+    <span class="sync-status">☁️ 雲端同步已啟用</span> — 請把下面這組網址複製到您的其他裝置貼上使用：
+    <div class="sync-row">
+      <input type="text" id="sync-url-display" readonly>
+      <button class="sync-btn" onclick="copySyncUrl()">複製網址</button>
+      <button class="sync-btn" onclick="pullState()">🔄 重新整理</button>
+      <button class="sync-btn" onclick="unlinkSync()">取消同步</button>
+    </div>
+  </div>
+</div>
+
+<details class="help-box">
+  <summary>📖 使用說明（點我展開／收合）</summary>
+  <div class="help-content">
+
+    <h4>🔒 密碼</h4>
+    <p>開啟本頁需輸入密碼 <code>55688</code>。同一台裝置解鎖過一次後會記住，不用每次輸入；換裝置需重新輸入一次。</p>
+
+    <h4>✅ 勾選完成</h4>
+    <ol>
+      <li>每張卡片右上角有方框，點一下即打勾完成。</li>
+      <li>一般事項打勾後會自動移到「已完成」欄，並記錄完成日期。</li>
+      <li>標示「週期性」的事項（例如每週復健、每月零用金）打勾後<b>不會</b>移動位置，只會標記「本週期已完成」，到下一週／下個月會自動重置為未完成。</li>
+    </ol>
+
+    <h4>🏷️ 分類與排序</h4>
+    <ul>
+      <li>上方分類圖例可以直接點，點哪個分類，該分類卡片就會排到待辦事項最前面。</li>
+      <li>「🗓️ 依到期日排序」按鈕會把待辦事項依剩餘天數由少到多排列。</li>
+    </ul>
+
+    <h4>📊📄 匯出資料</h4>
+    <ul>
+      <li>「匯出 Excel」：下載目前所有事項（分類／事項／到期日／狀態／完成日期，以及信用卡對帳記錄分頁）為 .xlsx 檔。</li>
+      <li>「匯出 PDF」：開啟列印預覽，用瀏覽器的「另存為 PDF」功能存檔。</li>
+    </ul>
+
+    <h4>☁️ 跨裝置同步設定</h4>
+    <p><b>第一台裝置：</b></p>
+    <ol>
+      <li>按「建立同步網址」，系統會自動產生一組專屬網址。</li>
+      <li>按「複製網址」，把網址存到自己的Line記事本或備忘錄。</li>
+    </ol>
+    <p><b>第二台裝置：</b></p>
+    <ol>
+      <li>開啟同一個看板網址。</li>
+      <li>把剛剛複製的網址貼到輸入框，按「連結」。</li>
+      <li>之後兩邊的勾選狀態、週期性完成紀錄、信用卡對帳記錄都會自動同步；也可按「🔄 重新整理」手動拉取最新狀態。</li>
+    </ol>
+    <p>⚠️ 這是免帳號的公開儲存服務，網址本身就是存取憑證，請勿外流。若透過本機檔案（content://）開啟可能因瀏覽器安全機制導致同步失敗，建議放到有正式網址（https://）的網頁空間（例如 GitHub Pages）後使用。</p>
+
+  </div>
+</details>
+
+<div class="export-bar">
+  <button class="export-btn" onclick="exportExcel()">📊 匯出 Excel</button>
+  <button class="export-btn" onclick="exportPDF()">📄 匯出 PDF</button>
+</div>
+
+<div class="board">
+
+  <div class="col todo" id="col-todo">
+    <div class="col-head">
+      <span class="dot"></span>
+      <h2>待辦事項</h2>
+      <span class="count" id="count-todo">17</span>
+    </div>
+
+    <div class="legend" style="margin:0 0 4px;">
+      <span><i class="r"></i>90天內 · 立即處理</span>
+      <span><i class="a"></i>91–210天 · 提前準備</span>
+      <span><i class="g"></i>210天以上 · 尚不急</span>
+    </div>
+    <div class="legend" style="margin:0 0 10px;">
+      <span class="cat cat-license" onclick="bringCategoryFront('證照')">證照</span>
+      <span class="cat cat-insurance" onclick="bringCategoryFront('保險')">保險</span>
+      <span class="cat cat-vehicle" onclick="bringCategoryFront('車輛')">車輛</span>
+      <span class="cat cat-tax" onclick="bringCategoryFront('稅務')">稅務</span>
+      <span class="cat cat-fleet" onclick="bringCategoryFront('車隊')">車隊</span>
+      <span class="cat cat-fee" onclick="bringCategoryFront('費用')">費用</span>
+      <span class="cat cat-medical" onclick="bringCategoryFront('醫療')">醫療</span>
+      <span class="cat cat-maintenance" onclick="bringCategoryFront('保養')">保養</span>
+    </div>
+
+    <div style="margin-bottom:16px;">
+      <button class="export-btn" onclick="sortCards('days')">🗓️ 依到期日排序</button>
+    </div>
+
+    <div class="card lvl-amber" data-key="mandatory-insurance" data-cat="保險" data-days="283">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-insurance">保險</span>
+      <div class="tag">富邦產物 · 強制險</div>
+      <h3>強制汽車責任保險續保</h3>
+      <div class="date">2027.04.25 <span class="days">倒數 283 天</span></div>
+      <p class="note">TDZ-0950，保險證號051026KCA0002048，被保人青宮交通。24H客服：0800-009888。</p>
+    </div>
+
+    <div class="card lvl-green" data-key="car-wash" data-cat="車輛" data-days="9999" data-recurring="weekly">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-vehicle">車輛</span>
+      <div class="tag">定期保養</div>
+      <h3>洗車</h3>
+      <div class="date">每週固定 <span class="days">週期性</span></div>
+      <p class="note">每週固定洗車一次。每週會自動重置勾選狀態，完成紀錄會累加。</p>
+      <span class="done-date"></span>
+    </div>
+
+    <div class="card lvl-green" data-key="tdz0959-violation" data-cat="車輛" data-days="9999" data-recurring="weekly">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-vehicle">車輛</span>
+      <div class="tag">監理站違規查詢</div>
+      <h3>TDZ-0959 違規查詢</h3>
+      <div class="date">每週固定 <span class="days">週期性</span></div>
+      <p class="note">每週檢查車牌 TDZ-0959 有無違規紀錄。每週會自動重置勾選狀態。</p>
+      <span class="done-date"></span>
+    </div>
+
+    <div class="card lvl-green" data-key="dajun-rehab-wed" data-cat="醫療" data-days="9999" data-recurring="weekly">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-medical">醫療</span>
+      <div class="tag">板橋大鈞診所</div>
+      <h3>脖子牽引復健（週三）</h3>
+      <div class="date">每週三 <span class="days">週期性</span></div>
+      <p class="note">每週固定前往板橋大鈞診所做脖子牽引復健。每週會自動重置勾選狀態。</p>
+      <span class="done-date"></span>
+    </div>
+
+    <div class="card lvl-green" data-key="dajun-rehab-sat" data-cat="醫療" data-days="9999" data-recurring="weekly">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-medical">醫療</span>
+      <div class="tag">板橋大鈞診所</div>
+      <h3>脖子牽引復健（週六）</h3>
+      <div class="date">每週六 <span class="days">週期性</span></div>
+      <p class="note">每週固定前往板橋大鈞診所做脖子牽引復健。每週會自動重置勾選狀態。</p>
+      <span class="done-date"></span>
+    </div>
+
+    <div class="card lvl-red" data-key="photo-prep" data-cat="證照" data-days="35">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-license">證照</span>
+      <div class="tag">大頭照準備</div>
+      <h3>駕照換照用照片準備</h3>
+      <div class="date">建議 2026.08.20 前完成 <span class="days">倒數 35 天</span></div>
+      <p class="note">⚠️ 已確認本次為駕照「換照」（非單純審驗），配合8/20可開始受理，建議提前拍好，近照且不可與舊證件照相同。</p>
+      <div class="docs">
+        <b>駕照換照（六年一次）：</b>一寸照片 3張（2張體檢用、1張換證用），費用200元，須本人親自前往<br>
+        <b>執業登記證換證（三年一次，若同期換證）：</b>白底2寸照片 2張，費用200元，須本人親自前往<br>
+        ⚠️ 若執業登記證這次只是年度審驗（非換證），則不需照片
+      </div>
+    </div>
+
+    <div class="card lvl-amber" data-key="maintenance-tw" data-cat="保養" data-days="9999">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-maintenance">保養</span>
+      <div class="tag">台灣大保養廠</div>
+      <h3>TDZ-0950 里程保養</h3>
+      <div class="date">目標里程 305,592 <span class="days">還差 8,217 公里</span></div>
+      <p class="note">車牌 TDZ-0950，今日（2026.07.16）里程 297,375，尚未達保養里程，屆時安排至台灣大保養。</p>
+    </div>
+
+    <div class="card lvl-red" data-key="fuel-tax" data-cat="稅務" data-days="14">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-tax">稅務</span>
+      <div class="tag">機車燃料稅 · 監理站線上繳費</div>
+      <h3>呈貝機車燃料稅申報</h3>
+      <div class="date">2026.07.30 <span class="days">倒數 14 天</span></div>
+      <p class="note">⚠️ 目前最緊急項目，可至監理站網站線上繳費。</p>
+    </div>
+
+    <div class="card lvl-red" data-key="counseling-appt" data-cat="醫療" data-days="21">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-medical">醫療</span>
+      <div class="tag">亞東紀念醫院</div>
+      <h3>周醫師心理諮商</h3>
+      <div class="date">2026.08.06 09:00 <span class="days">倒數 21 天</span></div>
+      <p class="note">費用 NT$1,500。</p>
+    </div>
+
+    <div class="card lvl-red" data-key="taxi-reg" data-cat="證照" data-days="68">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-license">證照</span>
+      <div class="tag">執業登記證 · 台北交通大隊</div>
+      <h3>計程車營登審驗</h3>
+      <div class="date">2026.09.21 <span class="days">倒數 68 天</span></div>
+      <p class="note">⚠️ 生日前一個月開始驗，生日後一個月起算過期罰錢。</p>
+      <div class="docs"><b>攜帶：</b>身分證、職業駕照、執業登記證正副證、行照</div>
+    </div>
+
+    <div class="card lvl-red" data-key="license-review" data-cat="證照" data-days="68">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-license">證照</span>
+      <div class="tag">職業小客車駕照 · 板橋監理站</div>
+      <h3>駕照三年審驗</h3>
+      <div class="date">2026.09.21 <span class="days">倒數 68 天</span></div>
+      <p class="note">⚠️ 生日前一個月開始驗，生日後一天起算過期罰錢。滿60歲須每年審驗一次。體檢至對面佑林診所辦理。</p>
+      <div class="docs"><b>攜帶：</b>體檢表、身分證正本、駕照正本、一寸照片2張</div>
+    </div>
+
+    <div class="card lvl-red" data-key="bolt-transfer" data-cat="車隊" data-days="76">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-fleet">車隊</span>
+      <div class="tag">Bolt 車隊轉隊</div>
+      <h3>幸福車隊執照到期／轉隊手續</h3>
+      <div class="date">2026.09.30 <span class="days">倒數 76 天</span></div>
+      <p class="note">⚠️ 幸福車隊營運執照到期日為9/30，須於8/31前完成轉隊手續，加入 Bolt 任一合作車隊。若9/30尚未到期，可再評估是否轉隊。</p>
+      <div class="docs">
+        <b>裕豐計程車行（萬大店）：</b>台北市萬華區萬大路33號，0977-777-888／(02)2228-9291<br>
+        <b>耐斯車隊：</b>新北市三重區中正南路269號，(02)2970-3456，週一至週五9:00–18:00（午休12:00–13:00），乘客險500萬/人<br>
+        <b>奇異果車隊：</b>台北市中山區建國北路三段75巷8號，(02)2517-8959，週一至週五9:00–18:00（午休12:00–13:00），乘客險500萬/人<br>
+        <b>Hi Taxi車隊：</b>台北市松山區民族東路687號，(02)8712-3456，週一至週五9:00–17:00（午休12:00–13:00），乘客險500萬/人
+      </div>
+    </div>
+
+    <div class="card lvl-red" data-key="passenger-insurance" data-cat="保險" data-days="77">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-insurance">保險</span>
+      <div class="tag">保險 · 小瑜-租售車部（年豐／台灣大）</div>
+      <h3>乘客險到期</h3>
+      <div class="date">2026.09.30 <span class="days">倒數 77 天</span></div>
+      <p class="note">區間 114.06.15–115.09.30，共16個月，每月100元。</p>
+    </div>
+
+    <div class="card lvl-amber" data-key="vehicle-inspection" data-cat="車輛" data-days="106">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-vehicle">車輛</span>
+      <div class="tag">車輛檢驗 · 小瑜-租售車部（年豐／台灣大）</div>
+      <h3>驗車</h3>
+      <div class="date">2026.10.29 <span class="days">倒數 106 天</span></div>
+      <p class="note">⚠️ 行照領牌日前一個月可開始驗。須先續保強制險。滿五年後改一年兩次。</p>
+      <div class="docs"><b>參考驗車場：</b>SUM汽車保修聯盟-政鴻保修代檢廠，新北市五股區五工路116號，(02)2299-7799</div>
+    </div>
+
+    <div class="card lvl-amber" data-key="road-fee" data-cat="費用" data-days="201">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-fee">費用</span>
+      <div class="tag">小瑜-租售車部（年豐／台灣大）</div>
+      <h3>行費到期</h3>
+      <div class="date">2027.02 <span class="days">倒數 201 天</span></div>
+      <p class="note">金額 $15,000，區間 115.02–116.02。</p>
+    </div>
+
+    <div class="card lvl-green" data-key="mandatory-insurance" data-cat="保險" data-days="282">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-insurance">保險</span>
+      <div class="tag">富邦產物 · 強制險</div>
+      <h3>強制汽車責任保險續保</h3>
+      <div class="date">2027.04.25 <span class="days">倒數 282 天</span></div>
+      <p class="note">TDZ-0950，被保人：青宮交通。續保聯絡：富邦產物保險 24H 0800-009888。</p>
+    </div>
+
+    <div class="card lvl-green" data-key="meter-inspection" data-cat="車輛" data-days="626">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-vehicle">車輛</span>
+      <div class="tag">樹林東豐街</div>
+      <h3>驗錶</h3>
+      <div class="date">2028.04 <span class="days">倒數 626 天</span></div>
+      <p class="note">⚠️ 裝錶日前一個月開始驗，到領牌日止。每兩年驗一次。</p>
+      <div class="docs"><b>驗表場：</b>經濟部標準檢驗局樹林驗表場，新北市樹林區東豐街87之1號，(02)8979-8180<br>週一至週五 8:30–12:00、12:30–17:00<br>⚠️ 僅收信用卡／悠遊卡，不收現金</div>
+    </div>
+
+  </div>
+
+  <div class="col done" id="col-done">
+    <div class="col-head">
+      <span class="dot"></span>
+      <h2>已完成</h2>
+      <span class="count" id="count-done">1</span>
+    </div>
+
+    <div class="card is-done" data-key="third-party-insurance" data-completed="2026-05-03" data-cat="保險">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-insurance">保險</span>
+      <div class="tag">保險 · 小瑜-租售車部（年豐／台灣大）</div>
+      <h3>第三責任險</h3>
+      <div class="date">2026.05.03 <span class="days">已處理</span></div>
+      <p class="note">台灣大保險，已完成續保。</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="ledger-divider"></div>
+
+<div class="ledger">
+  <div class="col-head">
+    <span class="dot dot-neutral"></span>
+    <h2>⛽ 消費情報</h2>
+    <span class="count">1</span>
+  </div>
+  <div class="ledger-sub" style="margin:-6px 0 12px;">加油、消費優惠相關提醒</div>
+
+  <div class="card lvl-green" data-key="gas-promo-wed" data-cat="消費" data-days="9999" data-recurring="weekly" style="margin-bottom:0;">
+    <span class="check" onclick="toggleDone(this)"></span>
+    <span class="cat cat-fee">消費</span>
+    <div class="tag">全國加油站</div>
+    <h3>加滿25公升優惠</h3>
+    <div class="date">每週三 <span class="days">週期性</span></div>
+    <p class="note">每週三到全國加油站加滿25公升享優惠。每週會自動重置勾選狀態，完成紀錄會累加。</p>
+    <span class="done-date"></span>
+  </div>
+</div>
+
+<div class="ledger-divider"></div>
+
+<div class="ledger">
+  <div class="col-head">
+    <span class="dot dot-neutral"></span>
+    <h2>📒 信用卡對帳記錄</h2>
+    <span class="count" id="ledger-count-badge">0</span>
+  </div>
+  <div class="ledger-sub" style="margin:-6px 0 4px;">聯邦・國泰・富邦・台新・玉山・中信　｜　按年度／月份記錄，資料會保留在本機</div>
+  <div class="ledger-sub">☁️ 資料庫名稱：<b style="color:var(--ink);">呈代辦看板資料庫</b>（與上方雲端同步共用同一組網址）</div>
+
+  <div style="margin:14px 0 18px; padding:12px 14px; background:var(--paper); border:1px solid var(--line); border-radius:6px;">
+    <div style="font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft); margin-bottom:8px;">📅 每月信用卡結帳截止日</div>
+    <div style="display:flex; flex-wrap:wrap; gap:8px 18px; font-size:12.5px;">
+      <span><span class="ledger-bank">台新</span> 每月8號截止</span>
+      <span><span class="ledger-bank">中信</span> 每月8號截止</span>
+      <span><span class="ledger-bank">玉山</span> 每月12號截止</span>
+      <span><span class="ledger-bank">富邦</span> 每月18號截止</span>
+      <span><span class="ledger-bank">聯邦</span> 每月21號截止</span>
+      <span><span class="ledger-bank">國泰世華</span> 每月1號截止</span>
+    </div>
+  </div>
+
+  <div class="card lvl-green card-plain" data-key="cc-statement-check" data-cat="費用" data-days="9999" data-recurring="monthly" style="margin-bottom:18px;">
+    <span class="check" onclick="toggleDone(this)"></span>
+    <h3 style="margin-top:2px; font-weight:400; font-size:13px; color:var(--ink-soft);">本月信用卡帳單核對 <span class="cat cat-fee" style="margin-left:6px;">週期性</span></h3>
+    <span class="done-date"></span>
+  </div>
+
+  <div class="ledger-form">
+    <div class="ledger-field">
+      <label>年度</label>
+      <select id="ledger-year">
+        <option value="2025">2025</option>
+        <option value="2026" selected>2026</option>
+        <option value="2027">2027</option>
+        <option value="2028">2028</option>
+      </select>
+    </div>
+    <div class="ledger-field">
+      <label>月份</label>
+      <select id="ledger-month">
+        <option value="1">1月</option><option value="2">2月</option><option value="3">3月</option>
+        <option value="4">4月</option><option value="5">5月</option><option value="6">6月</option>
+        <option value="7" selected>7月</option><option value="8">8月</option><option value="9">9月</option>
+        <option value="10">10月</option><option value="11">11月</option><option value="12">12月</option>
+      </select>
+    </div>
+    <div class="ledger-field">
+      <label>銀行</label>
+      <select id="ledger-bank">
+        <option value="聯邦">聯邦</option>
+        <option value="國泰">國泰</option>
+        <option value="富邦">富邦</option>
+        <option value="台新">台新</option>
+        <option value="玉山">玉山</option>
+        <option value="中信">中信</option>
+      </select>
+    </div>
+    <div class="ledger-field">
+      <label>金額</label>
+      <input type="number" id="ledger-amount" placeholder="0" min="0">
+    </div>
+    <div class="ledger-field">
+      <label>備註（選填）</label>
+      <input type="text" id="ledger-note" placeholder="備註">
+    </div>
+    <button class="ledger-add-btn" id="ledger-submit-btn" onclick="addLedgerRecord()">＋ 新增記錄</button>
+    <button class="ledger-add-btn" id="ledger-cancel-btn" onclick="cancelEditLedger()" style="display:none; background:var(--ink-soft);">取消編輯</button>
+  </div>
+
+  <div id="ledger-table-wrap"></div>
+</div>
+
+<div class="ledger-divider"></div>
+
+<div class="ledger">
+  <div class="col-head">
+    <span class="dot dot-neutral"></span>
+    <h2>📋 例行性付款合約</h2>
+    <span class="count">9</span>
+  </div>
+  <div class="ledger-sub" style="margin:-6px 0 12px;">手機電信・網路寬頻・行費・保險　｜　資料來源：contracts.html 合約管理中心</div>
+
+  <div class="card lvl-green card-plain" data-key="ruide-cash" data-cat="費用" data-days="9999" data-recurring="monthly" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; padding:9px 44px 9px 0; border-bottom:1px solid var(--line); margin-bottom:0;">
+    <span class="ledger-list-main">💰 睿德每月零用金請領　每月固定　－　無特定到期日，記得按月申請<span class="cat cat-fee" style="margin-left:6px;">週期性</span></span>
+    <span class="check" onclick="toggleDone(this)" style="position:static; flex:0 0 auto;"></span>
+    <span class="done-date" style="width:100%; margin-top:2px;"></span>
+  </div>
+
+  <ul class="ledger-list">
+    <li class="ledger-list-item">
+      <span class="ledger-list-main">📱 遠傳電信（亞太）　NT$138/月　－　無合約，聯名卡繳費最高5%回饋</span>
+    </li>
+    <li class="ledger-list-item">
+      <span class="ledger-list-main">📱 台灣之星　NT$188/月　－　<span style="color:var(--stamp); font-weight:700;">合約已於2026/03/11到期</span>，請洽門市或客服0800-688-168辦理續約</span>
+    </li>
+    <li class="ledger-list-item">
+      <span class="ledger-list-main">🌐 寬頻網路（家用）　NT$909/期　－　板橋區文化路一段，信用卡繳費</span>
+    </li>
+    <li class="ledger-list-item">
+      <span class="ledger-list-main">🏢 台灣大哥大－行費　NT$15,000/年　－　2026.02.01–2027.02.01</span>
+    </li>
+    <li class="ledger-list-item">
+      <span class="ledger-list-main">🚕 富邦產物－強制險　－　2026.04.25–2027.04.25，0800-009888</span>
+    </li>
+    <li class="ledger-list-item">
+      <span class="ledger-list-main">🚕 新安東京海上－任意險　－　2026.05.03–2027.05.03，年繳NT$19,047</span>
+    </li>
+    <li class="ledger-list-item">
+      <span class="ledger-list-main">🚕 新安東京海上－旅客運送責任險　－　2025.09.30–2026.09.30，續保聯絡小瑜-租售車部</span>
+    </li>
+    <li class="ledger-list-item">
+      <span class="ledger-list-main">🅿️ 社區停車位　NT$8,000/季　－　每年4、7、11、1月25日繳費</span>
+    </li>
+  </ul>
+
+  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 此區塊僅供快速瀏覽，完整合約明細、編輯與新增請至 contracts.html 合約管理中心操作。</p>
+</div>
+
+<div class="ledger-divider"></div>
+
+<div class="ledger">
+  <div class="col-head">
+    <span class="dot dot-neutral"></span>
+    <h2>📁 檔案存放位置（pCloud）</h2>
+    <span class="count">7</span>
+  </div>
+  <div class="ledger-sub" style="margin:-6px 0 12px;">路徑：pCloud ／ 03 claude　｜　<a href="https://www.pcloud.com/" target="_blank" rel="noopener" style="color:var(--stamp); font-weight:700;">開啟 pCloud →</a></div>
+
+  <div style="margin-top:14px; font-size:13px; line-height:1.9; color:var(--ink-soft);">
+    <b style="color:var(--ink);">資料夾</b>
+    <ul style="margin:6px 0 14px 20px;">
+      <li>呈貝持股</li>
+      <li>家庭保單</li>
+      <li>年度預算及開銷</li>
+      <li>看診用藥記錄</li>
+      <li>計程車營運管理</li>
+      <li>計程車職業工會</li>
+      <li>鵝店食譜</li>
+    </ul>
+    <b style="color:var(--ink);">檔案</b>
+    <ul style="margin:6px 0 14px 20px;">
+      <li>2026行事曆.xlsx（9 kB）</li>
+    </ul>
+    <p style="font-family:'Noto Sans Mono', monospace; font-size:11px;">⚠️ 此看板檔案（呈代辦事項看板.html）本身不列入此存放紀錄。</p>
+  </div>
+</div>
+
+<script>
+  const BOARD_PASSWORD = '55688';
+
+  function tryUnlock(){
+    const val = document.getElementById('lock-input').value.trim();
+    if(val === BOARD_PASSWORD){
+      localStorage.setItem('board-unlocked', '1');
+      document.getElementById('lock-overlay').style.display = 'none';
+    } else {
+      document.getElementById('lock-err').textContent = '密碼錯誤，請再試一次';
+      document.getElementById('lock-input').value = '';
+    }
+  }
+  document.getElementById('lock-input').addEventListener('keydown', function(e){
+    if(e.key === 'Enter') tryUnlock();
+  });
+  if(localStorage.getItem('board-unlocked') === '1'){
+    document.getElementById('lock-overlay').style.display = 'none';
+  }
+
+  const colTodo = document.getElementById('col-todo');
+  const colDone = document.getElementById('col-done');
+
+  function updateCounts(){
+    document.getElementById('count-todo').textContent =
+      colTodo.querySelectorAll('.card').length;
+    document.getElementById('count-done').textContent =
+      colDone.querySelectorAll('.card').length;
+  }
+
+  function todayISO(){
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  }
+
+  function isoWeekKey(){
+    const d = new Date();
+    const target = new Date(d.valueOf());
+    const dayNr = (d.getDay() + 6) % 7;
+    target.setDate(target.getDate() - dayNr + 3);
+    const firstThursday = new Date(target.getFullYear(), 0, 4);
+    const diff = target - firstThursday;
+    const week = 1 + Math.round(diff / (7*24*3600*1000));
+    return target.getFullYear() + '-W' + String(week).padStart(2,'0');
+  }
+
+  function monthKey(){
+    const d = new Date();
+    return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0');
+  }
+
+  function periodKey(recurring){
+    if(recurring === 'weekly') return isoWeekKey();
+    if(recurring === 'monthly') return monthKey();
+    return null;
+  }
+
+  function getHistory(key){
+    try{ return JSON.parse(localStorage.getItem('history-' + key) || '[]'); }
+    catch(e){ return []; }
+  }
+  function renderHistoryLabel(card, key){
+    const label = card.querySelector('.done-date');
+    if(!label) return;
+    const hist = getHistory(key);
+    label.textContent = hist.length
+      ? ('✅ 累計完成 ' + hist.length + ' 次（最近 ' + hist[hist.length-1] + '）')
+      : '';
+  }
+
+  function toggleDone(checkEl){
+    const card = checkEl.closest('.card');
+    const key = card.getAttribute('data-key');
+    const recurring = card.getAttribute('data-recurring');
+    const nowDone = !card.classList.contains('is-done');
+
+    if(recurring){
+      // 週期性事項：只切換打勾外觀，不移動欄位；完成紀錄會累加，不會被下個週期清空
+      card.classList.toggle('is-done', nowDone);
+      const pKey = periodKey(recurring);
+      const todayStr = todayISO();
+      let hist = getHistory(key);
+
+      if(nowDone){
+        localStorage.setItem('period-' + key, pKey);
+        if(hist[hist.length - 1] !== todayStr){
+          hist.push(todayStr);
+          localStorage.setItem('history-' + key, JSON.stringify(hist));
+        }
+      } else {
+        localStorage.removeItem('period-' + key);
+        if(hist[hist.length - 1] === todayStr){
+          hist.pop();
+          localStorage.setItem('history-' + key, JSON.stringify(hist));
+        }
+      }
+
+      hist = getHistory(key);
+      if(hist.length){
+        card.setAttribute('data-completed', hist[hist.length - 1]);
+      } else {
+        card.removeAttribute('data-completed');
+      }
+      renderHistoryLabel(card, key);
+      pushState();
+      return;
+    }
+
+    card.classList.toggle('is-done', nowDone);
+    localStorage.setItem('todo-' + key, nowDone ? '1' : '0');
+    if(nowDone){
+      const completedDate = todayISO();
+      card.setAttribute('data-completed', completedDate);
+      localStorage.setItem('donedate-' + key, completedDate);
+      colDone.appendChild(card);
+    } else {
+      card.removeAttribute('data-completed');
+      localStorage.removeItem('donedate-' + key);
+      colTodo.appendChild(card);
+    }
+    updateCounts();
+    pushState();
+  }
+
+  // Restore saved state on load
+  function applyLocalState(){
+    document.querySelectorAll('.card[data-key]').forEach(card => {
+      const key = card.getAttribute('data-key');
+      const recurring = card.getAttribute('data-recurring');
+
+      if(recurring){
+        const savedPeriod = localStorage.getItem('period-' + key);
+        const currentPeriod = periodKey(recurring);
+        const isDone = savedPeriod === currentPeriod;
+        card.classList.toggle('is-done', isDone);
+        const hist = getHistory(key);
+        if(hist.length){
+          card.setAttribute('data-completed', hist[hist.length - 1]);
+        } else {
+          card.removeAttribute('data-completed');
+        }
+        renderHistoryLabel(card, key);
+        return;
+      }
+
+      const saved = localStorage.getItem('todo-' + key);
+      const savedDate = localStorage.getItem('donedate-' + key);
+      if(saved === '1' && !card.classList.contains('is-done')){
+        card.classList.add('is-done');
+        if(savedDate) card.setAttribute('data-completed', savedDate);
+        colDone.appendChild(card);
+      } else if(saved === '0' && card.classList.contains('is-done')){
+        card.classList.remove('is-done');
+        card.removeAttribute('data-completed');
+        colTodo.appendChild(card);
+      } else if(card.classList.contains('is-done') && !card.hasAttribute('data-completed') && savedDate){
+        card.setAttribute('data-completed', savedDate);
+      }
+    });
+    updateCounts();
+  }
+  applyLocalState();
+
+  // ---- 雲端同步（免帳號，使用 jsonblob.com 公開JSON儲存） ----
+  const SYNC_KEY = 'cloud-sync-url';
+  const SYNC_KEYS_ALL = ['todo-', 'donedate-', 'period-', 'history-'];
+
+  function collectSyncState(){
+    const state = {};
+    Object.keys(localStorage).forEach(k => {
+      if(SYNC_KEYS_ALL.some(prefix => k.startsWith(prefix))){
+        state[k] = localStorage.getItem(k);
+      }
+    });
+    state['__ledger__'] = localStorage.getItem(LEDGER_KEY) || '[]';
+    return state;
+  }
+
+  function applySyncState(state){
+    Object.keys(state).forEach(k => {
+      if(k === '__ledger__'){
+        localStorage.setItem(LEDGER_KEY, state[k]);
+      } else {
+        localStorage.setItem(k, state[k]);
+      }
+    });
+    applyLocalState();
+    renderLedger();
+  }
+
+  function showSyncActive(url){
+    document.getElementById('sync-setup').style.display = 'none';
+    document.getElementById('sync-active').style.display = 'block';
+    document.getElementById('sync-url-display').value = url;
+  }
+  function showSyncSetup(){
+    document.getElementById('sync-setup').style.display = 'block';
+    document.getElementById('sync-active').style.display = 'none';
+  }
+
+  async function pushState(){
+    const url = localStorage.getItem(SYNC_KEY);
+    if(!url) return;
+    try{
+      await fetch(url, {
+        method:'PUT',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(collectSyncState())
+      });
+    }catch(e){ console.warn('同步上傳失敗', e); }
+  }
+
+  async function pullState(){
+    const url = localStorage.getItem(SYNC_KEY);
+    if(!url) return;
+    try{
+      const res = await fetch(url);
+      const data = await res.json();
+      applySyncState(data || {});
+    }catch(e){ console.warn('同步讀取失敗', e); }
+  }
+
+  async function createSync(){
+    try{
+      const res = await fetch('https://jsonblob.com/api/jsonBlob', {
+        method:'POST',
+        headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(collectSyncState())
+      });
+      const url = res.headers.get('Location');
+      if(!url){ alert('建立同步失敗，請稍後再試'); return; }
+      localStorage.setItem(SYNC_KEY, url);
+      showSyncActive(url);
+    }catch(e){
+      alert('建立同步失敗，請確認網路連線後再試');
+    }
+  }
+
+  function linkSync(){
+    const url = document.getElementById('sync-url-input').value.trim();
+    if(!url){ alert('請先貼上網址'); return; }
+    localStorage.setItem(SYNC_KEY, url);
+    showSyncActive(url);
+    pullState();
+  }
+
+  function unlinkSync(){
+    localStorage.removeItem(SYNC_KEY);
+    showSyncSetup();
+  }
+
+  function copySyncUrl(){
+    const input = document.getElementById('sync-url-display');
+    input.select();
+    document.execCommand('copy');
+  }
+
+  (function initSync(){
+    const url = localStorage.getItem(SYNC_KEY);
+    if(url){
+      showSyncActive(url);
+      pullState();
+    } else {
+      showSyncSetup();
+    }
+  })();
+
+  // ---- 排序 ----
+  const catOrder = ['證照','保險','車輛','稅務','車隊','費用','醫療','保養'];
+  function sortCards(mode){
+    const cards = Array.from(colTodo.querySelectorAll('.card'));
+    cards.sort((a,b) => {
+      if(mode === 'days'){
+        return (parseInt(a.getAttribute('data-days')||'9999',10)) -
+               (parseInt(b.getAttribute('data-days')||'9999',10));
+      } else {
+        const ai = catOrder.indexOf(a.getAttribute('data-cat'));
+        const bi = catOrder.indexOf(b.getAttribute('data-cat'));
+        if(ai !== bi) return ai - bi;
+        return (parseInt(a.getAttribute('data-days')||'9999',10)) -
+               (parseInt(b.getAttribute('data-days')||'9999',10));
+      }
+    });
+    cards.forEach(c => colTodo.appendChild(c));
+  }
+
+  function bringCategoryFront(catName){
+    const cards = Array.from(colTodo.querySelectorAll('.card'));
+    cards.sort((a,b) => {
+      const aMatch = a.getAttribute('data-cat') === catName ? 0 : 1;
+      const bMatch = b.getAttribute('data-cat') === catName ? 0 : 1;
+      if(aMatch !== bMatch) return aMatch - bMatch;
+      return (parseInt(a.getAttribute('data-days')||'9999',10)) -
+             (parseInt(b.getAttribute('data-days')||'9999',10));
+    });
+    cards.forEach(c => colTodo.appendChild(c));
+  }
+
+  // ---- 信用卡對帳記錄 ----
+  const LEDGER_KEY = 'cc-reconcile-records';
+
+  function loadLedger(){
+    try{ return JSON.parse(localStorage.getItem(LEDGER_KEY) || '[]'); }
+    catch(e){ return []; }
+  }
+  function saveLedger(records){
+    localStorage.setItem(LEDGER_KEY, JSON.stringify(records));
+  }
+
+  function renderLedger(){
+    const records = loadLedger();
+    records.sort((a,b) => (b.year - a.year) || (b.month - a.month) || (b.id - a.id));
+    const badge = document.getElementById('ledger-count-badge');
+    if(badge) badge.textContent = records.length;
+    const wrap = document.getElementById('ledger-table-wrap');
+    if(!records.length){
+      wrap.innerHTML = '<div class="ledger-empty">目前還沒有記錄，請在上方新增。</div>';
+      return;
+    }
+    let total = 0;
+    let html = '<ul class="ledger-list">';
+    records.forEach(r => {
+      total += Number(r.amount) || 0;
+      html += '<li class="ledger-list-item">' +
+        '<span class="ledger-list-main">' +
+          r.year + '年' + r.month + '月　' +
+          '<span class="ledger-bank">' + r.bank + '</span>　' +
+          'NT$' + Number(r.amount).toLocaleString() +
+          (r.note ? '　－　' + r.note : '') +
+        '</span>' +
+        '<span>' +
+          '<button class="ledger-del" onclick="editLedgerRecord(' + r.id + ')" style="color:var(--ink); margin-right:10px;">編輯</button>' +
+          '<button class="ledger-del" onclick="deleteLedgerRecord(' + r.id + ')">刪除</button>' +
+        '</span>' +
+        '</li>';
+    });
+    html += '</ul>';
+    html += '<div class="ledger-total">合計：NT$' + total.toLocaleString() + '</div>';
+    wrap.innerHTML = html;
+  }
+
+  let ledgerEditingId = null;
+
+  function addLedgerRecord(){
+    const year = parseInt(document.getElementById('ledger-year').value, 10);
+    const month = parseInt(document.getElementById('ledger-month').value, 10);
+    const bank = document.getElementById('ledger-bank').value;
+    const amountInput = document.getElementById('ledger-amount');
+    const amount = parseFloat(amountInput.value);
+    const note = document.getElementById('ledger-note').value.trim();
+
+    if(!amount && amount !== 0){
+      alert('請輸入金額');
+      return;
+    }
+
+    const records = loadLedger();
+
+    if(ledgerEditingId !== null){
+      const idx = records.findIndex(r => r.id === ledgerEditingId);
+      if(idx !== -1){
+        records[idx] = Object.assign({}, records[idx], {
+          year: year, month: month, bank: bank, amount: amount, note: note
+        });
+      }
+      saveLedger(records);
+      cancelEditLedger();
+    } else {
+      records.push({
+        id: Date.now(),
+        year: year, month: month, bank: bank,
+        amount: amount, note: note,
+        recordedAt: todayISO()
+      });
+      saveLedger(records);
+      amountInput.value = '';
+      document.getElementById('ledger-note').value = '';
+    }
+
+    renderLedger();
+    pushState();
+  }
+
+  function editLedgerRecord(id){
+    const records = loadLedger();
+    const r = records.find(x => x.id === id);
+    if(!r) return;
+    document.getElementById('ledger-year').value = r.year;
+    document.getElementById('ledger-month').value = r.month;
+    document.getElementById('ledger-bank').value = r.bank;
+    document.getElementById('ledger-amount').value = r.amount;
+    document.getElementById('ledger-note').value = r.note || '';
+    ledgerEditingId = id;
+    document.getElementById('ledger-submit-btn').textContent = '💾 儲存修改';
+    document.getElementById('ledger-cancel-btn').style.display = 'inline-block';
+    document.querySelector('.ledger-form').scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  function cancelEditLedger(){
+    ledgerEditingId = null;
+    document.getElementById('ledger-submit-btn').textContent = '＋ 新增記錄';
+    document.getElementById('ledger-cancel-btn').style.display = 'none';
+    document.getElementById('ledger-amount').value = '';
+    document.getElementById('ledger-note').value = '';
+  }
+
+  function deleteLedgerRecord(id){
+    if(!confirm('確定要刪除這筆記錄嗎？')) return;
+    const records = loadLedger().filter(r => r.id !== id);
+    saveLedger(records);
+    if(ledgerEditingId === id) cancelEditLedger();
+    renderLedger();
+    pushState();
+  }
+
+  renderLedger();
+
+  // ---- 資料匯出 ----
+  function collectRows(){
+    const rows = [];
+    document.querySelectorAll('.card[data-key]').forEach(card => {
+      const cat = card.getAttribute('data-cat') || '';
+      const title = card.querySelector('h3') ? card.querySelector('h3').textContent.trim() : '';
+      const dateText = card.querySelector('.date') ? card.querySelector('.date').childNodes[0].textContent.trim() : '';
+      const status = card.classList.contains('is-done') ? '已完成' : '待辦';
+      const completed = card.getAttribute('data-completed') || '';
+      rows.push({
+        '分類': cat,
+        '事項': title,
+        '到期日': dateText,
+        '狀態': status,
+        '完成日期': completed
+      });
+    });
+    return rows;
+  }
+
+  function exportExcel(){
+    const rows = collectRows();
+    const ledgerRows = loadLedger().map(r => ({
+      '年度': r.year, '月份': r.month, '銀行': r.bank,
+      '金額': r.amount, '備註': r.note || '', '記錄日期': r.recordedAt
+    }));
+    const ws = XLSX.utils.json_to_sheet(rows);
+    ws['!cols'] = [{wch:8},{wch:26},{wch:16},{wch:8},{wch:12}];
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, '代辦事項');
+
+    const ws2 = XLSX.utils.json_to_sheet(ledgerRows);
+    ws2['!cols'] = [{wch:6},{wch:6},{wch:8},{wch:10},{wch:20},{wch:12}];
+    XLSX.utils.book_append_sheet(wb, ws2, '信用卡對帳記錄');
+
+    const fname = '呈代辦事項看板_' + todayISO() + '.xlsx';
+    XLSX.writeFile(wb, fname);
+  }
+
+  function exportPDF(){
+    const rows = collectRows();
+    const ledgerRows = loadLedger().slice().sort((a,b) => (b.year - a.year) || (b.month - a.month));
+    let html = '<!DOCTYPE html><html lang="zh-Hant"><head><meta charset="UTF-8">' +
+      '<title>呈代辦事項看板</title><style>' +
+      'body{font-family:"Noto Sans TC",sans-serif; padding:24px; color:#1C2B3A;}' +
+      'h1{font-size:20px; margin-bottom:4px;}' +
+      'h2{font-size:16px; margin:28px 0 8px;}' +
+      '.sub{font-size:12px; color:#666; margin-bottom:16px;}' +
+      'table{border-collapse:collapse; width:100%; font-size:13px;}' +
+      'th,td{border:1px solid #ccc; padding:6px 10px; text-align:left;}' +
+      'th{background:#1C2B3A; color:#fff;}' +
+      'tr:nth-child(even){background:#f6f4ee;}' +
+      '</style></head><body>' +
+      '<h1>呈代辦事項看板</h1>' +
+      '<div class="sub">匯出日期：' + todayISO() + '</div>' +
+      '<table><thead><tr><th>分類</th><th>事項</th><th>到期日</th><th>狀態</th><th>完成日期</th></tr></thead><tbody>';
+    rows.forEach(r => {
+      html += '<tr><td>' + r['分類'] + '</td><td>' + r['事項'] + '</td><td>' + r['到期日'] + '</td><td>' + r['狀態'] + '</td><td>' + r['完成日期'] + '</td></tr>';
+    });
+    html += '</tbody></table>';
+
+    html += '<h2>信用卡對帳記錄</h2>' +
+      '<table><thead><tr><th>年度</th><th>月份</th><th>銀行</th><th>金額</th><th>備註</th></tr></thead><tbody>';
+    ledgerRows.forEach(r => {
+      html += '<tr><td>' + r.year + '</td><td>' + r.month + '月</td><td>' + r.bank + '</td><td>NT$' + Number(r.amount).toLocaleString() + '</td><td>' + (r.note||'') + '</td></tr>';
+    });
+    html += '</tbody></table>';
+
+    html += '</body></html>';
+
+    const w = window.open('', '_blank');
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+    w.onload = function(){
+      w.focus();
+      w.print();
+    };
+  }
+</script>
+
+</body>
+</html>
