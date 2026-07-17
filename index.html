@@ -60,7 +60,7 @@
   }
   .updated{
     font-family:'Noto Sans Mono', monospace;
-    font-size:13px;
+    font-size:14.5px;
     color:var(--ink-soft);
     text-align:right;
   }
@@ -73,7 +73,7 @@
     gap:18px;
     flex-wrap:wrap;
     font-family:'Noto Sans Mono', monospace;
-    font-size:11.5px;
+    font-size:13.5px;
     color:var(--ink-soft);
   }
   .legend span{display:flex; align-items:center; gap:6px;}
@@ -118,14 +118,14 @@
   .dot-neutral{background:var(--done-ink);}
   .ledger .col-head{border-bottom:2px dashed var(--line); margin-bottom:14px;}
   .col-head h2{
-    font-size:16px;
+    font-size:18.5px;
     font-weight:700;
     letter-spacing:.03em;
   }
   .col-head .count{
     margin-left:auto;
     font-family:'Noto Sans Mono', monospace;
-    font-size:12px;
+    font-size:14px;
     color:var(--ink-soft);
     background:var(--card);
     border:1px solid var(--line);
@@ -154,6 +154,16 @@
   .card.lvl-amber::before{background:var(--taxi);}
   .card.lvl-green::before{background:#5C8A6A;}
   .card.is-done::before{background:var(--done-ink);}
+  .card.lvl-red{
+    background: linear-gradient(135deg, rgba(178,58,47,0.07), rgba(178,58,47,0.02));
+    border-color: rgba(178,58,47,0.35);
+  }
+  .card.lvl-red h3{color:var(--stamp);}
+  .card.lvl-red.is-done{
+    background:var(--card);
+    border-color:var(--line);
+  }
+  .card.lvl-red.is-done h3{color:var(--ink);}
 
   .card .check{
     position:absolute;
@@ -184,10 +194,10 @@
   .card .cat{
     display:inline-block;
     font-family:'Noto Sans Mono', monospace;
-    font-size:10px;
+    font-size:12px;
     font-weight:700;
     letter-spacing:.04em;
-    padding:2px 8px;
+    padding:3px 9px;
     border-radius:3px;
     margin-bottom:5px;
   }
@@ -203,13 +213,13 @@
   .card .tag{
     display:block;
     font-family:'Noto Sans Mono', monospace;
-    font-size:10.5px;
+    font-size:12.5px;
     letter-spacing:.06em;
     color:var(--ink-soft);
     text-transform:uppercase;
   }
   .card h3{
-    font-size:16px;
+    font-size:19px;
     font-weight:700;
     margin:4px 0 7px;
     line-height:1.35;
@@ -217,7 +227,7 @@
   .card .date{
     font-family:'Noto Sans Mono', monospace;
     font-weight:700;
-    font-size:14px;
+    font-size:16.5px;
     color:var(--ink);
     display:flex;
     align-items:baseline;
@@ -225,7 +235,7 @@
     margin-bottom:6px;
   }
   .card .days{
-    font-size:11px;
+    font-size:13px;
     font-weight:700;
     padding:2px 8px;
     border-radius:20px;
@@ -240,24 +250,24 @@
     display:block;
     margin-top:6px;
     font-family:'Noto Sans Mono', monospace;
-    font-size:11px;
+    font-size:13px;
     color:var(--done-ink);
     font-weight:700;
   }
 
   .card p.note{
-    font-size:12.5px;
+    font-size:14.5px;
     color:var(--ink-soft);
-    line-height:1.6;
+    line-height:1.65;
     margin-top:4px;
   }
   .card .docs{
     margin-top:9px;
     padding-top:7px;
     border-top:1px dashed var(--line);
-    font-size:11.5px;
+    font-size:13.5px;
     color:var(--ink-soft);
-    line-height:1.7;
+    line-height:1.75;
   }
   .card .docs b{color:var(--ink);}
 
@@ -281,14 +291,14 @@
   }
   .export-btn{
     font-family:'Noto Sans Mono', monospace;
-    font-size:12px;
+    font-size:14px;
     font-weight:700;
     letter-spacing:.03em;
     border:1.5px solid var(--ink);
     background:var(--card);
     color:var(--ink);
     border-radius:20px;
-    padding:7px 16px;
+    padding:8px 18px;
     cursor:pointer;
     -webkit-tap-highlight-color: transparent;
   }
@@ -302,7 +312,7 @@
     border-radius:6px;
     padding:12px 14px;
     font-family:'Noto Sans Mono', monospace;
-    font-size:12px;
+    font-size:14px;
     color:var(--ink-soft);
   }
   .sync-bar .sync-row{
@@ -316,8 +326,8 @@
     flex:1;
     min-width:180px;
     font-family:'Noto Sans Mono', monospace;
-    font-size:12px;
-    padding:6px 8px;
+    font-size:14px;
+    padding:7px 9px;
     border:1px solid var(--line);
     border-radius:4px;
     background:var(--paper);
@@ -325,13 +335,13 @@
   }
   .sync-btn{
     font-family:'Noto Sans Mono', monospace;
-    font-size:11.5px;
+    font-size:13px;
     font-weight:700;
     border:1.5px solid var(--ink);
     background:var(--card);
     color:var(--ink);
     border-radius:16px;
-    padding:5px 12px;
+    padding:6px 14px;
     cursor:pointer;
     -webkit-tap-highlight-color: transparent;
     white-space:nowrap;
@@ -415,18 +425,18 @@
     padding:10px 0;
     font-family:'Noto Sans Mono', monospace;
     font-weight:700;
-    font-size:13px;
+    font-size:15px;
     color:var(--ink);
     -webkit-tap-highlight-color: transparent;
   }
   .help-box .help-content{
     padding:4px 0 16px;
-    font-size:13px;
+    font-size:14.5px;
     line-height:1.9;
     color:var(--ink-soft);
   }
   .help-content h4{
-    font-size:13px;
+    font-size:14.5px;
     color:var(--ink);
     margin:14px 0 4px;
   }
@@ -476,57 +486,58 @@
   }
   .ledger .ledger-sub{
     font-family:'Noto Sans Mono', monospace;
-    font-size:11.5px;
+    font-size:13px;
     color:var(--ink-soft);
     margin-bottom:16px;
   }
   .ledger-form{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    align-items:flex-end;
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap:12px 14px;
+    align-items:end;
     padding-bottom:16px;
     margin-bottom:16px;
     border-bottom:2px dashed var(--line);
   }
-  .ledger-field{display:flex; flex-direction:column; gap:4px;}
+  .ledger-field{display:flex; flex-direction:column; gap:5px; min-width:0;}
   .ledger-field label{
     font-family:'Noto Sans Mono', monospace;
-    font-size:10.5px;
+    font-size:12px;
     color:var(--ink-soft);
   }
   .ledger-field select, .ledger-field input{
     font-family:'Noto Sans Mono', monospace;
-    font-size:13px;
-    padding:7px 8px;
+    font-size:14.5px;
+    padding:8px 9px;
     border:1px solid var(--line);
     border-radius:4px;
     background:var(--paper);
     color:var(--ink);
-    min-width:88px;
+    width:100%;
+    box-sizing:border-box;
   }
-  .ledger-field input[type=number]{min-width:110px;}
   .ledger-add-btn{
     font-family:'Noto Sans Mono', monospace;
     font-weight:700;
-    font-size:13px;
+    font-size:14px;
     padding:8px 18px;
     border:none;
     border-radius:20px;
     background:var(--ink);
     color:#fff;
     cursor:pointer;
-    height:34px;
+    height:38px;
+    grid-column: span 1;
   }
   .ledger-table{
     width:100%;
     border-collapse:collapse;
-    font-size:12.5px;
+    font-size:13.5px;
   }
   .ledger-table th{
     text-align:left;
     font-family:'Noto Sans Mono', monospace;
-    font-size:10.5px;
+    font-size:11.5px;
     color:var(--ink-soft);
     border-bottom:1px solid var(--line);
     padding:6px 8px;
@@ -538,7 +549,7 @@
   .ledger-table tr:last-child td{border-bottom:none;}
   .ledger-bank{
     display:inline-block;
-    font-size:11px;
+    font-size:12px;
     font-weight:700;
     padding:1px 8px;
     border-radius:12px;
@@ -547,7 +558,7 @@
   }
   .ledger-del{
     font-family:'Noto Sans Mono', monospace;
-    font-size:11px;
+    font-size:12px;
     color:var(--stamp);
     background:none;
     border:none;
@@ -556,7 +567,7 @@
   }
   .ledger-empty{
     font-family:'Noto Sans Mono', monospace;
-    font-size:12px;
+    font-size:13px;
     color:var(--ink-soft);
     padding:12px 0;
   }
@@ -567,17 +578,22 @@
   }
   .ledger-list-item{
     display:flex;
+    flex-wrap:wrap;
     align-items:center;
     justify-content:space-between;
     gap:10px;
-    padding:9px 0;
+    padding:10px 0;
     border-bottom:1px solid var(--line);
-    font-size:13px;
+    font-size:14.5px;
   }
   .ledger-list-item:last-child{border-bottom:none;}
   .ledger-list-main{
     font-family:'Noto Sans Mono', monospace;
     color:var(--ink);
+    white-space:normal;
+    word-break:break-word;
+    flex:1 1 260px;
+    line-height:1.7;
   }
   .ledger-total{
     margin-top:12px;
@@ -932,8 +948,8 @@
   <div class="ledger-sub">☁️ 資料庫名稱：<b style="color:var(--ink);">呈代辦看板資料庫</b>（與上方雲端同步共用同一組網址）</div>
 
   <div style="margin:14px 0 18px; padding:12px 14px; background:var(--paper); border:1px solid var(--line); border-radius:6px;">
-    <div style="font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft); margin-bottom:8px;">📅 每月信用卡結帳截止日</div>
-    <div style="display:flex; flex-wrap:wrap; gap:8px 18px; font-size:12.5px;">
+    <div style="font-family:'Noto Sans Mono', monospace; font-size:12.5px; color:var(--ink-soft); margin-bottom:8px;">📅 每月信用卡結帳截止日</div>
+    <div style="display:flex; flex-wrap:wrap; gap:8px 18px; font-size:14px;">
       <span><span class="ledger-bank">台新</span> 每月8號截止</span>
       <span><span class="ledger-bank">中信</span> 每月8號截止</span>
       <span><span class="ledger-bank">玉山</span> 每月12號截止</span>
@@ -1002,7 +1018,7 @@
     <h2>📋 例行性付款合約</h2>
     <span class="count">9</span>
   </div>
-  <div class="ledger-sub" style="margin:-6px 0 12px;">手機電信・網路寬頻・行費・保險　｜　資料來源：contracts.html 合約管理中心</div>
+  <div class="ledger-sub" style="margin:-6px 0 12px;">手機電信・網路寬頻・行費・保險</div>
 
   <div class="card lvl-green card-plain" data-key="ruide-cash" data-cat="費用" data-days="9999" data-recurring="monthly" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; padding:9px 44px 9px 0; border-bottom:1px solid var(--line); margin-bottom:0;">
     <span class="ledger-list-main">💰 睿德每月零用金請領　每月固定　－　無特定到期日，記得按月申請<span class="cat cat-fee" style="margin-left:6px;">週期性</span></span>
@@ -1037,7 +1053,7 @@
     </li>
   </ul>
 
-  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 此區塊僅供快速瀏覽，完整合約明細、編輯與新增請至 contracts.html 合約管理中心操作。</p>
+  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 此區塊資料由您手動維護，若合約內容有異動，記得回來這裡更新。</p>
 </div>
 
 <div class="ledger-divider"></div>
