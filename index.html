@@ -627,18 +627,18 @@
 
 <div class="sync-bar" id="sync-panel">
   <div id="sync-setup">
-    ☁️ 尚未設定跨裝置同步。第一次使用請按「建立同步網址」；如果是在別的裝置上、且已經有網址了，請貼上後按「連結」。
+    ☁️ 尚未設定跨裝置同步。第一次使用請按「建立同步代碼」；如果是在別的裝置上、且已經有代碼了，請貼上後按「連結」。
     <div class="sync-row">
-      <button class="sync-btn" onclick="createSync()">建立同步網址</button>
-      <input type="text" id="sync-url-input" placeholder="貼上其他裝置的同步網址">
+      <button class="sync-btn" onclick="createSync()">建立同步代碼</button>
+      <input type="text" id="sync-url-input" placeholder="貼上其他裝置的同步代碼">
       <button class="sync-btn" onclick="linkSync()">連結</button>
     </div>
   </div>
   <div id="sync-active" style="display:none;">
-    <span class="sync-status">☁️ 雲端同步已啟用</span> — 請把下面這組網址複製到您的其他裝置貼上使用：
+    <span class="sync-status">☁️ 雲端同步已啟用</span> — 請把下面這組代碼複製到您的其他裝置貼上使用：
     <div class="sync-row">
       <input type="text" id="sync-url-display" readonly>
-      <button class="sync-btn" onclick="copySyncUrl()">複製網址</button>
+      <button class="sync-btn" onclick="copySyncUrl()">複製代碼</button>
       <button class="sync-btn" onclick="pullState()">🔄 重新整理</button>
       <button class="sync-btn" onclick="unlinkSync()">取消同步</button>
     </div>
@@ -674,16 +674,16 @@
     <h4>☁️ 跨裝置同步設定</h4>
     <p><b>第一台裝置：</b></p>
     <ol>
-      <li>按「建立同步網址」，系統會自動產生一組專屬網址。</li>
-      <li>按「複製網址」，把網址存到自己的Line記事本或備忘錄。</li>
+      <li>按「建立同步代碼」，系統會自動產生一組專屬代碼。</li>
+      <li>按「複製代碼」，把代碼存到自己的Line記事本或備忘錄。</li>
     </ol>
     <p><b>第二台裝置：</b></p>
     <ol>
       <li>開啟同一個看板網址。</li>
-      <li>把剛剛複製的網址貼到輸入框，按「連結」。</li>
+      <li>把剛剛複製的代碼貼到輸入框，按「連結」。</li>
       <li>之後兩邊的勾選狀態、週期性完成紀錄、信用卡對帳記錄都會自動同步；也可按「🔄 重新整理」手動拉取最新狀態。</li>
     </ol>
-    <p>⚠️ 這是免帳號的公開儲存服務，網址本身就是存取憑證，請勿外流。若透過本機檔案（content://）開啟可能因瀏覽器安全機制導致同步失敗，建議放到有正式網址（https://）的網頁空間（例如 GitHub Pages）後使用。</p>
+    <p>⚠️ 這是免帳號的公開儲存服務（kvdb.io），代碼本身就是存取憑證，請勿外流。若透過本機檔案（content://）開啟可能因瀏覽器安全機制導致同步失敗，建議放到有正式網址（https://）的網頁空間（例如 GitHub Pages）後使用。</p>
 
   </div>
 </details>
@@ -1248,9 +1248,10 @@
   }
   applyLocalState();
 
-  // ---- 雲端同步（免帳號，使用 jsonblob.com 公開JSON儲存） ----
-  const SYNC_KEY = 'cloud-sync-url';
+  // ---- 雲端同步（免帳號，使用 kvdb.io 公開Key-Value儲存） ----
+  const SYNC_KEY = 'cloud-sync-code';
   const SYNC_KEYS_ALL = ['todo-', 'donedate-', 'period-', 'history-'];
+  const KVDB_BASE = 'https://kvdb.io';
 
   function collectSyncState(){
     const state = {};
@@ -1275,10 +1276,10 @@
     renderLedger();
   }
 
-  function showSyncActive(url){
+  function showSyncActive(code){
     document.getElementById('sync-setup').style.display = 'none';
     document.getElementById('sync-active').style.display = 'block';
-    document.getElementById('sync-url-display').value = url;
+    document.getElementById('sync-url-display').value = code;
   }
   function showSyncSetup(){
     document.getElementById('sync-setup').style.display = 'block';
@@ -1286,48 +1287,47 @@
   }
 
   async function pushState(){
-    const url = localStorage.getItem(SYNC_KEY);
-    if(!url) return;
+    const code = localStorage.getItem(SYNC_KEY);
+    if(!code) return;
     try{
-      await fetch(url, {
+      await fetch(KVDB_BASE + '/' + code + '/board-data', {
         method:'PUT',
-        headers:{'Content-Type':'application/json'},
         body: JSON.stringify(collectSyncState())
       });
     }catch(e){ console.warn('同步上傳失敗', e); }
   }
 
   async function pullState(){
-    const url = localStorage.getItem(SYNC_KEY);
-    if(!url) return;
+    const code = localStorage.getItem(SYNC_KEY);
+    if(!code) return;
     try{
-      const res = await fetch(url);
-      const data = await res.json();
+      const res = await fetch(KVDB_BASE + '/' + code + '/board-data');
+      if(!res.ok){ return; }
+      const text = await res.text();
+      if(!text) return;
+      const data = JSON.parse(text);
       applySyncState(data || {});
     }catch(e){ console.warn('同步讀取失敗', e); }
   }
 
   async function createSync(){
     try{
-      const res = await fetch('https://jsonblob.com/api/jsonBlob', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify(collectSyncState())
-      });
-      const url = res.headers.get('Location');
-      if(!url){ alert('建立同步失敗，請稍後再試'); return; }
-      localStorage.setItem(SYNC_KEY, url);
-      showSyncActive(url);
+      const res = await fetch(KVDB_BASE + '/', { method:'POST' });
+      const code = (await res.text()).trim();
+      if(!code){ alert('建立同步失敗，請稍後再試'); return; }
+      localStorage.setItem(SYNC_KEY, code);
+      showSyncActive(code);
+      await pushState();
     }catch(e){
       alert('建立同步失敗，請確認網路連線後再試');
     }
   }
 
   function linkSync(){
-    const url = document.getElementById('sync-url-input').value.trim();
-    if(!url){ alert('請先貼上網址'); return; }
-    localStorage.setItem(SYNC_KEY, url);
-    showSyncActive(url);
+    const code = document.getElementById('sync-url-input').value.trim();
+    if(!code){ alert('請先貼上同步代碼'); return; }
+    localStorage.setItem(SYNC_KEY, code);
+    showSyncActive(code);
     pullState();
   }
 
@@ -1343,9 +1343,9 @@
   }
 
   (function initSync(){
-    const url = localStorage.getItem(SYNC_KEY);
-    if(url){
-      showSyncActive(url);
+    const code = localStorage.getItem(SYNC_KEY);
+    if(code){
+      showSyncActive(code);
       pullState();
     } else {
       showSyncSetup();
