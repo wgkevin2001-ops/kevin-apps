@@ -221,6 +221,8 @@
   .cat-fee{background:#FDF0CC; color:#8A6A0E;}
   .cat-medical{background:#DCEEF2; color:#1E6B7A;}
   .cat-maintenance{background:#EDE6D9; color:#7A5A2A;}
+  .cat-telecom{background:#E0F0EE; color:#1E7A6E;}
+  .cat-parking{background:#E8E8E8; color:#555555;}
 
   .card .tag{
     display:block;
@@ -705,6 +707,11 @@
     color:var(--ink);
     font-weight:700;
   }
+  .contract-row .cat{
+    display:block;
+    width:fit-content;
+    margin-bottom:5px;
+  }
   .contract-row .c-amount{
     font-family:'Noto Sans Mono', monospace;
     font-size:14px;
@@ -712,6 +719,32 @@
     color:var(--ink);
     white-space:nowrap;
   }
+  .contract-detail{
+    margin-top:8px;
+    padding:9px 10px;
+    background:var(--paper);
+    border-radius:5px;
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .cd-row{
+    display:flex;
+    gap:10px;
+    font-size:12.5px;
+    line-height:1.6;
+  }
+  .cd-label{
+    flex:0 0 42px;
+    color:var(--ink-soft);
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11.5px;
+  }
+  .cd-val{
+    flex:1;
+    color:var(--ink);
+  }
+  .cd-val.c-warn{color:var(--stamp); font-weight:700;}
   .c-note{
     display:block;
     margin-top:3px;
@@ -1135,10 +1168,16 @@
     <h2>📋 例行性付款合約</h2>
     <span class="count">9</span>
   </div>
-  <div class="ledger-sub" style="margin:-6px 0 12px;">手機電信・網路寬頻・行費・保險</div>
+  <div class="legend category-legend" style="margin:0 0 16px; grid-template-columns: repeat(4, 1fr);">
+    <span class="cat cat-fee">費用</span>
+    <span class="cat cat-telecom">電信/網路</span>
+    <span class="cat cat-insurance">保險</span>
+    <span class="cat cat-parking">停車</span>
+  </div>
 
   <div class="contract-row">
     <div>
+      <span class="cat cat-fee">費用</span>
       <span class="c-name">💰 睿德每月零用金請領</span>
       <span class="c-note">每月固定申請，無特定到期日</span>
       <span class="c-note">2026.07：已領取維修費用 NT$2,300</span>
@@ -1147,57 +1186,109 @@
   </div>
 
   <ul class="ledger-list">
-    <li class="contract-row">
-      <div>
-        <span class="c-name">📱 遠傳電信（亞太）</span>
-        <span class="c-note">無合約，聯名卡繳費最高5%回饋</span>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-telecom">電信</span>
+          <span class="c-name">📱 遠傳電信（亞太）</span>
+        </div>
+        <span class="c-amount">NT$138/月</span>
       </div>
-      <span class="c-amount">NT$138/月</span>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">方案</span><span class="cd-val">數位門市新朋友138吃到飽（12Mbps）</span></span>
+        <span class="cd-row"><span class="cd-label">合約</span><span class="cd-val">無合約，隨時可解約</span></span>
+        <span class="cd-row"><span class="cd-label">門號</span><span class="cd-val">0906-516-724</span></span>
+        <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">聯名卡繳費最高5%回饋</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-telecom">電信</span>
+          <span class="c-name">📱 台灣之星</span>
+        </div>
+        <span class="c-amount">NT$188/月</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">合約</span><span class="cd-val">30個月約，2023/09/11–2026/03/11</span></span>
+        <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val c-warn">已到期，延續月租中</span></span>
+        <span class="cd-row"><span class="cd-label">客服</span><span class="cd-val">門市或0800-688-168辦理續約</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-telecom">網路</span>
+          <span class="c-name">🌐 中嘉寬頻網路（家用）</span>
+        </div>
+        <span class="c-amount">NT$909/期</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">方案</span><span class="cd-val">連線400M／150M（下載/上傳）</span></span>
+        <span class="cd-row"><span class="cd-label">合約</span><span class="cd-val">無合約</span></span>
+        <span class="cd-row"><span class="cd-label">地址</span><span class="cd-val">板橋區文化路一段</span></span>
+        <span class="cd-row"><span class="cd-label">繳費</span><span class="cd-val">信用卡繳費，最近繳費2026/04/07（區間2026/04–06，一次繳3個月）</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-fee">費用</span>
+          <span class="c-name">🏢 台灣大車隊－行費</span>
+        </div>
+        <span class="c-amount">NT$15,000/年</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.02.01</span></span>
+        <span class="cd-row"><span class="cd-label">窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
+        <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">NT$15,000／年</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-insurance">保險</span>
+          <span class="c-name">🚕 富邦產物－強制險</span>
+        </div>
+        <span class="c-amount"></span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.04.25</span></span>
+        <span class="cd-row"><span class="cd-label">窗口</span><span class="cd-val">富邦產物 0800-009888</span></span>
+        <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">－（未提供）</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-insurance">保險</span>
+          <span class="c-name">🚕 新安東京海上－任意險</span>
+        </div>
+        <span class="c-amount">NT$19,047/年</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.05.03</span></span>
+        <span class="cd-row"><span class="cd-label">窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
+        <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">NT$19,047／年</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-insurance">保險</span>
+          <span class="c-name">🚕 新安東京海上－旅客運送責任險</span>
+        </div>
+        <span class="c-amount"></span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2026.09.30</span></span>
+        <span class="cd-row"><span class="cd-label">窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
+        <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">－（未提供）</span></span>
+      </div>
     </li>
     <li class="contract-row">
       <div>
-        <span class="c-name">📱 台灣之星</span>
-        <span class="c-note c-warn">合約已於2026/03/11到期，請洽門市或客服0800-688-168辦理續約</span>
-      </div>
-      <span class="c-amount">NT$188/月</span>
-    </li>
-    <li class="contract-row">
-      <div>
-        <span class="c-name">🌐 中嘉寬頻網路（家用）</span>
-        <span class="c-note">400M，板橋區文化路一段，信用卡繳費</span>
-      </div>
-      <span class="c-amount">NT$909/期</span>
-    </li>
-    <li class="contract-row">
-      <div>
-        <span class="c-name">🏢 台灣大哥大－行費</span>
-        <span class="c-note">2026.02.01–2027.02.01</span>
-      </div>
-      <span class="c-amount">NT$15,000/年</span>
-    </li>
-    <li class="contract-row">
-      <div>
-        <span class="c-name">🚕 富邦產物－強制險</span>
-        <span class="c-note">2026.04.25–2027.04.25，0800-009888</span>
-      </div>
-      <span class="c-amount"></span>
-    </li>
-    <li class="contract-row">
-      <div>
-        <span class="c-name">🚕 新安東京海上－任意險</span>
-        <span class="c-note">2026.05.03–2027.05.03</span>
-      </div>
-      <span class="c-amount">NT$19,047/年</span>
-    </li>
-    <li class="contract-row">
-      <div>
-        <span class="c-name">🚕 新安東京海上－旅客運送責任險</span>
-        <span class="c-note">2025.09.30–2026.09.30，續保聯絡小瑜-租售車部</span>
-      </div>
-      <span class="c-amount"></span>
-    </li>
-    <li class="contract-row">
-      <div>
+        <span class="cat cat-parking">停車</span>
         <span class="c-name">🅿️ 社區停車位</span>
         <span class="c-note">每年4、7、11、1月25日繳費</span>
       </div>
@@ -1483,9 +1574,12 @@
 
   async function createSync(){
     try{
-      const res = await fetch(KVDB_BASE + '/', { method:'POST' });
+      const res = await fetch(KVDB_BASE + '/?email=board-sync@example.com', { method:'POST' });
       const code = (await res.text()).trim();
-      if(!code){ alert('建立同步失敗，請稍後再試'); return; }
+      if(!code || code.indexOf('required') !== -1 || code.indexOf('error') !== -1){
+        alert('建立同步失敗：' + code);
+        return;
+      }
       localStorage.setItem(SYNC_KEY, code);
       showSyncActive(code);
       await pushState();
