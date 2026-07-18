@@ -1574,7 +1574,7 @@
 
   async function createSync(){
     try{
-      const res = await fetch(KVDB_BASE + '/?email=board-sync@example.com', { method:'POST' });
+      const res = await fetch(KVDB_BASE + '/?email=taxiboard.sync@gmail.com', { method:'POST' });
       const code = (await res.text()).trim();
       if(!code || code.indexOf('required') !== -1 || code.indexOf('error') !== -1){
         alert('建立同步失敗：' + code);
