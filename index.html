@@ -30,6 +30,7 @@
     font-family:'Noto Sans TC', sans-serif;
     min-height:100vh;
     padding: 28px 20px 60px;
+    zoom: 1.18;
   }
 
   header{
@@ -69,19 +70,30 @@
   .legend{
     max-width:1180px;
     margin:6px auto 16px;
-    display:flex;
-    gap:18px;
-    flex-wrap:wrap;
     font-family:'Noto Sans Mono', monospace;
     font-size:13.5px;
     color:var(--ink-soft);
   }
-  .legend span{display:flex; align-items:center; gap:6px;}
-  .legend i{width:10px;height:10px;border-radius:50%; display:inline-block;}
+  .legend.urgency-legend{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+  }
+  .legend.urgency-legend span{display:flex; align-items:center; gap:8px;}
+  .legend i{width:10px;height:10px;border-radius:50%; display:inline-block; flex:0 0 auto;}
   .legend .r{background:var(--stamp);}
   .legend .a{background:var(--taxi);}
   .legend .g{background:#5C8A6A;}
-  .legend .cat{cursor:pointer; -webkit-tap-highlight-color: transparent;}
+  .legend.category-legend{
+    display:grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap:8px;
+  }
+  .legend.category-legend .cat{
+    text-align:center;
+    cursor:pointer;
+    -webkit-tap-highlight-color: transparent;
+  }
   .legend .cat:active{opacity:.7;}
 
   .board{
@@ -576,6 +588,37 @@
     padding:0;
     margin:0;
   }
+  .ledger-month-group{
+    border:1px solid var(--line);
+    border-radius:6px;
+    margin-bottom:10px;
+    overflow:hidden;
+  }
+  .ledger-month-group summary{
+    cursor:pointer;
+    padding:10px 14px;
+    background:var(--paper);
+    font-family:'Noto Sans Mono', monospace;
+    font-weight:700;
+    font-size:14.5px;
+    color:var(--ink);
+    -webkit-tap-highlight-color: transparent;
+    display:flex;
+    align-items:center;
+    flex-wrap:wrap;
+  }
+  .ledger-month-group[open] summary{border-bottom:1px solid var(--line);}
+  .ledger-month-count{
+    font-size:12px;
+    font-weight:400;
+    color:var(--ink-soft);
+  }
+  .ledger-month-sum{
+    margin-left:auto;
+    color:var(--stamp);
+    font-weight:900;
+  }
+  .ledger-month-group .ledger-list{padding:2px 14px;}
   .ledger-list-item{
     display:flex;
     flex-wrap:wrap;
@@ -587,6 +630,50 @@
     font-size:14.5px;
   }
   .ledger-list-item:last-child{border-bottom:none;}
+  .ledger-list-item.ledger-paid{opacity:.55;}
+  .ledger-check-wrap{
+    cursor:pointer;
+    flex:0 0 auto;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .ledger-checkbox{
+    display:inline-flex;
+    width:22px; height:22px;
+    border:2px solid var(--ink-soft);
+    border-radius:6px;
+    background:var(--card);
+  }
+  .ledger-checkbox.checked{
+    background:var(--done-ink);
+    border-color:var(--done-ink);
+    position:relative;
+  }
+  .ledger-checkbox.checked::after{
+    content:"";
+    position:absolute;
+    left:6px; top:2px;
+    width:6px; height:11px;
+    border-right:2px solid #fff;
+    border-bottom:2px solid #fff;
+    transform:rotate(40deg);
+  }
+  .ledger-row1{
+    display:block;
+    font-weight:700;
+  }
+  .ledger-row2{
+    display:block;
+    margin-top:2px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    font-weight:400;
+  }
+  .ledger-paid-tag{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11.5px;
+    font-weight:700;
+    color:var(--done-ink);
+  }
   .ledger-list-main{
     font-family:'Noto Sans Mono', monospace;
     color:var(--ink);
@@ -603,6 +690,36 @@
     font-weight:700;
     color:var(--ink);
   }
+
+  .contract-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:10px;
+    padding:11px 0;
+    border-bottom:1px solid var(--line);
+  }
+  .contract-row:last-child{border-bottom:none;}
+  .contract-row .c-name{
+    font-size:14.5px;
+    color:var(--ink);
+    font-weight:700;
+  }
+  .contract-row .c-amount{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:14px;
+    font-weight:700;
+    color:var(--ink);
+    white-space:nowrap;
+  }
+  .c-note{
+    display:block;
+    margin-top:3px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+  .c-note.c-warn{color:var(--stamp); font-weight:700;}
 </style>
 </head>
 <body>
@@ -699,15 +816,15 @@
     <div class="col-head">
       <span class="dot"></span>
       <h2>待辦事項</h2>
-      <span class="count" id="count-todo">17</span>
+      <span class="count" id="count-todo">16</span>
     </div>
 
-    <div class="legend" style="margin:0 0 4px;">
+    <div class="legend urgency-legend" style="margin:0 0 12px;">
       <span><i class="r"></i>90天內 · 立即處理</span>
       <span><i class="a"></i>91–210天 · 提前準備</span>
       <span><i class="g"></i>210天以上 · 尚不急</span>
     </div>
-    <div class="legend" style="margin:0 0 10px;">
+    <div class="legend category-legend" style="margin:0 0 14px;">
       <span class="cat cat-license" onclick="bringCategoryFront('證照')">證照</span>
       <span class="cat cat-insurance" onclick="bringCategoryFront('保險')">保險</span>
       <span class="cat cat-vehicle" onclick="bringCategoryFront('車輛')">車輛</span>
@@ -792,15 +909,6 @@
       <h3>TDZ-0950 里程保養</h3>
       <div class="date">目標里程 305,592 <span class="days">還差 8,217 公里</span></div>
       <p class="note">車牌 TDZ-0950，今日（2026.07.16）里程 297,375，尚未達保養里程，屆時安排至台灣大保養。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fuel-tax" data-cat="稅務" data-days="14">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-tax">稅務</span>
-      <div class="tag">機車燃料稅 · 監理站線上繳費</div>
-      <h3>呈貝機車燃料稅申報</h3>
-      <div class="date">2026.07.30 <span class="days">倒數 14 天</span></div>
-      <p class="note">⚠️ 目前最緊急項目，可至監理站網站線上繳費。</p>
     </div>
 
     <div class="card lvl-red" data-key="counseling-appt" data-cat="醫療" data-days="21">
@@ -900,7 +1008,16 @@
     <div class="col-head">
       <span class="dot"></span>
       <h2>已完成</h2>
-      <span class="count" id="count-done">1</span>
+      <span class="count" id="count-done">2</span>
+    </div>
+
+    <div class="card is-done" data-key="fuel-tax" data-completed="2026-07-18" data-cat="稅務">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-tax">稅務</span>
+      <div class="tag">機車燃料稅 · 監理站線上繳費</div>
+      <h3>呈貝機車燃料稅申報</h3>
+      <div class="date">2026.07.30 <span class="days">已繳費</span></div>
+      <p class="note">已完成繳費：機車 MX*-*535（台北區監理所）450元、機車 NJ*-*761（板橋監理站）450元，共900元，信用卡末四碼9117。</p>
     </div>
 
     <div class="card is-done" data-key="third-party-insurance" data-completed="2026-05-03" data-cat="保險">
@@ -1020,36 +1137,71 @@
   </div>
   <div class="ledger-sub" style="margin:-6px 0 12px;">手機電信・網路寬頻・行費・保險</div>
 
-  <div class="card lvl-green card-plain" data-key="ruide-cash" data-cat="費用" data-days="9999" data-recurring="monthly" style="display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:10px; padding:9px 44px 9px 0; border-bottom:1px solid var(--line); margin-bottom:0;">
-    <span class="ledger-list-main">💰 睿德每月零用金請領　每月固定　－　無特定到期日，記得按月申請<span class="cat cat-fee" style="margin-left:6px;">週期性</span></span>
-    <span class="check" onclick="toggleDone(this)" style="position:static; flex:0 0 auto;"></span>
-    <span class="done-date" style="width:100%; margin-top:2px;"></span>
+  <div class="contract-row">
+    <div>
+      <span class="c-name">💰 睿德每月零用金請領</span>
+      <span class="c-note">每月固定申請，無特定到期日</span>
+      <span class="c-note">2026.07：已領取維修費用 NT$2,300</span>
+    </div>
+    <span class="c-amount"></span>
   </div>
 
   <ul class="ledger-list">
-    <li class="ledger-list-item">
-      <span class="ledger-list-main">📱 遠傳電信（亞太）　NT$138/月　－　無合約，聯名卡繳費最高5%回饋</span>
+    <li class="contract-row">
+      <div>
+        <span class="c-name">📱 遠傳電信（亞太）</span>
+        <span class="c-note">無合約，聯名卡繳費最高5%回饋</span>
+      </div>
+      <span class="c-amount">NT$138/月</span>
     </li>
-    <li class="ledger-list-item">
-      <span class="ledger-list-main">📱 台灣之星　NT$188/月　－　<span style="color:var(--stamp); font-weight:700;">合約已於2026/03/11到期</span>，請洽門市或客服0800-688-168辦理續約</span>
+    <li class="contract-row">
+      <div>
+        <span class="c-name">📱 台灣之星</span>
+        <span class="c-note c-warn">合約已於2026/03/11到期，請洽門市或客服0800-688-168辦理續約</span>
+      </div>
+      <span class="c-amount">NT$188/月</span>
     </li>
-    <li class="ledger-list-item">
-      <span class="ledger-list-main">🌐 寬頻網路（家用）　NT$909/期　－　板橋區文化路一段，信用卡繳費</span>
+    <li class="contract-row">
+      <div>
+        <span class="c-name">🌐 中嘉寬頻網路（家用）</span>
+        <span class="c-note">400M，板橋區文化路一段，信用卡繳費</span>
+      </div>
+      <span class="c-amount">NT$909/期</span>
     </li>
-    <li class="ledger-list-item">
-      <span class="ledger-list-main">🏢 台灣大哥大－行費　NT$15,000/年　－　2026.02.01–2027.02.01</span>
+    <li class="contract-row">
+      <div>
+        <span class="c-name">🏢 台灣大哥大－行費</span>
+        <span class="c-note">2026.02.01–2027.02.01</span>
+      </div>
+      <span class="c-amount">NT$15,000/年</span>
     </li>
-    <li class="ledger-list-item">
-      <span class="ledger-list-main">🚕 富邦產物－強制險　－　2026.04.25–2027.04.25，0800-009888</span>
+    <li class="contract-row">
+      <div>
+        <span class="c-name">🚕 富邦產物－強制險</span>
+        <span class="c-note">2026.04.25–2027.04.25，0800-009888</span>
+      </div>
+      <span class="c-amount"></span>
     </li>
-    <li class="ledger-list-item">
-      <span class="ledger-list-main">🚕 新安東京海上－任意險　－　2026.05.03–2027.05.03，年繳NT$19,047</span>
+    <li class="contract-row">
+      <div>
+        <span class="c-name">🚕 新安東京海上－任意險</span>
+        <span class="c-note">2026.05.03–2027.05.03</span>
+      </div>
+      <span class="c-amount">NT$19,047/年</span>
     </li>
-    <li class="ledger-list-item">
-      <span class="ledger-list-main">🚕 新安東京海上－旅客運送責任險　－　2025.09.30–2026.09.30，續保聯絡小瑜-租售車部</span>
+    <li class="contract-row">
+      <div>
+        <span class="c-name">🚕 新安東京海上－旅客運送責任險</span>
+        <span class="c-note">2025.09.30–2026.09.30，續保聯絡小瑜-租售車部</span>
+      </div>
+      <span class="c-amount"></span>
     </li>
-    <li class="ledger-list-item">
-      <span class="ledger-list-main">🅿️ 社區停車位　NT$8,000/季　－　每年4、7、11、1月25日繳費</span>
+    <li class="contract-row">
+      <div>
+        <span class="c-name">🅿️ 社區停車位</span>
+        <span class="c-note">每年4、7、11、1月25日繳費</span>
+      </div>
+      <span class="c-amount">NT$8,000/季</span>
     </li>
   </ul>
 
@@ -1067,21 +1219,40 @@
   <div class="ledger-sub" style="margin:-6px 0 12px;">路徑：pCloud ／ 03 claude　｜　<a href="https://www.pcloud.com/" target="_blank" rel="noopener" style="color:var(--stamp); font-weight:700;">開啟 pCloud →</a></div>
 
   <div style="margin-top:14px; font-size:13px; line-height:1.9; color:var(--ink-soft);">
-    <b style="color:var(--ink);">資料夾</b>
+
+    <b style="color:var(--ink);">🚕 計程車相關</b>
     <ul style="margin:6px 0 14px 20px;">
-      <li>呈貝持股</li>
-      <li>家庭保單</li>
-      <li>年度預算及開銷</li>
-      <li>看診用藥記錄</li>
-      <li>計程車營運管理</li>
-      <li>計程車職業工會</li>
-      <li>鵝店食譜</li>
+      <li>計程車營運管理　<a href="https://u.pcloud.link/publink/show?code=XZaAOr5Z4VTy2eEhSXLOd3wLdyWwkJEYB3AX" target="_blank" rel="noopener" style="color:var(--stamp); font-weight:700;">開啟連結 →</a></li>
+      <li>計程車職業工會　<a href="https://u.pcloud.link/publink/show?code=XZKUOr5Zx1brnOgFIOJnFCY61Vpg303B7fQy" target="_blank" rel="noopener" style="color:var(--stamp); font-weight:700;">開啟連結 →</a></li>
     </ul>
-    <b style="color:var(--ink);">檔案</b>
+
+    <b style="color:var(--ink);">💰 投資理財</b>
     <ul style="margin:6px 0 14px 20px;">
-      <li>2026行事曆.xlsx（9 kB）</li>
+      <li>呈貝持股.xlsx　<a href="https://u.pcloud.link/publink/show?code=XZNaOr5ZBnGL2yRdwru5CmbHoWVydjAuuax7" target="_blank" rel="noopener" style="color:var(--stamp); font-weight:700;">開啟連結 →</a></li>
+      <li>年度預算及開銷　<a href="https://u.pcloud.link/publink/show?code=XZTGOr5ZQ7x9HNALkRVy7f0mCr7SQHUT7VLy" target="_blank" rel="noopener" style="color:var(--stamp); font-weight:700;">開啟連結 →</a></li>
     </ul>
-    <p style="font-family:'Noto Sans Mono', monospace; font-size:11px;">⚠️ 此看板檔案（呈代辦事項看板.html）本身不列入此存放紀錄。</p>
+
+    <b style="color:var(--ink);">🛡️ 保險保單</b>
+    <ul style="margin:6px 0 14px 20px;">
+      <li>家庭保單.xlsx　<a href="https://u.pcloud.link/publink/show?code=XZG3Or5ZysV7rAgLXNmAQhF9iD2PqyifstiX" target="_blank" rel="noopener" style="color:var(--stamp); font-weight:700;">開啟連結 →</a></li>
+    </ul>
+
+    <b style="color:var(--ink);">🏥 健康醫療</b>
+    <ul style="margin:6px 0 14px 20px;">
+      <li>看診用藥記錄　<a href="https://u.pcloud.link/publink/show?code=XZUPUr5ZWK0o4QFI9pjTu9OhVmnAF0hcS3Ky" target="_blank" rel="noopener" style="color:var(--stamp); font-weight:700;">開啟連結 →</a></li>
+    </ul>
+
+    <b style="color:var(--ink);">🍜 鵝店</b>
+    <ul style="margin:6px 0 14px 20px;">
+      <li>鵝店配方手冊.xlsx　<a href="https://u.pcloud.link/publink/show?code=XZbtOr5ZC8ut7XrMRFXbxVVHcwoMRfgsB9q7" target="_blank" rel="noopener" style="color:var(--stamp); font-weight:700;">開啟連結 →</a></li>
+    </ul>
+
+    <b style="color:var(--ink);">📅 行事曆</b>
+    <ul style="margin:6px 0 14px 20px;">
+      <li>2026行事曆.xlsx（9 kB）　<a href="https://u.pcloud.link/publink/show?code=XZtxOr5ZPlBMJfd2N5FSxksxv6HN7Rlqyvck" target="_blank" rel="noopener" style="color:var(--stamp); font-weight:700;">開啟連結 →</a></li>
+    </ul>
+
+    <p style="font-family:'Noto Sans Mono', monospace; font-size:11px;">⚠️ 此連結已設定密碼保護，開啟時需輸入密碼。密碼提示：最後一碼是小數點。</p>
   </div>
 </div>
 
@@ -1385,9 +1556,30 @@
 
   // ---- 信用卡對帳記錄 ----
   const LEDGER_KEY = 'cc-reconcile-records';
+  const DEFAULT_LEDGER_RECORDS = [
+    {id: 1721000103, year: 2026, month: 7, bank: '國泰', amount: 22660, note: '扣款日：2026/08/01', paid: false, recordedAt: '2026-07-18'},
+    {id: 1721000104, year: 2026, month: 7, bank: '富邦', amount: 14671, note: '扣款日：2026/07/18', paid: false, recordedAt: '2026-07-18'},
+    {id: 1721000105, year: 2026, month: 7, bank: '玉山', amount: 19394, note: '扣款日：2026/07/13', paid: true, recordedAt: '2026-07-18'},
+    {id: 1721000106, year: 2026, month: 7, bank: '台新', amount: 0, note: '扣款日：－', paid: true, recordedAt: '2026-07-18'},
+    {id: 1721000107, year: 2026, month: 7, bank: '聯邦', amount: 29597, note: '扣款日：2026/07/21', paid: false, recordedAt: '2026-07-18'},
+    {id: 1721000108, year: 2026, month: 7, bank: '中信', amount: 9710, note: '扣款日：2026/07/08', paid: true, recordedAt: '2026-07-18'}
+  ];
 
   function loadLedger(){
-    try{ return JSON.parse(localStorage.getItem(LEDGER_KEY) || '[]'); }
+    try{
+      let records = JSON.parse(localStorage.getItem(LEDGER_KEY) || '[]');
+      const existingIds = new Set(records.map(r => r.id));
+      const deleted = new Set(JSON.parse(localStorage.getItem('cc-reconcile-deleted') || '[]'));
+      let changed = false;
+      DEFAULT_LEDGER_RECORDS.forEach(def => {
+        if(!existingIds.has(def.id) && !deleted.has(def.id)){
+          records.push(def);
+          changed = true;
+        }
+      });
+      if(changed) localStorage.setItem(LEDGER_KEY, JSON.stringify(records));
+      return records;
+    }
     catch(e){ return []; }
   }
   function saveLedger(records){
@@ -1404,25 +1596,51 @@
       wrap.innerHTML = '<div class="ledger-empty">目前還沒有記錄，請在上方新增。</div>';
       return;
     }
-    let total = 0;
-    let html = '<ul class="ledger-list">';
+
+    // 依年月分組
+    const groups = [];
+    const groupMap = {};
     records.forEach(r => {
-      total += Number(r.amount) || 0;
-      html += '<li class="ledger-list-item">' +
-        '<span class="ledger-list-main">' +
-          r.year + '年' + r.month + '月　' +
-          '<span class="ledger-bank">' + r.bank + '</span>　' +
-          'NT$' + Number(r.amount).toLocaleString() +
-          (r.note ? '　－　' + r.note : '') +
-        '</span>' +
-        '<span>' +
-          '<button class="ledger-del" onclick="editLedgerRecord(' + r.id + ')" style="color:var(--ink); margin-right:10px;">編輯</button>' +
-          '<button class="ledger-del" onclick="deleteLedgerRecord(' + r.id + ')">刪除</button>' +
-        '</span>' +
-        '</li>';
+      const key = r.year + '-' + r.month;
+      if(!groupMap[key]){
+        groupMap[key] = { year: r.year, month: r.month, items: [], subtotal: 0 };
+        groups.push(groupMap[key]);
+      }
+      groupMap[key].items.push(r);
+      groupMap[key].subtotal += Number(r.amount) || 0;
     });
-    html += '</ul>';
-    html += '<div class="ledger-total">合計：NT$' + total.toLocaleString() + '</div>';
+
+    let total = 0;
+    let html = '';
+    groups.forEach((g, idx) => {
+      total += g.subtotal;
+      html += '<details class="ledger-month-group"' + (idx === 0 ? ' open' : '') + '>' +
+        '<summary>' + g.year + '年' + g.month + '月　' +
+          '<span class="ledger-month-count">' + g.items.length + '筆</span>　' +
+          '<span class="ledger-month-sum">NT$' + g.subtotal.toLocaleString() + '</span>' +
+        '</summary>' +
+        '<ul class="ledger-list">';
+      g.items.forEach(r => {
+        const isPaid = !!r.paid;
+        html += '<li class="ledger-list-item' + (isPaid ? ' ledger-paid' : '') + '">' +
+          '<span class="ledger-check-wrap" onclick="toggleLedgerPaid(' + r.id + ')">' +
+            '<span class="ledger-checkbox' + (isPaid ? ' checked' : '') + '"></span>' +
+          '</span>' +
+          '<span class="ledger-list-main">' +
+            '<span class="ledger-row1"><span class="ledger-bank">' + r.bank + '</span>　NT$' + Number(r.amount).toLocaleString() + '</span>' +
+            (r.note ? '<span class="ledger-row2">' + r.note + '</span>' : '') +
+            (isPaid ? '<span class="ledger-row2 ledger-paid-tag">✓ 已繳款' + (r.paidDate ? '：' + r.paidDate : '') + '</span>' : '') +
+          '</span>' +
+          '<span>' +
+            '<button class="ledger-del" onclick="editLedgerRecord(' + r.id + ')" style="color:var(--ink); margin-right:10px;">編輯</button>' +
+            '<button class="ledger-del" onclick="deleteLedgerRecord(' + r.id + ')">刪除</button>' +
+          '</span>' +
+          '</li>';
+      });
+      html += '</ul></details>';
+    });
+
+    html += '<div class="ledger-total">總合計：NT$' + total.toLocaleString() + '</div>';
     wrap.innerHTML = html;
   }
 
@@ -1456,7 +1674,7 @@
       records.push({
         id: Date.now(),
         year: year, month: month, bank: bank,
-        amount: amount, note: note,
+        amount: amount, note: note, paid: false,
         recordedAt: todayISO()
       });
       saveLedger(records);
@@ -1495,7 +1713,26 @@
     if(!confirm('確定要刪除這筆記錄嗎？')) return;
     const records = loadLedger().filter(r => r.id !== id);
     saveLedger(records);
+    try{
+      const deleted = JSON.parse(localStorage.getItem('cc-reconcile-deleted') || '[]');
+      if(!deleted.includes(id)){
+        deleted.push(id);
+        localStorage.setItem('cc-reconcile-deleted', JSON.stringify(deleted));
+      }
+    }catch(e){}
     if(ledgerEditingId === id) cancelEditLedger();
+    renderLedger();
+    pushState();
+  }
+
+  function toggleLedgerPaid(id){
+    const records = loadLedger();
+    const idx = records.findIndex(r => r.id === id);
+    if(idx === -1) return;
+    const nowPaid = !records[idx].paid;
+    records[idx].paid = nowPaid;
+    records[idx].paidDate = nowPaid ? todayISO() : null;
+    saveLedger(records);
     renderLedger();
     pushState();
   }
