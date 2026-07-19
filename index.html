@@ -305,63 +305,105 @@
   }
   .export-btn{
     font-family:'Noto Sans Mono', monospace;
-    font-size:14px;
+    font-size:13.5px;
     font-weight:700;
-    letter-spacing:.03em;
-    border:1.5px solid var(--ink);
-    background:var(--card);
-    color:var(--ink);
-    border-radius:20px;
-    padding:8px 18px;
-    cursor:pointer;
-    -webkit-tap-highlight-color: transparent;
-  }
-  .export-btn:active{background:var(--ink); color:var(--card);}
-
-  .sync-bar{
-    max-width:1180px;
-    margin:0 auto 18px;
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:6px;
-    padding:12px 14px;
-    font-family:'Noto Sans Mono', monospace;
-    font-size:14px;
-    color:var(--ink-soft);
-  }
-  .sync-bar .sync-row{
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    align-items:center;
-    margin-top:8px;
-  }
-  .sync-bar input[type=text]{
-    flex:1;
-    min-width:180px;
-    font-family:'Noto Sans Mono', monospace;
-    font-size:14px;
-    padding:7px 9px;
-    border:1px solid var(--line);
-    border-radius:4px;
+    letter-spacing:.02em;
+    border:none;
     background:var(--paper);
     color:var(--ink);
-  }
-  .sync-btn{
-    font-family:'Noto Sans Mono', monospace;
-    font-size:13px;
-    font-weight:700;
-    border:1.5px solid var(--ink);
-    background:var(--card);
-    color:var(--ink);
-    border-radius:16px;
-    padding:6px 14px;
+    border-radius:3px;
+    padding:10px 16px;
     cursor:pointer;
     -webkit-tap-highlight-color: transparent;
-    white-space:nowrap;
+    transition: background .15s ease;
   }
-  .sync-btn:active{background:var(--ink); color:var(--card);}
-  .sync-status{color:#3E6B4C; font-weight:700;}
+  .export-btn:active{background:#E4E0D3;}
+
+  .export-card{
+    max-width:1180px;
+    margin:0 auto 22px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:16px 18px;
+  }
+  .export-group-title{
+    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;
+    font-weight:700;
+    font-size:14px;
+    color:var(--ink);
+    margin-bottom:10px;
+  }
+  .export-group-row{
+    display:flex;
+    gap:10px;
+    flex-wrap:wrap;
+  }
+  .export-divider{
+    height:1px;
+    background:var(--line);
+    margin:16px 0;
+  }
+  .export-btn-solid{
+    background:var(--ink);
+    color:#fff;
+  }
+  .export-btn-solid:active{background:var(--stamp);}
+  .export-hint{
+    margin-top:10px;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    line-height:1.6;
+  }
+
+  .search-bar{
+    max-width:1180px;
+    margin:0 auto 14px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:4px;
+    padding:10px 14px;
+  }
+  .search-icon{font-size:15px; flex:0 0 auto;}
+  .search-bar input[type=text]{
+    flex:1;
+    border:none;
+    background:transparent;
+    font-family:'Noto Sans TC', sans-serif;
+    font-size:14.5px;
+    color:var(--ink);
+    outline:none;
+  }
+  .search-bar input[type=text]::placeholder{color:var(--ink-soft);}
+  .search-clear{
+    flex:0 0 auto;
+    border:none;
+    background:var(--paper);
+    color:var(--ink-soft);
+    width:24px; height:24px;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:12px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .search-result-hint{
+    max-width:1180px;
+    margin:-6px auto 14px;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .card.search-hidden, .contract-row.search-hidden, .ledger-list-item.search-hidden{
+    display:none !important;
+  }
+  .card.search-match{
+    outline:2px solid var(--taxi);
+    outline-offset:2px;
+  }
 
   .lock-overlay{
     position:fixed;
@@ -775,72 +817,50 @@
   <div class="updated">資料更新日 <b>2026.07.16</b><br>勾選完成會記錄日期，可隨時匯出</div>
 </header>
 
-<div class="sync-bar" id="sync-panel">
-  <div id="sync-setup">
-    ☁️ 尚未設定跨裝置同步。第一次使用請按「建立同步代碼」；如果是在別的裝置上、且已經有代碼了，請貼上後按「連結」。
-    <div class="sync-row">
-      <button class="sync-btn" onclick="createSync()">建立同步代碼</button>
-      <input type="text" id="sync-url-input" placeholder="貼上其他裝置的同步代碼">
-      <button class="sync-btn" onclick="linkSync()">連結</button>
-    </div>
-  </div>
-  <div id="sync-active" style="display:none;">
-    <span class="sync-status">☁️ 雲端同步已啟用</span> — 請把下面這組代碼複製到您的其他裝置貼上使用：
-    <div class="sync-row">
-      <input type="text" id="sync-url-display" readonly>
-      <button class="sync-btn" onclick="copySyncUrl()">複製代碼</button>
-      <button class="sync-btn" onclick="pullState()">🔄 重新整理</button>
-      <button class="sync-btn" onclick="unlinkSync()">取消同步</button>
-    </div>
-  </div>
-</div>
-
 <details class="help-box">
   <summary>📖 使用說明（點我展開／收合）</summary>
   <div class="help-content">
 
     <h4>🔒 密碼</h4>
-    <p>開啟本頁需輸入密碼 <code>55688</code>。同一台裝置解鎖過一次後會記住，不用每次輸入；換裝置需重新輸入一次。</p>
+    <p>密碼 <code>55688</code>，同裝置解鎖後會記住。</p>
 
-    <h4>✅ 勾選完成</h4>
-    <ol>
-      <li>每張卡片右上角有方框，點一下即打勾完成。</li>
-      <li>一般事項打勾後會自動移到「已完成」欄，並記錄完成日期。</li>
-      <li>標示「週期性」的事項（例如每週復健、每月零用金）打勾後<b>不會</b>移動位置，只會標記「本週期已完成」，到下一週／下個月會自動重置為未完成。</li>
-    </ol>
+    <h4>✅ 勾選</h4>
+    <p>點卡片右上方框即完成。一般事項移到「已完成」；週期性事項（每週/每月）只標記本期完成，下期自動重置。</p>
 
     <h4>🏷️ 分類與排序</h4>
-    <ul>
-      <li>上方分類圖例可以直接點，點哪個分類，該分類卡片就會排到待辦事項最前面。</li>
-      <li>「🗓️ 依到期日排序」按鈕會把待辦事項依剩餘天數由少到多排列。</li>
-    </ul>
+    <p>點分類圖例可把該分類排到最前面；「依到期日排序」依剩餘天數排列。</p>
 
-    <h4>📊📄 匯出資料</h4>
-    <ul>
-      <li>「匯出 Excel」：下載目前所有事項（分類／事項／到期日／狀態／完成日期，以及信用卡對帳記錄分頁）為 .xlsx 檔。</li>
-      <li>「匯出 PDF」：開啟列印預覽，用瀏覽器的「另存為 PDF」功能存檔。</li>
-    </ul>
-
-    <h4>☁️ 跨裝置同步設定</h4>
-    <p><b>第一台裝置：</b></p>
-    <ol>
-      <li>按「建立同步代碼」，系統會自動產生一組專屬代碼。</li>
-      <li>按「複製代碼」，把代碼存到自己的Line記事本或備忘錄。</li>
-    </ol>
-    <p><b>第二台裝置：</b></p>
-    <ol>
-      <li>開啟同一個看板網址。</li>
-      <li>把剛剛複製的代碼貼到輸入框，按「連結」。</li>
-      <li>之後兩邊的勾選狀態、週期性完成紀錄、信用卡對帳記錄都會自動同步；也可按「🔄 重新整理」手動拉取最新狀態。</li>
-    </ol>
-    <p>⚠️ 這是免帳號的公開儲存服務（kvdb.io），代碼本身就是存取憑證，請勿外流。若透過本機檔案（content://）開啟可能因瀏覽器安全機制導致同步失敗，建議放到有正式網址（https://）的網頁空間（例如 GitHub Pages）後使用。</p>
+    <h4>📊📄💾 匯出</h4>
+    <p>Excel/PDF 供查看列印；💾備份可用📥匯入還原到其他裝置（詳見下方按鈕說明）。</p>
 
   </div>
 </details>
 
-<div class="export-bar">
-  <button class="export-btn" onclick="exportExcel()">📊 匯出 Excel</button>
-  <button class="export-btn" onclick="exportPDF()">📄 匯出 PDF</button>
+<div class="search-bar">
+  <span class="search-icon">🔍</span>
+  <input type="text" id="board-search" placeholder="搜尋事項、銀行、備註…" oninput="runSearch(this.value)">
+  <button class="search-clear" onclick="clearSearch()" id="search-clear-btn" style="display:none;">✕</button>
+</div>
+<div class="search-result-hint" id="search-hint" style="display:none;"></div>
+
+<div class="export-card">
+  <div class="export-group">
+    <div class="export-group-title">🖨️ 查看／列印</div>
+    <div class="export-group-row">
+      <button class="export-btn" onclick="exportExcel()">📊 匯出 Excel</button>
+      <button class="export-btn" onclick="exportPDF()">📄 匯出 PDF</button>
+    </div>
+  </div>
+  <div class="export-divider"></div>
+  <div class="export-group">
+    <div class="export-group-title">💾 換裝置備份還原</div>
+    <div class="export-group-row">
+      <button class="export-btn export-btn-solid" onclick="exportBackup()">💾 匯出備份</button>
+      <button class="export-btn export-btn-solid" onclick="document.getElementById('backup-file-input').click()">📥 匯入備份</button>
+      <input type="file" id="backup-file-input" accept="application/json" style="display:none;" onchange="importBackup(this.files[0])">
+    </div>
+    <p class="export-hint">匯出備份／匯入備份可完整還原勾選與對帳資料；Excel/PDF 僅供查看列印，無法還原。</p>
+  </div>
 </div>
 
 <div class="board">
@@ -1095,7 +1115,7 @@
     <span class="count" id="ledger-count-badge">0</span>
   </div>
   <div class="ledger-sub" style="margin:-6px 0 4px;">聯邦・國泰・富邦・台新・玉山・中信　｜　按年度／月份記錄，資料會保留在本機</div>
-  <div class="ledger-sub">☁️ 資料庫名稱：<b style="color:var(--ink);">呈代辦看板資料庫</b>（與上方雲端同步共用同一組網址）</div>
+
 
   <div style="margin:14px 0 18px; padding:12px 14px; background:var(--paper); border:1px solid var(--line); border-radius:6px;">
     <div style="font-family:'Noto Sans Mono', monospace; font-size:12.5px; color:var(--ink-soft); margin-bottom:8px;">📅 每月信用卡結帳截止日</div>
@@ -1297,6 +1317,136 @@
   </ul>
 
   <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 此區塊資料由您手動維護，若合約內容有異動，記得回來這裡更新。</p>
+</div>
+
+<div class="ledger-divider"></div>
+
+<div class="ledger">
+  <div class="col-head">
+    <span class="dot dot-neutral"></span>
+    <h2>📈 存股月配息（現況）</h2>
+    <span class="count">12</span>
+  </div>
+  <div class="ledger-sub" style="margin:-6px 0 12px;">依目前實際持股數計算，資料來源：呈貝持股.xlsx／存股計畫</div>
+
+  <details class="ledger-month-group" open>
+    <summary>1月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$11,006</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val">6,065股 × $1.26 = $7,641.9</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>2月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$3,864</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val">4,165股 × $0.12 = $499.8</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>3月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$35,130</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val">48,130股 × $0.66 = $31,765.8</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>4月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$11,006</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val">6,065股 × $1.26 = $7,641.9</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>5月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$3,864</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val">4,165股 × $0.12 = $499.8</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>6月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$35,130</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val">48,130股 × $0.66 = $31,765.8</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>7月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$11,006</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val">6,065股 × $1.26 = $7,641.9</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>8月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum">NT$3,864</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val">4,165股 × $0.12 = $499.8</span></span>
+      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>9月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum">NT$35,130</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val">48,130股 × $0.66 = $31,765.8</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>10月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum">NT$11,006</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val">6,065股 × $1.26 = $7,641.9</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>11月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum">NT$3,864</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val">4,165股 × $0.12 = $499.8</span></span>
+      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>12月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum">NT$35,130</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val">48,130股 × $0.66 = $31,765.8</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
+    </div>
+  </details>
+
+  <div class="ledger-total">年度合計：NT$200,003</div>
+  <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">公式：現況配息 ＝ 現況股數 × 每股配息</p>
+
+  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 00406A尚無配息紀錄暫列0，00407A不配息，未併入金額。</p>
 </div>
 
 <div class="ledger-divider"></div>
@@ -1510,112 +1660,8 @@
   }
   applyLocalState();
 
-  // ---- 雲端同步（免帳號，使用 kvdb.io 公開Key-Value儲存） ----
-  const SYNC_KEY = 'cloud-sync-code';
-  const SYNC_KEYS_ALL = ['todo-', 'donedate-', 'period-', 'history-'];
-  const KVDB_BASE = 'https://kvdb.io';
-
-  function collectSyncState(){
-    const state = {};
-    Object.keys(localStorage).forEach(k => {
-      if(SYNC_KEYS_ALL.some(prefix => k.startsWith(prefix))){
-        state[k] = localStorage.getItem(k);
-      }
-    });
-    state['__ledger__'] = localStorage.getItem(LEDGER_KEY) || '[]';
-    return state;
-  }
-
-  function applySyncState(state){
-    Object.keys(state).forEach(k => {
-      if(k === '__ledger__'){
-        localStorage.setItem(LEDGER_KEY, state[k]);
-      } else {
-        localStorage.setItem(k, state[k]);
-      }
-    });
-    applyLocalState();
-    renderLedger();
-  }
-
-  function showSyncActive(code){
-    document.getElementById('sync-setup').style.display = 'none';
-    document.getElementById('sync-active').style.display = 'block';
-    document.getElementById('sync-url-display').value = code;
-  }
-  function showSyncSetup(){
-    document.getElementById('sync-setup').style.display = 'block';
-    document.getElementById('sync-active').style.display = 'none';
-  }
-
-  async function pushState(){
-    const code = localStorage.getItem(SYNC_KEY);
-    if(!code) return;
-    try{
-      await fetch(KVDB_BASE + '/' + code + '/board-data', {
-        method:'PUT',
-        body: JSON.stringify(collectSyncState())
-      });
-    }catch(e){ console.warn('同步上傳失敗', e); }
-  }
-
-  async function pullState(){
-    const code = localStorage.getItem(SYNC_KEY);
-    if(!code) return;
-    try{
-      const res = await fetch(KVDB_BASE + '/' + code + '/board-data');
-      if(!res.ok){ return; }
-      const text = await res.text();
-      if(!text) return;
-      const data = JSON.parse(text);
-      applySyncState(data || {});
-    }catch(e){ console.warn('同步讀取失敗', e); }
-  }
-
-  async function createSync(){
-    try{
-      const res = await fetch(KVDB_BASE + '/?email=taxiboard.sync@gmail.com', { method:'POST' });
-      const code = (await res.text()).trim();
-      if(!code || code.indexOf('required') !== -1 || code.indexOf('error') !== -1){
-        alert('建立同步失敗：' + code);
-        return;
-      }
-      localStorage.setItem(SYNC_KEY, code);
-      showSyncActive(code);
-      await pushState();
-    }catch(e){
-      alert('建立同步失敗，請確認網路連線後再試');
-    }
-  }
-
-  function linkSync(){
-    const code = document.getElementById('sync-url-input').value.trim();
-    if(!code){ alert('請先貼上同步代碼'); return; }
-    localStorage.setItem(SYNC_KEY, code);
-    showSyncActive(code);
-    pullState();
-  }
-
-  function unlinkSync(){
-    localStorage.removeItem(SYNC_KEY);
-    showSyncSetup();
-  }
-
-  function copySyncUrl(){
-    const input = document.getElementById('sync-url-display');
-    input.select();
-    document.execCommand('copy');
-  }
-
-  (function initSync(){
-    const code = localStorage.getItem(SYNC_KEY);
-    if(code){
-      showSyncActive(code);
-      pullState();
-    } else {
-      showSyncSetup();
-    }
-  })();
+  // 雲端同步功能已移除，改為純本機儲存 + 手動匯出
+  function pushState(){ /* no-op */ }
 
   // ---- 排序 ----
   const catOrder = ['證照','保險','車輛','稅務','車隊','費用','醫療','保養'];
@@ -1646,6 +1692,44 @@
              (parseInt(b.getAttribute('data-days')||'9999',10));
     });
     cards.forEach(c => colTodo.appendChild(c));
+  }
+
+  // ---- 全站搜尋（待辦事項/已完成/例行性付款） ----
+  function runSearch(query){
+    query = query.trim().toLowerCase();
+    const clearBtn = document.getElementById('search-clear-btn');
+    const hint = document.getElementById('search-hint');
+    clearBtn.style.display = query ? 'block' : 'none';
+
+    const units = document.querySelectorAll('.card[data-key], .contract-row');
+    let matchCount = 0;
+    units.forEach(el => {
+      if(!query){
+        el.classList.remove('search-hidden','search-match');
+        return;
+      }
+      const text = el.textContent.toLowerCase();
+      if(text.indexOf(query) !== -1){
+        el.classList.remove('search-hidden');
+        el.classList.add('search-match');
+        matchCount++;
+      } else {
+        el.classList.add('search-hidden');
+        el.classList.remove('search-match');
+      }
+    });
+
+    if(!query){
+      hint.style.display = 'none';
+    } else {
+      hint.style.display = 'block';
+      hint.textContent = '找到 ' + matchCount + ' 筆符合「' + query + '」的項目（涵蓋待辦事項／已完成／例行性付款）';
+    }
+  }
+
+  function clearSearch(){
+    document.getElementById('board-search').value = '';
+    runSearch('');
   }
 
   // ---- 信用卡對帳記錄 ----
@@ -1911,6 +1995,59 @@
       w.focus();
       w.print();
     };
+  }
+
+  // ---- 完整資料備份（匯出/匯入JSON，用於換裝置還原） ----
+  const BACKUP_KEY_PREFIXES = ['todo-', 'donedate-', 'period-', 'history-'];
+
+  function exportBackup(){
+    const data = {};
+    Object.keys(localStorage).forEach(k => {
+      if(BACKUP_KEY_PREFIXES.some(p => k.startsWith(p))){
+        data[k] = localStorage.getItem(k);
+      }
+    });
+    data['__ledger__'] = localStorage.getItem(LEDGER_KEY) || '[]';
+    data['__ledgerDeleted__'] = localStorage.getItem('cc-reconcile-deleted') || '[]';
+    data['__exportedAt__'] = todayISO();
+
+    const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = '呈代辦看板備份_' + todayISO() + '.json';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  function importBackup(file){
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+      try{
+        const data = JSON.parse(e.target.result);
+        if(!confirm('確定要匯入這份備份嗎？會覆蓋目前裝置上的資料。')) return;
+        Object.keys(data).forEach(k => {
+          if(k === '__ledger__'){
+            localStorage.setItem(LEDGER_KEY, data[k]);
+          } else if(k === '__ledgerDeleted__'){
+            localStorage.setItem('cc-reconcile-deleted', data[k]);
+          } else if(k === '__exportedAt__'){
+            // 僅供參考，不寫入
+          } else {
+            localStorage.setItem(k, data[k]);
+          }
+        });
+        applyLocalState();
+        renderLedger();
+        alert('匯入完成！');
+      }catch(err){
+        alert('匯入失敗，檔案格式不正確');
+      }
+    };
+    reader.readAsText(file);
   }
 </script>
 
