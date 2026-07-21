@@ -9,22 +9,22 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <style>
   :root{
-    --paper:#F1EEE5;
-    --ink:#1C2B3A;
-    --ink-soft:#4A5A6A;
+    --paper:#1C1C1E;
+    --ink:#EDEDED;
+    --ink-soft:#A0A0A5;
     --taxi:#F5B700;
-    --taxi-deep:#C98F00;
-    --stamp:#B23A2F;
-    --line:#D8D2C2;
-    --card:#FFFFFF;
-    --done-bg:#EDEFE7;
-    --done-ink:#5C6B57;
+    --taxi-deep:#FFCF40;
+    --stamp:#E2685A;
+    --line:#38383A;
+    --card:#2A2A2C;
+    --done-bg:#333335;
+    --done-ink:#8FC4B4;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   body{
     background:var(--paper);
     background-image:
-      radial-gradient(circle at 1px 1px, rgba(28,43,58,0.06) 1px, transparent 0);
+      radial-gradient(circle at 1px 1px, rgba(233,243,241,0.06) 1px, transparent 0);
     background-size: 22px 22px;
     color:var(--ink);
     font-family:'Noto Sans TC', sans-serif;
@@ -129,6 +129,33 @@
   .col.done .dot{background:var(--done-ink);}
   .dot-neutral{background:var(--done-ink);}
   .ledger .col-head{border-bottom:2px dashed var(--line); margin-bottom:14px;}
+  .stock-toggle{
+    margin-left:auto;
+    display:flex;
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:3px;
+    gap:2px;
+  }
+  .stock-toggle-btn{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12.5px;
+    font-weight:700;
+    letter-spacing:.02em;
+    border:none;
+    background:transparent;
+    color:var(--ink-soft);
+    border-radius:16px;
+    padding:6px 14px;
+    cursor:pointer;
+    -webkit-tap-highlight-color: transparent;
+    transition: background .15s ease, color .15s ease;
+  }
+  .stock-toggle-btn.active{
+    background:var(--taxi);
+    color:#1C1C1E;
+  }
   .col-head h2{
     font-size:18.5px;
     font-weight:700;
@@ -213,16 +240,17 @@
     border-radius:3px;
     margin-bottom:5px;
   }
-  .cat-license{background:#E4EAF3; color:#2A4A7A;}
-  .cat-insurance{background:#F3E4EA; color:#8A2A55;}
-  .cat-vehicle{background:#E6F0E9; color:#2E6B47;}
-  .cat-tax{background:#FBEAD8; color:#A85B1E;}
-  .cat-fleet{background:#EEE6F5; color:#5B3C8A;}
-  .cat-fee{background:#FDF0CC; color:#8A6A0E;}
-  .cat-medical{background:#DCEEF2; color:#1E6B7A;}
-  .cat-maintenance{background:#EDE6D9; color:#7A5A2A;}
-  .cat-telecom{background:#E0F0EE; color:#1E7A6E;}
-  .cat-parking{background:#E8E8E8; color:#555555;}
+  .cat-license{background:#2C4468; color:#AFC8F0;}
+  .cat-insurance{background:#5A2C42; color:#F0AFC8;}
+  .cat-vehicle{background:#2A4A38; color:#A8E0BC;}
+  .cat-tax{background:#5A3E20; color:#F0C48A;}
+  .cat-fleet{background:#3E2C5A; color:#CBAFF0;}
+  .cat-fee{background:#5A4C1E; color:#F0D97A;}
+  .cat-medical{background:#1E4A54; color:#8FDCEA;}
+  .cat-maintenance{background:#4A3E28; color:#D9C39A;}
+  .cat-telecom{background:#1E4A44; color:#7FE0CE;}
+  .cat-parking{background:#3A3A3A; color:#C9C9C9;}
+  .cat-subscription{background:#4A2C5A; color:#D9AFF0;}
 
   .card .tag{
     display:block;
@@ -345,16 +373,61 @@
     margin:16px 0;
   }
   .export-btn-solid{
-    background:var(--ink);
-    color:#fff;
+    background:var(--taxi);
+    color:#1C1C1E;
   }
-  .export-btn-solid:active{background:var(--stamp);}
+  .export-btn-solid:active{background:var(--taxi-deep);}
   .export-hint{
     margin-top:10px;
     font-family:'Noto Sans Mono', monospace;
     font-size:12px;
     color:var(--ink-soft);
     line-height:1.6;
+  }
+
+  .urgent-banner{
+    max-width:1180px;
+    margin:0 auto 18px;
+    background: linear-gradient(135deg, var(--stamp), #8f2419);
+    border-radius:6px;
+    padding:16px 18px;
+    box-shadow: 0 4px 14px rgba(178,58,47,0.4);
+    animation: urgent-pulse 2s ease-in-out infinite;
+  }
+  @keyframes urgent-pulse{
+    0%, 100% { box-shadow: 0 4px 14px rgba(178,58,47,0.4); }
+    50% { box-shadow: 0 4px 22px rgba(178,58,47,0.75); }
+  }
+  .urgent-banner-title{
+    color:#fff;
+    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;
+    font-weight:900;
+    font-size:16px;
+    margin-bottom:10px;
+    letter-spacing:.02em;
+  }
+  .urgent-item{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+    background:rgba(255,255,255,0.16);
+    border-radius:5px;
+    padding:9px 12px;
+    margin-bottom:7px;
+    color:#fff;
+    font-size:13.5px;
+    cursor:pointer;
+  }
+  .urgent-item:last-child{margin-bottom:0;}
+  .urgent-item .u-days{
+    font-family:'Noto Sans Mono', monospace;
+    font-weight:900;
+    font-size:13px;
+    white-space:nowrap;
+    background:rgba(255,255,255,0.25);
+    padding:2px 10px;
+    border-radius:20px;
   }
 
   .search-bar{
@@ -662,6 +735,8 @@
     color:var(--stamp);
     font-weight:900;
   }
+  .ledger-month-sum.c-pos{color:#5C8A6A;}
+  .ledger-month-sum.c-empty{color:var(--ink-soft); font-weight:700;}
   .ledger-month-group .ledger-list{padding:2px 14px;}
   .ledger-list-item{
     display:flex;
@@ -836,9 +911,14 @@
   </div>
 </details>
 
+<div class="urgent-banner" id="urgent-banner" style="display:none;">
+  <div class="urgent-banner-title">🚨 即將到期，請立即處理</div>
+  <div id="urgent-banner-list"></div>
+</div>
+
 <div class="search-bar">
   <span class="search-icon">🔍</span>
-  <input type="text" id="board-search" placeholder="搜尋事項、銀行、備註…" oninput="runSearch(this.value)">
+  <input type="text" id="board-search" placeholder="搜尋事項、銀行、備註…" oninput="runSearch(this.value)" onkeydown="if(event.key==='Enter'){ scrollToFirstMatch(); event.target.blur(); }">
   <button class="search-clear" onclick="clearSearch()" id="search-clear-btn" style="display:none;">✕</button>
 </div>
 <div class="search-result-hint" id="search-hint" style="display:none;"></div>
@@ -869,7 +949,7 @@
     <div class="col-head">
       <span class="dot"></span>
       <h2>待辦事項</h2>
-      <span class="count" id="count-todo">16</span>
+      <span class="count" id="count-todo">18</span>
     </div>
 
     <div class="legend urgency-legend" style="margin:0 0 12px;">
@@ -886,10 +966,30 @@
       <span class="cat cat-fee" onclick="bringCategoryFront('費用')">費用</span>
       <span class="cat cat-medical" onclick="bringCategoryFront('醫療')">醫療</span>
       <span class="cat cat-maintenance" onclick="bringCategoryFront('保養')">保養</span>
+      <span class="cat cat-subscription" onclick="bringCategoryFront('訂閱')">訂閱</span>
     </div>
 
     <div style="margin-bottom:16px;">
       <button class="export-btn" onclick="sortCards('days')">🗓️ 依到期日排序</button>
+    </div>
+
+    <div class="card lvl-green" data-key="claude-pro-sub" data-cat="訂閱" data-days="286">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-subscription">訂閱</span>
+      <div class="tag">Claude Pro（Anthropic）· Google Play訂閱</div>
+      <h3>🤖 Claude Pro 續訂</h3>
+      <div class="date">2027.05.01 <span class="days">倒數 286 天</span></div>
+      <p class="note">NT$7,450/年，自動續訂中。若要取消，須在扣款日前處理。</p>
+      <div class="docs"><b>取消步驟：</b>Google Play商店 → 頭像 → 付款和訂閱 → 訂閱項目 → Claude by Anthropic → 取消訂閱。取消後仍可用到當期到期為止。</div>
+    </div>
+
+    <div class="card lvl-amber" data-key="ark-sub" data-cat="訂閱" data-days="121">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-subscription">訂閱</span>
+      <div class="tag">定期定額扣款中 · 帳號A05871</div>
+      <h3>📈 方舟運算×退休系統（黃金未來）</h3>
+      <div class="date">2026.11.17 <span class="days">倒數 121 天</span></div>
+      <p class="note">NT$5,388/期，1年方案，會員帳號：wgkevin2001@gmail.com。</p>
     </div>
 
     <div class="card lvl-amber" data-key="mandatory-insurance" data-cat="保險" data-days="283">
@@ -953,6 +1053,14 @@
         <b>執業登記證換證（三年一次，若同期換證）：</b>白底2寸照片 2張，費用200元，須本人親自前往<br>
         ⚠️ 若執業登記證這次只是年度審驗（非換證），則不需照片
       </div>
+    </div>
+
+    <div class="card lvl-red" data-key="shennei-slow-sign" data-cat="醫療" data-days="16">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-medical">醫療</span>
+      <div class="tag">神經內科</div>
+      <h3>血壓藥慢箋記得拿</h3>
+      <div class="date">2026.08.06 <span class="days">倒數 16 天</span></div>
     </div>
 
     <div class="card lvl-amber" data-key="maintenance-tw" data-cat="保養" data-days="9999">
@@ -1182,17 +1290,21 @@
 
 <div class="ledger-divider"></div>
 
-<div class="ledger">
+<div class="ledger" id="routine-payment-section">
   <div class="col-head">
     <span class="dot dot-neutral"></span>
     <h2>📋 例行性付款合約</h2>
     <span class="count">9</span>
   </div>
-  <div class="legend category-legend" style="margin:0 0 16px; grid-template-columns: repeat(4, 1fr);">
-    <span class="cat cat-fee">費用</span>
-    <span class="cat cat-telecom">電信/網路</span>
-    <span class="cat cat-insurance">保險</span>
-    <span class="cat cat-parking">停車</span>
+  <div class="legend category-legend" style="margin:0 0 16px; grid-template-columns: repeat(5, 1fr);">
+    <span class="cat cat-fee" onclick="filterRoutinePayments('cat-fee')">費用</span>
+    <span class="cat cat-telecom" onclick="filterRoutinePayments('cat-telecom')">電信/網路</span>
+    <span class="cat cat-insurance" onclick="filterRoutinePayments('cat-insurance')">保險</span>
+    <span class="cat cat-parking" onclick="filterRoutinePayments('cat-parking')">停車</span>
+    <span class="cat cat-subscription" onclick="filterRoutinePayments('cat-subscription')">訂閱</span>
+  </div>
+  <div id="routine-filter-clear" style="display:none; margin:-8px 0 14px;">
+    <button class="export-btn" onclick="clearRoutineFilter()">✕ 清除篩選，顯示全部</button>
   </div>
 
   <div class="contract-row">
@@ -1316,7 +1428,140 @@
     </li>
   </ul>
 
-  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 此區塊資料由您手動維護，若合約內容有異動，記得回來這裡更新。</p>
+  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 此區塊資料由您手動維護，若合約內容有異動，記得回來這裡更新。訂閱類項目已移至待辦事項區塊，含倒數天數。</p>
+</div>
+
+<div class="ledger-divider"></div>
+
+<div class="ledger" id="stock-section">
+  <div class="col-head">
+    <span class="dot dot-neutral"></span>
+    <h2 id="stock-section-title">📈 存股月配息</h2>
+    <span class="count">12</span>
+    <div class="stock-toggle">
+      <button type="button" class="stock-toggle-btn active" id="stock-toggle-current" onclick="setStockView('current')">現況</button>
+      <button type="button" class="stock-toggle-btn" id="stock-toggle-target" onclick="setStockView('target')">目標</button>
+    </div>
+  </div>
+  <div class="ledger-sub" style="margin:-6px 0 12px;" id="stock-section-sub">依目前實際持股數計算，資料來源：呈貝持股.xlsx／存股計畫</div>
+
+  <details class="ledger-month-group" open>
+    <summary>1月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum" data-current="NT$11,006" data-target="NT$31,900">NT$11,006</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val" data-current="6,065股 × $1.26 = $7,641.9" data-target="10,000股 × $1.26 = $12,600">6,065股 × $1.26 = $7,641.9</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>2月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum" data-current="NT$3,864" data-target="NT$22,300">NT$3,864</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val" data-current="4,165股 × $0.12 = $499.8" data-target="25,000股 × $0.12 = $3,000">4,165股 × $0.12 = $499.8</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>3月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum" data-current="NT$35,130" data-target="NT$58,900">NT$35,130</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val" data-current="48,130股 × $0.66 = $31,765.8" data-target="60,000股 × $0.66 = $39,600">48,130股 × $0.66 = $31,765.8</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>4月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum" data-current="NT$11,006" data-target="NT$31,900">NT$11,006</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val" data-current="6,065股 × $1.26 = $7,641.9" data-target="10,000股 × $1.26 = $12,600">6,065股 × $1.26 = $7,641.9</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>5月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum" data-current="NT$3,864" data-target="NT$22,300">NT$3,864</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val" data-current="4,165股 × $0.12 = $499.8" data-target="25,000股 × $0.12 = $3,000">4,165股 × $0.12 = $499.8</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>6月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum" data-current="NT$35,130" data-target="NT$58,900">NT$35,130</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val" data-current="48,130股 × $0.66 = $31,765.8" data-target="60,000股 × $0.66 = $39,600">48,130股 × $0.66 = $31,765.8</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>7月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum" data-current="NT$11,006" data-target="NT$31,900">NT$11,006</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val" data-current="6,065股 × $1.26 = $7,641.9" data-target="10,000股 × $1.26 = $12,600">6,065股 × $1.26 = $7,641.9</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>8月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum" data-current="NT$3,864" data-target="NT$22,300">NT$3,864</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val" data-current="4,165股 × $0.12 = $499.8" data-target="25,000股 × $0.12 = $3,000">4,165股 × $0.12 = $499.8</span></span>
+      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val" data-current="12,290股 × $0 = $0（尚無配息紀錄）" data-target="50,000股 × $0 = $0（尚無配息紀錄）">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>9月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum" data-current="NT$35,130" data-target="NT$58,900">NT$35,130</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val" data-current="48,130股 × $0.66 = $31,765.8" data-target="60,000股 × $0.66 = $39,600">48,130股 × $0.66 = $31,765.8</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val" data-current="12,290股 × $0 = $0（尚無配息紀錄）" data-target="50,000股 × $0 = $0（尚無配息紀錄）">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>10月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum" data-current="NT$11,006" data-target="NT$31,900">NT$11,006</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val" data-current="6,065股 × $1.26 = $7,641.9" data-target="10,000股 × $1.26 = $12,600">6,065股 × $1.26 = $7,641.9</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val" data-current="12,290股 × $0 = $0（尚無配息紀錄）" data-target="50,000股 × $0 = $0（尚無配息紀錄）">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>11月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum" data-current="NT$3,864" data-target="NT$22,300">NT$3,864</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val" data-current="4,165股 × $0.12 = $499.8" data-target="25,000股 × $0.12 = $3,000">4,165股 × $0.12 = $499.8</span></span>
+      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val" data-current="12,290股 × $0 = $0（尚無配息紀錄）" data-target="50,000股 × $0 = $0（尚無配息紀錄）">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
+    </div>
+  </details>
+  <details class="ledger-month-group">
+    <summary>12月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum" data-current="NT$35,130" data-target="NT$58,900">NT$35,130</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val" data-current="48,130股 × $0.66 = $31,765.8" data-target="60,000股 × $0.66 = $39,600">48,130股 × $0.66 = $31,765.8</span></span>
+      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val" data-current="23,000股 × $0.07 = $1,610" data-target="100,000股 × $0.07 = $7,000">23,000股 × $0.07 = $1,610</span></span>
+      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val" data-current="24,000股 × $0.063 = $1,512" data-target="100,000股 × $0.063 = $6,300">24,000股 × $0.063 = $1,512</span></span>
+      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val" data-current="2,020股 × $0.12 = $242.4" data-target="50,000股 × $0.12 = $6,000">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val" data-current="12,290股 × $0 = $0（尚無配息紀錄）" data-target="50,000股 × $0 = $0（尚無配息紀錄）">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
+    </div>
+  </details>
+  <div class="ledger-total" id="stock-section-total" data-current="年度合計：NT$200,003" data-target="年度合計：NT$452,400">年度合計：NT$200,003</div>
+  <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);" id="stock-section-formula">公式：現況配息 ＝ 現況股數 × 每股配息</p>
+
+  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 00406A尚無配息紀錄暫列0，00407A不配息，未併入金額。</p>
 </div>
 
 <div class="ledger-divider"></div>
@@ -1324,130 +1569,88 @@
 <div class="ledger">
   <div class="col-head">
     <span class="dot dot-neutral"></span>
-    <h2>📈 存股月配息（現況）</h2>
-    <span class="count">12</span>
+    <h2>🚕 計程車營運每月統計</h2>
+    <span class="count">2026</span>
   </div>
-  <div class="ledger-sub" style="margin:-6px 0 12px;">依目前實際持股數計算，資料來源：呈貝持股.xlsx／存股計畫</div>
+  <div class="ledger-sub" style="margin:-6px 0 12px;">資料來源：計程車營運管理表.xlsx／每月統計　｜　1～6月尚無營運資料，暫不列入統計，自7月開始計算　｜　真實淨利潤 ＝ 淨收入 − 固定成本合計（工會/團保費＋停車位月攤＋車貸月攤）</div>
 
   <details class="ledger-month-group" open>
-    <summary>1月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$11,006</span></summary>
+    <summary>7月　<span class="ledger-month-count">有資料</span>　<span class="ledger-month-sum c-pos">+NT$42,778.73</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val">6,065股 × $1.26 = $7,641.9</span></span>
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">總收入</span><span class="cd-val">NT$65,457.40</span></span>
+      <span class="cd-row"><span class="cd-label">總支出</span><span class="cd-val">NT$8,584</span></span>
+      <span class="cd-row"><span class="cd-label">淨收入</span><span class="cd-val">NT$56,873.40</span></span>
+      <span class="cd-row"><span class="cd-label">出車天數</span><span class="cd-val">20 天</span></span>
+      <span class="cd-row"><span class="cd-label">日均收入</span><span class="cd-val">NT$3,272.87／天</span></span>
+      <span class="cd-row"><span class="cd-label">日均支出</span><span class="cd-val">NT$429.20／天</span></span>
+      <span class="cd-row"><span class="cd-label">日均淨收</span><span class="cd-val">NT$2,843.67／天</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:#5C8A6A;">+NT$42,778.73　= 淨收入 − 固定成本合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">7/20 加油</span><span class="cd-val">全國加油　NT$724</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>2月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$3,864</span></summary>
+    <summary>8月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
-      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val">4,165股 × $0.12 = $499.8</span></span>
+      <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>3月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$35,130</span></summary>
+    <summary>9月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val">48,130股 × $0.66 = $31,765.8</span></span>
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>4月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$11,006</span></summary>
+    <summary>10月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val">6,065股 × $1.26 = $7,641.9</span></span>
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>5月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$3,864</span></summary>
+    <summary>11月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
-      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val">4,165股 × $0.12 = $499.8</span></span>
+      <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>6月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$35,130</span></summary>
+    <summary>12月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val">48,130股 × $0.66 = $31,765.8</span></span>
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
+      <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
-  <details class="ledger-month-group">
-    <summary>7月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum">NT$11,006</span></summary>
-    <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val">6,065股 × $1.26 = $7,641.9</span></span>
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
-    </div>
-  </details>
-  <details class="ledger-month-group">
-    <summary>8月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum">NT$3,864</span></summary>
-    <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
-      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val">4,165股 × $0.12 = $499.8</span></span>
-      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
-    </div>
-  </details>
-  <details class="ledger-month-group">
-    <summary>9月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum">NT$35,130</span></summary>
-    <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val">48,130股 × $0.66 = $31,765.8</span></span>
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
-      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
-    </div>
-  </details>
-  <details class="ledger-month-group">
-    <summary>10月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum">NT$11,006</span></summary>
-    <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val">6,065股 × $1.26 = $7,641.9</span></span>
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
-      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
-    </div>
-  </details>
-  <details class="ledger-month-group">
-    <summary>11月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum">NT$3,864</span></summary>
-    <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
-      <span class="cd-row"><span class="cd-label">00403A</span><span class="cd-val">4,165股 × $0.12 = $499.8</span></span>
-      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
-    </div>
-  </details>
-  <details class="ledger-month-group">
-    <summary>12月　<span class="ledger-month-count">5檔</span>　<span class="ledger-month-sum">NT$35,130</span></summary>
-    <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">00878</span><span class="cd-val">48,130股 × $0.66 = $31,765.8</span></span>
-      <span class="cd-row"><span class="cd-label">00981D</span><span class="cd-val">23,000股 × $0.07 = $1,610</span></span>
-      <span class="cd-row"><span class="cd-label">00981B</span><span class="cd-val">24,000股 × $0.063 = $1,512</span></span>
-      <span class="cd-row"><span class="cd-label">00400A</span><span class="cd-val">2,020股 × $0.12 = $242.4</span></span>
-      <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
-    </div>
-  </details>
-
-  <div class="ledger-total">年度合計：NT$200,003</div>
-  <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">公式：現況配息 ＝ 現況股數 × 每股配息</p>
-
-  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 00406A尚無配息紀錄暫列0，00407A不配息，未併入金額。</p>
+  <div class="ledger-total">7～12月累計：總收入 NT$65,457.4　｜　總支出 NT$8,584　｜　淨收入 NT$56,873.4　｜　出車 20 天　｜　真實淨利潤（依目前已填月份估算）－NT$27,694.62</div>
+  <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 目前僅7月已填寫每日收支，8～12月為固定成本預估值（未含收入），實際數字待每日收支登錄後自動更新；1～6月因無營運資料暫不列入。</p>
 </div>
+
 
 <div class="ledger-divider"></div>
 
@@ -1497,8 +1700,49 @@
   </div>
 </div>
 
+<div class="ledger-divider"></div>
+
+<div class="ledger">
+  <div class="col-head">
+    <span class="dot dot-neutral"></span>
+    <h2>📝 備忘錄</h2>
+    <span class="count" id="memo-count-badge">0</span>
+  </div>
+  <div class="ledger-sub" style="margin:-6px 0 12px;">隨手記錄的雜項資訊</div>
+
+  <div class="ledger-form" style="grid-template-columns: 1fr;">
+    <div class="ledger-field">
+      <label>內容</label>
+      <input type="text" id="memo-input" placeholder="輸入備忘內容">
+    </div>
+    <button class="ledger-add-btn" onclick="addMemo()">＋ 新增備忘</button>
+  </div>
+
+  <div id="memo-list-wrap"></div>
+</div>
+
 <script>
   const BOARD_PASSWORD = '55688';
+
+  function setStockView(mode){
+    const section = document.getElementById('stock-section');
+    if(!section) return;
+    section.querySelectorAll('[data-current]').forEach(el=>{
+      el.textContent = el.getAttribute(mode === 'current' ? 'data-current' : 'data-target');
+    });
+    document.getElementById('stock-toggle-current').classList.toggle('active', mode === 'current');
+    document.getElementById('stock-toggle-target').classList.toggle('active', mode === 'target');
+    const sub = document.getElementById('stock-section-sub');
+    if(sub) sub.textContent = mode === 'current'
+      ? '依目前實際持股數計算，資料來源：呈貝持股.xlsx／存股計畫'
+      : '依目標持股數計算，資料來源：呈貝持股.xlsx／存股計畫';
+    const title = document.getElementById('stock-section-title');
+    if(title) title.textContent = mode === 'current' ? '📈 存股月配息（現況）' : '📈 存股月配息（目標）';
+    const formula = document.getElementById('stock-section-formula');
+    if(formula) formula.textContent = mode === 'current'
+      ? '公式：現況配息 ＝ 現況股數 × 每股配息'
+      : '公式：目標配息 ＝ 目標股數 × 每股配息';
+  }
 
   function tryUnlock(){
     const val = document.getElementById('lock-input').value.trim();
@@ -1602,6 +1846,7 @@
       }
       renderHistoryLabel(card, key);
       pushState();
+      renderUrgentBanner();
       return;
     }
 
@@ -1618,6 +1863,7 @@
       colTodo.appendChild(card);
     }
     updateCounts();
+    renderUrgentBanner();
     pushState();
   }
 
@@ -1659,6 +1905,40 @@
     updateCounts();
   }
   applyLocalState();
+  renderUrgentBanner();
+
+  function renderUrgentBanner(){
+    const banner = document.getElementById('urgent-banner');
+    const list = document.getElementById('urgent-banner-list');
+    if(!banner || !list) return;
+
+    const items = Array.from(document.querySelectorAll('.card[data-key]'))
+      .filter(card => {
+        const days = parseInt(card.getAttribute('data-days') || '9999', 10);
+        return days <= 14 && !card.classList.contains('is-done');
+      })
+      .map(card => ({
+        el: card,
+        name: card.querySelector('h3') ? card.querySelector('h3').textContent.trim() : '',
+        days: parseInt(card.getAttribute('data-days'), 10),
+        dateText: card.querySelector('.date') ? card.querySelector('.date').childNodes[0].textContent.trim() : ''
+      }))
+      .sort((a,b) => a.days - b.days);
+
+    if(!items.length){
+      banner.style.display = 'none';
+      return;
+    }
+    banner.style.display = 'block';
+    list.innerHTML = items.map((it, idx) =>
+      '<div class="urgent-item" onclick="document.querySelectorAll(\'.card[data-key]\')[' +
+        Array.from(document.querySelectorAll('.card[data-key]')).indexOf(it.el) +
+      '].scrollIntoView({behavior:\'smooth\',block:\'center\'})">' +
+        '<span>' + it.name + '　' + it.dateText + '</span>' +
+        '<span class="u-days">倒數 ' + it.days + ' 天</span>' +
+      '</div>'
+    ).join('');
+  }
 
   // 雲端同步功能已移除，改為純本機儲存 + 手動匯出
   function pushState(){ /* no-op */ }
@@ -1697,6 +1977,7 @@
   // ---- 全站搜尋（待辦事項/已完成/例行性付款） ----
   function runSearch(query){
     query = query.trim().toLowerCase();
+    lastSearchQuery = query;
     const clearBtn = document.getElementById('search-clear-btn');
     const hint = document.getElementById('search-hint');
     clearBtn.style.display = query ? 'block' : 'none';
@@ -1723,13 +2004,60 @@
       hint.style.display = 'none';
     } else {
       hint.style.display = 'block';
-      hint.textContent = '找到 ' + matchCount + ' 筆符合「' + query + '」的項目（涵蓋待辦事項／已完成／例行性付款）';
+      hint.textContent = '找到 ' + matchCount + ' 筆符合「' + query + '」的項目（涵蓋待辦事項／已完成／例行性付款）　按 Enter 可跳至第一筆';
+      if(matchCount === 1 && query.length >= 2){
+        scrollToFirstMatch();
+      }
     }
+  }
+
+  let lastSearchQuery = '';
+
+  function scrollToFirstMatch(){
+    const matches = Array.from(document.querySelectorAll('.search-match'));
+    if(!matches.length) return;
+
+    // 優先找「標題／名稱」有符合關鍵字的項目，而不是隨便命中內文的
+    const titleMatch = matches.find(el => {
+      const titleEl = el.querySelector('h3, .c-name');
+      return titleEl && titleEl.textContent.toLowerCase().indexOf(lastSearchQuery) !== -1;
+    });
+
+    const target = titleMatch || matches[0];
+    target.scrollIntoView({behavior:'smooth', block:'center'});
   }
 
   function clearSearch(){
     document.getElementById('board-search').value = '';
     runSearch('');
+  }
+
+  // ---- 例行性付款合約：分類篩選 ----
+  function filterRoutinePayments(catClass){
+    const section = document.getElementById('routine-payment-section');
+    const items = section.querySelectorAll('.contract-row, .card[data-key]');
+    let first = null;
+    items.forEach(el => {
+      const hasCat = !!el.querySelector('.' + catClass);
+      if(hasCat){
+        el.classList.remove('search-hidden');
+        el.classList.add('search-match');
+        if(!first) first = el;
+      } else {
+        el.classList.add('search-hidden');
+        el.classList.remove('search-match');
+      }
+    });
+    document.getElementById('routine-filter-clear').style.display = 'block';
+    if(first) first.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
+  function clearRoutineFilter(){
+    const section = document.getElementById('routine-payment-section');
+    section.querySelectorAll('.contract-row, .card[data-key]').forEach(el => {
+      el.classList.remove('search-hidden','search-match');
+    });
+    document.getElementById('routine-filter-clear').style.display = 'none';
   }
 
   // ---- 信用卡對帳記錄 ----
@@ -1917,6 +2245,84 @@
 
   renderLedger();
 
+  // ---- 備忘錄 ----
+  const MEMO_KEY = 'board-memos';
+  const DEFAULT_MEMOS = [
+    {id: 1721000201, text: '王睿萱 中山國中七年十三班22號', date: '2026-07-19'},
+    {id: 1721000202, text: '王睿德 松山工農 資一仁', date: '2026-07-19'}
+  ];
+
+  function loadMemos(){
+    try{
+      let memos = JSON.parse(localStorage.getItem(MEMO_KEY) || '[]');
+      const existingIds = new Set(memos.map(m => m.id));
+      const deleted = new Set(JSON.parse(localStorage.getItem('memo-deleted') || '[]'));
+      let changed = false;
+      DEFAULT_MEMOS.forEach(def => {
+        if(!existingIds.has(def.id) && !deleted.has(def.id)){
+          memos.push(def);
+          changed = true;
+        }
+      });
+      if(changed) localStorage.setItem(MEMO_KEY, JSON.stringify(memos));
+      return memos;
+    }catch(e){ return []; }
+  }
+
+  function saveMemos(memos){
+    localStorage.setItem(MEMO_KEY, JSON.stringify(memos));
+  }
+
+  function renderMemos(){
+    const memos = loadMemos().slice().sort((a,b) => b.id - a.id);
+    const badge = document.getElementById('memo-count-badge');
+    if(badge) badge.textContent = memos.length;
+    const wrap = document.getElementById('memo-list-wrap');
+    if(!wrap) return;
+    if(!memos.length){
+      wrap.innerHTML = '<div class="ledger-empty">目前還沒有備忘，請在上方新增。</div>';
+      return;
+    }
+    let html = '<ul class="ledger-list">';
+    memos.forEach(m => {
+      html += '<li class="ledger-list-item">' +
+        '<span class="ledger-list-main">' + m.text + '　<span style="color:var(--ink-soft); font-size:11.5px;">(' + m.date + ')</span></span>' +
+        '<button class="ledger-del" onclick="deleteMemo(' + m.id + ')">刪除</button>' +
+        '</li>';
+    });
+    html += '</ul>';
+    wrap.innerHTML = html;
+  }
+
+  function addMemo(){
+    const input = document.getElementById('memo-input');
+    const text = input.value.trim();
+    if(!text){ alert('請輸入內容'); return; }
+    const memos = loadMemos();
+    memos.push({id: Date.now(), text: text, date: todayISO()});
+    saveMemos(memos);
+    input.value = '';
+    renderMemos();
+    pushState();
+  }
+
+  function deleteMemo(id){
+    if(!confirm('確定要刪除這筆備忘嗎？')) return;
+    const memos = loadMemos().filter(m => m.id !== id);
+    saveMemos(memos);
+    try{
+      const deleted = JSON.parse(localStorage.getItem('memo-deleted') || '[]');
+      if(!deleted.includes(id)){
+        deleted.push(id);
+        localStorage.setItem('memo-deleted', JSON.stringify(deleted));
+      }
+    }catch(e){}
+    renderMemos();
+    pushState();
+  }
+
+  renderMemos();
+
   // ---- 資料匯出 ----
   function collectRows(){
     const rows = [];
@@ -2009,6 +2415,8 @@
     });
     data['__ledger__'] = localStorage.getItem(LEDGER_KEY) || '[]';
     data['__ledgerDeleted__'] = localStorage.getItem('cc-reconcile-deleted') || '[]';
+    data['__memos__'] = localStorage.getItem(MEMO_KEY) || '[]';
+    data['__memoDeleted__'] = localStorage.getItem('memo-deleted') || '[]';
     data['__exportedAt__'] = todayISO();
 
     const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
@@ -2034,6 +2442,10 @@
             localStorage.setItem(LEDGER_KEY, data[k]);
           } else if(k === '__ledgerDeleted__'){
             localStorage.setItem('cc-reconcile-deleted', data[k]);
+          } else if(k === '__memos__'){
+            localStorage.setItem(MEMO_KEY, data[k]);
+          } else if(k === '__memoDeleted__'){
+            localStorage.setItem('memo-deleted', data[k]);
           } else if(k === '__exportedAt__'){
             // 僅供參考，不寫入
           } else {
@@ -2042,6 +2454,7 @@
         });
         applyLocalState();
         renderLedger();
+        renderMemos();
         alert('匯入完成！');
       }catch(err){
         alert('匯入失敗，檔案格式不正確');
