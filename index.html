@@ -95,6 +95,21 @@
     -webkit-tap-highlight-color: transparent;
   }
   .legend .cat:active{opacity:.7;}
+  .legend.category-legend .cat.filter-active{
+    outline:2px solid var(--taxi);
+    outline-offset:2px;
+  }
+  .card.cat-hidden{display:none !important;}
+  .todo-filter-status{
+    grid-column: 1 / -1;
+    text-align:center;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:2px;
+    cursor:pointer;
+    text-decoration:underline;
+  }
 
   .board{
     max-width:1180px;
@@ -957,17 +972,18 @@
       <span><i class="a"></i>91–210天 · 提前準備</span>
       <span><i class="g"></i>210天以上 · 尚不急</span>
     </div>
-    <div class="legend category-legend" style="margin:0 0 14px;">
-      <span class="cat cat-license" onclick="bringCategoryFront('證照')">證照</span>
-      <span class="cat cat-insurance" onclick="bringCategoryFront('保險')">保險</span>
-      <span class="cat cat-vehicle" onclick="bringCategoryFront('車輛')">車輛</span>
-      <span class="cat cat-tax" onclick="bringCategoryFront('稅務')">稅務</span>
-      <span class="cat cat-fleet" onclick="bringCategoryFront('車隊')">車隊</span>
-      <span class="cat cat-fee" onclick="bringCategoryFront('費用')">費用</span>
-      <span class="cat cat-medical" onclick="bringCategoryFront('醫療')">醫療</span>
-      <span class="cat cat-maintenance" onclick="bringCategoryFront('保養')">保養</span>
-      <span class="cat cat-subscription" onclick="bringCategoryFront('訂閱')">訂閱</span>
+    <div class="legend category-legend" style="margin:0 0 4px;" id="category-legend">
+      <span class="cat cat-license" data-cat="證照" onclick="bringCategoryFront('證照')">證照</span>
+      <span class="cat cat-insurance" data-cat="保險" onclick="bringCategoryFront('保險')">保險</span>
+      <span class="cat cat-vehicle" data-cat="車輛" onclick="bringCategoryFront('車輛')">車輛</span>
+      <span class="cat cat-tax" data-cat="稅務" onclick="bringCategoryFront('稅務')">稅務</span>
+      <span class="cat cat-fleet" data-cat="車隊" onclick="bringCategoryFront('車隊')">車隊</span>
+      <span class="cat cat-fee" data-cat="費用" onclick="bringCategoryFront('費用')">費用</span>
+      <span class="cat cat-medical" data-cat="醫療" onclick="bringCategoryFront('醫療')">醫療</span>
+      <span class="cat cat-maintenance" data-cat="保養" onclick="bringCategoryFront('保養')">保養</span>
+      <span class="cat cat-subscription" data-cat="訂閱" onclick="bringCategoryFront('訂閱')">訂閱</span>
     </div>
+    <div class="todo-filter-status" id="todo-filter-status" style="margin:0 0 14px;" onclick="clearCategoryFilter()">🔴 目前僅顯示90天內緊急項目，點分類可查看該分類全部項目</div>
 
     <div style="margin-bottom:16px;">
       <button class="export-btn" onclick="sortCards('days')">🗓️ 依到期日排序</button>
@@ -1441,7 +1457,7 @@
   </div>
   <div class="ledger-sub" style="margin:-6px 0 12px;">整理自 IG／Threads @ark_analytics_inc（方舟運算），僅作個人操作邏輯參考，非追蹤投資建議</div>
 
-  <details class="ledger-month-group" open>
+  <details class="ledger-month-group">
     <summary>① 調節　<span class="ledger-month-count">收盤前檢查</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">動作</span><span class="cd-val">打開調節運算機檢查持股</span></span>
@@ -1469,6 +1485,18 @@
     </div>
   </details>
 
+  <details class="ledger-month-group">
+    <summary>④ 歷史最大跌點隔日戰法　<span class="ledger-month-count">極端事件專用</span></summary>
+    <div class="contract-detail" style="margin:8px 14px;">
+      <span class="cd-row"><span class="cd-label">平時</span><span class="cd-val">持續累積現金，等待條件出現</span></span>
+      <span class="cd-row"><span class="cd-label">觸發條件</span><span class="cd-val">大盤單日收盤跌點「刷新歷史紀錄」</span></span>
+      <span class="cd-row"><span class="cd-label">動作</span><span class="cd-val">條件成立後的下一個交易日，用風控運算直接風控 100%</span></span>
+      <span class="cd-row"><span class="cd-label">布局後</span><span class="cd-val">專注本業累積現金，等下一次真正刷新紀錄的極端事件再重啟</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">提醒</span><span class="cd-val">不是預測隔天必漲，也不是看到大跌就進場；條件沒到不動，條件到了才依紀律出手</span></span>
+      <span class="cd-row"><span class="cd-label">教學範例</span><span class="cd-val">2026/7/24台股跌1,195.97點，僅歷史第九大跌點，未觸發此戰法</span></span>
+    </div>
+  </details>
+
   <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">💡 心法：先把基礎做到能穩定產生報酬，再學進階戰法。還沒有擺渡人／擺渡子的話，原文建議主動找／教。</p>
 </div>
 
@@ -1486,7 +1514,11 @@
   </div>
   <div class="ledger-sub" style="margin:-6px 0 12px;" id="stock-section-sub">依目前實際持股數計算，資料來源：呈貝持股.xlsx／存股計畫</div>
 
-  <details class="ledger-month-group" open>
+  <details class="ledger-month-group" style="margin-bottom:10px;">
+    <summary style="font-weight:900;">📅 查看12個月明細　<span class="ledger-month-count">點開展開／收合全部</span></summary>
+    <div style="margin-top:8px;">
+
+  <details class="ledger-month-group">
     <summary>1月　<span class="ledger-month-count">4檔</span>　<span class="ledger-month-sum" data-current="NT$11,006" data-target="NT$31,900">NT$11,006</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">00918</span><span class="cd-val" data-current="6,065股 × $1.26 = $7,641.9" data-target="10,000股 × $1.26 = $12,600">6,065股 × $1.26 = $7,641.9</span></span>
@@ -1599,6 +1631,10 @@
       <span class="cd-row"><span class="cd-label">00406A</span><span class="cd-val" data-current="12,290股 × $0 = $0（尚無配息紀錄）" data-target="50,000股 × $0 = $0（尚無配息紀錄）">12,290股 × $0 = $0（尚無配息紀錄）</span></span>
     </div>
   </details>
+
+    </div>
+  </details>
+
   <div class="ledger-total" id="stock-section-total" data-current="年度合計：NT$200,003" data-target="年度合計：NT$452,400">年度合計：NT$200,003</div>
   <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);" id="stock-section-formula">公式：現況配息 ＝ 現況股數 × 每股配息</p>
 
@@ -1616,21 +1652,20 @@
   <div class="ledger-sub" style="margin:-6px 0 12px;">資料來源：計程車營運管理表.xlsx／每月統計　｜　1～6月尚無營運資料，暫不列入統計，自7月開始計算　｜　真實淨利潤 ＝ 淨收入 − 固定成本合計（工會/團保費＋停車位月攤＋車貸月攤）</div>
 
   <details class="ledger-month-group" open>
-    <summary>7月　<span class="ledger-month-count">有資料</span>　<span class="ledger-month-sum c-pos">+NT$42,778.73</span></summary>
+    <summary>7月　<span class="ledger-month-count">有資料</span>　<span class="ledger-month-sum c-pos">+NT$58,348.73</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">總收入</span><span class="cd-val">NT$65,457.40</span></span>
-      <span class="cd-row"><span class="cd-label">總支出</span><span class="cd-val">NT$8,584</span></span>
-      <span class="cd-row"><span class="cd-label">淨收入</span><span class="cd-val">NT$56,873.40</span></span>
-      <span class="cd-row"><span class="cd-label">出車天數</span><span class="cd-val">20 天</span></span>
-      <span class="cd-row"><span class="cd-label">日均收入</span><span class="cd-val">NT$3,272.87／天</span></span>
-      <span class="cd-row"><span class="cd-label">日均支出</span><span class="cd-val">NT$429.20／天</span></span>
-      <span class="cd-row"><span class="cd-label">日均淨收</span><span class="cd-val">NT$2,843.67／天</span></span>
+      <span class="cd-row"><span class="cd-label">總收入</span><span class="cd-val">NT$80,903.40</span></span>
+      <span class="cd-row"><span class="cd-label">總支出</span><span class="cd-val">NT$8,460</span></span>
+      <span class="cd-row"><span class="cd-label">淨收入</span><span class="cd-val">NT$72,443.40</span></span>
+      <span class="cd-row"><span class="cd-label">出車天數</span><span class="cd-val">22 天</span></span>
+      <span class="cd-row"><span class="cd-label">日均收入</span><span class="cd-val">NT$3,677.43／天</span></span>
+      <span class="cd-row"><span class="cd-label">日均支出</span><span class="cd-val">NT$384.55／天</span></span>
+      <span class="cd-row"><span class="cd-label">日均淨收</span><span class="cd-val">NT$3,292.88／天</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:#5C8A6A;">+NT$42,778.73　= 淨收入 − 固定成本合計</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">7/20 加油</span><span class="cd-val">全國加油　NT$724</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:#5C8A6A;">+NT$58,348.73　= 淨收入 − 固定成本合計</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
@@ -1688,7 +1723,7 @@
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
-  <div class="ledger-total">7～12月累計：總收入 NT$65,457.4　｜　總支出 NT$8,584　｜　淨收入 NT$56,873.4　｜　出車 20 天　｜　真實淨利潤（依目前已填月份估算）－NT$27,694.62</div>
+  <div class="ledger-total">7～12月累計：總收入 NT$80,903.4　｜　總支出 NT$8,460　｜　淨收入 NT$72,443.4　｜　出車 22 天　｜　真實淨利潤（依目前已填月份估算）－NT$12,124.62</div>
   <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 目前僅7月已填寫每日收支，8～12月為固定成本預估值（未含收入），實際數字待每日收支登錄後自動更新；1～6月因無營運資料暫不列入。</p>
 </div>
 
@@ -1803,6 +1838,7 @@
   }
 
   const colTodo = document.getElementById('col-todo');
+  let activeCategoryFilter = null; // null = 預設只顯示紅色緊急項目
   const colDone = document.getElementById('col-done');
 
   function updateCounts(){
@@ -1905,6 +1941,7 @@
     }
     updateCounts();
     renderUrgentBanner();
+    applyTodoFilter();
     pushState();
   }
 
@@ -1946,6 +1983,7 @@
     updateCounts();
   }
   applyLocalState();
+  applyTodoFilter();
   renderUrgentBanner();
 
   function renderUrgentBanner(){
@@ -2003,7 +2041,39 @@
     cards.forEach(c => colTodo.appendChild(c));
   }
 
+  function applyTodoFilter(){
+    const cards = colTodo.querySelectorAll('.card[data-key]');
+    cards.forEach(c => {
+      if(activeCategoryFilter){
+        c.classList.toggle('cat-hidden', c.getAttribute('data-cat') !== activeCategoryFilter);
+      } else {
+        c.classList.toggle('cat-hidden', !c.classList.contains('lvl-red'));
+      }
+    });
+    updateFilterStatusUI();
+  }
+
+  function updateFilterStatusUI(){
+    const statusEl = document.getElementById('todo-filter-status');
+    document.querySelectorAll('#category-legend .cat').forEach(el => {
+      el.classList.toggle('filter-active', activeCategoryFilter === el.getAttribute('data-cat'));
+    });
+    if(!statusEl) return;
+    if(activeCategoryFilter){
+      statusEl.textContent = '📂 目前顯示「' + activeCategoryFilter + '」分類全部項目，點這裡回到僅顯示緊急項目';
+    } else {
+      statusEl.textContent = '🔴 目前僅顯示90天內緊急項目，點分類可查看該分類全部項目';
+    }
+  }
+
+  function clearCategoryFilter(){
+    activeCategoryFilter = null;
+    applyTodoFilter();
+  }
+
   function bringCategoryFront(catName){
+    activeCategoryFilter = (activeCategoryFilter === catName) ? null : catName;
+
     const cards = Array.from(colTodo.querySelectorAll('.card'));
     cards.sort((a,b) => {
       const aMatch = a.getAttribute('data-cat') === catName ? 0 : 1;
@@ -2013,7 +2083,9 @@
              (parseInt(b.getAttribute('data-days')||'9999',10));
     });
     cards.forEach(c => colTodo.appendChild(c));
+    applyTodoFilter();
   }
+
 
   // ---- 全站搜尋（待辦事項/已完成/例行性付款） ----
   function runSearch(query){
@@ -2364,6 +2436,91 @@
 
   renderMemos();
 
+  // ---- 到期音效提醒 ----
+  function checkDueSoonAndAlert(thresholdDays){
+    thresholdDays = thresholdDays || 3;
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const dueSoon = [];
+
+    document.querySelectorAll('.card[data-key]').forEach(card => {
+      if(card.classList.contains('is-done')) return;
+      if(card.hasAttribute('data-recurring')) return;
+      if(card.getAttribute('data-days') === '9999') return;
+
+      const dateEl = card.querySelector('.date');
+      if(!dateEl) return;
+      const m = dateEl.textContent.match(/(\d{4})\.(\d{2})\.(\d{2})/);
+      if(!m) return;
+      const due = new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10));
+      due.setHours(0,0,0,0);
+      const diffDays = Math.round((due - today) / 86400000);
+
+      // 依實際日期自動更新倒數天數文字，不會再固定不變
+      const daysSpan = dateEl.querySelector('.days');
+      if(daysSpan){
+        if(diffDays < 0){
+          daysSpan.textContent = '已過期 ' + Math.abs(diffDays) + ' 天';
+        } else if(diffDays === 0){
+          daysSpan.textContent = '就是今天';
+        } else {
+          daysSpan.textContent = '倒數 ' + diffDays + ' 天';
+        }
+      }
+
+      if(diffDays <= thresholdDays){
+        const title = card.querySelector('h3');
+        dueSoon.push({ title: title ? title.textContent : '待辦事項', days: diffDays });
+      }
+    });
+
+    if(dueSoon.length === 0) return;
+
+    const todayKey = 'due-alert-count-' + todayISO();
+    const shownCount = parseInt(localStorage.getItem(todayKey) || '0', 10);
+    if(shownCount >= 3) return; // 今天已提醒滿3次，不再跳出
+    localStorage.setItem(todayKey, String(shownCount + 1));
+
+    playAlertSound();
+    showDueBanner(dueSoon);
+  }
+
+  function playAlertSound(){
+    try{
+      const ctx = new (window.AudioContext || window.webkitAudioContext)();
+      const beep = (delay, freq) => {
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = 'sine';
+        o.frequency.value = freq;
+        g.gain.value = 0.15;
+        o.connect(g); g.connect(ctx.destination);
+        o.start(ctx.currentTime + delay);
+        o.stop(ctx.currentTime + delay + 0.18);
+      };
+      beep(0, 880);
+      beep(0.25, 880);
+      beep(0.5, 1046);
+    }catch(e){}
+  }
+
+  function showDueBanner(items){
+    const old = document.getElementById('due-alert-banner');
+    if(old) old.remove();
+    const banner = document.createElement('div');
+    banner.id = 'due-alert-banner';
+    banner.style.cssText = 'position:fixed; top:0; left:0; right:0; z-index:9999; background:var(--stamp); color:#fff; padding:14px 16px; font-family:\'Noto Sans Mono\',monospace; font-size:13.5px; box-shadow:0 4px 12px rgba(0,0,0,.3);';
+    let html = '<div style="display:flex; justify-content:space-between; align-items:flex-start; gap:10px;"><div>🔔 <b>' + items.length + ' 項即將到期</b><br>';
+    html += items.map(it => '・' + it.title + '（' + (it.days<0 ? '已過期'+Math.abs(it.days)+'天' : it.days===0 ? '今天' : '剩'+it.days+'天') + '）').join('<br>');
+    html += '</div><span onclick="document.getElementById(\'due-alert-banner\').remove()" style="cursor:pointer; font-weight:900; font-size:18px; line-height:1;">✕</span></div>';
+    banner.innerHTML = html;
+    document.body.prepend(banner);
+  }
+
+  // 開啟看板時檢查，3天內到期會有音效＋橫幅提醒（每天最多提醒一次）
+  checkDueSoonAndAlert(3);
+
+
   // ---- 資料匯出 ----
   function collectRows(){
     const rows = [];
@@ -2494,6 +2651,7 @@
           }
         });
         applyLocalState();
+        applyTodoFilter();
         renderLedger();
         renderMemos();
         alert('匯入完成！');
