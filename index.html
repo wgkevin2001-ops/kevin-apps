@@ -980,7 +980,6 @@
       <span class="cat cat-fleet" data-cat="車隊" onclick="bringCategoryFront('車隊')">車隊</span>
       <span class="cat cat-fee" data-cat="費用" onclick="bringCategoryFront('費用')">費用</span>
       <span class="cat cat-medical" data-cat="醫療" onclick="bringCategoryFront('醫療')">醫療</span>
-      <span class="cat cat-maintenance" data-cat="保養" onclick="bringCategoryFront('保養')">保養</span>
       <span class="cat cat-subscription" data-cat="訂閱" onclick="bringCategoryFront('訂閱')">訂閱</span>
     </div>
     <div class="todo-filter-status" id="todo-filter-status" style="margin:0 0 14px;" onclick="clearCategoryFilter()">🔴 目前僅顯示90天內緊急項目，點分類可查看該分類全部項目</div>
@@ -1079,14 +1078,30 @@
       <div class="date">2026.08.06 <span class="days">倒數 16 天</span></div>
     </div>
 
-    <div class="card lvl-amber" data-key="maintenance-tw" data-cat="保養" data-days="9999">
+    <div class="card lvl-amber" data-key="maintenance-tw" data-cat="車輛" data-days="9999" data-always-show="1">
       <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-maintenance">保養</span>
+      <span class="cat cat-vehicle">車輛</span>
       <div class="tag">台灣大保養廠</div>
       <h3>TDZ-0950 里程保養</h3>
       <div class="date">目標里程 305,592 <span class="days">還差 5,235 公里</span></div>
       <p class="note">車牌 TDZ-0950，今日（2026.08.02）里程 300,357，尚未達保養里程，但已提前安排。<b>已排定：8/5（三）11:00–13:00 前往台灣大保養</b>（利用當天跳過十全鵝肉打工的空檔）。</p>
       <div class="docs"><b>🎁 8月尖峰任務獎勵（55688）：</b>早尖峰(07:00–08:59)或晚尖峰(17:00–18:59)任一時段月達50趟，即可領1,580元愛車保養券，完成任一時段任務即可領券。<br>另有GOODYEAR輪胎優惠：買2條輪胎可用1張1,580元保養券折抵。</div>
+    </div>
+
+    <div class="card lvl-green" data-key="taiwanda-maintenance-locations" data-cat="車輛" data-days="9999" data-always-show="1">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-vehicle">車輛</span>
+      <div class="tag">台灣大保養廠</div>
+      <h3>🔧 雙北保養據點</h3>
+      <div class="date">參考資訊 <span class="days">常駐</span></div>
+      <div class="docs">
+        新莊思源廠：新北市新莊區思源路96號（02-2986-5558）<br>
+        新莊新樹廠：新北市新莊區新樹路601號（02-2208-0932）<br>
+        新店復興廠：新北市新店區復興路103號（02-2218-1851）<br>
+        汐止中興廠：新北市汐止區中興路22號（02-8691-9979）<br>
+        台北濱江廠：台北市中山區濱江街136號（02-2516-0966）<br>
+        台北中正廠：台北市中正區泉州街22號（02-2337-0622）
+      </div>
     </div>
 
     <div class="card lvl-red" data-key="counseling-appt" data-cat="醫療" data-days="21">
@@ -1096,15 +1111,6 @@
       <h3>周醫師心理諮商</h3>
       <div class="date">2026.08.06 09:00 <span class="days">倒數 21 天</span></div>
       <p class="note">費用 NT$1,500。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fareast-psych-0801" data-cat="醫療" data-days="0">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 精神暨心身醫學部</div>
-      <h3>精神科回診</h3>
-      <div class="date">2026.08.01 <span class="days">就是今天</span></div>
-      <p class="note">林筑君醫師。</p>
     </div>
 
     <div class="card lvl-red" data-key="fareast-ortho-0829" data-cat="醫療" data-days="28">
@@ -1285,7 +1291,16 @@
     <div class="col-head">
       <span class="dot"></span>
       <h2>已完成</h2>
-      <span class="count" id="count-done">2</span>
+      <span class="count" id="count-done">3</span>
+    </div>
+
+    <div class="card is-done" data-key="fareast-psych-0801" data-completed="2026-08-01" data-cat="醫療">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-medical">醫療</span>
+      <div class="tag">亞東醫院 · 精神暨心身醫學部</div>
+      <h3>精神科回診</h3>
+      <div class="date">2026.08.01 <span class="days">已回診</span></div>
+      <p class="note">林筑君醫師。</p>
     </div>
 
     <div class="card is-done" data-key="fuel-tax" data-completed="2026-07-18" data-cat="稅務">
@@ -1325,7 +1340,7 @@
     <div class="tag">全國加油站</div>
     <h3>加滿25公升優惠</h3>
     <div class="date">每週三 <span class="days">週期性</span></div>
-    <p class="note">每週三到全國加油站加滿25公升享優惠。每週會自動重置勾選狀態，完成紀錄會累加。</p>
+    <p class="note">每週三到全國加油站加滿25公升，可享免費洗車。每週會自動重置勾選狀態，完成紀錄會累加。</p>
     <span class="done-date"></span>
   </div>
 
@@ -1513,7 +1528,7 @@
   <div class="col-head">
     <span class="dot dot-neutral"></span>
     <h2>📋 例行性付款合約</h2>
-    <span class="count">9</span>
+    <span class="count">10</span>
   </div>
   <div class="legend category-legend" style="margin:0 0 16px; grid-template-columns: repeat(5, 1fr);">
     <span class="cat cat-fee" onclick="filterRoutinePayments('cat-fee')">費用</span>
@@ -1537,6 +1552,22 @@
   </div>
 
   <ul class="ledger-list">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-fee">費用</span>
+          <span class="c-name">🚗 中租車貸</span>
+        </div>
+        <span class="c-amount">NT$5,613/月</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">車號</span><span class="cd-val">TDZ-0950</span></span>
+        <span class="cd-row"><span class="cd-label">扣款方式</span><span class="cd-val">國泰銀行自動扣款</span></span>
+        <span class="cd-row"><span class="cd-label">案件總金額</span><span class="cd-val">NT$300,000</span></span>
+        <span class="cd-row"><span class="cd-label">繳款進度</span><span class="cd-val" id="chailease-installment">已繳26期／共60期</span></span>
+        <span class="cd-row"><span class="cd-label">本期截止日</span><span class="cd-val" id="chailease-due-date">2026/08/06</span></span>
+      </div>
+    </li>
     <li class="contract-row" style="flex-direction:column; align-items:stretch;">
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
@@ -1887,7 +1918,7 @@
   <div class="ledger-sub" style="margin:-6px 0 12px;">資料來源：計程車營運管理表.xlsx／每月統計　｜　1～6月尚無營運資料，暫不列入統計，自7月開始計算　｜　真實淨利潤 ＝ 淨收入 − 固定成本合計（工會/團保費＋停車位月攤＋車貸月攤）</div>
 
   <details class="ledger-month-group" open>
-    <summary>7月　<span class="ledger-month-count">✅ 已結算</span>　<span class="ledger-month-sum c-pos">+NT$97,921.53</span></summary>
+    <summary>7月　<span class="ledger-month-count">✅ 已結算</span>　<span class="ledger-month-sum c-pos">+NT$97,906.53</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">總收入</span><span class="cd-val">NT$124,374.20</span></span>
       <span class="cd-row"><span class="cd-label">總支出</span><span class="cd-val">NT$12,358</span></span>
@@ -1898,13 +1929,13 @@
       <span class="cd-row"><span class="cd-label">日均淨收</span><span class="cd-val">NT$3,613.43／天</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:#5C8A6A;">+NT$97,921.53　= 淨收入 − 固定成本合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:#5C8A6A;">+NT$97,906.53　= 淨收入 − 固定成本合計</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>8月　<span class="ledger-month-count">有資料</span>　<span class="ledger-month-sum c-empty">-NT$13,967.67</span></summary>
+    <summary>8月　<span class="ledger-month-count">有資料</span>　<span class="ledger-month-sum c-empty">-NT$13,982.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">總收入</span><span class="cd-val">NT$127</span></span>
       <span class="cd-row"><span class="cd-label">總支出</span><span class="cd-val">NT$0</span></span>
@@ -1912,56 +1943,56 @@
       <span class="cd-row"><span class="cd-label">出車天數</span><span class="cd-val">1 天</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$13,967.67　= 淨收入 − 固定成本合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$13,982.67　= 淨收入 − 固定成本合計</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>9月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
+    <summary>9月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,109.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>10月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
+    <summary>10月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,109.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>11月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
+    <summary>11月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,109.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>12月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
+    <summary>12月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,109.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
-  <div class="ledger-total">7～12月累計：總收入 NT$124,501.2　｜　總支出 NT$12,358　｜　淨收入 NT$112,143.2　｜　出車 32 天　｜　真實淨利潤（依目前已填月份估算）+NT$27,575.18</div>
+  <div class="ledger-total">7～12月累計：總收入 NT$124,501.2　｜　總支出 NT$12,358　｜　淨收入 NT$112,143.2　｜　出車 32 天　｜　真實淨利潤（依目前已填月份估算）+NT$27,485.18</div>
   <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 目前僅7月已填寫每日收支，8～12月為固定成本預估值（未含收入），實際數字待每日收支登錄後自動更新；1～6月因無營運資料暫不列入。</p>
 </div>
 
@@ -2264,7 +2295,7 @@
   function pushState(){ /* no-op */ }
 
   // ---- 排序 ----
-  const catOrder = ['證照','保險','車輛','稅務','車隊','費用','醫療','保養'];
+  const catOrder = ['證照','保險','車輛','稅務','車隊','費用','醫療'];
   function sortCards(mode){
     const cards = Array.from(colTodo.querySelectorAll('.card'));
     cards.sort((a,b) => {
@@ -2285,6 +2316,10 @@
   function applyTodoFilter(){
     const cards = colTodo.querySelectorAll('.card[data-key]');
     cards.forEach(c => {
+      if(c.hasAttribute('data-always-show')){
+        c.classList.remove('cat-hidden');
+        return;
+      }
       if(activeCategoryFilter){
         c.classList.toggle('cat-hidden', c.getAttribute('data-cat') !== activeCategoryFilter);
       } else {
@@ -2603,7 +2638,8 @@
   const MEMO_KEY = 'board-memos';
   const DEFAULT_MEMOS = [
     {id: 1721000201, text: '王睿萱 中山國中七年十三班22號', date: '2026-07-19'},
-    {id: 1721000202, text: '王睿德 松山工農 資一仁', date: '2026-07-19'}
+    {id: 1721000202, text: '王睿德 松山工農 資一仁', date: '2026-07-19'},
+    {id: 1721000320, text: '大都會有張企業簽單，扣抵行政費100，可扣抵488', date: '2026-08-02'}
   ];
 
   function loadMemos(){
@@ -2760,6 +2796,39 @@
 
   // 開啟看板時檢查，3天內到期會有音效＋橫幅提醒（每天最多提醒一次）
   checkDueSoonAndAlert(3);
+
+  // ---- 中租車貸繳款期數自動計算 ----
+  (function updateChaileaseInstallment(){
+    const TOTAL_INSTALLMENTS = 60;
+    const FIRST_DUE = new Date(2024, 5, 6); // 第1期截止日 2024-06-06（依已繳26期於2026-08-02反推）
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    let monthsSince = (today.getFullYear() - FIRST_DUE.getFullYear()) * 12 + (today.getMonth() - FIRST_DUE.getMonth());
+    if (today.getDate() < FIRST_DUE.getDate()) monthsSince -= 1;
+
+    let paidCount = monthsSince + 1;
+    if (paidCount < 0) paidCount = 0;
+    if (paidCount > TOTAL_INSTALLMENTS) paidCount = TOTAL_INSTALLMENTS;
+
+    const installmentEl = document.getElementById('chailease-installment');
+    if (installmentEl) {
+      installmentEl.textContent = `已繳${paidCount}期／共${TOTAL_INSTALLMENTS}期`;
+    }
+
+    // 下一期（尚未繳）截止日 = 第1期截止日 + paidCount 個月
+    const nextDue = new Date(FIRST_DUE.getFullYear(), FIRST_DUE.getMonth() + paidCount, FIRST_DUE.getDate());
+    const dueEl = document.getElementById('chailease-due-date');
+    if (dueEl && paidCount < TOTAL_INSTALLMENTS) {
+      const y = nextDue.getFullYear();
+      const m = String(nextDue.getMonth() + 1).padStart(2, '0');
+      const d = String(nextDue.getDate()).padStart(2, '0');
+      dueEl.textContent = `${y}/${m}/${d}`;
+    } else if (dueEl) {
+      dueEl.textContent = '已全部繳清';
+    }
+  })();
+
 
 
   // ---- 資料匯出 ----
