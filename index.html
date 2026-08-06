@@ -1347,49 +1347,15 @@
   <div style="margin-top:14px;">
     <div class="ledger-sub" style="margin:0 0 10px;">⛽ 全國加油站　月度加油金額統計</div>
 
-    <details class="ledger-month-group" open>
-      <summary>7月　<span class="ledger-month-count">1筆</span>　<span class="ledger-month-sum">NT$724</span></summary>
-      <div class="contract-detail" style="margin:8px 14px;">
-        <span class="cd-row"><span class="cd-label">7/20</span><span class="cd-val">全國加油　NT$724</span></span>
-      </div>
-    </details>
+    <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:14px; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px;">
+      <input type="date" id="fuel-input-date" style="flex:1 1 140px; min-width:130px; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:'Noto Sans Mono', monospace;">
+      <input type="number" id="fuel-input-amount" placeholder="金額" style="flex:1 1 100px; min-width:90px; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:'Noto Sans Mono', monospace;">
+      <button type="button" class="export-btn export-btn-solid" style="flex:0 0 auto; padding:8px 16px;" onclick="addFuelRecord()">＋ 新增加油紀錄</button>
+    </div>
 
-    <details class="ledger-month-group">
-      <summary>8月　<span class="ledger-month-count">1筆</span>　<span class="ledger-month-sum">NT$560</span></summary>
-      <div class="contract-detail" style="margin:8px 14px;">
-        <span class="cd-row"><span class="cd-label">8/5</span><span class="cd-val">全國加油　NT$560</span></span>
-      </div>
-    </details>
+    <div id="fuel-stats-container"></div>
 
-    <details class="ledger-month-group">
-      <summary>9月　<span class="ledger-month-count">0筆</span>　<span class="ledger-month-sum c-empty">NT$0</span></summary>
-      <div class="contract-detail" style="margin:8px 14px;">
-        <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚無紀錄</span></span>
-      </div>
-    </details>
-
-    <details class="ledger-month-group">
-      <summary>10月　<span class="ledger-month-count">0筆</span>　<span class="ledger-month-sum c-empty">NT$0</span></summary>
-      <div class="contract-detail" style="margin:8px 14px;">
-        <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚無紀錄</span></span>
-      </div>
-    </details>
-
-    <details class="ledger-month-group">
-      <summary>11月　<span class="ledger-month-count">0筆</span>　<span class="ledger-month-sum c-empty">NT$0</span></summary>
-      <div class="contract-detail" style="margin:8px 14px;">
-        <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚無紀錄</span></span>
-      </div>
-    </details>
-
-    <details class="ledger-month-group">
-      <summary>12月　<span class="ledger-month-count">0筆</span>　<span class="ledger-month-sum c-empty">NT$0</span></summary>
-      <div class="contract-detail" style="margin:8px 14px;">
-        <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚無紀錄</span></span>
-      </div>
-    </details>
-
-    <div class="ledger-total" style="margin-top:10px;">累計加油總額：NT$1,284</div>
+    <div class="ledger-total" style="margin-top:10px;" id="fuel-total-display">累計加油總額：NT$0</div>
   </div>
 </div>
 
@@ -2716,7 +2682,111 @@
 
   renderMemos();
 
-  // ---- 到期音效提醒 ----
+  // ---- 全國加油站 月度加油金額統計 ----
+  const FUEL_KEY = 'fuel-records';
+  const FUEL_DELETED_KEY = 'fuel-records-deleted';
+  const DEFAULT_FUEL_RECORDS = [
+    {id: 1722000001, date: '2026-07-20', amount: 724},
+    {id: 1722000002, date: '2026-08-05', amount: 560}
+  ];
+
+  function loadFuelRecords(){
+    try{
+      let records = JSON.parse(localStorage.getItem(FUEL_KEY) || '[]');
+      const existingIds = new Set(records.map(r => r.id));
+      const deleted = new Set(JSON.parse(localStorage.getItem(FUEL_DELETED_KEY) || '[]'));
+      let changed = false;
+      DEFAULT_FUEL_RECORDS.forEach(def => {
+        if(!existingIds.has(def.id) && !deleted.has(def.id)){
+          records.push(def);
+          changed = true;
+        }
+      });
+      if(changed) localStorage.setItem(FUEL_KEY, JSON.stringify(records));
+      return records;
+    }catch(e){ return []; }
+  }
+
+  function saveFuelRecords(records){
+    localStorage.setItem(FUEL_KEY, JSON.stringify(records));
+  }
+
+  function addFuelRecord(){
+    const dateEl = document.getElementById('fuel-input-date');
+    const amountEl = document.getElementById('fuel-input-amount');
+    const dateVal = dateEl.value;
+    const amountVal = parseFloat(amountEl.value);
+    if(!dateVal){ alert('請選擇日期'); return; }
+    if(!amountVal || amountVal <= 0){ alert('請輸入有效金額'); return; }
+    const records = loadFuelRecords();
+    records.push({ id: Date.now(), date: dateVal, amount: amountVal });
+    saveFuelRecords(records);
+    dateEl.value = '';
+    amountEl.value = '';
+    renderFuelStats();
+  }
+
+  function deleteFuelRecord(id){
+    let records = loadFuelRecords();
+    records = records.filter(r => r.id !== id);
+    saveFuelRecords(records);
+    try{
+      const deleted = JSON.parse(localStorage.getItem(FUEL_DELETED_KEY) || '[]');
+      if(!deleted.includes(id)){
+        deleted.push(id);
+        localStorage.setItem(FUEL_DELETED_KEY, JSON.stringify(deleted));
+      }
+    }catch(e){}
+    renderFuelStats();
+  }
+
+  function renderFuelStats(){
+    const container = document.getElementById('fuel-stats-container');
+    if(!container) return;
+    const records = loadFuelRecords();
+    const byMonth = {};
+    for(let m = 1; m <= 12; m++) byMonth[m] = [];
+    records.forEach(r => {
+      const d = new Date(r.date + 'T00:00:00');
+      const m = d.getMonth() + 1;
+      if(byMonth[m]) byMonth[m].push(r);
+    });
+
+    let total = 0;
+    let html = '';
+    for(let m = 1; m <= 12; m++){
+      const items = byMonth[m].slice().sort((a,b) => a.date.localeCompare(b.date));
+      const sum = items.reduce((s,r) => s + r.amount, 0);
+      total += sum;
+      const isOpen = items.length > 0 && m === new Date().getMonth() + 1 ? ' open' : '';
+      let rows;
+      if(items.length === 0){
+        rows = '<span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚無紀錄</span></span>';
+      } else {
+        rows = items.map(r => {
+          const d = new Date(r.date + 'T00:00:00');
+          const label = (d.getMonth()+1) + '/' + d.getDate();
+          return `<span class="cd-row"><span class="cd-label">${label}</span><span class="cd-val">全國加油　NT$${r.amount.toLocaleString()}　<span onclick="deleteFuelRecord(${r.id})" style="cursor:pointer; color:var(--stamp); font-weight:700;">✕刪除</span></span></span>`;
+        }).join('\n        ');
+      }
+      const sumClass = sum > 0 ? '' : 'c-empty';
+      const sumDisp = sum > 0 ? `NT$${sum.toLocaleString()}` : 'NT$0';
+      html += `
+    <details class="ledger-month-group"${isOpen}>
+      <summary>${m}月　<span class="ledger-month-count">${items.length}筆</span>　<span class="ledger-month-sum ${sumClass}">${sumDisp}</span></summary>
+      <div class="contract-detail" style="margin:8px 14px;">
+        ${rows}
+      </div>
+    </details>`;
+    }
+    container.innerHTML = html;
+    const totalEl = document.getElementById('fuel-total-display');
+    if(totalEl) totalEl.textContent = `累計加油總額：NT$${total.toLocaleString()}`;
+  }
+
+  renderFuelStats();
+
+
   function checkDueSoonAndAlert(thresholdDays){
     thresholdDays = thresholdDays || 3;
     const today = new Date();
