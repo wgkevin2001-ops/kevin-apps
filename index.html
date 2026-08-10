@@ -266,6 +266,7 @@
   .cat-telecom{background:#1E4A44; color:#7FE0CE;}
   .cat-parking{background:#3A3A3A; color:#C9C9C9;}
   .cat-subscription{background:#4A2C5A; color:#D9AFF0;}
+  .cat-rental{background:#5A2C2C; color:#F0A8A8;}
 
   .card .tag{
     display:block;
@@ -981,6 +982,7 @@
       <span class="cat cat-fee" data-cat="費用" onclick="bringCategoryFront('費用')">費用</span>
       <span class="cat cat-medical" data-cat="醫療" onclick="bringCategoryFront('醫療')">醫療</span>
       <span class="cat cat-subscription" data-cat="訂閱" onclick="bringCategoryFront('訂閱')">訂閱</span>
+      <span class="cat cat-rental" data-cat="租屋" onclick="bringCategoryFront('租屋')">租屋</span>
     </div>
     <div class="todo-filter-status" id="todo-filter-status" style="margin:0 0 14px;" onclick="clearCategoryFilter()">🔴 目前僅顯示90天內緊急項目，點分類可查看該分類全部項目</div>
 
@@ -1076,6 +1078,28 @@
       <div class="tag">神經內科</div>
       <h3>血壓藥慢箋記得拿</h3>
       <div class="date">2026.08.06 <span class="days">倒數 16 天</span></div>
+    </div>
+
+    <div class="card lvl-red" data-key="yingge-ad-removal" data-cat="租屋" data-days="4">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-rental">租屋</span>
+      <div class="tag">新北市違章建築拆除大隊 · 02-2207-5911</div>
+      <h3>鶯歌中山路違規廣告物拆除</h3>
+      <div class="date">自行拆除期限（推估）2026.08.13 <span class="days">倒數 4 天</span></div>
+      <p class="note">鶯歌區中山路129之2號，2件招牌廣告（正面）認定為高風險違規廣告物，支架鏽蝕/扭曲/歪斜。認定通知書發文日115年07月30日（2026/07/30），文到次日起14日內須自行拆除或改善，逾期未處理將於<b>115年08月31日（2026/08/31）強制拆除</b>，材料需自行清除否則視同廢棄物處理。</p>
+      <div class="docs"><b>公文文號：</b>
+        (1) 新北拆廣字第1152223369號<br>
+        (2) 新北拆廣字第1152223371號
+      </div>
+      <div class="docs"><b>建議處理方式：</b>
+        1. 確認公文實際送達日，精算14日自行拆除期限（此處8/13為概估，以送達日為準）<br>
+        2. 若要自行拆除，須先聯繫拆除大隊（02-2207-5911）派員到場拍照存證再拆，才能辦理結案<br>
+        3. 拆除後材料務必當天自行清運，避免被視為廢棄物追加處理<br>
+        4. 若對處分書有異議，需於送達次日起30日內備妥訴願書提出訴願<br>
+        5. 若不處理，8/31起大隊會強制拆除，屆時可能產生額外費用或行政程序<br>
+        <b>法源：</b>行政執行法第36條、建築法第81條、違章建築處理辦法第5/7/8條
+      </div>
+      <div class="docs"><b>🔨 拆除廠商：</b>達振拆除工程 搬遷服務（拆除工程／裝潢拆除／招牌拆除）<br>聯繫方式：LINE（語音／視訊通話皆可）</div>
     </div>
 
     <div class="card lvl-amber" data-key="maintenance-tw" data-cat="車輛" data-days="9999" data-always-show="1">
@@ -2261,7 +2285,7 @@
   function pushState(){ /* no-op */ }
 
   // ---- 排序 ----
-  const catOrder = ['證照','保險','車輛','稅務','車隊','費用','醫療'];
+  const catOrder = ['證照','保險','車輛','稅務','車隊','費用','醫療','租屋'];
   function sortCards(mode){
     const cards = Array.from(colTodo.querySelectorAll('.card'));
     cards.sort((a,b) => {
@@ -2418,15 +2442,16 @@
   // ---- 信用卡對帳記錄 ----
   const LEDGER_KEY = 'cc-reconcile-records';
   const DEFAULT_LEDGER_RECORDS = [
-    {id: 1721000103, year: 2026, month: 7, bank: '國泰', amount: 22660, note: '扣款日：2026/08/01', paid: false, recordedAt: '2026-07-18'},
+    {id: 1721000103, year: 2026, month: 8, bank: '國泰', amount: 22660, note: '扣款日：2026/08/01', paid: true, recordedAt: '2026-07-18'},
     {id: 1721000104, year: 2026, month: 7, bank: '富邦', amount: 14671, note: '扣款日：2026/07/18', paid: false, recordedAt: '2026-07-18'},
     {id: 1721000105, year: 2026, month: 7, bank: '玉山', amount: 19394, note: '扣款日：2026/07/13', paid: true, recordedAt: '2026-07-18'},
     {id: 1721000106, year: 2026, month: 7, bank: '台新', amount: 0, note: '扣款日：－', paid: true, recordedAt: '2026-07-18'},
     {id: 1721000107, year: 2026, month: 7, bank: '聯邦', amount: 29597, note: '扣款日：2026/07/21', paid: false, recordedAt: '2026-07-18'},
     {id: 1721000108, year: 2026, month: 7, bank: '中信', amount: 9710, note: '扣款日：2026/07/08', paid: true, recordedAt: '2026-07-18'},
     {id: 1721000109, year: 2026, month: 8, bank: '玉山', amount: 7959, note: '繳費截止日：2026/08/12', paid: false, recordedAt: '2026-08-05'},
-    {id: 1721000110, year: 2026, month: 8, bank: '中信', amount: 12772, note: '扣款日：2026/08/08（帳單為7月份消費）', paid: false, recordedAt: '2026-08-05'},
-    {id: 1721000111, year: 2026, month: 8, bank: '富邦', amount: 11634, note: '扣款日：2026/08/18，另有分期未到期金額NT$32,420', paid: false, recordedAt: '2026-08-05'}
+    {id: 1721000110, year: 2026, month: 8, bank: '中信', amount: 12772, note: '扣款日：2026/08/08（另有未出帳金額NT$7,187）', paid: false, recordedAt: '2026-08-09'},
+    {id: 1721000111, year: 2026, month: 8, bank: '富邦', amount: 11634, note: '扣款日：2026/08/18，另有未出帳消費NT$2,932＋分期未到期金額NT$32,420', paid: false, recordedAt: '2026-08-09'},
+    {id: 1721000112, year: 2026, month: 8, bank: '聯邦', amount: 6374, note: '繳款截止日：2026/08/21', paid: false, recordedAt: '2026-08-09'}
   ];
 
   function loadLedger(){
