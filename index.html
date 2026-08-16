@@ -514,6 +514,33 @@
     padding:2px 10px;
     border-radius:20px;
   }
+  .special-reminder-banner{
+    max-width:1180px;
+    margin:0 auto 18px;
+    background: linear-gradient(135deg, #2E6BE0, #1A3F8F);
+    border-radius:6px;
+    padding:16px 18px;
+    box-shadow: 0 4px 14px rgba(46,107,224,0.4);
+  }
+  .special-reminder-title{
+    color:#fff;
+    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;
+    font-weight:900;
+    font-size:16px;
+    margin-bottom:10px;
+    letter-spacing:.02em;
+  }
+  .special-reminder-item{
+    background:rgba(255,255,255,0.12);
+    border-radius:5px;
+    padding:10px 12px;
+    margin-bottom:6px;
+    color:#fff;
+    font-size:13.5px;
+    line-height:1.6;
+  }
+  .special-reminder-item:last-child{ margin-bottom:0; }
+  .special-reminder-item b{ font-size:14.5px; }
   .urgent-banner-title{
     color:#fff;
     font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;
@@ -1085,7 +1112,7 @@
     <div class="eyebrow">TO-DO TRACKER · 呈代辦事項看板</div>
     <h1>呈代辦事項看板</h1>
   </div>
-  <div class="updated">資料更新日 <b>2026.08.02</b><br>勾選完成會記錄日期，可隨時匯出</div>
+  <div class="updated">資料更新日 <b id="data-updated-date">2026.08.02</b><br>勾選完成會記錄日期，可隨時匯出</div>
 </header>
 
 <div class="cat-nav-wrap">
@@ -1134,6 +1161,11 @@
     <button type="button" class="notify-btn" id="notify-toggle-btn" onclick="toggleDividendNotify()">🔔 開啟通知提醒</button>
   </div>
   <div id="next-payout-list"></div>
+</div>
+
+<div class="special-reminder-banner" id="special-reminder-banner" style="display:none;">
+  <div class="special-reminder-title">🔔 今日特別提醒</div>
+  <div id="special-reminder-list"></div>
 </div>
 
 <div class="search-bar">
@@ -1274,6 +1306,15 @@
         <b>執業登記證換證（三年一次，若同期換證）：</b>白底2寸照片 2張，費用200元，須本人親自前往<br>
         ⚠️ 若執業登記證這次只是年度審驗（非換證），則不需照片
       </div>
+    </div>
+
+    <div class="card lvl-red" data-key="tw-mobile-lottery-signup" data-cat="電信" data-days="9">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-telecom">電信</span>
+      <div class="tag">台灣大哥大 · 續約加碼</div>
+      <h3>台灣大哥大登記抽獎</h3>
+      <div class="date">2026.08.25 20:00 開放登記 <span class="days">倒數 9 天</span></div>
+      <p class="note">399方案續約加碼「電子禮券+抽獎」，8/25 晚上8點才開放登記，不是截止日，記得那時間點上網登記。</p>
     </div>
 
     <div class="card lvl-red" data-key="shennei-slow-sign" data-cat="醫療" data-days="16">
@@ -1854,14 +1895,15 @@
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-telecom">電信</span>
-          <span class="c-name">📱 台灣之星</span>
+          <span class="c-name">📱 台灣大哥大（原台灣之星）</span>
         </div>
-        <span class="c-amount">NT$188/月</span>
+        <span class="c-amount">NT$399/月</span>
       </div>
       <div class="contract-detail">
-        <span class="cd-row"><span class="cd-label">合約</span><span class="cd-val">30個月約，2023/09/11–2026/03/11</span></span>
-        <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val c-warn">已到期，延續月租中</span></span>
-        <span class="cd-row"><span class="cd-label">客服</span><span class="cd-val">門市或0800-688-168辦理續約</span></span>
+        <span class="cd-row"><span class="cd-label">門號</span><span class="cd-val">0926-888-178</span></span>
+        <span class="cd-row"><span class="cd-label">方案</span><span class="cd-val">21GB 高速流量(用量到降速)，網內免費講到飽，網外每月60分鐘免費</span></span>
+        <span class="cd-row"><span class="cd-label">合約</span><span class="cd-val">24個月約，2026/08/16起（若提前續約需加計原專案剩餘月數）</span></span>
+        <span class="cd-row"><span class="cd-label">客服</span><span class="cd-val">188 或 0800-088-090</span></span>
       </div>
     </li>
     <li class="contract-row" style="flex-direction:column; align-items:stretch;">
@@ -2336,7 +2378,42 @@
     localStorage.setItem('dividend-notified-keys', JSON.stringify(dividendNotifiedKeys));
   }
 
+  // ---- 資料更新日：自動顯示今天日期 ----
+  (function(){
+    const el = document.getElementById('data-updated-date');
+    if(!el) return;
+    const d = new Date();
+    const y = d.getFullYear();
+    const m = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    el.textContent = `${y}.${m}.${day}`;
+  })();
+
   renderNextPayout('current');
+
+  // ---- 特定日期提醒（依裝置實際日期判斷，每次開啟都會重新檢查） ----
+  const SPECIAL_REMINDERS = [
+    { month: 8, day: 24, title: '台灣大哥大登記抽獎', note: '明天（8/25）20:00 開放登記，記得準時上網登記，逾期視同放棄。' },
+    { month: 8, day: 25, title: '台灣大哥大登記抽獎', note: '今天 20:00 開放登記！記得準時上網登記，逾期視同放棄。' },
+  ];
+
+  function renderSpecialReminders(){
+    const banner = document.getElementById('special-reminder-banner');
+    const list = document.getElementById('special-reminder-list');
+    if(!banner || !list) return;
+
+    const today = new Date();
+    const matches = SPECIAL_REMINDERS.filter(r => r.month === today.getMonth() + 1 && r.day === today.getDate());
+
+    if(matches.length === 0){ banner.style.display = 'none'; return; }
+
+    list.innerHTML = matches.map(r =>
+      '<div class="special-reminder-item"><b>' + r.title + '</b><br>' + r.note + '</div>'
+    ).join('');
+    banner.style.display = 'block';
+  }
+
+  renderSpecialReminders();
 
   function tryUnlock(){
     const val = document.getElementById('lock-input').value.trim();
@@ -3279,6 +3356,10 @@
     data['__ledgerDeleted__'] = localStorage.getItem('cc-reconcile-deleted') || '[]';
     data['__memos__'] = localStorage.getItem(MEMO_KEY) || '[]';
     data['__memoDeleted__'] = localStorage.getItem('memo-deleted') || '[]';
+    data['__fuel__'] = localStorage.getItem(FUEL_KEY) || '[]';
+    data['__fuelDeleted__'] = localStorage.getItem(FUEL_DELETED_KEY) || '[]';
+    data['__dividendNotifyOn__'] = localStorage.getItem('dividend-notify-on') || '0';
+    data['__dividendNotifiedKeys__'] = localStorage.getItem('dividend-notified-keys') || '[]';
     data['__exportedAt__'] = todayISO();
 
     const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
@@ -3308,6 +3389,14 @@
             localStorage.setItem(MEMO_KEY, data[k]);
           } else if(k === '__memoDeleted__'){
             localStorage.setItem('memo-deleted', data[k]);
+          } else if(k === '__fuel__'){
+            localStorage.setItem(FUEL_KEY, data[k]);
+          } else if(k === '__fuelDeleted__'){
+            localStorage.setItem(FUEL_DELETED_KEY, data[k]);
+          } else if(k === '__dividendNotifyOn__'){
+            localStorage.setItem('dividend-notify-on', data[k]);
+          } else if(k === '__dividendNotifiedKeys__'){
+            localStorage.setItem('dividend-notified-keys', data[k]);
           } else if(k === '__exportedAt__'){
             // 僅供參考，不寫入
           } else {
@@ -3318,6 +3407,10 @@
         applyTodoFilter();
         renderLedger();
         renderMemos();
+        renderFuelStats();
+        dividendNotifyOn = (localStorage.getItem('dividend-notify-on') === '1');
+        dividendNotifiedKeys = JSON.parse(localStorage.getItem('dividend-notified-keys') || '[]');
+        updateNotifyBtnUI();
         alert('匯入完成！');
       }catch(err){
         alert('匯入失敗，檔案格式不正確');
