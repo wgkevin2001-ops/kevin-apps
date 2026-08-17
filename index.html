@@ -1370,7 +1370,7 @@
       <div class="docs"><b>🔨 拆除廠商：</b>達振拆除工程 搬遷服務（拆除工程／裝潢拆除／招牌拆除）<br>聯繫方式：LINE（語音／視訊通話皆可）</div>
     </div>
 
-    <div class="card lvl-amber" id="maintenance-widget-card" data-key="maintenance-tw" data-cat="車輛" data-days="9999" data-always-show="1">
+    <div class="card lvl-amber" id="maintenance-widget-card" data-key="maintenance-tw-tool" data-cat="車輛" data-days="9999" data-always-show="1">
       <span class="cat cat-vehicle">車輛</span>
       <div class="tag">台灣大保養廠</div>
       <h3>🔧 TDZ-0950 里程保養週期</h3>
@@ -2981,6 +2981,11 @@
   applyLocalState();
   applyTodoFilter();
   renderUrgentBanner();
+
+  // 清除舊版「TDZ-0950 里程保養」卡片遺留的已完成標記
+  // （該卡片已於改版後拿掉勾選框，改為常駐互動工具，不應再被視為可完成的待辦）
+  localStorage.removeItem('todo-maintenance-tw');
+  localStorage.removeItem('donedate-maintenance-tw');
 
   function renderUrgentBanner(){
     const banner = document.getElementById('urgent-banner');
