@@ -1226,24 +1226,7 @@
       <button class="export-btn" onclick="sortCards('days')">🗓️ 依到期日排序</button>
     </div>
 
-    <div class="card lvl-green" data-key="claude-pro-sub" data-cat="訂閱" data-days="286">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-subscription">訂閱</span>
-      <div class="tag">Claude Pro（Anthropic）· Google Play訂閱</div>
-      <h3>🤖 Claude Pro 續訂</h3>
-      <div class="date">2027.05.01 <span class="days">倒數 286 天</span></div>
-      <p class="note">NT$7,450/年，自動續訂中。若要取消，須在扣款日前處理。</p>
-      <div class="docs"><b>取消步驟：</b>Google Play商店 → 頭像 → 付款和訂閱 → 訂閱項目 → Claude by Anthropic → 取消訂閱。取消後仍可用到當期到期為止。</div>
-    </div>
-
-    <div class="card lvl-amber" data-key="ark-sub" data-cat="訂閱" data-days="121">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-subscription">訂閱</span>
-      <div class="tag">定期定額扣款中 · 帳號A05871</div>
-      <h3>📈 方舟運算×退休系統（黃金未來）</h3>
-      <div class="date">2026.11.17 <span class="days">倒數 121 天</span></div>
-      <p class="note">NT$5,388/期，1年方案，會員帳號：wgkevin2001@gmail.com。</p>
-    </div>
+    <div id="subscription-todo-cards-mount"></div>
 
     <div class="card lvl-amber" data-key="mandatory-insurance" data-cat="保險" data-days="283">
       <span class="check" onclick="toggleDone(this)"></span>
@@ -1891,7 +1874,7 @@
     <span class="c-amount"></span>
   </div>
 
-  <ul class="ledger-list">
+  <ul class="ledger-list" id="routine-payment-list">
     <li class="contract-row" style="flex-direction:column; align-items:stretch;">
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
@@ -2526,6 +2509,75 @@
   }
 
   renderMaintenanceWidget();
+
+  // ---- 訂閱項目：單一資料來源，同步顯示在「待辦事項」與「例行性付款合約」兩處 ----
+  const SUBSCRIPTIONS = [
+    {
+      key: 'claude-pro-sub',
+      icon: '🤖',
+      name: 'Claude Pro 續訂',
+      provider: 'Claude Pro（Anthropic）· Google Play訂閱',
+      amount: 'NT$7,450/年',
+      dueDate: '2027.05.01',
+      days: 286,
+      level: 'lvl-green',
+      note: 'NT$7,450/年，自動續訂中。若要取消，須在扣款日前處理。',
+      cancelSteps: 'Google Play商店 → 頭像 → 付款和訂閱 → 訂閱項目 → Claude by Anthropic → 取消訂閱。取消後仍可用到當期到期為止。'
+    },
+    {
+      key: 'ark-sub',
+      icon: '📈',
+      name: '方舟運算×退休系統（黃金未來）',
+      provider: '定期定額扣款中 · 帳號A05871',
+      amount: 'NT$5,388/期',
+      dueDate: '2026.11.17',
+      days: 121,
+      level: 'lvl-amber',
+      note: 'NT$5,388/期，1年方案，會員帳號：wgkevin2001@gmail.com。目前暫無可升級為更長使用期間的方案。',
+      cancelSteps: ''
+    },
+  ];
+
+  function renderSubscriptionTodoCards(){
+    const mount = document.getElementById('subscription-todo-cards-mount');
+    if(!mount) return;
+    mount.innerHTML = SUBSCRIPTIONS.map(s => `
+      <div class="card ${s.level}" data-key="${s.key}" data-cat="訂閱" data-days="${s.days}">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-subscription">訂閱</span>
+        <div class="tag">${s.provider}</div>
+        <h3>${s.icon} ${s.name}</h3>
+        <div class="date">${s.dueDate} <span class="days">倒數 ${s.days} 天</span></div>
+        <p class="note">${s.note}</p>
+        ${s.cancelSteps ? `<div class="docs"><b>取消步驟：</b>${s.cancelSteps}</div>` : ''}
+      </div>
+    `).join('');
+  }
+
+  function renderSubscriptionLedgerRows(){
+    const list = document.getElementById('routine-payment-list');
+    if(!list) return;
+    const html = SUBSCRIPTIONS.map(s => `
+      <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-sub-key="${s.key}">
+        <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+          <div>
+            <span class="cat cat-subscription">訂閱</span>
+            <span class="c-name">${s.icon} ${s.name}</span>
+          </div>
+          <span class="c-amount">${s.amount}</span>
+        </div>
+        <div class="contract-detail">
+          <span class="cd-row"><span class="cd-label">帳號</span><span class="cd-val">${s.provider}</span></span>
+          <span class="cd-row"><span class="cd-label">下次扣款</span><span class="cd-val">${s.dueDate}（倒數 ${s.days} 天）</span></span>
+          <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">${s.note}</span></span>
+        </div>
+      </li>
+    `).join('');
+    list.insertAdjacentHTML('beforeend', html);
+  }
+
+  renderSubscriptionTodoCards();
+  renderSubscriptionLedgerRows();
 
   // ---- 特定日期提醒（依裝置實際日期判斷，每次開啟都會重新檢查） ----
   const SPECIAL_REMINDERS = [
