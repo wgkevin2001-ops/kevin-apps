@@ -1347,14 +1347,46 @@
       <div class="docs"><b>🔨 拆除廠商：</b>達振拆除工程 搬遷服務（拆除工程／裝潢拆除／招牌拆除）<br>聯繫方式：LINE（語音／視訊通話皆可）</div>
     </div>
 
-    <div class="card lvl-amber" data-key="maintenance-tw" data-cat="車輛" data-days="9999" data-always-show="1">
-      <span class="check" onclick="toggleDone(this)"></span>
+    <div class="card lvl-amber" id="maintenance-widget-card" data-key="maintenance-tw" data-cat="車輛" data-days="9999" data-always-show="1">
       <span class="cat cat-vehicle">車輛</span>
       <div class="tag">台灣大保養廠</div>
-      <h3>TDZ-0950 里程保養</h3>
-      <div class="date">目標里程 305,592 <span class="days">還差 5,235 公里</span></div>
-      <p class="note">車牌 TDZ-0950，今日（2026.08.02）里程 300,357，尚未達保養里程，但已提前安排。<b>已排定：8/5（三）11:00–13:00 前往台灣大保養</b>（利用當天跳過十全鵝肉打工的空檔）。</p>
-      <div class="docs"><b>🎁 8月尖峰任務獎勵（55688）：</b>早尖峰(07:00–08:59)或晚尖峰(17:00–18:59)任一時段月達50趟，即可領1,580元愛車保養券，完成任一時段任務即可領券。<br>另有GOODYEAR輪胎優惠：買2條輪胎可用1張1,580元保養券折抵。</div>
+      <h3>🔧 TDZ-0950 里程保養週期</h3>
+
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0;">
+        <div style="flex:1 1 130px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 12px;">
+          <div style="font-size:11px; color:var(--ink-soft); font-family:'Noto Sans Mono', monospace;">下次保養里程</div>
+          <div id="mnt-next-target" style="font-size:19px; font-weight:900; font-family:'Noto Sans Mono', monospace; color:var(--taxi-deep);">—</div>
+        </div>
+        <div style="flex:1 1 130px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 12px;">
+          <div style="font-size:11px; color:var(--ink-soft); font-family:'Noto Sans Mono', monospace;">目前里程 / 差距</div>
+          <div id="mnt-remaining" style="font-size:19px; font-weight:900; font-family:'Noto Sans Mono', monospace;">—</div>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px; margin-bottom:10px;">
+        <input type="date" id="mnt-input-date" style="flex:1 1 140px; min-width:130px; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:'Noto Sans Mono', monospace;">
+        <input type="number" id="mnt-input-mileage" placeholder="目前里程" style="flex:1 1 110px; min-width:100px; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:'Noto Sans Mono', monospace;">
+        <button type="button" class="export-btn export-btn-solid" style="flex:0 0 auto; padding:8px 14px;" onclick="updateCurrentMileage()">更新里程</button>
+      </div>
+
+      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
+        <button type="button" class="export-btn export-btn-solid" style="flex:1 1 auto; background:var(--taxi); color:#1C1C1E; font-weight:700;" onclick="completeMaintenance()">✅ 完成本次保養（自動累加下一次目標）</button>
+      </div>
+
+      <p class="note" id="mnt-context-note">車牌 TDZ-0950。保養週期預設每 <span id="mnt-interval-display">5,000</span> 公里一次，完成保養後會自動累加至下一次目標，不需手動計算。</p>
+
+      <details style="margin-top:8px;">
+        <summary style="cursor:pointer; font-size:12.5px; color:var(--ink-soft); font-family:'Noto Sans Mono', monospace;">⚙️ 調整保養週期公里數 / 查看保養歷史</summary>
+        <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+          <span style="font-size:12.5px; color:var(--ink-soft);">保養週期：</span>
+          <input type="number" id="mnt-interval-input" style="width:90px; padding:6px 8px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:'Noto Sans Mono', monospace;">
+          <span style="font-size:12.5px; color:var(--ink-soft);">公里</span>
+          <button type="button" class="export-btn" style="padding:6px 12px; font-size:12px;" onclick="updateMaintenanceInterval()">儲存</button>
+        </div>
+        <div id="mnt-history-list" style="margin-top:12px;"></div>
+      </details>
+
+      <div class="docs" style="margin-top:10px;"><b>🎁 8月尖峰任務獎勵（55688）：</b>早尖峰(07:00–08:59)或晚尖峰(17:00–18:59)任一時段月達50趟，即可領1,580元愛車保養券，完成任一時段任務即可領券。<br>另有GOODYEAR輪胎優惠：買2條輪胎可用1張1,580元保養券折抵。</div>
     </div>
 
     <div class="card lvl-green" data-key="taiwanda-maintenance-locations" data-cat="車輛" data-days="9999" data-always-show="1">
@@ -2391,6 +2423,110 @@
 
   renderNextPayout('current');
 
+  // ---- 車輛里程保養週期追蹤（可累加） ----
+  const MNT_KEY = 'vehicle-maintenance-v1';
+
+  function loadMaintenanceData(){
+    try{
+      const raw = localStorage.getItem(MNT_KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    // 預設初始值（依看板既有紀錄）：上次保養基準 300,592（=305,592 目標 - 5,000 週期），
+    // 目前里程 300,357（2026.08.02 紀錄）
+    return {
+      intervalKm: 5000,
+      lastServiceMileage: 300592,
+      lastServiceDate: null,
+      currentMileage: 300357,
+      currentMileageDate: '2026-08-02',
+      history: []
+    };
+  }
+
+  function saveMaintenanceData(data){
+    localStorage.setItem(MNT_KEY, JSON.stringify(data));
+  }
+
+  function renderMaintenanceWidget(){
+    const data = loadMaintenanceData();
+    const nextTarget = data.lastServiceMileage + data.intervalKm;
+    const remaining = nextTarget - data.currentMileage;
+
+    const targetEl = document.getElementById('mnt-next-target');
+    const remainEl = document.getElementById('mnt-remaining');
+    const intervalDisplay = document.getElementById('mnt-interval-display');
+    const intervalInput = document.getElementById('mnt-interval-input');
+    const dateInput = document.getElementById('mnt-input-date');
+    const mileageInput = document.getElementById('mnt-input-mileage');
+    const historyList = document.getElementById('mnt-history-list');
+
+    if(targetEl) targetEl.textContent = nextTarget.toLocaleString('zh-Hant');
+    if(remainEl){
+      if(remaining >= 0){
+        remainEl.textContent = data.currentMileage.toLocaleString('zh-Hant') + ' ／ 還差 ' + remaining.toLocaleString('zh-Hant');
+        remainEl.style.color = 'var(--ink)';
+      } else {
+        remainEl.textContent = data.currentMileage.toLocaleString('zh-Hant') + ' ／ 已超過 ' + Math.abs(remaining).toLocaleString('zh-Hant');
+        remainEl.style.color = 'var(--stamp)';
+      }
+    }
+    if(intervalDisplay) intervalDisplay.textContent = data.intervalKm.toLocaleString('zh-Hant');
+    if(intervalInput) intervalInput.value = data.intervalKm;
+    if(dateInput && !dateInput.value) dateInput.value = data.currentMileageDate || todayISO();
+    if(mileageInput) mileageInput.value = data.currentMileage;
+
+    if(historyList){
+      if(!data.history || data.history.length === 0){
+        historyList.innerHTML = '<p style="font-size:12px; color:var(--ink-soft); font-family:\'Noto Sans Mono\', monospace;">尚無保養紀錄</p>';
+      } else {
+        const rows = [...data.history].reverse().map(h =>
+          '<div style="display:flex; justify-content:space-between; font-size:12.5px; font-family:\'Noto Sans Mono\', monospace; padding:6px 0; border-bottom:1px solid var(--line);">' +
+          '<span>' + h.date + '</span><span>里程 ' + h.mileage.toLocaleString('zh-Hant') + '</span></div>'
+        ).join('');
+        historyList.innerHTML = rows;
+      }
+    }
+  }
+
+  function updateCurrentMileage(){
+    const dateInput = document.getElementById('mnt-input-date');
+    const mileageInput = document.getElementById('mnt-input-mileage');
+    const mileage = parseInt(mileageInput.value, 10);
+    if(!mileage || mileage <= 0){ alert('請輸入有效的里程數'); return; }
+
+    const data = loadMaintenanceData();
+    data.currentMileage = mileage;
+    data.currentMileageDate = dateInput.value || todayISO();
+    saveMaintenanceData(data);
+    renderMaintenanceWidget();
+  }
+
+  function updateMaintenanceInterval(){
+    const intervalInput = document.getElementById('mnt-interval-input');
+    const interval = parseInt(intervalInput.value, 10);
+    if(!interval || interval <= 0){ alert('請輸入有效的公里數'); return; }
+
+    const data = loadMaintenanceData();
+    data.intervalKm = interval;
+    saveMaintenanceData(data);
+    renderMaintenanceWidget();
+  }
+
+  function completeMaintenance(){
+    const data = loadMaintenanceData();
+    if(!confirm('確定要標記本次保養完成嗎？將以目前里程（' + data.currentMileage.toLocaleString('zh-Hant') + '）為基準，自動累加至下一次保養目標。')) return;
+
+    data.history = data.history || [];
+    data.history.push({ date: data.currentMileageDate || todayISO(), mileage: data.currentMileage });
+    data.lastServiceMileage = data.currentMileage;
+    data.lastServiceDate = data.currentMileageDate || todayISO();
+    saveMaintenanceData(data);
+    renderMaintenanceWidget();
+    alert('已記錄！下一次保養目標已自動累加為 ' + (data.lastServiceMileage + data.intervalKm).toLocaleString('zh-Hant') + ' 公里。');
+  }
+
+  renderMaintenanceWidget();
+
   // ---- 特定日期提醒（依裝置實際日期判斷，每次開啟都會重新檢查） ----
   const SPECIAL_REMINDERS = [
     { month: 8, day: 24, title: '台灣大哥大登記抽獎', note: '明天（8/25）20:00 開放登記，記得準時上網登記，逾期視同放棄。' },
@@ -3360,6 +3496,7 @@
     data['__fuelDeleted__'] = localStorage.getItem(FUEL_DELETED_KEY) || '[]';
     data['__dividendNotifyOn__'] = localStorage.getItem('dividend-notify-on') || '0';
     data['__dividendNotifiedKeys__'] = localStorage.getItem('dividend-notified-keys') || '[]';
+    data['__vehicleMaintenance__'] = localStorage.getItem(MNT_KEY) || '';
     data['__exportedAt__'] = todayISO();
 
     const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
@@ -3397,6 +3534,8 @@
             localStorage.setItem('dividend-notify-on', data[k]);
           } else if(k === '__dividendNotifiedKeys__'){
             localStorage.setItem('dividend-notified-keys', data[k]);
+          } else if(k === '__vehicleMaintenance__'){
+            if(data[k]) localStorage.setItem(MNT_KEY, data[k]);
           } else if(k === '__exportedAt__'){
             // 僅供參考，不寫入
           } else {
@@ -3408,6 +3547,7 @@
         renderLedger();
         renderMemos();
         renderFuelStats();
+        renderMaintenanceWidget();
         dividendNotifyOn = (localStorage.getItem('dividend-notify-on') === '1');
         dividendNotifiedKeys = JSON.parse(localStorage.getItem('dividend-notified-keys') || '[]');
         updateNotifyBtnUI();
