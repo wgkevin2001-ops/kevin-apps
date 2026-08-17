@@ -541,6 +541,45 @@
   }
   .special-reminder-item:last-child{ margin-bottom:0; }
   .special-reminder-item b{ font-size:14.5px; }
+
+  .fx-card, .idx-card{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+    text-align:center;
+  }
+  .fx-card .fx-label, .idx-card .idx-label{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    margin-bottom:4px;
+  }
+  .fx-card .fx-value, .idx-card .idx-value{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:19px;
+    font-weight:700;
+    color:var(--ink);
+  }
+  .idx-card .idx-change{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12px;
+    margin-top:3px;
+    font-weight:700;
+  }
+  .idx-change.up{ color:#5FBF7A; }
+  .idx-change.down{ color:var(--stamp); }
+  .fx-card.fallback, .idx-card.fallback{
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+  }
+  .fx-card.fallback a, .idx-card.fallback a{
+    color:var(--taxi);
+    font-size:12px;
+    font-family:'Noto Sans Mono', monospace;
+    text-decoration:underline;
+  }
   .urgent-banner-title{
     color:#fff;
     font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;
@@ -1120,6 +1159,7 @@
     <a href="#col-todo">📋 待辦</a>
     <a href="#taxi-section">🚕 計程車</a>
     <a href="#stock-section">📈 存股配息</a>
+    <a href="#market-section">💹 匯率股市</a>
     <a href="#fareast-hospital-section">🏥 醫院回診</a>
     <a href="#creditcard-section">📒 信用卡</a>
     <a href="#routine-payment-section">📋 例行付款</a>
@@ -1714,6 +1754,28 @@
     </div>
   </div>
 
+</div>
+
+<div class="ledger-divider"></div>
+
+<div class="ledger" id="market-section">
+  <div class="col-head" style="flex-wrap:wrap;">
+    <span class="dot dot-neutral"></span>
+    <h2>💹 匯率與股市指數</h2>
+    <button type="button" class="export-btn" style="margin-left:auto;" onclick="refreshMarketData()">🔄 重新整理</button>
+  </div>
+  <div class="ledger-sub" id="market-updated-note" style="margin:-6px 0 14px;">尚未載入</div>
+
+  <div style="font-family:'Noto Sans Mono', monospace; font-size:11.5px; color:var(--ink-soft); margin-bottom:8px; letter-spacing:.05em;">匯率（兌台幣）</div>
+  <div id="fx-cards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:10px; margin-bottom:20px;"></div>
+
+  <div style="font-family:'Noto Sans Mono', monospace; font-size:11.5px; color:var(--ink-soft); margin-bottom:8px; letter-spacing:.05em;">股市指數</div>
+  <div id="index-cards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:10px;"></div>
+
+  <p style="margin-top:14px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft); line-height:1.7;">
+    匯率資料來源 open.er-api.com（每日更新）；股市指數資料來源 stooq.com（可能有 15–20 分鐘延遲）。<br>
+    此看板為純靜態網頁，需裝置能連上外部 API 才能取得資料；若擷取失敗，會改顯示可直接點擊查看的外部連結。
+  </p>
 </div>
 
 <div class="ledger-divider"></div>
@@ -2578,6 +2640,157 @@
 
   renderSubscriptionTodoCards();
   renderSubscriptionLedgerRows();
+
+  // ---- 匯率與股市指數 ----
+  const MARKET_CACHE_KEY = 'market-data-cache-v1';
+
+  const FX_TARGETS = [
+    { code: 'USD', label: '美元 USD' },
+    { code: 'JPY', label: '日圓 JPY' },
+    { code: 'CNY', label: '人民幣 CNY' },
+  ];
+
+  const INDEX_TARGETS = [
+    { symbol: '^twii', label: '台股加權指數', fallbackUrl: 'https://tw.stock.yahoo.com/quote/%5ETWII' },
+    { symbol: '^dji', label: '道瓊工業指數', fallbackUrl: 'https://tw.stock.yahoo.com/quote/%5EDJI' },
+    { symbol: '^ndq', label: '那斯達克指數', fallbackUrl: 'https://tw.stock.yahoo.com/quote/%5EIXIC' },
+    { symbol: '^spx', label: 'S&P 500', fallbackUrl: 'https://tw.stock.yahoo.com/quote/%5EGSPC' },
+  ];
+
+  function loadMarketCache(){
+    try{
+      const raw = localStorage.getItem(MARKET_CACHE_KEY);
+      if(raw) return JSON.parse(raw);
+    }catch(e){}
+    return null;
+  }
+
+  function saveMarketCache(data){
+    try{ localStorage.setItem(MARKET_CACHE_KEY, JSON.stringify(data)); }catch(e){}
+  }
+
+  function renderFxCards(fxData){
+    const container = document.getElementById('fx-cards');
+    if(!container) return;
+    container.innerHTML = FX_TARGETS.map(t => {
+      const val = fxData && fxData[t.code];
+      if(val){
+        return `<div class="fx-card"><div class="fx-label">${t.label}</div><div class="fx-value">${val.toFixed(2)}</div></div>`;
+      }
+      return `<div class="fx-card fallback"><div class="fx-label">${t.label}</div><a href="https://www.google.com/search?q=${t.code}+to+TWD" target="_blank" rel="noopener">查看即時匯率 →</a></div>`;
+    }).join('');
+  }
+
+  function renderIndexCards(indexData){
+    const container = document.getElementById('index-cards');
+    if(!container) return;
+    container.innerHTML = INDEX_TARGETS.map(t => {
+      const d = indexData && indexData[t.symbol];
+      if(d && d.close){
+        const changeClass = d.change > 0 ? 'up' : (d.change < 0 ? 'down' : '');
+        const arrow = d.change > 0 ? '▲' : (d.change < 0 ? '▼' : '－');
+        const changeText = (d.change !== null && d.change !== undefined)
+          ? `${arrow} ${Math.abs(d.change).toFixed(2)} (${Math.abs(d.changePct).toFixed(2)}%)`
+          : '';
+        return `<div class="idx-card"><div class="idx-label">${t.label}</div><div class="idx-value">${d.close.toLocaleString('zh-Hant',{maximumFractionDigits:2})}</div><div class="idx-change ${changeClass}">${changeText}</div></div>`;
+      }
+      return `<div class="idx-card fallback"><div class="idx-label">${t.label}</div><a href="${t.fallbackUrl}" target="_blank" rel="noopener">查看即時指數 →</a></div>`;
+    }).join('');
+  }
+
+  function updateMarketTimestamp(text){
+    const el = document.getElementById('market-updated-note');
+    if(el) el.textContent = text;
+  }
+
+  async function fetchFxRates(){
+    try{
+      const res = await fetch('https://open.er-api.com/v6/latest/TWD');
+      if(!res.ok) throw new Error('fx fetch failed');
+      const json = await res.json();
+      if(json.result !== 'success' || !json.rates) throw new Error('fx bad response');
+      const out = {};
+      FX_TARGETS.forEach(t => {
+        const rateFromTwd = json.rates[t.code];
+        if(rateFromTwd) out[t.code] = 1 / rateFromTwd;
+      });
+      return out;
+    }catch(e){
+      console.warn('FX fetch failed', e);
+      return null;
+    }
+  }
+
+  async function fetchIndexData(){
+    try{
+      const symbols = INDEX_TARGETS.map(t => t.symbol).join(',');
+      const url = 'https://stooq.com/q/l/?s=' + encodeURIComponent(symbols) + '&f=sd2t2c2ohlc&h&e=csv';
+      const res = await fetch(url);
+      if(!res.ok) throw new Error('index fetch failed');
+      const text = await res.text();
+      const lines = text.trim().split('\n');
+      if(lines.length < 2) throw new Error('index no data');
+      const header = lines[0].split(',').map(h => h.trim().toLowerCase());
+      const closeIdx = header.indexOf('close');
+      const openIdx = header.indexOf('open');
+      const symbolIdx = header.indexOf('symbol');
+      const out = {};
+      for(let i = 1; i < lines.length; i++){
+        const cols = lines[i].split(',');
+        const sym = (cols[symbolIdx] || '').trim().toLowerCase();
+        const close = parseFloat(cols[closeIdx]);
+        const open = parseFloat(cols[openIdx]);
+        if(sym && !isNaN(close)){
+          const change = !isNaN(open) ? (close - open) : null;
+          const changePct = (!isNaN(open) && open !== 0) ? (change / open * 100) : null;
+          out[sym] = { close, change, changePct };
+        }
+      }
+      if(Object.keys(out).length === 0) throw new Error('index parse empty');
+      return out;
+    }catch(e){
+      console.warn('Index fetch failed', e);
+      return null;
+    }
+  }
+
+  async function refreshMarketData(){
+    updateMarketTimestamp('讀取中…');
+    const [fxData, indexData] = await Promise.all([fetchFxRates(), fetchIndexData()]);
+
+    const cache = loadMarketCache() || {};
+    const now = new Date();
+    const stamp = now.toLocaleString('zh-Hant', {hour12:false});
+
+    if(fxData){ cache.fx = fxData; cache.fxUpdatedAt = stamp; }
+    if(indexData){ cache.index = indexData; cache.indexUpdatedAt = stamp; }
+    saveMarketCache(cache);
+
+    renderFxCards(fxData || cache.fx);
+    renderIndexCards(indexData || cache.index);
+
+    if(fxData && indexData){
+      updateMarketTimestamp('最後更新：' + stamp);
+    } else if(!fxData && !indexData){
+      updateMarketTimestamp('連線失敗，已顯示可點擊的外部查詢連結（若有先前快取資料則同時顯示）');
+    } else {
+      updateMarketTimestamp('部分資料連線失敗，已用連結取代；成功部分最後更新：' + stamp);
+    }
+  }
+
+  // 頁面載入時，先用快取資料立即顯示，再嘗試背景重新整理
+  (function(){
+    const cache = loadMarketCache();
+    if(cache){
+      renderFxCards(cache.fx);
+      renderIndexCards(cache.index);
+      updateMarketTimestamp('顯示快取資料（' + (cache.fxUpdatedAt || cache.indexUpdatedAt || '未知時間') + '），正在重新整理…');
+    } else {
+      renderFxCards(null);
+      renderIndexCards(null);
+    }
+    refreshMarketData();
+  })();
 
   // ---- 特定日期提醒（依裝置實際日期判斷，每次開啟都會重新檢查） ----
   const SPECIAL_REMINDERS = [
