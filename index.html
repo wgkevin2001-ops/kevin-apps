@@ -442,6 +442,12 @@
     transition: background .15s ease, border-color .15s ease;
   }
   .cat-nav a:active{ background:var(--taxi); color:#1C1C1E; border-color:var(--taxi); }
+  .cat-nav a.nav-active{
+    background:var(--taxi);
+    color:#1C1C1E;
+    border-color:var(--taxi);
+    font-weight:900;
+  }
 
   .urgent-banner{
     max-width:1180px;
@@ -541,45 +547,6 @@
   }
   .special-reminder-item:last-child{ margin-bottom:0; }
   .special-reminder-item b{ font-size:14.5px; }
-
-  .fx-card, .idx-card{
-    background:var(--card);
-    border:1px solid var(--line);
-    border-radius:10px;
-    padding:12px 14px;
-    text-align:center;
-  }
-  .fx-card .fx-label, .idx-card .idx-label{
-    font-family:'Noto Sans Mono', monospace;
-    font-size:11px;
-    color:var(--ink-soft);
-    margin-bottom:4px;
-  }
-  .fx-card .fx-value, .idx-card .idx-value{
-    font-family:'Noto Sans Mono', monospace;
-    font-size:19px;
-    font-weight:700;
-    color:var(--ink);
-  }
-  .idx-card .idx-change{
-    font-family:'Noto Sans Mono', monospace;
-    font-size:12px;
-    margin-top:3px;
-    font-weight:700;
-  }
-  .idx-change.up{ color:#5FBF7A; }
-  .idx-change.down{ color:var(--stamp); }
-  .fx-card.fallback, .idx-card.fallback{
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-  }
-  .fx-card.fallback a, .idx-card.fallback a{
-    color:var(--taxi);
-    font-size:12px;
-    font-family:'Noto Sans Mono', monospace;
-    text-decoration:underline;
-  }
   .urgent-banner-title{
     color:#fff;
     font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;
@@ -1159,7 +1126,6 @@
     <a href="#col-todo">📋 待辦</a>
     <a href="#taxi-section">🚕 計程車</a>
     <a href="#stock-section">📈 存股配息</a>
-    <a href="#market-section">💹 匯率股市</a>
     <a href="#fareast-hospital-section">🏥 醫院回診</a>
     <a href="#creditcard-section">📒 信用卡</a>
     <a href="#routine-payment-section">📋 例行付款</a>
@@ -1168,6 +1134,8 @@
     <a href="#files-section">📁 檔案位置</a>
     <a href="#memo-section">📝 備忘錄</a>
     <a href="#consumption-section">⛽ 消費情報</a>
+    <a href="#insurance-section">🛡️ 保險保單</a>
+    <a href="#tax-calendar-section">🧾 稅務行事曆</a>
   </div>
 </div>
 
@@ -1266,7 +1234,24 @@
       <button class="export-btn" onclick="sortCards('days')">🗓️ 依到期日排序</button>
     </div>
 
-    <div id="subscription-todo-cards-mount"></div>
+    <div class="card lvl-green" data-key="claude-pro-sub" data-cat="訂閱" data-days="286">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-subscription">訂閱</span>
+      <div class="tag">Claude Pro（Anthropic）· Google Play訂閱</div>
+      <h3>🤖 Claude Pro 續訂</h3>
+      <div class="date">2027.05.01 <span class="days">倒數 286 天</span></div>
+      <p class="note">NT$7,450/年，自動續訂中。若要取消，須在扣款日前處理。</p>
+      <div class="docs"><b>取消步驟：</b>Google Play商店 → 頭像 → 付款和訂閱 → 訂閱項目 → Claude by Anthropic → 取消訂閱。取消後仍可用到當期到期為止。</div>
+    </div>
+
+    <div class="card lvl-amber" data-key="ark-sub" data-cat="訂閱" data-days="121">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-subscription">訂閱</span>
+      <div class="tag">定期定額扣款中 · 帳號A05871</div>
+      <h3>📈 方舟運算×退休系統（黃金未來）</h3>
+      <div class="date">2026.11.17 <span class="days">倒數 121 天</span></div>
+      <p class="note">NT$5,388/期，1年方案，會員帳號：wgkevin2001@gmail.com。</p>
+    </div>
 
     <div class="card lvl-amber" data-key="mandatory-insurance" data-cat="保險" data-days="283">
       <span class="check" onclick="toggleDone(this)"></span>
@@ -1317,18 +1302,13 @@
       <span class="done-date"></span>
     </div>
 
-    <div class="card lvl-red" data-key="photo-prep" data-cat="證照" data-days="35">
+    <div class="card lvl-amber" data-key="photo-prep" data-cat="證照" data-days="9999">
       <span class="check" onclick="toggleDone(this)"></span>
       <span class="cat cat-license">證照</span>
       <div class="tag">大頭照準備</div>
       <h3>駕照換照用照片準備</h3>
-      <div class="date">建議 2026.08.20 前完成 <span class="days">倒數 35 天</span></div>
-      <p class="note">⚠️ 已確認本次為駕照「換照」（非單純審驗），配合8/20可開始受理，建議提前拍好，近照且不可與舊證件照相同。</p>
-      <div class="docs">
-        <b>駕照換照（六年一次）：</b>一寸照片 3張（2張體檢用、1張換證用），費用200元，須本人親自前往<br>
-        <b>執業登記證換證（三年一次，若同期換證）：</b>白底2寸照片 2張，費用200元，須本人親自前往<br>
-        ⚠️ 若執業登記證這次只是年度審驗（非換證），則不需照片
-      </div>
+      <div class="date">2026.08.21 <span class="days">處理中</span></div>
+      <p class="note">已拍好一寸與二寸照片，待換照／換證時使用。</p>
     </div>
 
     <div class="card lvl-red" data-key="tw-mobile-lottery-signup" data-cat="電信" data-days="9">
@@ -1340,76 +1320,31 @@
       <p class="note">399方案續約加碼「電子禮券+抽獎」，8/25 晚上8點才開放登記，不是截止日，記得那時間點上網登記。</p>
     </div>
 
-    <div class="card lvl-red" data-key="shennei-slow-sign" data-cat="醫療" data-days="16">
+    <div class="card is-done" data-key="shennei-slow-sign" data-cat="醫療" data-completed="2026-08-06">
       <span class="check" onclick="toggleDone(this)"></span>
       <span class="cat cat-medical">醫療</span>
       <div class="tag">神經內科</div>
       <h3>血壓藥慢箋記得拿</h3>
-      <div class="date">2026.08.06 <span class="days">倒數 16 天</span></div>
+      <div class="date">2026.08.06 <span class="days">已領取</span></div>
     </div>
 
-    <div class="card lvl-red" data-key="yingge-ad-removal" data-cat="租屋" data-days="4">
+    <div class="card is-done" data-key="yingge-ad-removal" data-cat="租屋" data-completed="2026-08-21">
       <span class="check" onclick="toggleDone(this)"></span>
       <span class="cat cat-rental">租屋</span>
       <div class="tag">新北市違章建築拆除大隊 · 02-2207-5911</div>
       <h3>鶯歌中山路違規廣告物拆除</h3>
-      <div class="date">自行拆除期限（推估）2026.08.13 <span class="days">倒數 4 天</span></div>
-      <p class="note">鶯歌區中山路129之2號，2件招牌廣告（正面）認定為高風險違規廣告物，支架鏽蝕/扭曲/歪斜。認定通知書發文日115年07月30日（2026/07/30），文到次日起14日內須自行拆除或改善，逾期未處理將於<b>115年08月31日（2026/08/31）強制拆除</b>，材料需自行清除否則視同廢棄物處理。</p>
-      <div class="docs"><b>公文文號：</b>
-        (1) 新北拆廣字第1152223369號<br>
-        (2) 新北拆廣字第1152223371號
-      </div>
-      <div class="docs"><b>建議處理方式：</b>
-        1. 確認公文實際送達日，精算14日自行拆除期限（此處8/13為概估，以送達日為準）<br>
-        2. 若要自行拆除，須先聯繫拆除大隊（02-2207-5911）派員到場拍照存證再拆，才能辦理結案<br>
-        3. 拆除後材料務必當天自行清運，避免被視為廢棄物追加處理<br>
-        4. 若對處分書有異議，需於送達次日起30日內備妥訴願書提出訴願<br>
-        5. 若不處理，8/31起大隊會強制拆除，屆時可能產生額外費用或行政程序<br>
-        <b>法源：</b>行政執行法第36條、建築法第81條、違章建築處理辦法第5/7/8條
-      </div>
-      <div class="docs"><b>🔨 拆除廠商：</b>達振拆除工程 搬遷服務（拆除工程／裝潢拆除／招牌拆除）<br>聯繫方式：LINE（語音／視訊通話皆可）</div>
+      <div class="date">2026.08.21 <span class="days">已完成拆除</span></div>
+      <p class="note">鶯歌區中山路129之2號，2件招牌廣告（正面）已完成自行拆除，結案。</p>
     </div>
 
-    <div class="card lvl-amber" id="maintenance-widget-card" data-key="maintenance-tw-tool" data-cat="車輛" data-days="9999" data-always-show="1">
+    <div class="card lvl-amber" data-key="maintenance-tw" data-cat="車輛" data-days="9999" data-always-show="1">
+      <span class="check" onclick="toggleDone(this)"></span>
       <span class="cat cat-vehicle">車輛</span>
       <div class="tag">台灣大保養廠</div>
-      <h3>🔧 TDZ-0950 里程保養週期</h3>
-
-      <div style="display:flex; gap:10px; flex-wrap:wrap; margin:10px 0;">
-        <div style="flex:1 1 130px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 12px;">
-          <div style="font-size:11px; color:var(--ink-soft); font-family:'Noto Sans Mono', monospace;">下次保養里程</div>
-          <div id="mnt-next-target" style="font-size:19px; font-weight:900; font-family:'Noto Sans Mono', monospace; color:var(--taxi-deep);">—</div>
-        </div>
-        <div style="flex:1 1 130px; background:var(--card); border:1px solid var(--line); border-radius:10px; padding:10px 12px;">
-          <div style="font-size:11px; color:var(--ink-soft); font-family:'Noto Sans Mono', monospace;">目前里程 / 差距</div>
-          <div id="mnt-remaining" style="font-size:19px; font-weight:900; font-family:'Noto Sans Mono', monospace;">—</div>
-        </div>
-      </div>
-
-      <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; background:var(--card); border:1px solid var(--line); border-radius:12px; padding:10px; margin-bottom:10px;">
-        <input type="date" id="mnt-input-date" style="flex:1 1 140px; min-width:130px; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:'Noto Sans Mono', monospace;">
-        <input type="number" id="mnt-input-mileage" placeholder="目前里程" style="flex:1 1 110px; min-width:100px; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:'Noto Sans Mono', monospace;">
-        <button type="button" class="export-btn export-btn-solid" style="flex:0 0 auto; padding:8px 14px;" onclick="updateCurrentMileage()">更新里程</button>
-      </div>
-
-      <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:10px;">
-        <button type="button" class="export-btn export-btn-solid" style="flex:1 1 auto; background:var(--taxi); color:#1C1C1E; font-weight:700;" onclick="completeMaintenance()">✅ 完成本次保養（自動累加下一次目標）</button>
-      </div>
-
-      <p class="note" id="mnt-context-note">車牌 TDZ-0950。保養週期預設每 <span id="mnt-interval-display">5,000</span> 公里一次，完成保養後會自動累加至下一次目標，不需手動計算。</p>
-
-      <details style="margin-top:8px;">
-        <summary style="cursor:pointer; font-size:12.5px; color:var(--ink-soft); font-family:'Noto Sans Mono', monospace;">⚙️ 調整保養週期公里數 / 查看保養歷史</summary>
-        <div style="margin-top:10px; display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
-          <span style="font-size:12.5px; color:var(--ink-soft);">保養週期：</span>
-          <input type="number" id="mnt-interval-input" style="width:90px; padding:6px 8px; border-radius:8px; border:1px solid var(--line); background:var(--bg); color:var(--ink); font-family:'Noto Sans Mono', monospace;">
-          <span style="font-size:12.5px; color:var(--ink-soft);">公里</span>
-          <button type="button" class="export-btn" style="padding:6px 12px; font-size:12px;" onclick="updateMaintenanceInterval()">儲存</button>
-        </div>
-        <div id="mnt-history-list" style="margin-top:12px;"></div>
-      </details>
-
-      <div class="docs" style="margin-top:10px;"><b>🎁 8月尖峰任務獎勵（55688）：</b>早尖峰(07:00–08:59)或晚尖峰(17:00–18:59)任一時段月達50趟，即可領1,580元愛車保養券，完成任一時段任務即可領券。<br>另有GOODYEAR輪胎優惠：買2條輪胎可用1張1,580元保養券折抵。</div>
+      <h3>TDZ-0950 里程保養</h3>
+      <div class="date">目標里程 305,592 <span class="days">還差 5,235 公里</span></div>
+      <p class="note">車牌 TDZ-0950，今日（2026.08.02）里程 300,357，尚未達保養里程，但已提前安排。<b>已排定：8/5（三）11:00–13:00 前往台灣大保養</b>（利用當天跳過十全鵝肉打工的空檔）。</p>
+      <div class="docs"><b>🎁 8月尖峰任務獎勵（55688）：</b>早尖峰(07:00–08:59)或晚尖峰(17:00–18:59)任一時段月達50趟，即可領1,580元愛車保養券，完成任一時段任務即可領券。<br>另有GOODYEAR輪胎優惠：買2條輪胎可用1張1,580元保養券折抵。</div>
     </div>
 
     <div class="card lvl-green" data-key="taiwanda-maintenance-locations" data-cat="車輛" data-days="9999" data-always-show="1">
@@ -1428,12 +1363,12 @@
       </div>
     </div>
 
-    <div class="card lvl-red" data-key="counseling-appt" data-cat="醫療" data-days="21">
+    <div class="card is-done" data-key="counseling-appt" data-cat="醫療" data-completed="2026-08-06">
       <span class="check" onclick="toggleDone(this)"></span>
       <span class="cat cat-medical">醫療</span>
       <div class="tag">亞東紀念醫院</div>
       <h3>周醫師心理諮商</h3>
-      <div class="date">2026.08.06 09:00 <span class="days">倒數 21 天</span></div>
+      <div class="date">2026.08.06 09:00 <span class="days">已完成諮商</span></div>
       <p class="note">費用 NT$1,500。</p>
     </div>
 
@@ -1758,28 +1693,6 @@
 
 <div class="ledger-divider"></div>
 
-<div class="ledger" id="market-section">
-  <div class="col-head" style="flex-wrap:wrap;">
-    <span class="dot dot-neutral"></span>
-    <h2>💹 匯率與股市指數</h2>
-    <button type="button" class="export-btn" style="margin-left:auto;" onclick="refreshMarketData()">🔄 重新整理</button>
-  </div>
-  <div class="ledger-sub" id="market-updated-note" style="margin:-6px 0 14px;">尚未載入</div>
-
-  <div style="font-family:'Noto Sans Mono', monospace; font-size:11.5px; color:var(--ink-soft); margin-bottom:8px; letter-spacing:.05em;">匯率（兌台幣）</div>
-  <div id="fx-cards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:10px; margin-bottom:20px;"></div>
-
-  <div style="font-family:'Noto Sans Mono', monospace; font-size:11.5px; color:var(--ink-soft); margin-bottom:8px; letter-spacing:.05em;">股市指數</div>
-  <div id="index-cards" style="display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:10px;"></div>
-
-  <p style="margin-top:14px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft); line-height:1.7;">
-    匯率資料來源 open.er-api.com（每日更新）；股市指數資料來源 stooq.com（可能有 15–20 分鐘延遲）。<br>
-    此看板為純靜態網頁，需裝置能連上外部 API 才能取得資料；若擷取失敗，會改顯示可直接點擊查看的外部連結。
-  </p>
-</div>
-
-<div class="ledger-divider"></div>
-
 <div class="ledger" id="fareast-hospital-section">
   <div class="col-head">
     <span class="dot dot-neutral"></span>
@@ -1825,8 +1738,10 @@
   <details class="ledger-month-group">
     <summary>神經醫學部　<span class="ledger-month-count">1筆回診</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">9/10</span><span class="cd-val">李少白醫師，F203診間，就診號13</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">用藥</span><span class="cd-val" style="color:var(--ink-soft);">尚無紀錄</span></span>
+      <span class="cd-row"><span class="cd-label">9/10</span><span class="cd-val">李少白醫師，F203診間，就診號13（上午）</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">可得安穩</span><span class="cd-val">x1，每日一顆</span></span>
+      <span class="cd-row"><span class="cd-label">脈優</span><span class="cd-val">x1，每日一顆</span></span>
+      <span class="cd-row"><span class="cd-label">葉酸</span><span class="cd-val">x1，每日一顆</span></span>
     </div>
   </details>
 
@@ -1936,7 +1851,7 @@
     <span class="c-amount"></span>
   </div>
 
-  <ul class="ledger-list" id="routine-payment-list">
+  <ul class="ledger-list">
     <li class="contract-row" style="flex-direction:column; align-items:stretch;">
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
@@ -2012,48 +1927,6 @@
         <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">NT$15,000／年</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
-        <div>
-          <span class="cat cat-insurance">保險</span>
-          <span class="c-name">🚕 富邦產物－強制險</span>
-        </div>
-        <span class="c-amount"></span>
-      </div>
-      <div class="contract-detail">
-        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.04.25</span></span>
-        <span class="cd-row"><span class="cd-label">窗口</span><span class="cd-val">富邦產物 0800-009888</span></span>
-        <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">－（未提供）</span></span>
-      </div>
-    </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
-        <div>
-          <span class="cat cat-insurance">保險</span>
-          <span class="c-name">🚕 新安東京海上－任意險</span>
-        </div>
-        <span class="c-amount">NT$19,047/年</span>
-      </div>
-      <div class="contract-detail">
-        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.05.03</span></span>
-        <span class="cd-row"><span class="cd-label">窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
-        <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">NT$19,047／年</span></span>
-      </div>
-    </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
-        <div>
-          <span class="cat cat-insurance">保險</span>
-          <span class="c-name">🚕 新安東京海上－旅客運送責任險</span>
-        </div>
-        <span class="c-amount"></span>
-      </div>
-      <div class="contract-detail">
-        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2026.09.30</span></span>
-        <span class="cd-row"><span class="cd-label">窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
-        <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">－（未提供）</span></span>
-      </div>
-    </li>
     <li class="contract-row">
       <div>
         <span class="cat cat-parking">停車</span>
@@ -2063,6 +1936,8 @@
       <span class="c-amount">NT$8,000/季</span>
     </li>
   </ul>
+
+  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">📌 車險（強制險／任意險／旅客運送責任險）已整併到下方「🛡️ 保險保單管理」專區集中管理，避免重複。</p>
 
   <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 此區塊資料由您手動維護，若合約內容有異動，記得回來這裡更新。訂閱類項目已移至待辦事項區塊，含倒數天數。</p>
 </div>
@@ -2259,6 +2134,129 @@
 
     <div class="ledger-total" style="margin-top:10px;" id="fuel-total-display">累計加油總額：NT$0</div>
   </div>
+</div>
+
+<div class="ledger-divider"></div>
+
+<div class="ledger" id="insurance-section">
+  <div class="col-head">
+    <span class="dot dot-neutral"></span>
+    <h2>🛡️ 保險保單管理</h2>
+    <span class="count">3</span>
+  </div>
+  <div class="ledger-sub" style="margin:-6px 0 16px;">車險、產險等保單整理　｜　到期前記得續保，資料手動維護</div>
+
+  <ul class="ledger-list">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-insurance">保險</span>
+          <span class="c-name">🚕 富邦產物－強制險</span>
+        </div>
+        <span class="c-amount">－（未提供）</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">汽車強制責任險</span></span>
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.04.25</span></span>
+        <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">富邦產物 0800-009888</span></span>
+        <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">法定強制投保，逾期未保不得上路</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-insurance">保險</span>
+          <span class="c-name">🚕 新安東京海上－任意險</span>
+        </div>
+        <span class="c-amount">NT$19,047/年</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">汽車任意第三人責任險</span></span>
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.05.03</span></span>
+        <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-insurance">保險</span>
+          <span class="c-name">🚕 新安東京海上－旅客運送責任險</span>
+        </div>
+        <span class="c-amount">－（未提供）</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">旅客運送責任保險</span></span>
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2026.09.30</span></span>
+        <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
+      </div>
+    </li>
+  </ul>
+
+  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">📌 此區塊整理自「例行性付款合約」中的保險項目，方便集中管理續保時間。若有人身壽險、醫療險等其他保單，也可比照格式加入。</p>
+</div>
+
+<div class="ledger-divider"></div>
+
+<div class="ledger" id="tax-calendar-section">
+  <div class="col-head">
+    <span class="dot dot-neutral"></span>
+    <h2>🧾 年度稅務行事曆</h2>
+    <span class="count">6</span>
+  </div>
+  <div class="ledger-sub" style="margin:-6px 0 16px;">常見稅目繳納／申報期間參考　｜　實際以國稅局／地方稅稽徵機關公告為準</div>
+
+  <ul class="ledger-list">
+    <li class="contract-row">
+      <div>
+        <span class="cat cat-tax">稅務</span>
+        <span class="c-name">🚗 使用牌照稅</span>
+        <span class="c-note">每年4月1日～4月30日繳納</span>
+      </div>
+      <span class="c-amount"></span>
+    </li>
+    <li class="contract-row">
+      <div>
+        <span class="cat cat-tax">稅務</span>
+        <span class="c-name">⛽ 燃料使用費</span>
+        <span class="c-note">隨牌照稅一併開徵，每年4月</span>
+      </div>
+      <span class="c-amount"></span>
+    </li>
+    <li class="contract-row">
+      <div>
+        <span class="cat cat-tax">稅務</span>
+        <span class="c-name">🏠 地價稅</span>
+        <span class="c-note">每年11月1日～11月30日繳納</span>
+      </div>
+      <span class="c-amount"></span>
+    </li>
+    <li class="contract-row">
+      <div>
+        <span class="cat cat-tax">稅務</span>
+        <span class="c-name">🏠 房屋稅</span>
+        <span class="c-note">每年5月1日～5月31日繳納</span>
+      </div>
+      <span class="c-amount"></span>
+    </li>
+    <li class="contract-row">
+      <div>
+        <span class="cat cat-tax">稅務</span>
+        <span class="c-name">📄 綜合所得稅申報</span>
+        <span class="c-note">每年5月1日～5月31日申報</span>
+      </div>
+      <span class="c-amount"></span>
+    </li>
+    <li class="contract-row">
+      <div>
+        <span class="cat cat-tax">稅務</span>
+        <span class="c-name">🏢 營業稅（雙月申報）</span>
+        <span class="c-note">單數月15日前申報上兩月營業額</span>
+      </div>
+      <span class="c-amount"></span>
+    </li>
+  </ul>
+
+  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">📌 此為一般性稅務期程參考，非個人專屬繳款金額。若需個人化提醒（例如加入待辦事項倒數），可以再手動加進「📋 待辦」區塊。</p>
 </div>
 
 
@@ -2468,330 +2466,6 @@
 
   renderNextPayout('current');
 
-  // ---- 車輛里程保養週期追蹤（可累加） ----
-  const MNT_KEY = 'vehicle-maintenance-v1';
-
-  function loadMaintenanceData(){
-    try{
-      const raw = localStorage.getItem(MNT_KEY);
-      if(raw) return JSON.parse(raw);
-    }catch(e){}
-    // 預設初始值（依看板既有紀錄）：上次保養基準 300,592（=305,592 目標 - 5,000 週期），
-    // 目前里程 300,357（2026.08.02 紀錄）
-    return {
-      intervalKm: 5000,
-      lastServiceMileage: 300592,
-      lastServiceDate: null,
-      currentMileage: 300357,
-      currentMileageDate: '2026-08-02',
-      history: []
-    };
-  }
-
-  function saveMaintenanceData(data){
-    localStorage.setItem(MNT_KEY, JSON.stringify(data));
-  }
-
-  function renderMaintenanceWidget(){
-    const data = loadMaintenanceData();
-    const nextTarget = data.lastServiceMileage + data.intervalKm;
-    const remaining = nextTarget - data.currentMileage;
-
-    const targetEl = document.getElementById('mnt-next-target');
-    const remainEl = document.getElementById('mnt-remaining');
-    const intervalDisplay = document.getElementById('mnt-interval-display');
-    const intervalInput = document.getElementById('mnt-interval-input');
-    const dateInput = document.getElementById('mnt-input-date');
-    const mileageInput = document.getElementById('mnt-input-mileage');
-    const historyList = document.getElementById('mnt-history-list');
-
-    if(targetEl) targetEl.textContent = nextTarget.toLocaleString('zh-Hant');
-    if(remainEl){
-      if(remaining >= 0){
-        remainEl.textContent = data.currentMileage.toLocaleString('zh-Hant') + ' ／ 還差 ' + remaining.toLocaleString('zh-Hant');
-        remainEl.style.color = 'var(--ink)';
-      } else {
-        remainEl.textContent = data.currentMileage.toLocaleString('zh-Hant') + ' ／ 已超過 ' + Math.abs(remaining).toLocaleString('zh-Hant');
-        remainEl.style.color = 'var(--stamp)';
-      }
-    }
-    if(intervalDisplay) intervalDisplay.textContent = data.intervalKm.toLocaleString('zh-Hant');
-    if(intervalInput) intervalInput.value = data.intervalKm;
-    if(dateInput && !dateInput.value) dateInput.value = data.currentMileageDate || todayISO();
-    if(mileageInput) mileageInput.value = data.currentMileage;
-
-    if(historyList){
-      if(!data.history || data.history.length === 0){
-        historyList.innerHTML = '<p style="font-size:12px; color:var(--ink-soft); font-family:\'Noto Sans Mono\', monospace;">尚無保養紀錄</p>';
-      } else {
-        const rows = [...data.history].reverse().map(h =>
-          '<div style="display:flex; justify-content:space-between; font-size:12.5px; font-family:\'Noto Sans Mono\', monospace; padding:6px 0; border-bottom:1px solid var(--line);">' +
-          '<span>' + h.date + '</span><span>里程 ' + h.mileage.toLocaleString('zh-Hant') + '</span></div>'
-        ).join('');
-        historyList.innerHTML = rows;
-      }
-    }
-  }
-
-  function updateCurrentMileage(){
-    const dateInput = document.getElementById('mnt-input-date');
-    const mileageInput = document.getElementById('mnt-input-mileage');
-    const mileage = parseInt(mileageInput.value, 10);
-    if(!mileage || mileage <= 0){ alert('請輸入有效的里程數'); return; }
-
-    const data = loadMaintenanceData();
-    data.currentMileage = mileage;
-    data.currentMileageDate = dateInput.value || todayISO();
-    saveMaintenanceData(data);
-    renderMaintenanceWidget();
-  }
-
-  function updateMaintenanceInterval(){
-    const intervalInput = document.getElementById('mnt-interval-input');
-    const interval = parseInt(intervalInput.value, 10);
-    if(!interval || interval <= 0){ alert('請輸入有效的公里數'); return; }
-
-    const data = loadMaintenanceData();
-    data.intervalKm = interval;
-    saveMaintenanceData(data);
-    renderMaintenanceWidget();
-  }
-
-  function completeMaintenance(){
-    const data = loadMaintenanceData();
-    if(!confirm('確定要標記本次保養完成嗎？將以目前里程（' + data.currentMileage.toLocaleString('zh-Hant') + '）為基準，自動累加至下一次保養目標。')) return;
-
-    data.history = data.history || [];
-    data.history.push({ date: data.currentMileageDate || todayISO(), mileage: data.currentMileage });
-    data.lastServiceMileage = data.currentMileage;
-    data.lastServiceDate = data.currentMileageDate || todayISO();
-    saveMaintenanceData(data);
-    renderMaintenanceWidget();
-    alert('已記錄！下一次保養目標已自動累加為 ' + (data.lastServiceMileage + data.intervalKm).toLocaleString('zh-Hant') + ' 公里。');
-  }
-
-  renderMaintenanceWidget();
-
-  // ---- 訂閱項目：單一資料來源，同步顯示在「待辦事項」與「例行性付款合約」兩處 ----
-  const SUBSCRIPTIONS = [
-    {
-      key: 'claude-pro-sub',
-      icon: '🤖',
-      name: 'Claude Pro 續訂',
-      provider: 'Claude Pro（Anthropic）· Google Play訂閱',
-      amount: 'NT$7,450/年',
-      dueDate: '2027.05.01',
-      days: 286,
-      level: 'lvl-green',
-      note: 'NT$7,450/年，自動續訂中。若要取消，須在扣款日前處理。',
-      cancelSteps: 'Google Play商店 → 頭像 → 付款和訂閱 → 訂閱項目 → Claude by Anthropic → 取消訂閱。取消後仍可用到當期到期為止。'
-    },
-    {
-      key: 'ark-sub',
-      icon: '📈',
-      name: '方舟運算×退休系統（黃金未來）',
-      provider: '定期定額扣款中 · 帳號A05871',
-      amount: 'NT$5,388/期',
-      dueDate: '2026.11.17',
-      days: 121,
-      level: 'lvl-amber',
-      note: 'NT$5,388/期，1年方案，會員帳號：wgkevin2001@gmail.com。目前暫無可升級為更長使用期間的方案。',
-      cancelSteps: ''
-    },
-  ];
-
-  function renderSubscriptionTodoCards(){
-    const mount = document.getElementById('subscription-todo-cards-mount');
-    if(!mount) return;
-    mount.innerHTML = SUBSCRIPTIONS.map(s => `
-      <div class="card ${s.level}" data-key="${s.key}" data-cat="訂閱" data-days="${s.days}">
-        <span class="check" onclick="toggleDone(this)"></span>
-        <span class="cat cat-subscription">訂閱</span>
-        <div class="tag">${s.provider}</div>
-        <h3>${s.icon} ${s.name}</h3>
-        <div class="date">${s.dueDate} <span class="days">倒數 ${s.days} 天</span></div>
-        <p class="note">${s.note}</p>
-        ${s.cancelSteps ? `<div class="docs"><b>取消步驟：</b>${s.cancelSteps}</div>` : ''}
-      </div>
-    `).join('');
-  }
-
-  function renderSubscriptionLedgerRows(){
-    const list = document.getElementById('routine-payment-list');
-    if(!list) return;
-    const html = SUBSCRIPTIONS.map(s => `
-      <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-sub-key="${s.key}">
-        <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
-          <div>
-            <span class="cat cat-subscription">訂閱</span>
-            <span class="c-name">${s.icon} ${s.name}</span>
-          </div>
-          <span class="c-amount">${s.amount}</span>
-        </div>
-        <div class="contract-detail">
-          <span class="cd-row"><span class="cd-label">帳號</span><span class="cd-val">${s.provider}</span></span>
-          <span class="cd-row"><span class="cd-label">下次扣款</span><span class="cd-val">${s.dueDate}（倒數 ${s.days} 天）</span></span>
-          <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">${s.note}</span></span>
-        </div>
-      </li>
-    `).join('');
-    list.insertAdjacentHTML('beforeend', html);
-  }
-
-  renderSubscriptionTodoCards();
-  renderSubscriptionLedgerRows();
-
-  // ---- 匯率與股市指數 ----
-  const MARKET_CACHE_KEY = 'market-data-cache-v1';
-
-  const FX_TARGETS = [
-    { code: 'USD', label: '美元 USD' },
-    { code: 'JPY', label: '日圓 JPY' },
-    { code: 'CNY', label: '人民幣 CNY' },
-  ];
-
-  const INDEX_TARGETS = [
-    { symbol: '^twii', label: '台股加權指數', fallbackUrl: 'https://tw.stock.yahoo.com/quote/%5ETWII' },
-    { symbol: '^dji', label: '道瓊工業指數', fallbackUrl: 'https://tw.stock.yahoo.com/quote/%5EDJI' },
-    { symbol: '^ndq', label: '那斯達克指數', fallbackUrl: 'https://tw.stock.yahoo.com/quote/%5EIXIC' },
-    { symbol: '^spx', label: 'S&P 500', fallbackUrl: 'https://tw.stock.yahoo.com/quote/%5EGSPC' },
-  ];
-
-  function loadMarketCache(){
-    try{
-      const raw = localStorage.getItem(MARKET_CACHE_KEY);
-      if(raw) return JSON.parse(raw);
-    }catch(e){}
-    return null;
-  }
-
-  function saveMarketCache(data){
-    try{ localStorage.setItem(MARKET_CACHE_KEY, JSON.stringify(data)); }catch(e){}
-  }
-
-  function renderFxCards(fxData){
-    const container = document.getElementById('fx-cards');
-    if(!container) return;
-    container.innerHTML = FX_TARGETS.map(t => {
-      const val = fxData && fxData[t.code];
-      if(val){
-        return `<div class="fx-card"><div class="fx-label">${t.label}</div><div class="fx-value">${val.toFixed(2)}</div></div>`;
-      }
-      return `<div class="fx-card fallback"><div class="fx-label">${t.label}</div><a href="https://www.google.com/search?q=${t.code}+to+TWD" target="_blank" rel="noopener">查看即時匯率 →</a></div>`;
-    }).join('');
-  }
-
-  function renderIndexCards(indexData){
-    const container = document.getElementById('index-cards');
-    if(!container) return;
-    container.innerHTML = INDEX_TARGETS.map(t => {
-      const d = indexData && indexData[t.symbol];
-      if(d && d.close){
-        const changeClass = d.change > 0 ? 'up' : (d.change < 0 ? 'down' : '');
-        const arrow = d.change > 0 ? '▲' : (d.change < 0 ? '▼' : '－');
-        const changeText = (d.change !== null && d.change !== undefined)
-          ? `${arrow} ${Math.abs(d.change).toFixed(2)} (${Math.abs(d.changePct).toFixed(2)}%)`
-          : '';
-        return `<div class="idx-card"><div class="idx-label">${t.label}</div><div class="idx-value">${d.close.toLocaleString('zh-Hant',{maximumFractionDigits:2})}</div><div class="idx-change ${changeClass}">${changeText}</div></div>`;
-      }
-      return `<div class="idx-card fallback"><div class="idx-label">${t.label}</div><a href="${t.fallbackUrl}" target="_blank" rel="noopener">查看即時指數 →</a></div>`;
-    }).join('');
-  }
-
-  function updateMarketTimestamp(text){
-    const el = document.getElementById('market-updated-note');
-    if(el) el.textContent = text;
-  }
-
-  async function fetchFxRates(){
-    try{
-      const res = await fetch('https://open.er-api.com/v6/latest/TWD');
-      if(!res.ok) throw new Error('fx fetch failed');
-      const json = await res.json();
-      if(json.result !== 'success' || !json.rates) throw new Error('fx bad response');
-      const out = {};
-      FX_TARGETS.forEach(t => {
-        const rateFromTwd = json.rates[t.code];
-        if(rateFromTwd) out[t.code] = 1 / rateFromTwd;
-      });
-      return out;
-    }catch(e){
-      console.warn('FX fetch failed', e);
-      return null;
-    }
-  }
-
-  async function fetchIndexData(){
-    try{
-      const symbols = INDEX_TARGETS.map(t => t.symbol).join(',');
-      const url = 'https://stooq.com/q/l/?s=' + encodeURIComponent(symbols) + '&f=sd2t2c2ohlc&h&e=csv';
-      const res = await fetch(url);
-      if(!res.ok) throw new Error('index fetch failed');
-      const text = await res.text();
-      const lines = text.trim().split('\n');
-      if(lines.length < 2) throw new Error('index no data');
-      const header = lines[0].split(',').map(h => h.trim().toLowerCase());
-      const closeIdx = header.indexOf('close');
-      const openIdx = header.indexOf('open');
-      const symbolIdx = header.indexOf('symbol');
-      const out = {};
-      for(let i = 1; i < lines.length; i++){
-        const cols = lines[i].split(',');
-        const sym = (cols[symbolIdx] || '').trim().toLowerCase();
-        const close = parseFloat(cols[closeIdx]);
-        const open = parseFloat(cols[openIdx]);
-        if(sym && !isNaN(close)){
-          const change = !isNaN(open) ? (close - open) : null;
-          const changePct = (!isNaN(open) && open !== 0) ? (change / open * 100) : null;
-          out[sym] = { close, change, changePct };
-        }
-      }
-      if(Object.keys(out).length === 0) throw new Error('index parse empty');
-      return out;
-    }catch(e){
-      console.warn('Index fetch failed', e);
-      return null;
-    }
-  }
-
-  async function refreshMarketData(){
-    updateMarketTimestamp('讀取中…');
-    const [fxData, indexData] = await Promise.all([fetchFxRates(), fetchIndexData()]);
-
-    const cache = loadMarketCache() || {};
-    const now = new Date();
-    const stamp = now.toLocaleString('zh-Hant', {hour12:false});
-
-    if(fxData){ cache.fx = fxData; cache.fxUpdatedAt = stamp; }
-    if(indexData){ cache.index = indexData; cache.indexUpdatedAt = stamp; }
-    saveMarketCache(cache);
-
-    renderFxCards(fxData || cache.fx);
-    renderIndexCards(indexData || cache.index);
-
-    if(fxData && indexData){
-      updateMarketTimestamp('最後更新：' + stamp);
-    } else if(!fxData && !indexData){
-      updateMarketTimestamp('連線失敗，已顯示可點擊的外部查詢連結（若有先前快取資料則同時顯示）');
-    } else {
-      updateMarketTimestamp('部分資料連線失敗，已用連結取代；成功部分最後更新：' + stamp);
-    }
-  }
-
-  // 頁面載入時，先用快取資料立即顯示，再嘗試背景重新整理
-  (function(){
-    const cache = loadMarketCache();
-    if(cache){
-      renderFxCards(cache.fx);
-      renderIndexCards(cache.index);
-      updateMarketTimestamp('顯示快取資料（' + (cache.fxUpdatedAt || cache.indexUpdatedAt || '未知時間') + '），正在重新整理…');
-    } else {
-      renderFxCards(null);
-      renderIndexCards(null);
-    }
-    refreshMarketData();
-  })();
-
   // ---- 特定日期提醒（依裝置實際日期判斷，每次開啟都會重新檢查） ----
   const SPECIAL_REMINDERS = [
     { month: 8, day: 24, title: '台灣大哥大登記抽獎', note: '明天（8/25）20:00 開放登記，記得準時上網登記，逾期視同放棄。' },
@@ -2981,11 +2655,6 @@
   applyLocalState();
   applyTodoFilter();
   renderUrgentBanner();
-
-  // 清除舊版「TDZ-0950 里程保養」卡片遺留的已完成標記
-  // （該卡片已於改版後拿掉勾選框，改為常駐互動工具，不應再被視為可完成的待辦）
-  localStorage.removeItem('todo-maintenance-tw');
-  localStorage.removeItem('donedate-maintenance-tw');
 
   function renderUrgentBanner(){
     const banner = document.getElementById('urgent-banner');
@@ -3451,7 +3120,8 @@
   const FUEL_DELETED_KEY = 'fuel-records-deleted';
   const DEFAULT_FUEL_RECORDS = [
     {id: 1722000001, date: '2026-07-20', amount: 724},
-    {id: 1722000002, date: '2026-08-05', amount: 560}
+    {id: 1722000002, date: '2026-08-05', amount: 560},
+    {id: 1722000003, date: '2026-08-20', amount: 578}
   ];
 
   function loadFuelRecords(){
@@ -3632,7 +3302,7 @@
   }
 
   // 開啟看板時檢查，3天內到期會有音效＋橫幅提醒（每天最多提醒一次）
-  checkDueSoonAndAlert(3);
+  checkDueSoonAndAlert(7);
 
   // ---- 中租車貸繳款期數自動計算 ----
   (function updateChaileaseInstallment(){
@@ -3766,7 +3436,6 @@
     data['__fuelDeleted__'] = localStorage.getItem(FUEL_DELETED_KEY) || '[]';
     data['__dividendNotifyOn__'] = localStorage.getItem('dividend-notify-on') || '0';
     data['__dividendNotifiedKeys__'] = localStorage.getItem('dividend-notified-keys') || '[]';
-    data['__vehicleMaintenance__'] = localStorage.getItem(MNT_KEY) || '';
     data['__exportedAt__'] = todayISO();
 
     const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
@@ -3804,8 +3473,6 @@
             localStorage.setItem('dividend-notify-on', data[k]);
           } else if(k === '__dividendNotifiedKeys__'){
             localStorage.setItem('dividend-notified-keys', data[k]);
-          } else if(k === '__vehicleMaintenance__'){
-            if(data[k]) localStorage.setItem(MNT_KEY, data[k]);
           } else if(k === '__exportedAt__'){
             // 僅供參考，不寫入
           } else {
@@ -3817,7 +3484,6 @@
         renderLedger();
         renderMemos();
         renderFuelStats();
-        renderMaintenanceWidget();
         dividendNotifyOn = (localStorage.getItem('dividend-notify-on') === '1');
         dividendNotifiedKeys = JSON.parse(localStorage.getItem('dividend-notified-keys') || '[]');
         updateNotifyBtnUI();
@@ -3852,6 +3518,52 @@
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape') closeDividendCalendar();
   });
+
+  // ---- 橫幅列：捲動時自動反白目前所在區塊 ----
+  (function(){
+    const navLinks = Array.from(document.querySelectorAll('.cat-nav a[href^="#"]'));
+    const navWrap = document.querySelector('.cat-nav');
+    const sections = navLinks
+      .map(a => document.getElementById(a.getAttribute('href').slice(1)))
+      .filter(Boolean);
+    if(!sections.length || !navWrap) return;
+
+    let currentActiveId = null;
+
+    function setActive(id){
+      if(id === currentActiveId) return;
+      currentActiveId = id;
+      navLinks.forEach(a=>{
+        const isActive = a.getAttribute('href') === '#' + id;
+        a.classList.toggle('nav-active', isActive);
+        if(isActive){
+          a.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
+        }
+      });
+    }
+
+    const headOffset = 90; // 略大於 scroll-margin-top，避開 sticky 列遮擋
+    const observer = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(entry.isIntersecting){
+          setActive(entry.target.id);
+        }
+      });
+    }, {
+      root:null,
+      rootMargin: `-${headOffset}px 0px -70% 0px`,
+      threshold: 0
+    });
+
+    sections.forEach(sec => observer.observe(sec));
+
+    // 點擊橫幅項目時，立即反白（不用等捲動偵測觸發）
+    navLinks.forEach(a=>{
+      a.addEventListener('click', ()=>{
+        setActive(a.getAttribute('href').slice(1));
+      });
+    });
+  })();
 </script>
 
 </body>
