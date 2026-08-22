@@ -514,6 +514,9 @@
     font-weight:700;
   }
   .next-payout-item:last-child{margin-bottom:0;}
+  .next-payout-item.np-done{
+    opacity:.45;
+  }
   .next-payout-item .np-days{
     white-space:nowrap;
     background:rgba(28,28,30,0.18);
@@ -1165,7 +1168,7 @@
 
 <div class="next-payout-banner" id="next-payout-banner" style="display:none;">
   <div class="next-payout-title-row">
-    <div class="next-payout-title">💰 近期領息入帳</div>
+    <div class="next-payout-title" id="next-payout-title">💰 近期領息入帳</div>
     <button type="button" class="notify-btn" id="notify-toggle-btn" onclick="toggleDividendNotify()">🔔 開啟通知提醒</button>
   </div>
   <div id="next-payout-list"></div>
@@ -1497,13 +1500,22 @@
       </div>
     </div>
 
-    <div class="card lvl-red" data-key="passenger-insurance" data-cat="保險" data-days="77">
+    <div class="card lvl-green" data-key="passenger-insurance" data-cat="保險" data-days="404">
       <span class="check" onclick="toggleDone(this)"></span>
       <span class="cat cat-insurance">保險</span>
       <div class="tag">保險 · 小瑜-租售車部（年豐／台灣大）</div>
       <h3>乘客險到期</h3>
-      <div class="date">2026.09.30 <span class="days">倒數 77 天</span></div>
-      <p class="note">區間 114.06.15–115.09.30，共16個月，每月100元。</p>
+      <div class="date">2027.09.30 <span class="days">倒數 404 天</span></div>
+      <p class="note">保單號碼 02014CT000531（每人500萬），已續保 115/09/30～116/09/30，繳費NT$1,200已於2026/08完成匯款。</p>
+    </div>
+
+    <div class="card lvl-amber" data-key="parking-fee" data-cat="費用" data-days="61">
+      <span class="check" onclick="toggleDone(this)"></span>
+      <span class="cat cat-fee">費用</span>
+      <div class="tag">新北市板橋區文化社區公寓大廈管理委員會</div>
+      <h3>社區停車位季繳</h3>
+      <div class="date">2026.10.22 <span class="days">倒數 61 天</span></div>
+      <p class="note">每季NT$8,000，最近一期已繳2026/04/22。</p>
     </div>
 
     <div class="card lvl-amber" data-key="vehicle-inspection" data-cat="車輛" data-days="106">
@@ -1521,17 +1533,8 @@
       <span class="cat cat-fee">費用</span>
       <div class="tag">小瑜-租售車部（年豐／台灣大）</div>
       <h3>行費到期</h3>
-      <div class="date">2027.02 <span class="days">倒數 201 天</span></div>
-      <p class="note">金額 $15,000，區間 115.02–116.02。</p>
-    </div>
-
-    <div class="card lvl-green" data-key="mandatory-insurance" data-cat="保險" data-days="282">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-insurance">保險</span>
-      <div class="tag">富邦產物 · 強制險</div>
-      <h3>強制汽車責任保險續保</h3>
-      <div class="date">2027.04.25 <span class="days">倒數 282 天</span></div>
-      <p class="note">TDZ-0950，被保人：青宮交通。續保聯絡：富邦產物保險 24H 0800-009888。</p>
+      <div class="date">2027.02.28 <span class="days">倒數 201 天</span></div>
+      <p class="note">金額 $15,000，區間 115.02–116.02，最近一期已於2026.02完成繳費。</p>
     </div>
 
     <div class="card lvl-green" data-key="meter-inspection" data-cat="車輛" data-days="626">
@@ -1539,7 +1542,7 @@
       <span class="cat cat-vehicle">車輛</span>
       <div class="tag">樹林東豐街</div>
       <h3>驗錶</h3>
-      <div class="date">2028.04 <span class="days">倒數 626 天</span></div>
+      <div class="date">2028.04.30 <span class="days">倒數 626 天</span></div>
       <p class="note">⚠️ 裝錶日前一個月開始驗，到領牌日止。每兩年驗一次。</p>
       <div class="docs"><b>驗表場（擇一）：</b>經濟部標準檢驗局樹林分局，新北市樹林區東豐街87之1號，(02)8979-8180<br>經濟部標準檢驗局士林分局，臺北市士林區承德路五段78號，(02)2834-8456<br>週一至週五 8:30–12:00、12:30–17:00<br>⚠️ 僅收信用卡／悠遊卡，不收現金</div>
     </div>
@@ -1594,7 +1597,7 @@
   <div class="ledger-sub" style="margin:-6px 0 12px;">資料來源：計程車營運管理表.xlsx／每月統計　｜　1～6月尚無營運資料，暫不列入統計，自7月開始計算　｜　真實淨利潤 ＝ 淨收入 − 固定成本合計（工會/團保費＋停車位月攤＋車貸月攤）</div>
 
   <details class="ledger-month-group" open>
-    <summary>7月　<span class="ledger-month-count">✅ 已結算</span>　<span class="ledger-month-sum c-pos">+NT$97,906.53</span></summary>
+    <summary>7月　<span class="ledger-month-count">✅ 已結算</span>　<span class="ledger-month-sum c-pos">+NT$97,921.53</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">總收入</span><span class="cd-val">NT$124,374.20</span></span>
       <span class="cd-row"><span class="cd-label">總支出</span><span class="cd-val">NT$12,358</span></span>
@@ -1605,13 +1608,13 @@
       <span class="cd-row"><span class="cd-label">日均淨收</span><span class="cd-val">NT$3,613.43／天</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:#5C8A6A;">+NT$97,906.53　= 淨收入 − 固定成本合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:#5C8A6A;">+NT$97,921.53　= 淨收入 − 固定成本合計</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>8月　<span class="ledger-month-count">有資料</span>　<span class="ledger-month-sum c-empty">-NT$13,982.67</span></summary>
+    <summary>8月　<span class="ledger-month-count">有資料</span>　<span class="ledger-month-sum c-empty">-NT$13,967.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">總收入</span><span class="cd-val">NT$127</span></span>
       <span class="cd-row"><span class="cd-label">總支出</span><span class="cd-val">NT$0</span></span>
@@ -1619,56 +1622,56 @@
       <span class="cd-row"><span class="cd-label">出車天數</span><span class="cd-val">1 天</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$13,982.67　= 淨收入 − 固定成本合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
+      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$13,967.67　= 淨收入 − 固定成本合計</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>9月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,109.67</span></summary>
+    <summary>9月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>10月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,109.67</span></summary>
+    <summary>10月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>11月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,109.67</span></summary>
+    <summary>11月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
   <details class="ledger-month-group">
-    <summary>12月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,109.67</span></summary>
+    <summary>12月　<span class="ledger-month-count">尚無資料</span>　<span class="ledger-month-sum c-empty">-NT$14,094.67</span></summary>
     <div class="contract-detail" style="margin:8px 14px;">
       <span class="cd-row"><span class="cd-label">狀態</span><span class="cd-val" style="color:var(--ink-soft);">尚未填寫每日收支，僅列固定成本</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">工會/團保</span><span class="cd-val">NT$5,830（月攤）</span></span>
       <span class="cd-row"><span class="cd-label">停車位</span><span class="cd-val">NT$2,666.67（月攤）</span></span>
-      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,613（月攤，中租）</span></span>
-      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,109.67 合計</span></span>
+      <span class="cd-row"><span class="cd-label">車貸</span><span class="cd-val">NT$5,598（月攤，中租）</span></span>
+      <span class="cd-row"><span class="cd-label">固定成本</span><span class="cd-val c-warn">NT$14,094.67 合計</span></span>
       <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">真實淨利</span><span class="cd-val" style="font-weight:900; color:var(--stamp);">-NT$14,094.67（預估，無收入僅扣固定成本）</span></span>
     </div>
   </details>
-  <div class="ledger-total">7～12月累計：總收入 NT$124,501.2　｜　總支出 NT$12,358　｜　淨收入 NT$112,143.2　｜　出車 32 天　｜　真實淨利潤（依目前已填月份估算）+NT$27,485.18</div>
+  <div class="ledger-total">7～12月累計：總收入 NT$124,501.2　｜　總支出 NT$12,358　｜　淨收入 NT$112,143.2　｜　出車 32 天　｜　真實淨利潤（依目前已填月份估算）+NT$27,575.18</div>
   <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 目前僅7月已填寫每日收支，8～12月為固定成本預估值（未含收入），實際數字待每日收支登錄後自動更新；1～6月因無營運資料暫不列入。</p>
 </div>
 
@@ -1858,7 +1861,7 @@
           <span class="cat cat-fee">費用</span>
           <span class="c-name">🚗 中租車貸</span>
         </div>
-        <span class="c-amount">NT$5,613/月</span>
+        <span class="c-amount">NT$5,598/月</span>
       </div>
       <div class="contract-detail">
         <span class="cd-row"><span class="cd-label">車號</span><span class="cd-val">TDZ-0950</span></span>
@@ -1922,7 +1925,7 @@
         <span class="c-amount">NT$15,000/年</span>
       </div>
       <div class="contract-detail">
-        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.02.01</span></span>
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.02.28</span></span>
         <span class="cd-row"><span class="cd-label">窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
         <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">NT$15,000／年</span></span>
       </div>
@@ -1931,7 +1934,7 @@
       <div>
         <span class="cat cat-parking">停車</span>
         <span class="c-name">🅿️ 社區停車位</span>
-        <span class="c-note">每年4、7、11、1月25日繳費</span>
+        <span class="c-note">每季22日繳費，最近一期已繳2026/04/22，下期到期2026/10/22</span>
       </div>
       <span class="c-amount">NT$8,000/季</span>
     </li>
@@ -2157,6 +2160,7 @@
       </div>
       <div class="contract-detail">
         <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">汽車強制責任險</span></span>
+        <span class="cd-row"><span class="cd-label">保單號碼</span><span class="cd-val">051026KCA0002048</span></span>
         <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.04.25</span></span>
         <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">富邦產物 0800-009888</span></span>
         <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">法定強制投保，逾期未保不得上路</span></span>
@@ -2172,6 +2176,7 @@
       </div>
       <div class="contract-detail">
         <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">汽車任意第三人責任險</span></span>
+        <span class="cd-row"><span class="cd-label">保單號碼</span><span class="cd-val">17000第15V9005830號</span></span>
         <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.05.03</span></span>
         <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
       </div>
@@ -2180,14 +2185,16 @@
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-insurance">保險</span>
-          <span class="c-name">🚕 新安東京海上－旅客運送責任險</span>
+          <span class="c-name">🚕 新安東京海上－旅客運送責任險（乘客險）</span>
         </div>
-        <span class="c-amount">－（未提供）</span>
+        <span class="c-amount">NT$1,200/年</span>
       </div>
       <div class="contract-detail">
         <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">旅客運送責任保險</span></span>
-        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2026.09.30</span></span>
+        <span class="cd-row"><span class="cd-label">保單號碼</span><span class="cd-val">02014CT000531（每人500萬）</span></span>
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.09.30</span></span>
         <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
+        <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">已續保115/09/30～116/09/30，2026/08完成匯款</span></span>
       </div>
     </li>
   </ul>
@@ -2286,55 +2293,62 @@
 
   // ---- 近期領息入帳：提醒 ----
   const DIVIDEND_EVENTS = [
-    {month:1, day:13, code:'00918', name:'大華優利高填息30', cur:5766.9, tgt:18800},
+    {month:1, day:13, code:'00918', name:'大華優利高填息30', cur:5860.9, tgt:18800},
     {month:1, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:1, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:1, day:31, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
+    {month:1, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:1, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
     {month:2, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:2, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:2, day:28, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
-    {month:3, day:12, code:'00878', name:'國泰永續高股息', cur:37370.5, tgt:38750},
+    {month:2, day:28, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:2, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:3, day:12, code:'00878', name:'國泰永續高股息', cur:33685.445, tgt:34835},
     {month:3, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:3, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:3, day:31, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
-    {month:4, day:13, code:'00918', name:'大華優利高填息30', cur:5766.9, tgt:18800},
+    {month:3, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:3, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:4, day:13, code:'00918', name:'大華優利高填息30', cur:5860.9, tgt:18800},
     {month:4, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:4, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:4, day:30, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
+    {month:4, day:30, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:4, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
     {month:5, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:5, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:5, day:31, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
-    {month:6, day:12, code:'00878', name:'國泰永續高股息', cur:37370.5, tgt:38750},
+    {month:5, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:5, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:6, day:12, code:'00878', name:'國泰永續高股息', cur:33685.445, tgt:34835},
     {month:6, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:6, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:6, day:30, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
-    {month:7, day:13, code:'00918', name:'大華優利高填息30', cur:5766.9, tgt:18800},
+    {month:6, day:30, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:6, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:7, day:13, code:'00918', name:'大華優利高填息30', cur:5860.9, tgt:18800},
     {month:7, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:7, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:7, day:31, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
+    {month:7, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:7, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
     {month:8, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:8, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:8, day:31, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
-    {month:8, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1715.2, tgt:6400},
-    {month:9, day:12, code:'00878', name:'國泰永續高股息', cur:37370.5, tgt:38750},
+    {month:8, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:8, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:9, day:12, code:'00878', name:'國泰永續高股息', cur:33685.445, tgt:34835},
     {month:9, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:9, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:9, day:30, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
-    {month:9, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1715.2, tgt:6400},
-    {month:10, day:13, code:'00918', name:'大華優利高填息30', cur:5766.9, tgt:18800},
+    {month:9, day:30, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:9, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:10, day:13, code:'00918', name:'大華優利高填息30', cur:5860.9, tgt:18800},
     {month:10, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:10, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:10, day:31, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
-    {month:10, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1715.2, tgt:6400},
+    {month:10, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:10, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
     {month:11, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:11, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:11, day:30, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
-    {month:11, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1715.2, tgt:6400},
-    {month:12, day:12, code:'00878', name:'國泰永續高股息', cur:37370.5, tgt:38750},
+    {month:11, day:30, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:11, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:12, day:12, code:'00878', name:'國泰永續高股息', cur:33685.445, tgt:34835},
     {month:12, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
     {month:12, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:12, day:31, code:'00400A', name:'主動國泰動能高息', cur:628.2, tgt:6000},
-    {month:12, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1715.2, tgt:6400},
+    {month:12, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
+    {month:12, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
   ];
 
   let dividendNotifyOn = (localStorage.getItem('dividend-notify-on') === '1');
@@ -2354,24 +2368,38 @@
     }).sort((a,b) => a.diffDays - b.diffDays);
   }
 
+  function getCurrentMonthDividends(){
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    const currentMonth = today.getMonth() + 1;
+    const currentDay = today.getDate();
+
+    return DIVIDEND_EVENTS
+      .filter(ev => ev.month === currentMonth)
+      .map(ev => Object.assign({}, ev, { diffDays: ev.day - currentDay }))
+      .sort((a,b) => a.day - b.day);
+  }
+
   function renderNextPayout(mode){
     mode = mode || (document.getElementById('stock-toggle-target') &&
       document.getElementById('stock-toggle-target').classList.contains('active') ? 'target' : 'current');
 
     const banner = document.getElementById('next-payout-banner');
     const list = document.getElementById('next-payout-list');
+    const titleEl = document.getElementById('next-payout-title');
     if(!banner || !list) return;
 
-    const withDates = getUpcomingDividends();
-    const upcoming = withDates.filter(e => e.diffDays <= 14);
-    const shown = (upcoming.length ? upcoming : withDates).slice(0, 4);
+    const monthItems = getCurrentMonthDividends();
+    const currentMonth = new Date().getMonth() + 1;
 
-    if(shown.length === 0){ banner.style.display = 'none'; return; }
+    if(titleEl) titleEl.textContent = '💰 ' + currentMonth + '月領息入帳．' + monthItems.length + '檔';
 
-    list.innerHTML = shown.map(e => {
+    if(monthItems.length === 0){ banner.style.display = 'none'; return; }
+
+    list.innerHTML = monthItems.map(e => {
       const amt = mode === 'current' ? e.cur : e.tgt;
-      const daysLabel = e.diffDays === 0 ? '就是今天' : ('倒數 ' + e.diffDays + ' 天');
-      return '<div class="next-payout-item">' +
+      const daysLabel = e.diffDays < 0 ? '✅ 已入帳' : (e.diffDays === 0 ? '就是今天' : '倒數 ' + e.diffDays + ' 天');
+      return '<div class="next-payout-item' + (e.diffDays < 0 ? ' np-done' : '') + '">' +
         '<span>' + e.code + ' ' + e.name + '　$' + Math.round(amt).toLocaleString() + '</span>' +
         '<span class="np-days">' + e.month + '/' + e.day + '　' + daysLabel + '</span>' +
         '</div>';
@@ -3496,7 +3524,7 @@
   }
 
   // ---- 領息日曆看板：完整內嵌版（modal + iframe） ----
-  const DIVIDEND_CALENDAR_HTML = "<!DOCTYPE html>\n<html lang=\"zh-Hant\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+Mono:wght@400;500;700&display=swap\" rel=\"stylesheet\">\n<style>\n  :root{\n    --bg:#070d1a;\n    --surface:#0e1a30;\n    --surface2:#152744;\n    --line:#22385c;\n    --ice:#e4ecf7;\n    --ice-soft:#8ba0c4;\n    --gold:#e3b45c;\n    --gold-deep:#c99436;\n    --red:#e0685c;\n  }\n  *{box-sizing:border-box; margin:0; padding:0;}\n  body{\n    background:\n      radial-gradient(circle at 15% 0%, rgba(227,180,92,0.06) 0%, transparent 45%),\n      radial-gradient(circle at 85% 100%, rgba(79,120,193,0.10) 0%, transparent 50%),\n      var(--bg);\n    color:var(--ice);\n    font-family:'Noto Sans TC', sans-serif;\n    min-height:100vh;\n    padding:24px 16px 60px;\n  }\n  .wrap{max-width:720px; margin:0 auto;}\n\n  .back-bar{\n    display:none;\n    position:sticky;\n    top:0;\n    z-index:50;\n    background:var(--bg);\n    border-bottom:1px solid var(--line);\n    padding:10px 0 14px;\n    margin-bottom:18px;\n  }\n  .back-bar.show{ display:flex; }\n  .back-btn{\n    display:inline-flex;\n    align-items:center;\n    gap:6px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice);\n    background:var(--surface2);\n    border:1px solid var(--line);\n    border-radius:20px;\n    padding:8px 16px;\n    cursor:pointer;\n    -webkit-tap-highlight-color: transparent;\n  }\n  .back-btn:active{ background:var(--line); }\n  .back-btn .arrow{ font-size:15px; line-height:1; color:var(--gold); }\n\n  header{\n    text-align:center;\n    margin-bottom:24px;\n  }\n  .eyebrow{\n    font-family:'Noto Sans Mono', monospace;\n    letter-spacing:.35em;\n    font-size:11px;\n    color:var(--gold);\n    margin-bottom:10px;\n  }\n  h1{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:28px;\n    font-weight:900;\n    letter-spacing:.02em;\n    margin-bottom:8px;\n  }\n  .sub{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:12.5px;\n    color:var(--ice-soft);\n  }\n\n  /* toggle */\n  .toggle-wrap{\n    display:flex;\n    justify-content:center;\n    margin:22px 0 24px;\n  }\n  .toggle{\n    display:inline-flex;\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:999px;\n    padding:4px;\n    position:relative;\n  }\n  .toggle button{\n    appearance:none;\n    border:none;\n    background:transparent;\n    padding:9px 26px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    letter-spacing:.05em;\n    color:var(--ice-soft);\n    cursor:pointer;\n    border-radius:999px;\n    position:relative;\n    z-index:2;\n    transition:color .25s;\n  }\n  .toggle button.active{ color:#070d1a; }\n  .toggle .thumb{\n    position:absolute;\n    top:4px; bottom:4px; left:4px;\n    width:calc(50% - 4px);\n    background:var(--gold);\n    border-radius:999px;\n    z-index:1;\n    transition:transform .28s cubic-bezier(.65,0,.35,1);\n  }\n  .toggle.on-target .thumb{ transform:translateX(100%); }\n\n  /* summary */\n  .summary{\n    display:grid;\n    grid-template-columns:repeat(3,1fr);\n    gap:10px;\n    margin-bottom:28px;\n  }\n  .summary .card{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:10px;\n    padding:16px 10px;\n    text-align:center;\n  }\n  .summary .card .num{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:20px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .summary .card .lbl{\n    font-size:11px;\n    color:var(--ice-soft);\n    margin-top:4px;\n    letter-spacing:.03em;\n  }\n\n  /* month tabs */\n  .tabs-wrap{ margin-bottom:2px; }\n  .tabs{\n    display:flex;\n    gap:6px;\n    overflow-x:auto;\n    -webkit-overflow-scrolling:touch;\n    scrollbar-width:none;\n    padding-bottom:10px;\n  }\n  .tabs::-webkit-scrollbar{ display:none; }\n  .tab{\n    flex:0 0 auto;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice-soft);\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:8px;\n    padding:10px 14px;\n    cursor:pointer;\n    text-align:center;\n    -webkit-tap-highlight-color: transparent;\n    transition: background .18s ease, color .18s ease, border-color .18s ease;\n    position:relative;\n  }\n  .tab .t-amt{\n    display:block;\n    font-size:10px;\n    font-weight:400;\n    color:var(--ice-soft);\n    margin-top:2px;\n    opacity:.75;\n  }\n  .tab.active{\n    color:var(--gold);\n    border-color:var(--gold-deep);\n    background:var(--surface2);\n  }\n  .tab.active::after{\n    content:\"\";\n    position:absolute;\n    left:14%; right:14%; bottom:-11px;\n    height:2px;\n    background:var(--gold);\n    border-radius:2px;\n  }\n\n  /* month panel */\n  .panel{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:12px;\n    overflow:hidden;\n    margin-top:18px;\n  }\n  .panel-head{\n    display:flex;\n    align-items:baseline;\n    justify-content:space-between;\n    padding:16px 18px;\n    background:var(--surface2);\n    border-bottom:1px solid var(--line);\n  }\n  .panel-head .p-name{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:20px;\n    font-weight:900;\n  }\n  .panel-head .p-total{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:17px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .panel-rows{ padding:6px 0; }\n  .row{\n    display:grid;\n    grid-template-columns:46px 1fr auto;\n    align-items:center;\n    gap:12px;\n    padding:12px 18px;\n    border-bottom:1px solid rgba(34,56,92,0.6);\n  }\n  .row:last-child{ border-bottom:none; }\n  .day{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:900;\n    font-size:19px;\n    color:var(--ice);\n    text-align:center;\n  }\n  .day.pending{ color:var(--ice-soft); font-size:15px; font-weight:400; }\n  .etf .code{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    display:block;\n  }\n  .etf .name{ font-size:13.5px; color:var(--ice); }\n  .amt{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:700;\n    font-size:15px;\n    color:var(--gold);\n    white-space:nowrap;\n    text-align:right;\n    transition:opacity .15s;\n  }\n  .amt.pending{\n    color:var(--ice-soft);\n    font-weight:400;\n    font-size:12px;\n  }\n\n  footer{\n    margin-top:32px;\n    text-align:center;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    line-height:1.8;\n  }\n\n  @media (max-width:420px){\n    h1{ font-size:23px; }\n    .summary .card .num{ font-size:17px; }\n  }\n</style>\n</head>\n<body>\n<div class=\"wrap\">\n  <div class=\"back-bar\" id=\"back-bar\">\n    <button type=\"button\" class=\"back-btn\" onclick=\"goBackToBoard()\"><span class=\"arrow\">\u2190</span>\u8fd4\u56de\u4ee3\u8fa6\u770b\u677f</button>\n  </div>\n\n  <header>\n    <div class=\"eyebrow\">DIVIDEND CALENDAR</div>\n    <h1>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</h1>\n    <div class=\"sub\">\u4f9d\u300c\u5b58\u80a1\u8a08\u756b\u300d\u8a66\u7b97\u8868 12 \u500b\u6708\u767c\u653e\u65e5\u6574\u7406</div>\n  </header>\n\n  <div class=\"toggle-wrap\">\n    <div class=\"toggle\" id=\"toggle\">\n      <div class=\"thumb\"></div>\n      <button data-mode=\"current\" class=\"active\">\u73fe\u6cc1</button>\n      <button data-mode=\"target\">\u76ee\u6a19</button>\n    </div>\n  </div>\n\n  <div class=\"summary\">\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumYear\">226,584</div>\n      <div class=\"lbl\">\u5e74\u5ea6\u9810\u4f30\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumMonth\">18,882</div>\n      <div class=\"lbl\">\u5e73\u5747\u6bcf\u6708\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\">6</div>\n      <div class=\"lbl\">\u6301\u80a1 ETF \u6a94\u6578</div>\n    </div>\n  </div>\n\n  <div class=\"tabs-wrap\">\n    <div class=\"tabs\" id=\"tabs\"></div>\n  </div>\n\n  <div class=\"panel\" id=\"panel\"></div>\n\n  <footer>\n    \u767c\u653e\u65e5\u70ba\u5b58\u80a1\u8a08\u756b\u8868\u4e2d\u300c\u767c\u653e\u65e5\u898f\u5f8b(\u53c3\u8003)\u300d\u63a8\u7b97\u4e4b\u4f30\u8a08\u503c\uff0c\u5be6\u969b\u5165\u5e33\u65e5\u4ee5\u5238\u5546\u516c\u544a\u70ba\u6e96\u3002<br>\n    \u91d1\u984d = \u80a1\u6578 \u00d7 \u6bcf\u80a1\u914d\u606f\uff0c\u8cc7\u6599\u53d6\u81ea\u300c\u5b58\u80a1\u8a08\u756b\u300d\u5206\u9801\uff1b\u76ee\u6a19\u7248\u672c\u70ba\u9054\u6210\u76ee\u6a19\u6301\u80a1\u5f8c\u4e4b\u4f30\u7b97\u3002\n  </footer>\n</div>\n\n<script>\nconst data = [\n  {m:\"1\u6708\", curTotal:9555.1, tgtTotal:31400, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5766.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n  ]},\n  {m:\"2\u6708\", curTotal:3788.2, tgtTotal:12600, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:28,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n  ]},\n  {m:\"3\u6708\", curTotal:41158.7, tgtTotal:51350, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:37370.5,tgt:38750},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n  ]},\n  {m:\"4\u6708\", curTotal:9555.1, tgtTotal:31400, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5766.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n  ]},\n  {m:\"5\u6708\", curTotal:3788.2, tgtTotal:12600, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n  ]},\n  {m:\"6\u6708\", curTotal:41158.7, tgtTotal:51350, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:37370.5,tgt:38750},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n  ]},\n  {m:\"7\u6708\", curTotal:9555.1, tgtTotal:31400, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5766.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n  ]},\n  {m:\"8\u6708\", curTotal:5503.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1715.2,tgt:6400},\n  ]},\n  {m:\"9\u6708\", curTotal:42873.9, tgtTotal:57750, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:37370.5,tgt:38750},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1715.2,tgt:6400},\n  ]},\n  {m:\"10\u6708\", curTotal:11270.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5766.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1715.2,tgt:6400},\n  ]},\n  {m:\"11\u6708\", curTotal:5503.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1715.2,tgt:6400},\n  ]},\n  {m:\"12\u6708\", curTotal:42873.9, tgtTotal:57750, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:37370.5,tgt:38750},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:628.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1715.2,tgt:6400},\n  ]},\n];\n\nconst fmt = n => Math.round(n).toLocaleString('zh-Hant');\nlet mode = 'current';\nlet activeMonth = new Date().getMonth(); // 0-indexed, \u9810\u8a2d\u4eca\u5929\u6240\u5728\u6708\u4efd\n\nfunction renderTabs(){\n  const tabsEl = document.getElementById('tabs');\n  tabsEl.innerHTML = data.map((month, idx)=>{\n    const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n    const isActive = idx === activeMonth;\n    return `<div class=\"tab${isActive ? ' active' : ''}\" data-idx=\"${idx}\">\n      ${month.m}\n      <span class=\"t-amt\">$${fmt(total)}</span>\n    </div>`;\n  }).join('');\n  tabsEl.querySelectorAll('.tab').forEach(el=>{\n    el.addEventListener('click', ()=>{\n      activeMonth = parseInt(el.dataset.idx, 10);\n      render();\n      el.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});\n    });\n  });\n}\n\nfunction renderPanel(){\n  const month = data[activeMonth];\n  const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n\n  const rows = [...month.items].sort((a,b)=>{\n    if(a.day===null) return 1;\n    if(b.day===null) return -1;\n    return a.day-b.day;\n  }).map(it=>{\n    const amt = mode === 'current' ? it.cur : it.tgt;\n    if(it.day===null || amt===null){\n      return `<div class=\"row\">\n        <div class=\"day pending\">\u2014</div>\n        <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n        <div class=\"amt pending\">${it.note}</div>\n      </div>`;\n    }\n    return `<div class=\"row\">\n      <div class=\"day\">${it.day}</div>\n      <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n      <div class=\"amt\">$${fmt(amt)}</div>\n    </div>`;\n  }).join('');\n\n  document.getElementById('panel').innerHTML = `\n    <div class=\"panel-head\">\n      <div class=\"p-name\">${month.m}</div>\n      <div class=\"p-total\">$${fmt(total)}</div>\n    </div>\n    <div class=\"panel-rows\">${rows}</div>\n  `;\n}\n\nfunction renderSummary(){\n  let yearTotal = 0;\n  data.forEach(month=>{\n    yearTotal += mode === 'current' ? month.curTotal : month.tgtTotal;\n  });\n  document.getElementById('sumYear').textContent = fmt(yearTotal);\n  document.getElementById('sumMonth').textContent = fmt(yearTotal/12);\n}\n\nfunction render(){\n  renderTabs();\n  renderPanel();\n  renderSummary();\n}\n\nconst toggle = document.getElementById('toggle');\ntoggle.querySelectorAll('button').forEach(btn=>{\n  btn.addEventListener('click', ()=>{\n    if(btn.dataset.mode === mode) return;\n    mode = btn.dataset.mode;\n    toggle.querySelectorAll('button').forEach(b=>b.classList.remove('active'));\n    btn.classList.add('active');\n    toggle.classList.toggle('on-target', mode==='target');\n    render();\n  });\n});\n\nrender();\n\n// \u82e5\u6b64\u9801\u662f\u88ab\u4ee3\u8fa6\u770b\u677f\u4ee5 iframe \u5167\u5d4c\u958b\u555f\uff0c\u986f\u793a\u300c\u8fd4\u56de\u300d\u6309\u9215\n(function(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      document.getElementById('back-bar').classList.add('show');\n    }\n  }catch(e){ /* \u8de8\u7db2\u57df\u6642\u5ffd\u7565\uff0c\u4e0d\u986f\u793a\u8fd4\u56de\u9215 */ }\n})();\n\nfunction goBackToBoard(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      window.parent.closeDividendCalendar();\n      return;\n    }\n  }catch(e){}\n  if(window.history.length > 1){ window.history.back(); }\n}\n<\/script>\n</body>\n</html>\n";
+  const DIVIDEND_CALENDAR_HTML = "<!DOCTYPE html>\n<html lang=\"zh-Hant\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+Mono:wght@400;500;700&display=swap\" rel=\"stylesheet\">\n<style>\n  :root{\n    --bg:#070d1a;\n    --surface:#0e1a30;\n    --surface2:#152744;\n    --line:#22385c;\n    --ice:#e4ecf7;\n    --ice-soft:#8ba0c4;\n    --gold:#e3b45c;\n    --gold-deep:#c99436;\n    --red:#e0685c;\n  }\n  *{box-sizing:border-box; margin:0; padding:0;}\n  body{\n    background:\n      radial-gradient(circle at 15% 0%, rgba(227,180,92,0.06) 0%, transparent 45%),\n      radial-gradient(circle at 85% 100%, rgba(79,120,193,0.10) 0%, transparent 50%),\n      var(--bg);\n    color:var(--ice);\n    font-family:'Noto Sans TC', sans-serif;\n    min-height:100vh;\n    padding:24px 16px 60px;\n  }\n  .wrap{max-width:720px; margin:0 auto;}\n\n  .back-bar{\n    display:none;\n    position:sticky;\n    top:0;\n    z-index:50;\n    background:var(--bg);\n    border-bottom:1px solid var(--line);\n    padding:10px 0 14px;\n    margin-bottom:18px;\n  }\n  .back-bar.show{ display:flex; }\n  .back-btn{\n    display:inline-flex;\n    align-items:center;\n    gap:6px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice);\n    background:var(--surface2);\n    border:1px solid var(--line);\n    border-radius:20px;\n    padding:8px 16px;\n    cursor:pointer;\n    -webkit-tap-highlight-color: transparent;\n  }\n  .back-btn:active{ background:var(--line); }\n  .back-btn .arrow{ font-size:15px; line-height:1; color:var(--gold); }\n\n  header{\n    text-align:center;\n    margin-bottom:24px;\n  }\n  .eyebrow{\n    font-family:'Noto Sans Mono', monospace;\n    letter-spacing:.35em;\n    font-size:11px;\n    color:var(--gold);\n    margin-bottom:10px;\n  }\n  h1{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:28px;\n    font-weight:900;\n    letter-spacing:.02em;\n    margin-bottom:8px;\n  }\n  .sub{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:12.5px;\n    color:var(--ice-soft);\n  }\n\n  /* toggle */\n  .toggle-wrap{\n    display:flex;\n    justify-content:center;\n    margin:22px 0 24px;\n  }\n  .toggle{\n    display:inline-flex;\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:999px;\n    padding:4px;\n    position:relative;\n  }\n  .toggle button{\n    appearance:none;\n    border:none;\n    background:transparent;\n    padding:9px 26px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    letter-spacing:.05em;\n    color:var(--ice-soft);\n    cursor:pointer;\n    border-radius:999px;\n    position:relative;\n    z-index:2;\n    transition:color .25s;\n  }\n  .toggle button.active{ color:#070d1a; }\n  .toggle .thumb{\n    position:absolute;\n    top:4px; bottom:4px; left:4px;\n    width:calc(50% - 4px);\n    background:var(--gold);\n    border-radius:999px;\n    z-index:1;\n    transition:transform .28s cubic-bezier(.65,0,.35,1);\n  }\n  .toggle.on-target .thumb{ transform:translateX(100%); }\n\n  /* summary */\n  .summary{\n    display:grid;\n    grid-template-columns:repeat(3,1fr);\n    gap:10px;\n    margin-bottom:28px;\n  }\n  .summary .card{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:10px;\n    padding:16px 10px;\n    text-align:center;\n  }\n  .summary .card .num{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:20px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .summary .card .lbl{\n    font-size:11px;\n    color:var(--ice-soft);\n    margin-top:4px;\n    letter-spacing:.03em;\n  }\n\n  /* month tabs */\n  .tabs-wrap{ margin-bottom:2px; }\n  .tabs{\n    display:flex;\n    gap:6px;\n    overflow-x:auto;\n    -webkit-overflow-scrolling:touch;\n    scrollbar-width:none;\n    padding-bottom:10px;\n  }\n  .tabs::-webkit-scrollbar{ display:none; }\n  .tab{\n    flex:0 0 auto;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice-soft);\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:8px;\n    padding:10px 14px;\n    cursor:pointer;\n    text-align:center;\n    -webkit-tap-highlight-color: transparent;\n    transition: background .18s ease, color .18s ease, border-color .18s ease;\n    position:relative;\n  }\n  .tab .t-amt{\n    display:block;\n    font-size:10px;\n    font-weight:400;\n    color:var(--ice-soft);\n    margin-top:2px;\n    opacity:.75;\n  }\n  .tab.active{\n    color:var(--gold);\n    border-color:var(--gold-deep);\n    background:var(--surface2);\n  }\n  .tab.active::after{\n    content:\"\";\n    position:absolute;\n    left:14%; right:14%; bottom:-11px;\n    height:2px;\n    background:var(--gold);\n    border-radius:2px;\n  }\n\n  /* month panel */\n  .panel{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:12px;\n    overflow:hidden;\n    margin-top:18px;\n  }\n  .panel-head{\n    display:flex;\n    align-items:baseline;\n    justify-content:space-between;\n    padding:16px 18px;\n    background:var(--surface2);\n    border-bottom:1px solid var(--line);\n  }\n  .panel-head .p-name{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:20px;\n    font-weight:900;\n  }\n  .panel-head .p-total{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:17px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .panel-rows{ padding:6px 0; }\n  .row{\n    display:grid;\n    grid-template-columns:46px 1fr auto;\n    align-items:center;\n    gap:12px;\n    padding:12px 18px;\n    border-bottom:1px solid rgba(34,56,92,0.6);\n  }\n  .row:last-child{ border-bottom:none; }\n  .day{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:900;\n    font-size:19px;\n    color:var(--ice);\n    text-align:center;\n  }\n  .day.pending{ color:var(--ice-soft); font-size:15px; font-weight:400; }\n  .etf .code{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    display:block;\n  }\n  .etf .name{ font-size:13.5px; color:var(--ice); }\n  .amt{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:700;\n    font-size:15px;\n    color:var(--gold);\n    white-space:nowrap;\n    text-align:right;\n    transition:opacity .15s;\n  }\n  .amt.pending{\n    color:var(--ice-soft);\n    font-weight:400;\n    font-size:12px;\n  }\n\n  footer{\n    margin-top:32px;\n    text-align:center;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    line-height:1.8;\n  }\n\n  @media (max-width:420px){\n    h1{ font-size:23px; }\n    .summary .card .num{ font-size:17px; }\n  }\n</style>\n</head>\n<body>\n<div class=\"wrap\">\n  <div class=\"back-bar\" id=\"back-bar\">\n    <button type=\"button\" class=\"back-btn\" onclick=\"goBackToBoard()\"><span class=\"arrow\">\u2190</span>\u8fd4\u56de\u4ee3\u8fa6\u770b\u677f</button>\n  </div>\n\n  <header>\n    <div class=\"eyebrow\">DIVIDEND CALENDAR</div>\n    <h1>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</h1>\n    <div class=\"sub\">\u4f9d\u300c\u5b58\u80a1\u8a08\u756b\u300d\u8a66\u7b97\u8868 12 \u500b\u6708\u767c\u653e\u65e5\u6574\u7406</div>\n  </header>\n\n  <div class=\"toggle-wrap\">\n    <div class=\"toggle\" id=\"toggle\">\n      <div class=\"thumb\"></div>\n      <button data-mode=\"current\" class=\"active\">\u73fe\u6cc1</button>\n      <button data-mode=\"target\">\u76ee\u6a19</button>\n    </div>\n  </div>\n\n  <div class=\"summary\">\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumYear\">226,584</div>\n      <div class=\"lbl\">\u5e74\u5ea6\u9810\u4f30\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumMonth\">18,882</div>\n      <div class=\"lbl\">\u5e73\u5747\u6bcf\u6708\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\">6</div>\n      <div class=\"lbl\">\u6301\u80a1 ETF \u6a94\u6578</div>\n    </div>\n  </div>\n\n  <div class=\"tabs-wrap\">\n    <div class=\"tabs\" id=\"tabs\"></div>\n  </div>\n\n  <div class=\"panel\" id=\"panel\"></div>\n\n  <footer>\n    \u767c\u653e\u65e5\u70ba\u5b58\u80a1\u8a08\u756b\u8868\u4e2d\u300c\u767c\u653e\u65e5\u898f\u5f8b(\u53c3\u8003)\u300d\u63a8\u7b97\u4e4b\u4f30\u8a08\u503c\uff0c\u5be6\u969b\u5165\u5e33\u65e5\u4ee5\u5238\u5546\u516c\u544a\u70ba\u6e96\u3002<br>\n    \u91d1\u984d = \u80a1\u6578 \u00d7 \u6bcf\u80a1\u914d\u606f\uff0c\u8cc7\u6599\u53d6\u81ea\u300c\u5b58\u80a1\u8a08\u756b\u300d\u5206\u9801\uff1b\u76ee\u6a19\u7248\u672c\u70ba\u9054\u6210\u76ee\u6a19\u6301\u80a1\u5f8c\u4e4b\u4f30\u7b97\u3002\n  </footer>\n</div>\n\n<script>\nconst data = [\n  {m:\"1\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5860.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"2\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:28,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"3\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:33685.445,tgt:34835},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"4\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5860.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"5\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"6\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:33685.445,tgt:34835},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"7\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5860.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"8\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"9\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:33685.445,tgt:34835},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"10\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5860.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"11\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"12\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:33685.445,tgt:34835},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n];\n\nconst fmt = n => Math.round(n).toLocaleString('zh-Hant');\nlet mode = 'current';\nlet activeMonth = new Date().getMonth(); // 0-indexed, \u9810\u8a2d\u4eca\u5929\u6240\u5728\u6708\u4efd\n\nfunction renderTabs(){\n  const tabsEl = document.getElementById('tabs');\n  tabsEl.innerHTML = data.map((month, idx)=>{\n    const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n    const isActive = idx === activeMonth;\n    return `<div class=\"tab${isActive ? ' active' : ''}\" data-idx=\"${idx}\">\n      ${month.m}\n      <span class=\"t-amt\">$${fmt(total)}</span>\n    </div>`;\n  }).join('');\n  tabsEl.querySelectorAll('.tab').forEach(el=>{\n    el.addEventListener('click', ()=>{\n      activeMonth = parseInt(el.dataset.idx, 10);\n      render();\n      el.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});\n    });\n  });\n}\n\nfunction renderPanel(){\n  const month = data[activeMonth];\n  const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n\n  const rows = [...month.items].sort((a,b)=>{\n    if(a.day===null) return 1;\n    if(b.day===null) return -1;\n    return a.day-b.day;\n  }).map(it=>{\n    const amt = mode === 'current' ? it.cur : it.tgt;\n    if(it.day===null || amt===null){\n      return `<div class=\"row\">\n        <div class=\"day pending\">\u2014</div>\n        <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n        <div class=\"amt pending\">${it.note}</div>\n      </div>`;\n    }\n    return `<div class=\"row\">\n      <div class=\"day\">${it.day}</div>\n      <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n      <div class=\"amt\">$${fmt(amt)}</div>\n    </div>`;\n  }).join('');\n\n  document.getElementById('panel').innerHTML = `\n    <div class=\"panel-head\">\n      <div class=\"p-name\">${month.m}</div>\n      <div class=\"p-total\">$${fmt(total)}</div>\n    </div>\n    <div class=\"panel-rows\">${rows}</div>\n  `;\n}\n\nfunction renderSummary(){\n  let yearTotal = 0;\n  data.forEach(month=>{\n    yearTotal += mode === 'current' ? month.curTotal : month.tgtTotal;\n  });\n  document.getElementById('sumYear').textContent = fmt(yearTotal);\n  document.getElementById('sumMonth').textContent = fmt(yearTotal/12);\n}\n\nfunction render(){\n  renderTabs();\n  renderPanel();\n  renderSummary();\n}\n\nconst toggle = document.getElementById('toggle');\ntoggle.querySelectorAll('button').forEach(btn=>{\n  btn.addEventListener('click', ()=>{\n    if(btn.dataset.mode === mode) return;\n    mode = btn.dataset.mode;\n    toggle.querySelectorAll('button').forEach(b=>b.classList.remove('active'));\n    btn.classList.add('active');\n    toggle.classList.toggle('on-target', mode==='target');\n    render();\n  });\n});\n\nrender();\n\n// \u82e5\u6b64\u9801\u662f\u88ab\u4ee3\u8fa6\u770b\u677f\u4ee5 iframe \u5167\u5d4c\u958b\u555f\uff0c\u986f\u793a\u300c\u8fd4\u56de\u300d\u6309\u9215\n(function(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      document.getElementById('back-bar').classList.add('show');\n    }\n  }catch(e){ /* \u8de8\u7db2\u57df\u6642\u5ffd\u7565\uff0c\u4e0d\u986f\u793a\u8fd4\u56de\u9215 */ }\n})();\n\nfunction goBackToBoard(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      window.parent.closeDividendCalendar();\n      return;\n    }\n  }catch(e){}\n  if(window.history.length > 1){ window.history.back(); }\n}\n<\/script>\n</body>\n</html>\n";
   let dcalLoaded = false;
   function openDividendCalendar(){
     const overlay = document.getElementById('dcal-modal-overlay');
