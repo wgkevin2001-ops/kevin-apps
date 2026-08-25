@@ -1013,6 +1013,60 @@
     flex:1;
     color:var(--ink);
   }
+  .med-panel{
+    margin:10px 14px 14px;
+    padding:12px 14px;
+    background:rgba(31,138,158,0.10);
+    border:1px solid rgba(31,138,158,0.28);
+    border-radius:8px;
+  }
+  .med-panel-title{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:12.5px;
+    font-weight:900;
+    color:#1E4A54;
+    margin-bottom:8px;
+  }
+  .med-panel-title .med-updated{
+    font-size:10.5px;
+    font-weight:400;
+    color:var(--ink-soft);
+  }
+  .med-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:10px;
+    padding:6px 0;
+    border-bottom:1px dashed rgba(28,28,30,0.12);
+  }
+  .med-row:last-child{ border-bottom:none; padding-bottom:0; }
+  .med-name{
+    font-size:13.5px;
+    font-weight:700;
+    color:var(--ink);
+    white-space:nowrap;
+  }
+  .med-dose{
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11.5px;
+    color:var(--ink-soft);
+    text-align:right;
+  }
+  .med-panel-empty{
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .visit-subhead{
+    padding:2px 14px 6px;
+    font-family:'Noto Sans Mono', monospace;
+    font-size:11px;
+    color:var(--ink-soft);
+    letter-spacing:.03em;
+  }
   .cd-val.c-warn{color:var(--stamp); font-weight:700;}
   .c-note{
     display:block;
@@ -1227,7 +1281,6 @@
       <span class="cat cat-tax" data-cat="稅務" onclick="bringCategoryFront('稅務')">稅務</span>
       <span class="cat cat-fleet" data-cat="車隊" onclick="bringCategoryFront('車隊')">車隊</span>
       <span class="cat cat-fee" data-cat="費用" onclick="bringCategoryFront('費用')">費用</span>
-      <span class="cat cat-medical" data-cat="醫療" onclick="bringCategoryFront('醫療')">醫療</span>
       <span class="cat cat-subscription" data-cat="訂閱" onclick="bringCategoryFront('訂閱')">訂閱</span>
       <span class="cat cat-rental" data-cat="租屋" onclick="bringCategoryFront('租屋')">租屋</span>
     </div>
@@ -1345,8 +1398,8 @@
       <span class="cat cat-vehicle">車輛</span>
       <div class="tag">台灣大保養廠</div>
       <h3>TDZ-0950 里程保養</h3>
-      <div class="date">目標里程 305,592 <span class="days">還差 5,235 公里</span></div>
-      <p class="note">車牌 TDZ-0950，今日（2026.08.02）里程 300,357，尚未達保養里程，但已提前安排。<b>已排定：8/5（三）11:00–13:00 前往台灣大保養</b>（利用當天跳過十全鵝肉打工的空檔）。</p>
+      <div class="date">下次目標里程 311,123</div>
+      <p class="note">車牌 TDZ-0950。8/5已完成一次保養，下次保養目標里程為311,123公里，屆時再安排回廠時間。</p>
       <div class="docs"><b>🎁 8月尖峰任務獎勵（55688）：</b>早尖峰(07:00–08:59)或晚尖峰(17:00–18:59)任一時段月達50趟，即可領1,580元愛車保養券，完成任一時段任務即可領券。<br>另有GOODYEAR輪胎優惠：買2條輪胎可用1張1,580元保養券折抵。</div>
     </div>
 
@@ -1373,96 +1426,6 @@
       <h3>周醫師心理諮商</h3>
       <div class="date">2026.08.06 09:00 <span class="days">已完成諮商</span></div>
       <p class="note">費用 NT$1,500。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fareast-ortho-0829" data-cat="醫療" data-days="28">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 骨科部</div>
-      <h3>骨科回診</h3>
-      <div class="date">2026.08.29 上午 <span class="days">倒數 28 天</span></div>
-      <p class="note">陳文質醫師，H116診間，就診號21。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fareast-endo-0829" data-cat="醫療" data-days="28">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 新陳代謝科</div>
-      <h3>新陳代謝科回診</h3>
-      <div class="date">2026.08.29 上午 <span class="days">倒數 28 天</span></div>
-      <p class="note">陳華芬醫師，G224診間，就診號3。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fareast-psych-0903" data-cat="醫療" data-days="33">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 精神暨心身醫學部</div>
-      <h3>精神科回診</h3>
-      <div class="date">2026.09.03 08:30 <span class="days">倒數 33 天</span></div>
-      <p class="note">周依亭醫師，A904診間，就診號1，建議08:30到。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fareast-psych-0905" data-cat="醫療" data-days="35">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 精神暨心身醫學部</div>
-      <h3>精神科回診</h3>
-      <div class="date">2026.09.05 08:30 <span class="days">倒數 35 天</span></div>
-      <p class="note">林竺君醫師，A901診間，就診號1，建議08:30到。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fareast-neuro-0910" data-cat="醫療" data-days="40">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 神經醫學部</div>
-      <h3>神經內科回診</h3>
-      <div class="date">2026.09.10 上午 <span class="days">倒數 40 天</span></div>
-      <p class="note">李少白醫師，F203診間，就診號13。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fareast-endo-0912" data-cat="醫療" data-days="42">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 新陳代謝科</div>
-      <h3>新陳代謝科回診</h3>
-      <div class="date">2026.09.12 上午 <span class="days">倒數 42 天</span></div>
-      <p class="note">陳華芬醫師，G224診間，就診號9。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fareast-psych-1003" data-cat="醫療" data-days="63">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 精神暨心身醫學部</div>
-      <h3>精神科回診</h3>
-      <div class="date">2026.10.03 08:30 <span class="days">倒數 63 天</span></div>
-      <p class="note">林竺君醫師，A901診間，就診號5，建議08:30到。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fareast-ortho-1017" data-cat="醫療" data-days="77">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 骨科部</div>
-      <h3>骨科回診</h3>
-      <div class="date">2026.10.17 上午 <span class="days">倒數 77 天</span></div>
-      <p class="note">陳文質醫師，H116診間，就診號9。</p>
-    </div>
-
-    <div class="card lvl-red" data-key="fareast-ortho-1024" data-cat="醫療" data-days="84">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 骨科部</div>
-      <h3>骨科回診</h3>
-      <div class="date">2026.10.24 上午 <span class="days">倒數 84 天</span></div>
-      <p class="note">陳文質醫師，H116診間，就診號7。</p>
-    </div>
-
-    <div class="card lvl-amber" data-key="fareast-ortho-1031" data-cat="醫療" data-days="91">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-medical">醫療</span>
-      <div class="tag">亞東醫院 · 骨科部</div>
-      <h3>骨科回診</h3>
-      <div class="date">2026.10.31 上午 <span class="days">倒數 91 天</span></div>
-      <p class="note">陳文質醫師，H116診間，就診號1。</p>
     </div>
 
     <div class="card lvl-red" data-key="taxi-reg" data-cat="證照" data-days="68">
@@ -1702,56 +1665,154 @@
     <h2>🏥 亞東醫院回診紀錄</h2>
     <span class="count">4科</span>
   </div>
-  <div class="ledger-sub" style="margin:-6px 0 12px;">各科回診時間與用藥方式，資料來源：個人看診紀錄表</div>
+  <div class="ledger-sub" style="margin:-6px 0 12px;">各科用藥與回診時間，資料來源：個人看診紀錄表　｜　🔴 15天內即將回診</div>
 
-  <details class="ledger-month-group">
+  <details class="ledger-month-group" open>
     <summary>精神暨心身醫學部　<span class="ledger-month-count">4筆回診</span></summary>
-    <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">8/1</span><span class="cd-val">林筑君醫師</span></span>
-      <span class="cd-row"><span class="cd-label">9/3</span><span class="cd-val">周依亭醫師，A904診間</span></span>
-      <span class="cd-row"><span class="cd-label">9/5</span><span class="cd-val">林竺君醫師，A901診間</span></span>
-      <span class="cd-row"><span class="cd-label">10/3</span><span class="cd-val">林竺君醫師，A901診間</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">威克倦</span><span class="cd-val">x2，一次服用</span></span>
-      <span class="cd-row"><span class="cd-label">心康樂</span><span class="cd-val">x1，一日2-3次</span></span>
-      <span class="cd-row"><span class="cd-label">鎂思定</span><span class="cd-val">x1，一次服用</span></span>
-      <span class="cd-row"><span class="cd-label">利他能</span><span class="cd-val">x1，早上一次（幫助專注力）</span></span>
+    <div style="margin:8px 0;">
+      <div class="med-panel">
+        <div class="med-panel-title">💊 目前用藥　<span class="med-updated">最後更新 2026.08.01</span></div>
+        <div class="med-row"><span class="med-name">威克倦</span><span class="med-dose">x2，一次服用</span></div>
+        <div class="med-row"><span class="med-name">心康樂</span><span class="med-dose">x1，一日2-3次</span></div>
+        <div class="med-row"><span class="med-name">鎂思定</span><span class="med-dose">x1，一次服用</span></div>
+        <div class="med-row"><span class="med-name">利他能</span><span class="med-dose">x1，早上一次（幫助專注力）</span></div>
+      </div>
+
+      <div class="visit-subhead">📅 回診記錄</div>
+      <span class="cd-row" style="margin:0 14px 8px;"><span class="cd-label">8/1</span><span class="cd-val">林筑君醫師（已回診）</span></span>
+
+      <div class="card lvl-red" data-key="fareast-psych-0903" data-cat="醫療" data-days="9" style="margin:0 0 8px;">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-medical">醫療</span>
+        <div class="tag">亞東醫院 · 精神暨心身醫學部</div>
+        <h3>精神科回診</h3>
+        <div class="date">2026.09.03 08:30 <span class="days">倒數 9 天</span></div>
+        <p class="note">周依亭醫師，A904診間，就診號1，建議08:30到。</p>
+      </div>
+
+      <div class="card lvl-red" data-key="fareast-psych-0905" data-cat="醫療" data-days="11" style="margin:0 0 8px;">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-medical">醫療</span>
+        <div class="tag">亞東醫院 · 精神暨心身醫學部</div>
+        <h3>精神科回診</h3>
+        <div class="date">2026.09.05 08:30 <span class="days">倒數 11 天</span></div>
+        <p class="note">林竺君醫師，A901診間，就診號1，建議08:30到。</p>
+      </div>
+
+      <div class="card lvl-amber" data-key="fareast-psych-1003" data-cat="醫療" data-days="39" style="margin:0;">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-medical">醫療</span>
+        <div class="tag">亞東醫院 · 精神暨心身醫學部</div>
+        <h3>精神科回診</h3>
+        <div class="date">2026.10.03 08:30 <span class="days">倒數 39 天</span></div>
+        <p class="note">林竺君醫師，A901診間，就診號5，建議08:30到。</p>
+      </div>
     </div>
   </details>
 
-  <details class="ledger-month-group">
+  <details class="ledger-month-group" open>
     <summary>骨科部　<span class="ledger-month-count">4筆回診</span></summary>
-    <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">8/29</span><span class="cd-val">陳文質醫師，H116診間，就診號21</span></span>
-      <span class="cd-row"><span class="cd-label">10/17</span><span class="cd-val">陳文質醫師，H116診間，就診號9</span></span>
-      <span class="cd-row"><span class="cd-label">10/24</span><span class="cd-val">陳文質醫師，H116診間，就診號7</span></span>
-      <span class="cd-row"><span class="cd-label">10/31</span><span class="cd-val">陳文質醫師，H116診間，就診號1</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">用藥</span><span class="cd-val" style="color:var(--ink-soft);">尚無紀錄</span></span>
+    <div style="margin:8px 0;">
+      <div class="med-panel">
+        <div class="med-panel-title">💊 目前用藥</div>
+        <div class="med-panel-empty">尚無用藥紀錄</div>
+      </div>
+
+      <div class="visit-subhead">📅 回診記錄</div>
+      <div class="card lvl-red" data-key="fareast-ortho-0829" data-cat="醫療" data-days="4" style="margin:0 0 8px;">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-medical">醫療</span>
+        <div class="tag">亞東醫院 · 骨科部</div>
+        <h3>骨科回診</h3>
+        <div class="date">2026.08.29 上午 <span class="days">倒數 4 天</span></div>
+        <p class="note">陳文質醫師，H116診間，就診號21。</p>
+      </div>
+
+      <div class="card lvl-amber" data-key="fareast-ortho-1017" data-cat="醫療" data-days="53" style="margin:0 0 8px;">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-medical">醫療</span>
+        <div class="tag">亞東醫院 · 骨科部</div>
+        <h3>骨科回診</h3>
+        <div class="date">2026.10.17 上午 <span class="days">倒數 53 天</span></div>
+        <p class="note">陳文質醫師，H116診間，就診號9。</p>
+      </div>
+
+      <div class="card lvl-amber" data-key="fareast-ortho-1024" data-cat="醫療" data-days="60" style="margin:0 0 8px;">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-medical">醫療</span>
+        <div class="tag">亞東醫院 · 骨科部</div>
+        <h3>骨科回診</h3>
+        <div class="date">2026.10.24 上午 <span class="days">倒數 60 天</span></div>
+        <p class="note">陳文質醫師，H116診間，就診號7。</p>
+      </div>
+
+      <div class="card lvl-green" data-key="fareast-ortho-1031" data-cat="醫療" data-days="67" style="margin:0;">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-medical">醫療</span>
+        <div class="tag">亞東醫院 · 骨科部</div>
+        <h3>骨科回診</h3>
+        <div class="date">2026.10.31 上午 <span class="days">倒數 67 天</span></div>
+        <p class="note">陳文質醫師，H116診間，就診號1。</p>
+      </div>
     </div>
   </details>
 
-  <details class="ledger-month-group">
+  <details class="ledger-month-group" open>
     <summary>新陳代謝科　<span class="ledger-month-count">2筆回診</span></summary>
-    <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">8/29</span><span class="cd-val">陳華芬醫師，G224診間，就診號3</span></span>
-      <span class="cd-row"><span class="cd-label">9/12</span><span class="cd-val">陳華芬醫師，G224診間，就診號9</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">用藥</span><span class="cd-val" style="color:var(--ink-soft);">尚無紀錄</span></span>
+    <div style="margin:8px 0;">
+      <div class="med-panel">
+        <div class="med-panel-title">💊 目前用藥　<span class="med-updated">最後更新 2026.08.29</span></div>
+        <div class="med-row"><span class="med-name">優力康（降尿酸）</span><span class="med-dose">x1，每日一顆</span></div>
+      </div>
+
+      <div class="visit-subhead">📅 回診記錄</div>
+      <div class="card lvl-red" data-key="fareast-endo-0829" data-cat="醫療" data-days="4" style="margin:0 0 8px;">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-medical">醫療</span>
+        <div class="tag">亞東醫院 · 新陳代謝科</div>
+        <h3>新陳代謝科回診</h3>
+        <div class="date">2026.08.29 上午 <span class="days">倒數 4 天</span></div>
+        <p class="note">陳華芬醫師，G224診間，就診號3。</p>
+      </div>
+
+      <div class="card lvl-amber" data-key="fareast-endo-0912" data-cat="醫療" data-days="18" style="margin:0;">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-medical">醫療</span>
+        <div class="tag">亞東醫院 · 新陳代謝科</div>
+        <h3>新陳代謝科回診</h3>
+        <div class="date">2026.09.12 上午 <span class="days">倒數 18 天</span></div>
+        <p class="note">陳華芬醫師，G224診間，就診號9。</p>
+      </div>
     </div>
   </details>
 
-  <details class="ledger-month-group">
+  <details class="ledger-month-group" open>
     <summary>神經醫學部　<span class="ledger-month-count">1筆回診</span></summary>
-    <div class="contract-detail" style="margin:8px 14px;">
-      <span class="cd-row"><span class="cd-label">9/10</span><span class="cd-val">李少白醫師，F203診間，就診號13（上午）</span></span>
-      <span class="cd-row" style="margin-top:4px; border-top:1px dashed var(--line); padding-top:6px;"><span class="cd-label">可得安穩</span><span class="cd-val">x1，每日一顆</span></span>
-      <span class="cd-row"><span class="cd-label">脈優</span><span class="cd-val">x1，每日一顆</span></span>
-      <span class="cd-row"><span class="cd-label">葉酸</span><span class="cd-val">x1，每日一顆</span></span>
+    <div style="margin:8px 0;">
+      <div class="med-panel">
+        <div class="med-panel-title">💊 目前用藥</div>
+        <div class="med-row"><span class="med-name">可得安穩</span><span class="med-dose">x1，每日一顆</span></div>
+        <div class="med-row"><span class="med-name">脈優</span><span class="med-dose">x1，每日一顆</span></div>
+        <div class="med-row"><span class="med-name">葉酸</span><span class="med-dose">x1，每日一顆</span></div>
+      </div>
+
+      <div class="visit-subhead">📅 回診記錄</div>
+      <div class="card lvl-amber" data-key="fareast-neuro-0910" data-cat="醫療" data-days="16" style="margin:0;">
+        <span class="check" onclick="toggleDone(this)"></span>
+        <span class="cat cat-medical">醫療</span>
+        <div class="tag">亞東醫院 · 神經醫學部</div>
+        <h3>神經內科回診</h3>
+        <div class="date">2026.09.10 上午 <span class="days">倒數 16 天</span></div>
+        <p class="note">李少白醫師，F203診間，就診號13。</p>
+      </div>
     </div>
   </details>
 
-  <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">📌 另有「大鈞-復健科」分頁尚未提供內容，之後補上再一併加入。</p>
+  <p style="margin-top:6px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">📌 另有「大鈞-復健科」分頁尚未提供內容，之後補上再一併加入。原「待辦」清單中的個別回診卡片已整合至本區塊，避免重複顯示。</p>
 </div>
 
 <div class="ledger-divider"></div>
+
 
 <div class="ledger" id="creditcard-section">
   <div class="col-head">
@@ -2627,15 +2688,16 @@
 
     card.classList.toggle('is-done', nowDone);
     localStorage.setItem('todo-' + key, nowDone ? '1' : '0');
+    const belongsToLedger = !!card.closest('.ledger');
     if(nowDone){
       const completedDate = todayISO();
       card.setAttribute('data-completed', completedDate);
       localStorage.setItem('donedate-' + key, completedDate);
-      colDone.appendChild(card);
+      if(!belongsToLedger) colDone.appendChild(card);
     } else {
       card.removeAttribute('data-completed');
       localStorage.removeItem('donedate-' + key);
-      colTodo.appendChild(card);
+      if(!belongsToLedger) colTodo.appendChild(card);
     }
     updateCounts();
     renderUrgentBanner();
@@ -2666,14 +2728,15 @@
 
       const saved = localStorage.getItem('todo-' + key);
       const savedDate = localStorage.getItem('donedate-' + key);
+      const belongsToLedger = !!card.closest('.ledger');
       if(saved === '1' && !card.classList.contains('is-done')){
         card.classList.add('is-done');
         if(savedDate) card.setAttribute('data-completed', savedDate);
-        colDone.appendChild(card);
+        if(!belongsToLedger) colDone.appendChild(card);
       } else if(saved === '0' && card.classList.contains('is-done')){
         card.classList.remove('is-done');
         card.removeAttribute('data-completed');
-        colTodo.appendChild(card);
+        if(!belongsToLedger) colTodo.appendChild(card);
       } else if(card.classList.contains('is-done') && !card.hasAttribute('data-completed') && savedDate){
         card.setAttribute('data-completed', savedDate);
       }
@@ -2692,7 +2755,7 @@
     const items = Array.from(document.querySelectorAll('.card[data-key]'))
       .filter(card => {
         const days = parseInt(card.getAttribute('data-days') || '9999', 10);
-        return days <= 14 && !card.classList.contains('is-done');
+        return days <= 15 && !card.classList.contains('is-done');
       })
       .map(card => ({
         el: card,
@@ -2721,7 +2784,7 @@
   function pushState(){ /* no-op */ }
 
   // ---- 排序 ----
-  const catOrder = ['證照','保險','車輛','稅務','車隊','費用','醫療','租屋'];
+  const catOrder = ['證照','保險','車輛','稅務','車隊','費用','租屋'];
   function sortCards(mode){
     const cards = Array.from(colTodo.querySelectorAll('.card'));
     cards.sort((a,b) => {
@@ -3281,6 +3344,12 @@
       }
 
       if(diffDays <= thresholdDays){
+        const title = card.querySelector('h3');
+        dueSoon.push({ title: title ? title.textContent : '待辦事項', days: diffDays });
+        return;
+      }
+      // 醫療類別另外套用15天門檻，即使一般門檻未涵蓋也要提醒
+      if(card.getAttribute('data-cat') === '醫療' && diffDays <= 15){
         const title = card.querySelector('h3');
         dueSoon.push({ title: title ? title.textContent : '待辦事項', days: diffDays });
       }
