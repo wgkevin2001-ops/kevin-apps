@@ -306,6 +306,19 @@
   .card.lvl-green .days{background:rgba(92,138,106,0.16); color:#3E6B4C;}
   .card.is-done .days{background: rgba(92,107,87,0.14); color:var(--done-ink);}
 
+  /* 例行付款：下次到期倒數徽章 */
+  .c-days-badge{
+    display:inline-block;
+    font-family:'Noto Sans Mono', monospace;
+    font-weight:900;
+    font-size:11.5px;
+    padding:2px 9px;
+    border-radius:20px;
+  }
+  .c-days-badge.badge-red{ background:rgba(178,58,47,0.14); color:var(--stamp); }
+  .c-days-badge.badge-amber{ background:rgba(196,143,0,0.16); color:#8a6400; }
+  .c-days-badge.badge-green{ background:rgba(92,138,106,0.14); color:#3d6b4a; }
+
   /* 醫院回診紀錄：卡片精簡化，科別已在分組標題顯示，卡片內不再重複 */
   .ledger .card .tag{
     display:none;
@@ -1233,7 +1246,6 @@
     <a href="#files-section">📁 檔案位置</a>
     <a href="#memo-section">📝 備忘錄</a>
     <a href="#consumption-section">⛽ 消費情報</a>
-    <a href="#insurance-section">🛡️ 保險保單</a>
     <a href="#tax-calendar-section">🧾 稅務行事曆</a>
     <a href="#data-storage-info-section">ℹ️ 資料說明</a>
   </div>
@@ -1324,41 +1336,12 @@
       <span class="cat cat-tax" data-cat="稅務" onclick="bringCategoryFront('稅務')">稅務</span>
       <span class="cat cat-fleet" data-cat="車隊" onclick="bringCategoryFront('車隊')">車隊</span>
       <span class="cat cat-fee" data-cat="費用" onclick="bringCategoryFront('費用')">費用</span>
-      <span class="cat cat-subscription" data-cat="訂閱" onclick="bringCategoryFront('訂閱')">訂閱</span>
       <span class="cat cat-rental" data-cat="租屋" onclick="bringCategoryFront('租屋')">租屋</span>
     </div>
     <div class="todo-filter-status" id="todo-filter-status" style="margin:0 0 14px;" onclick="clearCategoryFilter()">🔴 目前僅顯示90天內緊急項目，點分類可查看該分類全部項目</div>
 
     <div style="margin-bottom:16px;">
       <button class="export-btn" onclick="sortCards('days')">🗓️ 依到期日排序</button>
-    </div>
-
-    <div class="card lvl-green" data-key="claude-pro-sub" data-cat="訂閱" data-days="286">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-subscription">訂閱</span>
-      <div class="tag">Claude Pro（Anthropic）· Google Play訂閱</div>
-      <h3>🤖 Claude Pro 續訂</h3>
-      <div class="date">2027.05.01 <span class="days">倒數 286 天</span></div>
-      <p class="note">NT$7,450/年，自動續訂中。若要取消，須在扣款日前處理。</p>
-      <div class="docs"><b>取消步驟：</b>Google Play商店 → 頭像 → 付款和訂閱 → 訂閱項目 → Claude by Anthropic → 取消訂閱。取消後仍可用到當期到期為止。</div>
-    </div>
-
-    <div class="card lvl-amber" data-key="ark-sub" data-cat="訂閱" data-days="121">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-subscription">訂閱</span>
-      <div class="tag">定期定額扣款中 · 帳號A05871</div>
-      <h3>📈 方舟運算×退休系統（黃金未來）</h3>
-      <div class="date">2026.11.17 <span class="days">倒數 121 天</span></div>
-      <p class="note">NT$5,388/期，1年方案，會員帳號：wgkevin2001@gmail.com。</p>
-    </div>
-
-    <div class="card lvl-amber" data-key="mandatory-insurance" data-cat="保險" data-days="283">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-insurance">保險</span>
-      <div class="tag">富邦產物 · 強制險</div>
-      <h3>強制汽車責任保險續保</h3>
-      <div class="date">2027.04.25 <span class="days">倒數 283 天</span></div>
-      <p class="note">TDZ-0950，保險證號051026KCA0002048，被保人青宮交通。24H客服：0800-009888。</p>
     </div>
 
     <div class="card lvl-green" data-key="car-wash" data-cat="車輛" data-days="9999" data-recurring="weekly">
@@ -1471,23 +1454,23 @@
       <p class="note">費用 NT$1,500。</p>
     </div>
 
-    <div class="card lvl-red" data-key="taxi-reg" data-cat="證照" data-days="68">
+    <div class="card lvl-red" data-key="taxi-reg" data-cat="證照" data-days="16">
       <span class="check" onclick="toggleDone(this)"></span>
       <span class="cat cat-license">證照</span>
       <div class="tag">執業登記證 · 台北交通大隊</div>
       <h3>計程車營登審驗</h3>
-      <div class="date">2026.09.21 <span class="days">倒數 68 天</span></div>
+      <div class="date">2026.09.21 <span class="days">倒數 16 天</span></div>
       <p class="note">⚠️ 生日前一個月開始驗，生日後一個月起算過期罰錢。</p>
       <div class="docs"><b>攜帶：</b>身分證、職業駕照、執業登記證正副證、行照</div>
     </div>
 
-    <div class="card lvl-red" data-key="license-review" data-cat="證照" data-days="68">
+    <div class="card lvl-green" data-key="license-review" data-cat="證照" data-days="1112">
       <span class="check" onclick="toggleDone(this)"></span>
       <span class="cat cat-license">證照</span>
       <div class="tag">職業小客車駕照 · 板橋監理站</div>
       <h3>駕照三年審驗</h3>
-      <div class="date">2026.09.21 <span class="days">倒數 68 天</span></div>
-      <p class="note">⚠️ 生日前一個月開始驗，生日後一天起算過期罰錢。滿60歲須每年審驗一次。體檢至對面佑林診所辦理。</p>
+      <div class="date">2029.09.21 <span class="days">倒數 1112 天</span></div>
+      <p class="note">✅ 2026年度已完成審驗，下次審驗排定2029.09.21。⚠️ 生日前一個月開始驗，生日後一天起算過期罰錢。滿60歲須每年審驗一次。體檢至對面佑林診所辦理。</p>
       <div class="docs"><b>攜帶：</b>體檢表、身分證正本、駕照正本、一寸照片2張</div>
     </div>
 
@@ -1504,15 +1487,6 @@
         <b>奇異果車隊：</b>台北市中山區建國北路三段75巷8號，(02)2517-8959，週一至週五9:00–18:00（午休12:00–13:00），乘客險500萬/人<br>
         <b>Hi Taxi車隊：</b>台北市松山區民族東路687號，(02)8712-3456，週一至週五9:00–17:00（午休12:00–13:00），乘客險500萬/人
       </div>
-    </div>
-
-    <div class="card lvl-green" data-key="passenger-insurance" data-cat="保險" data-days="404">
-      <span class="check" onclick="toggleDone(this)"></span>
-      <span class="cat cat-insurance">保險</span>
-      <div class="tag">保險 · 小瑜-租售車部（年豐／台灣大）</div>
-      <h3>乘客險到期</h3>
-      <div class="date">2027.09.30 <span class="days">倒數 404 天</span></div>
-      <p class="note">保單號碼 02014CT000531（每人500萬），已續保 115/09/30～116/09/30，繳費NT$1,200已於2026/08完成匯款。</p>
     </div>
 
     <div class="card lvl-amber" data-key="parking-fee" data-cat="費用" data-days="61">
@@ -1708,7 +1682,7 @@
     <summary>精神暨心身醫學部　<span class="ledger-month-count">4筆回診</span></summary>
     <div style="margin:8px 0;">
       <div class="med-panel">
-        <div class="med-panel-title">💊 目前用藥　<span class="med-updated">最後更新 2026.08.01</span></div>
+        <div class="med-panel-title">💊 目前用藥　<span class="med-updated">最後更新 2026.09.05</span></div>
         <div class="med-row"><span class="med-name">威克倦</span><span class="med-dose">x2，一次服用</span></div>
         <div class="med-row"><span class="med-name">心康樂</span><span class="med-dose">x1，一日2-3次</span></div>
         <div class="med-row"><span class="med-name">鎂思定</span><span class="med-dose">x1，一次服用</span></div>
@@ -1725,20 +1699,20 @@
         <p class="note">林筑君醫師。</p>
       </div>
 
-      <div class="card lvl-red" data-key="fareast-psych-0903" data-cat="醫療" data-days="9" style="margin:0 0 8px;">
+      <div class="card is-done lvl-red" data-key="fareast-psych-0903" data-cat="醫療" data-days="0" data-completed="2026-09-03" style="margin:0 0 8px;">
         <span class="check" onclick="toggleDone(this)"></span>
         <div class="tag">亞東醫院 · 精神暨心身醫學部</div>
         <h3>精神科回診</h3>
-        <div class="date">2026.09.03 08:30 <span class="days">倒數 9 天</span></div>
-        <p class="note">周依亭醫師・A904診間・1號・建議08:30到</p>
+        <div class="date">2026.09.03 <span class="days">已回診</span></div>
+        <p class="note">周依亭醫師・A904診間・1號</p>
       </div>
 
-      <div class="card lvl-red" data-key="fareast-psych-0905" data-cat="醫療" data-days="11" style="margin:0 0 8px;">
+      <div class="card is-done lvl-red" data-key="fareast-psych-0905" data-cat="醫療" data-days="0" data-completed="2026-09-05" style="margin:0 0 8px;">
         <span class="check" onclick="toggleDone(this)"></span>
         <div class="tag">亞東醫院 · 精神暨心身醫學部</div>
         <h3>精神科回診</h3>
-        <div class="date">2026.09.05 08:30 <span class="days">倒數 11 天</span></div>
-        <p class="note">林竺君醫師・A901診間・1號・建議08:30到</p>
+        <div class="date">2026.09.05 <span class="days">已回診</span></div>
+        <p class="note">林竺君醫師・A901診間・1號</p>
       </div>
 
       <div class="card lvl-amber" data-key="fareast-psych-1003" data-cat="醫療" data-days="39" style="margin:0;">
@@ -1928,7 +1902,7 @@
   <div class="col-head">
     <span class="dot dot-neutral"></span>
     <h2>📋 例行性付款合約</h2>
-    <span class="count">10</span>
+    <span class="count">12</span>
   </div>
   <div class="legend category-legend" style="margin:0 0 16px; grid-template-columns: repeat(5, 1fr);">
     <span class="cat cat-fee" onclick="filterRoutinePayments('cat-fee')">費用</span>
@@ -1941,18 +1915,8 @@
     <button class="export-btn" onclick="clearRoutineFilter()">✕ 清除篩選，顯示全部</button>
   </div>
 
-  <div class="contract-row">
-    <div>
-      <span class="cat cat-fee">費用</span>
-      <span class="c-name">💰 睿德每月零用金請領</span>
-      <span class="c-note">每月固定申請，無特定到期日</span>
-      <span class="c-note">2026.07：已領取維修費用 NT$2,300</span>
-    </div>
-    <span class="c-amount"></span>
-  </div>
-
   <ul class="ledger-list">
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2026-09-06">
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-fee">費用</span>
@@ -1961,6 +1925,7 @@
         <span class="c-amount">NT$5,598/月</span>
       </div>
       <div class="contract-detail">
+        <span class="cd-row c-due-countdown"><span class="cd-label">下次到期</span><span class="cd-val c-days-badge"></span></span>
         <span class="cd-row"><span class="cd-label">車號</span><span class="cd-val">TDZ-0950</span></span>
         <span class="cd-row"><span class="cd-label">扣款方式</span><span class="cd-val">國泰銀行自動扣款</span></span>
         <span class="cd-row"><span class="cd-label">案件總金額</span><span class="cd-val">NT$300,000</span></span>
@@ -1983,7 +1948,7 @@
         <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">聯名卡繳費最高5%回饋</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2026-09-16">
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-telecom">電信</span>
@@ -1992,13 +1957,14 @@
         <span class="c-amount">NT$399/月</span>
       </div>
       <div class="contract-detail">
+        <span class="cd-row c-due-countdown"><span class="cd-label">下次到期</span><span class="cd-val c-days-badge"></span></span>
         <span class="cd-row"><span class="cd-label">門號</span><span class="cd-val">0926-888-178</span></span>
         <span class="cd-row"><span class="cd-label">方案</span><span class="cd-val">21GB 高速流量(用量到降速)，網內免費講到飽，網外每月60分鐘免費</span></span>
         <span class="cd-row"><span class="cd-label">合約</span><span class="cd-val">24個月約，2026/08/16起（若提前續約需加計原專案剩餘月數）</span></span>
         <span class="cd-row"><span class="cd-label">客服</span><span class="cd-val">188 或 0800-088-090</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2026-10-07">
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-telecom">網路</span>
@@ -2007,13 +1973,14 @@
         <span class="c-amount">NT$909/期</span>
       </div>
       <div class="contract-detail">
+        <span class="cd-row c-due-countdown"><span class="cd-label">下次到期</span><span class="cd-val c-days-badge"></span></span>
         <span class="cd-row"><span class="cd-label">方案</span><span class="cd-val">連線400M／150M（下載/上傳）</span></span>
         <span class="cd-row"><span class="cd-label">合約</span><span class="cd-val">無合約</span></span>
         <span class="cd-row"><span class="cd-label">地址</span><span class="cd-val">板橋區文化路一段</span></span>
         <span class="cd-row"><span class="cd-label">繳費</span><span class="cd-val">信用卡繳費，最近繳費2026/04/07（區間2026/04–06，一次繳3個月）</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2027-02-28">
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-fee">費用</span>
@@ -2022,24 +1989,105 @@
         <span class="c-amount">NT$15,000/年</span>
       </div>
       <div class="contract-detail">
+        <span class="cd-row c-due-countdown"><span class="cd-label">下次到期</span><span class="cd-val c-days-badge"></span></span>
         <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.02.28</span></span>
         <span class="cd-row"><span class="cd-label">窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
         <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">NT$15,000／年</span></span>
       </div>
     </li>
-    <li class="contract-row">
+    <li class="contract-row" data-due="2026-10-22">
       <div>
         <span class="cat cat-parking">停車</span>
         <span class="c-name">🅿️ 社區停車位</span>
-        <span class="c-note">每季22日繳費，最近一期已繳2026/04/22，下期到期2026/10/22</span>
+        <span class="c-note">每季22日繳費，最近一期已繳2026/04/22　<span class="c-days-badge"></span></span>
       </div>
       <span class="c-amount">NT$8,000/季</span>
     </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2027-04-25">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-insurance">保險</span>
+          <span class="c-name">🚕 富邦產物－強制險</span>
+        </div>
+        <span class="c-amount">－（未提供）</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row c-due-countdown"><span class="cd-label">下次到期</span><span class="cd-val c-days-badge"></span></span>
+        <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">汽車強制責任險</span></span>
+        <span class="cd-row"><span class="cd-label">保單號碼</span><span class="cd-val">051026KCA0002048</span></span>
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.04.25</span></span>
+        <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">富邦產物 0800-009888</span></span>
+        <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">法定強制投保，逾期未保不得上路</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2027-05-03">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-insurance">保險</span>
+          <span class="c-name">🚕 新安東京海上－任意險</span>
+        </div>
+        <span class="c-amount">NT$19,047/年</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row c-due-countdown"><span class="cd-label">下次到期</span><span class="cd-val c-days-badge"></span></span>
+        <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">汽車任意第三人責任險</span></span>
+        <span class="cd-row"><span class="cd-label">保單號碼</span><span class="cd-val">17000第15V9005830號</span></span>
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.05.03</span></span>
+        <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2027-09-30">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-insurance">保險</span>
+          <span class="c-name">🚕 新安東京海上－旅客運送責任險（乘客險）</span>
+        </div>
+        <span class="c-amount">NT$1,200/年</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row c-due-countdown"><span class="cd-label">下次到期</span><span class="cd-val c-days-badge"></span></span>
+        <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">旅客運送責任保險</span></span>
+        <span class="cd-row"><span class="cd-label">保單號碼</span><span class="cd-val">02014CT000531（每人500萬）</span></span>
+        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.09.30</span></span>
+        <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
+        <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">已續保115/09/30～116/09/30，2026/08完成匯款</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2027-05-01">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-subscription">訂閱</span>
+          <span class="c-name">🤖 Claude Pro 續訂</span>
+        </div>
+        <span class="c-amount">NT$7,450/年</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row c-due-countdown"><span class="cd-label">下次到期</span><span class="cd-val c-days-badge"></span></span>
+        <span class="cd-row"><span class="cd-label">平台</span><span class="cd-val">Google Play訂閱</span></span>
+        <span class="cd-row"><span class="cd-label">續訂日</span><span class="cd-val">2027.05.01</span></span>
+        <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">自動續訂中，若要取消須在扣款日前處理</span></span>
+        <span class="cd-row"><span class="cd-label">取消步驟</span><span class="cd-val">Google Play商店→頭像→付款和訂閱→訂閱項目→Claude by Anthropic→取消訂閱，取消後仍可用到當期到期為止</span></span>
+      </div>
+    </li>
+    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2026-11-17">
+      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
+        <div>
+          <span class="cat cat-subscription">訂閱</span>
+          <span class="c-name">📈 方舟運算×退休系統（黃金未來）</span>
+        </div>
+        <span class="c-amount">NT$5,388/期</span>
+      </div>
+      <div class="contract-detail">
+        <span class="cd-row c-due-countdown"><span class="cd-label">下次到期</span><span class="cd-val c-days-badge"></span></span>
+        <span class="cd-row"><span class="cd-label">帳號</span><span class="cd-val">A05871</span></span>
+        <span class="cd-row"><span class="cd-label">方案</span><span class="cd-val">1年方案，定期定額扣款中</span></span>
+        <span class="cd-row"><span class="cd-label">下次扣款日</span><span class="cd-val">2026.11.17</span></span>
+        <span class="cd-row"><span class="cd-label">會員帳號</span><span class="cd-val">wgkevin2001@gmail.com</span></span>
+      </div>
+    </li>
   </ul>
 
-  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">📌 車險（強制險／任意險／旅客運送責任險）已整併到下方「🛡️ 保險保單管理」專區集中管理，避免重複。</p>
-
-  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 此區塊資料由您手動維護，若合約內容有異動，記得回來這裡更新。訂閱類項目已移至待辦事項區塊，含倒數天數。</p>
+  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">⚠️ 此區塊資料由您手動維護，若合約內容有異動，記得回來這裡更新。</p>
 </div>
 
 <div class="ledger-divider"></div>
@@ -2238,69 +2286,6 @@
 
 <div class="ledger-divider"></div>
 
-<div class="ledger" id="insurance-section">
-  <div class="col-head">
-    <span class="dot dot-neutral"></span>
-    <h2>🛡️ 保險保單管理</h2>
-    <span class="count">3</span>
-  </div>
-  <div class="ledger-sub" style="margin:-6px 0 16px;">車險、產險等保單整理　｜　到期前記得續保，資料手動維護</div>
-
-  <ul class="ledger-list">
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
-        <div>
-          <span class="cat cat-insurance">保險</span>
-          <span class="c-name">🚕 富邦產物－強制險</span>
-        </div>
-        <span class="c-amount">－（未提供）</span>
-      </div>
-      <div class="contract-detail">
-        <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">汽車強制責任險</span></span>
-        <span class="cd-row"><span class="cd-label">保單號碼</span><span class="cd-val">051026KCA0002048</span></span>
-        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.04.25</span></span>
-        <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">富邦產物 0800-009888</span></span>
-        <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">法定強制投保，逾期未保不得上路</span></span>
-      </div>
-    </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
-        <div>
-          <span class="cat cat-insurance">保險</span>
-          <span class="c-name">🚕 新安東京海上－任意險</span>
-        </div>
-        <span class="c-amount">NT$19,047/年</span>
-      </div>
-      <div class="contract-detail">
-        <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">汽車任意第三人責任險</span></span>
-        <span class="cd-row"><span class="cd-label">保單號碼</span><span class="cd-val">17000第15V9005830號</span></span>
-        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.05.03</span></span>
-        <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
-      </div>
-    </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;">
-      <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
-        <div>
-          <span class="cat cat-insurance">保險</span>
-          <span class="c-name">🚕 新安東京海上－旅客運送責任險（乘客險）</span>
-        </div>
-        <span class="c-amount">NT$1,200/年</span>
-      </div>
-      <div class="contract-detail">
-        <span class="cd-row"><span class="cd-label">保單類型</span><span class="cd-val">旅客運送責任保險</span></span>
-        <span class="cd-row"><span class="cd-label">保單號碼</span><span class="cd-val">02014CT000531（每人500萬）</span></span>
-        <span class="cd-row"><span class="cd-label">到期日</span><span class="cd-val">2027.09.30</span></span>
-        <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
-        <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">已續保115/09/30～116/09/30，2026/08完成匯款</span></span>
-      </div>
-    </li>
-  </ul>
-
-  <p style="margin-top:12px; font-family:'Noto Sans Mono', monospace; font-size:11px; color:var(--ink-soft);">📌 此區塊整理自「例行性付款合約」中的保險項目，方便集中管理續保時間。若有人身壽險、醫療險等其他保單，也可比照格式加入。</p>
-</div>
-
-<div class="ledger-divider"></div>
-
 <div class="ledger" id="tax-calendar-section">
   <div class="col-head">
     <span class="dot dot-neutral"></span>
@@ -2381,7 +2366,7 @@
   </div>
 
   <div class="contract-detail" style="margin-top:8px;">
-    <span class="cd-row"><span class="cd-label">網頁本身</span><span class="cd-val">例行付款、保險保單、評估事項、稅務行事曆、投資心法、醫院回診紀錄、計程車每月統計</span></span>
+    <span class="cd-row"><span class="cd-label">網頁本身</span><span class="cd-val">例行付款（含保險保單）、評估事項、稅務行事曆、投資心法、醫院回診紀錄、計程車每月統計</span></span>
     <span class="cd-row"><span class="cd-label">手機本機</span><span class="cd-val">信用卡對帳記錄、備忘錄（自己輸入的部分）</span></span>
     <span class="cd-row"><span class="cd-label">本機＋Sheet</span><span class="cd-val">待辦事項勾選狀態、加油紀錄</span></span>
     <span class="cd-row"><span class="cd-label">網頁＋Sheet</span><span class="cd-val">存股配息、檔案位置</span></span>
@@ -2417,62 +2402,62 @@
 
   // ---- 近期領息入帳：提醒 ----
   let DIVIDEND_EVENTS = [
-    {month:1, day:13, code:'00918', name:'大華優利高填息30', cur:5860.9, tgt:18800},
+    {month:1, day:13, code:'00918', name:'大華優利高填息30', cur:7585.2, tgt:25200},
     {month:1, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:1, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:1, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:1, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:1, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:1, day:31, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:1, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
     {month:2, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:2, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:2, day:28, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:2, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
-    {month:3, day:12, code:'00878', name:'國泰永續高股息', cur:33685.445, tgt:34835},
+    {month:2, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:2, day:28, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:2, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
+    {month:3, day:12, code:'00878', name:'國泰永續高股息', cur:48702.2, tgt:50500},
     {month:3, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:3, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:3, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:3, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
-    {month:4, day:13, code:'00918', name:'大華優利高填息30', cur:5860.9, tgt:18800},
+    {month:3, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:3, day:31, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:3, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
+    {month:4, day:13, code:'00918', name:'大華優利高填息30', cur:7585.2, tgt:25200},
     {month:4, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:4, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:4, day:30, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:4, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:4, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:4, day:30, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:4, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
     {month:5, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:5, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:5, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:5, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
-    {month:6, day:12, code:'00878', name:'國泰永續高股息', cur:33685.445, tgt:34835},
+    {month:5, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:5, day:31, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:5, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
+    {month:6, day:12, code:'00878', name:'國泰永續高股息', cur:48702.2, tgt:50500},
     {month:6, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:6, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:6, day:30, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:6, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
-    {month:7, day:13, code:'00918', name:'大華優利高填息30', cur:5860.9, tgt:18800},
+    {month:6, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:6, day:30, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:6, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
+    {month:7, day:13, code:'00918', name:'大華優利高填息30', cur:7585.2, tgt:25200},
     {month:7, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:7, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:7, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:7, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:7, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:7, day:31, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:7, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
     {month:8, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:8, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:8, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:8, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
-    {month:9, day:12, code:'00878', name:'國泰永續高股息', cur:33685.445, tgt:34835},
+    {month:8, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:8, day:31, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:8, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
+    {month:9, day:12, code:'00878', name:'國泰永續高股息', cur:48702.2, tgt:50500},
     {month:9, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:9, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:9, day:30, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:9, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
-    {month:10, day:13, code:'00918', name:'大華優利高填息30', cur:5860.9, tgt:18800},
+    {month:9, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:9, day:30, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:9, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
+    {month:10, day:13, code:'00918', name:'大華優利高填息30', cur:7585.2, tgt:25200},
     {month:10, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:10, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:10, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:10, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:10, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:10, day:31, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:10, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
     {month:11, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:11, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:11, day:30, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:11, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
-    {month:12, day:12, code:'00878', name:'國泰永續高股息', cur:33685.445, tgt:34835},
+    {month:11, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:11, day:30, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:11, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
+    {month:12, day:12, code:'00878', name:'國泰永續高股息', cur:48702.2, tgt:50500},
     {month:12, day:13, code:'00981D', name:'主動中信非投等債', cur:1610, tgt:3500},
-    {month:12, day:12, code:'00981B', name:'第一金優選非投債', cur:1550, tgt:3100},
-    {month:12, day:31, code:'00400A', name:'主動國泰動能高息', cur:665.4, tgt:6000},
-    {month:12, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1728, tgt:6400},
+    {month:12, day:12, code:'00981B', name:'第一金優選非投債', cur:1512, tgt:3150},
+    {month:12, day:31, code:'00400A', name:'主動國泰動能高息', cur:661.2, tgt:6000},
+    {month:12, day:26, code:'00406A', name:'主動中信台灣收益成長', cur:1874.04, tgt:6900},
   ];
 
   let dividendNotifyOn = (localStorage.getItem('dividend-notify-on') === '1');
@@ -2930,23 +2915,82 @@
   applyTodoFilter();
   renderUrgentBanner();
 
+  function updateRoutinePaymentBadges(){
+    const today = new Date();
+    today.setHours(0,0,0,0);
+    document.querySelectorAll('#routine-payment-section li[data-due]').forEach(li => {
+      const due = new Date(li.getAttribute('data-due'));
+      due.setHours(0,0,0,0);
+      const diffDays = Math.round((due - today) / 86400000);
+      const badge = li.querySelector('.c-days-badge');
+      if(!badge) return;
+
+      let cls, text;
+      if(diffDays < 0){ cls = 'badge-red'; text = '已過期 ' + Math.abs(diffDays) + ' 天'; }
+      else if(diffDays === 0){ cls = 'badge-red'; text = '就是今天'; }
+      else if(diffDays <= 15){ cls = 'badge-red'; text = '倒數 ' + diffDays + ' 天'; }
+      else if(diffDays <= 60){ cls = 'badge-amber'; text = '倒數 ' + diffDays + ' 天'; }
+      else { cls = 'badge-green'; text = '倒數 ' + diffDays + ' 天'; }
+
+      badge.textContent = text;
+      badge.className = 'c-days-badge ' + cls;
+    });
+  }
+  updateRoutinePaymentBadges();
+
+  let urgentBannerTargets = [];
+
+  function scrollToUrgentTarget(idx){
+    const el = urgentBannerTargets[idx];
+    if(el) el.scrollIntoView({behavior:'smooth', block:'center'});
+  }
+
   function renderUrgentBanner(){
     const banner = document.getElementById('urgent-banner');
     const list = document.getElementById('urgent-banner-list');
     if(!banner || !list) return;
 
-    const items = Array.from(document.querySelectorAll('.card[data-key]'))
-      .filter(card => {
-        const days = parseInt(card.getAttribute('data-days') || '9999', 10);
-        return days <= 15 && !card.classList.contains('is-done');
+    const today = new Date();
+    today.setHours(0,0,0,0);
+
+    const cardItems = Array.from(document.querySelectorAll('.card[data-key]'))
+      .filter(card => !card.hasAttribute('data-recurring') && !card.classList.contains('is-done'))
+      .map(card => {
+        const dateEl = card.querySelector('.date');
+        if(!dateEl) return null;
+        const m = dateEl.textContent.match(/(\d{4})\.(\d{2})\.(\d{2})/);
+        if(!m) return null;
+        const due = new Date(parseInt(m[1],10), parseInt(m[2],10)-1, parseInt(m[3],10));
+        due.setHours(0,0,0,0);
+        const diffDays = Math.round((due - today) / 86400000);
+        return {
+          el: card,
+          name: card.querySelector('h3') ? card.querySelector('h3').textContent.trim() : '',
+          days: diffDays,
+          dateText: dateEl.childNodes[0].textContent.trim()
+        };
       })
-      .map(card => ({
-        el: card,
-        name: card.querySelector('h3') ? card.querySelector('h3').textContent.trim() : '',
-        days: parseInt(card.getAttribute('data-days'), 10),
-        dateText: card.querySelector('.date') ? card.querySelector('.date').childNodes[0].textContent.trim() : ''
-      }))
+      .filter(Boolean);
+
+    const paymentItems = Array.from(document.querySelectorAll('#routine-payment-section li[data-due]'))
+      .map(li => {
+        const due = new Date(li.getAttribute('data-due'));
+        due.setHours(0,0,0,0);
+        const diffDays = Math.round((due - today) / 86400000);
+        const nameEl = li.querySelector('.c-name');
+        return {
+          el: li,
+          name: nameEl ? nameEl.textContent.trim() : '',
+          days: diffDays,
+          dateText: li.getAttribute('data-due')
+        };
+      });
+
+    const items = cardItems.concat(paymentItems)
+      .filter(it => it.days <= 15)
       .sort((a,b) => a.days - b.days);
+
+    urgentBannerTargets = items.map(it => it.el);
 
     if(!items.length){
       banner.style.display = 'none';
@@ -2954,11 +2998,9 @@
     }
     banner.style.display = 'block';
     list.innerHTML = items.map((it, idx) =>
-      '<div class="urgent-item" onclick="document.querySelectorAll(\'.card[data-key]\')[' +
-        Array.from(document.querySelectorAll('.card[data-key]')).indexOf(it.el) +
-      '].scrollIntoView({behavior:\'smooth\',block:\'center\'})">' +
+      '<div class="urgent-item" onclick="scrollToUrgentTarget(' + idx + ')">' +
         '<span>' + it.name + '　' + it.dateText + '</span>' +
-        '<span class="u-days">倒數 ' + it.days + ' 天</span>' +
+        '<span class="u-days">' + (it.days < 0 ? '已過期 ' + Math.abs(it.days) + ' 天' : it.days === 0 ? '就是今天' : '倒數 ' + it.days + ' 天') + '</span>' +
       '</div>'
     ).join('');
   }
@@ -3812,7 +3854,7 @@
   }
 
   // ---- 領息日曆看板：完整內嵌版（modal + iframe） ----
-  const DIVIDEND_CALENDAR_HTML = "<!DOCTYPE html>\n<html lang=\"zh-Hant\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+Mono:wght@400;500;700&display=swap\" rel=\"stylesheet\">\n<style>\n  :root{\n    --bg:#070d1a;\n    --surface:#0e1a30;\n    --surface2:#152744;\n    --line:#22385c;\n    --ice:#e4ecf7;\n    --ice-soft:#8ba0c4;\n    --gold:#e3b45c;\n    --gold-deep:#c99436;\n    --red:#e0685c;\n  }\n  *{box-sizing:border-box; margin:0; padding:0;}\n  body{\n    background:\n      radial-gradient(circle at 15% 0%, rgba(227,180,92,0.06) 0%, transparent 45%),\n      radial-gradient(circle at 85% 100%, rgba(79,120,193,0.10) 0%, transparent 50%),\n      var(--bg);\n    color:var(--ice);\n    font-family:'Noto Sans TC', sans-serif;\n    min-height:100vh;\n    padding:24px 16px 60px;\n  }\n  .wrap{max-width:720px; margin:0 auto;}\n\n  .back-bar{\n    display:none;\n    position:sticky;\n    top:0;\n    z-index:50;\n    background:var(--bg);\n    border-bottom:1px solid var(--line);\n    padding:10px 0 14px;\n    margin-bottom:18px;\n  }\n  .back-bar.show{ display:flex; }\n  .back-btn{\n    display:inline-flex;\n    align-items:center;\n    gap:6px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice);\n    background:var(--surface2);\n    border:1px solid var(--line);\n    border-radius:20px;\n    padding:8px 16px;\n    cursor:pointer;\n    -webkit-tap-highlight-color: transparent;\n  }\n  .back-btn:active{ background:var(--line); }\n  .back-btn .arrow{ font-size:15px; line-height:1; color:var(--gold); }\n\n  header{\n    text-align:center;\n    margin-bottom:24px;\n  }\n  .eyebrow{\n    font-family:'Noto Sans Mono', monospace;\n    letter-spacing:.35em;\n    font-size:11px;\n    color:var(--gold);\n    margin-bottom:10px;\n  }\n  h1{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:28px;\n    font-weight:900;\n    letter-spacing:.02em;\n    margin-bottom:8px;\n  }\n  .sub{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:12.5px;\n    color:var(--ice-soft);\n  }\n\n  /* toggle */\n  .toggle-wrap{\n    display:flex;\n    justify-content:center;\n    margin:22px 0 24px;\n  }\n  .toggle{\n    display:inline-flex;\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:999px;\n    padding:4px;\n    position:relative;\n  }\n  .toggle button{\n    appearance:none;\n    border:none;\n    background:transparent;\n    padding:9px 26px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    letter-spacing:.05em;\n    color:var(--ice-soft);\n    cursor:pointer;\n    border-radius:999px;\n    position:relative;\n    z-index:2;\n    transition:color .25s;\n  }\n  .toggle button.active{ color:#070d1a; }\n  .toggle .thumb{\n    position:absolute;\n    top:4px; bottom:4px; left:4px;\n    width:calc(50% - 4px);\n    background:var(--gold);\n    border-radius:999px;\n    z-index:1;\n    transition:transform .28s cubic-bezier(.65,0,.35,1);\n  }\n  .toggle.on-target .thumb{ transform:translateX(100%); }\n\n  /* summary */\n  .summary{\n    display:grid;\n    grid-template-columns:repeat(3,1fr);\n    gap:10px;\n    margin-bottom:28px;\n  }\n  .summary .card{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:10px;\n    padding:16px 10px;\n    text-align:center;\n  }\n  .summary .card .num{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:20px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .summary .card .lbl{\n    font-size:11px;\n    color:var(--ice-soft);\n    margin-top:4px;\n    letter-spacing:.03em;\n  }\n\n  /* month tabs */\n  .tabs-wrap{ margin-bottom:2px; }\n  .tabs{\n    display:flex;\n    gap:6px;\n    overflow-x:auto;\n    -webkit-overflow-scrolling:touch;\n    scrollbar-width:none;\n    padding-bottom:10px;\n  }\n  .tabs::-webkit-scrollbar{ display:none; }\n  .tab{\n    flex:0 0 auto;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice-soft);\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:8px;\n    padding:10px 14px;\n    cursor:pointer;\n    text-align:center;\n    -webkit-tap-highlight-color: transparent;\n    transition: background .18s ease, color .18s ease, border-color .18s ease;\n    position:relative;\n  }\n  .tab .t-amt{\n    display:block;\n    font-size:10px;\n    font-weight:400;\n    color:var(--ice-soft);\n    margin-top:2px;\n    opacity:.75;\n  }\n  .tab.active{\n    color:var(--gold);\n    border-color:var(--gold-deep);\n    background:var(--surface2);\n  }\n  .tab.active::after{\n    content:\"\";\n    position:absolute;\n    left:14%; right:14%; bottom:-11px;\n    height:2px;\n    background:var(--gold);\n    border-radius:2px;\n  }\n\n  /* month panel */\n  .panel{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:12px;\n    overflow:hidden;\n    margin-top:18px;\n  }\n  .panel-head{\n    display:flex;\n    align-items:baseline;\n    justify-content:space-between;\n    padding:16px 18px;\n    background:var(--surface2);\n    border-bottom:1px solid var(--line);\n  }\n  .panel-head .p-name{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:20px;\n    font-weight:900;\n  }\n  .panel-head .p-total{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:17px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .panel-rows{ padding:6px 0; }\n  .row{\n    display:grid;\n    grid-template-columns:46px 1fr auto;\n    align-items:center;\n    gap:12px;\n    padding:12px 18px;\n    border-bottom:1px solid rgba(34,56,92,0.6);\n  }\n  .row:last-child{ border-bottom:none; }\n  .day{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:900;\n    font-size:19px;\n    color:var(--ice);\n    text-align:center;\n  }\n  .day.pending{ color:var(--ice-soft); font-size:15px; font-weight:400; }\n  .etf .code{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    display:block;\n  }\n  .etf .name{ font-size:13.5px; color:var(--ice); }\n  .amt{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:700;\n    font-size:15px;\n    color:var(--gold);\n    white-space:nowrap;\n    text-align:right;\n    transition:opacity .15s;\n  }\n  .amt.pending{\n    color:var(--ice-soft);\n    font-weight:400;\n    font-size:12px;\n  }\n\n  footer{\n    margin-top:32px;\n    text-align:center;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    line-height:1.8;\n  }\n\n  @media (max-width:420px){\n    h1{ font-size:23px; }\n    .summary .card .num{ font-size:17px; }\n  }\n</style>\n</head>\n<body>\n<div class=\"wrap\">\n  <div class=\"back-bar\" id=\"back-bar\">\n    <button type=\"button\" class=\"back-btn\" onclick=\"goBackToBoard()\"><span class=\"arrow\">\u2190</span>\u8fd4\u56de\u4ee3\u8fa6\u770b\u677f</button>\n  </div>\n\n  <header>\n    <div class=\"eyebrow\">DIVIDEND CALENDAR</div>\n    <h1>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</h1>\n    <div class=\"sub\">\u4f9d\u300c\u5b58\u80a1\u8a08\u756b\u300d\u8a66\u7b97\u8868 12 \u500b\u6708\u767c\u653e\u65e5\u6574\u7406</div>\n  </header>\n\n  <div class=\"toggle-wrap\">\n    <div class=\"toggle\" id=\"toggle\">\n      <div class=\"thumb\"></div>\n      <button data-mode=\"current\" class=\"active\">\u73fe\u6cc1</button>\n      <button data-mode=\"target\">\u76ee\u6a19</button>\n    </div>\n  </div>\n\n  <div class=\"summary\">\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumYear\">226,584</div>\n      <div class=\"lbl\">\u5e74\u5ea6\u9810\u4f30\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumMonth\">18,882</div>\n      <div class=\"lbl\">\u5e73\u5747\u6bcf\u6708\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\">6</div>\n      <div class=\"lbl\">\u6301\u80a1 ETF \u6a94\u6578</div>\n    </div>\n  </div>\n\n  <div class=\"tabs-wrap\">\n    <div class=\"tabs\" id=\"tabs\"></div>\n  </div>\n\n  <div class=\"panel\" id=\"panel\"></div>\n\n  <footer>\n    \u767c\u653e\u65e5\u70ba\u5b58\u80a1\u8a08\u756b\u8868\u4e2d\u300c\u767c\u653e\u65e5\u898f\u5f8b(\u53c3\u8003)\u300d\u63a8\u7b97\u4e4b\u4f30\u8a08\u503c\uff0c\u5be6\u969b\u5165\u5e33\u65e5\u4ee5\u5238\u5546\u516c\u544a\u70ba\u6e96\u3002<br>\n    \u91d1\u984d = \u80a1\u6578 \u00d7 \u6bcf\u80a1\u914d\u606f\uff0c\u8cc7\u6599\u53d6\u81ea\u300c\u5b58\u80a1\u8a08\u756b\u300d\u5206\u9801\uff1b\u76ee\u6a19\u7248\u672c\u70ba\u9054\u6210\u76ee\u6a19\u6301\u80a1\u5f8c\u4e4b\u4f30\u7b97\u3002\n  </footer>\n</div>\n\n<script>\nconst data = [\n  {m:\"1\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5860.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"2\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:28,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"3\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:33685.445,tgt:34835},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"4\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5860.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"5\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"6\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:33685.445,tgt:34835},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"7\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5860.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"8\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"9\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:33685.445,tgt:34835},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"10\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:5860.9,tgt:18800},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"11\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n  {m:\"12\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:33685.445,tgt:34835},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1550,tgt:3100},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:665.4,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1728,tgt:6400},\n  ]},\n];\n\nconst fmt = n => Math.round(n).toLocaleString('zh-Hant');\nlet mode = 'current';\nlet activeMonth = new Date().getMonth(); // 0-indexed, \u9810\u8a2d\u4eca\u5929\u6240\u5728\u6708\u4efd\n\nfunction renderTabs(){\n  const tabsEl = document.getElementById('tabs');\n  tabsEl.innerHTML = data.map((month, idx)=>{\n    const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n    const isActive = idx === activeMonth;\n    return `<div class=\"tab${isActive ? ' active' : ''}\" data-idx=\"${idx}\">\n      ${month.m}\n      <span class=\"t-amt\">$${fmt(total)}</span>\n    </div>`;\n  }).join('');\n  tabsEl.querySelectorAll('.tab').forEach(el=>{\n    el.addEventListener('click', ()=>{\n      activeMonth = parseInt(el.dataset.idx, 10);\n      render();\n      el.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});\n    });\n  });\n}\n\nfunction renderPanel(){\n  const month = data[activeMonth];\n  const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n\n  const rows = [...month.items].sort((a,b)=>{\n    if(a.day===null) return 1;\n    if(b.day===null) return -1;\n    return a.day-b.day;\n  }).map(it=>{\n    const amt = mode === 'current' ? it.cur : it.tgt;\n    if(it.day===null || amt===null){\n      return `<div class=\"row\">\n        <div class=\"day pending\">\u2014</div>\n        <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n        <div class=\"amt pending\">${it.note}</div>\n      </div>`;\n    }\n    return `<div class=\"row\">\n      <div class=\"day\">${it.day}</div>\n      <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n      <div class=\"amt\">$${fmt(amt)}</div>\n    </div>`;\n  }).join('');\n\n  document.getElementById('panel').innerHTML = `\n    <div class=\"panel-head\">\n      <div class=\"p-name\">${month.m}</div>\n      <div class=\"p-total\">$${fmt(total)}</div>\n    </div>\n    <div class=\"panel-rows\">${rows}</div>\n  `;\n}\n\nfunction renderSummary(){\n  let yearTotal = 0;\n  data.forEach(month=>{\n    yearTotal += mode === 'current' ? month.curTotal : month.tgtTotal;\n  });\n  document.getElementById('sumYear').textContent = fmt(yearTotal);\n  document.getElementById('sumMonth').textContent = fmt(yearTotal/12);\n}\n\nfunction render(){\n  renderTabs();\n  renderPanel();\n  renderSummary();\n}\n\nconst toggle = document.getElementById('toggle');\ntoggle.querySelectorAll('button').forEach(btn=>{\n  btn.addEventListener('click', ()=>{\n    if(btn.dataset.mode === mode) return;\n    mode = btn.dataset.mode;\n    toggle.querySelectorAll('button').forEach(b=>b.classList.remove('active'));\n    btn.classList.add('active');\n    toggle.classList.toggle('on-target', mode==='target');\n    render();\n  });\n});\n\nrender();\n\nfetch('https://script.google.com/macros/s/AKfycbz808RqaArR3R6u4KjSFqDg0yQcTALHIYY4g0eq0DMot1bBZs2pgzlKqCQkX4GB6BaZsg/exec?sheet=' + encodeURIComponent('\u5b58\u80a1\u914d\u606f'))\n  .then(res => res.json())\n  .then(rows => {\n    const grouped = {};\n    rows.forEach(r => {\n      const m = parseInt(r['\u6708'], 10);\n      if(!m) return;\n      const key = m + '\u6708';\n      if(!grouped[key]) grouped[key] = { m: key, curTotal: 0, tgtTotal: 0, items: [] };\n      const cur = parseFloat(r['\u73fe\u6cc1\u914d\u606f']) || 0;\n      const tgt = parseFloat(r['\u76ee\u6a19\u914d\u606f']) || 0;\n      grouped[key].curTotal += cur;\n      grouped[key].tgtTotal += tgt;\n      grouped[key].items.push({ day: parseInt(r['\u65e5'], 10), code: String(r['\u4ee3\u865f']), name: String(r['\u540d\u7a31']), cur, tgt });\n    });\n    const monthOrder = data.map(d => d.m);\n    const newData = monthOrder.map(mLabel => grouped[mLabel]).filter(Boolean);\n    if(newData.length === 12){\n      data.length = 0;\n      newData.forEach(d => data.push(d));\n      render();\n    }\n  })\n  .catch(err => console.warn('\u5b58\u80a1\u914d\u606f Sheet \u8b80\u53d6\u5931\u6557\uff0c\u50c5\u986f\u793a\u9810\u8a2d\u8cc7\u6599', err));\n\n// \u82e5\u6b64\u9801\u662f\u88ab\u4ee3\u8fa6\u770b\u677f\u4ee5 iframe \u5167\u5d4c\u958b\u555f\uff0c\u986f\u793a\u300c\u8fd4\u56de\u300d\u6309\u9215\n(function(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      document.getElementById('back-bar').classList.add('show');\n    }\n  }catch(e){ /* \u8de8\u7db2\u57df\u6642\u5ffd\u7565\uff0c\u4e0d\u986f\u793a\u8fd4\u56de\u9215 */ }\n})();\n\nfunction goBackToBoard(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      window.parent.closeDividendCalendar();\n      return;\n    }\n  }catch(e){}\n  if(window.history.length > 1){ window.history.back(); }\n}\n<\/script>\n</body>\n</html>\n";
+  const DIVIDEND_CALENDAR_HTML = "<!DOCTYPE html>\n<html lang=\"zh-Hant\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+Mono:wght@400;500;700&display=swap\" rel=\"stylesheet\">\n<style>\n  :root{\n    --bg:#070d1a;\n    --surface:#0e1a30;\n    --surface2:#152744;\n    --line:#22385c;\n    --ice:#e4ecf7;\n    --ice-soft:#8ba0c4;\n    --gold:#e3b45c;\n    --gold-deep:#c99436;\n    --red:#e0685c;\n  }\n  *{box-sizing:border-box; margin:0; padding:0;}\n  body{\n    background:\n      radial-gradient(circle at 15% 0%, rgba(227,180,92,0.06) 0%, transparent 45%),\n      radial-gradient(circle at 85% 100%, rgba(79,120,193,0.10) 0%, transparent 50%),\n      var(--bg);\n    color:var(--ice);\n    font-family:'Noto Sans TC', sans-serif;\n    min-height:100vh;\n    padding:24px 16px 60px;\n  }\n  .wrap{max-width:720px; margin:0 auto;}\n\n  .back-bar{\n    display:none;\n    position:sticky;\n    top:0;\n    z-index:50;\n    background:var(--bg);\n    border-bottom:1px solid var(--line);\n    padding:10px 0 14px;\n    margin-bottom:18px;\n  }\n  .back-bar.show{ display:flex; }\n  .back-btn{\n    display:inline-flex;\n    align-items:center;\n    gap:6px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice);\n    background:var(--surface2);\n    border:1px solid var(--line);\n    border-radius:20px;\n    padding:8px 16px;\n    cursor:pointer;\n    -webkit-tap-highlight-color: transparent;\n  }\n  .back-btn:active{ background:var(--line); }\n  .back-btn .arrow{ font-size:15px; line-height:1; color:var(--gold); }\n\n  header{\n    text-align:center;\n    margin-bottom:24px;\n  }\n  .eyebrow{\n    font-family:'Noto Sans Mono', monospace;\n    letter-spacing:.35em;\n    font-size:11px;\n    color:var(--gold);\n    margin-bottom:10px;\n  }\n  h1{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:28px;\n    font-weight:900;\n    letter-spacing:.02em;\n    margin-bottom:8px;\n  }\n  .sub{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:12.5px;\n    color:var(--ice-soft);\n  }\n\n  /* toggle */\n  .toggle-wrap{\n    display:flex;\n    justify-content:center;\n    margin:22px 0 24px;\n  }\n  .toggle{\n    display:inline-flex;\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:999px;\n    padding:4px;\n    position:relative;\n  }\n  .toggle button{\n    appearance:none;\n    border:none;\n    background:transparent;\n    padding:9px 26px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    letter-spacing:.05em;\n    color:var(--ice-soft);\n    cursor:pointer;\n    border-radius:999px;\n    position:relative;\n    z-index:2;\n    transition:color .25s;\n  }\n  .toggle button.active{ color:#070d1a; }\n  .toggle .thumb{\n    position:absolute;\n    top:4px; bottom:4px; left:4px;\n    width:calc(50% - 4px);\n    background:var(--gold);\n    border-radius:999px;\n    z-index:1;\n    transition:transform .28s cubic-bezier(.65,0,.35,1);\n  }\n  .toggle.on-target .thumb{ transform:translateX(100%); }\n\n  /* summary */\n  .summary{\n    display:grid;\n    grid-template-columns:repeat(3,1fr);\n    gap:10px;\n    margin-bottom:28px;\n  }\n  .summary .card{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:10px;\n    padding:16px 10px;\n    text-align:center;\n  }\n  .summary .card .num{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:20px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .summary .card .lbl{\n    font-size:11px;\n    color:var(--ice-soft);\n    margin-top:4px;\n    letter-spacing:.03em;\n  }\n\n  /* month tabs */\n  .tabs-wrap{ margin-bottom:2px; }\n  .tabs{\n    display:flex;\n    gap:6px;\n    overflow-x:auto;\n    -webkit-overflow-scrolling:touch;\n    scrollbar-width:none;\n    padding-bottom:10px;\n  }\n  .tabs::-webkit-scrollbar{ display:none; }\n  .tab{\n    flex:0 0 auto;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice-soft);\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:8px;\n    padding:10px 14px;\n    cursor:pointer;\n    text-align:center;\n    -webkit-tap-highlight-color: transparent;\n    transition: background .18s ease, color .18s ease, border-color .18s ease;\n    position:relative;\n  }\n  .tab .t-amt{\n    display:block;\n    font-size:10px;\n    font-weight:400;\n    color:var(--ice-soft);\n    margin-top:2px;\n    opacity:.75;\n  }\n  .tab.active{\n    color:var(--gold);\n    border-color:var(--gold-deep);\n    background:var(--surface2);\n  }\n  .tab.active::after{\n    content:\"\";\n    position:absolute;\n    left:14%; right:14%; bottom:-11px;\n    height:2px;\n    background:var(--gold);\n    border-radius:2px;\n  }\n\n  /* month panel */\n  .panel{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:12px;\n    overflow:hidden;\n    margin-top:18px;\n  }\n  .panel-head{\n    display:flex;\n    align-items:baseline;\n    justify-content:space-between;\n    padding:16px 18px;\n    background:var(--surface2);\n    border-bottom:1px solid var(--line);\n  }\n  .panel-head .p-name{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:20px;\n    font-weight:900;\n  }\n  .panel-head .p-total{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:17px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .panel-rows{ padding:6px 0; }\n  .row{\n    display:grid;\n    grid-template-columns:46px 1fr auto;\n    align-items:center;\n    gap:12px;\n    padding:12px 18px;\n    border-bottom:1px solid rgba(34,56,92,0.6);\n  }\n  .row:last-child{ border-bottom:none; }\n  .day{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:900;\n    font-size:19px;\n    color:var(--ice);\n    text-align:center;\n  }\n  .day.pending{ color:var(--ice-soft); font-size:15px; font-weight:400; }\n  .etf .code{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    display:block;\n  }\n  .etf .name{ font-size:13.5px; color:var(--ice); }\n  .amt{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:700;\n    font-size:15px;\n    color:var(--gold);\n    white-space:nowrap;\n    text-align:right;\n    transition:opacity .15s;\n  }\n  .amt.pending{\n    color:var(--ice-soft);\n    font-weight:400;\n    font-size:12px;\n  }\n\n  footer{\n    margin-top:32px;\n    text-align:center;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    line-height:1.8;\n  }\n\n  @media (max-width:420px){\n    h1{ font-size:23px; }\n    .summary .card .num{ font-size:17px; }\n  }\n</style>\n</head>\n<body>\n<div class=\"wrap\">\n  <div class=\"back-bar\" id=\"back-bar\">\n    <button type=\"button\" class=\"back-btn\" onclick=\"goBackToBoard()\"><span class=\"arrow\">\u2190</span>\u8fd4\u56de\u4ee3\u8fa6\u770b\u677f</button>\n  </div>\n\n  <header>\n    <div class=\"eyebrow\">DIVIDEND CALENDAR</div>\n    <h1>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</h1>\n    <div class=\"sub\">\u4f9d\u300c\u5b58\u80a1\u8a08\u756b\u300d\u8a66\u7b97\u8868 12 \u500b\u6708\u767c\u653e\u65e5\u6574\u7406</div>\n  </header>\n\n  <div class=\"toggle-wrap\">\n    <div class=\"toggle\" id=\"toggle\">\n      <div class=\"thumb\"></div>\n      <button data-mode=\"current\" class=\"active\">\u73fe\u6cc1</button>\n      <button data-mode=\"target\">\u76ee\u6a19</button>\n    </div>\n  </div>\n\n  <div class=\"summary\">\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumYear\">226,584</div>\n      <div class=\"lbl\">\u5e74\u5ea6\u9810\u4f30\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumMonth\">18,882</div>\n      <div class=\"lbl\">\u5e73\u5747\u6bcf\u6708\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\">6</div>\n      <div class=\"lbl\">\u6301\u80a1 ETF \u6a94\u6578</div>\n    </div>\n  </div>\n\n  <div class=\"tabs-wrap\">\n    <div class=\"tabs\" id=\"tabs\"></div>\n  </div>\n\n  <div class=\"panel\" id=\"panel\"></div>\n\n  <footer>\n    \u767c\u653e\u65e5\u70ba\u5b58\u80a1\u8a08\u756b\u8868\u4e2d\u300c\u767c\u653e\u65e5\u898f\u5f8b(\u53c3\u8003)\u300d\u63a8\u7b97\u4e4b\u4f30\u8a08\u503c\uff0c\u5be6\u969b\u5165\u5e33\u65e5\u4ee5\u5238\u5546\u516c\u544a\u70ba\u6e96\u3002<br>\n    \u91d1\u984d = \u80a1\u6578 \u00d7 \u6bcf\u80a1\u914d\u606f\uff0c\u8cc7\u6599\u53d6\u81ea\u300c\u5b58\u80a1\u8a08\u756b\u300d\u5206\u9801\uff1b\u76ee\u6a19\u7248\u672c\u70ba\u9054\u6210\u76ee\u6a19\u6301\u80a1\u5f8c\u4e4b\u4f30\u7b97\u3002\n  </footer>\n</div>\n\n<script>\nconst data = [\n  {m:\"1\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"2\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:28,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"3\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"4\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"5\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"6\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"7\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"8\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"9\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"10\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"11\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"12\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n];\n\nconst fmt = n => Math.round(n).toLocaleString('zh-Hant');\nlet mode = 'current';\nlet activeMonth = new Date().getMonth(); // 0-indexed, \u9810\u8a2d\u4eca\u5929\u6240\u5728\u6708\u4efd\n\nfunction renderTabs(){\n  const tabsEl = document.getElementById('tabs');\n  tabsEl.innerHTML = data.map((month, idx)=>{\n    const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n    const isActive = idx === activeMonth;\n    return `<div class=\"tab${isActive ? ' active' : ''}\" data-idx=\"${idx}\">\n      ${month.m}\n      <span class=\"t-amt\">$${fmt(total)}</span>\n    </div>`;\n  }).join('');\n  tabsEl.querySelectorAll('.tab').forEach(el=>{\n    el.addEventListener('click', ()=>{\n      activeMonth = parseInt(el.dataset.idx, 10);\n      render();\n      el.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});\n    });\n  });\n}\n\nfunction renderPanel(){\n  const month = data[activeMonth];\n  const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n\n  const rows = [...month.items].sort((a,b)=>{\n    if(a.day===null) return 1;\n    if(b.day===null) return -1;\n    return a.day-b.day;\n  }).map(it=>{\n    const amt = mode === 'current' ? it.cur : it.tgt;\n    if(it.day===null || amt===null){\n      return `<div class=\"row\">\n        <div class=\"day pending\">\u2014</div>\n        <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n        <div class=\"amt pending\">${it.note}</div>\n      </div>`;\n    }\n    return `<div class=\"row\">\n      <div class=\"day\">${it.day}</div>\n      <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n      <div class=\"amt\">$${fmt(amt)}</div>\n    </div>`;\n  }).join('');\n\n  document.getElementById('panel').innerHTML = `\n    <div class=\"panel-head\">\n      <div class=\"p-name\">${month.m}</div>\n      <div class=\"p-total\">$${fmt(total)}</div>\n    </div>\n    <div class=\"panel-rows\">${rows}</div>\n  `;\n}\n\nfunction renderSummary(){\n  let yearTotal = 0;\n  data.forEach(month=>{\n    yearTotal += mode === 'current' ? month.curTotal : month.tgtTotal;\n  });\n  document.getElementById('sumYear').textContent = fmt(yearTotal);\n  document.getElementById('sumMonth').textContent = fmt(yearTotal/12);\n}\n\nfunction render(){\n  renderTabs();\n  renderPanel();\n  renderSummary();\n}\n\nconst toggle = document.getElementById('toggle');\ntoggle.querySelectorAll('button').forEach(btn=>{\n  btn.addEventListener('click', ()=>{\n    if(btn.dataset.mode === mode) return;\n    mode = btn.dataset.mode;\n    toggle.querySelectorAll('button').forEach(b=>b.classList.remove('active'));\n    btn.classList.add('active');\n    toggle.classList.toggle('on-target', mode==='target');\n    render();\n  });\n});\n\nrender();\n\nfetch('https://script.google.com/macros/s/AKfycbz808RqaArR3R6u4KjSFqDg0yQcTALHIYY4g0eq0DMot1bBZs2pgzlKqCQkX4GB6BaZsg/exec?sheet=' + encodeURIComponent('\u5b58\u80a1\u914d\u606f'))\n  .then(res => res.json())\n  .then(rows => {\n    const grouped = {};\n    rows.forEach(r => {\n      const m = parseInt(r['\u6708'], 10);\n      if(!m) return;\n      const key = m + '\u6708';\n      if(!grouped[key]) grouped[key] = { m: key, curTotal: 0, tgtTotal: 0, items: [] };\n      const cur = parseFloat(r['\u73fe\u6cc1\u914d\u606f']) || 0;\n      const tgt = parseFloat(r['\u76ee\u6a19\u914d\u606f']) || 0;\n      grouped[key].curTotal += cur;\n      grouped[key].tgtTotal += tgt;\n      grouped[key].items.push({ day: parseInt(r['\u65e5'], 10), code: String(r['\u4ee3\u865f']), name: String(r['\u540d\u7a31']), cur, tgt });\n    });\n    const monthOrder = data.map(d => d.m);\n    const newData = monthOrder.map(mLabel => grouped[mLabel]).filter(Boolean);\n    if(newData.length === 12){\n      data.length = 0;\n      newData.forEach(d => data.push(d));\n      render();\n    }\n  })\n  .catch(err => console.warn('\u5b58\u80a1\u914d\u606f Sheet \u8b80\u53d6\u5931\u6557\uff0c\u50c5\u986f\u793a\u9810\u8a2d\u8cc7\u6599', err));\n\n// \u82e5\u6b64\u9801\u662f\u88ab\u4ee3\u8fa6\u770b\u677f\u4ee5 iframe \u5167\u5d4c\u958b\u555f\uff0c\u986f\u793a\u300c\u8fd4\u56de\u300d\u6309\u9215\n(function(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      document.getElementById('back-bar').classList.add('show');\n    }\n  }catch(e){ /* \u8de8\u7db2\u57df\u6642\u5ffd\u7565\uff0c\u4e0d\u986f\u793a\u8fd4\u56de\u9215 */ }\n})();\n\nfunction goBackToBoard(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      window.parent.closeDividendCalendar();\n      return;\n    }\n  }catch(e){}\n  if(window.history.length > 1){ window.history.back(); }\n}\n<\/script>\n</body>\n</html>\n";
   let dcalLoaded = false;
   function openDividendCalendar(){
     const overlay = document.getElementById('dcal-modal-overlay');
@@ -3852,9 +3894,6 @@
       navLinks.forEach(a=>{
         const isActive = a.getAttribute('href') === '#' + id;
         a.classList.toggle('nav-active', isActive);
-        if(isActive){
-          a.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});
-        }
       });
     }
 
