@@ -247,6 +247,34 @@
   .card.is-done .check::after{opacity:1;}
   .card.is-done h3{text-decoration: line-through;}
 
+  /* 例行付款：完成勾選框 */
+  .contract-row .rp-check{
+    position:absolute;
+    top:2px; right:2px;
+    width:20px; height:20px;
+    border:2px solid var(--ink-soft);
+    border-radius:6px;
+    cursor:pointer;
+    background:var(--card);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    -webkit-tap-highlight-color: transparent;
+    z-index:2;
+  }
+  .contract-row .rp-check::after{
+    content:"";
+    width:10px; height:5px;
+    border-left:3px solid var(--card);
+    border-bottom:3px solid var(--card);
+    transform: rotate(-45deg) translateY(-1px);
+    opacity:0;
+  }
+  .contract-row.rp-paid{ opacity:.5; }
+  .contract-row.rp-paid .rp-check{ background:var(--done-ink); border-color:var(--done-ink); }
+  .contract-row.rp-paid .rp-check::after{ opacity:1; }
+  .contract-row.rp-paid .c-name{ text-decoration:line-through; }
+
   .card .cat{
     display:inline-block;
     font-family:'Noto Sans Mono', monospace;
@@ -1880,7 +1908,8 @@
   </div>
 
   <ul class="ledger-list">
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2026-09-06">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch; position:relative;" data-due="2026-09-06" data-rp-key="rp-chailease">
+      <span class="rp-check" onclick="toggleRoutinePaid(this)"></span>
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-fee">費用</span>
@@ -1912,7 +1941,8 @@
         <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">聯名卡繳費最高5%回饋</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2026-09-16">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch; position:relative;" data-due="2026-09-16" data-rp-key="rp-taiwan-mobile">
+      <span class="rp-check" onclick="toggleRoutinePaid(this)"></span>
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-telecom">電信</span>
@@ -1928,7 +1958,8 @@
         <span class="cd-row"><span class="cd-label">客服</span><span class="cd-val">188 或 0800-088-090</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2026-10-06">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch; position:relative;" data-due="2026-10-06" data-rp-key="rp-chunghwa">
+      <span class="rp-check" onclick="toggleRoutinePaid(this)"></span>
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-telecom">網路</span>
@@ -1944,7 +1975,8 @@
         <span class="cd-row"><span class="cd-label">繳費</span><span class="cd-val">信用卡繳費，最近繳費2026/07/06（區間2026/07–09，一次繳3個月）</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2027-02-28">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch; position:relative;" data-due="2027-02-28" data-rp-key="rp-taxi-fleet-fee">
+      <span class="rp-check" onclick="toggleRoutinePaid(this)"></span>
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-fee">費用</span>
@@ -1959,7 +1991,8 @@
         <span class="cd-row"><span class="cd-label">費用</span><span class="cd-val">NT$15,000／年</span></span>
       </div>
     </li>
-    <li class="contract-row" data-due="2026-10-22">
+    <li class="contract-row" style="position:relative;" data-due="2026-10-22" data-rp-key="rp-parking">
+      <span class="rp-check" onclick="toggleRoutinePaid(this)"></span>
       <div>
         <span class="cat cat-parking">停車</span>
         <span class="c-name">🅿️ 社區停車位</span>
@@ -1967,7 +2000,8 @@
       </div>
       <span class="c-amount">NT$8,000/季</span>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2027-04-25">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch; position:relative;" data-due="2027-04-25" data-rp-key="rp-mandatory-insurance">
+      <span class="rp-check" onclick="toggleRoutinePaid(this)"></span>
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-insurance">保險</span>
@@ -1984,7 +2018,8 @@
         <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">法定強制投保，逾期未保不得上路</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2027-05-03">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch; position:relative;" data-due="2027-05-03" data-rp-key="rp-voluntary-insurance">
+      <span class="rp-check" onclick="toggleRoutinePaid(this)"></span>
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-insurance">保險</span>
@@ -2000,7 +2035,8 @@
         <span class="cd-row"><span class="cd-label">保險窗口</span><span class="cd-val">小瑜-租售車部（年豐／台灣大）</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2027-09-30">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch; position:relative;" data-due="2027-09-30" data-rp-key="rp-passenger-insurance">
+      <span class="rp-check" onclick="toggleRoutinePaid(this)"></span>
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-insurance">保險</span>
@@ -2017,7 +2053,8 @@
         <span class="cd-row"><span class="cd-label">備註</span><span class="cd-val">已續保115/09/30～116/09/30，2026/08完成匯款</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2027-05-01">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch; position:relative;" data-due="2027-05-01" data-rp-key="rp-claude-pro">
+      <span class="rp-check" onclick="toggleRoutinePaid(this)"></span>
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-subscription">訂閱</span>
@@ -2033,7 +2070,8 @@
         <span class="cd-row"><span class="cd-label">取消步驟</span><span class="cd-val">Google Play商店→頭像→付款和訂閱→訂閱項目→Claude by Anthropic→取消訂閱，取消後仍可用到當期到期為止</span></span>
       </div>
     </li>
-    <li class="contract-row" style="flex-direction:column; align-items:stretch;" data-due="2026-11-17">
+    <li class="contract-row" style="flex-direction:column; align-items:stretch; position:relative;" data-due="2026-11-17" data-rp-key="rp-ark">
+      <span class="rp-check" onclick="toggleRoutinePaid(this)"></span>
       <div style="display:flex; justify-content:space-between; align-items:baseline; gap:10px;">
         <div>
           <span class="cat cat-subscription">訂閱</span>
@@ -2794,6 +2832,7 @@
   }
 
   function syncFromSheet(){
+    // 待辦事項（讀第一個分頁，不用指定sheet參數）
     fetch(DB_API_URL)
       .then(res => res.json())
       .then(rows => {
@@ -2801,7 +2840,7 @@
         rows.forEach(row => {
           if(!row.key) return;
           const card = document.querySelector('.card[data-key="' + row.key + '"]');
-          if(!card || card.hasAttribute('data-recurring')) return; // 週期性項目不走這套同步
+          if(!card || card.hasAttribute('data-recurring')) return;
           const sheetDone = row.status === 'done';
           const localSaved = localStorage.getItem('todo-' + row.key);
           const localDone = localSaved === '1';
@@ -2818,18 +2857,44 @@
         }
       })
       .catch(err => {
-        console.warn('Sheet 資料庫讀取失敗，改用本機儲存的狀態', err);
+        console.warn('Sheet 資料庫讀取失敗（待辦事項），改用本機儲存的狀態', err);
+      });
+
+    // 例行付款（讀「例行付款」分頁）
+    fetch(DB_API_URL + '?sheet=' + encodeURIComponent('例行付款'))
+      .then(res => res.json())
+      .then(rows => {
+        let changed = false;
+        rows.forEach(row => {
+          if(!row.key) return;
+          const li = document.querySelector('#routine-payment-section li[data-rp-key="' + row.key + '"]');
+          if(!li) return;
+          const sheetPaid = row.status === 'done';
+          const localPaid = isRoutinePaid(row.key);
+          if(sheetPaid !== localPaid){
+            localStorage.setItem('rp-paid-' + row.key, sheetPaid ? '1' : '0');
+            changed = true;
+          }
+        });
+        if(changed){
+          updateRoutinePaymentBadges();
+          renderUrgentBanner();
+        }
+      })
+      .catch(err => {
+        console.warn('Sheet 資料庫讀取失敗（例行付款），改用本機儲存的狀態', err);
       });
   }
 
-  function pushToSheet(key, done){
+  function pushToSheet(key, done, sheetName){
     // fire-and-forget，離線或失敗時不影響畫面操作，本機 localStorage 仍是備援
     // 改用 GET + 網址參數，避免 Apps Script 的跳轉機制把 POST 內容搞丟
-    const url = DB_API_URL
+    let url = DB_API_URL
       + '?action=update'
       + '&key=' + encodeURIComponent(key)
       + '&field=status'
       + '&value=' + encodeURIComponent(done ? 'done' : 'active');
+    if(sheetName) url += '&sheet=' + encodeURIComponent(sheetName);
     fetch(url).catch(err => {
       console.warn('寫回 Sheet 資料庫失敗（可能離線），僅保留本機紀錄', err);
     });
@@ -2880,15 +2945,32 @@
   applyTodoFilter();
   renderUrgentBanner();
 
+  function isRoutinePaid(key){
+    return localStorage.getItem('rp-paid-' + key) === '1';
+  }
+
   function updateRoutinePaymentBadges(){
     const today = new Date();
     today.setHours(0,0,0,0);
     document.querySelectorAll('#routine-payment-section li[data-due]').forEach(li => {
+      const key = li.getAttribute('data-rp-key');
+      const paid = key && isRoutinePaid(key);
+      const checkEl = li.querySelector('.rp-check');
+      li.classList.toggle('rp-paid', !!paid);
+      if(checkEl) checkEl.classList.toggle('checked', !!paid);
+
+      const badge = li.querySelector('.c-days-badge');
+      if(!badge) return;
+
+      if(paid){
+        badge.textContent = '✅ 本期已繳費';
+        badge.className = 'c-days-badge badge-green';
+        return;
+      }
+
       const due = new Date(li.getAttribute('data-due'));
       due.setHours(0,0,0,0);
       const diffDays = Math.round((due - today) / 86400000);
-      const badge = li.querySelector('.c-days-badge');
-      if(!badge) return;
 
       let cls, text;
       if(diffDays < 0){ cls = 'badge-red'; text = '已過期 ' + Math.abs(diffDays) + ' 天'; }
@@ -2902,6 +2984,17 @@
     });
   }
   updateRoutinePaymentBadges();
+
+  function toggleRoutinePaid(el){
+    const li = el.closest('li[data-rp-key]');
+    if(!li) return;
+    const key = li.getAttribute('data-rp-key');
+    const nowPaid = !isRoutinePaid(key);
+    localStorage.setItem('rp-paid-' + key, nowPaid ? '1' : '0');
+    updateRoutinePaymentBadges();
+    renderUrgentBanner();
+    pushToSheet(key, nowPaid, '例行付款');
+  }
 
   function scrollToUrgentTarget(idx){
     const el = urgentBannerTargets[idx];
@@ -2936,6 +3029,10 @@
       .filter(Boolean);
 
     const paymentItems = Array.from(document.querySelectorAll('#routine-payment-section li[data-due]'))
+      .filter(li => {
+        const key = li.getAttribute('data-rp-key');
+        return !(key && isRoutinePaid(key));
+      })
       .map(li => {
         const due = new Date(li.getAttribute('data-due'));
         due.setHours(0,0,0,0);
@@ -3817,7 +3914,7 @@
   }
 
   // ---- 領息日曆看板：完整內嵌版（modal + iframe） ----
-  const DIVIDEND_CALENDAR_HTML = "<!DOCTYPE html>\n<html lang=\"zh-Hant\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+Mono:wght@400;500;700&display=swap\" rel=\"stylesheet\">\n<style>\n  :root{\n    --bg:#070d1a;\n    --surface:#0e1a30;\n    --surface2:#152744;\n    --line:#22385c;\n    --ice:#e4ecf7;\n    --ice-soft:#8ba0c4;\n    --gold:#e3b45c;\n    --gold-deep:#c99436;\n    --red:#e0685c;\n  }\n  *{box-sizing:border-box; margin:0; padding:0;}\n  body{\n    background:\n      radial-gradient(circle at 15% 0%, rgba(227,180,92,0.06) 0%, transparent 45%),\n      radial-gradient(circle at 85% 100%, rgba(79,120,193,0.10) 0%, transparent 50%),\n      var(--bg);\n    color:var(--ice);\n    font-family:'Noto Sans TC', sans-serif;\n    min-height:100vh;\n    padding:24px 16px 60px;\n  }\n  .wrap{max-width:720px; margin:0 auto;}\n\n  .back-bar{\n    display:none;\n    position:sticky;\n    top:0;\n    z-index:50;\n    background:var(--bg);\n    border-bottom:1px solid var(--line);\n    padding:10px 0 14px;\n    margin-bottom:18px;\n  }\n  .back-bar.show{ display:flex; }\n  .back-btn{\n    display:inline-flex;\n    align-items:center;\n    gap:6px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice);\n    background:var(--surface2);\n    border:1px solid var(--line);\n    border-radius:20px;\n    padding:8px 16px;\n    cursor:pointer;\n    -webkit-tap-highlight-color: transparent;\n  }\n  .back-btn:active{ background:var(--line); }\n  .back-btn .arrow{ font-size:15px; line-height:1; color:var(--gold); }\n\n  header{\n    text-align:center;\n    margin-bottom:24px;\n  }\n  .eyebrow{\n    font-family:'Noto Sans Mono', monospace;\n    letter-spacing:.35em;\n    font-size:11px;\n    color:var(--gold);\n    margin-bottom:10px;\n  }\n  h1{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:28px;\n    font-weight:900;\n    letter-spacing:.02em;\n    margin-bottom:8px;\n  }\n  .sub{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:12.5px;\n    color:var(--ice-soft);\n  }\n\n  /* toggle */\n  .toggle-wrap{\n    display:flex;\n    justify-content:center;\n    margin:22px 0 24px;\n  }\n  .toggle{\n    display:inline-flex;\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:999px;\n    padding:4px;\n    position:relative;\n  }\n  .toggle button{\n    appearance:none;\n    border:none;\n    background:transparent;\n    padding:9px 26px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    letter-spacing:.05em;\n    color:var(--ice-soft);\n    cursor:pointer;\n    border-radius:999px;\n    position:relative;\n    z-index:2;\n    transition:color .25s;\n  }\n  .toggle button.active{ color:#070d1a; }\n  .toggle .thumb{\n    position:absolute;\n    top:4px; bottom:4px; left:4px;\n    width:calc(50% - 4px);\n    background:var(--gold);\n    border-radius:999px;\n    z-index:1;\n    transition:transform .28s cubic-bezier(.65,0,.35,1);\n  }\n  .toggle.on-target .thumb{ transform:translateX(100%); }\n\n  /* summary */\n  .summary{\n    display:grid;\n    grid-template-columns:repeat(3,1fr);\n    gap:10px;\n    margin-bottom:28px;\n  }\n  .summary .card{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:10px;\n    padding:16px 10px;\n    text-align:center;\n  }\n  .summary .card .num{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:20px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .summary .card .lbl{\n    font-size:11px;\n    color:var(--ice-soft);\n    margin-top:4px;\n    letter-spacing:.03em;\n  }\n\n  /* month tabs */\n  .tabs-wrap{ margin-bottom:2px; }\n  .tabs{\n    display:flex;\n    gap:6px;\n    overflow-x:auto;\n    -webkit-overflow-scrolling:touch;\n    scrollbar-width:none;\n    padding-bottom:10px;\n  }\n  .tabs::-webkit-scrollbar{ display:none; }\n  .tab{\n    flex:0 0 auto;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice-soft);\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:8px;\n    padding:10px 14px;\n    cursor:pointer;\n    text-align:center;\n    -webkit-tap-highlight-color: transparent;\n    transition: background .18s ease, color .18s ease, border-color .18s ease;\n    position:relative;\n  }\n  .tab .t-amt{\n    display:block;\n    font-size:10px;\n    font-weight:400;\n    color:var(--ice-soft);\n    margin-top:2px;\n    opacity:.75;\n  }\n  .tab.active{\n    color:var(--gold);\n    border-color:var(--gold-deep);\n    background:var(--surface2);\n  }\n  .tab.active::after{\n    content:\"\";\n    position:absolute;\n    left:14%; right:14%; bottom:-11px;\n    height:2px;\n    background:var(--gold);\n    border-radius:2px;\n  }\n\n  /* month panel */\n  .panel{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:12px;\n    overflow:hidden;\n    margin-top:18px;\n  }\n  .panel-head{\n    display:flex;\n    align-items:baseline;\n    justify-content:space-between;\n    padding:16px 18px;\n    background:var(--surface2);\n    border-bottom:1px solid var(--line);\n  }\n  .panel-head .p-name{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:20px;\n    font-weight:900;\n  }\n  .panel-head .p-total{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:17px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .panel-rows{ padding:6px 0; }\n  .row{\n    display:grid;\n    grid-template-columns:46px 1fr auto;\n    align-items:center;\n    gap:12px;\n    padding:12px 18px;\n    border-bottom:1px solid rgba(34,56,92,0.6);\n  }\n  .row:last-child{ border-bottom:none; }\n  .day{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:900;\n    font-size:19px;\n    color:var(--ice);\n    text-align:center;\n  }\n  .day.pending{ color:var(--ice-soft); font-size:15px; font-weight:400; }\n  .etf .code{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    display:block;\n  }\n  .etf .name{ font-size:13.5px; color:var(--ice); }\n  .amt{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:700;\n    font-size:15px;\n    color:var(--gold);\n    white-space:nowrap;\n    text-align:right;\n    transition:opacity .15s;\n  }\n  .amt.pending{\n    color:var(--ice-soft);\n    font-weight:400;\n    font-size:12px;\n  }\n\n  footer{\n    margin-top:32px;\n    text-align:center;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    line-height:1.8;\n  }\n\n  @media (max-width:420px){\n    h1{ font-size:23px; }\n    .summary .card .num{ font-size:17px; }\n  }\n</style>\n</head>\n<body>\n<div class=\"wrap\">\n  <div class=\"back-bar\" id=\"back-bar\">\n    <button type=\"button\" class=\"back-btn\" onclick=\"goBackToBoard()\"><span class=\"arrow\">\u2190</span>\u8fd4\u56de\u4ee3\u8fa6\u770b\u677f</button>\n  </div>\n\n  <header>\n    <div class=\"eyebrow\">DIVIDEND CALENDAR</div>\n    <h1>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</h1>\n    <div class=\"sub\">\u4f9d\u300c\u5b58\u80a1\u8a08\u756b\u300d\u8a66\u7b97\u8868 12 \u500b\u6708\u767c\u653e\u65e5\u6574\u7406</div>\n  </header>\n\n  <div class=\"toggle-wrap\">\n    <div class=\"toggle\" id=\"toggle\">\n      <div class=\"thumb\"></div>\n      <button data-mode=\"current\" class=\"active\">\u73fe\u6cc1</button>\n      <button data-mode=\"target\">\u76ee\u6a19</button>\n    </div>\n  </div>\n\n  <div class=\"summary\">\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumYear\">226,584</div>\n      <div class=\"lbl\">\u5e74\u5ea6\u9810\u4f30\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumMonth\">18,882</div>\n      <div class=\"lbl\">\u5e73\u5747\u6bcf\u6708\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\">6</div>\n      <div class=\"lbl\">\u6301\u80a1 ETF \u6a94\u6578</div>\n    </div>\n  </div>\n\n  <div class=\"tabs-wrap\">\n    <div class=\"tabs\" id=\"tabs\"></div>\n  </div>\n\n  <div class=\"panel\" id=\"panel\"></div>\n\n  <footer>\n    \u767c\u653e\u65e5\u70ba\u5b58\u80a1\u8a08\u756b\u8868\u4e2d\u300c\u767c\u653e\u65e5\u898f\u5f8b(\u53c3\u8003)\u300d\u63a8\u7b97\u4e4b\u4f30\u8a08\u503c\uff0c\u5be6\u969b\u5165\u5e33\u65e5\u4ee5\u5238\u5546\u516c\u544a\u70ba\u6e96\u3002<br>\n    \u91d1\u984d = \u80a1\u6578 \u00d7 \u6bcf\u80a1\u914d\u606f\uff0c\u8cc7\u6599\u53d6\u81ea\u300c\u5b58\u80a1\u8a08\u756b\u300d\u5206\u9801\uff1b\u76ee\u6a19\u7248\u672c\u70ba\u9054\u6210\u76ee\u6a19\u6301\u80a1\u5f8c\u4e4b\u4f30\u7b97\u3002\n  </footer>\n</div>\n\n<script>\nconst data = [\n  {m:\"1\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"2\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:28,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"3\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"4\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"5\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"6\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"7\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"8\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"9\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"10\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"11\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"12\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n];\n\nconst fmt = n => Math.round(n).toLocaleString('zh-Hant');\nlet mode = 'current';\nlet activeMonth = new Date().getMonth(); // 0-indexed, \u9810\u8a2d\u4eca\u5929\u6240\u5728\u6708\u4efd\n\nfunction renderTabs(){\n  const tabsEl = document.getElementById('tabs');\n  tabsEl.innerHTML = data.map((month, idx)=>{\n    const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n    const isActive = idx === activeMonth;\n    return `<div class=\"tab${isActive ? ' active' : ''}\" data-idx=\"${idx}\">\n      ${month.m}\n      <span class=\"t-amt\">$${fmt(total)}</span>\n    </div>`;\n  }).join('');\n  tabsEl.querySelectorAll('.tab').forEach(el=>{\n    el.addEventListener('click', ()=>{\n      activeMonth = parseInt(el.dataset.idx, 10);\n      render();\n      el.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});\n    });\n  });\n}\n\nfunction renderPanel(){\n  const month = data[activeMonth];\n  const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n\n  const rows = [...month.items].sort((a,b)=>{\n    if(a.day===null) return 1;\n    if(b.day===null) return -1;\n    return a.day-b.day;\n  }).map(it=>{\n    const amt = mode === 'current' ? it.cur : it.tgt;\n    if(it.day===null || amt===null){\n      return `<div class=\"row\">\n        <div class=\"day pending\">\u2014</div>\n        <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n        <div class=\"amt pending\">${it.note}</div>\n      </div>`;\n    }\n    return `<div class=\"row\">\n      <div class=\"day\">${it.day}</div>\n      <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n      <div class=\"amt\">$${fmt(amt)}</div>\n    </div>`;\n  }).join('');\n\n  document.getElementById('panel').innerHTML = `\n    <div class=\"panel-head\">\n      <div class=\"p-name\">${month.m}</div>\n      <div class=\"p-total\">$${fmt(total)}</div>\n    </div>\n    <div class=\"panel-rows\">${rows}</div>\n  `;\n}\n\nfunction renderSummary(){\n  let yearTotal = 0;\n  data.forEach(month=>{\n    yearTotal += mode === 'current' ? month.curTotal : month.tgtTotal;\n  });\n  document.getElementById('sumYear').textContent = fmt(yearTotal);\n  document.getElementById('sumMonth').textContent = fmt(yearTotal/12);\n}\n\nfunction render(){\n  renderTabs();\n  renderPanel();\n  renderSummary();\n}\n\nconst toggle = document.getElementById('toggle');\ntoggle.querySelectorAll('button').forEach(btn=>{\n  btn.addEventListener('click', ()=>{\n    if(btn.dataset.mode === mode) return;\n    mode = btn.dataset.mode;\n    toggle.querySelectorAll('button').forEach(b=>b.classList.remove('active'));\n    btn.classList.add('active');\n    toggle.classList.toggle('on-target', mode==='target');\n    render();\n  });\n});\n\nrender();\n\nfetch('https://script.google.com/macros/s/AKfycbz808RqaArR3R6u4KjSFqDg0yQcTALHIYY4g0eq0DMot1bBZs2pgzlKqCQkX4GB6BaZsg/exec?sheet=' + encodeURIComponent('\u5b58\u80a1\u914d\u606f'))\n  .then(res => res.json())\n  .then(rows => {\n    const grouped = {};\n    rows.forEach(r => {\n      const m = parseInt(r['\u6708'], 10);\n      if(!m) return;\n      const key = m + '\u6708';\n      if(!grouped[key]) grouped[key] = { m: key, curTotal: 0, tgtTotal: 0, items: [] };\n      const cur = parseFloat(r['\u73fe\u6cc1\u914d\u606f']) || 0;\n      const tgt = parseFloat(r['\u76ee\u6a19\u914d\u606f']) || 0;\n      grouped[key].curTotal += cur;\n      grouped[key].tgtTotal += tgt;\n      grouped[key].items.push({ day: parseInt(r['\u65e5'], 10), code: String(r['\u4ee3\u865f']), name: String(r['\u540d\u7a31']), cur, tgt });\n    });\n    const monthOrder = data.map(d => d.m);\n    const newData = monthOrder.map(mLabel => grouped[mLabel]).filter(Boolean);\n    if(newData.length === 12){\n      data.length = 0;\n      newData.forEach(d => data.push(d));\n      render();\n    }\n  })\n  .catch(err => console.warn('\u5b58\u80a1\u914d\u606f Sheet \u8b80\u53d6\u5931\u6557\uff0c\u50c5\u986f\u793a\u9810\u8a2d\u8cc7\u6599', err));\n\n// \u82e5\u6b64\u9801\u662f\u88ab\u4ee3\u8fa6\u770b\u677f\u4ee5 iframe \u5167\u5d4c\u958b\u555f\uff0c\u986f\u793a\u300c\u8fd4\u56de\u300d\u6309\u9215\n(function(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      document.getElementById('back-bar').classList.add('show');\n    }\n  }catch(e){ /* \u8de8\u7db2\u57df\u6642\u5ffd\u7565\uff0c\u4e0d\u986f\u793a\u8fd4\u56de\u9215 */ }\n})();\n\nfunction goBackToBoard(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      window.parent.closeDividendCalendar();\n      return;\n    }\n  }catch(e){}\n  if(window.history.length > 1){ window.history.back(); }\n}\n<\/script>\n</body>\n</html>\n";
+  const DIVIDEND_CALENDAR_HTML = "<!DOCTYPE html>\n<html lang=\"zh-Hant\">\n<head>\n<meta charset=\"UTF-8\">\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n<title>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</title>\n<link rel=\"preconnect\" href=\"https://fonts.googleapis.com\">\n<link href=\"https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Noto+Sans+Mono:wght@400;500;700&display=swap\" rel=\"stylesheet\">\n<style>\n  :root{\n    --bg:#070d1a;\n    --surface:#0e1a30;\n    --surface2:#152744;\n    --line:#22385c;\n    --ice:#e4ecf7;\n    --ice-soft:#8ba0c4;\n    --gold:#e3b45c;\n    --gold-deep:#c99436;\n    --red:#e0685c;\n  }\n  *{box-sizing:border-box; margin:0; padding:0;}\n  body{\n    background:\n      radial-gradient(circle at 15% 0%, rgba(227,180,92,0.06) 0%, transparent 45%),\n      radial-gradient(circle at 85% 100%, rgba(79,120,193,0.10) 0%, transparent 50%),\n      var(--bg);\n    color:var(--ice);\n    font-family:'Noto Sans TC', sans-serif;\n    min-height:100vh;\n    padding:24px 16px 60px;\n  }\n  .wrap{max-width:720px; margin:0 auto;}\n\n  .back-bar{\n    display:none;\n    position:sticky;\n    top:0;\n    z-index:50;\n    background:var(--bg);\n    border-bottom:1px solid var(--line);\n    padding:10px 0 14px;\n    margin-bottom:18px;\n  }\n  .back-bar.show{ display:flex; }\n  .back-btn{\n    display:inline-flex;\n    align-items:center;\n    gap:6px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice);\n    background:var(--surface2);\n    border:1px solid var(--line);\n    border-radius:20px;\n    padding:8px 16px;\n    cursor:pointer;\n    -webkit-tap-highlight-color: transparent;\n  }\n  .back-btn:active{ background:var(--line); }\n  .back-btn .arrow{ font-size:15px; line-height:1; color:var(--gold); }\n\n  header{\n    text-align:center;\n    margin-bottom:24px;\n  }\n  .eyebrow{\n    font-family:'Noto Sans Mono', monospace;\n    letter-spacing:.35em;\n    font-size:11px;\n    color:var(--gold);\n    margin-bottom:10px;\n  }\n  h1{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:28px;\n    font-weight:900;\n    letter-spacing:.02em;\n    margin-bottom:8px;\n  }\n  .sub{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:12.5px;\n    color:var(--ice-soft);\n  }\n\n  /* toggle */\n  .toggle-wrap{\n    display:flex;\n    justify-content:center;\n    margin:22px 0 24px;\n  }\n  .toggle{\n    display:inline-flex;\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:999px;\n    padding:4px;\n    position:relative;\n  }\n  .toggle button{\n    appearance:none;\n    border:none;\n    background:transparent;\n    padding:9px 26px;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    letter-spacing:.05em;\n    color:var(--ice-soft);\n    cursor:pointer;\n    border-radius:999px;\n    position:relative;\n    z-index:2;\n    transition:color .25s;\n  }\n  .toggle button.active{ color:#070d1a; }\n  .toggle .thumb{\n    position:absolute;\n    top:4px; bottom:4px; left:4px;\n    width:calc(50% - 4px);\n    background:var(--gold);\n    border-radius:999px;\n    z-index:1;\n    transition:transform .28s cubic-bezier(.65,0,.35,1);\n  }\n  .toggle.on-target .thumb{ transform:translateX(100%); }\n\n  /* summary */\n  .summary{\n    display:grid;\n    grid-template-columns:repeat(3,1fr);\n    gap:10px;\n    margin-bottom:28px;\n  }\n  .summary .card{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:10px;\n    padding:16px 10px;\n    text-align:center;\n  }\n  .summary .card .num{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:20px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .summary .card .lbl{\n    font-size:11px;\n    color:var(--ice-soft);\n    margin-top:4px;\n    letter-spacing:.03em;\n  }\n\n  /* month tabs */\n  .tabs-wrap{ margin-bottom:2px; }\n  .tabs{\n    display:flex;\n    gap:6px;\n    overflow-x:auto;\n    -webkit-overflow-scrolling:touch;\n    scrollbar-width:none;\n    padding-bottom:10px;\n  }\n  .tabs::-webkit-scrollbar{ display:none; }\n  .tab{\n    flex:0 0 auto;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:13px;\n    font-weight:700;\n    color:var(--ice-soft);\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:8px;\n    padding:10px 14px;\n    cursor:pointer;\n    text-align:center;\n    -webkit-tap-highlight-color: transparent;\n    transition: background .18s ease, color .18s ease, border-color .18s ease;\n    position:relative;\n  }\n  .tab .t-amt{\n    display:block;\n    font-size:10px;\n    font-weight:400;\n    color:var(--ice-soft);\n    margin-top:2px;\n    opacity:.75;\n  }\n  .tab.active{\n    color:var(--gold);\n    border-color:var(--gold-deep);\n    background:var(--surface2);\n  }\n  .tab.active::after{\n    content:\"\";\n    position:absolute;\n    left:14%; right:14%; bottom:-11px;\n    height:2px;\n    background:var(--gold);\n    border-radius:2px;\n  }\n\n  /* month panel */\n  .panel{\n    background:var(--surface);\n    border:1px solid var(--line);\n    border-radius:12px;\n    overflow:hidden;\n    margin-top:18px;\n  }\n  .panel-head{\n    display:flex;\n    align-items:baseline;\n    justify-content:space-between;\n    padding:16px 18px;\n    background:var(--surface2);\n    border-bottom:1px solid var(--line);\n  }\n  .panel-head .p-name{\n    font-family:'Zen Kaku Gothic New','Noto Sans TC', sans-serif;\n    font-size:20px;\n    font-weight:900;\n  }\n  .panel-head .p-total{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:17px;\n    font-weight:700;\n    color:var(--gold);\n    transition:opacity .15s;\n  }\n  .panel-rows{ padding:6px 0; }\n  .row{\n    display:grid;\n    grid-template-columns:46px 1fr auto;\n    align-items:center;\n    gap:12px;\n    padding:12px 18px;\n    border-bottom:1px solid rgba(34,56,92,0.6);\n  }\n  .row:last-child{ border-bottom:none; }\n  .day{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:900;\n    font-size:19px;\n    color:var(--ice);\n    text-align:center;\n  }\n  .day.pending{ color:var(--ice-soft); font-size:15px; font-weight:400; }\n  .etf .code{\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    display:block;\n  }\n  .etf .name{ font-size:13.5px; color:var(--ice); }\n  .amt{\n    font-family:'Noto Sans Mono', monospace;\n    font-weight:700;\n    font-size:15px;\n    color:var(--gold);\n    white-space:nowrap;\n    text-align:right;\n    transition:opacity .15s;\n  }\n  .amt.pending{\n    color:var(--ice-soft);\n    font-weight:400;\n    font-size:12px;\n  }\n\n  footer{\n    margin-top:32px;\n    text-align:center;\n    font-family:'Noto Sans Mono', monospace;\n    font-size:11px;\n    color:var(--ice-soft);\n    line-height:1.8;\n  }\n\n  @media (max-width:420px){\n    h1{ font-size:23px; }\n    .summary .card .num{ font-size:17px; }\n  }\n</style>\n</head>\n<body>\n<div class=\"wrap\">\n  <div class=\"back-bar\" id=\"back-bar\">\n    <button type=\"button\" class=\"back-btn\" onclick=\"goBackToBoard()\"><span class=\"arrow\">\u2190</span>\u8fd4\u56de\u4ee3\u8fa6\u770b\u677f</button>\n  </div>\n\n  <header>\n    <div class=\"eyebrow\">DIVIDEND CALENDAR</div>\n    <h1>\u5448\u8c9d\u5b58\u80a1\u30fb\u9818\u606f\u65e5\u66c6</h1>\n    <div class=\"sub\">\u4f9d\u300c\u5b58\u80a1\u8a08\u756b\u300d\u8a66\u7b97\u8868 12 \u500b\u6708\u767c\u653e\u65e5\u6574\u7406</div>\n  </header>\n\n  <div class=\"toggle-wrap\">\n    <div class=\"toggle\" id=\"toggle\">\n      <div class=\"thumb\"></div>\n      <button data-mode=\"current\" class=\"active\">\u73fe\u6cc1</button>\n      <button data-mode=\"target\">\u76ee\u6a19</button>\n    </div>\n  </div>\n\n  <div class=\"summary\">\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumYear\">226,584</div>\n      <div class=\"lbl\">\u5e74\u5ea6\u9810\u4f30\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\" id=\"sumMonth\">18,882</div>\n      <div class=\"lbl\">\u5e73\u5747\u6bcf\u6708\u9818\u606f</div>\n    </div>\n    <div class=\"card\">\n      <div class=\"num\">6</div>\n      <div class=\"lbl\">\u6301\u80a1 ETF \u6a94\u6578</div>\n    </div>\n  </div>\n\n  <div class=\"tabs-wrap\">\n    <div class=\"tabs\" id=\"tabs\"></div>\n  </div>\n\n  <div class=\"panel\" id=\"panel\"></div>\n\n  <footer>\n    \u767c\u653e\u65e5\u70ba\u5b58\u80a1\u8a08\u756b\u8868\u4e2d\u300c\u767c\u653e\u65e5\u898f\u5f8b(\u53c3\u8003)\u300d\u63a8\u7b97\u4e4b\u4f30\u8a08\u503c\uff0c\u5be6\u969b\u5165\u5e33\u65e5\u4ee5\u5238\u5546\u516c\u544a\u70ba\u6e96\u3002<br>\n    \u91d1\u984d = \u80a1\u6578 \u00d7 \u6bcf\u80a1\u914d\u606f\uff0c\u8cc7\u6599\u53d6\u81ea\u300c\u5b58\u80a1\u8a08\u756b\u300d\u5206\u9801\uff1b\u76ee\u6a19\u7248\u672c\u70ba\u9054\u6210\u76ee\u6a19\u6301\u80a1\u5f8c\u4e4b\u4f30\u7b97\u3002\n  </footer>\n</div>\n\n<script>\nconst data = [\n  {m:\"1\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"2\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:28,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"3\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"4\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"5\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"6\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"7\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n  {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"8\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"9\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"10\u6708\", curTotal:11414.3, tgtTotal:37800, items:[\n    {day:13,code:\"00918\",name:\"\u5927\u83ef\u512a\u5229\u9ad8\u586b\u606f30\",cur:7585.2,tgt:25200},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"11\u6708\", curTotal:5553.4, tgtTotal:19000, items:[\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:30,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n  {m:\"12\u6708\", curTotal:39238.845, tgtTotal:53835, items:[\n    {day:12,code:\"00878\",name:\"\u570b\u6cf0\u6c38\u7e8c\u9ad8\u80a1\u606f\",cur:48702.2,tgt:50500},\n    {day:13,code:\"00981D\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u975e\u6295\u7b49\u50b5\",cur:1610,tgt:3500},\n    {day:12,code:\"00981B\",name:\"\u7b2c\u4e00\u91d1\u512a\u9078\u975e\u6295\u50b5\",cur:1512,tgt:3150},\n    {day:31,code:\"00400A\",name:\"\u4e3b\u52d5\u570b\u6cf0\u52d5\u80fd\u9ad8\u606f\",cur:661.2,tgt:6000},\n    {day:26,code:\"00406A\",name:\"\u4e3b\u52d5\u4e2d\u4fe1\u53f0\u7063\u6536\u76ca\u6210\u9577\",cur:1874.04,tgt:6900},\n  ]},\n];\n\ndata.forEach(month => {\n  month.curTotal = month.items.reduce((s, it) => s + it.cur, 0);\n  month.tgtTotal = month.items.reduce((s, it) => s + it.tgt, 0);\n});\n\nconst fmt = n => Math.round(n).toLocaleString('zh-Hant');\nlet mode = 'current';\nlet activeMonth = new Date().getMonth(); // 0-indexed, \u9810\u8a2d\u4eca\u5929\u6240\u5728\u6708\u4efd\n\nfunction renderTabs(){\n  const tabsEl = document.getElementById('tabs');\n  tabsEl.innerHTML = data.map((month, idx)=>{\n    const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n    const isActive = idx === activeMonth;\n    return `<div class=\"tab${isActive ? ' active' : ''}\" data-idx=\"${idx}\">\n      ${month.m}\n      <span class=\"t-amt\">$${fmt(total)}</span>\n    </div>`;\n  }).join('');\n  tabsEl.querySelectorAll('.tab').forEach(el=>{\n    el.addEventListener('click', ()=>{\n      activeMonth = parseInt(el.dataset.idx, 10);\n      render();\n      el.scrollIntoView({behavior:'smooth', inline:'center', block:'nearest'});\n    });\n  });\n}\n\nfunction renderPanel(){\n  const month = data[activeMonth];\n  const total = mode === 'current' ? month.curTotal : month.tgtTotal;\n\n  const rows = [...month.items].sort((a,b)=>{\n    if(a.day===null) return 1;\n    if(b.day===null) return -1;\n    return a.day-b.day;\n  }).map(it=>{\n    const amt = mode === 'current' ? it.cur : it.tgt;\n    if(it.day===null || amt===null){\n      return `<div class=\"row\">\n        <div class=\"day pending\">\u2014</div>\n        <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n        <div class=\"amt pending\">${it.note}</div>\n      </div>`;\n    }\n    return `<div class=\"row\">\n      <div class=\"day\">${it.day}</div>\n      <div class=\"etf\"><span class=\"code\">${it.code}</span><span class=\"name\">${it.name}</span></div>\n      <div class=\"amt\">$${fmt(amt)}</div>\n    </div>`;\n  }).join('');\n\n  document.getElementById('panel').innerHTML = `\n    <div class=\"panel-head\">\n      <div class=\"p-name\">${month.m}</div>\n      <div class=\"p-total\">$${fmt(total)}</div>\n    </div>\n    <div class=\"panel-rows\">${rows}</div>\n  `;\n}\n\nfunction renderSummary(){\n  let yearTotal = 0;\n  data.forEach(month=>{\n    yearTotal += mode === 'current' ? month.curTotal : month.tgtTotal;\n  });\n  document.getElementById('sumYear').textContent = fmt(yearTotal);\n  document.getElementById('sumMonth').textContent = fmt(yearTotal/12);\n}\n\nfunction render(){\n  renderTabs();\n  renderPanel();\n  renderSummary();\n}\n\nconst toggle = document.getElementById('toggle');\ntoggle.querySelectorAll('button').forEach(btn=>{\n  btn.addEventListener('click', ()=>{\n    if(btn.dataset.mode === mode) return;\n    mode = btn.dataset.mode;\n    toggle.querySelectorAll('button').forEach(b=>b.classList.remove('active'));\n    btn.classList.add('active');\n    toggle.classList.toggle('on-target', mode==='target');\n    render();\n  });\n});\n\nrender();\n\nfetch('https://script.google.com/macros/s/AKfycbz808RqaArR3R6u4KjSFqDg0yQcTALHIYY4g0eq0DMot1bBZs2pgzlKqCQkX4GB6BaZsg/exec?sheet=' + encodeURIComponent('\u5b58\u80a1\u914d\u606f'))\n  .then(res => res.json())\n  .then(rows => {\n    const grouped = {};\n    rows.forEach(r => {\n      const m = parseInt(r['\u6708'], 10);\n      if(!m) return;\n      const key = m + '\u6708';\n      if(!grouped[key]) grouped[key] = { m: key, curTotal: 0, tgtTotal: 0, items: [] };\n      const cur = parseFloat(r['\u73fe\u6cc1\u914d\u606f']) || 0;\n      const tgt = parseFloat(r['\u76ee\u6a19\u914d\u606f']) || 0;\n      grouped[key].curTotal += cur;\n      grouped[key].tgtTotal += tgt;\n      grouped[key].items.push({ day: parseInt(r['\u65e5'], 10), code: String(r['\u4ee3\u865f']), name: String(r['\u540d\u7a31']), cur, tgt });\n    });\n    const monthOrder = data.map(d => d.m);\n    const newData = monthOrder.map(mLabel => grouped[mLabel]).filter(Boolean);\n    if(newData.length === 12){\n      data.length = 0;\n      newData.forEach(d => data.push(d));\n      render();\n    }\n  })\n  .catch(err => console.warn('\u5b58\u80a1\u914d\u606f Sheet \u8b80\u53d6\u5931\u6557\uff0c\u50c5\u986f\u793a\u9810\u8a2d\u8cc7\u6599', err));\n\n// \u82e5\u6b64\u9801\u662f\u88ab\u4ee3\u8fa6\u770b\u677f\u4ee5 iframe \u5167\u5d4c\u958b\u555f\uff0c\u986f\u793a\u300c\u8fd4\u56de\u300d\u6309\u9215\n(function(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      document.getElementById('back-bar').classList.add('show');\n    }\n  }catch(e){ /* \u8de8\u7db2\u57df\u6642\u5ffd\u7565\uff0c\u4e0d\u986f\u793a\u8fd4\u56de\u9215 */ }\n})();\n\nfunction goBackToBoard(){\n  try{\n    if(window.parent && window.parent !== window && typeof window.parent.closeDividendCalendar === 'function'){\n      window.parent.closeDividendCalendar();\n      return;\n    }\n  }catch(e){}\n  if(window.history.length > 1){ window.history.back(); }\n}\n<\/script>\n</body>\n</html>\n";
   let dcalLoaded = false;
   function openDividendCalendar(){
     const overlay = document.getElementById('dcal-modal-overlay');
