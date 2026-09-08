@@ -2991,6 +2991,11 @@
     const key = li.getAttribute('data-rp-key');
     const nowPaid = !isRoutinePaid(key);
     localStorage.setItem('rp-paid-' + key, nowPaid ? '1' : '0');
+    if(nowPaid){
+      localStorage.setItem('rp-paid-due-' + key, li.getAttribute('data-due'));
+    } else {
+      localStorage.removeItem('rp-paid-due-' + key);
+    }
     updateRoutinePaymentBadges();
     renderUrgentBanner();
     pushToSheet(key, nowPaid, '例行付款');
@@ -3749,9 +3754,30 @@
       const m = String(nextDue.getMonth() + 1).padStart(2, '0');
       const d = String(nextDue.getDate()).padStart(2, '0');
       dueEl.textContent = `${y}/${m}/${d}`;
+
+      // 同步更新li的data-due，讓倒數徽章跟警示橫幅抓到正確的下一期日期
+      const nextDueISO = `${y}-${m}-${d}`;
+      const li = document.querySelector('#routine-payment-section li[data-rp-key="rp-chailease"]');
+      if(li) li.setAttribute('data-due', nextDueISO);
     } else if (dueEl) {
       dueEl.textContent = '已全部繳清';
     }
+  })();
+
+  // ---- 每月繳費項目：新週期到期日一改變，自動重置「已繳費」勾選 ----
+  (function resetPaidOnNewCycle(){
+    document.querySelectorAll('#routine-payment-section li[data-rp-key]').forEach(li => {
+      const key = li.getAttribute('data-rp-key');
+      const currentDue = li.getAttribute('data-due');
+      const recordedDue = localStorage.getItem('rp-paid-due-' + key);
+      if(isRoutinePaid(key) && recordedDue && recordedDue !== currentDue){
+        // 到期日已經跳到下一期，代表這是新的一期，之前的「已繳費」不該沿用
+        localStorage.setItem('rp-paid-' + key, '0');
+        localStorage.removeItem('rp-paid-due-' + key);
+      }
+    });
+    updateRoutinePaymentBadges();
+    renderUrgentBanner();
   })();
 
 
